@@ -2,13 +2,16 @@ const SAVE_KEY = "sa-pet-sim-game-v1";
 const MAP_ZOOM_MIN = 0.5;
 const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
+const MAP_DEFAULT_ZOOM = 4.5;
 
 let game = null;
 let installPrompt = null;
 const mapView = {
-  zoom: 1,
+  zoom: MAP_DEFAULT_ZOOM,
   panX: 0,
   panY: 0,
+  centerOnNextRender: true,
+  mapId: null,
   dragging: false,
   moved: false,
   startX: 0,
@@ -80,6 +83,7 @@ function init() {
   const saved = localStorage.getItem(SAVE_KEY);
   if (saved) {
     game = JSON.parse(saved);
+    mapView.centerOnNextRender = true;
     showGame();
     syncGame();
   }
@@ -89,6 +93,8 @@ function bindEvents() {
   els.createForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     game = await api("/api/game/new", { name: els.playerName.value });
+    mapView.zoom = MAP_DEFAULT_ZOOM;
+    mapView.centerOnNextRender = true;
     save();
     showGame();
     render();
@@ -126,6 +132,7 @@ function bindEvents() {
   els.mapCanvas.addEventListener("pointermove", onMapPointerMove);
   els.mapCanvas.addEventListener("pointerup", onMapPointerUp);
   els.mapCanvas.addEventListener("pointercancel", onMapPointerUp);
+  window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
     showTab("ai");
     askGuide();
@@ -154,6 +161,7 @@ function bindEvents() {
 async function mutate(path, body) {
   if (!game) return;
   game = await api(path, { ...body, game });
+  if (path === "/api/game/travel") mapView.centerOnNextRender = true;
   save();
   render();
 }
@@ -190,6 +198,10 @@ function render() {
 
 function renderMap(map) {
   const layout = mapLayout(map);
+  if (mapView.mapId !== map.id) {
+    mapView.mapId = map.id;
+    mapView.centerOnNextRender = true;
+  }
   const markers = [
     `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
@@ -205,6 +217,10 @@ function renderMap(map) {
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content">${markers.join("")}</div>`;
+  if (mapView.centerOnNextRender) {
+    centerMapOnPoint(layout.player);
+    mapView.centerOnNextRender = false;
+  }
   clampMapPan();
   applyMapView();
   renderLs2Map(map).catch(() => {
@@ -238,10 +254,23 @@ function zoomMap(value, anchor = null) {
 }
 
 function resetMapView() {
-  mapView.zoom = 1;
-  mapView.panX = 0;
-  mapView.panY = 0;
+  mapView.zoom = MAP_DEFAULT_ZOOM;
+  centerMapOnPlayer();
   applyMapView();
+}
+
+function centerMapOnPlayer() {
+  if (!game?.world?.map) return;
+  centerMapOnPoint(worldPoint(game.world.map, game.location?.x, game.location?.y));
+}
+
+function centerMapOnPoint(point) {
+  const rect = els.mapCanvas.getBoundingClientRect();
+  const baseW = rect.width || 1;
+  const baseH = rect.height || 340;
+  mapView.panX = baseW / 2 - (point[0] / 100) * baseW * mapView.zoom;
+  mapView.panY = baseH / 2 - (point[1] / 100) * baseH * mapView.zoom;
+  clampMapPan();
 }
 
 function applyMapView() {
@@ -290,6 +319,44 @@ function onMapPointerDown(event) {
   mapView.startPanY = mapView.panY;
   els.mapCanvas.classList.add("dragging");
   els.mapCanvas.setPointerCapture(event.pointerId);
+}
+
+function onGameKeyDown(event) {
+  if (!game || els.game.hidden) return;
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  const tag = event.target?.tagName?.toLowerCase();
+  if (tag === "input" || tag === "textarea" || tag === "select" || event.target?.isContentEditable) return;
+  const key = event.key.toLowerCase();
+  const direction = {
+    w: [0, -1],
+    arrowup: [0, -1],
+    s: [0, 1],
+    arrowdown: [0, 1],
+    a: [-1, 0],
+    arrowleft: [-1, 0],
+    d: [1, 0],
+    arrowright: [1, 0]
+  }[key];
+  if (!direction) return;
+  event.preventDefault();
+  walkPlayer(direction[0], direction[1]);
+}
+
+function walkPlayer(dx, dy) {
+  const map = game?.world?.map;
+  if (!map) return;
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const currentX = Number(game.location.x || 0);
+  const currentY = Number(game.location.y || 0);
+  const nextX = Math.max(0, Math.min(width - 1, currentX + dx));
+  const nextY = Math.max(0, Math.min(height - 1, currentY + dy));
+  if (nextX === currentX && nextY === currentY) return;
+  game.location = { ...game.location, x: nextX, y: nextY };
+  game.encounter = null;
+  mapView.centerOnNextRender = true;
+  save();
+  render();
 }
 
 function onMapPointerMove(event) {

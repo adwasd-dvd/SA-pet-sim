@@ -269,8 +269,8 @@ h3 {
 
 .map-canvas {
   position: relative;
-  height: 340px;
-  min-height: 340px;
+  height: clamp(420px, 54vh, 620px);
+  min-height: 420px;
   margin-top: 16px;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -296,6 +296,19 @@ h3 {
   will-change: transform;
 }
 
+.map-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 9%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 9%) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mix-blend-mode: soft-light;
+}
+
 .map-canvas.map-fallback::before {
   content: "";
   position: absolute;
@@ -314,8 +327,8 @@ h3 {
   height: 100%;
   object-fit: cover;
   image-rendering: pixelated;
-  opacity: .82;
-  filter: saturate(1.08) contrast(1.05);
+  opacity: .9;
+  filter: saturate(1.16) contrast(1.12);
 }
 
 .map-canvas::after {
@@ -398,7 +411,9 @@ h3 {
 }
 
 .map-marker.player {
+  z-index: 5;
   background: var(--forest);
+  box-shadow: 0 0 0 5px rgb(255 255 255 / 30%), 0 8px 18px rgb(0 0 0 / 22%);
 }
 
 .map-marker.npc {
@@ -770,7 +785,8 @@ mark {
   }
 
   .map-canvas {
-    min-height: 300px;
+    height: 360px;
+    min-height: 360px;
   }
 
   .pet-card {
