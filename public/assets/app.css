@@ -121,10 +121,17 @@ main {
   background: transparent;
 }
 
+.ghost-btn {
+  border-color: var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+
 .creator,
 .hud,
 .map-panel,
 .side-panel,
+.dialog-panel,
 .encounter-panel,
 .tab-panel {
   background: var(--panel);
@@ -423,6 +430,76 @@ h3 {
   object-fit: contain;
 }
 
+.dialog-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.dialog-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.dialog-head h2 {
+  margin-bottom: 4px;
+  font-size: 24px;
+}
+
+.dialog-messages {
+  display: grid;
+  gap: 10px;
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+}
+
+.dialog-bubble {
+  width: min(82%, 680px);
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--panel);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.dialog-bubble span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.dialog-bubble.player {
+  justify-self: end;
+  border-color: rgb(49 116 166 / 36%);
+  background: #eef7fb;
+}
+
+.dialog-bubble.npc {
+  justify-self: start;
+  border-color: rgb(189 138 40 / 36%);
+}
+
+.dialog-suggestions,
+.dialog-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dialog-form input {
+  flex: 1 1 260px;
+}
+
 .tabs {
   margin-top: 2px;
 }
@@ -552,7 +629,8 @@ mark {
   }
 
   .hud,
-  .map-head {
+  .map-head,
+  .dialog-head {
     align-items: stretch;
     flex-direction: column;
   }

@@ -7,7 +7,7 @@
     <title>石器时代宠物模拟器</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=4">
+    <link rel="stylesheet" href="/assets/app.css?v=5">
   </head>
   <body>
     <div class="app-shell">
@@ -83,6 +83,23 @@
             </aside>
           </section>
 
+          <section id="dialogPanel" class="dialog-panel" hidden>
+            <div class="dialog-head">
+              <div>
+                <p class="eyebrow">NPC 对话</p>
+                <h2 id="dialogNpcName">--</h2>
+                <p id="dialogSource" class="muted">--</p>
+              </div>
+              <button id="dialogCloseBtn" class="ghost-btn" type="button">关闭</button>
+            </div>
+            <div id="dialogMessages" class="dialog-messages"></div>
+            <div id="dialogSuggestions" class="dialog-suggestions"></div>
+            <form id="dialogForm" class="dialog-form">
+              <input id="dialogInput" maxlength="160" autocomplete="off" placeholder="输入 hi，或直接问任务、地图、抓宠、训练">
+              <button type="submit">说话</button>
+            </form>
+          </section>
+
           <section id="encounterPanel" class="encounter-panel" hidden>
             <div>
               <p class="eyebrow">遭遇</p>
@@ -136,6 +153,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=4"></script>
+    <script type="module" src="/assets/app.js?v=5"></script>
   </body>
 </html>

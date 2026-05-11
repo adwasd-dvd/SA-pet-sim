@@ -22,6 +22,14 @@ const els = {
   encounterBtn: byId("encounterBtn"),
   captureBtn: byId("captureBtn"),
   skipEncounterBtn: byId("skipEncounterBtn"),
+  dialogPanel: byId("dialogPanel"),
+  dialogNpcName: byId("dialogNpcName"),
+  dialogSource: byId("dialogSource"),
+  dialogMessages: byId("dialogMessages"),
+  dialogSuggestions: byId("dialogSuggestions"),
+  dialogForm: byId("dialogForm"),
+  dialogInput: byId("dialogInput"),
+  dialogCloseBtn: byId("dialogCloseBtn"),
   petList: byId("petList"),
   questList: byId("questList"),
   gameLog: byId("gameLog"),
@@ -75,6 +83,17 @@ function bindEvents() {
     game.log.push("你放走了野外宠物。");
     save();
     render();
+  });
+  els.dialogForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const text = els.dialogInput.value.trim();
+    if (text) sendDialog(text);
+  });
+  els.dialogCloseBtn.addEventListener("click", () => {
+    if (!game) return;
+    game.dialog = null;
+    save();
+    renderDialog();
   });
   els.dataSearchBtn.addEventListener("click", searchData);
   els.dataQuery.addEventListener("keydown", (event) => {
@@ -135,6 +154,7 @@ function render() {
   renderMap(map);
   renderNpc(map);
   renderExits(map);
+  renderDialog();
   renderEncounter();
   renderPets();
   renderQuests();
@@ -163,7 +183,7 @@ function renderMap(map) {
     els.mapCanvas.classList.add("map-fallback");
   });
   els.mapCanvas.querySelectorAll("[data-npc]").forEach((btn) => {
-    btn.addEventListener("click", () => mutate("/api/game/talk", { npcId: btn.dataset.npc }));
+    btn.addEventListener("click", () => openDialog(btn.dataset.npc));
   });
   els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
@@ -274,8 +294,47 @@ function renderNpc(map) {
     </button>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
   els.npcList.querySelectorAll("[data-npc]").forEach((btn) => {
-    btn.addEventListener("click", () => mutate("/api/game/talk", { npcId: btn.dataset.npc }));
+    btn.addEventListener("click", () => openDialog(btn.dataset.npc));
   });
+}
+
+async function openDialog(npcId) {
+  if (!game) return;
+  game = await api("/api/game/dialog", { game, npcId });
+  save();
+  render();
+  els.dialogInput.focus();
+}
+
+async function sendDialog(message) {
+  if (!game?.dialog?.npcId) return;
+  const npcId = game.dialog.npcId;
+  els.dialogInput.value = "";
+  game = await api("/api/game/dialog", { game, npcId, message });
+  save();
+  render();
+  els.dialogInput.focus();
+}
+
+function renderDialog() {
+  const dialog = game?.dialog;
+  els.dialogPanel.hidden = !dialog?.open;
+  if (!dialog?.open) return;
+  els.dialogNpcName.textContent = dialog.npcName || "NPC";
+  els.dialogSource.textContent = dialog.source || "点击 NPC 后输入 hi 或任意问题";
+  els.dialogMessages.innerHTML = (dialog.messages || []).map((message) => `
+    <p class="dialog-bubble ${message.speaker === "player" ? "player" : "npc"}">
+      <span>${message.speaker === "player" ? escapeHtml(game.player.name) : escapeHtml(dialog.npcName || "NPC")}</span>
+      ${escapeHtml(message.text)}
+    </p>
+  `).join("");
+  els.dialogSuggestions.innerHTML = (dialog.suggestions || ["hi", "任务", "地图"]).map((item) => `
+    <button class="ghost-btn" type="button" data-say="${escapeHtml(item)}">${escapeHtml(item)}</button>
+  `).join("");
+  els.dialogSuggestions.querySelectorAll("[data-say]").forEach((btn) => {
+    btn.addEventListener("click", () => sendDialog(btn.dataset.say));
+  });
+  els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
 }
 
 function renderExits(map) {
@@ -302,7 +361,7 @@ function renderEncounter() {
 function renderPets() {
   els.petList.innerHTML = game.pets.map((pet, index) => `
     <article class="pet-card">
-      <img src="/f/pet/${pet.ImgNo}.gif" alt="">
+      <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
       <div>
         <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
         <p class="muted">No.${pet.PetId} | HP ${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>

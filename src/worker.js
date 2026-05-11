@@ -167,6 +167,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(talkGame(body.game, String(body.npcId || "")));
     }
+    if (url.pathname === "/api/game/dialog" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await dialogGame(env, body.game, String(body.npcId || ""), String(body.message || "")));
+    }
     if (url.pathname === "/api/game/encounter" && request.method === "POST") {
       const body = await readJson(request);
       return json(await encounterGame(env, request, body.game));
@@ -211,8 +215,9 @@ async function createPlayerGame(env, request, body) {
     pets: [starter],
     inventory: [{ id: "stone", name: "石币", qty: 100 }],
     quests: {},
-    flags: {},
+    flags: createFlags(),
     encounter: null,
+    dialog: null,
     log: [`${name} 来到了 ${WORLD.maps[WORLD.startMap].name}。`]
   });
 }
@@ -233,11 +238,40 @@ function talkGame(game, npcId) {
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
-  if (npc.questId && !game.quests[npc.questId]) {
-    game.quests[npc.questId] = { ...WORLD.quests[npc.questId], status: "进行中", progress: 0 };
-    addLog(game, `接到任务「${WORLD.quests[npc.questId].title}」。`);
+  const reply = applyNpcHi(game, npc);
+  openDialog(game, npc, [
+    npcMessage("npc", "你点了点头，照旧服规矩先说了 hi。"),
+    npcMessage("player", "hi"),
+    npcMessage("npc", reply)
+  ]);
+  addLog(game, `${npc.name}：${reply}`);
+  return withMap(game, { npc });
+}
+
+async function dialogGame(env, game, npcId, message) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+
+  const text = message.trim().slice(0, 160);
+  if (!text) {
+    openDialog(game, npc, [
+      npcMessage("npc", dialogOpenLine(npc))
+    ]);
+    addLog(game, `你看向了 ${npc.name}。`);
+    return withMap(game, { npc });
   }
-  addLog(game, `${npc.name}：${npc.dialogue}`);
+
+  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : [npcMessage("npc", dialogOpenLine(npc))];
+  const reply = await npcReply(env, game, npc, text);
+  openDialog(game, npc, [
+    ...existing,
+    npcMessage("player", text),
+    npcMessage("npc", reply)
+  ]);
+  addLog(game, `${game.player.name} 对 ${npc.name} 说：${text}`);
+  addLog(game, `${npc.name}：${reply}`);
   return withMap(game, { npc });
 }
 
@@ -309,6 +343,147 @@ async function guideGame(env, game, prompt) {
   return { text: fallbackGuide(context), model: "local-rule" };
 }
 
+function dialogOpenLine(npc) {
+  const openers = {
+    elder: "年轻人，旧规矩是先对 NPC 说 hi。你也可以直接问任务、抓宠或者地图。",
+    trainer: "要训练宠物就跟我说 hi，或者问我训练、成长、技能。",
+    guide: "我认路。你可以说 hi，也可以问出口、地图、草原、森林。",
+    hunter: "别急着冲出去。先说 hi，或者问我怎么抓宠和练级。",
+    lost: "你是从村子来的吗？如果愿意帮我，先跟我说 hi。",
+    herbalist: "森林里的草药不太平。你可以说 hi，也可以问草药、野兽或任务。",
+    stone: "石碑没有嘴，但古老的字会回应你的问候。试着说 hi。"
+  };
+  return openers[npc.id] || `${npc.name} 看着你，像是在等你先说 hi。`;
+}
+
+async function npcReply(env, game, npc, text) {
+  const lower = text.toLowerCase();
+  if (isGreeting(lower)) return applyNpcHi(game, npc);
+  if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
+  if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
+  if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
+  if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
+  if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, game, npc, text);
+  return fallbackNpcReply(npc);
+}
+
+function isGreeting(text) {
+  return /(^|\s)(hi|hello|hey|yo)(\s|$)/i.test(text) || hasAny(text, ["你好", "嗨", "哈喽", "問候", "问候"]);
+}
+
+function hasAny(text, tokens) {
+  return tokens.some((token) => text.includes(token));
+}
+
+function applyNpcHi(game, npc) {
+  ensureFlags(game);
+  setEventFlag(game, eventFlagForNpc(npc.id), "now");
+  if (npc.questId) {
+    if (!game.quests[npc.questId]) {
+      game.quests[npc.questId] = { ...WORLD.quests[npc.questId], status: "进行中", progress: 0 };
+      addLog(game, `接到任务「${WORLD.quests[npc.questId].title}」。`);
+    } else if (game.quests[npc.questId].status === "可回报") {
+      completeQuest(game, npc.questId);
+      return `${npc.dialogue} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
+    }
+  }
+  if (npc.id === "elder" && game.pets.length > 1) {
+    addQuestProgress(game, "first-pet", 2);
+    setEventFlag(game, eventFlagForNpc("elder"), "end");
+  }
+  if (npc.id === "stone") setEventFlag(game, eventFlagForNpc("stone"), "end");
+  return npc.dialogue;
+}
+
+function completeQuest(game, questId) {
+  const quest = game.quests[questId];
+  if (!quest || quest.status === "完成") return;
+  quest.status = "完成";
+  quest.progress = quest.steps.length;
+  game.player.exp += questId === "forest-herb" ? 60 : questId === "first-pet" ? 30 : 20;
+  game.player.stone += questId === "first-pet" ? 120 : 80;
+  setEventFlag(game, eventFlagForQuest(questId), "end");
+  addLog(game, `完成任务「${quest.title}」，获得奖励。`);
+}
+
+function questReply(game, npc) {
+  if (!npc.questId) return `${npc.name} 这里没有正式委托，但他提醒你多和地图上的 NPC 说 hi。`;
+  const quest = game.quests[npc.questId];
+  if (!quest) return `我这里有「${WORLD.quests[npc.questId].title}」。照旧服流程，你先对我说 hi，我就会把任务记到人物 flag 里。`;
+  if (quest.status === "可回报") return `你已经可以回报「${quest.title}」了。再对我说 hi，我会结算奖励。`;
+  return `「${quest.title}」还在进行中。下一步是：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。`;
+}
+
+function captureReply(game, npc) {
+  if (npc.id === "hunter") return "抓宠先观察等级和捕获率，血不够就回村。遇敌后点捕获，成功了宠物会进队伍。";
+  if (npc.id === "elder") return "第一只伙伴要去村外草原找。抓到以后回来找我说 hi。";
+  return "宠物会在野外遇敌中出现。不同地图的 encounter 表不同，越往外越危险。";
+}
+
+function trainReply(game, npc) {
+  if (npc.id === "trainer") return "打开宠物页点训练，我会做一次安全训练。低等级宠物通常一次能多升一点。";
+  return "宠物可以靠训练和冒险升级。成长要等等级上来后才更好判断。";
+}
+
+function mapReply(game, npc) {
+  const map = currentMap(game);
+  const exits = map.exits.map((exit) => exit.label).join("、") || "暂无出口";
+  if (npc.id === "guide") return `这里是${map.name}。可走的出口：${exits}。地图上的蓝色标记就是出口。`;
+  return `当前地图是${map.name}。出口：${exits}。`;
+}
+
+function fallbackNpcReply(npc) {
+  const hints = {
+    elder: "你说得有点新鲜。旧服 NPC 最认 hi，你也可以问任务或抓宠。",
+    trainer: "我听懂了一点。若是宠物相关，问训练、技能、成长会更准。",
+    guide: "我能回答地图、出口和去哪儿。也可以先说 hi。",
+    stone: "石碑上的字纹闪了一下，似乎只认 hi、地图和森林这些词。"
+  };
+  return hints[npc.id] || "NPC 沉思了一会儿。你可以试试说 hi、任务、地图、抓宠或训练。";
+}
+
+async function aiNpcReply(env, game, npc, text) {
+  const map = currentMap(game);
+  const messages = [
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句，不替玩家操作。" },
+    { role: "user", content: JSON.stringify({
+      npc: { id: npc.id, name: npc.name, type: npc.type, dialogue: npc.dialogue },
+      player: game.player,
+      map: { name: map.name, exits: map.exits.map((exit) => exit.label) },
+      quests: game.quests,
+      pets: game.pets.map(petSummary),
+      text
+    }) }
+  ];
+  const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
+  const rsp = await env.AI.run(model, { messages });
+  return rsp.response || rsp.text || fallbackNpcReply(npc);
+}
+
+function openDialog(game, npc, messages) {
+  game.dialog = {
+    open: true,
+    npcId: npc.id,
+    npcName: npc.name,
+    npcType: npc.type,
+    messages: messages.slice(-12),
+    suggestions: dialogSuggestions(npc),
+    source: "参考 gmsv 的 NPC 对话模式：玩家文字触发脚本，hi 是经典开场"
+  };
+}
+
+function dialogSuggestions(npc) {
+  const base = ["hi", "任务", "地图"];
+  if (npc.type === "trainer") return ["hi", "训练", "成长"];
+  if (npc.id === "hunter") return ["hi", "抓宠", "练级"];
+  if (npc.id === "guide") return ["hi", "出口", "森林"];
+  return base;
+}
+
+function npcMessage(speaker, text) {
+  return { speaker, text, at: Date.now() };
+}
+
 function fallbackGuide(context) {
   const quest = context.quests.find((item) => item.status === "进行中");
   if (quest) {
@@ -322,7 +497,8 @@ function normalizeGame(game) {
   game.pets ||= [];
   game.inventory ||= [];
   game.quests ||= {};
-  game.flags ||= {};
+  ensureFlags(game);
+  game.dialog ||= null;
   game.log ||= [];
   return game;
 }
@@ -357,6 +533,63 @@ function addQuestProgress(game, questId, amount) {
   if (quest.progress >= quest.steps.length - 1) {
     quest.status = "可回报";
   }
+}
+
+function createFlags() {
+  return {
+    endEvents: Array(8).fill(0),
+    nowEvents: Array(8).fill(0),
+    bits: {}
+  };
+}
+
+function ensureFlags(game) {
+  game.flags ||= {};
+  game.flags.endEvents = normalizeFlagArray(game.flags.endEvents);
+  game.flags.nowEvents = normalizeFlagArray(game.flags.nowEvents);
+  game.flags.bits ||= {};
+}
+
+function normalizeFlagArray(value) {
+  if (!Array.isArray(value)) return Array(8).fill(0);
+  const out = Array(8).fill(0);
+  value.slice(0, 8).forEach((item, index) => {
+    out[index] = Number(item) >>> 0;
+  });
+  return out;
+}
+
+function setEventFlag(game, shiftbit, kind = "end") {
+  if (!shiftbit) return;
+  ensureFlags(game);
+  const field = kind === "now" ? "nowEvents" : "endEvents";
+  const index = Math.floor(shiftbit / 32);
+  const bit = shiftbit % 32;
+  while (game.flags[field].length <= index) game.flags[field].push(0);
+  game.flags[field][index] = (game.flags[field][index] | (1 << bit)) >>> 0;
+  game.flags.bits[`${kind}:${shiftbit}`] = true;
+}
+
+function eventFlagForNpc(npcId) {
+  const flags = {
+    elder: 1,
+    trainer: 2,
+    guide: 3,
+    hunter: 4,
+    lost: 5,
+    herbalist: 6,
+    stone: 7
+  };
+  return flags[npcId] || 0;
+}
+
+function eventFlagForQuest(questId) {
+  const flags = {
+    "first-pet": 33,
+    "lost-child": 34,
+    "forest-herb": 35
+  };
+  return flags[questId] || 0;
 }
 
 async function loadGameData(env, request) {
