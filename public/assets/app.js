@@ -377,28 +377,32 @@ async function renderLs2Map(map) {
   if (!map.clientMapFile && !map.mapFile) return;
   const canvas = els.mapCanvas.querySelector(".ls2-map");
   if (!canvas) return;
-  const rsp = await fetch(map.clientMapFile || map.mapFile);
+  const mapUrl = map.mapFile || map.clientMapFile;
+  const rsp = await fetch(mapUrl);
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
-  if (map.clientMapFile) {
+  if (mapUrl === map.clientMapFile) {
     await renderClientDatMap(canvas, buf);
     return;
   }
-  renderLs2MapBuffer(canvas, buf);
+  await renderLs2MapBuffer(canvas, buf);
 }
 
 async function renderClientDatMap(canvas, buf) {
   const view = new DataView(buf);
   const width = view.getUint32(0, true);
   const height = view.getUint32(4, true);
-  const expected = 8 + width * height * 6;
+  const layerSize = width * height * 2;
+  const expected = 8 + layerSize * 3;
   if (!width || !height || buf.byteLength < expected) throw new Error("invalid client map");
   const tileAt = (index) => {
-    const offset = 8 + index * 6;
+    const tileOffset = 8 + index * 2;
+    const partsOffset = 8 + layerSize + index * 2;
+    const eventOffset = 8 + layerSize * 2 + index * 2;
     return [
-      view.getUint16(offset, true),
-      view.getUint16(offset + 2, true),
-      view.getUint16(offset + 4, true)
+      view.getUint16(tileOffset, true),
+      view.getUint16(partsOffset, true),
+      view.getUint16(eventOffset, true)
     ];
   };
   const atlas = await loadTileAtlas();
@@ -440,7 +444,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
     const px = (x + y) * halfW - bounds.minX;
     const py = (y - x) * halfH - bounds.minY;
     drawAtlasTile(ctx, atlas, ground, px, py);
-    if (atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
+    if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
   }
   for (const object of objects) {
     drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
@@ -474,7 +478,7 @@ function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
       const px = (x + y) * halfW;
       const py = (y - x) * halfH;
       includeTileBounds(bounds, atlas.frames?.[ground], px, py);
-      includeTileBounds(bounds, atlas.frames?.[object], px, py);
+      if (object > 99) includeTileBounds(bounds, atlas.frames?.[object], px, py);
     }
   }
   if (!Number.isFinite(bounds.minX)) return { minX: 0, minY: 0, maxX: width * 64, maxY: height * 48 };
@@ -511,13 +515,13 @@ function drawAtlasTile(ctx, atlas, tileId, x, y) {
   );
 }
 
-function renderLs2MapBuffer(canvas, buf) {
+async function renderLs2MapBuffer(canvas, buf) {
   const view = new DataView(buf);
   const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
   if (magic !== "LS2MAP") throw new Error("invalid LS2MAP");
   const width = view.getUint16(0x28, false);
   const height = view.getUint16(0x2a, false);
-  drawTilePreview(canvas, width, height, (index) => {
+  const tileAt = (index) => {
     const tileOffset = 44 + index * 2;
     const objectOffset = 44 + width * height * 2 + index * 2;
     return [
@@ -525,7 +529,13 @@ function renderLs2MapBuffer(canvas, buf) {
       objectOffset + 1 < view.byteLength ? view.getUint16(objectOffset, false) : 0,
       0
     ];
-  });
+  };
+  const atlas = await loadTileAtlas();
+  if (atlas) {
+    drawRealTileMap(canvas, width, height, tileAt, atlas);
+    return;
+  }
+  drawTilePreview(canvas, width, height, tileAt);
 }
 
 function drawTilePreview(canvas, width, height, tileAt) {

@@ -1,3 +1,4 @@
 bin/server
 bin/static/pet/
 pet.zip
+public/debug/

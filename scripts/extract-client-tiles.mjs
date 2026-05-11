@@ -4,7 +4,8 @@ import zlib from "node:zlib";
 
 const projectRoot = process.cwd();
 const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
-const mapRoot = path.join(projectRoot, "public/data/client-maps");
+const mapRoot = path.join(projectRoot, "public/data/maps");
+const clientMapRoot = path.join(projectRoot, "public/data/client-maps");
 const outputRoot = path.join(projectRoot, "public/data/client-tiles");
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
@@ -66,21 +67,53 @@ function main() {
 function collectTileIds(dir) {
   const ids = new Set();
   for (const file of fs.readdirSync(dir)) {
+    if (file.endsWith(".ls2map")) {
+      collectLs2MapTileIds(path.join(dir, file), ids);
+      continue;
+    }
     if (!file.endsWith(".dat")) continue;
-    const buf = fs.readFileSync(path.join(dir, file));
-    if (buf.length < 8) continue;
-    const width = buf.readUInt32LE(0);
-    const height = buf.readUInt32LE(4);
-    const expected = 8 + width * height * 6;
-    if (!width || !height || buf.length < expected) continue;
-    for (let offset = 8; offset + 5 < expected; offset += 6) {
-      for (let layer = 0; layer < 2; layer += 1) {
-        const tile = buf.readUInt16LE(offset + layer * 2);
-        if (tile) ids.add(tile);
-      }
+    collectClientDatTileIds(path.join(dir, file), ids);
+  }
+  if (fs.existsSync(clientMapRoot)) {
+    for (const file of fs.readdirSync(clientMapRoot)) {
+      if (file.endsWith(".dat")) collectClientDatTileIds(path.join(clientMapRoot, file), ids);
     }
   }
   return ids;
+}
+
+function collectClientDatTileIds(file, ids) {
+  const buf = fs.readFileSync(file);
+  if (buf.length < 8) return;
+  const width = buf.readUInt32LE(0);
+  const height = buf.readUInt32LE(4);
+  const cellCount = width * height;
+  const layerSize = cellCount * 2;
+  const expected = 8 + layerSize * 3;
+  if (!width || !height || buf.length < expected) return;
+  for (let i = 0; i < cellCount; i += 1) {
+    const tile = buf.readUInt16LE(8 + i * 2);
+    const parts = buf.readUInt16LE(8 + layerSize + i * 2);
+    if (tile) ids.add(tile);
+    if (parts) ids.add(parts);
+  }
+}
+
+function collectLs2MapTileIds(file, ids) {
+  const buf = fs.readFileSync(file);
+  if (buf.length < 44 || buf.toString("ascii", 0, 6) !== "LS2MAP") return;
+  const width = buf.readUInt16BE(40);
+  const height = buf.readUInt16BE(42);
+  const cellCount = width * height;
+  const layerSize = cellCount * 2;
+  const expected = 44 + layerSize * 2;
+  if (!width || !height || buf.length < expected) return;
+  for (let i = 0; i < cellCount; i += 1) {
+    const tile = buf.readUInt16BE(44 + i * 2);
+    const parts = buf.readUInt16BE(44 + layerSize + i * 2);
+    if (tile) ids.add(tile);
+    if (parts) ids.add(parts);
+  }
 }
 
 function readPalette(file) {
@@ -114,6 +147,7 @@ function readAdrnRecords(file) {
   const records = new Map();
   for (let offset = 0; offset + RECORD_SIZE <= data.length; offset += RECORD_SIZE) {
     const bitmapNo = data.readUInt32LE(offset);
+    const graphicNo = data.readUInt32LE(offset + 76);
     const adder = data.readUInt32LE(offset + 4);
     const size = data.readUInt32LE(offset + 8);
     const width = data.readUInt32LE(offset + 20);
@@ -121,7 +155,9 @@ function readAdrnRecords(file) {
     const xoffset = data.readInt32LE(offset + 12);
     const yoffset = data.readInt32LE(offset + 16);
     if (!bitmapNo || !size || !width || !height) continue;
-    if (!records.has(bitmapNo)) records.set(bitmapNo, { bitmapNo, adder, size, width, height, xoffset, yoffset });
+    const record = { bitmapNo, graphicNo, adder, size, width, height, xoffset, yoffset };
+    if (graphicNo) records.set(graphicNo, record);
+    else if (!records.has(bitmapNo)) records.set(bitmapNo, record);
   }
   return records;
 }
