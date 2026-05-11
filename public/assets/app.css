@@ -651,7 +651,8 @@ h3 {
 }
 
 .dialog-suggestions,
-.dialog-form {
+.dialog-form,
+.save-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -866,6 +867,10 @@ h3 {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px;
   white-space: pre;
+}
+
+.save-actions {
+  margin-top: 12px;
 }
 
 mark {

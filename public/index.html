@@ -7,7 +7,7 @@
     <title>石器时代宠物模拟器</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=23">
+    <link rel="stylesheet" href="/assets/app.css?v=24">
   </head>
   <body>
     <div class="app-shell">
@@ -145,7 +145,12 @@
 
             <section id="saveTab" class="tab-panel">
               <div id="saveInfo" class="result-list"></div>
-              <textarea id="saveText" class="save-text" rows="8" readonly></textarea>
+              <div class="save-actions">
+                <button id="exportSaveBtn" type="button">导出 JSON</button>
+                <button id="importSaveBtn" class="ghost-btn" type="button">导入 JSON</button>
+              </div>
+              <textarea id="saveText" class="save-text" rows="7" readonly></textarea>
+              <textarea id="saveJsonText" class="save-text" rows="10" placeholder="这里可以粘贴 saac-pwa-v1 JSON 存档再导入"></textarea>
             </section>
 
             <section id="dataTab" class="tab-panel">
@@ -167,6 +172,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=23"></script>
+    <script type="module" src="/assets/app.js?v=24"></script>
   </body>
 </html>

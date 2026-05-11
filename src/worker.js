@@ -603,6 +603,7 @@ function ensureSaveIdentity(game) {
 function buildSaacSave(game) {
   const option = buildCharOption(game);
   const info = buildCharInfo(game);
+  const json = buildSaveJson(game);
   return {
     schema: SAVE_SCHEMA,
     source: "SAAC charSave/makeSaveCharString model: charname|option|charinfo",
@@ -613,7 +614,51 @@ function buildSaacSave(game) {
     option,
     info,
     serialized: [escapeSaacField(game.player.name), escapeSaacField(option), escapeSaacField(info)].join("|"),
+    json,
     updatedAt: game.character.updatedAt
+  };
+}
+
+function buildSaveJson(game) {
+  return {
+    schema: SAVE_SCHEMA,
+    source: {
+      saac: "stoneage-master/石器时代服务器端最新完整源代码/saac",
+      chardata: "2016_SA80/Linux-Main-app/saac",
+      gmsv: "stoneage-master/石器时代服务器端最新完整源代码/gmsv",
+      client: "stoneage-master/石器时代8.5客户端最新源代码/石器源码"
+    },
+    account: {
+      id: game.account.id,
+      name: game.account.name,
+      activeSlot: game.account.activeSlot,
+      maxSlots: game.account.maxSlots,
+      lock: game.account.lock
+    },
+    character: {
+      id: game.character.id,
+      slot: game.character.slot,
+      name: game.character.name,
+      createdAt: game.character.createdAt,
+      updatedAt: game.character.updatedAt,
+      deleted: game.character.deleted
+    },
+    player: { ...game.player },
+    location: { ...game.location },
+    pets: game.pets.map((pet) => ({ ...pet })),
+    inventory: game.inventory.map((item) => ({ ...item })),
+    quests: game.quests || {},
+    flags: {
+      endEvents: [...(game.flags?.endEvents || [])],
+      nowEvents: [...(game.flags?.nowEvents || [])],
+      bits: { ...(game.flags?.bits || {}) },
+      npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) }
+    },
+    walk: {
+      steps: Number(game.walk?.steps || 0),
+      encounterSteps: Number(game.walk?.encounterSteps || 0)
+    },
+    log: (game.log || []).slice(-40)
   };
 }
 

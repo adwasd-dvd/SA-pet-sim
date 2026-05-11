@@ -65,6 +65,9 @@ const els = {
   aiResult: byId("aiResult"),
   saveInfo: byId("saveInfo"),
   saveText: byId("saveText"),
+  saveJsonText: byId("saveJsonText"),
+  exportSaveBtn: byId("exportSaveBtn"),
+  importSaveBtn: byId("importSaveBtn"),
   guideBtn: byId("guideBtn"),
   newGameBtn: byId("newGameBtn"),
   installBtn: byId("installBtn"),
@@ -129,6 +132,8 @@ function bindEvents() {
     if (event.key === "Enter") searchData();
   });
   els.aiBtn.addEventListener("click", askGuide);
+  els.exportSaveBtn.addEventListener("click", exportSaveJson);
+  els.importSaveBtn.addEventListener("click", importSaveJson);
   els.mapZoomOut.addEventListener("click", () => zoomMap(mapView.zoom - MAP_ZOOM_STEP));
   els.mapZoomIn.addEventListener("click", () => zoomMap(mapView.zoom + MAP_ZOOM_STEP));
   els.mapZoomReset.addEventListener("click", resetMapView);
@@ -934,8 +939,38 @@ function renderSavePanel() {
       <strong>SAAC 字符串结构</strong>
       <span>charname | option | charinfo，对应原 SAAC 的 makeSaveCharString。</span>
     </article>
+    <article class="result-card">
+      <strong>JSON 调试存档</strong>
+      <span>schema=${escapeHtml(save.schema)}，用于本 PWA 导入/导出；字段按 account、character、player、location、flags、pets、inventory 拆分。</span>
+    </article>
   `;
   els.saveText.value = save.serialized || "";
+  if (!els.saveJsonText.value.trim()) {
+    els.saveJsonText.value = JSON.stringify(save.json || game, null, 2);
+  }
+}
+
+function exportSaveJson() {
+  if (!game?.save) return;
+  els.saveJsonText.value = JSON.stringify(game.save.json || game, null, 2);
+}
+
+async function importSaveJson() {
+  const raw = els.saveJsonText.value.trim();
+  if (!raw) return;
+  let next;
+  try {
+    next = JSON.parse(raw);
+  } catch {
+    els.saveInfo.insertAdjacentHTML("afterbegin", `<article class="result-card"><strong>导入失败</strong><span>JSON 格式不正确。</span></article>`);
+    return;
+  }
+  game = await api("/api/game/sync", { game: next.game || next });
+  mapView.zoom = MAP_DEFAULT_ZOOM;
+  mapView.centerOnNextRender = true;
+  save();
+  showGame();
+  render();
 }
 
 function nearbyText() {

@@ -21,6 +21,8 @@ This project is no longer just a fork cleanup. The goal is to rebuild Stone Age 
 
 ## Current Ground Rules
 
+- Source paths are tracked in `docs/planning/SOURCE_REFERENCES.md`.
+- Character/account persistence is tracked in `docs/planning/SAVE_SCHEMA.md`.
 - Visual maps use client map rendering behavior.
 - Map geometry and projection follow the original client `drawMap` / `camMapToGamen` logic.
 - Each tile sprite is vertically flipped before being pasted into its diamond cell.
