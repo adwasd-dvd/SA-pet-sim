@@ -2,6 +2,7 @@ export const WORLD = {
   "source": {
     "root": "ref___data",
     "maps": "ref___data/map/** LS2MAP",
+    "clientMaps": "公益石器时代/map/*.dat",
     "npcs": "ref___data/npc/**/*.create + .template + args/config",
     "warps": "ref___data/map/mapwarp.txt",
     "encounters": "ref___data/encount.txt"
@@ -13,6 +14,8 @@ export const WORLD = {
       "floorId": 100,
       "name": "萨伊那斯",
       "mapFile": "/data/maps/100.ls2map",
+      "clientMapFile": "/data/client-maps/100.dat",
+      "clientMapSource": "公益石器时代/map/100.dat",
       "summary": "萨伊那斯 | floor=100 | 800x800 | ref___data/map/sainasu/sainasu",
       "size": [
         800,
@@ -731,6 +734,8 @@ export const WORLD = {
       "floorId": 101,
       "name": "阿布的独栋房屋",
       "mapFile": "/data/maps/101.ls2map",
+      "clientMapFile": "/data/client-maps/101.dat",
+      "clientMapSource": "公益石器时代/map/101.dat",
       "summary": "阿布的独栋房屋 | floor=101 | 30x30 | ref___data/map/sainasu/sonota/101",
       "size": [
         30,
@@ -796,6 +801,8 @@ export const WORLD = {
       "floorId": 120,
       "name": "靠近水田的家|00",
       "mapFile": "/data/maps/120.ls2map",
+      "clientMapFile": "/data/client-maps/120.dat",
+      "clientMapSource": "公益石器时代/map/120.dat",
       "summary": "靠近水田的家|00 | floor=120 | 30x30 | ref___data/map/extra/120",
       "size": [
         30,
@@ -874,6 +881,8 @@ export const WORLD = {
       "floorId": 121,
       "name": "岬之家",
       "mapFile": "/data/maps/121.ls2map",
+      "clientMapFile": "/data/client-maps/121.dat",
+      "clientMapSource": "公益石器时代/map/121.dat",
       "summary": "岬之家 | floor=121 | 30x30 | ref___data/map/extra/121",
       "size": [
         30,
@@ -952,6 +961,8 @@ export const WORLD = {
       "floorId": 1000,
       "name": "萨姆吉尔村",
       "mapFile": "/data/maps/1000.ls2map",
+      "clientMapFile": "/data/client-maps/1000.dat",
+      "clientMapSource": "公益石器时代/map/1000.dat",
       "summary": "萨姆吉尔村 | floor=1000 | 160x160 | ref___data/map/sainasu/samugiru/samugiru",
       "size": [
         160,
@@ -1717,6 +1728,8 @@ export const WORLD = {
       "floorId": 1001,
       "name": "萨姆吉尔的武器店",
       "mapFile": "/data/maps/1001.ls2map",
+      "clientMapFile": "/data/client-maps/1001.dat",
+      "clientMapSource": "公益石器时代/map/1001.dat",
       "summary": "萨姆吉尔的武器店 | floor=1001 | 30x30 | ref___data/map/sainasu/samugiru/1001",
       "size": [
         30,
@@ -2261,6 +2274,8 @@ export const WORLD = {
       "floorId": 1002,
       "name": "萨姆吉尔的道具店",
       "mapFile": "/data/maps/1002.ls2map",
+      "clientMapFile": "/data/client-maps/1002.dat",
+      "clientMapSource": "公益石器时代/map/1002.dat",
       "summary": "萨姆吉尔的道具店 | floor=1002 | 30x30 | ref___data/map/sainasu/samugiru/1002",
       "size": [
         30,
@@ -2531,6 +2546,8 @@ export const WORLD = {
       "floorId": 1003,
       "name": "萨姆吉尔的宠物店|00",
       "mapFile": "/data/maps/1003.ls2map",
+      "clientMapFile": "/data/client-maps/1003.dat",
+      "clientMapSource": "公益石器时代/map/1003.dat",
       "summary": "萨姆吉尔的宠物店|00 | floor=1003 | 30x30 | ref___data/map/sainasu/samugiru/1003",
       "size": [
         30,
@@ -2716,6 +2733,8 @@ export const WORLD = {
       "floorId": 1004,
       "name": "萨姆吉尔的肉店",
       "mapFile": "/data/maps/1004.ls2map",
+      "clientMapFile": "/data/client-maps/1004.dat",
+      "clientMapSource": "公益石器时代/map/1004.dat",
       "summary": "萨姆吉尔的肉店 | floor=1004 | 30x30 | ref___data/map/sainasu/samugiru/1004",
       "size": [
         30,
@@ -2873,6 +2892,8 @@ export const WORLD = {
       "floorId": 1005,
       "name": "萨姆吉尔的医院",
       "mapFile": "/data/maps/1005.ls2map",
+      "clientMapFile": "/data/client-maps/1005.dat",
+      "clientMapSource": "公益石器时代/map/1005.dat",
       "summary": "萨姆吉尔的医院 | floor=1005 | 30x30 | ref___data/map/sainasu/samugiru/1005",
       "size": [
         30,
@@ -3173,6 +3194,8 @@ export const WORLD = {
       "floorId": 1006,
       "name": "萨姆吉尔的村长家",
       "mapFile": "/data/maps/1006.ls2map",
+      "clientMapFile": "/data/client-maps/1006.dat",
+      "clientMapSource": "公益石器时代/map/1006.dat",
       "summary": "萨姆吉尔的村长家 | floor=1006 | 30x40 | ref___data/map/sainasu/samugiru/1006",
       "size": [
         30,
@@ -3384,6 +3407,8 @@ export const WORLD = {
       "floorId": 1009,
       "name": "萨姆吉尔的便利商店",
       "mapFile": "/data/maps/1009.ls2map",
+      "clientMapFile": "/data/client-maps/1009.dat",
+      "clientMapSource": "公益石器时代/map/1009.dat",
       "summary": "萨姆吉尔的便利商店 | floor=1009 | 40x60 | ref___data/map/sainasu/samugiru/1009",
       "size": [
         40,
@@ -5520,6 +5545,8 @@ export const WORLD = {
       "floorId": 1011,
       "name": "长毛象快递|00畖0",
       "mapFile": "/data/maps/1011.ls2map",
+      "clientMapFile": "/data/client-maps/1011.dat",
+      "clientMapSource": "公益石器时代/map/1011.dat",
       "summary": "长毛象快递|00畖0 | floor=1011 | 30x30 | ref___data/map/sainasu/samugiru/1011",
       "size": [
         30,
@@ -5706,6 +5733,8 @@ export const WORLD = {
       "floorId": 1012,
       "name": "聊天室柜台|0喟破饨陓0",
       "mapFile": "/data/maps/1012.ls2map",
+      "clientMapFile": "/data/client-maps/1012.dat",
+      "clientMapSource": "公益石器时代/map/1012.dat",
       "summary": "聊天室柜台|0喟破饨陓0 | floor=1012 | 30x30 | ref___data/map/sainasu/samugiru/1012",
       "size": [
         30,
@@ -5819,6 +5848,8 @@ export const WORLD = {
       "floorId": 1013,
       "name": "老爷爷的家",
       "mapFile": "/data/maps/1013.ls2map",
+      "clientMapFile": "/data/client-maps/1013.dat",
+      "clientMapSource": "公益石器时代/map/1013.dat",
       "summary": "老爷爷的家 | floor=1013 | 30x30 | ref___data/map/poru/1013",
       "size": [
         30,
@@ -5897,6 +5928,8 @@ export const WORLD = {
       "floorId": 1014,
       "name": "长毛象快递|00",
       "mapFile": "/data/maps/1014.ls2map",
+      "clientMapFile": "/data/client-maps/1014.dat",
+      "clientMapSource": "公益石器时代/map/1014.dat",
       "summary": "长毛象快递|00 | floor=1014 | 30x30 | ref___data/map/sainasu/samugiru/1014",
       "size": [
         30,
@@ -6089,6 +6122,8 @@ export const WORLD = {
       "floorId": 1020,
       "name": "萨姆吉尔道场柜台",
       "mapFile": "/data/maps/1020.ls2map",
+      "clientMapFile": "/data/client-maps/1020.dat",
+      "clientMapSource": "公益石器时代/map/1020.dat",
       "summary": "萨姆吉尔道场柜台 | floor=1020 | 25x25 | ref___data/map/sainasu/samugiru/1020",
       "size": [
         25,
@@ -6167,6 +6202,8 @@ export const WORLD = {
       "floorId": 1040,
       "name": "萨姆吉尔庄园",
       "mapFile": "/data/maps/1040.ls2map",
+      "clientMapFile": "/data/client-maps/1040.dat",
+      "clientMapSource": "公益石器时代/map/1040.dat",
       "summary": "萨姆吉尔庄园 | floor=1040 | 80x80 | ref___data/map/family/100/1040",
       "size": [
         80,
@@ -6522,6 +6559,8 @@ export const WORLD = {
       "floorId": 1043,
       "name": "萨姆吉尔庄园聊天柜台",
       "mapFile": "/data/maps/1043.ls2map",
+      "clientMapFile": "/data/client-maps/1043.dat",
+      "clientMapSource": "公益石器时代/map/1043.dat",
       "summary": "萨姆吉尔庄园聊天柜台 | floor=1043 | 12x12 | ref___data/map/family/100/1043",
       "size": [
         12,
@@ -6600,6 +6639,8 @@ export const WORLD = {
       "floorId": 1048,
       "name": "庄园素材贩售店|0",
       "mapFile": "/data/maps/1048.ls2map",
+      "clientMapFile": "/data/client-maps/1048.dat",
+      "clientMapSource": "公益石器时代/map/1048.dat",
       "summary": "庄园素材贩售店|0 | floor=1048 | 12x12 | ref___data/map/family/100/1048",
       "size": [
         12,
@@ -6726,6 +6767,8 @@ export const WORLD = {
       "floorId": 1100,
       "name": "柯奥村�",
       "mapFile": "/data/maps/1100.ls2map",
+      "clientMapFile": "/data/client-maps/1100.dat",
+      "clientMapSource": "公益石器时代/map/1100.dat",
       "summary": "柯奥村� | floor=1100 | 130x150 | ref___data/map/sainasu/kuo/kuomura",
       "size": [
         130,
@@ -7150,6 +7193,8 @@ export const WORLD = {
       "floorId": 1300,
       "name": "霍特尔村�",
       "mapFile": "/data/maps/1300.ls2map",
+      "clientMapFile": "/data/client-maps/1300.dat",
+      "clientMapSource": "公益石器时代/map/1300.dat",
       "summary": "霍特尔村� | floor=1300 | 100x100 | ref___data/map/sainasu/hotoru/hotoru",
       "size": [
         100,
@@ -7527,6 +7572,8 @@ export const WORLD = {
       "floorId": 1400,
       "name": "卡坦村温�",
       "mapFile": "/data/maps/1400.ls2map",
+      "clientMapFile": "/data/client-maps/1400.dat",
+      "clientMapSource": "公益石器时代/map/1400.dat",
       "summary": "卡坦村温� | floor=1400 | 150x150 | ref___data/map/sainasu/katan/katan",
       "size": [
         150,
@@ -7846,6 +7893,8 @@ export const WORLD = {
       "floorId": 2000,
       "name": "玛丽娜丝渔村",
       "mapFile": "/data/maps/2000.ls2map",
+      "clientMapFile": "/data/client-maps/2000.dat",
+      "clientMapSource": "公益石器时代/map/2000.dat",
       "summary": "玛丽娜丝渔村 | floor=2000 | 150x150 | ref___data/map/sainasu/marinasu/marinasu",
       "size": [
         150,
@@ -9196,6 +9245,8 @@ export const WORLD = {
       "floorId": 2001,
       "name": "玛丽娜丝的武器店",
       "mapFile": "/data/maps/2001.ls2map",
+      "clientMapFile": "/data/client-maps/2001.dat",
+      "clientMapSource": "公益石器时代/map/2001.dat",
       "summary": "玛丽娜丝的武器店 | floor=2001 | 30x30 | ref___data/map/sainasu/marinasu/2001",
       "size": [
         30,
@@ -9753,6 +9804,8 @@ export const WORLD = {
       "floorId": 2002,
       "name": "玛丽娜丝的道具店",
       "mapFile": "/data/maps/2002.ls2map",
+      "clientMapFile": "/data/client-maps/2002.dat",
+      "clientMapSource": "公益石器时代/map/2002.dat",
       "summary": "玛丽娜丝的道具店 | floor=2002 | 30x30 | ref___data/map/sainasu/marinasu/2002",
       "size": [
         30,
@@ -10010,6 +10063,8 @@ export const WORLD = {
       "floorId": 2003,
       "name": "玛丽娜丝的宠物店|00b僾",
       "mapFile": "/data/maps/2003.ls2map",
+      "clientMapFile": "/data/client-maps/2003.dat",
+      "clientMapSource": "公益石器时代/map/2003.dat",
       "summary": "玛丽娜丝的宠物店|00b僾 | floor=2003 | 30x30 | ref___data/map/sainasu/marinasu/2003",
       "size": [
         30,
@@ -10194,6 +10249,8 @@ export const WORLD = {
       "floorId": 2004,
       "name": "玛丽娜丝的肉店",
       "mapFile": "/data/maps/2004.ls2map",
+      "clientMapFile": "/data/client-maps/2004.dat",
+      "clientMapSource": "公益石器时代/map/2004.dat",
       "summary": "玛丽娜丝的肉店 | floor=2004 | 30x30 | ref___data/map/sainasu/marinasu/2004",
       "size": [
         30,
@@ -10351,6 +10408,8 @@ export const WORLD = {
       "floorId": 2005,
       "name": "玛丽娜丝的医院|0V儑僢僾",
       "mapFile": "/data/maps/2005.ls2map",
+      "clientMapFile": "/data/client-maps/2005.dat",
+      "clientMapSource": "公益石器时代/map/2005.dat",
       "summary": "玛丽娜丝的医院|0V儑僢僾 | floor=2005 | 30x30 | ref___data/map/sainasu/marinasu/2005",
       "size": [
         30,
@@ -10670,6 +10729,8 @@ export const WORLD = {
       "floorId": 2006,
       "name": "玛丽娜丝的村长家",
       "mapFile": "/data/maps/2006.ls2map",
+      "clientMapFile": "/data/client-maps/2006.dat",
+      "clientMapSource": "公益石器时代/map/2006.dat",
       "summary": "玛丽娜丝的村长家 | floor=2006 | 40x30 | ref___data/map/sainasu/marinasu/2006",
       "size": [
         40,
@@ -10881,6 +10942,8 @@ export const WORLD = {
       "floorId": 2020,
       "name": "玛丽娜丝道场柜台",
       "mapFile": "/data/maps/2020.ls2map",
+      "clientMapFile": "/data/client-maps/2020.dat",
+      "clientMapSource": "公益石器时代/map/2020.dat",
       "summary": "玛丽娜丝道场柜台 | floor=2020 | 25x25 | ref___data/map/quiz/2020",
       "size": [
         25,
@@ -10998,6 +11061,8 @@ export const WORLD = {
       "floorId": 2030,
       "name": "玛丽娜丝的庄园",
       "mapFile": "/data/maps/2030.ls2map",
+      "clientMapFile": "/data/client-maps/2030.dat",
+      "clientMapSource": "公益石器时代/map/2030.dat",
       "summary": "玛丽娜丝的庄园 | floor=2030 | 80x80 | ref___data/map/family/200/2030",
       "size": [
         80,
@@ -11355,6 +11420,8 @@ export const WORLD = {
       "floorId": 2033,
       "name": "玛丽娜丝庄园聊天柜台",
       "mapFile": "/data/maps/2033.ls2map",
+      "clientMapFile": "/data/client-maps/2033.dat",
+      "clientMapSource": "公益石器时代/map/2033.dat",
       "summary": "玛丽娜丝庄园聊天柜台 | floor=2033 | 12x12 | ref___data/map/family/200/2033",
       "size": [
         12,
@@ -11433,6 +11500,8 @@ export const WORLD = {
       "floorId": 2035,
       "name": "庄园素材贩售店|00",
       "mapFile": "/data/maps/2035.ls2map",
+      "clientMapFile": "/data/client-maps/2035.dat",
+      "clientMapSource": "公益石器时代/map/2035.dat",
       "summary": "庄园素材贩售店|00 | floor=2035 | 12x12 | ref___data/map/family/200/2035",
       "size": [
         12,
@@ -11559,6 +11628,8 @@ export const WORLD = {
       "floorId": 8200,
       "name": "英雄战场|8",
       "mapFile": "/data/maps/8200.ls2map",
+      "clientMapFile": "/data/client-maps/8200.dat",
+      "clientMapSource": "公益石器时代/map/8200.dat",
       "summary": "英雄战场|8 | floor=8200 | 220x160 | ref___data/map/hero/8200",
       "size": [
         220,
@@ -11993,6 +12064,8 @@ export const WORLD = {
       "floorId": 8216,
       "name": "白狼勇士公会",
       "mapFile": "/data/maps/8216.ls2map",
+      "clientMapFile": "/data/client-maps/8216.dat",
+      "clientMapSource": "公益石器时代/map/8216.dat",
       "summary": "白狼勇士公会 | floor=8216 | 40x40 | ref___data/map/union/8216",
       "size": [
         40,
@@ -12112,6 +12185,8 @@ export const WORLD = {
       "floorId": 10001,
       "name": "阿布的洞窟地下１楼|00",
       "mapFile": "/data/maps/10001.ls2map",
+      "clientMapFile": "/data/client-maps/10001.dat",
+      "clientMapSource": "公益石器时代/map/10001.dat",
       "summary": "阿布的洞窟地下１楼|00 | floor=10001 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-00-01",
       "size": [
         50,
@@ -12194,6 +12269,8 @@ export const WORLD = {
       "floorId": 10101,
       "name": "往柯尔克的道路１楼|00",
       "mapFile": "/data/maps/10101.ls2map",
+      "clientMapFile": "/data/client-maps/10101.dat",
+      "clientMapSource": "公益石器时代/map/10101.dat",
       "summary": "往柯尔克的道路１楼|00 | floor=10101 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-01-01",
       "size": [
         50,
@@ -12265,6 +12342,8 @@ export const WORLD = {
       "floorId": 10701,
       "name": "盗贼的洞窟地下１楼|0K",
       "mapFile": "/data/maps/10701.ls2map",
+      "clientMapFile": "/data/client-maps/10701.dat",
+      "clientMapSource": "公益石器时代/map/10701.dat",
       "summary": "盗贼的洞窟地下１楼|0K | floor=10701 | 80x80 | ref___data/map/sainasu/dungeon/10701",
       "size": [
         80,
@@ -12349,6 +12428,8 @@ export const WORLD = {
       "floorId": 10901,
       "name": "柯尔克的大坑道１楼",
       "mapFile": "/data/maps/10901.ls2map",
+      "clientMapFile": "/data/client-maps/10901.dat",
+      "clientMapSource": "公益石器时代/map/10901.dat",
       "summary": "柯尔克的大坑道１楼 | floor=10901 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-09-01",
       "size": [
         50,
@@ -12455,6 +12536,8 @@ export const WORLD = {
       "floorId": 11001,
       "name": "柯奥山的小洞窟１楼",
       "mapFile": "/data/maps/11001.ls2map",
+      "clientMapFile": "/data/client-maps/11001.dat",
+      "clientMapSource": "公益石器时代/map/11001.dat",
       "summary": "柯奥山的小洞窟１楼 | floor=11001 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-10-01",
       "size": [
         50,
@@ -12536,6 +12619,8 @@ export const WORLD = {
       "floorId": 31401,
       "name": "奇努伊的海底通路|10",
       "mapFile": "/data/maps/31401.ls2map",
+      "clientMapFile": "/data/client-maps/31401.dat",
+      "clientMapSource": "公益石器时代/map/31401.dat",
       "summary": "奇努伊的海底通路|10 | floor=31401 | 120x40 | ref___data/map/giiru/dungeon/dun_3-14-01",
       "size": [
         120,

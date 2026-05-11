@@ -372,17 +372,53 @@ function onMapPointerUp(event) {
 }
 
 async function renderLs2Map(map) {
-  if (!map.mapFile) return;
+  if (!map.clientMapFile && !map.mapFile) return;
   const canvas = els.mapCanvas.querySelector(".ls2-map");
   if (!canvas) return;
-  const rsp = await fetch(map.mapFile);
+  const rsp = await fetch(map.clientMapFile || map.mapFile);
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
+  if (map.clientMapFile) {
+    renderClientDatMap(canvas, buf);
+    return;
+  }
+  renderLs2MapBuffer(canvas, buf);
+}
+
+function renderClientDatMap(canvas, buf) {
+  const view = new DataView(buf);
+  const width = view.getUint32(0, true);
+  const height = view.getUint32(4, true);
+  const expected = 8 + width * height * 6;
+  if (!width || !height || buf.byteLength < expected) throw new Error("invalid client map");
+  drawTilePreview(canvas, width, height, (index) => {
+    const offset = 8 + index * 6;
+    return [
+      view.getUint16(offset, true),
+      view.getUint16(offset + 2, true),
+      view.getUint16(offset + 4, true)
+    ];
+  });
+}
+
+function renderLs2MapBuffer(canvas, buf) {
   const view = new DataView(buf);
   const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
   if (magic !== "LS2MAP") throw new Error("invalid LS2MAP");
   const width = view.getUint16(0x28, false);
   const height = view.getUint16(0x2a, false);
+  drawTilePreview(canvas, width, height, (index) => {
+    const tileOffset = 44 + index * 2;
+    const objectOffset = 44 + width * height * 2 + index * 2;
+    return [
+      view.getUint16(tileOffset, false),
+      objectOffset + 1 < view.byteLength ? view.getUint16(objectOffset, false) : 0,
+      0
+    ];
+  });
+}
+
+function drawTilePreview(canvas, width, height, tileAt) {
   const maxSide = 640;
   const scale = Math.max(1, Math.ceil(Math.max(width, height) / maxSide));
   const outW = Math.ceil(width / scale);
@@ -396,11 +432,8 @@ async function renderLs2Map(map) {
       const sx = Math.min(width - 1, x * scale);
       const sy = Math.min(height - 1, y * scale);
       const index = sy * width + sx;
-      const tileOffset = 44 + index * 2;
-      const objectOffset = 44 + width * height * 2 + index * 2;
-      const ground = view.getUint16(tileOffset, false);
-      const object = objectOffset + 1 < view.byteLength ? view.getUint16(objectOffset, false) : 0;
-      const color = tileColor(ground, object);
+      const [ground, object, overlay] = tileAt(index);
+      const color = tileColor(ground, object, overlay);
       const i = (y * outW + x) * 4;
       img.data[i] = color[0];
       img.data[i + 1] = color[1];
@@ -412,10 +445,11 @@ async function renderLs2Map(map) {
   els.mapCanvas.dataset.mapSize = `${width} x ${height}`;
 }
 
-function tileColor(ground, object) {
-  if (ground === 0 && object === 0) return [60, 91, 82];
+function tileColor(ground, object, overlay = 0) {
+  if (ground === 0 && object === 0 && overlay === 0) return [42, 67, 61];
+  if (overlay > 0 && overlay < 1000) return [56, 70, 65];
   if (object > 0 && object < 1000) return [66, 83, 77];
-  const seed = (ground || object) >>> 0;
+  const seed = (overlay || object || ground) >>> 0;
   const hue = seed % 360;
   const band = seed % 7;
   if (band === 0) return hslToRgb(hue, 28, 42);

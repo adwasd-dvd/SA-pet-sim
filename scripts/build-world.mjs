@@ -3,9 +3,12 @@ import path from "node:path";
 
 const appRoot = path.resolve(import.meta.dirname, "..");
 const refRoot = path.resolve(appRoot, "..", "ref___data");
+const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
 const mapRoot = path.join(refRoot, "map");
 const npcRoot = path.join(refRoot, "npc");
+const clientMapRoot = path.join(clientRoot, "map");
 const publicMapRoot = path.join(appRoot, "public", "data", "maps");
+const publicClientMapRoot = path.join(appRoot, "public", "data", "client-maps");
 const worldOut = path.join(appRoot, "src", "world-data.js");
 const gb18030 = new TextDecoder("gb18030");
 
@@ -22,18 +25,22 @@ const selectedFloors = selectFloors();
 const maps = {};
 
 mkdirSync(publicMapRoot, { recursive: true });
+mkdirSync(publicClientMapRoot, { recursive: true });
 
 for (const floor of selectedFloors) {
   const mapInfo = mapFiles.get(floor);
   if (!mapInfo) continue;
   const id = String(floor);
   const mapFile = `/data/maps/${floor}.ls2map`;
+  const clientMapInfo = clientMapFile(floor);
   cpSync(mapInfo.file, path.join(publicMapRoot, `${floor}.ls2map`));
+  if (clientMapInfo) cpSync(clientMapInfo.file, path.join(publicClientMapRoot, `${floor}.dat`));
   maps[id] = {
     id,
     floorId: floor,
     name: cleanName(mapInfo.name) || `floor ${floor}`,
     mapFile,
+    ...(clientMapInfo ? { clientMapFile: `/data/client-maps/${floor}.dat`, clientMapSource: clientMapInfo.source } : {}),
     summary: `${cleanName(mapInfo.name) || `floor ${floor}`} | floor=${floor} | ${mapInfo.width}x${mapInfo.height} | ${relativeRef(mapInfo.file)}`,
     size: [mapInfo.width, mapInfo.height],
     spawn: defaultSpawn(floor, mapInfo),
@@ -80,6 +87,7 @@ const world = {
   source: {
     root: relativeRef(refRoot),
     maps: "ref___data/map/** LS2MAP",
+    clientMaps: "公益石器时代/map/*.dat",
     npcs: "ref___data/npc/**/*.create + .template + args/config",
     warps: "ref___data/map/mapwarp.txt",
     encounters: "ref___data/encount.txt"
@@ -92,6 +100,7 @@ const world = {
 writeFileSync(worldOut, `export const WORLD = ${JSON.stringify(world, null, 2)};\n`);
 console.log(`Generated ${Object.keys(maps).length} maps into ${path.relative(appRoot, worldOut)}`);
 console.log(`Copied LS2MAP files into ${path.relative(appRoot, publicMapRoot)}`);
+console.log(`Copied client DAT maps into ${path.relative(appRoot, publicClientMapRoot)}`);
 
 function scanMapFiles() {
   const files = new Map();
@@ -109,6 +118,23 @@ function scanMapFiles() {
     });
   }
   return files;
+}
+
+function clientMapFile(floor) {
+  const file = path.join(clientMapRoot, `${floor}.dat`);
+  if (!exists(file)) return null;
+  const buf = readFileSync(file);
+  if (buf.length < 8) return null;
+  const width = buf.readUInt32LE(0);
+  const height = buf.readUInt32LE(4);
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return null;
+  if (buf.length < 8 + width * height * 6) return null;
+  return {
+    file,
+    width,
+    height,
+    source: `公益石器时代/map/${floor}.dat`
+  };
 }
 
 function parseWarps(file) {
