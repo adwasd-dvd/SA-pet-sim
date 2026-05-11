@@ -43,7 +43,66 @@ export const WORLD = {
           "source": "ref___data/npc/genout/nevent_03.create",
           "script": "file:genout/ss_100_412_337",
           "template": "npcgen_shop",
-          "graphic": "16017"
+          "graphic": "16017",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_100_412_337",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 2475,
+                "name": "一级采石权利书",
+                "secretName": "一级采石权利书",
+                "description": "柯尔克坑道的采石权利书",
+                "image": 24222,
+                "cost": 200,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 200
+              },
+              {
+                "id": 2476,
+                "name": "特级采石权利书",
+                "secretName": "特级采石权利书",
+                "description": "柯尔克坑道的采石权利书",
+                "image": 24222,
+                "cost": 600,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 600
+              },
+              {
+                "id": 2477,
+                "name": "超特级采石权利书",
+                "secretName": "超特级采石权利书",
+                "description": "柯尔克坑道的采石权利书",
+                "image": 24222,
+                "cost": 1000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 1000
+              }
+            ]
+          }
         },
         {
           "id": "100-472-297-4",
@@ -253,7 +312,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1040-0",
-          "label": "floor 1040 (24,41)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,41)",
           "to": "1040",
           "x": 607,
           "y": 561,
@@ -265,7 +325,8 @@ export const WORLD = {
         },
         {
           "id": "1040-1",
-          "label": "floor 1040 (24,42)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,42)",
           "to": "1040",
           "x": 607,
           "y": 562,
@@ -277,7 +338,8 @@ export const WORLD = {
         },
         {
           "id": "1040-2",
-          "label": "floor 1040 (24,43)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,43)",
           "to": "1040",
           "x": 607,
           "y": 563,
@@ -289,7 +351,8 @@ export const WORLD = {
         },
         {
           "id": "1040-3",
-          "label": "floor 1040 (24,44)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,44)",
           "to": "1040",
           "x": 607,
           "y": 564,
@@ -301,7 +364,8 @@ export const WORLD = {
         },
         {
           "id": "1040-4",
-          "label": "floor 1040 (24,45)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,45)",
           "to": "1040",
           "x": 607,
           "y": 565,
@@ -313,7 +377,8 @@ export const WORLD = {
         },
         {
           "id": "2030-5",
-          "label": "floor 2030 (65,62)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (65,62)",
           "to": "2030",
           "x": 73,
           "y": 586,
@@ -325,7 +390,8 @@ export const WORLD = {
         },
         {
           "id": "2030-6",
-          "label": "floor 2030 (64,63)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (64,63)",
           "to": "2030",
           "x": 72,
           "y": 587,
@@ -337,7 +403,8 @@ export const WORLD = {
         },
         {
           "id": "2030-7",
-          "label": "floor 2030 (63,64)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (63,64)",
           "to": "2030",
           "x": 71,
           "y": 588,
@@ -349,7 +416,8 @@ export const WORLD = {
         },
         {
           "id": "2030-8",
-          "label": "floor 2030 (62,65)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (62,65)",
           "to": "2030",
           "x": 70,
           "y": 589,
@@ -361,7 +429,8 @@ export const WORLD = {
         },
         {
           "id": "1000-9",
-          "label": "floor 1000 (50,116)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (50,116)",
           "to": "1000",
           "x": 638,
           "y": 491,
@@ -417,7 +486,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (184,339)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (184,339)",
           "to": "100",
           "x": 15,
           "y": 21,
@@ -429,7 +499,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (185,339)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (185,339)",
           "to": "100",
           "x": 16,
           "y": 21,
@@ -497,7 +568,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (549,638)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (549,638)",
           "to": "100",
           "x": 10,
           "y": 17,
@@ -509,7 +581,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (549,637)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (549,637)",
           "to": "100",
           "x": 10,
           "y": 16,
@@ -577,7 +650,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (643,676)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (643,676)",
           "to": "100",
           "x": 10,
           "y": 16,
@@ -589,7 +663,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (643,677)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (643,677)",
           "to": "100",
           "x": 10,
           "y": 17,
@@ -747,7 +822,84 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_nuke1.create",
           "script": "file:genout/ss_1000_94_101",
           "template": "npcgen_shop",
-          "graphic": "16067"
+          "graphic": "16067",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1000_94_101",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "我有卖很神奇的东西喔！",
+            "items": [
+              {
+                "id": 13061,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至萨姆吉尔村",
+                "image": 24074,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 13062,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至玛丽娜丝渔村",
+                "image": 24075,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 13063,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至加加村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 13064,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至卡鲁它那村",
+                "image": 24077,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              }
+            ]
+          }
         },
         {
           "id": "1000-64-112-5809",
@@ -759,7 +911,136 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1000_64_112",
           "template": "npcgen_shop",
-          "graphic": "16067"
+          "graphic": "16067",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1000_64_112",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 12153,
+                "name": "萨姆吉尔产的桃子",
+                "secretName": "萨姆吉尔产的桃子",
+                "description": "桃子4",
+                "image": 24092,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12157,
+                "name": "萨姆吉尔产的苹果",
+                "secretName": "萨姆吉尔产的苹果",
+                "description": "苹果4",
+                "image": 24085,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12161,
+                "name": "萨姆吉尔产的草莓",
+                "secretName": "萨姆吉尔产的草莓",
+                "description": "草莓4",
+                "image": 24099,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12165,
+                "name": "萨姆吉尔产的梨子",
+                "secretName": "萨姆吉尔产的梨子",
+                "description": "梨子4",
+                "image": 24084,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12169,
+                "name": "萨姆吉尔产的葡萄",
+                "secretName": "萨姆吉尔产的葡萄",
+                "description": "葡萄4",
+                "image": 24101,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12173,
+                "name": "萨姆吉尔产的樱桃",
+                "secretName": "萨姆吉尔产的樱桃",
+                "description": "樱桃4",
+                "image": 24098,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12217,
+                "name": "萨姆吉尔产的橘子",
+                "secretName": "萨姆吉尔产的橘子",
+                "description": "橘子4",
+                "image": 23003,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12221,
+                "name": "萨姆吉尔产的柿子",
+                "secretName": "萨姆吉尔产的柿子",
+                "description": "柿子4",
+                "image": 24553,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              }
+            ]
+          }
         },
         {
           "id": "1000-77-37-7482",
@@ -837,7 +1118,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (637,491)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (637,491)",
           "to": "100",
           "x": 49,
           "y": 116,
@@ -849,7 +1131,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (637,492)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (637,492)",
           "to": "100",
           "x": 49,
           "y": 117,
@@ -861,7 +1144,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (637,493)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (637,493)",
           "to": "100",
           "x": 49,
           "y": 118,
@@ -873,7 +1157,8 @@ export const WORLD = {
         },
         {
           "id": "100-3",
-          "label": "floor 100 (637,494)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (637,494)",
           "to": "100",
           "x": 49,
           "y": 119,
@@ -885,7 +1170,8 @@ export const WORLD = {
         },
         {
           "id": "100-4",
-          "label": "floor 100 (706,488)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (706,488)",
           "to": "100",
           "x": 117,
           "y": 112,
@@ -897,7 +1183,8 @@ export const WORLD = {
         },
         {
           "id": "100-5",
-          "label": "floor 100 (707,488)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (707,488)",
           "to": "100",
           "x": 118,
           "y": 112,
@@ -909,7 +1196,8 @@ export const WORLD = {
         },
         {
           "id": "100-6",
-          "label": "floor 100 (708,488)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (708,488)",
           "to": "100",
           "x": 119,
           "y": 112,
@@ -921,7 +1209,8 @@ export const WORLD = {
         },
         {
           "id": "100-7",
-          "label": "floor 100 (709,488)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (709,488)",
           "to": "100",
           "x": 120,
           "y": 112,
@@ -933,7 +1222,8 @@ export const WORLD = {
         },
         {
           "id": "100-8",
-          "label": "floor 100 (710,488)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (710,488)",
           "to": "100",
           "x": 121,
           "y": 112,
@@ -945,7 +1235,8 @@ export const WORLD = {
         },
         {
           "id": "1001-9",
-          "label": "floor 1001 (10,15)",
+          "label": "去 萨姆吉尔的武器店",
+          "detail": "萨姆吉尔的武器店 | floor 1001 | 目标 (10,15)",
           "to": "1001",
           "x": 63,
           "y": 99,
@@ -983,7 +1274,240 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1001_17_13",
           "template": "npcgen_shop",
-          "graphic": "16017"
+          "graphic": "16017",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1001_17_13",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 4,
+                "name": "莱伊卡Lv1斧头",
+                "secretName": "莱伊卡Lv1斧头",
+                "description": "攻 +7 防 -2 敏 -2 酒的精灵 Lv1",
+                "image": 20032,
+                "cost": 105,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 105
+              },
+              {
+                "id": 10,
+                "name": "普通普通的斧头",
+                "secretName": "普通普通的斧头",
+                "description": "攻 +14 防 -5 敏 -5",
+                "image": 20013,
+                "cost": 260,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 260
+              },
+              {
+                "id": 20,
+                "name": "轻的斧头",
+                "secretName": "轻的斧头",
+                "description": "攻 +19 防 -7 敏 -6",
+                "image": 20000,
+                "cost": 1040,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1040
+              },
+              {
+                "id": 40,
+                "name": "大的斧头",
+                "secretName": "大的斧头",
+                "description": "攻 +32 防 -11 敏 -11",
+                "image": 20015,
+                "cost": 6500,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6500
+              },
+              {
+                "id": 100,
+                "name": "小棍棒",
+                "secretName": "小棍棒",
+                "description": "攻 +4",
+                "image": 20103,
+                "cost": 50,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 110,
+                "name": "普通普通的棍棒",
+                "secretName": "普通普通的棍棒",
+                "description": "攻 +8",
+                "image": 20102,
+                "cost": 200,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 200
+              },
+              {
+                "id": 130,
+                "name": "重的棍棒",
+                "secretName": "重的棍棒",
+                "description": "攻 +17 敏 -1",
+                "image": 20104,
+                "cost": 2300,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2300
+              },
+              {
+                "id": 200,
+                "name": "小的枪",
+                "secretName": "小的枪",
+                "description": "攻 +5 敏 -1 魅 +1",
+                "image": 20402,
+                "cost": 60,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 210,
+                "name": "普通普通的枪",
+                "secretName": "普通普通的枪",
+                "description": "攻 +10 敏 -2 魅 +1",
+                "image": 20422,
+                "cost": 240,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 240
+              },
+              {
+                "id": 220,
+                "name": "轻的枪",
+                "secretName": "轻的枪",
+                "description": "攻 +14 敏 -2 魅 +2",
+                "image": 20411,
+                "cost": 960,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 960
+              },
+              {
+                "id": 240,
+                "name": "大的枪",
+                "secretName": "大的枪",
+                "description": "攻 +25 敏 -5 魅 +3",
+                "image": 20401,
+                "cost": 6000,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6000
+              },
+              {
+                "id": 300,
+                "name": "小的爪",
+                "secretName": "小的爪",
+                "description": "攻 +3 (x2)",
+                "image": 20203,
+                "cost": 55,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 55
+              },
+              {
+                "id": 310,
+                "name": "普通普通的爪",
+                "secretName": "普通普通的爪",
+                "description": "攻 +6 (x2)",
+                "image": 20200,
+                "cost": 220,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 220
+              },
+              {
+                "id": 330,
+                "name": "重的爪",
+                "secretName": "重的爪",
+                "description": "攻 +13 敏 -1 (x3)",
+                "image": 20217,
+                "cost": 2530,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2530
+              },
+              {
+                "id": 600,
+                "name": "小的投掷斧头",
+                "secretName": "小的投掷斧头",
+                "description": "攻 +4",
+                "image": 20508,
+                "cost": 50,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 620,
+                "name": "轻的投掷斧头",
+                "secretName": "轻的投掷斧头",
+                "description": "攻 +11 敏 +1",
+                "image": 20504,
+                "cost": 800,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 800
+              }
+            ]
+          }
         },
         {
           "id": "1001-17-15-5694",
@@ -995,7 +1519,201 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1001_17_15",
           "template": "npcgen_shop",
-          "graphic": "16018"
+          "graphic": "16018",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1001_17_15",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 800,
+                "name": "粗杂的兜",
+                "secretName": "粗杂的兜",
+                "description": "防 +3",
+                "image": 21541,
+                "cost": 50,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 810,
+                "name": "普通普通的兜",
+                "secretName": "普通普通的兜",
+                "description": "防 +4",
+                "image": 21540,
+                "cost": 200,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 200
+              },
+              {
+                "id": 820,
+                "name": "轻的兜",
+                "secretName": "轻的兜",
+                "description": "防 +5",
+                "image": 21510,
+                "cost": 800,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 800
+              },
+              {
+                "id": 841,
+                "name": "美鲁菲Lv1兜5",
+                "secretName": "美鲁菲Lv1兜5",
+                "description": "防 +8 敏 -3 净化精灵(毒) Lv1",
+                "image": 21518,
+                "cost": 5750,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5750
+              },
+              {
+                "id": 900,
+                "name": "破烂的帽子",
+                "secretName": "破烂的帽子",
+                "description": "防 +1",
+                "image": 21508,
+                "cost": 40,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 912,
+                "name": "爱鲁菲Lv2帽子2",
+                "secretName": "爱鲁菲Lv2帽子2",
+                "description": "防 +1 净化精灵(石化) Lv2",
+                "image": 21503,
+                "cost": 280,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 280
+              },
+              {
+                "id": 920,
+                "name": "普通普通的帽子",
+                "secretName": "普通普通的帽子",
+                "description": "防 +3",
+                "image": 21530,
+                "cost": 640,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 640
+              },
+              {
+                "id": 1000,
+                "name": "粗杂的铠",
+                "secretName": "粗杂的铠",
+                "description": "防 +4 敏 -1",
+                "image": 21014,
+                "cost": 75,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 75
+              },
+              {
+                "id": 1011,
+                "name": "哈鲁Lv1铠2",
+                "secretName": "哈鲁Lv1铠2",
+                "description": "防 +6 敏 -2 治愈的精灵 Lv1",
+                "image": 21027,
+                "cost": 400,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 400
+              },
+              {
+                "id": 1020,
+                "name": "轻的铠",
+                "secretName": "轻的铠",
+                "description": "防 +11 敏 -2",
+                "image": 21046,
+                "cost": 1200,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1200
+              },
+              {
+                "id": 1100,
+                "name": "破烂的服",
+                "secretName": "破烂的服",
+                "description": "防 +2",
+                "image": 21041,
+                "cost": 60,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 1113,
+                "name": "提欧Lv1服2",
+                "secretName": "提欧Lv1服2",
+                "description": "防 +3 恩惠的精灵 Lv1",
+                "image": 21009,
+                "cost": 528,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 528
+              },
+              {
+                "id": 1120,
+                "name": "普通普通的服",
+                "secretName": "普通普通的服",
+                "description": "防 +7",
+                "image": 21033,
+                "cost": 960,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 960
+              }
+            ]
+          }
         },
         {
           "id": "1001-16-19-7636",
@@ -1037,7 +1755,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (63,99)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,99)",
           "to": "1000",
           "x": 10,
           "y": 15,
@@ -1049,7 +1768,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (63,100)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,100)",
           "to": "1000",
           "x": 10,
           "y": 16,
@@ -1099,7 +1819,175 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1002_18_15",
           "template": "npcgen_shop",
-          "graphic": "16033"
+          "graphic": "16033",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1002_18_15",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 1202,
+                "name": "青色双重手环",
+                "secretName": "青色双重的手环",
+                "description": "攻 -1 防 +1 敏 +1 魅 +1",
+                "image": 22058,
+                "cost": 1000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1000
+              },
+              {
+                "id": 1250,
+                "name": "阿萨Lv1贝铃",
+                "secretName": "阿萨Lv1贝铃",
+                "description": "魅 +1 大地的精灵 Lv1",
+                "image": 24199,
+                "cost": 300,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 1257,
+                "name": "阿萨Lv2木笛",
+                "secretName": "阿萨Lv2木笛",
+                "description": "魅 +2 大地的精灵 Lv2",
+                "image": 24204,
+                "cost": 700,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 700
+              },
+              {
+                "id": 1264,
+                "name": "阿萨Lv3鸣子",
+                "secretName": "阿萨Lv3鸣子",
+                "description": "魅 +3 大地的精灵 Lv3",
+                "image": 24208,
+                "cost": 1200,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 1200
+              },
+              {
+                "id": 1305,
+                "name": "木的戒指",
+                "secretName": "木的戒指",
+                "description": "魅 +1 会心一击率上升 +2",
+                "image": 22052,
+                "cost": 1600,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1600
+              },
+              {
+                "id": 1350,
+                "name": "黑色小首饰",
+                "secretName": "黑色小首饰",
+                "description": "魅 +1 毒耐性 +10",
+                "image": 22010,
+                "cost": 3400,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 3400
+              },
+              {
+                "id": 1351,
+                "name": "红色小首饰",
+                "secretName": "红色小首饰",
+                "description": "魅 +1 石化耐性 +10",
+                "image": 22008,
+                "cost": 3000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 3000
+              },
+              {
+                "id": 1352,
+                "name": "小骨首饰",
+                "secretName": "小骨首饰",
+                "description": "魅 +1 睡眠耐性 +10",
+                "image": 22016,
+                "cost": 2600,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2600
+              },
+              {
+                "id": 1353,
+                "name": "绿色小首饰",
+                "secretName": "绿色小首饰",
+                "description": "魅 +1 混乱耐性 +10",
+                "image": 22009,
+                "cost": 4000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4000
+              },
+              {
+                "id": 1354,
+                "name": "青色小首饰",
+                "secretName": "青色小首饰",
+                "description": "魅 +1 酒醉耐性 +10",
+                "image": 22001,
+                "cost": 2000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 1402,
+                "name": "红色小耳环",
+                "secretName": "红色小耳环",
+                "description": "魅 +3 回避率上升 +1",
+                "image": 22103,
+                "cost": 500,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 500
+              }
+            ]
+          }
         },
         {
           "id": "1002-10-15-6341",
@@ -1129,7 +2017,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (67,108)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (67,108)",
           "to": "1000",
           "x": 10,
           "y": 15,
@@ -1141,7 +2030,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (67,109)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (67,109)",
           "to": "1000",
           "x": 10,
           "y": 16,
@@ -1293,7 +2183,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (69,72)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (69,72)",
           "to": "1000",
           "x": 16,
           "y": 21,
@@ -1305,7 +2196,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (68,72)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (68,72)",
           "to": "1000",
           "x": 15,
           "y": 21,
@@ -1343,7 +2235,84 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1004_17_13",
           "template": "npcgen_shop",
-          "graphic": "16054"
+          "graphic": "16054",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1004_17_13",
+            "buyRate": 1,
+            "sellRate": 1,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 2344,
+                "name": "小的肉",
+                "secretName": "小的肉",
+                "description": "耐久力20前後回复",
+                "image": 24008,
+                "cost": 12,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 12
+              },
+              {
+                "id": 2345,
+                "name": "乾燥肉",
+                "secretName": "乾燥肉",
+                "description": "耐久力35前後回复",
+                "image": 24035,
+                "cost": 18,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 18
+              },
+              {
+                "id": 2346,
+                "name": "大的肉",
+                "secretName": "大的肉",
+                "description": "耐久力65前後回复",
+                "image": 24017,
+                "cost": 30,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 2347,
+                "name": "高级肉",
+                "secretName": "高级肉",
+                "description": "耐久力80前後回复",
+                "image": 24026,
+                "cost": 48,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 48
+              }
+            ]
+          }
         },
         {
           "id": "1004-15-21-6352",
@@ -1373,7 +2342,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (54,81)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (54,81)",
           "to": "1000",
           "x": 16,
           "y": 21,
@@ -1385,7 +2355,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (53,81)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (53,81)",
           "to": "1000",
           "x": 15,
           "y": 21,
@@ -1423,7 +2394,188 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1005_14_14",
           "template": "npcgen_shop",
-          "graphic": "16023"
+          "graphic": "16023",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1005_14_14",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "到了",
+            "items": [
+              {
+                "id": 1500,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力100前後回复",
+                "image": 23013,
+                "cost": 25,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 1501,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力200前後回复",
+                "image": 23014,
+                "cost": 50,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 1510,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力20前後回复",
+                "image": 23005,
+                "cost": 80,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1511,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力40前後回复",
+                "image": 23006,
+                "cost": 160,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 160
+              },
+              {
+                "id": 1512,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力60前後回复",
+                "image": 23007,
+                "cost": 250,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 250
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              }
+            ]
+          }
         },
         {
           "id": "1005-11-13-5239",
@@ -1489,7 +2641,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (81,66)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (81,66)",
           "to": "1000",
           "x": 16,
           "y": 21,
@@ -1501,7 +2654,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (80,66)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (80,66)",
           "to": "1000",
           "x": 15,
           "y": 21,
@@ -1653,7 +2807,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (98,44)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (98,44)",
           "to": "1000",
           "x": 10,
           "y": 20,
@@ -1665,7 +2820,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (98,45)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (98,45)",
           "to": "1000",
           "x": 10,
           "y": 21,
@@ -1703,7 +2859,110 @@ export const WORLD = {
           "source": "ref___data/npc/genout/mission.create",
           "script": "file:genout/ss_1009_20_12",
           "template": "npcgen_shop",
-          "graphic": "16201"
+          "graphic": "16201",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1009_20_12",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "接任务要先买委托书喔！",
+            "items": [
+              {
+                "id": 20001,
+                "name": "萨村宠物委托书Ａ",
+                "secretName": "萨村宠物委托书Ａ",
+                "description": "昆伊和凯比特各两只，报酬400。",
+                "image": 24176,
+                "cost": 40,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 20002,
+                "name": "萨村宠物委托书Ｂ",
+                "secretName": "萨村宠物委托书Ｂ",
+                "description": "乌力和乌力斯坦各两只，报酬800。",
+                "image": 24176,
+                "cost": 80,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 20003,
+                "name": "萨村宠物委托书Ｃ",
+                "secretName": "萨村宠物委托书Ｃ",
+                "description": "呼拔拔和鲁尼帖斯各一只，报酬1500。",
+                "image": 24176,
+                "cost": 150,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 150
+              },
+              {
+                "id": 20004,
+                "name": "萨村宠物委托书Ｄ",
+                "secretName": "萨村宠物委托书Ｄ",
+                "description": "特洛昆和达克尔各两只，报酬3200。",
+                "image": 24176,
+                "cost": 320,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 320
+              },
+              {
+                "id": 20005,
+                "name": "萨村宠物委托书Ｅ",
+                "secretName": "萨村宠物委托书Ｅ",
+                "description": "龟之盾、绿龟、卡梅兰恩、石龟各一只，报酬精灵的羽毛一根。",
+                "image": 24176,
+                "cost": 400,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 400
+              },
+              {
+                "id": 20006,
+                "name": "萨村宠物委托书Ｆ",
+                "secretName": "萨村宠物委托书Ｆ",
+                "description": "柯伊达、柯洛加斯、多洛加、加克拉、海主人各一只，报酬?",
+                "image": 24176,
+                "cost": 1500,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 1500
+              }
+            ]
+          }
         },
         {
           "id": "1009-14-13-5796",
@@ -1727,7 +2986,71 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_15",
           "template": "npcgen_shop",
-          "graphic": "16208"
+          "graphic": "16208",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1009_27_15",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 2705,
+                "name": "魔术笔 (油性)",
+                "secretName": "魔术笔 (油性)",
+                "description": "被加工的道具的名称 可以变更 (使用次数一次)",
+                "image": 10904,
+                "cost": 300,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 2612,
+                "name": "骰子",
+                "secretName": "骰子",
+                "description": "每次丢出来的数字都不一样",
+                "image": 24298,
+                "cost": 200,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 200
+              },
+              {
+                "id": 2613,
+                "name": "愿藏娃娃",
+                "secretName": "愿藏娃娃",
+                "description": "魅力 -3 有名人(?)愿藏的娃娃",
+                "image": 24316,
+                "cost": 50,
+                "type": 15,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              }
+            ]
+          }
         },
         {
           "id": "1009-27-17-5792",
@@ -1739,7 +3062,448 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_17",
           "template": "npcgen_shop",
-          "graphic": "16017"
+          "graphic": "16017",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1009_27_17",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 11800,
+                "name": "长青苔的石",
+                "secretName": "长青苔的石",
+                "description": "石的成分 1",
+                "image": 24056,
+                "cost": 26,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 11801,
+                "name": "光滑的石",
+                "secretName": "光滑的石",
+                "description": "石的成分 2",
+                "image": 24062,
+                "cost": 118,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 118
+              },
+              {
+                "id": 11802,
+                "name": "球石",
+                "secretName": "球石",
+                "description": "石的成分 3",
+                "image": 24058,
+                "cost": 468,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 468
+              },
+              {
+                "id": 11803,
+                "name": "凹凸不平的石",
+                "secretName": "凹凸不平的石",
+                "description": "石的成分 4",
+                "image": 24062,
+                "cost": 1368,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1368
+              },
+              {
+                "id": 11804,
+                "name": "洗涤石",
+                "secretName": "洗涤石",
+                "description": "石的成分 5",
+                "image": 24063,
+                "cost": 2700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2700
+              },
+              {
+                "id": 11805,
+                "name": "坏石",
+                "secretName": "坏石",
+                "description": "石的成分 6",
+                "image": 24054,
+                "cost": 5040,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5040
+              },
+              {
+                "id": 11806,
+                "name": "酸石",
+                "secretName": "酸石",
+                "description": "石的成分 7",
+                "image": 24057,
+                "cost": 7740,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7740
+              },
+              {
+                "id": 11807,
+                "name": "好石",
+                "secretName": "好石",
+                "description": "石的成分 8",
+                "image": 24059,
+                "cost": 11880,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11880
+              },
+              {
+                "id": 11810,
+                "name": "腐烂的木",
+                "secretName": "腐烂的木",
+                "description": "木的成分 1",
+                "image": 24117,
+                "cost": 22,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 22
+              },
+              {
+                "id": 11811,
+                "name": "小枝",
+                "secretName": "小枝",
+                "description": "木的成分 2",
+                "image": 24117,
+                "cost": 98,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 98
+              },
+              {
+                "id": 11812,
+                "name": "枝干",
+                "secretName": "枝干",
+                "description": "木的成分 3",
+                "image": 24115,
+                "cost": 390,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 390
+              },
+              {
+                "id": 11813,
+                "name": "潮湿的木",
+                "secretName": "潮湿的木",
+                "description": "木的成分 4",
+                "image": 24115,
+                "cost": 1140,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1140
+              },
+              {
+                "id": 11814,
+                "name": "新木",
+                "secretName": "新木",
+                "description": "木的成分 5",
+                "image": 24115,
+                "cost": 2250,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2250
+              },
+              {
+                "id": 11815,
+                "name": "晒乾的木",
+                "secretName": "晒乾的木",
+                "description": "木的成分 6",
+                "image": 24116,
+                "cost": 4200,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4200
+              },
+              {
+                "id": 11816,
+                "name": "光滑的木",
+                "secretName": "光滑的木",
+                "description": "木的成分 7",
+                "image": 24116,
+                "cost": 6450,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 6450
+              },
+              {
+                "id": 11817,
+                "name": "古代木",
+                "secretName": "古代木",
+                "description": "木的成分 8",
+                "image": 24114,
+                "cost": 9900,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 9900
+              },
+              {
+                "id": 11820,
+                "name": "骨的碎片",
+                "secretName": "骨的碎片",
+                "description": "骨的成分 1",
+                "image": 24108,
+                "cost": 26,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 11821,
+                "name": "有裂痕的骨",
+                "secretName": "有裂痕的骨",
+                "description": "骨的成分 2",
+                "image": 24108,
+                "cost": 118,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 118
+              },
+              {
+                "id": 11822,
+                "name": "弱的骨",
+                "secretName": "弱的骨",
+                "description": "骨的成分 3",
+                "image": 24108,
+                "cost": 468,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 468
+              },
+              {
+                "id": 11823,
+                "name": "变色的骨",
+                "secretName": "变色的骨",
+                "description": "骨的成分 4",
+                "image": 24111,
+                "cost": 1368,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1368
+              },
+              {
+                "id": 11824,
+                "name": "珍贵的骨",
+                "secretName": "珍贵的骨",
+                "description": "骨的成分 5",
+                "image": 24111,
+                "cost": 2700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2700
+              },
+              {
+                "id": 11825,
+                "name": "硬的骨",
+                "secretName": "硬的骨",
+                "description": "骨的成分 6",
+                "image": 24112,
+                "cost": 5040,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5040
+              },
+              {
+                "id": 11826,
+                "name": "兽之骨",
+                "secretName": "兽之骨",
+                "description": "骨的成分 7",
+                "image": 24112,
+                "cost": 7740,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7740
+              },
+              {
+                "id": 11827,
+                "name": "古老的骨",
+                "secretName": "古老的骨",
+                "description": "骨的成分 8",
+                "image": 20036,
+                "cost": 11880,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11880
+              },
+              {
+                "id": 11830,
+                "name": "牙的碎片",
+                "secretName": "牙的碎片",
+                "description": "牙的成分 1",
+                "image": 24109,
+                "cost": 24,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 24
+              },
+              {
+                "id": 11831,
+                "name": "小牙",
+                "secretName": "小牙",
+                "description": "牙的成分 2",
+                "image": 24109,
+                "cost": 108,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 108
+              },
+              {
+                "id": 11832,
+                "name": "折断的牙",
+                "secretName": "折断的牙",
+                "description": "牙的成分 3",
+                "image": 24109,
+                "cost": 430,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 430
+              },
+              {
+                "id": 11833,
+                "name": "硬的牙",
+                "secretName": "硬的牙",
+                "description": "牙的成分 4",
+                "image": 24109,
+                "cost": 1254,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1254
+              },
+              {
+                "id": 11834,
+                "name": "大牙",
+                "secretName": "大牙",
+                "description": "牙的成分 5",
+                "image": 24109,
+                "cost": 2476,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2476
+              },
+              {
+                "id": 11835,
+                "name": "锐利的牙",
+                "secretName": "锐利的牙",
+                "description": "牙的成分 6",
+                "image": 24110,
+                "cost": 4620,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4620
+              },
+              {
+                "id": 11836,
+                "name": "猛兽的牙",
+                "secretName": "猛兽的牙",
+                "description": "牙的成分 7",
+                "image": 24110,
+                "cost": 7096,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7096
+              },
+              {
+                "id": 11837,
+                "name": "龙之牙",
+                "secretName": "龙之牙",
+                "description": "牙的成分 8",
+                "image": 24110,
+                "cost": 10890,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10890
+              }
+            ]
+          }
         },
         {
           "id": "1009-27-24-5793",
@@ -1751,7 +3515,448 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_24",
           "template": "npcgen_shop",
-          "graphic": "16033"
+          "graphic": "16033",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1009_27_24",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临。",
+            "items": [
+              {
+                "id": 11830,
+                "name": "牙的碎片",
+                "secretName": "牙的碎片",
+                "description": "牙的成分 1",
+                "image": 24109,
+                "cost": 24,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 24
+              },
+              {
+                "id": 11831,
+                "name": "小牙",
+                "secretName": "小牙",
+                "description": "牙的成分 2",
+                "image": 24109,
+                "cost": 108,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 108
+              },
+              {
+                "id": 11832,
+                "name": "折断的牙",
+                "secretName": "折断的牙",
+                "description": "牙的成分 3",
+                "image": 24109,
+                "cost": 430,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 430
+              },
+              {
+                "id": 11833,
+                "name": "硬的牙",
+                "secretName": "硬的牙",
+                "description": "牙的成分 4",
+                "image": 24109,
+                "cost": 1254,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1254
+              },
+              {
+                "id": 11834,
+                "name": "大牙",
+                "secretName": "大牙",
+                "description": "牙的成分 5",
+                "image": 24109,
+                "cost": 2476,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2476
+              },
+              {
+                "id": 11835,
+                "name": "锐利的牙",
+                "secretName": "锐利的牙",
+                "description": "牙的成分 6",
+                "image": 24110,
+                "cost": 4620,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4620
+              },
+              {
+                "id": 11836,
+                "name": "猛兽的牙",
+                "secretName": "猛兽的牙",
+                "description": "牙的成分 7",
+                "image": 24110,
+                "cost": 7096,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7096
+              },
+              {
+                "id": 11837,
+                "name": "龙之牙",
+                "secretName": "龙之牙",
+                "description": "牙的成分 8",
+                "image": 24110,
+                "cost": 10890,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10890
+              },
+              {
+                "id": 11840,
+                "name": "破烂的皮",
+                "secretName": "破烂的皮",
+                "description": "皮的成分 1",
+                "image": 24124,
+                "cost": 22,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 22
+              },
+              {
+                "id": 11841,
+                "name": "易破的皮",
+                "secretName": "易破的皮",
+                "description": "皮的成分 2",
+                "image": 24124,
+                "cost": 98,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 98
+              },
+              {
+                "id": 11842,
+                "name": "薄的皮",
+                "secretName": "薄的皮",
+                "description": "皮的成分 3",
+                "image": 24125,
+                "cost": 390,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 390
+              },
+              {
+                "id": 11843,
+                "name": "光滑的皮",
+                "secretName": "光滑的皮",
+                "description": "皮的成分 4",
+                "image": 24125,
+                "cost": 1140,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1140
+              },
+              {
+                "id": 11844,
+                "name": "厚的皮",
+                "secretName": "厚的皮",
+                "description": "皮的成分 5",
+                "image": 24126,
+                "cost": 2250,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2250
+              },
+              {
+                "id": 11845,
+                "name": "熟皮",
+                "secretName": "熟皮",
+                "description": "皮的成分 6",
+                "image": 24126,
+                "cost": 4200,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4200
+              },
+              {
+                "id": 11846,
+                "name": "有光泽的皮",
+                "secretName": "有光泽的皮",
+                "description": "皮的成分 7",
+                "image": 24127,
+                "cost": 6450,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 6450
+              },
+              {
+                "id": 11847,
+                "name": "硬的皮",
+                "secretName": "硬的皮",
+                "description": "皮的成分 8",
+                "image": 24127,
+                "cost": 9900,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 9900
+              },
+              {
+                "id": 11880,
+                "name": "蜘蛛的丝",
+                "secretName": "蜘蛛的丝",
+                "description": "线的成分 1",
+                "image": 24105,
+                "cost": 18,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 18
+              },
+              {
+                "id": 11881,
+                "name": "草的蔓",
+                "secretName": "草的蔓",
+                "description": "线的成分 2",
+                "image": 24107,
+                "cost": 78,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 78
+              },
+              {
+                "id": 11882,
+                "name": "木的蔓",
+                "secretName": "木的蔓",
+                "description": "线的成分 3",
+                "image": 24107,
+                "cost": 312,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 312
+              },
+              {
+                "id": 11883,
+                "name": "毛编的绳",
+                "secretName": "毛编的绳",
+                "description": "线的成分 4",
+                "image": 24104,
+                "cost": 912,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 912
+              },
+              {
+                "id": 11884,
+                "name": "皮的绳",
+                "secretName": "皮的绳",
+                "description": "线的成分 5",
+                "image": 24104,
+                "cost": 1800,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1800
+              },
+              {
+                "id": 11885,
+                "name": "耐用的蔓",
+                "secretName": "耐用的蔓",
+                "description": "线的成分 6",
+                "image": 24106,
+                "cost": 3360,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 3360
+              },
+              {
+                "id": 11886,
+                "name": "粗糙的绳",
+                "secretName": "粗糙的绳",
+                "description": "线的成分 7",
+                "image": 24104,
+                "cost": 5160,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5160
+              },
+              {
+                "id": 11887,
+                "name": "强的绳",
+                "secretName": "强的绳",
+                "description": "线的成分 8",
+                "image": 24104,
+                "cost": 7920,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7920
+              },
+              {
+                "id": 11900,
+                "name": "乾涸的黏土",
+                "secretName": "乾涸的黏土",
+                "description": "黏土的成分 1",
+                "image": 24062,
+                "cost": 6,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 6
+              },
+              {
+                "id": 11901,
+                "name": "黏黏的黏土",
+                "secretName": "黏黏的黏土",
+                "description": "黏土的成分 2",
+                "image": 24062,
+                "cost": 25,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 11902,
+                "name": "水分多的黏土",
+                "secretName": "水分多的黏土",
+                "description": "黏土的成分 3",
+                "image": 24062,
+                "cost": 98,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 98
+              },
+              {
+                "id": 11903,
+                "name": "柔软的黏土",
+                "secretName": "柔软的黏土",
+                "description": "黏土的成分 4",
+                "image": 24062,
+                "cost": 285,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 285
+              },
+              {
+                "id": 11904,
+                "name": "硬的黏土",
+                "secretName": "硬的黏土",
+                "description": "黏土的成分 5",
+                "image": 24062,
+                "cost": 563,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 563
+              },
+              {
+                "id": 11905,
+                "name": "不可思议的黏土",
+                "secretName": "不可思议的黏土",
+                "description": "黏土的成分 6",
+                "image": 24062,
+                "cost": 1050,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1050
+              },
+              {
+                "id": 11906,
+                "name": "化石的黏土",
+                "secretName": "化石的黏土",
+                "description": "黏土的成分 7",
+                "image": 24062,
+                "cost": 1613,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1613
+              },
+              {
+                "id": 11907,
+                "name": "上等的黏土",
+                "secretName": "上等的黏土",
+                "description": "黏土的成分 8",
+                "image": 24062,
+                "cost": 2475,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2475
+              }
+            ]
+          }
         },
         {
           "id": "1009-27-28-5794",
@@ -1763,7 +3968,448 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_28",
           "template": "npcgen_shop",
-          "graphic": "16206"
+          "graphic": "16206",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1009_27_28",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临。",
+            "items": [
+              {
+                "id": 11860,
+                "name": "砂色的贝壳",
+                "secretName": "砂色的贝壳",
+                "description": "贝壳的成分 1",
+                "image": 24130,
+                "cost": 26,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 11861,
+                "name": "土色的贝壳",
+                "secretName": "土色的贝壳",
+                "description": "贝壳的成分 2",
+                "image": 24130,
+                "cost": 118,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 118
+              },
+              {
+                "id": 11862,
+                "name": "樱色的贝壳",
+                "secretName": "樱色的贝壳",
+                "description": "贝壳的成分 3",
+                "image": 24131,
+                "cost": 468,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 468
+              },
+              {
+                "id": 11863,
+                "name": "红色的贝壳",
+                "secretName": "红色的贝壳",
+                "description": "贝壳的成分 4",
+                "image": 24131,
+                "cost": 1368,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1368
+              },
+              {
+                "id": 11864,
+                "name": "苍色的贝壳",
+                "secretName": "苍色的贝壳",
+                "description": "贝壳的成分 5",
+                "image": 24132,
+                "cost": 2700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2700
+              },
+              {
+                "id": 11865,
+                "name": "海色的贝壳",
+                "secretName": "海色的贝壳",
+                "description": "贝壳的成分 6",
+                "image": 24132,
+                "cost": 5040,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5040
+              },
+              {
+                "id": 11866,
+                "name": "水色的贝壳",
+                "secretName": "水色的贝壳",
+                "description": "贝壳的成分 7",
+                "image": 24133,
+                "cost": 7740,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7740
+              },
+              {
+                "id": 11867,
+                "name": "天空色的贝壳",
+                "secretName": "天空色的贝壳",
+                "description": "贝壳的成分 8",
+                "image": 24133,
+                "cost": 11880,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11880
+              },
+              {
+                "id": 11870,
+                "name": "裂开的壳",
+                "secretName": "裂开的壳",
+                "description": "壳的成分 1",
+                "image": 24150,
+                "cost": 26,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 11871,
+                "name": "小的壳",
+                "secretName": "小的壳",
+                "description": "壳的成分 2",
+                "image": 24150,
+                "cost": 118,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 118
+              },
+              {
+                "id": 11872,
+                "name": "有裂痕的壳",
+                "secretName": "有裂痕的壳",
+                "description": "壳的成分 3",
+                "image": 24150,
+                "cost": 468,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 468
+              },
+              {
+                "id": 11873,
+                "name": "薄的壳",
+                "secretName": "薄的壳",
+                "description": "壳的成分 4",
+                "image": 24149,
+                "cost": 1368,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1368
+              },
+              {
+                "id": 11874,
+                "name": "褪色的壳",
+                "secretName": "褪色的壳",
+                "description": "壳的成分 5",
+                "image": 24149,
+                "cost": 2700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2700
+              },
+              {
+                "id": 11875,
+                "name": "大的壳",
+                "secretName": "大的壳",
+                "description": "壳的成分 6",
+                "image": 24149,
+                "cost": 5040,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5040
+              },
+              {
+                "id": 11876,
+                "name": "硬的壳",
+                "secretName": "硬的壳",
+                "description": "壳的成分 7",
+                "image": 24148,
+                "cost": 7740,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7740
+              },
+              {
+                "id": 11877,
+                "name": "珍贵的壳",
+                "secretName": "珍贵的壳",
+                "description": "壳的成分 8",
+                "image": 24148,
+                "cost": 11880,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11880
+              },
+              {
+                "id": 11910,
+                "name": "鳞的碎片",
+                "secretName": "鳞的碎片",
+                "description": "鳞的成分 1",
+                "image": 22034,
+                "cost": 7,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7
+              },
+              {
+                "id": 11911,
+                "name": "小鱼的鳞",
+                "secretName": "小鱼的鳞",
+                "description": "鳞的成分 2",
+                "image": 22034,
+                "cost": 30,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 11912,
+                "name": "小的鳞",
+                "secretName": "小的鳞",
+                "description": "鳞的成分 3",
+                "image": 22035,
+                "cost": 117,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 117
+              },
+              {
+                "id": 11913,
+                "name": "清澈的鳞",
+                "secretName": "清澈的鳞",
+                "description": "鳞的成分 4",
+                "image": 22035,
+                "cost": 342,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 342
+              },
+              {
+                "id": 11914,
+                "name": "轻的鳞",
+                "secretName": "轻的鳞",
+                "description": "鳞的成分 5",
+                "image": 22033,
+                "cost": 675,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 675
+              },
+              {
+                "id": 11915,
+                "name": "大的鳞",
+                "secretName": "大的鳞",
+                "description": "鳞的成分 6",
+                "image": 22033,
+                "cost": 1260,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1260
+              },
+              {
+                "id": 11916,
+                "name": "重的鳞",
+                "secretName": "重的鳞",
+                "description": "鳞的成分 7",
+                "image": 22037,
+                "cost": 1935,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1935
+              },
+              {
+                "id": 11917,
+                "name": "硬的鳞",
+                "secretName": "硬的鳞",
+                "description": "鳞的成分 8",
+                "image": 22037,
+                "cost": 2970,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2970
+              },
+              {
+                "id": 11920,
+                "name": "腐烂的叶",
+                "secretName": "腐烂的叶",
+                "description": "叶的成分 1",
+                "image": 24180,
+                "cost": 5,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5
+              },
+              {
+                "id": 11921,
+                "name": "枯萎的叶",
+                "secretName": "枯萎的叶",
+                "description": "叶的成分 2",
+                "image": 24180,
+                "cost": 22,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 22
+              },
+              {
+                "id": 11922,
+                "name": "小的叶",
+                "secretName": "小的叶",
+                "description": "叶的成分 3",
+                "image": 24179,
+                "cost": 88,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 88
+              },
+              {
+                "id": 11923,
+                "name": "新叶",
+                "secretName": "新叶",
+                "description": "叶的成分 4",
+                "image": 24179,
+                "cost": 257,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 257
+              },
+              {
+                "id": 11924,
+                "name": "珍贵的叶",
+                "secretName": "珍贵的叶",
+                "description": "叶的成分 5",
+                "image": 24179,
+                "cost": 507,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 507
+              },
+              {
+                "id": 11925,
+                "name": "大的叶",
+                "secretName": "大的叶",
+                "description": "叶的成分 6",
+                "image": 24178,
+                "cost": 945,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 945
+              },
+              {
+                "id": 11926,
+                "name": "不可思议的叶",
+                "secretName": "不可思议的叶",
+                "description": "叶的成分 7",
+                "image": 24179,
+                "cost": 1452,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1452
+              },
+              {
+                "id": 11927,
+                "name": "灵木的叶",
+                "secretName": "灵木的叶",
+                "description": "叶的成分 8",
+                "image": 24178,
+                "cost": 2228,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2228
+              }
+            ]
+          }
         },
         {
           "id": "1009-25-30-7032",
@@ -1787,7 +4433,448 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_37",
           "template": "npcgen_shop",
-          "graphic": "16067"
+          "graphic": "16067",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1009_27_37",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临。",
+            "items": [
+              {
+                "id": 12010,
+                "name": "粗糙的砂",
+                "secretName": "粗糙的砂",
+                "description": "地的成分 1",
+                "image": 24161,
+                "cost": 2,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2
+              },
+              {
+                "id": 12011,
+                "name": "潮湿的砂",
+                "secretName": "潮湿的砂",
+                "description": "地的成分 2",
+                "image": 24161,
+                "cost": 7,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7
+              },
+              {
+                "id": 12012,
+                "name": "细的砂",
+                "secretName": "细的砂",
+                "description": "地的成分 3",
+                "image": 24161,
+                "cost": 28,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 28
+              },
+              {
+                "id": 12013,
+                "name": "乾燥的砂",
+                "secretName": "乾燥的砂",
+                "description": "地的成分 4",
+                "image": 24161,
+                "cost": 81,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 81
+              },
+              {
+                "id": 12014,
+                "name": "美丽的砂",
+                "secretName": "美丽的砂",
+                "description": "地的成分 5",
+                "image": 24161,
+                "cost": 175,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 175
+              },
+              {
+                "id": 12015,
+                "name": "闪耀的砂",
+                "secretName": "闪耀的砂",
+                "description": "地的成分 6",
+                "image": 24161,
+                "cost": 298,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 298
+              },
+              {
+                "id": 12016,
+                "name": "光辉的砂",
+                "secretName": "光辉的砂",
+                "description": "地的成分 7",
+                "image": 24161,
+                "cost": 455,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 455
+              },
+              {
+                "id": 12017,
+                "name": "海之砂",
+                "secretName": "海之砂",
+                "description": "地的成分 8",
+                "image": 24161,
+                "cost": 700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 700
+              },
+              {
+                "id": 12020,
+                "name": "朝露的水滴",
+                "secretName": "朝露的水滴",
+                "description": "水的成分 1",
+                "image": 24144,
+                "cost": 1,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1
+              },
+              {
+                "id": 12021,
+                "name": "雨水的水滴",
+                "secretName": "雨水的水滴",
+                "description": "水的成分 2",
+                "image": 24144,
+                "cost": 7,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7
+              },
+              {
+                "id": 12022,
+                "name": "涌泉的水滴",
+                "secretName": "涌泉的水滴",
+                "description": "水的成分 3",
+                "image": 24144,
+                "cost": 28,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 28
+              },
+              {
+                "id": 12023,
+                "name": "融雪的水滴",
+                "secretName": "融雪的水滴",
+                "description": "水的成分 4",
+                "image": 24144,
+                "cost": 81,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 81
+              },
+              {
+                "id": 12024,
+                "name": "清水的水滴",
+                "secretName": "清水的水滴",
+                "description": "水的成分 5",
+                "image": 24144,
+                "cost": 175,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 175
+              },
+              {
+                "id": 12025,
+                "name": "蒸馏水的水滴",
+                "secretName": "蒸馏水的水滴",
+                "description": "水的成分 6",
+                "image": 24144,
+                "cost": 298,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 298
+              },
+              {
+                "id": 12026,
+                "name": "地下水的水滴",
+                "secretName": "地下水的水滴",
+                "description": "水的成分 7",
+                "image": 24144,
+                "cost": 455,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 455
+              },
+              {
+                "id": 12027,
+                "name": "圣水的水滴",
+                "secretName": "圣水的水滴",
+                "description": "水的成分 8",
+                "image": 24144,
+                "cost": 700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 700
+              },
+              {
+                "id": 12030,
+                "name": "火药草",
+                "secretName": "火药草",
+                "description": "火的成分 1",
+                "image": 23029,
+                "cost": 1,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1
+              },
+              {
+                "id": 12031,
+                "name": "火之粉草",
+                "secretName": "火之粉草",
+                "description": "火的成分 2",
+                "image": 23029,
+                "cost": 7,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7
+              },
+              {
+                "id": 12032,
+                "name": "火花草",
+                "secretName": "火花草",
+                "description": "火的成分 3",
+                "image": 23029,
+                "cost": 28,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 28
+              },
+              {
+                "id": 12033,
+                "name": "灯火草",
+                "secretName": "灯火草",
+                "description": "火的成分 4",
+                "image": 23029,
+                "cost": 81,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 81
+              },
+              {
+                "id": 12034,
+                "name": "火炎草",
+                "secretName": "火炎草",
+                "description": "火的成分 5",
+                "image": 23029,
+                "cost": 175,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 175
+              },
+              {
+                "id": 12035,
+                "name": "燃火草",
+                "secretName": "燃火草",
+                "description": "火的成分 6",
+                "image": 23029,
+                "cost": 298,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 298
+              },
+              {
+                "id": 12036,
+                "name": "红莲草",
+                "secretName": "红莲草",
+                "description": "火的成分 7",
+                "image": 23029,
+                "cost": 455,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 455
+              },
+              {
+                "id": 12037,
+                "name": "烈火草",
+                "secretName": "烈火草",
+                "description": "火的成分 8",
+                "image": 23029,
+                "cost": 700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 700
+              },
+              {
+                "id": 12040,
+                "name": "凯比的羽毛",
+                "secretName": "凯比的羽毛",
+                "description": "风的成分 1",
+                "image": 24136,
+                "cost": 1,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1
+              },
+              {
+                "id": 12041,
+                "name": "凯比特的羽毛",
+                "secretName": "凯比特的羽毛",
+                "description": "风的成分 2",
+                "image": 24136,
+                "cost": 7,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7
+              },
+              {
+                "id": 12042,
+                "name": "乌宝宝的羽毛",
+                "secretName": "乌宝宝的羽毛",
+                "description": "风的成分 3",
+                "image": 24137,
+                "cost": 28,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 28
+              },
+              {
+                "id": 12043,
+                "name": "火鸡的羽毛",
+                "secretName": "火鸡的羽毛",
+                "description": "风的成分 4",
+                "image": 24137,
+                "cost": 81,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 81
+              },
+              {
+                "id": 12044,
+                "name": "霍尔克的羽毛",
+                "secretName": "霍尔克的羽毛",
+                "description": "风的成分 5",
+                "image": 24138,
+                "cost": 175,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 175
+              },
+              {
+                "id": 12045,
+                "name": "加美的羽毛",
+                "secretName": "加美的羽毛",
+                "description": "风的成分 6",
+                "image": 24138,
+                "cost": 298,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 298
+              },
+              {
+                "id": 12046,
+                "name": "加斯的羽毛",
+                "secretName": "加斯的羽毛",
+                "description": "风的成分 7",
+                "image": 24141,
+                "cost": 455,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 455
+              },
+              {
+                "id": 12047,
+                "name": "克克洛斯的羽毛",
+                "secretName": "克克洛斯的羽毛",
+                "description": "风的成分 8",
+                "image": 24141,
+                "cost": 700,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 700
+              }
+            ]
+          }
         },
         {
           "id": "1009-18-12-1301",
@@ -1829,7 +4916,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (106,91)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (106,91)",
           "to": "1000",
           "x": 10,
           "y": 25,
@@ -1841,7 +4929,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (106,92)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (106,92)",
           "to": "1000",
           "x": 10,
           "y": 26,
@@ -1879,7 +4968,73 @@ export const WORLD = {
           "source": "ref___data/npc/genout/unsoya_1.create",
           "script": "file:genout/ss_1011_13_13",
           "template": "npcgen_shop",
-          "graphic": "16055"
+          "graphic": "16055",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1011_13_13",
+            "buyRate": 0.2,
+            "sellRate": 2,
+            "buyWords": [
+              "你好",
+              "谢谢",
+              "打工",
+              "工作",
+              "帮忙",
+              "baito",
+              "work",
+              "hataraku"
+            ],
+            "sellWords": [
+              "送货",
+              "送货",
+              "行李货物",
+              "行李货物",
+              "nimotu",
+              "todoke"
+            ],
+            "mainMessage": "谢谢！今天是来打工的吗？\\n还是送东西来的呢？",
+            "items": [
+              {
+                "id": 2405,
+                "name": "往玛丽娜丝的行李",
+                "secretName": "往玛丽娜丝的行李",
+                "description": "萨姆吉尔到玛丽娜丝的行李",
+                "image": 16071,
+                "cost": 40,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 8
+              },
+              {
+                "id": 2408,
+                "name": "往卡鲁它那的行李",
+                "secretName": "往卡鲁它那的行李",
+                "description": "萨姆吉尔到卡鲁它那的行李",
+                "image": 16071,
+                "cost": 60,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12
+              },
+              {
+                "id": 2411,
+                "name": "往加加的行李",
+                "secretName": "往加加的行李",
+                "description": "萨姆吉尔到加加的行李",
+                "image": 16071,
+                "cost": 70,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 14
+              }
+            ]
+          }
         },
         {
           "id": "1011-18-18-6140",
@@ -1945,7 +5100,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (63,117)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,117)",
           "to": "1000",
           "x": 10,
           "y": 15,
@@ -2037,7 +5193,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (112,37)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (112,37)",
           "to": "1000",
           "x": 15,
           "y": 21,
@@ -2049,7 +5206,8 @@ export const WORLD = {
         },
         {
           "id": "1000-1",
-          "label": "floor 1000 (113,37)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (113,37)",
           "to": "1000",
           "x": 16,
           "y": 21,
@@ -2117,7 +5275,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (79,112)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (79,112)",
           "to": "1000",
           "x": 10,
           "y": 15,
@@ -2155,7 +5314,80 @@ export const WORLD = {
           "source": "ref___data/npc/genout/unsoya_1.create",
           "script": "file:genout/lbis_1014_13_13",
           "template": "npcgen_limitshop",
-          "graphic": "16055"
+          "graphic": "16055",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/lbis_1014_13_13",
+            "buyRate": 1,
+            "sellRate": 1.5,
+            "buyWords": [
+              "你好",
+              "引谢谢",
+              "打工",
+              "工作",
+              "帮忙",
+              "baito",
+              "work",
+              "hataraku",
+              "送货",
+              "送货",
+              "货物",
+              "货物",
+              "nimotu",
+              "todoke"
+            ],
+            "sellWords": [
+              "卖",
+              "卖",
+              "卖",
+              "卖",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "谢谢！",
+            "items": [
+              {
+                "id": 2402,
+                "name": "往萨姆吉尔的行李",
+                "secretName": "往萨姆吉尔的行李",
+                "description": "玛丽娜丝到萨姆吉尔的行李",
+                "image": 16071,
+                "cost": 40,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 2403,
+                "name": "往萨姆吉尔的行李",
+                "secretName": "往萨姆吉尔的行李",
+                "description": "卡鲁它那到萨姆吉尔的行李",
+                "image": 16071,
+                "cost": 60,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 2404,
+                "name": "往萨姆吉尔的行李",
+                "secretName": "往萨姆吉尔的行李",
+                "description": "加加到萨姆吉尔的行李",
+                "image": 16071,
+                "cost": 70,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 70
+              }
+            ]
+          }
         },
         {
           "id": "1014-18-18-6143",
@@ -2221,7 +5453,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (63,118)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,118)",
           "to": "1000",
           "x": 10,
           "y": 16,
@@ -2289,7 +5522,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1000-0",
-          "label": "floor 1000 (97,110)",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (97,110)",
           "to": "1000",
           "x": 4,
           "y": 12,
@@ -2327,7 +5561,40 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/shop1_5",
           "template": "npcgen_shop",
-          "graphic": "16036"
+          "graphic": "16036",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/family/npc/shop1_5",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 19330,
+                "name": "家族商店通行证",
+                "secretName": "家族商店通行证",
+                "description": "进入萨姆吉尔庄园专属商店必要的通行证明",
+                "image": 24176,
+                "cost": 1000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 1000
+              }
+            ]
+          }
         },
         {
           "id": "1040-61-45-1463",
@@ -2537,7 +5804,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (606,561)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (606,561)",
           "to": "100",
           "x": 23,
           "y": 41,
@@ -2549,7 +5817,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (606,562)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (606,562)",
           "to": "100",
           "x": 23,
           "y": 42,
@@ -2561,7 +5830,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (606,563)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (606,563)",
           "to": "100",
           "x": 23,
           "y": 43,
@@ -2573,7 +5843,8 @@ export const WORLD = {
         },
         {
           "id": "100-3",
-          "label": "floor 100 (606,564)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (606,564)",
           "to": "100",
           "x": 23,
           "y": 44,
@@ -2585,7 +5856,8 @@ export const WORLD = {
         },
         {
           "id": "100-4",
-          "label": "floor 100 (606,565)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (606,565)",
           "to": "100",
           "x": 23,
           "y": 45,
@@ -2597,7 +5869,8 @@ export const WORLD = {
         },
         {
           "id": "1043-5",
-          "label": "floor 1043 (4,11)",
+          "label": "去 萨姆吉尔庄园聊天柜台",
+          "detail": "萨姆吉尔庄园聊天柜台 | floor 1043 | 目标 (4,11)",
           "to": "1043",
           "x": 59,
           "y": 25,
@@ -2609,7 +5882,8 @@ export const WORLD = {
         },
         {
           "id": "1043-6",
-          "label": "floor 1043 (5,11)",
+          "label": "去 萨姆吉尔庄园聊天柜台",
+          "detail": "萨姆吉尔庄园聊天柜台 | floor 1043 | 目标 (5,11)",
           "to": "1043",
           "x": 60,
           "y": 25,
@@ -2621,7 +5895,8 @@ export const WORLD = {
         },
         {
           "id": "1048-7",
-          "label": "floor 1048 (0,6)",
+          "label": "去 庄园素材贩售店|0",
+          "detail": "庄园素材贩售店|0 | floor 1048 | 目标 (0,6)",
           "to": "1048",
           "x": 51,
           "y": 56,
@@ -2633,7 +5908,8 @@ export const WORLD = {
         },
         {
           "id": "1048-8",
-          "label": "floor 1048 (0,7)",
+          "label": "去 庄园素材贩售店|0",
+          "detail": "庄园素材贩售店|0 | floor 1048 | 目标 (0,7)",
           "to": "1048",
           "x": 51,
           "y": 57,
@@ -2701,7 +5977,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1040-0",
-          "label": "floor 1040 (59,25)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (59,25)",
           "to": "1040",
           "x": 4,
           "y": 11,
@@ -2713,7 +5990,8 @@ export const WORLD = {
         },
         {
           "id": "1040-1",
-          "label": "floor 1040 (60,25)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (60,25)",
           "to": "1040",
           "x": 5,
           "y": 11,
@@ -2751,7 +6029,53 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/shop1_2",
           "template": "npcgen_shop",
-          "graphic": "16033"
+          "graphic": "16033",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/family/npc/shop1_2",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 11859,
+                "name": "龙之爪",
+                "secretName": "龙之爪",
+                "description": "爪的成分 10",
+                "image": 24109,
+                "cost": 24750,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 24750
+              },
+              {
+                "id": 13079,
+                "name": "最强之爪",
+                "secretName": "最强之爪",
+                "description": "爪的成分 11",
+                "image": 23905,
+                "cost": 31000,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 31000
+              }
+            ]
+          }
         },
         {
           "id": "1048-0-6-4239",
@@ -2781,7 +6105,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "1040-0",
-          "label": "floor 1040 (51,56)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (51,56)",
           "to": "1040",
           "x": 0,
           "y": 6,
@@ -2793,7 +6118,8 @@ export const WORLD = {
         },
         {
           "id": "1040-1",
-          "label": "floor 1040 (51,57)",
+          "label": "去 萨姆吉尔庄园",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (51,57)",
           "to": "1040",
           "x": 0,
           "y": 7,
@@ -2831,7 +6157,110 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1100_59_49",
           "template": "npcgen_shop",
-          "graphic": "16068"
+          "graphic": "16068",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1100_59_49",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 12093,
+                "name": "柯奥产的红萝卜",
+                "secretName": "柯奥产的红萝卜",
+                "description": "红萝卜4",
+                "image": 24238,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12097,
+                "name": "柯奥产的青椒",
+                "secretName": "柯奥产的青椒",
+                "description": "青椒4",
+                "image": 24093,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12105,
+                "name": "柯奥产的茄子",
+                "secretName": "柯奥产的茄子",
+                "description": "茄子4",
+                "image": 24237,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12109,
+                "name": "柯奥产的包心菜",
+                "secretName": "柯奥产的包心菜",
+                "description": "包心菜4",
+                "image": 24235,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12145,
+                "name": "柯奥产的米",
+                "secretName": "柯奥产的米",
+                "description": "米4",
+                "image": 24276,
+                "cost": 40,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 12225,
+                "name": "柯奥产的白菜",
+                "secretName": "柯奥产的白菜",
+                "description": "白菜4",
+                "image": 24560,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              }
+            ]
+          }
         },
         {
           "id": "1100-86-107-5724",
@@ -2843,7 +6272,45 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1100_86_107",
           "template": "npcgen_shop",
-          "graphic": "16018"
+          "graphic": "16018",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1100_86_107",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 2422,
+                "name": "通行证",
+                "secretName": "通行证",
+                "description": "海底通路的通行许可证",
+                "image": 24222,
+                "cost": 200,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 200
+              }
+            ]
+          }
         },
         {
           "id": "1100-59-63-7485",
@@ -3041,7 +6508,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (470,630)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (470,630)",
           "to": "100",
           "x": 63,
           "y": 34,
@@ -3053,7 +6521,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (471,630)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (471,630)",
           "to": "100",
           "x": 64,
           "y": 34,
@@ -3065,7 +6534,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (472,630)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (472,630)",
           "to": "100",
           "x": 65,
           "y": 34,
@@ -3077,7 +6547,8 @@ export const WORLD = {
         },
         {
           "id": "100-3",
-          "label": "floor 100 (473,630)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (473,630)",
           "to": "100",
           "x": 66,
           "y": 34,
@@ -3089,7 +6560,8 @@ export const WORLD = {
         },
         {
           "id": "100-4",
-          "label": "floor 100 (474,630)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (474,630)",
           "to": "100",
           "x": 67,
           "y": 34,
@@ -3151,7 +6623,97 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1300_56_55",
           "template": "npcgen_shop",
-          "graphic": "16067"
+          "graphic": "16067",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1300_56_55",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 12113,
+                "name": "霍特尔产的葱",
+                "secretName": "霍特尔产的葱",
+                "description": "葱4",
+                "image": 24239,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12117,
+                "name": "霍特尔产的大蒜",
+                "secretName": "霍特尔产的大蒜",
+                "description": "大蒜4",
+                "image": 24096,
+                "cost": 80,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 12121,
+                "name": "霍特尔产的豆子",
+                "secretName": "霍特尔产的豆子",
+                "description": "豆子4",
+                "image": 24095,
+                "cost": 30,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 12133,
+                "name": "霍特尔产的马铃薯",
+                "secretName": "霍特尔产的马铃薯",
+                "description": "马铃薯4",
+                "image": 24192,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12137,
+                "name": "霍特尔产的地瓜",
+                "secretName": "霍特尔产的地瓜",
+                "description": "地瓜4",
+                "image": 24286,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              }
+            ]
+          }
         },
         {
           "id": "1300-39-26-7484",
@@ -3337,7 +6899,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (621,190)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,190)",
           "to": "100",
           "x": 23,
           "y": 59,
@@ -3349,7 +6912,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (621,191)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,191)",
           "to": "100",
           "x": 23,
           "y": 60,
@@ -3361,7 +6925,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (621,192)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,192)",
           "to": "100",
           "x": 23,
           "y": 61,
@@ -3373,7 +6938,8 @@ export const WORLD = {
         },
         {
           "id": "100-3",
-          "label": "floor 100 (621,193)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,193)",
           "to": "100",
           "x": 23,
           "y": 62,
@@ -3385,7 +6951,8 @@ export const WORLD = {
         },
         {
           "id": "100-4",
-          "label": "floor 100 (621,194)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,194)",
           "to": "100",
           "x": 23,
           "y": 63,
@@ -3397,7 +6964,8 @@ export const WORLD = {
         },
         {
           "id": "100-5",
-          "label": "floor 100 (621,195)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,195)",
           "to": "100",
           "x": 23,
           "y": 64,
@@ -3409,7 +6977,8 @@ export const WORLD = {
         },
         {
           "id": "100-6",
-          "label": "floor 100 (621,196)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,196)",
           "to": "100",
           "x": 23,
           "y": 65,
@@ -3421,7 +6990,8 @@ export const WORLD = {
         },
         {
           "id": "100-7",
-          "label": "floor 100 (621,197)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,197)",
           "to": "100",
           "x": 23,
           "y": 66,
@@ -3459,7 +7029,45 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_nuke1.create",
           "script": "file:genout/ss_1400_75_102",
           "template": "npcgen_shop",
-          "graphic": "16067"
+          "graphic": "16067",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_1400_75_102",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "我有卖很神奇的东西喔！",
+            "items": [
+              {
+                "id": 13070,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至卡坦村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              }
+            ]
+          }
         },
         {
           "id": "1400-85-69-7491",
@@ -3669,7 +7277,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (258,171)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (258,171)",
           "to": "100",
           "x": 70,
           "y": 116,
@@ -3681,7 +7290,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (259,171)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (259,171)",
           "to": "100",
           "x": 71,
           "y": 116,
@@ -3693,7 +7303,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (260,171)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (260,171)",
           "to": "100",
           "x": 72,
           "y": 116,
@@ -3733,7 +7344,183 @@ export const WORLD = {
           "source": "ref___data/npc/my/ruieryasi/rui_shop.create",
           "script": "file:my/ruieryasi/weapon2shop.arg",
           "template": "npcgen_shop",
-          "graphic": "16990"
+          "graphic": "16990",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/my/ruieryasi/weapon2shop.arg",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1929,
+                "name": "苍绿之斧3",
+                "secretName": "苍绿之斧3",
+                "description": "攻+120 防+45 伤+150 敏-40",
+                "image": 20075,
+                "cost": 84500,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 84500
+              },
+              {
+                "id": 1942,
+                "name": "苍绿之枪3",
+                "secretName": "苍绿之枪3",
+                "description": "攻+100 防+45 伤+130 敏-20 魅+30",
+                "image": 20475,
+                "cost": 78000,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 78000
+              },
+              {
+                "id": 1943,
+                "name": "苍绿之棍3",
+                "secretName": "苍绿之棍3",
+                "description": "攻+80 防+45 伤+110",
+                "image": 20700,
+                "cost": 65000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 65000
+              },
+              {
+                "id": 1946,
+                "name": "湛蓝之斧3",
+                "secretName": "湛蓝之斧3",
+                "description": "攻+120 伤+150 敏-40 HP+135",
+                "image": 20075,
+                "cost": 84500,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 84500
+              },
+              {
+                "id": 1947,
+                "name": "湛蓝之枪3",
+                "secretName": "湛蓝之枪3",
+                "description": "攻+100 伤+130 敏-20 魅+30 HP+135",
+                "image": 20474,
+                "cost": 78000,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 78000
+              },
+              {
+                "id": 1948,
+                "name": "湛蓝之棍3",
+                "secretName": "湛蓝之棍3",
+                "description": "攻+80 伤+110 HP+135",
+                "image": 20701,
+                "cost": 65000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 65000
+              },
+              {
+                "id": 1951,
+                "name": "焰红之斧3",
+                "secretName": "焰红之斧3",
+                "description": "攻+165 伤+150 敏-40",
+                "image": 20075,
+                "cost": 84500,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 84500
+              },
+              {
+                "id": 1952,
+                "name": "焰红之枪3",
+                "secretName": "焰红之枪3",
+                "description": "攻+145 伤+130 敏-20 魅+30",
+                "image": 20476,
+                "cost": 78000,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 78000
+              },
+              {
+                "id": 1953,
+                "name": "焰红之棍3",
+                "secretName": "焰红之棍3",
+                "description": "攻+125 伤+110",
+                "image": 20700,
+                "cost": 65000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 65000
+              },
+              {
+                "id": 1956,
+                "name": "岚黄之斧3",
+                "secretName": "岚黄之斧3",
+                "description": "攻+120 伤+150 敏+5",
+                "image": 20075,
+                "cost": 84500,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 84500
+              },
+              {
+                "id": 1957,
+                "name": "岚黄之枪3",
+                "secretName": "岚黄之枪3",
+                "description": "攻+100 伤+130 敏+25 魅+30",
+                "image": 20476,
+                "cost": 78000,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 78000
+              },
+              {
+                "id": 1958,
+                "name": "岚黄之棍3",
+                "secretName": "岚黄之棍3",
+                "description": "攻+80 伤+110 敏+45",
+                "image": 20701,
+                "cost": 65000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 65000
+              }
+            ]
+          }
         },
         {
           "id": "2000-38-29-7098",
@@ -3745,7 +7532,131 @@ export const WORLD = {
           "source": "ref___data/npc/my/ruieryasi/rui_shop.create",
           "script": "file:my/ruieryasi/weapon1shop.arg",
           "template": "npcgen_shop",
-          "graphic": "17072"
+          "graphic": "17072",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/my/ruieryasi/weapon1shop.arg",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1944,
+                "name": "苍绿之兜3",
+                "secretName": "苍绿之兜3",
+                "description": "防+85 敏-8 伤-70",
+                "image": 21599,
+                "cost": 97500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1945,
+                "name": "苍绿之铠3",
+                "secretName": "苍绿之铠3",
+                "description": "防+125 敏-20 伤-110",
+                "image": 21108,
+                "cost": 97500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1949,
+                "name": "湛蓝之兜3",
+                "secretName": "湛蓝之兜3",
+                "description": "防+40 敏-8 伤-70 HP+135",
+                "image": 21597,
+                "cost": 97500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1950,
+                "name": "湛蓝之铠3",
+                "secretName": "湛蓝之铠3",
+                "description": "防+80 敏-20 伤-110 HP+135",
+                "image": 21104,
+                "cost": 97500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1954,
+                "name": "焰红之兜3",
+                "secretName": "焰红之兜3",
+                "description": "攻+45 防+40 敏-8 伤-70",
+                "image": 21596,
+                "cost": 97500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1955,
+                "name": "焰红之铠3",
+                "secretName": "焰红之铠3",
+                "description": "攻+45 防+80 敏-20 伤-110",
+                "image": 21112,
+                "cost": 97500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1959,
+                "name": "岚黄之兜3",
+                "secretName": "岚黄之兜3",
+                "description": "防+40 敏+37 伤-70",
+                "image": 21598,
+                "cost": 97500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              },
+              {
+                "id": 1960,
+                "name": "岚黄之铠3",
+                "secretName": "岚黄之铠3",
+                "description": "防+80 敏+25 伤-110",
+                "image": 21111,
+                "cost": 97500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 110,
+                "price": 97500
+              }
+            ]
+          }
         },
         {
           "id": "2000-72-38-1485",
@@ -3769,7 +7680,84 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_nuke1.create",
           "script": "file:genout/ss_2000_67_62",
           "template": "npcgen_shop",
-          "graphic": "16300"
+          "graphic": "16300",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_2000_67_62",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "我有卖很神奇的东西喔！",
+            "items": [
+              {
+                "id": 13062,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至玛丽娜丝渔村",
+                "image": 24075,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 13061,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至萨姆吉尔村",
+                "image": 24074,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 13063,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至加加村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 13064,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至卡鲁它那村",
+                "image": 24077,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              }
+            ]
+          }
         },
         {
           "id": "2000-71-63-7726",
@@ -3781,7 +7769,176 @@ export const WORLD = {
           "source": "ref___data/npc/scipt_plus/test2nd/test2nd.create",
           "script": "file:scipt_plus/test2nd/c_can_mm",
           "template": "npcgen_shop",
-          "graphic": "16191"
+          "graphic": "16191",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/scipt_plus/test2nd/c_can_mm",
+            "buyRate": 24,
+            "sellRate": 0.8,
+            "buyWords": [
+              "hi"
+            ],
+            "sellWords": [],
+            "mainMessage": "PK道具，恶魔宝石。",
+            "items": [
+              {
+                "id": 20172,
+                "name": "恶魔宝石LV3",
+                "secretName": "恶魔宝石",
+                "description": "使用後可原地遇敌 使用次数100次",
+                "image": 24702,
+                "cost": 0,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 2172,
+                "name": "PK用气力回复药",
+                "secretName": "PK用气力回复药",
+                "description": "气力60前後回复",
+                "image": 23007,
+                "cost": 100,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 2400
+              },
+              {
+                "id": 2173,
+                "name": "PK用耐久力回复药",
+                "secretName": "PK用耐久力回复药",
+                "description": "耐久力800前後回复",
+                "image": 23019,
+                "cost": 100,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 2400
+              },
+              {
+                "id": 2174,
+                "name": "PK用豪华船生鱼片",
+                "secretName": "PK用豪华船生鱼片",
+                "description": "耐500回复(我方全体) 究极生鱼片",
+                "image": 24439,
+                "cost": 100,
+                "type": 20,
+                "useField": 1,
+                "target": 2,
+                "level": 0,
+                "price": 2400
+              },
+              {
+                "id": 2175,
+                "name": "PK用麻辣什锦火锅",
+                "secretName": "PK用麻辣什锦火锅",
+                "description": "沉默状态回复(全体) 超级辣的大火锅",
+                "image": 24431,
+                "cost": 100,
+                "type": 20,
+                "useField": 1,
+                "target": 2,
+                "level": 0,
+                "price": 2400
+              },
+              {
+                "id": 2179,
+                "name": "PK用缪雷金币",
+                "secretName": "PK用缪雷金币",
+                "description": "魅 +5 奥萝拉的精灵",
+                "image": 24221,
+                "cost": 100,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 70,
+                "price": 2400
+              },
+              {
+                "id": 2180,
+                "name": "PK用阿鲁帖拉金币",
+                "secretName": "PK用阿鲁帖拉金币",
+                "description": "魅力 +5 彩虹的精灵",
+                "image": 24221,
+                "cost": 100,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 65,
+                "price": 2400
+              },
+              {
+                "id": 2181,
+                "name": "PK用阿萨Lv5金币",
+                "secretName": "PK用阿萨Lv5金币",
+                "description": "魅 +5 大地的精灵 Lv5",
+                "image": 24218,
+                "cost": 100,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 2400
+              },
+              {
+                "id": 2182,
+                "name": "PK用阿昆尼斯Lv5金币",
+                "secretName": "PK用阿昆尼斯Lv5金币",
+                "description": "魅 +5 水的精灵 Lv5",
+                "image": 24217,
+                "cost": 100,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 2400
+              },
+              {
+                "id": 2183,
+                "name": "PK用芙雷美雅Lv5金币",
+                "secretName": "PK用芙雷美雅Lv5金币",
+                "description": "魅 +5 火炎的精灵 Lv5",
+                "image": 24216,
+                "cost": 100,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 2400
+              },
+              {
+                "id": 2184,
+                "name": "PK用温蒂妮Lv5的金币",
+                "secretName": "PK用温蒂妮Lv5的金币",
+                "description": "魅力 +5 疾风的精灵 Lv5",
+                "image": 24220,
+                "cost": 100,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 2400
+              },
+              {
+                "id": 2185,
+                "name": "PK用西鲁菲雅Lv2护身符",
+                "secretName": "PK用西鲁菲雅Lv2护身符",
+                "description": "魅 +1 高等净化精灵 Lv2",
+                "image": 22019,
+                "cost": 100,
+                "type": 15,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2400
+              }
+            ]
+          }
         },
         {
           "id": "2000-71-64-7727",
@@ -3793,7 +7950,254 @@ export const WORLD = {
           "source": "ref___data/npc/scipt_plus/test2nd/test2nd.create",
           "script": "file:scipt_plus/test2nd/item",
           "template": "npcgen_shop",
-          "graphic": "16191"
+          "graphic": "16191",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/scipt_plus/test2nd/item",
+            "buyRate": 6,
+            "sellRate": 0.8,
+            "buyWords": [
+              "hi"
+            ],
+            "sellWords": [],
+            "mainMessage": "出售各种羽毛。",
+            "items": [
+              {
+                "id": 13061,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至萨姆吉尔村",
+                "image": 24074,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13062,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至玛丽娜丝渔村",
+                "image": 24075,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13063,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至加加村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13064,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至卡鲁它那村",
+                "image": 24077,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13065,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至福尔德村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13066,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至奇喀喀村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13067,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至达那村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13068,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至柯奥村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13069,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至塔姆塔姆村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13070,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至卡坦村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13071,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至乌鲁力村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13072,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至霍特尔村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13073,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至多多村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13088,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至玄黄洞窟洞口",
+                "image": 24381,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13089,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至琉璃洞窟洞口",
+                "image": 24378,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13090,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至碧青洞窟洞口",
+                "image": 24379,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13091,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至漆黑洞窟洞口",
+                "image": 24377,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              },
+              {
+                "id": 13092,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至深红洞窟洞口",
+                "image": 24380,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 12000
+              }
+            ]
+          }
         },
         {
           "id": "2000-81-85-1735",
@@ -3841,7 +8245,33 @@ export const WORLD = {
           "source": "ref___data/npc/scipt_plus/postman/postmanl.create",
           "script": "file:scipt_plus/postman/sell_at_2000",
           "template": "npcgen_shop",
-          "graphic": "16024"
+          "graphic": "16024",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/scipt_plus/postman/sell_at_2000",
+            "buyRate": 1.334,
+            "sellRate": 0.8,
+            "buyWords": [
+              "收货"
+            ],
+            "sellWords": [],
+            "mainMessage": "好吧，我是走私的。",
+            "items": [
+              {
+                "id": 2407,
+                "name": "往玛丽娜丝的行李",
+                "secretName": "往玛丽娜丝的行李",
+                "description": "加加到玛丽娜丝的行李",
+                "image": 16071,
+                "cost": 75,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 100
+              }
+            ]
+          }
         },
         {
           "id": "2000-97-78-7483",
@@ -3943,7 +8373,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2020-0",
-          "label": "floor 2020 (4,12)",
+          "label": "去 玛丽娜丝道场柜台",
+          "detail": "玛丽娜丝道场柜台 | floor 2020 | 目标 (4,12)",
           "to": "2020",
           "x": 69,
           "y": 51,
@@ -3955,7 +8386,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (79,614)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (79,614)",
           "to": "100",
           "x": 74,
           "y": 33,
@@ -3967,7 +8399,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (79,615)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (79,615)",
           "to": "100",
           "x": 74,
           "y": 34,
@@ -3979,7 +8412,8 @@ export const WORLD = {
         },
         {
           "id": "100-3",
-          "label": "floor 100 (79,616)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (79,616)",
           "to": "100",
           "x": 74,
           "y": 35,
@@ -3991,7 +8425,8 @@ export const WORLD = {
         },
         {
           "id": "100-4",
-          "label": "floor 100 (79,617)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (79,617)",
           "to": "100",
           "x": 74,
           "y": 36,
@@ -4003,7 +8438,8 @@ export const WORLD = {
         },
         {
           "id": "100-5",
-          "label": "floor 100 (114,660)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (114,660)",
           "to": "100",
           "x": 108,
           "y": 79,
@@ -4015,7 +8451,8 @@ export const WORLD = {
         },
         {
           "id": "100-6",
-          "label": "floor 100 (114,661)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (114,661)",
           "to": "100",
           "x": 108,
           "y": 80,
@@ -4027,7 +8464,8 @@ export const WORLD = {
         },
         {
           "id": "100-7",
-          "label": "floor 100 (114,662)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (114,662)",
           "to": "100",
           "x": 108,
           "y": 81,
@@ -4039,7 +8477,8 @@ export const WORLD = {
         },
         {
           "id": "100-8",
-          "label": "floor 100 (114,663)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (114,663)",
           "to": "100",
           "x": 108,
           "y": 82,
@@ -4051,7 +8490,8 @@ export const WORLD = {
         },
         {
           "id": "2001-9",
-          "label": "floor 2001 (10,15)",
+          "label": "去 玛丽娜丝的武器店",
+          "detail": "玛丽娜丝的武器店 | floor 2001 | 目标 (10,15)",
           "to": "2001",
           "x": 92,
           "y": 89,
@@ -4101,7 +8541,240 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2001_18_15",
           "template": "npcgen_shop",
-          "graphic": "16017"
+          "graphic": "16017",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_2001_18_15",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 10,
+                "name": "普通普通的斧头",
+                "secretName": "普通普通的斧头",
+                "description": "攻 +14 防 -5 敏 -5",
+                "image": 20013,
+                "cost": 260,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 260
+              },
+              {
+                "id": 20,
+                "name": "轻的斧头",
+                "secretName": "轻的斧头",
+                "description": "攻 +19 防 -7 敏 -6",
+                "image": 20000,
+                "cost": 1040,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1040
+              },
+              {
+                "id": 30,
+                "name": "重的斧头",
+                "secretName": "重的斧头",
+                "description": "攻 +27 防 -9 敏 -10",
+                "image": 20016,
+                "cost": 2990,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2990
+              },
+              {
+                "id": 50,
+                "name": "硬的斧头",
+                "secretName": "硬的斧头",
+                "description": "攻 +37 防 -12 敏 -12",
+                "image": 20018,
+                "cost": 11050,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 11050
+              },
+              {
+                "id": 100,
+                "name": "小棍棒",
+                "secretName": "小棍棒",
+                "description": "攻 +4",
+                "image": 20103,
+                "cost": 50,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 110,
+                "name": "普通普通的棍棒",
+                "secretName": "普通普通的棍棒",
+                "description": "攻 +8",
+                "image": 20102,
+                "cost": 200,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 200
+              },
+              {
+                "id": 120,
+                "name": "轻的棍棒",
+                "secretName": "轻的棍棒",
+                "description": "攻 +11 敏 +1",
+                "image": 20101,
+                "cost": 800,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 800
+              },
+              {
+                "id": 140,
+                "name": "大的棍棒",
+                "secretName": "大的棍棒",
+                "description": "攻 +20",
+                "image": 20112,
+                "cost": 5000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5000
+              },
+              {
+                "id": 200,
+                "name": "小的枪",
+                "secretName": "小的枪",
+                "description": "攻 +5 敏 -1 魅 +1",
+                "image": 20402,
+                "cost": 60,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 210,
+                "name": "普通普通的枪",
+                "secretName": "普通普通的枪",
+                "description": "攻 +10 敏 -2 魅 +1",
+                "image": 20422,
+                "cost": 240,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 240
+              },
+              {
+                "id": 230,
+                "name": "重的枪",
+                "secretName": "重的枪",
+                "description": "攻 +21 敏 -5 魅 +2",
+                "image": 20408,
+                "cost": 2760,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2760
+              },
+              {
+                "id": 300,
+                "name": "小的爪",
+                "secretName": "小的爪",
+                "description": "攻 +3 (x2)",
+                "image": 20203,
+                "cost": 55,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 55
+              },
+              {
+                "id": 310,
+                "name": "普通普通的爪",
+                "secretName": "普通普通的爪",
+                "description": "攻 +6 (x2)",
+                "image": 20200,
+                "cost": 220,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 220
+              },
+              {
+                "id": 320,
+                "name": "轻的爪",
+                "secretName": "轻的爪",
+                "description": "攻 +8 敏 +1 (x2)",
+                "image": 20207,
+                "cost": 880,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 880
+              },
+              {
+                "id": 600,
+                "name": "小的投掷斧头",
+                "secretName": "小的投掷斧头",
+                "description": "攻 +4",
+                "image": 20508,
+                "cost": 50,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 610,
+                "name": "普通普通的投掷斧头",
+                "secretName": "普通普通的投掷斧头",
+                "description": "攻 +8",
+                "image": 20507,
+                "cost": 200,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 200
+              }
+            ]
+          }
         },
         {
           "id": "2001-18-18-5773",
@@ -4113,7 +8786,214 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2001_18_18",
           "template": "npcgen_shop",
-          "graphic": "16056"
+          "graphic": "16056",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_2001_18_18",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 800,
+                "name": "粗杂的兜",
+                "secretName": "粗杂的兜",
+                "description": "防 +3",
+                "image": 21541,
+                "cost": 50,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 810,
+                "name": "普通普通的兜",
+                "secretName": "普通普通的兜",
+                "description": "防 +4",
+                "image": 21540,
+                "cost": 200,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 200
+              },
+              {
+                "id": 820,
+                "name": "轻的兜",
+                "secretName": "轻的兜",
+                "description": "防 +5",
+                "image": 21510,
+                "cost": 800,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 800
+              },
+              {
+                "id": 842,
+                "name": "爱鲁菲Lv1兜5",
+                "secretName": "爱鲁菲Lv1兜5",
+                "description": "防 +8 敏 -3 净化精灵(石化) Lv1",
+                "image": 21518,
+                "cost": 5625,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5625
+              },
+              {
+                "id": 900,
+                "name": "破烂的帽子",
+                "secretName": "破烂的帽子",
+                "description": "防 +1",
+                "image": 21508,
+                "cost": 40,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 914,
+                "name": "渥鲁菲Lv2帽子2",
+                "secretName": "渥鲁菲Lv2帽子2",
+                "description": "防 +1 净化精灵(酒醉) Lv2",
+                "image": 21503,
+                "cost": 256,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 256
+              },
+              {
+                "id": 920,
+                "name": "普通普通的帽子",
+                "secretName": "普通普通的帽子",
+                "description": "防 +3",
+                "image": 21530,
+                "cost": 640,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 640
+              },
+              {
+                "id": 1000,
+                "name": "粗杂的铠",
+                "secretName": "粗杂的铠",
+                "description": "防 +4 敏 -1",
+                "image": 21014,
+                "cost": 75,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 75
+              },
+              {
+                "id": 1010,
+                "name": "普通普通的铠",
+                "secretName": "普通普通的铠",
+                "description": "防 +8 敏 -2",
+                "image": 21026,
+                "cost": 300,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 300
+              },
+              {
+                "id": 1012,
+                "name": "芙雷雅Lv1铠2",
+                "secretName": "芙雷雅Lv1铠2",
+                "description": "防 +5 敏 -2 滋润的精灵 Lv1",
+                "image": 21027,
+                "cost": 550,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 550
+              },
+              {
+                "id": 1020,
+                "name": "轻的铠",
+                "secretName": "轻的铠",
+                "description": "防 +11 敏 -2",
+                "image": 21046,
+                "cost": 1200,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1200
+              },
+              {
+                "id": 1100,
+                "name": "破烂的服",
+                "secretName": "破烂的服",
+                "description": "防 +2",
+                "image": 21041,
+                "cost": 60,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 1110,
+                "name": "普通的服",
+                "secretName": "普通的服",
+                "description": "防 +5",
+                "image": 21008,
+                "cost": 240,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 240
+              },
+              {
+                "id": 1111,
+                "name": "哈鲁Lv1服2",
+                "secretName": "哈鲁Lv1服2",
+                "description": "防 +3 治愈的精灵 Lv1",
+                "image": 21009,
+                "cost": 340,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 340
+              }
+            ]
+          }
         },
         {
           "id": "2001-10-15-6469",
@@ -4143,7 +9023,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (92,89)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,89)",
           "to": "2000",
           "x": 10,
           "y": 15,
@@ -4155,7 +9036,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (92,90)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,90)",
           "to": "2000",
           "x": 10,
           "y": 16,
@@ -4167,7 +9049,8 @@ export const WORLD = {
         },
         {
           "id": "2000-2",
-          "label": "floor 2000 (97,92)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (97,92)",
           "to": "2000",
           "x": 10,
           "y": 15,
@@ -4179,7 +9062,8 @@ export const WORLD = {
         },
         {
           "id": "2000-3",
-          "label": "floor 2000 (97,93)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (97,93)",
           "to": "2000",
           "x": 10,
           "y": 16,
@@ -4217,7 +9101,162 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2002_15_13",
           "template": "npcgen_shop",
-          "graphic": "16035"
+          "graphic": "16035",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_2002_15_13",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎",
+            "items": [
+              {
+                "id": 1213,
+                "name": "牙的手环(绿)",
+                "secretName": "牙的手环(绿)",
+                "description": "攻 +5 防 -5 敏 +5 魅 +3",
+                "image": 22073,
+                "cost": 30000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 30000
+              },
+              {
+                "id": 1273,
+                "name": "芙雷美雅Lv4竖琴",
+                "secretName": "芙雷美雅Lv4竖琴",
+                "description": "魅 +4 火炎的精灵 Lv4",
+                "image": 24211,
+                "cost": 3000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 45,
+                "price": 3000
+              },
+              {
+                "id": 1280,
+                "name": "芙雷美雅Lv5金币",
+                "secretName": "芙雷美雅Lv5金币",
+                "description": "魅 +5 火炎的精灵 Lv5",
+                "image": 24216,
+                "cost": 5000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 5000
+              },
+              {
+                "id": 1311,
+                "name": "小石细工戒指",
+                "secretName": "小石细工戒指",
+                "description": "魅 +2 会心一击率上升 +3",
+                "image": 22102,
+                "cost": 4500,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4500
+              },
+              {
+                "id": 1360,
+                "name": "漂亮的黑色首饰",
+                "secretName": "漂亮的黑色首饰",
+                "description": "魅 +2 毒耐性 +60",
+                "image": 22042,
+                "cost": 11900,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11900
+              },
+              {
+                "id": 1361,
+                "name": "红色美丽首饰",
+                "secretName": "红色美丽首饰",
+                "description": "魅 +2 石化耐性 +60",
+                "image": 22038,
+                "cost": 10500,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10500
+              },
+              {
+                "id": 1362,
+                "name": "黄色美丽首饰",
+                "secretName": "黄色美丽首饰",
+                "description": "魅 +2 睡眠耐性 +60",
+                "image": 22041,
+                "cost": 9100,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 9100
+              },
+              {
+                "id": 1363,
+                "name": "绿色美丽首饰",
+                "secretName": "绿色美丽首饰",
+                "description": "魅 +2 混乱耐性 +60",
+                "image": 22040,
+                "cost": 14000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 14000
+              },
+              {
+                "id": 1364,
+                "name": "青色美丽首饰",
+                "secretName": "青色美丽首饰",
+                "description": "魅 +2 酒醉耐性 +60",
+                "image": 22039,
+                "cost": 7000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7000
+              },
+              {
+                "id": 1411,
+                "name": "青色小耳环",
+                "secretName": "青色小耳环",
+                "description": "魅 +2 回避率上升 +3",
+                "image": 22105,
+                "cost": 4500,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4500
+              }
+            ]
+          }
         },
         {
           "id": "2002-17-15-7706",
@@ -4259,7 +9298,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (73,73)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (73,73)",
           "to": "2000",
           "x": 15,
           "y": 21,
@@ -4271,7 +9311,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (74,73)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (74,73)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -4283,7 +9324,8 @@ export const WORLD = {
         },
         {
           "id": "2000-2",
-          "label": "floor 2000 (76,75)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (76,75)",
           "to": "2000",
           "x": 15,
           "y": 21,
@@ -4295,7 +9337,8 @@ export const WORLD = {
         },
         {
           "id": "2000-3",
-          "label": "floor 2000 (77,75)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (77,75)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -4447,7 +9490,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (75,57)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,57)",
           "to": "2000",
           "x": 10,
           "y": 15,
@@ -4459,7 +9503,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (75,58)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,58)",
           "to": "2000",
           "x": 10,
           "y": 16,
@@ -4471,7 +9516,8 @@ export const WORLD = {
         },
         {
           "id": "2000-2",
-          "label": "floor 2000 (86,60)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (86,60)",
           "to": "2000",
           "x": 10,
           "y": 15,
@@ -4483,7 +9529,8 @@ export const WORLD = {
         },
         {
           "id": "2000-3",
-          "label": "floor 2000 (87,60)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (87,60)",
           "to": "2000",
           "x": 10,
           "y": 16,
@@ -4521,7 +9568,84 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2004_17_13",
           "template": "npcgen_shop",
-          "graphic": "16016"
+          "graphic": "16016",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_2004_17_13",
+            "buyRate": 1,
+            "sellRate": 1,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎！",
+            "items": [
+              {
+                "id": 2344,
+                "name": "小的肉",
+                "secretName": "小的肉",
+                "description": "耐久力20前後回复",
+                "image": 24008,
+                "cost": 12,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 12
+              },
+              {
+                "id": 2345,
+                "name": "乾燥肉",
+                "secretName": "乾燥肉",
+                "description": "耐久力35前後回复",
+                "image": 24035,
+                "cost": 18,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 18
+              },
+              {
+                "id": 2346,
+                "name": "大的肉",
+                "secretName": "大的肉",
+                "description": "耐久力65前後回复",
+                "image": 24017,
+                "cost": 30,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 2347,
+                "name": "高级肉",
+                "secretName": "高级肉",
+                "description": "耐久力80前後回复",
+                "image": 24026,
+                "cost": 48,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 48
+              }
+            ]
+          }
         },
         {
           "id": "2004-15-21-6481",
@@ -4551,7 +9675,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (92,77)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,77)",
           "to": "2000",
           "x": 15,
           "y": 21,
@@ -4563,7 +9688,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (93,77)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (93,77)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -4575,7 +9701,8 @@ export const WORLD = {
         },
         {
           "id": "2000-2",
-          "label": "floor 2000 (94,77)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (94,77)",
           "to": "2000",
           "x": 15,
           "y": 21,
@@ -4587,7 +9714,8 @@ export const WORLD = {
         },
         {
           "id": "2000-3",
-          "label": "floor 2000 (95,77)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (95,77)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -4625,7 +9753,188 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2005_15_7",
           "template": "npcgen_shop",
-          "graphic": "16023"
+          "graphic": "16023",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/genout/ss_2005_15_7",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎",
+            "items": [
+              {
+                "id": 1500,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力100前後回复",
+                "image": 23013,
+                "cost": 25,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 1501,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力200前後回复",
+                "image": 23014,
+                "cost": 50,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 50
+              },
+              {
+                "id": 1510,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力20前後回复",
+                "image": 23005,
+                "cost": 80,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1511,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力40前後回复",
+                "image": 23006,
+                "cost": 160,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 160
+              },
+              {
+                "id": 1512,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力60前後回复",
+                "image": 23007,
+                "cost": 250,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 250
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              }
+            ]
+          }
         },
         {
           "id": "2005-11-8-5782",
@@ -4691,7 +10000,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (66,82)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (66,82)",
           "to": "2000",
           "x": 10,
           "y": 15,
@@ -4703,7 +10013,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (66,81)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (66,81)",
           "to": "2000",
           "x": 25,
           "y": 49,
@@ -4855,7 +10166,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (56,48)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (56,48)",
           "to": "2000",
           "x": 20,
           "y": 21,
@@ -4867,7 +10179,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (57,48)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (57,48)",
           "to": "2000",
           "x": 21,
           "y": 21,
@@ -4971,7 +10284,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2000-0",
-          "label": "floor 2000 (69,51)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (69,51)",
           "to": "2000",
           "x": 4,
           "y": 12,
@@ -4983,7 +10297,8 @@ export const WORLD = {
         },
         {
           "id": "2000-1",
-          "label": "floor 2000 (75,51)",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,51)",
           "to": "2000",
           "x": 4,
           "y": 12,
@@ -5035,7 +10350,40 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/shop2_5",
           "template": "npcgen_shop",
-          "graphic": "16036"
+          "graphic": "16036",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/family/npc/shop2_5",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 19331,
+                "name": "家族商店通行证",
+                "secretName": "家族商店通行证",
+                "description": "进入玛丽娜丝庄园专属商店必要的通行证明",
+                "image": 24176,
+                "cost": 1000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 1000
+              }
+            ]
+          }
         },
         {
           "id": "2030-60-41-1468",
@@ -5233,7 +10581,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (74,586)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (74,586)",
           "to": "100",
           "x": 65,
           "y": 63,
@@ -5245,7 +10594,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (73,587)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (73,587)",
           "to": "100",
           "x": 64,
           "y": 64,
@@ -5257,7 +10607,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (72,588)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (72,588)",
           "to": "100",
           "x": 63,
           "y": 65,
@@ -5269,7 +10620,8 @@ export const WORLD = {
         },
         {
           "id": "100-3",
-          "label": "floor 100 (71,589)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (71,589)",
           "to": "100",
           "x": 62,
           "y": 66,
@@ -5281,7 +10633,8 @@ export const WORLD = {
         },
         {
           "id": "2033-4",
-          "label": "floor 2033 (4,11)",
+          "label": "去 玛丽娜丝庄园聊天柜台",
+          "detail": "玛丽娜丝庄园聊天柜台 | floor 2033 | 目标 (4,11)",
           "to": "2033",
           "x": 46,
           "y": 30,
@@ -5293,7 +10646,8 @@ export const WORLD = {
         },
         {
           "id": "2033-5",
-          "label": "floor 2033 (5,11)",
+          "label": "去 玛丽娜丝庄园聊天柜台",
+          "detail": "玛丽娜丝庄园聊天柜台 | floor 2033 | 目标 (5,11)",
           "to": "2033",
           "x": 47,
           "y": 30,
@@ -5305,7 +10659,8 @@ export const WORLD = {
         },
         {
           "id": "2035-6",
-          "label": "floor 2035 (5,11)",
+          "label": "去 庄园素材贩售店|00",
+          "detail": "庄园素材贩售店|00 | floor 2035 | 目标 (5,11)",
           "to": "2035",
           "x": 34,
           "y": 40,
@@ -5317,7 +10672,8 @@ export const WORLD = {
         },
         {
           "id": "2035-7",
-          "label": "floor 2035 (6,11)",
+          "label": "去 庄园素材贩售店|00",
+          "detail": "庄园素材贩售店|00 | floor 2035 | 目标 (6,11)",
           "to": "2035",
           "x": 35,
           "y": 40,
@@ -5385,7 +10741,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2030-0",
-          "label": "floor 2030 (46,30)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (46,30)",
           "to": "2030",
           "x": 4,
           "y": 11,
@@ -5397,7 +10754,8 @@ export const WORLD = {
         },
         {
           "id": "2030-1",
-          "label": "floor 2030 (47,30)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (47,30)",
           "to": "2030",
           "x": 5,
           "y": 11,
@@ -5435,7 +10793,53 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/shop2_2",
           "template": "npcgen_shop",
-          "graphic": "16018"
+          "graphic": "16018",
+          "trade": {
+            "kind": "shop",
+            "source": "ref___data/npc/family/npc/shop2_2",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "想要",
+              "kau",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 11879,
+                "name": "千年龟的壳",
+                "secretName": "千年龟的壳",
+                "description": "壳的成分 10",
+                "image": 24148,
+                "cost": 27000,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 27000
+              },
+              {
+                "id": 13081,
+                "name": "未知的壳",
+                "secretName": "未知的壳",
+                "description": "壳的成分 11",
+                "image": 23907,
+                "cost": 34000,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 34000
+              }
+            ]
+          }
         },
         {
           "id": "2035-5-11-4265",
@@ -5465,7 +10869,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "2030-0",
-          "label": "floor 2030 (34,40)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (34,40)",
           "to": "2030",
           "x": 5,
           "y": 11,
@@ -5477,7 +10882,8 @@ export const WORLD = {
         },
         {
           "id": "2030-1",
-          "label": "floor 2030 (35,40)",
+          "label": "去 玛丽娜丝的庄园",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (35,40)",
           "to": "2030",
           "x": 6,
           "y": 11,
@@ -5677,7 +11083,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "8200-0",
-          "label": "floor 8200 (210,30)",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30)",
           "to": "8200",
           "x": 194,
           "y": 84,
@@ -5689,7 +11096,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (396,186)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (396,186)",
           "to": "100",
           "x": 216,
           "y": 6,
@@ -5701,7 +11109,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (396,187)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (396,187)",
           "to": "100",
           "x": 216,
           "y": 6,
@@ -5805,7 +11214,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (653,608)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (653,608)",
           "to": "100",
           "x": 2,
           "y": 22,
@@ -5817,7 +11227,8 @@ export const WORLD = {
         },
         {
           "id": "100-1",
-          "label": "floor 100 (653,609)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (653,609)",
           "to": "100",
           "x": 2,
           "y": 23,
@@ -5829,7 +11240,8 @@ export const WORLD = {
         },
         {
           "id": "100-2",
-          "label": "floor 100 (653,610)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (653,610)",
           "to": "100",
           "x": 2,
           "y": 24,
@@ -5901,7 +11313,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (191,365)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (191,365)",
           "to": "100",
           "x": 40,
           "y": 3,
@@ -5963,7 +11376,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (318,428)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (318,428)",
           "to": "100",
           "x": 14,
           "y": 49,
@@ -6034,7 +11448,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (132,421)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (132,421)",
           "to": "100",
           "x": 76,
           "y": 67,
@@ -6128,7 +11543,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (237,445)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (237,445)",
           "to": "100",
           "x": 25,
           "y": 49,
@@ -6199,7 +11615,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (328,633)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (328,633)",
           "to": "100",
           "x": 0,
           "y": 43,
@@ -6262,7 +11679,8 @@ export const WORLD = {
       "exits": [
         {
           "id": "100-0",
-          "label": "floor 100 (666,235)",
+          "label": "去 萨伊那斯",
+          "detail": "萨伊那斯 | floor 100 | 目标 (666,235)",
           "to": "100",
           "x": 12,
           "y": 2,

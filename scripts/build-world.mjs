@@ -16,6 +16,7 @@ const MAX_NPCS_PER_MAP = 18;
 const mapFiles = scanMapFiles();
 const warps = parseWarps(path.join(mapRoot, "mapwarp.txt"));
 const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"));
+const itemDb = parseItems(path.join(refRoot, "itemset6.txt"));
 const npcsByFloor = parseNpcs();
 const selectedFloors = selectFloors();
 const maps = {};
@@ -51,9 +52,12 @@ for (const floor of selectedFloors) {
     const key = `${warp.toFloor}:${warp.toX}:${warp.toY}`;
     if (seen.has(key)) continue;
     seen.add(key);
+    const target = mapFiles.get(warp.toFloor);
+    const targetName = cleanName(target?.name) || `floor ${warp.toFloor}`;
     map.exits.push({
       id: `${warp.toFloor}-${map.exits.length}`,
-      label: `floor ${warp.toFloor} (${warp.toX},${warp.toY})`,
+      label: `去 ${targetName}`,
+      detail: `${targetName} | floor ${warp.toFloor} | 目标 (${warp.toX},${warp.toY})`,
       to: String(warp.toFloor),
       x: warp.x,
       y: warp.y,
@@ -145,6 +149,7 @@ function parseNpcs() {
       const template = templates.get(enemy.template) || {};
       const argPath = enemy.argPath || "";
       const dialogue = readNpcDialogue(argPath, file);
+      const trade = readNpcTrade(argPath, file);
       const functionset = template.functionset || enemy.template || "NPC";
       const name = cleanName(kv.name || template.name || functionset);
       idCounter += 1;
@@ -158,13 +163,37 @@ function parseNpcs() {
         source: relativeRef(file),
         script: argPath || enemy.template,
         template: enemy.template,
-        graphic: kv.graphicname || template.graphicname || ""
+        graphic: kv.graphicname || template.graphicname || "",
+        ...(trade ? { trade } : {})
       });
     }
   }
   for (const [floor, list] of out) {
     list.sort((a, b) => npcPriority(b) - npcPriority(a) || a.y - b.y || a.x - b.x);
     out.set(floor, list);
+  }
+  return out;
+}
+
+function parseItems(file) {
+  const out = new Map();
+  for (const line of readText(file).split(/\r?\n/)) {
+    const cols = line.trim().split(",");
+    if (cols.length < 20) continue;
+    const id = Number(cols[16]);
+    if (!Number.isFinite(id) || id <= 0) continue;
+    out.set(id, {
+      id,
+      name: cleanName(cols[0]) || `item ${id}`,
+      secretName: cleanName(cols[1]) || "",
+      description: cleanName(cols[2]) || "",
+      image: Number(cols[17]) || 0,
+      cost: Number(cols[18]) || 0,
+      type: Number(cols[19]) || 0,
+      useField: Number(cols[20]) || 0,
+      target: Number(cols[21]) || 0,
+      level: Number(cols[22]) || 0
+    });
   }
   return out;
 }
@@ -225,6 +254,66 @@ function readNpcDialogue(argPath, createFile) {
   }
   if (messages.length) return messages.join("\n");
   return `脚本入口：${relativeRef(file)}`;
+}
+
+function readNpcTrade(argPath, createFile) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const kv = parseColonFile(readText(file));
+  const itemSpec = kv.itemlist || kv.limititemno || "";
+  if (!itemSpec) return null;
+  const ids = expandItemList(itemSpec);
+  const buyRate = Number(kv.buy_rate || 1) || 1;
+  const sellRate = Number(kv.sell_rate || 0) || 0;
+  const items = ids.map((id) => itemDb.get(id)).filter(Boolean).map((item) => ({
+    ...item,
+    price: Math.max(0, Math.round(item.cost * buyRate))
+  }));
+  if (!items.length) return null;
+  return {
+    kind: "shop",
+    source: relativeRef(file),
+    buyRate,
+    sellRate,
+    buyWords: splitWords(kv.buy_msg),
+    sellWords: splitWords(kv.sell_msg),
+    mainMessage: cleanName(kv.main_msg || kv.buy_main || ""),
+    items: items.slice(0, 40)
+  };
+}
+
+function parseColonFile(text) {
+  const kv = {};
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const index = line.indexOf(":");
+    if (index < 0) continue;
+    kv[line.slice(0, index).trim().toLowerCase()] = line.slice(index + 1).trim();
+  }
+  return kv;
+}
+
+function expandItemList(spec) {
+  const ids = [];
+  for (const part of spec.split(",")) {
+    const value = part.trim();
+    if (!value) continue;
+    const range = value.match(/^(\d+)-(\d+)$/);
+    if (range) {
+      const start = Number(range[1]);
+      const end = Number(range[2]);
+      for (let id = start; id <= end && ids.length < 120; id += 1) ids.push(id);
+      continue;
+    }
+    const id = Number(value);
+    if (Number.isFinite(id)) ids.push(id);
+  }
+  return [...new Set(ids)];
+}
+
+function splitWords(value = "") {
+  return value.split(",").map((item) => cleanName(item)).filter(Boolean);
 }
 
 function resolveNpcArg(argPath, createFile) {

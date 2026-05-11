@@ -88,6 +88,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await dialogGame(env, body.game, String(body.npcId || ""), String(body.message || "")));
     }
+    if (url.pathname === "/api/game/buy" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(buyGame(body.game, String(body.npcId || ""), Number(body.itemId)));
+    }
     if (url.pathname === "/api/game/encounter" && request.method === "POST") {
       const body = await readJson(request);
       return json(await encounterGame(env, request, body.game));
@@ -148,6 +152,27 @@ function travelGame(game, to) {
   game.encounter = null;
   addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
   return withMap(game);
+}
+
+function buyGame(game, npcId, itemId) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  if (!npc.trade?.items?.length) throw new Error("这个 NPC 没有商品资料");
+  const item = npc.trade.items.find((entry) => entry.id === itemId);
+  if (!item) throw new Error("商品不存在");
+  const price = Number(item.price || item.cost || 0);
+  if (game.player.stone < price) throw new Error("石币不够");
+  game.player.stone -= price;
+  addInventoryItem(game, item, 1);
+  syncStoneItem(game);
+  addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币。`);
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
+    npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币。`)
+  ]);
+  return withMap(game, { npc });
 }
 
 function talkGame(game, npcId) {
@@ -266,6 +291,7 @@ async function guideGame(env, game, prompt) {
 async function npcReply(env, game, npc, text) {
   const lower = text.toLowerCase();
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
+  if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
@@ -345,6 +371,16 @@ function fallbackNpcReply(npc) {
   return npc.dialogue || `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
 }
 
+function tradeReply(npc) {
+  const items = (npc.trade?.items || []).slice(0, 8);
+  if (!items.length) return `${npc.name} 没有可解析的商品清单。`;
+  return [
+    npc.trade.mainMessage || "欢迎光临！",
+    `可购买：${items.map((item) => `${item.name}(${item.price}石币)`).join("、")}`,
+    `商品来源：${npc.trade.source}`
+  ].join("\n");
+}
+
 async function aiNpcReply(env, game, npc, text) {
   const map = currentMap(game);
   const messages = [
@@ -369,6 +405,7 @@ function openDialog(game, npc, messages) {
     npcId: npc.id,
     npcName: npc.name,
     npcType: npc.type,
+    trade: npc.trade || null,
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc),
     source: "参考 gmsv：点击 NPC 后客户端自动送出 P|hi，再由 CHAR_Talk 触发 NPC talkedfunc"
@@ -376,11 +413,36 @@ function openDialog(game, npc, messages) {
 }
 
 function dialogSuggestions(npc) {
-  if (/shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
+  if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
   if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
   if (/warp/i.test(npc.type)) return ["hi", "传送", "出口"];
   if (/save/i.test(npc.type)) return ["hi", "记录", "地图"];
   return ["hi", "任务", "地图"];
+}
+
+function addInventoryItem(game, item, qty = 1) {
+  game.inventory ||= [];
+  const existing = game.inventory.find((entry) => Number(entry.id) === Number(item.id));
+  if (existing) {
+    existing.qty = Number(existing.qty || 0) + qty;
+    return;
+  }
+  game.inventory.push({
+    id: item.id,
+    name: item.name,
+    qty,
+    image: item.image,
+    type: item.type,
+    level: item.level,
+    description: item.description,
+    source: "ref___data/itemset6.txt"
+  });
+}
+
+function syncStoneItem(game) {
+  game.inventory ||= [];
+  const stone = game.inventory.find((item) => item.id === "stone");
+  if (stone) stone.qty = game.player.stone;
 }
 
 function npcMessage(speaker, text) {

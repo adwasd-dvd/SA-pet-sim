@@ -552,6 +552,48 @@ h3 {
   gap: 8px;
 }
 
+.shop-box {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+}
+
+.shop-box > div {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.shop-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  border-color: var(--line);
+  background: #fffdf7;
+  color: var(--ink);
+  text-align: left;
+}
+
+.shop-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-item b {
+  white-space: nowrap;
+  color: var(--forest);
+}
+
 .dialog-form input {
   flex: 1 1 260px;
 }
@@ -619,6 +661,29 @@ h3 {
 .pet-card h3,
 .pet-card p {
   margin-bottom: 4px;
+}
+
+.inventory-box {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+}
+
+.inventory-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.inventory-item span {
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .result-list,

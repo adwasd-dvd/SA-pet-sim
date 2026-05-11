@@ -186,7 +186,7 @@ function renderMap(map) {
     }),
     ...map.exits.map((exit, index) => {
       const point = layout.exits[index] || [86, 55];
-      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.to}" title="${escapeHtml(exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
+      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.to}" title="${escapeHtml(exit.detail || exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content">${markers.join("")}</div>`;
@@ -306,7 +306,7 @@ function renderNpc(map) {
   els.npcList.innerHTML = map.npcs.map((npc) => `
     <button class="list-btn" type="button" data-npc="${npc.id}">
       <strong>${escapeHtml(npc.name)}</strong>
-      <span>${escapeHtml(npc.type)} | (${npc.x}, ${npc.y})</span>
+      <span>${escapeHtml(npc.type)}${npc.trade ? " | 可交易" : ""} | (${npc.x}, ${npc.y})</span>
     </button>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
   els.npcList.querySelectorAll("[data-npc]").forEach((btn) => {
@@ -344,13 +344,40 @@ function renderDialog() {
       ${escapeHtml(message.text)}
     </p>
   `).join("");
+  const shop = renderDialogShop(dialog);
   els.dialogSuggestions.innerHTML = (dialog.suggestions || ["任务", "地图", "抓宠"]).map((item) => `
     <button class="ghost-btn" type="button" data-say="${escapeHtml(item)}">${escapeHtml(item)}</button>
-  `).join("");
+  `).join("") + shop;
   els.dialogSuggestions.querySelectorAll("[data-say]").forEach((btn) => {
     btn.addEventListener("click", () => sendDialog(btn.dataset.say));
   });
+  els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
+    btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
+  });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
+}
+
+function renderDialogShop(dialog) {
+  const items = dialog.trade?.items || [];
+  if (!items.length) return "";
+  return `
+    <div class="shop-box">
+      <div><strong>商品</strong><span>${escapeHtml(dialog.trade.source || "ref___data")}</span></div>
+      ${items.slice(0, 8).map((item) => `
+        <button class="shop-item" type="button" data-buy="${item.id}">
+          <span>${escapeHtml(item.name)}</span>
+          <b>${Number(item.price || 0)} 石币</b>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+async function buyItem(itemId) {
+  if (!game?.dialog?.npcId) return;
+  game = await api("/api/game/buy", { game, npcId: game.dialog.npcId, itemId });
+  save();
+  render();
 }
 
 function dialogSpeaker(speaker, dialog) {
@@ -363,7 +390,7 @@ function renderExits(map) {
   els.exitList.innerHTML = map.exits.map((exit) => `
     <button class="list-btn" type="button" data-exit="${exit.to}">
       <strong>${escapeHtml(exit.label)}</strong>
-      <span>${escapeHtml(exit.source)} | (${exit.x}, ${exit.y})</span>
+      <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y})</span>
     </button>
   `).join("") || `<p class="empty">当前地图没有出口。</p>`;
   els.exitList.querySelectorAll("[data-exit]").forEach((btn) => {
@@ -381,7 +408,7 @@ function renderEncounter() {
 }
 
 function renderPets() {
-  els.petList.innerHTML = game.pets.map((pet, index) => `
+  const pets = game.pets.map((pet, index) => `
     <article class="pet-card">
       <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
       <div>
@@ -392,6 +419,18 @@ function renderPets() {
       <button type="button" data-train="${index}">训练</button>
     </article>
   `).join("");
+  const inventory = (game.inventory || []).filter((item) => item.id !== "stone");
+  els.petList.innerHTML = pets + `
+    <article class="inventory-box">
+      <h3>背包</h3>
+      ${inventory.map((item) => `
+        <div class="inventory-item">
+          <strong>${escapeHtml(item.name)}</strong>
+          <span>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))} | ${escapeHtml(item.description || item.source || "")}</span>
+        </div>
+      `).join("") || `<p class="empty">背包还没有道具。</p>`}
+    </article>
+  `;
   els.petList.querySelectorAll("[data-train]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.train) }));
   });
