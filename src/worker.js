@@ -311,16 +311,33 @@ function hasAny(text, tokens) {
 function applyNpcHi(game, npc) {
   ensureFlags(game);
   setEventFlag(game, eventFlagForNpc(npc.id), "now");
+  const line = nextNpcDialogueLine(game, npc);
   if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
       game.quests[npc.questId] = { ...WORLD.quests[npc.questId], status: "进行中", progress: 0 };
       addLog(game, `接到任务「${WORLD.quests[npc.questId].title}」。`);
     } else if (game.quests[npc.questId].status === "可回报") {
       completeQuest(game, npc.questId);
-      return `${npc.dialogue} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
+      return `${line} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
     }
   }
-  return npc.dialogue;
+  return line;
+}
+
+function nextNpcDialogueLine(game, npc) {
+  const lines = npcDialogueLines(npc);
+  if (!lines.length) return `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
+  ensureFlags(game);
+  game.flags.npcTalkCounts ||= {};
+  const count = Number(game.flags.npcTalkCounts[npc.id] || 0);
+  game.flags.npcTalkCounts[npc.id] = count + 1;
+  return lines[count % lines.length];
+}
+
+function npcDialogueLines(npc) {
+  if (Array.isArray(npc.dialogueLines) && npc.dialogueLines.length) return npc.dialogueLines.filter(Boolean);
+  if (!npc.dialogue) return [];
+  return String(npc.dialogue).split(/\n+/).map((item) => item.trim()).filter(Boolean);
 }
 
 function runNpcTalk(game, npc, text) {
@@ -368,7 +385,7 @@ function mapReply(game, npc) {
 }
 
 function fallbackNpcReply(npc) {
-  return npc.dialogue || `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
+  return npcDialogueLines(npc)[0] || `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
 }
 
 function tradeReply(npc) {
@@ -513,6 +530,7 @@ function ensureFlags(game) {
   game.flags.endEvents = normalizeFlagArray(game.flags.endEvents);
   game.flags.nowEvents = normalizeFlagArray(game.flags.nowEvents);
   game.flags.bits ||= {};
+  game.flags.npcTalkCounts ||= {};
 }
 
 function normalizeFlagArray(value) {

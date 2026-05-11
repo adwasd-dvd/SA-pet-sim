@@ -166,7 +166,8 @@ function parseNpcs() {
         x: pos[0],
         y: pos[1],
         type: functionset,
-        dialogue,
+        dialogue: dialogue.text,
+        dialogueLines: dialogue.lines,
         source: relativeRef(file),
         script: argPath || enemy.template,
         template: enemy.template,
@@ -289,7 +290,7 @@ function formatExitBounds(bounds, count) {
 
 function readNpcDialogue(argPath, createFile) {
   const file = resolveNpcArg(argPath, createFile);
-  if (!file) return `脚本入口：${argPath || "未配置脚本参数"}`;
+  if (!file) return { text: `脚本入口：${argPath || "未配置脚本参数"}`, lines: [] };
   const text = readText(file);
   const messages = [];
   for (const raw of text.split(/\r?\n/)) {
@@ -297,12 +298,15 @@ function readNpcDialogue(argPath, createFile) {
     if (!line || line.startsWith("#")) continue;
     const value = line.match(/^(?:message|main_msg|askbattlemsg1|deniedmsg|luck\d+|TALKEVENT\d*)[:=](.*)$/i)?.[1];
     if (!value) continue;
-    const cleaned = value.replace(/\\n/g, " ").replace(/%[0-9]*[a-z]/gi, "").trim();
-    if (cleaned && !messages.includes(cleaned)) messages.push(cleaned);
-    if (messages.length >= 4) break;
+    for (const part of value.split(/(?:\\n|\n|,)/)) {
+      const cleaned = cleanName(part.replace(/%[0-9]*[a-z]/gi, ""));
+      if (cleaned && !messages.includes(cleaned)) messages.push(cleaned);
+      if (messages.length >= 8) break;
+    }
+    if (messages.length >= 8) break;
   }
-  if (messages.length) return messages.join("\n");
-  return `脚本入口：${relativeRef(file)}`;
+  if (messages.length) return { text: messages[0], lines: messages };
+  return { text: `脚本入口：${relativeRef(file)}`, lines: [] };
 }
 
 function readNpcTrade(argPath, createFile) {
