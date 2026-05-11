@@ -441,33 +441,38 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
   const objects = [];
   for (const { x, y } of clientMapDrawOrder(width, height)) {
     const [ground, object] = tileAt(y * width + x);
-    const [screenX, screenY] = isoPoint(x, y, halfW, halfH);
+    const [mapX, mapY] = mapRenderPoint(x, y, width, height);
+    const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     const px = screenX - bounds.minX;
     const py = screenY - bounds.minY;
     drawAtlasTile(ctx, atlas, ground, px, py);
-    if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
+    if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py, depth: mapX + mapY });
   }
+  objects.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
   for (const object of objects) {
     drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
   }
-  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client atlas + offsets`;
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | 45deg iso + client atlas`;
 }
 
 function clientMapDrawOrder(width, height) {
   const cells = [];
-  for (let sum = 0; sum <= width + height - 2; sum += 1) {
-    const minX = Math.max(0, sum - (height - 1));
-    const maxX = Math.min(width - 1, sum);
-    for (let x = minX; x <= maxX; x += 1) {
-      const y = sum - x;
-      cells.push({ x, y });
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const [mapX, mapY] = mapRenderPoint(x, y, width, height);
+      cells.push({ x, y, depth: mapX + mapY });
     }
   }
+  cells.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
   return cells;
 }
 
+function mapRenderPoint(x, y, width, height) {
+  return [x, y];
+}
+
 function isoPoint(x, y, halfW, halfH) {
-  return [-(x + y) * halfH, (x - y) * halfW];
+  return [(x + y) * halfW, (y - x) * halfH];
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
@@ -475,7 +480,8 @@ function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
   for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const [ground, object] = tileAt(y * width + x);
-      const [px, py] = isoPoint(x, y, halfW, halfH);
+      const [mapX, mapY] = mapRenderPoint(x, y, width, height);
+      const [px, py] = isoPoint(mapX, mapY, halfW, halfH);
       includeTileBounds(bounds, atlas.frames?.[ground], px, py);
       if (object > 99) includeTileBounds(bounds, atlas.frames?.[object], px, py);
     }
@@ -501,23 +507,17 @@ function includeTileBounds(bounds, frame, x, y) {
 function drawAtlasTile(ctx, atlas, tileId, x, y) {
   const frame = atlas.frames?.[tileId];
   if (!frame) return;
-  const dx = Math.round(x + frame.xoffset);
-  const dy = Math.round(y + frame.yoffset);
-  ctx.save();
-  ctx.translate(dx, dy + frame.height);
-  ctx.scale(1, -1);
   ctx.drawImage(
     atlas.image,
     frame.x,
     frame.y,
     frame.width,
     frame.height,
-    0,
-    0,
+    Math.round(x + frame.xoffset),
+    Math.round(y + frame.yoffset),
     frame.width,
     frame.height
   );
-  ctx.restore();
 }
 
 async function renderLs2MapBuffer(canvas, buf) {
@@ -608,9 +608,28 @@ function mapLayout(map) {
 function worldPoint(map, x, y) {
   const width = Math.max(1, Number(map.size?.[0]) || 1);
   const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const halfW = 32;
+  const halfH = 24;
+  const [mapX, mapY] = mapRenderPoint(
+    Math.max(0, Math.min(width - 1, Number(x) || 0)),
+    Math.max(0, Math.min(height - 1, Number(y) || 0)),
+    width,
+    height
+  );
+  const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
+  const cornerPoints = [
+    mapRenderPoint(0, 0, width, height),
+    mapRenderPoint(width - 1, 0, width, height),
+    mapRenderPoint(0, height - 1, width, height),
+    mapRenderPoint(width - 1, height - 1, width, height)
+  ].map(([cx, cy]) => isoPoint(cx, cy, halfW, halfH));
+  const minX = Math.min(...cornerPoints.map((point) => point[0]));
+  const maxX = Math.max(...cornerPoints.map((point) => point[0]));
+  const minY = Math.min(...cornerPoints.map((point) => point[1]));
+  const maxY = Math.max(...cornerPoints.map((point) => point[1]));
   return [
-    Math.max(5, Math.min(95, (Number(x) || 0) / width * 100)),
-    Math.max(8, Math.min(92, (Number(y) || 0) / height * 100))
+    Math.max(5, Math.min(95, ((screenX - minX) / Math.max(1, maxX - minX)) * 100)),
+    Math.max(8, Math.min(92, ((screenY - minY) / Math.max(1, maxY - minY)) * 100))
   ];
 }
 

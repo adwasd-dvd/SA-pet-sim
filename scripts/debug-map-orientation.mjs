@@ -5,21 +5,37 @@ import zlib from "node:zlib";
 const projectRoot = process.cwd();
 const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
 const floor = String(process.argv[2] || "2000");
+const outRoot = path.join(projectRoot, "public/debug/orientation", floor);
 const mapPath = path.join(projectRoot, "public/data/maps", `${floor}.ls2map`);
-const clientMapPath = path.join(clientRoot, "map", `${floor}.dat`);
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
 const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
-const outPath = path.join(projectRoot, "public/debug", `map-${floor}.png`);
 
 const RECORD_SIZE = 80;
 const COLOR_KEY = 0;
 const HALF_W = 32;
-const HALF_H = Number(process.env.HALF_H || 24);
+const HALF_H = 24;
+
+const transforms = {
+  identity: (x, y, w, h) => [x, y],
+  flipX: (x, y, w, h) => [w - 1 - x, y],
+  flipY: (x, y, w, h) => [x, h - 1 - y],
+  flipXY: (x, y, w, h) => [w - 1 - x, h - 1 - y],
+  swap: (x, y, w, h) => [y, x],
+  rot90cw: (x, y, w, h) => [y, w - 1 - x],
+  rot90ccw: (x, y, w, h) => [h - 1 - y, x],
+  antiSwap: (x, y, w, h) => [w - 1 - y, h - 1 - x]
+};
+
+const projections = {
+  yMinusX: (x, y) => [(y - x) * HALF_W, (x + y) * HALF_H],
+  xMinusY: (x, y) => [(x - y) * HALF_W, (x + y) * HALF_H],
+  client: (x, y) => [(x + y) * HALF_W, (y - x) * HALF_H]
+};
 
 function main() {
-  fs.mkdirSync(path.dirname(outPath), { recursive: true });
-  const map = fs.existsSync(mapPath) ? readMap(mapPath) : readMap(clientMapPath);
+  fs.mkdirSync(outRoot, { recursive: true });
+  const map = readMap(mapPath);
   const palette = readPalette(palettePath);
   const records = readAdrnRecords(adrnPath);
   const realFd = fs.openSync(realPath, "r");
@@ -28,105 +44,82 @@ function main() {
     if (!tileId || tileId <= 99) return null;
     if (cache.has(tileId)) return cache.get(tileId);
     const record = records.get(tileId);
-    if (!record) {
-      cache.set(tileId, null);
-      return null;
-    }
+    if (!record) return cache.set(tileId, null).get(tileId);
     const decoded = decodeRecord(realFd, record);
-    if (!decoded) {
-      cache.set(tileId, null);
-      return null;
-    }
+    if (!decoded) return cache.set(tileId, null).get(tileId);
     const image = { ...record, ...decoded, rgba: indexedImageToRgba(decoded, palette) };
     cache.set(tileId, image);
     return image;
   };
 
   try {
-    const bounds = measureBounds(map, getImage);
-    const canvas = {
-      width: Math.ceil(bounds.maxX - bounds.minX),
-      height: Math.ceil(bounds.maxY - bounds.minY),
-      rgba: Buffer.alloc(Math.ceil(bounds.maxX - bounds.minX) * Math.ceil(bounds.maxY - bounds.minY) * 4)
-    };
-
-    const objects = [];
-    for (const { x, y } of clientMapDrawOrder(map.width, map.height)) {
-      const cell = map.cells[y * map.width + x];
-      const [mapX, mapY] = mapRenderPoint(x, y, map.width, map.height);
-      const [screenX, screenY] = isoPoint(mapX, mapY);
-      const px = screenX - bounds.minX;
-      const py = screenY - bounds.minY;
-      blitImage(canvas, getImage(cell.tile), px, py);
-      if (getImage(cell.parts)) objects.push({ tileId: cell.parts, x: px, y: py, depth: mapX + mapY });
+    const outputs = [];
+    for (const [transformName, transform] of Object.entries(transforms)) {
+      for (const [projectionName, project] of Object.entries(projections)) {
+        const output = renderVariant(map, getImage, transform, project);
+        const file = path.join(outRoot, `${transformName}-${projectionName}.png`);
+        fs.writeFileSync(file, encodePng(output.width, output.height, output.rgba));
+        outputs.push(path.relative(projectRoot, file));
+      }
     }
-    objects.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
-    for (const object of objects) blitImage(canvas, getImage(object.tileId), object.x, object.y);
-    fs.writeFileSync(outPath, encodePng(canvas.width, canvas.height, canvas.rgba));
-    console.log(JSON.stringify({
-      floor,
-      size: `${map.width}x${map.height}`,
-      output: path.relative(projectRoot, outPath),
-      outputSize: `${canvas.width}x${canvas.height}`,
-      sprites: cache.size
-    }));
+    console.log(JSON.stringify({ floor, outputs, sprites: cache.size }, null, 2));
   } finally {
     fs.closeSync(realFd);
   }
 }
 
-function readMap(file) {
-  const buf = fs.readFileSync(file);
-  if (buf.length >= 44 && buf.toString("ascii", 0, 6) === "LS2MAP") return readLs2Map(buf, file);
-  return readClientMap(buf, file);
+function renderVariant(map, getImage, transform, project) {
+  const bounds = measureBounds(map, getImage, transform, project);
+  const width = Math.ceil(bounds.maxX - bounds.minX);
+  const height = Math.ceil(bounds.maxY - bounds.minY);
+  const canvas = { width, height, rgba: Buffer.alloc(width * height * 4) };
+  const cells = [];
+  const objects = [];
+  for (let y = 0; y < map.height; y += 1) {
+    for (let x = 0; x < map.width; x += 1) {
+      const [tx, ty] = transform(x, y, map.width, map.height);
+      const [screenX, screenY] = project(tx, ty);
+      cells.push({ x, y, px: screenX - bounds.minX, py: screenY - bounds.minY, depth: tx + ty });
+    }
+  }
+  cells.sort((a, b) => a.depth - b.depth || a.py - b.py || a.px - b.px);
+  for (const cellPos of cells) {
+    const cell = map.cells[cellPos.y * map.width + cellPos.x];
+    blitImage(canvas, getImage(cell.tile), cellPos.px, cellPos.py);
+    if (getImage(cell.parts)) objects.push({ tileId: cell.parts, x: cellPos.px, y: cellPos.py, depth: cellPos.depth });
+  }
+  objects.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
+  for (const object of objects) blitImage(canvas, getImage(object.tileId), object.x, object.y);
+  return canvas;
 }
 
-function readLs2Map(buf, file) {
+function readMap(file) {
+  const buf = fs.readFileSync(file);
   const width = buf.readUInt16BE(40);
   const height = buf.readUInt16BE(42);
   const cellCount = width * height;
   const layerSize = cellCount * 2;
   const expected = 44 + layerSize * 2;
-  if (!width || !height || buf.length < expected) throw new Error(`invalid LS2MAP data: ${file}`);
+  if (!width || !height || buf.length < expected || buf.toString("ascii", 0, 6) !== "LS2MAP") {
+    throw new Error(`invalid LS2MAP data: ${file}`);
+  }
   const cells = [];
   for (let i = 0; i < cellCount; i += 1) {
     cells.push({
       tile: buf.readUInt16BE(44 + i * 2),
-      parts: buf.readUInt16BE(44 + layerSize + i * 2),
-      event: 0
+      parts: buf.readUInt16BE(44 + layerSize + i * 2)
     });
   }
   return { width, height, cells };
 }
 
-function readClientMap(buf, file) {
-  const width = buf.readUInt32LE(0);
-  const height = buf.readUInt32LE(4);
-  const cellCount = width * height;
-  const layerSize = cellCount * 2;
-  const expected = 8 + layerSize * 3;
-  if (!width || !height || buf.length < expected) throw new Error(`invalid map data: ${file}`);
-  const cells = [];
-  for (let i = 0; i < cellCount; i += 1) {
-    const tileOffset = 8 + i * 2;
-    const partsOffset = 8 + layerSize + i * 2;
-    const eventOffset = 8 + layerSize * 2 + i * 2;
-    cells.push({
-      tile: buf.readUInt16LE(tileOffset),
-      parts: buf.readUInt16LE(partsOffset),
-      event: buf.readUInt16LE(eventOffset)
-    });
-  }
-  return { width, height, cells };
-}
-
-function measureBounds(map, getImage) {
+function measureBounds(map, getImage, transform, project) {
   const bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
   for (let y = 0; y < map.height; y += 1) {
     for (let x = 0; x < map.width; x += 1) {
       const cell = map.cells[y * map.width + x];
-      const [mapX, mapY] = mapRenderPoint(x, y, map.width, map.height);
-      const [px, py] = isoPoint(mapX, mapY);
+      const [tx, ty] = transform(x, y, map.width, map.height);
+      const [px, py] = project(tx, ty);
       include(bounds, getImage(cell.tile), px, py);
       include(bounds, getImage(cell.parts), px, py);
     }
@@ -146,26 +139,6 @@ function include(bounds, image, x, y) {
   bounds.minY = Math.min(bounds.minY, top);
   bounds.maxX = Math.max(bounds.maxX, left + image.width);
   bounds.maxY = Math.max(bounds.maxY, top + image.height);
-}
-
-function clientMapDrawOrder(width, height) {
-  const cells = [];
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      const [mapX, mapY] = mapRenderPoint(x, y, width, height);
-      cells.push({ x, y, depth: mapX + mapY });
-    }
-  }
-  cells.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
-  return cells;
-}
-
-function mapRenderPoint(x, y, width, height) {
-  return [x, y];
-}
-
-function isoPoint(x, y) {
-  return [(x + y) * HALF_W, (y - x) * HALF_H];
 }
 
 function blitImage(canvas, image, x, y) {
