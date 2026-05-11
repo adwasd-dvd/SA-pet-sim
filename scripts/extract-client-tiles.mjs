@@ -11,9 +11,7 @@ const realPath = path.join(clientRoot, "data/real_136.bin");
 const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
 
 const RECORD_SIZE = 80;
-const TILE_W = 32;
-const TILE_H = 24;
-const ATLAS_COLS = 64;
+const ATLAS_W = 4096;
 const COLOR_KEY = 0;
 
 function main() {
@@ -35,10 +33,14 @@ function main() {
       if (!record) continue;
       const decoded = decodeRecord(realFd, record);
       if (!decoded) continue;
-      const image = scaleIndexedImage(decoded, palette, TILE_W, TILE_H);
+      const image = indexedImageToRgba(decoded, palette);
       entries.push({
         tileId,
         image,
+        width: decoded.width,
+        height: decoded.height,
+        xoffset: record.xoffset,
+        yoffset: record.yoffset,
         color: averageColor(image)
       });
     }
@@ -52,11 +54,10 @@ function main() {
   fs.writeFileSync(atlasPath, encodePng(atlas.width, atlas.height, atlas.rgba));
   fs.writeFileSync(manifestPath, `${JSON.stringify({
     image: "/data/client-tiles/tiles-atlas.png",
-    tileWidth: TILE_W,
-    tileHeight: TILE_H,
-    columns: ATLAS_COLS,
+    atlasWidth: atlas.width,
+    atlasHeight: atlas.height,
     count: entries.length,
-    tiles: Object.fromEntries(entries.map((entry, index) => [entry.tileId, index])),
+    frames: Object.fromEntries(atlas.frames.map((frame) => [frame.tileId, frame])),
     colors: Object.fromEntries(entries.map((entry) => [entry.tileId, entry.color]))
   })}\n`);
   console.log(`wrote ${entries.length} real client tile sprites to ${path.relative(projectRoot, atlasPath)}`);
@@ -117,8 +118,10 @@ function readAdrnRecords(file) {
     const size = data.readUInt32LE(offset + 8);
     const width = data.readUInt32LE(offset + 20);
     const height = data.readUInt32LE(offset + 24);
+    const xoffset = data.readInt32LE(offset + 12);
+    const yoffset = data.readInt32LE(offset + 16);
     if (!bitmapNo || !size || !width || !height) continue;
-    if (!records.has(bitmapNo)) records.set(bitmapNo, { bitmapNo, adder, size, width, height });
+    if (!records.has(bitmapNo)) records.set(bitmapNo, { bitmapNo, adder, size, width, height, xoffset, yoffset });
   }
   return records;
 }
@@ -170,14 +173,12 @@ function unpackRle(data, out) {
   }
 }
 
-function scaleIndexedImage(image, palette, width, height) {
-  const rgba = Buffer.alloc(width * height * 4);
-  for (let y = 0; y < height; y += 1) {
-    const sy = Math.min(image.height - 1, Math.floor((y / height) * image.height));
-    for (let x = 0; x < width; x += 1) {
-      const sx = Math.min(image.width - 1, Math.floor((x / width) * image.width));
-      const color = palette[image.pixels[sy * image.width + sx]];
-      const out = (y * width + x) * 4;
+function indexedImageToRgba(image, palette) {
+  const rgba = Buffer.alloc(image.width * image.height * 4);
+  for (let y = 0; y < image.height; y += 1) {
+    for (let x = 0; x < image.width; x += 1) {
+      const color = palette[image.pixels[y * image.width + x]];
+      const out = (y * image.width + x) * 4;
       rgba[out] = color[0];
       rgba[out + 1] = color[1];
       rgba[out + 2] = color[2];
@@ -188,16 +189,36 @@ function scaleIndexedImage(image, palette, width, height) {
 }
 
 function buildAtlas(entries) {
-  const rows = Math.max(1, Math.ceil(entries.length / ATLAS_COLS));
-  const width = ATLAS_COLS * TILE_W;
-  const height = rows * TILE_H;
+  let x = 0;
+  let y = 0;
+  let rowH = 0;
+  const frames = [];
+  for (const entry of entries) {
+    if (x > 0 && x + entry.width > ATLAS_W) {
+      x = 0;
+      y += rowH;
+      rowH = 0;
+    }
+    frames.push({
+      tileId: entry.tileId,
+      x,
+      y,
+      width: entry.width,
+      height: entry.height,
+      xoffset: entry.xoffset,
+      yoffset: entry.yoffset
+    });
+    x += entry.width;
+    rowH = Math.max(rowH, entry.height);
+  }
+  const width = ATLAS_W;
+  const height = Math.max(1, y + rowH);
   const rgba = Buffer.alloc(width * height * 4);
   for (let i = 0; i < entries.length; i += 1) {
-    const col = i % ATLAS_COLS;
-    const row = Math.floor(i / ATLAS_COLS);
-    blit(entries[i].image, TILE_W, TILE_H, rgba, width, col * TILE_W, row * TILE_H);
+    const frame = frames[i];
+    blit(entries[i].image, entries[i].width, entries[i].height, rgba, width, frame.x, frame.y);
   }
-  return { width, height, rgba };
+  return { width, height, rgba, frames };
 }
 
 function averageColor(rgba) {

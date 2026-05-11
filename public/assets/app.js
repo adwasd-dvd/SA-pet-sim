@@ -426,15 +426,11 @@ async function loadTileAtlas() {
 }
 
 function drawRealTileMap(canvas, width, height, tileAt, atlas) {
-  const max = Math.max(width, height);
-  const tileW = max <= 180 ? atlas.tileWidth : max <= 420 ? Math.floor(atlas.tileWidth / 2) : Math.floor(atlas.tileWidth / 4);
-  const tileH = max <= 180 ? atlas.tileHeight : max <= 420 ? Math.floor(atlas.tileHeight / 2) : Math.floor(atlas.tileHeight / 4);
-  const halfW = tileW / 2;
-  const halfH = tileH / 2;
-  canvas.width = Math.ceil((width + height) * halfW + tileW);
-  canvas.height = Math.ceil((width + height) * halfH + tileH);
-  const originX = halfW;
-  const originY = (width - 1) * halfH + halfH;
+  const halfW = 32;
+  const halfH = 24;
+  const bounds = mapPixelBounds(width, height, tileAt, atlas, halfW, halfH);
+  canvas.width = Math.max(1, Math.ceil(bounds.maxX - bounds.minX));
+  canvas.height = Math.max(1, Math.ceil(bounds.maxY - bounds.minY));
   const ctx = canvas.getContext("2d", { alpha: true });
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -444,21 +440,58 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
     for (let x = startX; x <= endX; x += 1) {
       const y = diagonal - x;
       const [ground, object] = tileAt(y * width + x);
-      const px = Math.round(originX + (x + y) * halfW);
-      const py = Math.round(originY + (y - x) * halfH);
-      drawAtlasTile(ctx, atlas, ground, px, py, tileW, tileH);
-      drawAtlasTile(ctx, atlas, object, px, py, tileW, tileH);
+      const px = (x + y) * halfW - bounds.minX;
+      const py = (y - x) * halfH - bounds.minY;
+      drawAtlasTile(ctx, atlas, ground, px, py);
+      drawAtlasTile(ctx, atlas, object, px, py);
     }
   }
-  els.mapCanvas.dataset.mapSize = `${width} x ${height} | isometric client tiles`;
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client atlas + offsets`;
 }
 
-function drawAtlasTile(ctx, atlas, tileId, x, y, width, height) {
-  const index = atlas.tiles?.[tileId];
-  if (index === undefined) return;
-  const sx = (index % atlas.columns) * atlas.tileWidth;
-  const sy = Math.floor(index / atlas.columns) * atlas.tileHeight;
-  ctx.drawImage(atlas.image, sx, sy, atlas.tileWidth, atlas.tileHeight, x, y, width, height);
+function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
+  const bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const [ground, object] = tileAt(y * width + x);
+      const px = (x + y) * halfW;
+      const py = (y - x) * halfH;
+      includeTileBounds(bounds, atlas.frames?.[ground], px, py);
+      includeTileBounds(bounds, atlas.frames?.[object], px, py);
+    }
+  }
+  if (!Number.isFinite(bounds.minX)) return { minX: 0, minY: 0, maxX: width * 64, maxY: height * 48 };
+  bounds.minX -= 8;
+  bounds.minY -= 8;
+  bounds.maxX += 8;
+  bounds.maxY += 8;
+  return bounds;
+}
+
+function includeTileBounds(bounds, frame, x, y) {
+  if (!frame) return;
+  const left = x + frame.xoffset;
+  const top = y + frame.yoffset;
+  bounds.minX = Math.min(bounds.minX, left);
+  bounds.minY = Math.min(bounds.minY, top);
+  bounds.maxX = Math.max(bounds.maxX, left + frame.width);
+  bounds.maxY = Math.max(bounds.maxY, top + frame.height);
+}
+
+function drawAtlasTile(ctx, atlas, tileId, x, y) {
+  const frame = atlas.frames?.[tileId];
+  if (!frame) return;
+  ctx.drawImage(
+    atlas.image,
+    frame.x,
+    frame.y,
+    frame.width,
+    frame.height,
+    Math.round(x + frame.xoffset),
+    Math.round(y + frame.yoffset),
+    frame.width,
+    frame.height
+  );
 }
 
 function renderLs2MapBuffer(canvas, buf) {
