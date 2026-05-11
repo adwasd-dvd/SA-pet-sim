@@ -63,6 +63,12 @@ main {
   margin: 18px auto 48px;
 }
 
+main:has(.game:not([hidden])) {
+  width: min(1480px, calc(100% - 18px));
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
 .topbar {
   position: sticky;
   top: 0;
@@ -198,25 +204,49 @@ h3 {
 
 .game {
   display: grid;
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  grid-template-areas:
+    "hud hud"
+    "world tabs";
+  gap: 10px;
+  min-height: calc(100vh - 94px);
 }
 
 .hud {
+  grid-area: hud;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding: 20px;
+  min-height: 72px;
+  padding: 12px 16px;
+}
+
+.hud h1 {
+  margin-bottom: 4px;
+  font-size: clamp(22px, 3vw, 34px);
+}
+
+.hud .eyebrow,
+.map-head .eyebrow,
+.dialog-head .eyebrow,
+.encounter-panel .eyebrow {
+  margin-bottom: 4px;
 }
 
 .world-grid {
+  grid-area: world;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 10px;
+  min-height: 0;
 }
 
 .map-panel {
-  padding: 18px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: calc(100vh - 176px);
+  padding: 12px;
 }
 
 .map-head {
@@ -227,7 +257,7 @@ h3 {
 }
 
 .map-head button {
-  min-width: 104px;
+  min-width: 96px;
 }
 
 .map-actions {
@@ -273,9 +303,9 @@ h3 {
 
 .map-canvas {
   position: relative;
-  height: clamp(420px, 54vh, 620px);
-  min-height: 420px;
-  margin-top: 16px;
+  height: 100%;
+  min-height: 560px;
+  margin-top: 10px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -499,6 +529,8 @@ h3 {
 .side-panel {
   display: grid;
   align-content: start;
+  max-height: calc(100vh - 176px);
+  overflow: auto;
   gap: 18px;
   padding: 16px;
 }
@@ -525,6 +557,11 @@ h3 {
 }
 
 .encounter-panel {
+  position: fixed;
+  right: 16px;
+  top: 92px;
+  z-index: 30;
+  width: min(420px, calc(100vw - 32px));
   display: grid;
   grid-template-columns: minmax(0, 1fr) 120px auto;
   align-items: center;
@@ -539,9 +576,16 @@ h3 {
 }
 
 .dialog-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  z-index: 35;
   display: grid;
   gap: 12px;
+  width: min(800px, calc(100vw - 32px));
+  max-height: min(520px, calc(100vh - 128px));
   padding: 16px;
+  transform: translateX(-50%);
 }
 
 .dialog-head {
@@ -559,7 +603,7 @@ h3 {
 .dialog-messages {
   display: grid;
   gap: 10px;
-  max-height: 320px;
+  max-height: min(280px, 34vh);
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -660,7 +704,14 @@ h3 {
 }
 
 .tabs {
-  margin-top: 2px;
+  grid-area: tabs;
+  position: sticky;
+  top: 76px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-self: start;
+  max-height: calc(100vh - 100px);
+  margin-top: 0;
 }
 
 .tab-list {
@@ -688,6 +739,9 @@ h3 {
 .tab-panel {
   display: none;
   margin-top: -1px;
+  min-height: 0;
+  max-height: calc(100vh - 154px);
+  overflow: auto;
   padding: 18px;
   border-top-left-radius: 0;
 }
@@ -825,9 +879,17 @@ mark {
 
 @media (max-width: 860px) {
   .creator,
+  .game,
   .world-grid,
   .encounter-panel {
     grid-template-columns: 1fr;
+  }
+
+  .game {
+    grid-template-areas:
+      "hud"
+      "world"
+      "tabs";
   }
 
   .hud,
@@ -840,6 +902,29 @@ mark {
   .map-canvas {
     height: 360px;
     min-height: 360px;
+  }
+
+  .map-panel,
+  .side-panel,
+  .tabs,
+  .tab-panel {
+    max-height: none;
+  }
+
+  .map-panel {
+    min-height: 0;
+  }
+
+  .tabs {
+    position: static;
+  }
+
+  .dialog-panel,
+  .encounter-panel {
+    position: static;
+    width: auto;
+    max-height: none;
+    transform: none;
   }
 
   .pet-card {

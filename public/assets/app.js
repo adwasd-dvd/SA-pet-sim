@@ -136,6 +136,8 @@ function bindEvents() {
   els.mapCanvas.addEventListener("pointermove", onMapPointerMove);
   els.mapCanvas.addEventListener("pointerup", onMapPointerUp);
   els.mapCanvas.addEventListener("pointercancel", onMapPointerUp);
+  els.mapCanvas.addEventListener("click", onMapCanvasClick);
+  els.npcList.addEventListener("click", onNpcListClick);
   window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
     showTab("ai");
@@ -232,16 +234,19 @@ function renderMap(map) {
   renderLs2Map(map).catch(() => {
     els.mapCanvas.classList.add("map-fallback");
   });
-  els.mapCanvas.querySelectorAll("[data-npc]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (!mapView.moved) openDialog(btn.dataset.npc);
-    });
-  });
-  els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (!mapView.moved) mutate("/api/game/travel", { to: btn.dataset.exit });
-    });
-  });
+}
+
+function onMapCanvasClick(event) {
+  if (mapView.moved) return;
+  const npcBtn = event.target.closest("[data-npc]");
+  if (npcBtn && els.mapCanvas.contains(npcBtn)) {
+    openDialog(npcBtn.dataset.npc);
+    return;
+  }
+  const exitBtn = event.target.closest("[data-exit]");
+  if (exitBtn && els.mapCanvas.contains(exitBtn)) {
+    mutate("/api/game/travel", { to: exitBtn.dataset.exit });
+  }
 }
 
 function zoomMap(value, anchor = null) {
@@ -324,19 +329,23 @@ function onGameKeyDown(event) {
   const tag = event.target?.tagName?.toLowerCase();
   if (tag === "input" || tag === "textarea" || tag === "select" || event.target?.isContentEditable) return;
   const key = event.key.toLowerCase();
-  const direction = {
-    w: [0, -1],
-    arrowup: [0, -1],
-    s: [0, 1],
-    arrowdown: [0, 1],
-    a: [-1, 0],
-    arrowleft: [-1, 0],
-    d: [1, 0],
-    arrowright: [1, 0]
-  }[key];
+  const direction = screenDirectionForKey(key);
   if (!direction) return;
   event.preventDefault();
   walkPlayer(direction[0], direction[1]);
+}
+
+function screenDirectionForKey(key) {
+  return {
+    w: [1, -1],
+    arrowup: [1, -1],
+    s: [-1, 1],
+    arrowdown: [-1, 1],
+    a: [-1, -1],
+    arrowleft: [-1, -1],
+    d: [1, 1],
+    arrowright: [1, 1]
+  }[key];
 }
 
 async function walkPlayer(dx, dy) {
@@ -723,9 +732,11 @@ function renderNpc(map) {
       <span>${escapeHtml(npc.type)}${npc.trade ? " | 可交易" : ""} | (${npc.x}, ${npc.y})</span>
     </button>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
-  els.npcList.querySelectorAll("[data-npc]").forEach((btn) => {
-    btn.addEventListener("click", () => openDialog(btn.dataset.npc));
-  });
+}
+
+function onNpcListClick(event) {
+  const btn = event.target.closest("[data-npc]");
+  if (btn && els.npcList.contains(btn)) openDialog(btn.dataset.npc);
 }
 
 async function openDialog(npcId) {
