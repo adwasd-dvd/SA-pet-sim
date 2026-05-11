@@ -281,6 +281,7 @@ h3 {
     radial-gradient(circle at 22% 30%, rgb(255 255 255 / 28%) 0 9%, transparent 10%),
     radial-gradient(circle at 76% 78%, rgb(36 68 59 / 18%) 0 13%, transparent 14%),
     linear-gradient(135deg, #8eaa72 0%, #c8ba78 52%, #7d9b6a 100%);
+  --marker-scale: 1;
 }
 
 .map-canvas.dragging {
@@ -376,6 +377,8 @@ h3 {
   color: #fff;
   white-space: nowrap;
   cursor: pointer;
+  transform: scale(var(--marker-scale));
+  transform-origin: center;
 }
 
 .map-marker b {

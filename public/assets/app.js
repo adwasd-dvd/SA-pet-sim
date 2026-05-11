@@ -246,9 +246,11 @@ function resetMapView() {
 
 function applyMapView() {
   const content = els.mapCanvas.querySelector(".map-content");
+  const markerScale = Number((1 / mapView.zoom).toFixed(4));
   if (content) {
     content.style.transform = `translate(${Math.round(mapView.panX)}px, ${Math.round(mapView.panY)}px) scale(${mapView.zoom})`;
   }
+  els.mapCanvas.style.setProperty("--marker-scale", markerScale);
   els.mapZoomValue.textContent = `${Math.round(mapView.zoom * 100)}%`;
   els.mapZoomOut.disabled = mapView.zoom <= MAP_ZOOM_MIN;
   els.mapZoomIn.disabled = mapView.zoom >= MAP_ZOOM_MAX;
