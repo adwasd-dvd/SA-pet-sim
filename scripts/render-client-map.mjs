@@ -159,7 +159,7 @@ function clientMapDrawOrder(width, height) {
 }
 
 function isoPoint(x, y) {
-  return [(x - y) * HALF_W, (x + y) * HALF_H];
+  return [-(x + y) * HALF_H, (x - y) * HALF_W];
 }
 
 function blitImage(canvas, image, x, y) {

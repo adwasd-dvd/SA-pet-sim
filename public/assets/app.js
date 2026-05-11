@@ -467,7 +467,7 @@ function clientMapDrawOrder(width, height) {
 }
 
 function isoPoint(x, y, halfW, halfH) {
-  return [(x - y) * halfW, (x + y) * halfH];
+  return [-(x + y) * halfH, (x - y) * halfW];
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
