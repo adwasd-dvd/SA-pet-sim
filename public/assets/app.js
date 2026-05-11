@@ -136,13 +136,19 @@ function render() {
 }
 
 function renderMap(map) {
-  const [w, h] = map.size;
-  els.mapCanvas.style.setProperty("--cols", w);
-  els.mapCanvas.style.setProperty("--rows", h);
+  const layout = mapLayout(map);
   const markers = [
-    `<button class="tile player" style="${pos(game.location.x, game.location.y, w, h)}" title="${escapeHtml(game.player.name)}">人</button>`,
-    ...map.npcs.map((npc) => `<button class="tile npc" style="${pos(npc.x, npc.y, w, h)}" data-npc="${npc.id}" title="${escapeHtml(npc.name)}">${escapeHtml(npc.name.slice(0, 1))}</button>`),
-    ...map.exits.map((exit) => `<button class="tile exit" style="${pos(exit.x, exit.y, w, h)}" data-exit="${exit.to}" title="${escapeHtml(exit.label)}">出</button>`)
+    `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
+    `<div class="map-region wild"><strong>野外</strong><span>点击「野外遇敌」寻找宠物</span></div>`,
+    `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}"><b>你</b><span>${escapeHtml(game.player.name)}</span></button>`,
+    ...map.npcs.map((npc, index) => {
+      const point = layout.npcs[index % layout.npcs.length];
+      return `<button class="map-marker npc" style="${mapPos(point)}" data-npc="${npc.id}" title="${escapeHtml(npc.name)}"><b>${escapeHtml(npc.name.slice(0, 1))}</b><span>${escapeHtml(npc.name)}</span></button>`;
+    }),
+    ...map.exits.map((exit, index) => {
+      const point = layout.exits[index % layout.exits.length];
+      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.to}" title="${escapeHtml(exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
+    })
   ];
   els.mapCanvas.innerHTML = markers.join("");
   els.mapCanvas.querySelectorAll("[data-npc]").forEach((btn) => {
@@ -151,6 +157,39 @@ function renderMap(map) {
   els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
   });
+}
+
+function mapLayout(map) {
+  const byMap = {
+    samgill: {
+      primary: "村子中心",
+      primaryHint: "村长、训练师和向导都在这里",
+      player: [22, 56],
+      npcs: [[44, 34], [58, 55], [36, 70]],
+      exits: [[86, 55]]
+    },
+    plain: {
+      primary: "草原营地",
+      primaryHint: "适合低等级练级和抓宠",
+      player: [18, 56],
+      npcs: [[42, 42], [62, 68]],
+      exits: [[8, 56], [88, 62]]
+    },
+    forest: {
+      primary: "森林路口",
+      primaryHint: "更危险，也有新的委托",
+      player: [20, 60],
+      npcs: [[48, 42], [68, 64]],
+      exits: [[8, 60]]
+    }
+  };
+  return byMap[map.id] || {
+    primary: map.name,
+    primaryHint: map.summary,
+    player: [20, 56],
+    npcs: [[45, 42], [58, 62], [38, 72]],
+    exits: [[86, 55]]
+  };
 }
 
 function renderNpc(map) {
@@ -275,8 +314,8 @@ function updateNetState() {
   els.netState.classList.toggle("offline", !navigator.onLine);
 }
 
-function pos(x, y, w, h) {
-  return `left:${(x / Math.max(1, w - 1)) * 100}%;top:${(y / Math.max(1, h - 1)) * 100}%`;
+function mapPos(point) {
+  return `left:${point[0]}%;top:${point[1]}%`;
 }
 
 function highlight(text, q) {
