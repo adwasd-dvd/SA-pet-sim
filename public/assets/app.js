@@ -441,8 +441,9 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
   const objects = [];
   for (const { x, y } of clientMapDrawOrder(width, height)) {
     const [ground, object] = tileAt(y * width + x);
-    const px = (x + y) * halfW - bounds.minX;
-    const py = (y - x) * halfH - bounds.minY;
+    const [screenX, screenY] = isoPoint(x, y, halfW, halfH);
+    const px = screenX - bounds.minX;
+    const py = screenY - bounds.minY;
     drawAtlasTile(ctx, atlas, ground, px, py);
     if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
   }
@@ -454,20 +455,19 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
 
 function clientMapDrawOrder(width, height) {
   const cells = [];
-  let ti = height - 1;
-  let tj = 0;
-  while (ti >= 0) {
-    let y = ti;
-    let x = tj;
-    while (y >= 0 && x >= 0) {
+  for (let sum = 0; sum <= width + height - 2; sum += 1) {
+    const minX = Math.max(0, sum - (height - 1));
+    const maxX = Math.min(width - 1, sum);
+    for (let x = minX; x <= maxX; x += 1) {
+      const y = sum - x;
       cells.push({ x, y });
-      y -= 1;
-      x -= 1;
     }
-    if (tj < width - 1) tj += 1;
-    else ti -= 1;
   }
   return cells;
+}
+
+function isoPoint(x, y, halfW, halfH) {
+  return [(y - x) * halfW, (x + y) * halfH];
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
@@ -475,8 +475,7 @@ function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
   for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const [ground, object] = tileAt(y * width + x);
-      const px = (x + y) * halfW;
-      const py = (y - x) * halfH;
+      const [px, py] = isoPoint(x, y, halfW, halfH);
       includeTileBounds(bounds, atlas.frames?.[ground], px, py);
       if (object > 99) includeTileBounds(bounds, atlas.frames?.[object], px, py);
     }

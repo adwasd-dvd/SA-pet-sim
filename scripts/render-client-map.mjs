@@ -53,8 +53,9 @@ function main() {
     const objects = [];
     for (const { x, y } of clientMapDrawOrder(map.width, map.height)) {
       const cell = map.cells[y * map.width + x];
-      const px = (x + y) * HALF_W - bounds.minX;
-      const py = (y - x) * HALF_H - bounds.minY;
+      const [screenX, screenY] = isoPoint(x, y);
+      const px = screenX - bounds.minX;
+      const py = screenY - bounds.minY;
       blitImage(canvas, getImage(cell.tile), px, py);
       if (getImage(cell.parts)) objects.push({ tileId: cell.parts, x: px, y: py });
     }
@@ -122,8 +123,7 @@ function measureBounds(map, getImage) {
   for (let y = 0; y < map.height; y += 1) {
     for (let x = 0; x < map.width; x += 1) {
       const cell = map.cells[y * map.width + x];
-      const px = (x + y) * HALF_W;
-      const py = (y - x) * HALF_H;
+      const [px, py] = isoPoint(x, y);
       include(bounds, getImage(cell.tile), px, py);
       include(bounds, getImage(cell.parts), px, py);
     }
@@ -147,20 +147,19 @@ function include(bounds, image, x, y) {
 
 function clientMapDrawOrder(width, height) {
   const cells = [];
-  let ti = height - 1;
-  let tj = 0;
-  while (ti >= 0) {
-    let y = ti;
-    let x = tj;
-    while (y >= 0 && x >= 0) {
+  for (let sum = 0; sum <= width + height - 2; sum += 1) {
+    const minX = Math.max(0, sum - (height - 1));
+    const maxX = Math.min(width - 1, sum);
+    for (let x = minX; x <= maxX; x += 1) {
+      const y = sum - x;
       cells.push({ x, y });
-      y -= 1;
-      x -= 1;
     }
-    if (tj < width - 1) tj += 1;
-    else ti -= 1;
   }
   return cells;
+}
+
+function isoPoint(x, y) {
+  return [(y - x) * HALF_W, (x + y) * HALF_H];
 }
 
 function blitImage(canvas, image, x, y) {

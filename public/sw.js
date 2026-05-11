@@ -1,4 +1,4 @@
-const CACHE = "sa-pet-sim-v22";
+const CACHE = "sa-pet-sim-v23";
 const SHELL = [
   "/",
   "/index.html",
