@@ -1,10 +1,10 @@
-const CACHE = "sa-pet-sim-v18";
+const CACHE = "sa-pet-sim-v19";
 const SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/assets/app.css?v=18",
-  "/assets/app.js?v=18",
+  "/assets/app.css?v=19",
+  "/assets/app.js?v=19",
   "/data/client-tiles/tiles.json",
   "/data/client-tiles/tiles-atlas.png",
   "/f/logo.gif",

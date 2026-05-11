@@ -427,41 +427,38 @@ async function loadTileAtlas() {
 
 function drawRealTileMap(canvas, width, height, tileAt, atlas) {
   const max = Math.max(width, height);
-  const tilePx = max <= 180 ? 6 : max <= 420 ? 3 : 2;
-  canvas.width = width * tilePx;
-  canvas.height = height * tilePx;
-  const ctx = canvas.getContext("2d", { alpha: false });
+  const tileW = max <= 180 ? atlas.tileWidth : max <= 420 ? Math.floor(atlas.tileWidth / 2) : Math.floor(atlas.tileWidth / 4);
+  const tileH = max <= 180 ? atlas.tileHeight : max <= 420 ? Math.floor(atlas.tileHeight / 2) : Math.floor(atlas.tileHeight / 4);
+  const halfW = tileW / 2;
+  const halfH = tileH / 2;
+  canvas.width = Math.ceil((width + height) * halfW + tileW);
+  canvas.height = Math.ceil((width + height) * halfH + tileH);
+  const originX = halfW;
+  const originY = (width - 1) * halfH + halfH;
+  const ctx = canvas.getContext("2d", { alpha: true });
   ctx.imageSmoothingEnabled = false;
-  ctx.fillStyle = "#27443b";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      const [ground, object, overlay] = tileAt(y * width + x);
-      drawAtlasTile(ctx, atlas, ground, x * tilePx, y * tilePx, tilePx, true);
-      drawAtlasTile(ctx, atlas, object, x * tilePx, y * tilePx, tilePx, false);
-      drawAtlasTile(ctx, atlas, overlay, x * tilePx, y * tilePx, tilePx, false);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let diagonal = 0; diagonal <= width + height - 2; diagonal += 1) {
+    const startX = Math.max(0, diagonal - (height - 1));
+    const endX = Math.min(width - 1, diagonal);
+    for (let x = startX; x <= endX; x += 1) {
+      const y = diagonal - x;
+      const [ground, object] = tileAt(y * width + x);
+      const px = Math.round(originX + (x + y) * halfW);
+      const py = Math.round(originY + (y - x) * halfH);
+      drawAtlasTile(ctx, atlas, ground, px, py, tileW, tileH);
+      drawAtlasTile(ctx, atlas, object, px, py, tileW, tileH);
     }
   }
-  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client tiles`;
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | isometric client tiles`;
 }
 
-function drawAtlasTile(ctx, atlas, tileId, x, y, size, fillGround) {
+function drawAtlasTile(ctx, atlas, tileId, x, y, width, height) {
   const index = atlas.tiles?.[tileId];
-  if (index === undefined) {
-    if (fillGround) {
-      const color = tileColor(tileId, 0, 0);
-      ctx.fillStyle = `rgb(${color[0]} ${color[1]} ${color[2]})`;
-      ctx.fillRect(x, y, size, size);
-    }
-    return;
-  }
-  if (fillGround) {
-    ctx.fillStyle = atlas.colors?.[tileId] || "#506f4b";
-    ctx.fillRect(x, y, size, size);
-  }
+  if (index === undefined) return;
   const sx = (index % atlas.columns) * atlas.tileWidth;
   const sy = Math.floor(index / atlas.columns) * atlas.tileHeight;
-  ctx.drawImage(atlas.image, sx, sy, atlas.tileWidth, atlas.tileHeight, x, y, size, size);
+  ctx.drawImage(atlas.image, sx, sy, atlas.tileWidth, atlas.tileHeight, x, y, width, height);
 }
 
 function renderLs2MapBuffer(canvas, buf) {

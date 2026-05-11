@@ -73,7 +73,7 @@ function collectTileIds(dir) {
     const expected = 8 + width * height * 6;
     if (!width || !height || buf.length < expected) continue;
     for (let offset = 8; offset + 5 < expected; offset += 6) {
-      for (let layer = 0; layer < 3; layer += 1) {
+      for (let layer = 0; layer < 2; layer += 1) {
         const tile = buf.readUInt16LE(offset + layer * 2);
         if (tile) ids.add(tile);
       }
