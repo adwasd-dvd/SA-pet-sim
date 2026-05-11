@@ -1,0 +1,44 @@
+{
+  "schema": "stoneage-web-resources-v1",
+  "purpose": "External source/data locations required to rebuild generated world data, map visuals, NPC behavior, and save semantics on a new machine.",
+  "environment": {
+    "SA_REF_DATA": {
+      "defaultPath": "external/sources/ref___data",
+      "currentAbsolutePath": "/Users/adwasd/Downloads/CodeX-projects/SA-Pet-sim/ref___data",
+      "requiredFor": ["world-data", "map-logic", "npc-data", "items", "encounters"]
+    },
+    "SA_CLIENT_ASSET_ROOT": {
+      "defaultPath": "external/sources/client-assets",
+      "currentAbsolutePath": "/Users/adwasd/Downloads/CodeX-projects/公益石器时代",
+      "requiredFor": ["client-map-dat", "tile-atlas", "visual-map-reconstruction"]
+    },
+    "SA_GMSV_SOURCE": {
+      "defaultPath": "external/sources/gmsv",
+      "currentAbsolutePath": "/Users/adwasd/Downloads/CodeX-projects/CodeX-石器时代网游/stoneage-master/石器时代服务器端最新完整源代码/gmsv",
+      "requiredFor": ["npc-runtime", "battle", "items", "pets", "warps", "server-behavior-reference"]
+    },
+    "SA_CLIENT_SOURCE": {
+      "defaultPath": "external/sources/client-source",
+      "currentAbsolutePath": "/Users/adwasd/Downloads/CodeX-projects/CodeX-石器时代网游/stoneage-master/石器时代8.5客户端最新源代码/石器源码",
+      "requiredFor": ["client-ui", "map-projection", "input-feel", "visual-behavior-reference"]
+    },
+    "SA_SAAC_DATA": {
+      "defaultPath": "external/sources/saac-data",
+      "currentAbsolutePath": "/Users/adwasd/Downloads/CodeX-projects/CodeX-石器时代网游/2016_SA80/Linux-Main-app/saac",
+      "requiredFor": ["account-data-reference", "character-save-reference"]
+    },
+    "SA_SAAC_SOURCE": {
+      "defaultPath": "external/sources/saac-source",
+      "currentAbsolutePath": "/Users/adwasd/Downloads/CodeX-projects/CodeX-石器时代网游/stoneage-master/石器时代服务器端最新完整源代码/saac",
+      "requiredFor": ["account-model", "character-slots", "save-load", "flags", "pool-item-pet-reference"]
+    }
+  },
+  "generatedInRepo": {
+    "worldData": "src/world-data.js",
+    "logicTables": "public/data/*.txt",
+    "ls2Maps": "public/data/maps/*.ls2map",
+    "clientMaps": "public/data/client-maps/*.dat",
+    "tileAtlas": ["public/data/client-tiles/tiles.json", "public/data/client-tiles/tiles-atlas.png"],
+    "debugOutput": "public/debug/ (ignored; large; safe to regenerate)"
+  }
+}

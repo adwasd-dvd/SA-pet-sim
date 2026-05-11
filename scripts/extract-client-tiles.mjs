@@ -3,7 +3,7 @@ import path from "node:path";
 import zlib from "node:zlib";
 
 const projectRoot = process.cwd();
-const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
+const clientRoot = path.resolve(process.env.SA_CLIENT_ASSET_ROOT || path.join(projectRoot, "external", "sources", "client-assets"));
 const mapRoot = path.join(projectRoot, "public/data/maps");
 const clientMapRoot = path.join(projectRoot, "public/data/client-maps");
 const worldPath = path.join(projectRoot, "src/world-data.js");

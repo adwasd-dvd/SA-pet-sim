@@ -1,0 +1,22 @@
+# Project Documents
+
+This is the documentation entrypoint for the StoneAge Web Rebuild.
+
+## Start Here
+
+- `docs/MIGRATION.md`: how to move this project to another computer.
+- `docs/planning/PROJECT_MEMORY.md`: current project memory, decisions, and next work.
+- `docs/planning/DEVELOPMENT_PLAN.md`: long-term rebuild plan.
+- `docs/planning/tasks.jsonl`: machine-readable task backlog and progress.
+
+## Source And Data
+
+- `docs/planning/SOURCE_REFERENCES.md`: canonical original source/data references.
+- `external/resources.json`: portable manifest of bundled external sources and generated assets.
+- `docs/planning/SAVE_SCHEMA.md`: browser save model based on SAAC.
+
+## Operations
+
+- `README.cloudflare.md`: Cloudflare Worker run/deploy notes.
+- `scripts/check-resources.mjs`: verifies bundled external sources and generated runtime assets.
+- `scripts/package-transfer.mjs`: creates a local transfer archive.

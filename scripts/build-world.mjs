@@ -2,8 +2,8 @@ import { cpSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync }
 import path from "node:path";
 
 const appRoot = path.resolve(import.meta.dirname, "..");
-const refRoot = path.resolve(appRoot, "..", "ref___data");
-const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
+const refRoot = path.resolve(process.env.SA_REF_DATA || path.join(appRoot, "external", "sources", "ref___data"));
+const clientRoot = path.resolve(process.env.SA_CLIENT_ASSET_ROOT || path.join(appRoot, "external", "sources", "client-assets"));
 const mapRoot = path.join(refRoot, "map");
 const npcRoot = path.join(refRoot, "npc");
 const clientMapRoot = path.join(clientRoot, "map");

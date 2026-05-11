@@ -1,15 +1,17 @@
 # Cloudflare 版本
 
-这个目录保留原 Go 版本，同时新增了可以直接部署到 Cloudflare Workers 的网页应用：
+这个目录保留原 Go 版本，同时新增了可以直接部署到 Cloudflare Workers 的网页应用。当前主线是 `石器时代 Web 重构`：
 
 - `public/`：静态前端、PWA manifest、service worker、游戏数据和素材。
 - `src/worker.js`：Worker API，移植了原来的宠物生成和升级算法。
 - `wrangler.jsonc`：Cloudflare Workers 静态资产和 Workers AI 绑定配置。
+- `external/sources/`：本地迁移用的原始数据/源码副本，不提交到 git，但会被迁移打包脚本包含。
 
 ## 本地运行
 
 ```bash
 npm install
+npm run check:resources
 npm run dev
 ```
 

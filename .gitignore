@@ -2,3 +2,6 @@ bin/server
 bin/static/pet/
 pet.zip
 public/debug/
+external/sources/
+external/transfer/
+*.tar.gz

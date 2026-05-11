@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build:world": "node scripts/build-world.mjs && node scripts/extract-client-tiles.mjs",
+    "check:resources": "node scripts/check-resources.mjs",
+    "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "check": "wrangler deploy --dry-run"

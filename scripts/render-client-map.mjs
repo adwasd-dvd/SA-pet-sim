@@ -3,7 +3,7 @@ import path from "node:path";
 import zlib from "node:zlib";
 
 const projectRoot = process.cwd();
-const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
+const clientRoot = process.env.SA_CLIENT_ASSET_ROOT || path.join(projectRoot, "external", "sources", "client-assets");
 const floor = String(process.argv[2] || "2000");
 const mapPath = path.join(projectRoot, "public/data/maps", `${floor}.ls2map`);
 const clientMapPath = path.join(clientRoot, "map", `${floor}.dat`);

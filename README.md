@@ -1,20 +1,37 @@
-# pet-sim
+# StoneAge Web Rebuild
 ![LOGO](https://upload.wikimedia.org/wikipedia/zh/e/e1/STONEAGE_ICON.GIF)
 
 ### 石器时代 Web 重构
 
-《石器时代》是日本Japan System Supply（简称JSS）于1999年开发的一款网络游戏，最特别的就是有许多可爱的恐龙和怪兽。原始人可以将这些恐龙怪兽捉来饲养，并做为随身携带的宠物。凡遇到危险的敌人或野兽时，就可以使唤出可爱的宠物来一起并肩作战。
+这是一个把《石器时代》客户端、地图、NPC、宠物、战斗、账号存档逐步重构到 Web / Cloudflare Workers 的项目。
 
-宠物的能力值，是石器原始人最喜欢讨论研究的，原始人称之「宠物四围」。四围就是血量、攻击力、防御力、敏捷度。四围会因为宠物的战斗经验值累积，而提升等级跟四围能力；所有的宠物四围都不一样，即使同一种宠物也会有好有坏，而四围成长的速度，也有不同的差异。所以每位宠物的主人都会很细心去饲养自己的宠物，观察它们的成长速度。
+原始宠物成长率模拟器仍保留在历史代码中；当前主线目标已经升级为真正的 StoneAge Web 重构。
 
-本人是石器的忠实玩家，一直对成长率这一核心机制非常着迷，相信每个石器玩家都曾有过拥有极品宠物的梦想。我从石器2.5源代码中单独提取出了宠物的数值系统与成长率算法, 做成了一个模拟器, 专注于宠物培养这一玩法. 白虎不是梦!
+## Current App
 
-### 试玩 https://pet.catlabs.cn
+- `public/`: PWA frontend, generated maps, client tiles, tables, and assets.
+- `src/worker.js`: Cloudflare Worker API and game runtime.
+- `src/world-data.js`: generated world/NPC/warp model.
+- `external/sources/`: local copy of original ref-data, client assets, gmsv, saac, and client source for transfer.
+- `docs/`: migration, project memory, planning, source references, save schema.
 
-### Cloudflare
+## Local Work
 
-这个仓库已新增 Cloudflare Workers + 静态资源版本，入口说明见 [README.cloudflare.md](README.cloudflare.md)。
+```bash
+npm install
+npm run check:resources
+npm run dev
+```
 
-### 截图
+## Transfer To Another Computer
 
-<img src="https://raw.githubusercontent.com/zii/pet-sim/master/bin/data/screenshot.jpg" width="40%">
+See [docs/MIGRATION.md](docs/MIGRATION.md).
+
+```bash
+npm run package:transfer
+```
+
+## More Docs
+
+- [docs/README.md](docs/README.md)
+- [README.cloudflare.md](README.cloudflare.md)
