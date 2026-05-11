@@ -14,7 +14,7 @@ const gb18030 = new TextDecoder("gb18030");
 
 const START_FLOOR = 1000;
 const MAX_MAPS = 42;
-const MAX_NPCS_PER_MAP = 18;
+const MAX_NPCS_PER_MAP = 120;
 
 const mapFiles = scanMapFiles();
 const warps = parseWarps(path.join(mapRoot, "mapwarp.txt"));

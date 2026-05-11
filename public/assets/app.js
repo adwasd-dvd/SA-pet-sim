@@ -384,13 +384,13 @@ async function renderLs2Map(map) {
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
   if (mapUrl === map.clientMapFile) {
-    await renderClientDatMap(canvas, buf);
+    await renderClientDatMap(canvas, buf, map);
     return;
   }
-  await renderLs2MapBuffer(canvas, buf);
+  await renderLs2MapBuffer(canvas, buf, map);
 }
 
-async function renderClientDatMap(canvas, buf) {
+async function renderClientDatMap(canvas, buf, map) {
   const view = new DataView(buf);
   const width = view.getUint32(0, true);
   const height = view.getUint32(4, true);
@@ -409,7 +409,7 @@ async function renderClientDatMap(canvas, buf) {
   };
   const atlas = await loadTileAtlas();
   if (atlas) {
-    drawRealTileMap(canvas, width, height, tileAt, atlas);
+    drawRealTileMap(canvas, width, height, tileAt, atlas, map);
     return;
   }
   drawTilePreview(canvas, width, height, tileAt);
@@ -431,7 +431,7 @@ async function loadTileAtlas() {
   return tileAtlasPromise;
 }
 
-function drawRealTileMap(canvas, width, height, tileAt, atlas) {
+function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
   const halfW = 32;
   const halfH = 24;
   const bounds = mapPixelBounds(width, height, tileAt, atlas, halfW, halfH);
@@ -462,10 +462,24 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
   for (const object of objects) {
     drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
   }
+  drawNpcSprites(ctx, map, bounds, atlas);
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
   syncMapMarkers(game.world.map);
   clampMapPan();
   applyMapView();
+}
+
+function drawNpcSprites(ctx, map, bounds, atlas) {
+  if (!map?.npcs?.length) return;
+  const npcs = map.npcs
+    .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
+    .filter((npc) => npc.graphicId > 99 && atlas.frames?.[npc.graphicId])
+    .sort((a, b) => (a.x + a.y) - (b.x + b.y) || a.y - b.y || a.x - b.x);
+  for (const npc of npcs) {
+    const [mapX, mapY] = mapRenderPoint(npc.x, npc.y, map.size?.[0] || 1, map.size?.[1] || 1);
+    const [screenX, screenY] = isoPoint(mapX, mapY, 32, 24);
+    drawAtlasTile(ctx, atlas, npc.graphicId, screenX - bounds.minX, screenY - bounds.minY);
+  }
 }
 
 function clientMapDrawOrder(width, height) {
@@ -613,7 +627,7 @@ function drawAtlasTile(ctx, atlas, tileId, x, y) {
   ctx.restore();
 }
 
-async function renderLs2MapBuffer(canvas, buf) {
+async function renderLs2MapBuffer(canvas, buf, map = null) {
   const view = new DataView(buf);
   const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
   if (magic !== "LS2MAP") throw new Error("invalid LS2MAP");
@@ -630,7 +644,7 @@ async function renderLs2MapBuffer(canvas, buf) {
   };
   const atlas = await loadTileAtlas();
   if (atlas) {
-    drawRealTileMap(canvas, width, height, tileAt, atlas);
+    drawRealTileMap(canvas, width, height, tileAt, atlas, map);
     return;
   }
   drawTilePreview(canvas, width, height, tileAt);

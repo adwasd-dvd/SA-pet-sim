@@ -6,6 +6,7 @@ const projectRoot = process.cwd();
 const clientRoot = "/Users/adwasd/Downloads/CodeX-projects/公益石器时代";
 const mapRoot = path.join(projectRoot, "public/data/maps");
 const clientMapRoot = path.join(projectRoot, "public/data/client-maps");
+const worldPath = path.join(projectRoot, "src/world-data.js");
 const outputRoot = path.join(projectRoot, "public/data/client-tiles");
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
@@ -79,7 +80,17 @@ function collectTileIds(dir) {
       if (file.endsWith(".dat")) collectClientDatTileIds(path.join(clientMapRoot, file), ids);
     }
   }
+  collectNpcGraphicIds(ids);
   return ids;
+}
+
+function collectNpcGraphicIds(ids) {
+  if (!fs.existsSync(worldPath)) return;
+  const text = fs.readFileSync(worldPath, "utf8");
+  for (const match of text.matchAll(/"graphic":\s*"(\d+)"/g)) {
+    const id = Number(match[1]);
+    if (Number.isFinite(id) && id > 99) ids.add(id);
+  }
 }
 
 function collectClientDatTileIds(file, ids) {
