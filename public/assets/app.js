@@ -150,7 +150,7 @@ function render() {
   els.playerTitle.textContent = game.player.name;
   els.playerStats.textContent = `Lv.${game.player.level} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
   els.mapName.textContent = map.name;
-  els.mapSummary.textContent = `${map.summary}  来源：mapwarp.txt / encount.txt / npc scripts`;
+  els.mapSummary.textContent = `${map.summary} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMap(map);
   renderNpc(map);
   renderExits(map);
@@ -167,14 +167,14 @@ function renderMap(map) {
   const markers = [
     `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
-    `<div class="map-region wild"><strong>野外</strong><span>点击「野外遇敌」寻找宠物</span></div>`,
+    `<div class="map-region wild"><strong>遇敌区</strong><span>数据来自 encount.txt</span></div>`,
     `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}"><b>你</b><span>${escapeHtml(game.player.name)}</span></button>`,
     ...map.npcs.map((npc, index) => {
-      const point = layout.npcs[index % layout.npcs.length];
+      const point = layout.npcs[index] || [45, 50];
       return `<button class="map-marker npc" style="${mapPos(point)}" data-npc="${npc.id}" title="${escapeHtml(npc.name)}"><b>${escapeHtml(npc.name.slice(0, 1))}</b><span>${escapeHtml(npc.name)}</span></button>`;
     }),
     ...map.exits.map((exit, index) => {
-      const point = layout.exits[index % layout.exits.length];
+      const point = layout.exits[index] || [86, 55];
       return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.to}" title="${escapeHtml(exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
     })
   ];
@@ -214,9 +214,11 @@ async function renderLs2Map(map) {
     for (let x = 0; x < outW; x += 1) {
       const sx = Math.min(width - 1, x * scale);
       const sy = Math.min(height - 1, y * scale);
-      const offset = 44 + (sy * width + sx) * 4;
-      const ground = view.getUint16(offset, false);
-      const object = view.getUint16(offset + 2, false);
+      const index = sy * width + sx;
+      const tileOffset = 44 + index * 2;
+      const objectOffset = 44 + width * height * 2 + index * 2;
+      const ground = view.getUint16(tileOffset, false);
+      const object = objectOffset + 1 < view.byteLength ? view.getUint16(objectOffset, false) : 0;
       const color = tileColor(ground, object);
       const i = (y * outW + x) * 4;
       img.data[i] = color[0];
@@ -254,36 +256,22 @@ function hslToRgb(h, s, l) {
 }
 
 function mapLayout(map) {
-  const byMap = {
-    samgill: {
-      primary: "村子中心",
-      primaryHint: "村长、训练师和向导都在这里",
-      player: [22, 56],
-      npcs: [[44, 34], [58, 55], [36, 70]],
-      exits: [[86, 55]]
-    },
-    plain: {
-      primary: "草原营地",
-      primaryHint: "适合低等级练级和抓宠",
-      player: [18, 56],
-      npcs: [[42, 42], [62, 68]],
-      exits: [[8, 56], [88, 62]]
-    },
-    forest: {
-      primary: "森林路口",
-      primaryHint: "更危险，也有新的委托",
-      player: [20, 60],
-      npcs: [[48, 42], [68, 64]],
-      exits: [[8, 60]]
-    }
-  };
-  return byMap[map.id] || {
+  return {
     primary: map.name,
-    primaryHint: map.summary,
-    player: [20, 56],
-    npcs: [[45, 42], [58, 62], [38, 72]],
-    exits: [[86, 55]]
+    primaryHint: `floor ${map.floorId} | ${map.size?.[0] || "?"}x${map.size?.[1] || "?"}`,
+    player: worldPoint(map, game.location?.x, game.location?.y),
+    npcs: map.npcs.map((npc) => worldPoint(map, npc.x, npc.y)),
+    exits: map.exits.map((exit) => worldPoint(map, exit.x, exit.y))
   };
+}
+
+function worldPoint(map, x, y) {
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  return [
+    Math.max(5, Math.min(95, (Number(x) || 0) / width * 100)),
+    Math.max(8, Math.min(92, (Number(y) || 0) / height * 100))
+  ];
 }
 
 function renderNpc(map) {

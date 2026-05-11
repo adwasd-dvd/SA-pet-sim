@@ -1,3 +1,5 @@
+import { WORLD } from "./world-data.js";
+
 const DATA_FILES = {
   enemyBase: "/data/enemybase2.txt",
   skills: "/data/petskill2.txt",
@@ -22,91 +24,6 @@ const rankTab = [
   [530, 580],
   [550, 600]
 ];
-
-const WORLD = {
-  startMap: "samgill",
-  maps: {
-    samgill: {
-      id: "samgill",
-      name: "萨姆吉尔村",
-      floorId: 100,
-      mapFile: "/data/maps/1021.ls2map",
-      summary: "海边的新手村，适合建立人物、学习抓宠和接第一批委托。",
-      size: [18, 12],
-      spawn: [9, 6],
-      encounterPets: [100, 101, 102, 103, 104, 105, 106, 107],
-      npcs: [
-        { id: "elder", name: "村长", x: 9, y: 4, type: "quest", dialogue: "年轻的原始人，先去草原抓一只伙伴吧。带着宠物回来，我会给你下一步指引。", questId: "first-pet" },
-        { id: "trainer", name: "宠物训练师", x: 12, y: 7, type: "trainer", dialogue: "宠物成长需要战斗，也需要耐心。我可以帮你做一次安全训练。" },
-        { id: "guide", name: "旅行向导", x: 5, y: 7, type: "guide", dialogue: "村外草原有低等级野兽，森林路口通向更远的地方。" }
-      ],
-      exits: [
-        { id: "plain", label: "去村外草原", to: "plain", x: 16, y: 6, target: [2, 6], source: "mapwarp.txt" }
-      ]
-    },
-    plain: {
-      id: "plain",
-      name: "村外草原",
-      floorId: 101,
-      mapFile: "/data/maps/sainasu.ls2map",
-      summary: "低等级练级区，常见乌力系和布依系宠物。",
-      size: [22, 14],
-      spawn: [2, 6],
-      encounterPets: [108, 109, 110, 111, 112, 113, 114, 115],
-      npcs: [
-        { id: "hunter", name: "猎人", x: 8, y: 5, type: "hint", dialogue: "血低的时候不要硬撑。抓宠最好先观察属性和成长。" },
-        { id: "lost", name: "迷路的小孩", x: 15, y: 9, type: "quest", dialogue: "我想回村子，可是路上有野兽。你能带我回去吗？", questId: "lost-child" }
-      ],
-      exits: [
-        { id: "samgill", label: "回萨姆吉尔村", to: "samgill", x: 0, y: 6, target: [15, 6], source: "mapwarp.txt" },
-        { id: "forest", label: "去森林路口", to: "forest", x: 21, y: 8, target: [2, 8], source: "mapwarp.txt" }
-      ]
-    },
-    forest: {
-      id: "forest",
-      name: "森林路口",
-      floorId: 102,
-      mapFile: "/data/maps/1022.ls2map",
-      summary: "更危险的区域，宠物等级略高，也更容易遇到任务 NPC。",
-      size: [24, 16],
-      spawn: [2, 8],
-      encounterPets: [116, 117, 118, 119, 120, 121, 122, 123],
-      npcs: [
-        { id: "herbalist", name: "采药人", x: 10, y: 6, type: "quest", dialogue: "森林里有治疗用的草药，但附近的野兽越来越凶。", questId: "forest-herb" },
-        { id: "stone", name: "古老石碑", x: 17, y: 10, type: "lore", dialogue: "石碑上刻着模糊的路线：村庄、草原、森林，再往前就是真正的冒险。" }
-      ],
-      exits: [
-        { id: "plain", label: "回村外草原", to: "plain", x: 0, y: 8, target: [20, 8], source: "mapwarp.txt" }
-      ]
-    }
-  },
-  quests: {
-    "first-pet": {
-      id: "first-pet",
-      title: "第一只伙伴",
-      source: "mission.txt / npc event seed",
-      description: "村长希望你在村外草原捕获第一只宠物。",
-      steps: ["和村长交谈", "去村外草原遇敌", "捕获一只宠物", "回村找村长"],
-      reward: "石币 120，人物经验 30"
-    },
-    "lost-child": {
-      id: "lost-child",
-      title: "迷路的小孩",
-      source: "npc/*.arg pattern",
-      description: "把草原上的小孩带回萨姆吉尔村。",
-      steps: ["在草原找到迷路的小孩", "回到萨姆吉尔村", "向村长报告"],
-      reward: "石币 80，宠物训练机会"
-    },
-    "forest-herb": {
-      id: "forest-herb",
-      title: "森林草药",
-      source: "npc event script seed",
-      description: "采药人需要你调查森林里的野兽。",
-      steps: ["到森林路口", "和采药人交谈", "完成 3 次安全训练"],
-      reward: "治疗药草，人物经验 60"
-    }
-  }
-};
 
 let cache;
 let charId = 0;
@@ -304,7 +221,6 @@ function captureGame(game) {
     game.encounter = null;
     game.player.exp += 12;
     game.player.stone += 20;
-    addQuestProgress(game, "first-pet", 1);
     addLog(game, `捕获成功！${target.Name} 加入了队伍。`);
   } else {
     addLog(game, `${target.Name} 挣脱了绳索。`);
@@ -321,7 +237,6 @@ function trainGame(game, petIndex) {
   for (let i = 0; i < up; i += 1) petLevelUp(pet);
   game.player.exp += 10 * (pet.Lv - before);
   game.player.stone += 12;
-  addQuestProgress(game, "forest-herb", 1);
   addLog(game, `${pet.Name} 完成训练，从 Lv.${before} 提升到 Lv.${pet.Lv}。`);
   return withMap(game);
 }
@@ -370,7 +285,7 @@ function hasAny(text, tokens) {
 function applyNpcHi(game, npc) {
   ensureFlags(game);
   setEventFlag(game, eventFlagForNpc(npc.id), "now");
-  if (npc.questId) {
+  if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
       game.quests[npc.questId] = { ...WORLD.quests[npc.questId], status: "进行中", progress: 0 };
       addLog(game, `接到任务「${WORLD.quests[npc.questId].title}」。`);
@@ -379,11 +294,6 @@ function applyNpcHi(game, npc) {
       return `${npc.dialogue} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
     }
   }
-  if (npc.id === "elder" && game.pets.length > 1) {
-    addQuestProgress(game, "first-pet", 2);
-    setEventFlag(game, eventFlagForNpc("elder"), "end");
-  }
-  if (npc.id === "stone") setEventFlag(game, eventFlagForNpc("stone"), "end");
   return npc.dialogue;
 }
 
@@ -403,8 +313,8 @@ function completeQuest(game, questId) {
   if (!quest || quest.status === "完成") return;
   quest.status = "完成";
   quest.progress = quest.steps.length;
-  game.player.exp += questId === "forest-herb" ? 60 : questId === "first-pet" ? 30 : 20;
-  game.player.stone += questId === "first-pet" ? 120 : 80;
+  game.player.exp += Number(quest.expReward || 20);
+  game.player.stone += Number(quest.stoneReward || 80);
   setEventFlag(game, eventFlagForQuest(questId), "end");
   addLog(game, `完成任务「${quest.title}」，获得奖励。`);
 }
@@ -418,31 +328,21 @@ function questReply(game, npc) {
 }
 
 function captureReply(game, npc) {
-  if (npc.id === "hunter") return "抓宠先观察等级和捕获率，血不够就回村。遇敌后点捕获，成功了宠物会进队伍。";
-  if (npc.id === "elder") return "第一只伙伴要去村外草原找。抓到以后回来再点我，客户端会自动打招呼。";
-  return "宠物会在野外遇敌中出现。不同地图的 encounter 表不同，越往外越危险。";
+  return `${npc.name} 使用原始脚本入口「${npc.script || npc.template || npc.type}」。抓宠遇敌来自 ref___data/encount.txt。`;
 }
 
 function trainReply(game, npc) {
-  if (npc.id === "trainer") return "打开宠物页点训练，我会做一次安全训练。低等级宠物通常一次能多升一点。";
-  return "宠物可以靠训练和冒险升级。成长要等等级上来后才更好判断。";
+  return `${npc.name} 当前没有可模拟的训练脚本，只保留原 NPC 数据入口：${npc.source || npc.script || npc.type}。`;
 }
 
 function mapReply(game, npc) {
   const map = currentMap(game);
   const exits = map.exits.map((exit) => exit.label).join("、") || "暂无出口";
-  if (npc.id === "guide") return `这里是${map.name}。可走的出口：${exits}。地图上的蓝色标记就是出口。`;
   return `当前地图是${map.name}。出口：${exits}。`;
 }
 
 function fallbackNpcReply(npc) {
-  const hints = {
-    elder: "你说得有点新鲜。可以问任务或抓宠；默认打招呼已经在点选时自动发生了。",
-    trainer: "我听懂了一点。若是宠物相关，问训练、技能、成长会更准。",
-    guide: "我能回答地图、出口和去哪儿。",
-    stone: "石碑上的字纹闪了一下，似乎只认地图和森林这些词。"
-  };
-  return hints[npc.id] || "NPC 沉思了一会儿。你可以试试说任务、地图、抓宠或训练。";
+  return npc.dialogue || `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
 }
 
 async function aiNpcReply(env, game, npc, text) {
@@ -450,7 +350,7 @@ async function aiNpcReply(env, game, npc, text) {
   const messages = [
     { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句，不替玩家操作。" },
     { role: "user", content: JSON.stringify({
-      npc: { id: npc.id, name: npc.name, type: npc.type, dialogue: npc.dialogue },
+      npc: { id: npc.id, name: npc.name, type: npc.type, dialogue: npc.dialogue, source: npc.source, script: npc.script },
       player: game.player,
       map: { name: map.name, exits: map.exits.map((exit) => exit.label) },
       quests: game.quests,
@@ -476,11 +376,11 @@ function openDialog(game, npc, messages) {
 }
 
 function dialogSuggestions(npc) {
-  const base = ["任务", "地图", "抓宠"];
-  if (npc.type === "trainer") return ["训练", "成长", "技能"];
-  if (npc.id === "hunter") return ["抓宠", "练级", "任务"];
-  if (npc.id === "guide") return ["出口", "地图", "森林"];
-  return base;
+  if (/shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
+  if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
+  if (/warp/i.test(npc.type)) return ["hi", "传送", "出口"];
+  if (/save/i.test(npc.type)) return ["hi", "记录", "地图"];
+  return ["hi", "任务", "地图"];
 }
 
 function npcMessage(speaker, text) {
@@ -574,25 +474,19 @@ function setEventFlag(game, shiftbit, kind = "end") {
 }
 
 function eventFlagForNpc(npcId) {
-  const flags = {
-    elder: 1,
-    trainer: 2,
-    guide: 3,
-    hunter: 4,
-    lost: 5,
-    herbalist: 6,
-    stone: 7
-  };
-  return flags[npcId] || 0;
+  return stableFlag(npcId);
 }
 
 function eventFlagForQuest(questId) {
-  const flags = {
-    "first-pet": 33,
-    "lost-child": 34,
-    "forest-herb": 35
-  };
-  return flags[questId] || 0;
+  return stableFlag(questId);
+}
+
+function stableFlag(value) {
+  let hash = 0;
+  for (const char of String(value || "")) {
+    hash = ((hash << 5) - hash + char.charCodeAt(0)) >>> 0;
+  }
+  return (hash % 256) + 1;
 }
 
 async function loadGameData(env, request) {
