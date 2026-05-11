@@ -84,7 +84,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/walk" && request.method === "POST") {
       const body = await readJson(request);
-      return json(walkGame(body.game, Number(body.dx) || 0, Number(body.dy) || 0));
+      return json(await walkGame(env, request, body.game, Number(body.dx) || 0, Number(body.dy) || 0));
     }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
@@ -175,7 +175,7 @@ function travelGame(game, to) {
   return applyExit(game, exit);
 }
 
-function walkGame(game, dx, dy) {
+async function walkGame(env, request, game, dx, dy) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const width = Math.max(1, Number(map.size?.[0]) || 1);
@@ -186,6 +186,9 @@ function walkGame(game, dx, dy) {
   game.encounter = null;
   const exit = exitAt(map, nextX, nextY);
   if (exit) return applyExit(game, exit);
+  noteNearby(game, map);
+  const encountered = await maybeStepEncounter(env, request, game, map);
+  if (encountered) return withMap(game);
   return withMap(game);
 }
 
@@ -200,9 +203,27 @@ function exitAt(map, x, y) {
   });
 }
 
+function noteNearby(game, map) {
+  const nearby = nearbyState(game, map);
+  const key = [
+    game.location.mapId,
+    game.location.x,
+    game.location.y,
+    nearby.npcs.map((npc) => npc.id).join(","),
+    nearby.exits.map((exit) => exit.id).join(",")
+  ].join(":");
+  if (game.lastNearbyKey === key) return;
+  game.lastNearbyKey = key;
+  const parts = [];
+  if (nearby.npcs.length) parts.push(`附近 NPC：${nearby.npcs.map((npc) => npc.name).join("、")}`);
+  if (nearby.exits.length) parts.push(`附近出口：${nearby.exits.map((exit) => exit.label).join("、")}`);
+  if (parts.length) addLog(game, parts.join("；"));
+}
+
 function applyExit(game, exit) {
   game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
   game.encounter = null;
+  game.walk = { steps: 0, encounterSteps: 0 };
   addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
   return withMap(game);
 }
@@ -277,15 +298,33 @@ async function dialogGame(env, game, npcId, message) {
 
 async function encounterGame(env, request, game) {
   game = normalizeGame(game);
-  const data = await loadGameData(env, request);
   const map = currentMap(game);
+  await spawnEncounter(env, request, game, map, "野外");
+  return withMap(game);
+}
+
+async function maybeStepEncounter(env, request, game, map) {
+  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk.steps = Number(game.walk.steps || 0) + 1;
+  if (!map.encounterPets?.length || game.encounter) return false;
+  game.walk.encounterSteps = Number(game.walk.encounterSteps || 0) + 1;
+  const steps = game.walk.encounterSteps;
+  if (steps < 5) return false;
+  const chance = Math.min(0.38, 0.12 + (steps - 5) * 0.035);
+  if (steps < 14 && Math.random() >= chance) return false;
+  await spawnEncounter(env, request, game, map, "行走");
+  game.walk.encounterSteps = 0;
+  return true;
+}
+
+async function spawnEncounter(env, request, game, map, source) {
+  const data = await loadGameData(env, request);
   const petNo = pick(map.encounterPets);
   const enemy = createEnemy(data, petNo, Math.max(1, game.player.level + randInt(3) - 1));
   if (!enemy) throw new Error("当前地图没有可遇敌宠物");
   enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
   game.encounter = enemy;
-  addLog(game, `野外遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
-  return withMap(game);
+  addLog(game, `${source}遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
 }
 
 function captureGame(game) {
@@ -534,6 +573,7 @@ function normalizeGame(game) {
   game.inventory ||= [];
   game.quests ||= {};
   ensureFlags(game);
+  game.walk ||= { steps: 0, encounterSteps: 0 };
   game.dialog ||= null;
   game.log ||= [];
   game.character.name = game.player.name;
@@ -607,6 +647,8 @@ function buildCharInfo(game) {
     `Y=${game.location.y}`,
     `PETCOUNT=${game.pets.length}`,
     `ITEMCOUNT=${game.inventory.length}`,
+    `WALK_STEPS=${game.walk?.steps || 0}`,
+    `ENCOUNTER_STEPS=${game.walk?.encounterSteps || 0}`,
     `QUESTS=${safeJson(activeQuests)}`,
     `FLAGS_END=${(game.flags?.endEvents || []).join(",")}`,
     `FLAGS_NOW=${(game.flags?.nowEvents || []).join(",")}`,
@@ -671,6 +713,7 @@ function withMap(game, extra = {}) {
   game.save = buildSaacSave(game);
   return {
     ...game,
+    nearby: nearbyState(game, map),
     world: {
       map,
       quests: WORLD.quests
@@ -683,6 +726,30 @@ function currentMap(game) {
   const map = WORLD.maps[game.location.mapId];
   if (!map) throw new Error("当前地图不存在");
   return map;
+}
+
+function nearbyState(game, map) {
+  const x = Number(game.location.x || 0);
+  const y = Number(game.location.y || 0);
+  const npcs = map.npcs
+    .filter((npc) => distance(npc.x, npc.y, x, y) <= 2)
+    .slice(0, 5)
+    .map((npc) => ({ id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type }));
+  const exits = map.exits
+    .filter((exit) => distanceToBounds(exit.bounds || [exit.x, exit.y, exit.x, exit.y], x, y) <= 2)
+    .slice(0, 5)
+    .map((exit) => ({ id: exit.id, label: exit.label, x: exit.x, y: exit.y, to: exit.to }));
+  return { npcs, exits };
+}
+
+function distance(ax, ay, bx, by) {
+  return Math.max(Math.abs(Number(ax) - bx), Math.abs(Number(ay) - by));
+}
+
+function distanceToBounds(bounds, x, y) {
+  const dx = x < bounds[0] ? bounds[0] - x : x > bounds[2] ? x - bounds[2] : 0;
+  const dy = y < bounds[1] ? bounds[1] - y : y > bounds[3] ? y - bounds[3] : 0;
+  return Math.max(dx, dy);
 }
 
 function addLog(game, text) {

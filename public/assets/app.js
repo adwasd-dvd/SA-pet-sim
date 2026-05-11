@@ -186,7 +186,7 @@ function render() {
   els.playerTitle.textContent = game.player.name;
   els.playerStats.textContent = `Lv.${game.player.level} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
   els.mapName.textContent = map.name;
-  els.mapSummary.textContent = `${map.summary} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
+  els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMap(map);
   renderNpc(map);
   renderExits(map);
@@ -664,6 +664,15 @@ function renderSavePanel() {
     </article>
   `;
   els.saveText.value = save.serialized || "";
+}
+
+function nearbyText() {
+  const nearby = game?.nearby;
+  if (!nearby) return "";
+  const parts = [];
+  if (nearby.npcs?.length) parts.push(`NPC ${nearby.npcs.map((npc) => npc.name).join("、")}`);
+  if (nearby.exits?.length) parts.push(`出口 ${nearby.exits.map((exit) => exit.label).join("、")}`);
+  return parts.length ? ` | 附近：${parts.join("；")}` : "";
 }
 
 async function api(path, body) {
