@@ -30,6 +30,7 @@ const WORLD = {
       id: "samgill",
       name: "萨姆吉尔村",
       floorId: 100,
+      mapFile: "/data/maps/1021.ls2map",
       summary: "海边的新手村，适合建立人物、学习抓宠和接第一批委托。",
       size: [18, 12],
       spawn: [9, 6],
@@ -47,6 +48,7 @@ const WORLD = {
       id: "plain",
       name: "村外草原",
       floorId: 101,
+      mapFile: "/data/maps/sainasu.ls2map",
       summary: "低等级练级区，常见乌力系和布依系宠物。",
       size: [22, 14],
       spawn: [2, 6],
@@ -64,6 +66,7 @@ const WORLD = {
       id: "forest",
       name: "森林路口",
       floorId: 102,
+      mapFile: "/data/maps/1022.ls2map",
       summary: "更危险的区域，宠物等级略高，也更容易遇到任务 NPC。",
       size: [24, 16],
       spawn: [2, 8],
@@ -151,6 +154,10 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/new" && request.method === "POST") {
       const body = await readJson(request);
       return json(await createPlayerGame(env, request, body));
+    }
+    if (url.pathname === "/api/game/sync" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(withMap(normalizeGame(body.game)));
     }
     if (url.pathname === "/api/game/travel" && request.method === "POST") {
       const body = await readJson(request);

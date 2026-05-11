@@ -232,7 +232,7 @@ h3 {
     linear-gradient(135deg, #8eaa72 0%, #c8ba78 52%, #7d9b6a 100%);
 }
 
-.map-canvas::before {
+.map-canvas.map-fallback::before {
   content: "";
   position: absolute;
   inset: 47% -8% auto -8%;
@@ -243,8 +243,33 @@ h3 {
   box-shadow: 0 10px 22px rgb(71 57 28 / 12%);
 }
 
+.ls2-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  opacity: .82;
+  filter: saturate(1.08) contrast(1.05);
+}
+
+.map-canvas::after {
+  content: attr(data-map-size);
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 1;
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgb(255 253 247 / 78%);
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .map-region {
   position: absolute;
+  z-index: 2;
   display: grid;
   gap: 4px;
   max-width: 210px;
@@ -273,6 +298,7 @@ h3 {
 
 .map-marker {
   position: absolute;
+  z-index: 3;
   display: inline-grid;
   grid-template-columns: 34px auto;
   align-items: center;

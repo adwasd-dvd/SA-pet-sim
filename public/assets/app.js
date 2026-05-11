@@ -55,7 +55,7 @@ function init() {
   if (saved) {
     game = JSON.parse(saved);
     showGame();
-    render();
+    syncGame();
   }
 }
 
@@ -113,6 +113,13 @@ async function mutate(path, body) {
   render();
 }
 
+async function syncGame() {
+  if (!game) return;
+  game = await api("/api/game/sync", { game });
+  save();
+  render();
+}
+
 function showGame() {
   els.creator.hidden = true;
   els.game.hidden = false;
@@ -138,6 +145,7 @@ function render() {
 function renderMap(map) {
   const layout = mapLayout(map);
   const markers = [
+    `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
     `<div class="map-region wild"><strong>野外</strong><span>点击「野外遇敌」寻找宠物</span></div>`,
     `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}"><b>你</b><span>${escapeHtml(game.player.name)}</span></button>`,
@@ -151,12 +159,78 @@ function renderMap(map) {
     })
   ];
   els.mapCanvas.innerHTML = markers.join("");
+  renderLs2Map(map).catch(() => {
+    els.mapCanvas.classList.add("map-fallback");
+  });
   els.mapCanvas.querySelectorAll("[data-npc]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/talk", { npcId: btn.dataset.npc }));
   });
   els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
   });
+}
+
+async function renderLs2Map(map) {
+  if (!map.mapFile) return;
+  const canvas = els.mapCanvas.querySelector(".ls2-map");
+  if (!canvas) return;
+  const rsp = await fetch(map.mapFile);
+  if (!rsp.ok) throw new Error("map file missing");
+  const buf = await rsp.arrayBuffer();
+  const view = new DataView(buf);
+  const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
+  if (magic !== "LS2MAP") throw new Error("invalid LS2MAP");
+  const width = view.getUint16(0x28, false);
+  const height = view.getUint16(0x2a, false);
+  const maxSide = 640;
+  const scale = Math.max(1, Math.ceil(Math.max(width, height) / maxSide));
+  const outW = Math.ceil(width / scale);
+  const outH = Math.ceil(height / scale);
+  canvas.width = outW;
+  canvas.height = outH;
+  const ctx = canvas.getContext("2d", { alpha: false });
+  const img = ctx.createImageData(outW, outH);
+  for (let y = 0; y < outH; y += 1) {
+    for (let x = 0; x < outW; x += 1) {
+      const sx = Math.min(width - 1, x * scale);
+      const sy = Math.min(height - 1, y * scale);
+      const offset = 44 + (sy * width + sx) * 4;
+      const ground = view.getUint16(offset, false);
+      const object = view.getUint16(offset + 2, false);
+      const color = tileColor(ground, object);
+      const i = (y * outW + x) * 4;
+      img.data[i] = color[0];
+      img.data[i + 1] = color[1];
+      img.data[i + 2] = color[2];
+      img.data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  els.mapCanvas.dataset.mapSize = `${width} x ${height}`;
+}
+
+function tileColor(ground, object) {
+  if (ground === 0 && object === 0) return [60, 91, 82];
+  if (object > 0 && object < 1000) return [66, 83, 77];
+  const seed = (ground || object) >>> 0;
+  const hue = seed % 360;
+  const band = seed % 7;
+  if (band === 0) return hslToRgb(hue, 28, 42);
+  if (band === 1) return hslToRgb(42, 34, 62);
+  if (band === 2) return hslToRgb(92, 28, 48);
+  if (band === 3) return hslToRgb(128, 26, 42);
+  if (band === 4) return hslToRgb(205, 28, 48);
+  if (band === 5) return hslToRgb(24, 28, 50);
+  return hslToRgb(hue, 22, 54);
+}
+
+function hslToRgb(h, s, l) {
+  s /= 100;
+  l /= 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [Math.round(255 * f(0)), Math.round(255 * f(8)), Math.round(255 * f(4))];
 }
 
 function mapLayout(map) {
