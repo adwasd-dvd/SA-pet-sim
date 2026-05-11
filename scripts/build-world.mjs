@@ -47,24 +47,31 @@ for (const floor of selectedFloors) {
   const map = maps[String(floor)];
   if (!map) continue;
   const seen = new Set();
+  const usableWarps = [];
   for (const warp of warps.get(floor) || []) {
     if (!maps[String(warp.toFloor)]) continue;
-    const key = `${warp.toFloor}:${warp.toX}:${warp.toY}`;
+    const key = `${warp.x}:${warp.y}:${warp.toFloor}`;
     if (seen.has(key)) continue;
     seen.add(key);
+    usableWarps.push(warp);
+  }
+  for (const cluster of clusterWarps(usableWarps)) {
+    const warp = cluster[0];
     const target = mapFiles.get(warp.toFloor);
     const targetName = cleanName(target?.name) || `floor ${warp.toFloor}`;
+    const bounds = boundsFor(cluster);
+    const marker = centerFor(cluster);
+    const targetPoint = centerFor(cluster.map((item) => ({ x: item.toX, y: item.toY })));
     map.exits.push({
       id: `${warp.toFloor}-${map.exits.length}`,
       label: `去 ${targetName}`,
-      detail: `${targetName} | floor ${warp.toFloor} | 目标 (${warp.toX},${warp.toY})`,
+      detail: `${targetName} | floor ${warp.toFloor} | 目标 (${targetPoint.x},${targetPoint.y}) | ${formatExitBounds(bounds, cluster.length)}`,
       to: String(warp.toFloor),
-      x: warp.x,
-      y: warp.y,
-      target: [warp.toX, warp.toY],
+      x: marker.x,
+      y: marker.y,
+      target: [targetPoint.x, targetPoint.y],
       source: "ref___data/map/mapwarp.txt"
     });
-    if (map.exits.length >= 10) break;
   }
 }
 
@@ -236,6 +243,48 @@ function defaultSpawn(floor, mapInfo) {
   const warpBack = [...warps.values()].flat().find((warp) => warp.toFloor === floor);
   if (warpBack) return [clamp(warpBack.toX, mapInfo.width), clamp(warpBack.toY, mapInfo.height)];
   return [Math.floor(mapInfo.width / 2), Math.floor(mapInfo.height / 2)];
+}
+
+function clusterWarps(items) {
+  const clusters = [];
+  for (const item of items) {
+    let cluster = clusters.find((candidate) => candidate[0].toFloor === item.toFloor && nearCluster(candidate, item));
+    if (!cluster) {
+      cluster = [];
+      clusters.push(cluster);
+    }
+    cluster.push(item);
+  }
+  return clusters;
+}
+
+function nearCluster(cluster, item) {
+  const bounds = boundsFor(cluster);
+  const dx = item.x < bounds.minX ? bounds.minX - item.x : item.x > bounds.maxX ? item.x - bounds.maxX : 0;
+  const dy = item.y < bounds.minY ? bounds.minY - item.y : item.y > bounds.maxY ? item.y - bounds.maxY : 0;
+  return dx <= 2 && dy <= 2;
+}
+
+function boundsFor(items) {
+  return items.reduce((bounds, item) => ({
+    minX: Math.min(bounds.minX, item.x),
+    minY: Math.min(bounds.minY, item.y),
+    maxX: Math.max(bounds.maxX, item.x),
+    maxY: Math.max(bounds.maxY, item.y)
+  }), { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity });
+}
+
+function centerFor(items) {
+  const total = items.reduce((sum, item) => ({ x: sum.x + item.x, y: sum.y + item.y }), { x: 0, y: 0 });
+  return {
+    x: Math.round(total.x / items.length),
+    y: Math.round(total.y / items.length)
+  };
+}
+
+function formatExitBounds(bounds, count) {
+  if (count <= 1 || (bounds.minX === bounds.maxX && bounds.minY === bounds.maxY)) return `入口 (${bounds.minX},${bounds.minY})`;
+  return `入口 ${count} 格 (${bounds.minX},${bounds.minY})-(${bounds.maxX},${bounds.maxY})`;
 }
 
 function readNpcDialogue(argPath, createFile) {

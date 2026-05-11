@@ -313,33 +313,7 @@ export const WORLD = {
         {
           "id": "1040-0",
           "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,41)",
-          "to": "1040",
-          "x": 607,
-          "y": 561,
-          "target": [
-            24,
-            41
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1040-1",
-          "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,42)",
-          "to": "1040",
-          "x": 607,
-          "y": 562,
-          "target": [
-            24,
-            42
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1040-2",
-          "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,43)",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,43) | 入口 5 格 (607,561)-(607,565)",
           "to": "1040",
           "x": 607,
           "y": 563,
@@ -350,64 +324,12 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "1040-3",
-          "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,44)",
-          "to": "1040",
-          "x": 607,
-          "y": 564,
-          "target": [
-            24,
-            44
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1040-4",
-          "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (24,45)",
-          "to": "1040",
-          "x": 607,
-          "y": 565,
-          "target": [
-            24,
-            45
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2030-5",
+          "id": "2030-1",
           "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (65,62)",
-          "to": "2030",
-          "x": 73,
-          "y": 586,
-          "target": [
-            65,
-            62
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2030-6",
-          "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (64,63)",
-          "to": "2030",
-          "x": 72,
-          "y": 587,
-          "target": [
-            64,
-            63
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2030-7",
-          "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (63,64)",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (63,64) | 入口 7 格 (70,586)-(73,589)",
           "to": "2030",
           "x": 71,
-          "y": 588,
+          "y": 587,
           "target": [
             63,
             64
@@ -415,28 +337,236 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "2030-8",
-          "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (62,65)",
-          "to": "2030",
-          "x": 70,
-          "y": 589,
+          "id": "1000-2",
+          "label": "去 萨姆吉尔村",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (50,118) | 入口 4 格 (638,491)-(638,494)",
+          "to": "1000",
+          "x": 638,
+          "y": 493,
           "target": [
-            62,
-            65
+            50,
+            118
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "1000-9",
+          "id": "1000-3",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (50,116)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (119,111) | 入口 5 格 (706,487)-(710,487)",
           "to": "1000",
-          "x": 638,
-          "y": 491,
+          "x": 708,
+          "y": 487,
           "target": [
-            50,
-            116
+            119,
+            111
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2000-4",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (72,35) | 入口 4 格 (78,614)-(78,617)",
+          "to": "2000",
+          "x": 78,
+          "y": 616,
+          "target": [
+            72,
+            35
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2000-5",
+          "label": "去 玛丽娜丝渔村",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (107,81) | 入口 4 格 (113,660)-(113,663)",
+          "to": "2000",
+          "x": 113,
+          "y": 662,
+          "target": [
+            107,
+            81
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1100-6",
+          "label": "去 柯奥村�",
+          "detail": "柯奥村� | floor 1100 | 目标 (65,35) | 入口 5 格 (470,631)-(474,631)",
+          "to": "1100",
+          "x": 472,
+          "y": 631,
+          "target": [
+            65,
+            35
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1300-7",
+          "label": "去 霍特尔村�",
+          "detail": "霍特尔村� | floor 1300 | 目标 (24,63) | 入口 8 格 (622,190)-(622,197)",
+          "to": "1300",
+          "x": 622,
+          "y": 194,
+          "target": [
+            24,
+            63
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1400-8",
+          "label": "去 卡坦村温�",
+          "detail": "卡坦村温� | floor 1400 | 目标 (71,115) | 入口 3 格 (258,170)-(260,170)",
+          "to": "1400",
+          "x": 259,
+          "y": 170,
+          "target": [
+            71,
+            115
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "101-9",
+          "label": "去 阿布的独栋房屋",
+          "detail": "阿布的独栋房屋 | floor 101 | 目标 (16,21) | 入口 2 格 (184,339)-(185,339)",
+          "to": "101",
+          "x": 185,
+          "y": 339,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "120-10",
+          "label": "去 靠近水田的家|00",
+          "detail": "靠近水田的家|00 | floor 120 | 目标 (10,17) | 入口 2 格 (549,637)-(549,638)",
+          "to": "120",
+          "x": 549,
+          "y": 638,
+          "target": [
+            10,
+            17
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "121-11",
+          "label": "去 岬之家",
+          "detail": "岬之家 | floor 121 | 目标 (10,17) | 入口 2 格 (643,676)-(643,677)",
+          "to": "121",
+          "x": 643,
+          "y": 677,
+          "target": [
+            10,
+            17
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "10701-12",
+          "label": "去 盗贼的洞窟地下１楼|0K",
+          "detail": "盗贼的洞窟地下１楼|0K | floor 10701 | 目标 (76,67) | 入口 (132,421)",
+          "to": "10701",
+          "x": 132,
+          "y": 421,
+          "target": [
+            76,
+            67
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "10001-13",
+          "label": "去 阿布的洞窟地下１楼|00",
+          "detail": "阿布的洞窟地下１楼|00 | floor 10001 | 目标 (40,3) | 入口 (191,365)",
+          "to": "10001",
+          "x": 191,
+          "y": 365,
+          "target": [
+            40,
+            3
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "10101-14",
+          "label": "去 往柯尔克的道路１楼|00",
+          "detail": "往柯尔克的道路１楼|00 | floor 10101 | 目标 (14,49) | 入口 (318,428)",
+          "to": "10101",
+          "x": 318,
+          "y": 428,
+          "target": [
+            14,
+            49
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "10901-15",
+          "label": "去 柯尔克的大坑道１楼",
+          "detail": "柯尔克的大坑道１楼 | floor 10901 | 目标 (25,49) | 入口 (237,445)",
+          "to": "10901",
+          "x": 237,
+          "y": 445,
+          "target": [
+            25,
+            49
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "11001-16",
+          "label": "去 柯奥山的小洞窟１楼",
+          "detail": "柯奥山的小洞窟１楼 | floor 11001 | 目标 (0,43) | 入口 (328,633)",
+          "to": "11001",
+          "x": 328,
+          "y": 633,
+          "target": [
+            0,
+            43
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "31401-17",
+          "label": "去 奇努伊的海底通路|10",
+          "detail": "奇努伊的海底通路|10 | floor 31401 | 目标 (12,2) | 入口 (666,235)",
+          "to": "31401",
+          "x": 666,
+          "y": 235,
+          "target": [
+            12,
+            2
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-18",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (216,6) | 入口 2 格 (396,186)-(396,187)",
+          "to": "8200",
+          "x": 396,
+          "y": 187,
+          "target": [
+            216,
+            6
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8216-19",
+          "label": "去 白狼勇士公会",
+          "detail": "白狼勇士公会 | floor 8216 | 目标 (2,23) | 入口 3 格 (653,608)-(653,610)",
+          "to": "8216",
+          "x": 653,
+          "y": 609,
+          "target": [
+            2,
+            23
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -487,20 +617,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (184,339)",
-          "to": "100",
-          "x": 15,
-          "y": 21,
-          "target": [
-            184,
-            339
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (185,339)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (185,339) | 入口 2 格 (15,21)-(16,21)",
           "to": "100",
           "x": 16,
           "y": 21,
@@ -569,26 +686,13 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (549,638)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (549,638) | 入口 2 格 (10,16)-(10,17)",
           "to": "100",
           "x": 10,
           "y": 17,
           "target": [
             549,
             638
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (549,637)",
-          "to": "100",
-          "x": 10,
-          "y": 16,
-          "target": [
-            549,
-            637
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -651,20 +755,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (643,676)",
-          "to": "100",
-          "x": 10,
-          "y": 16,
-          "target": [
-            643,
-            676
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (643,677)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (643,677) | 入口 2 格 (10,16)-(10,17)",
           "to": "100",
           "x": 10,
           "y": 17,
@@ -1119,33 +1210,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (637,491)",
-          "to": "100",
-          "x": 49,
-          "y": 116,
-          "target": [
-            637,
-            491
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (637,492)",
-          "to": "100",
-          "x": 49,
-          "y": 117,
-          "target": [
-            637,
-            492
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (637,493)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (637,493) | 入口 4 格 (49,116)-(49,119)",
           "to": "100",
           "x": 49,
           "y": 118,
@@ -1156,48 +1221,9 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-3",
+          "id": "100-1",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (637,494)",
-          "to": "100",
-          "x": 49,
-          "y": 119,
-          "target": [
-            637,
-            494
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-4",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (706,488)",
-          "to": "100",
-          "x": 117,
-          "y": 112,
-          "target": [
-            706,
-            488
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-5",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (707,488)",
-          "to": "100",
-          "x": 118,
-          "y": 112,
-          "target": [
-            707,
-            488
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-6",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (708,488)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (708,488) | 入口 5 格 (117,112)-(121,112)",
           "to": "100",
           "x": 119,
           "y": 112,
@@ -1208,41 +1234,158 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-7",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (709,488)",
-          "to": "100",
-          "x": 120,
-          "y": 112,
-          "target": [
-            709,
-            488
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-8",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (710,488)",
-          "to": "100",
-          "x": 121,
-          "y": 112,
-          "target": [
-            710,
-            488
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1001-9",
+          "id": "1001-2",
           "label": "去 萨姆吉尔的武器店",
-          "detail": "萨姆吉尔的武器店 | floor 1001 | 目标 (10,15)",
+          "detail": "萨姆吉尔的武器店 | floor 1001 | 目标 (10,15) | 入口 3 格 (63,98)-(63,100)",
           "to": "1001",
           "x": 63,
           "y": 99,
           "target": [
             10,
             15
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1002-3",
+          "label": "去 萨姆吉尔的道具店",
+          "detail": "萨姆吉尔的道具店 | floor 1002 | 目标 (10,15) | 入口 3 格 (67,107)-(67,109)",
+          "to": "1002",
+          "x": 67,
+          "y": 108,
+          "target": [
+            10,
+            15
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1003-4",
+          "label": "去 萨姆吉尔的宠物店|00",
+          "detail": "萨姆吉尔的宠物店|00 | floor 1003 | 目标 (16,21) | 入口 2 格 (68,72)-(69,72)",
+          "to": "1003",
+          "x": 69,
+          "y": 72,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1004-5",
+          "label": "去 萨姆吉尔的肉店",
+          "detail": "萨姆吉尔的肉店 | floor 1004 | 目标 (16,21) | 入口 2 格 (53,81)-(54,81)",
+          "to": "1004",
+          "x": 54,
+          "y": 81,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1005-6",
+          "label": "去 萨姆吉尔的医院",
+          "detail": "萨姆吉尔的医院 | floor 1005 | 目标 (16,21) | 入口 2 格 (80,66)-(81,66)",
+          "to": "1005",
+          "x": 81,
+          "y": 66,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1006-7",
+          "label": "去 萨姆吉尔的村长家",
+          "detail": "萨姆吉尔的村长家 | floor 1006 | 目标 (10,21) | 入口 2 格 (98,44)-(98,45)",
+          "to": "1006",
+          "x": 98,
+          "y": 45,
+          "target": [
+            10,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1009-8",
+          "label": "去 萨姆吉尔的便利商店",
+          "detail": "萨姆吉尔的便利商店 | floor 1009 | 目标 (10,26) | 入口 2 格 (106,91)-(106,92)",
+          "to": "1009",
+          "x": 106,
+          "y": 92,
+          "target": [
+            10,
+            26
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1020-9",
+          "label": "去 萨姆吉尔道场柜台",
+          "detail": "萨姆吉尔道场柜台 | floor 1020 | 目标 (4,12) | 入口 2 格 (97,110)-(97,111)",
+          "to": "1020",
+          "x": 97,
+          "y": 111,
+          "target": [
+            4,
+            12
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1011-10",
+          "label": "去 长毛象快递|00畖0",
+          "detail": "长毛象快递|00畖0 | floor 1011 | 目标 (10,15) | 入口 (63,117)",
+          "to": "1011",
+          "x": 63,
+          "y": 117,
+          "target": [
+            10,
+            15
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1014-11",
+          "label": "去 长毛象快递|00",
+          "detail": "长毛象快递|00 | floor 1014 | 目标 (10,16) | 入口 (63,118)",
+          "to": "1014",
+          "x": 63,
+          "y": 118,
+          "target": [
+            10,
+            16
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1012-12",
+          "label": "去 聊天室柜台|0喟破饨陓0",
+          "detail": "聊天室柜台|0喟破饨陓0 | floor 1012 | 目标 (16,21) | 入口 2 格 (112,37)-(113,37)",
+          "to": "1012",
+          "x": 113,
+          "y": 37,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "1013-13",
+          "label": "去 老爷爷的家",
+          "detail": "老爷爷的家 | floor 1013 | 目标 (10,16) | 入口 (79,112)",
+          "to": "1013",
+          "x": 79,
+          "y": 112,
+          "target": [
+            10,
+            16
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -1756,20 +1899,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,99)",
-          "to": "1000",
-          "x": 10,
-          "y": 15,
-          "target": [
-            63,
-            99
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,100)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,100) | 入口 2 格 (10,15)-(10,16)",
           "to": "1000",
           "x": 10,
           "y": 16,
@@ -2018,20 +2148,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (67,108)",
-          "to": "1000",
-          "x": 10,
-          "y": 15,
-          "target": [
-            67,
-            108
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (67,109)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (67,109) | 入口 2 格 (10,15)-(10,16)",
           "to": "1000",
           "x": 10,
           "y": 16,
@@ -2184,25 +2301,12 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (69,72)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (69,72) | 入口 2 格 (15,21)-(16,21)",
           "to": "1000",
           "x": 16,
           "y": 21,
           "target": [
             69,
-            72
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (68,72)",
-          "to": "1000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            68,
             72
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -2343,25 +2447,12 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (54,81)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (54,81) | 入口 2 格 (15,21)-(16,21)",
           "to": "1000",
           "x": 16,
           "y": 21,
           "target": [
             54,
-            81
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (53,81)",
-          "to": "1000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            53,
             81
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -2642,25 +2733,12 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (81,66)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (81,66) | 入口 2 格 (15,21)-(16,21)",
           "to": "1000",
           "x": 16,
           "y": 21,
           "target": [
             81,
-            66
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (80,66)",
-          "to": "1000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            80,
             66
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -2808,20 +2886,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (98,44)",
-          "to": "1000",
-          "x": 10,
-          "y": 20,
-          "target": [
-            98,
-            44
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (98,45)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (98,45) | 入口 2 格 (10,20)-(10,21)",
           "to": "1000",
           "x": 10,
           "y": 21,
@@ -4917,20 +4982,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (106,91)",
-          "to": "1000",
-          "x": 10,
-          "y": 25,
-          "target": [
-            106,
-            91
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (106,92)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (106,92) | 入口 2 格 (10,25)-(10,26)",
           "to": "1000",
           "x": 10,
           "y": 26,
@@ -5101,10 +5153,10 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,117)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,117) | 入口 2 格 (10,15)-(10,16)",
           "to": "1000",
           "x": 10,
-          "y": 15,
+          "y": 16,
           "target": [
             63,
             117
@@ -5194,20 +5246,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (112,37)",
-          "to": "1000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            112,
-            37
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1000-1",
-          "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (113,37)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (113,37) | 入口 2 格 (15,21)-(16,21)",
           "to": "1000",
           "x": 16,
           "y": 21,
@@ -5276,10 +5315,10 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (79,112)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (79,112) | 入口 2 格 (10,15)-(10,16)",
           "to": "1000",
           "x": 10,
-          "y": 15,
+          "y": 16,
           "target": [
             79,
             112
@@ -5454,7 +5493,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,118)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (63,118) | 入口 2 格 (10,15)-(10,16)",
           "to": "1000",
           "x": 10,
           "y": 16,
@@ -5523,7 +5562,7 @@ export const WORLD = {
         {
           "id": "1000-0",
           "label": "去 萨姆吉尔村",
-          "detail": "萨姆吉尔村 | floor 1000 | 目标 (97,110)",
+          "detail": "萨姆吉尔村 | floor 1000 | 目标 (97,110) | 入口 (4,12)",
           "to": "1000",
           "x": 4,
           "y": 12,
@@ -5805,33 +5844,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (606,561)",
-          "to": "100",
-          "x": 23,
-          "y": 41,
-          "target": [
-            606,
-            561
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (606,562)",
-          "to": "100",
-          "x": 23,
-          "y": 42,
-          "target": [
-            606,
-            562
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (606,563)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (606,563) | 入口 5 格 (23,41)-(23,45)",
           "to": "100",
           "x": 23,
           "y": 43,
@@ -5842,48 +5855,9 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-3",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (606,564)",
-          "to": "100",
-          "x": 23,
-          "y": 44,
-          "target": [
-            606,
-            564
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-4",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (606,565)",
-          "to": "100",
-          "x": 23,
-          "y": 45,
-          "target": [
-            606,
-            565
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1043-5",
+          "id": "1043-1",
           "label": "去 萨姆吉尔庄园聊天柜台",
-          "detail": "萨姆吉尔庄园聊天柜台 | floor 1043 | 目标 (4,11)",
-          "to": "1043",
-          "x": 59,
-          "y": 25,
-          "target": [
-            4,
-            11
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1043-6",
-          "label": "去 萨姆吉尔庄园聊天柜台",
-          "detail": "萨姆吉尔庄园聊天柜台 | floor 1043 | 目标 (5,11)",
+          "detail": "萨姆吉尔庄园聊天柜台 | floor 1043 | 目标 (5,11) | 入口 2 格 (59,25)-(60,25)",
           "to": "1043",
           "x": 60,
           "y": 25,
@@ -5894,22 +5868,9 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "1048-7",
+          "id": "1048-2",
           "label": "去 庄园素材贩售店|0",
-          "detail": "庄园素材贩售店|0 | floor 1048 | 目标 (0,6)",
-          "to": "1048",
-          "x": 51,
-          "y": 56,
-          "target": [
-            0,
-            6
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1048-8",
-          "label": "去 庄园素材贩售店|0",
-          "detail": "庄园素材贩售店|0 | floor 1048 | 目标 (0,7)",
+          "detail": "庄园素材贩售店|0 | floor 1048 | 目标 (0,7) | 入口 2 格 (51,56)-(51,57)",
           "to": "1048",
           "x": 51,
           "y": 57,
@@ -5978,20 +5939,7 @@ export const WORLD = {
         {
           "id": "1040-0",
           "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (59,25)",
-          "to": "1040",
-          "x": 4,
-          "y": 11,
-          "target": [
-            59,
-            25
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1040-1",
-          "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (60,25)",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (60,25) | 入口 2 格 (4,11)-(5,11)",
           "to": "1040",
           "x": 5,
           "y": 11,
@@ -6106,20 +6054,7 @@ export const WORLD = {
         {
           "id": "1040-0",
           "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (51,56)",
-          "to": "1040",
-          "x": 0,
-          "y": 6,
-          "target": [
-            51,
-            56
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "1040-1",
-          "label": "去 萨姆吉尔庄园",
-          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (51,57)",
+          "detail": "萨姆吉尔庄园 | floor 1040 | 目标 (51,57) | 入口 2 格 (0,6)-(0,7)",
           "to": "1040",
           "x": 0,
           "y": 7,
@@ -6509,64 +6444,12 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (470,630)",
-          "to": "100",
-          "x": 63,
-          "y": 34,
-          "target": [
-            470,
-            630
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (471,630)",
-          "to": "100",
-          "x": 64,
-          "y": 34,
-          "target": [
-            471,
-            630
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (472,630)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (472,630) | 入口 5 格 (63,34)-(67,34)",
           "to": "100",
           "x": 65,
           "y": 34,
           "target": [
             472,
-            630
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-3",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (473,630)",
-          "to": "100",
-          "x": 66,
-          "y": 34,
-          "target": [
-            473,
-            630
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-4",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (474,630)",
-          "to": "100",
-          "x": 67,
-          "y": 34,
-          "target": [
-            474,
             630
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -6900,104 +6783,13 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,190)",
-          "to": "100",
-          "x": 23,
-          "y": 59,
-          "target": [
-            621,
-            190
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,191)",
-          "to": "100",
-          "x": 23,
-          "y": 60,
-          "target": [
-            621,
-            191
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,192)",
-          "to": "100",
-          "x": 23,
-          "y": 61,
-          "target": [
-            621,
-            192
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-3",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,193)",
-          "to": "100",
-          "x": 23,
-          "y": 62,
-          "target": [
-            621,
-            193
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-4",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,194)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (621,194) | 入口 8 格 (23,59)-(23,66)",
           "to": "100",
           "x": 23,
           "y": 63,
           "target": [
             621,
             194
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-5",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,195)",
-          "to": "100",
-          "x": 23,
-          "y": 64,
-          "target": [
-            621,
-            195
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-6",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,196)",
-          "to": "100",
-          "x": 23,
-          "y": 65,
-          "target": [
-            621,
-            196
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-7",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (621,197)",
-          "to": "100",
-          "x": 23,
-          "y": 66,
-          "target": [
-            621,
-            197
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -7278,38 +7070,12 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (258,171)",
-          "to": "100",
-          "x": 70,
-          "y": 116,
-          "target": [
-            258,
-            171
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (259,171)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (259,171) | 入口 3 格 (70,116)-(72,116)",
           "to": "100",
           "x": 71,
           "y": 116,
           "target": [
             259,
-            171
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (260,171)",
-          "to": "100",
-          "x": 72,
-          "y": 116,
-          "target": [
-            260,
             171
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -8374,7 +8140,7 @@ export const WORLD = {
         {
           "id": "2020-0",
           "label": "去 玛丽娜丝道场柜台",
-          "detail": "玛丽娜丝道场柜台 | floor 2020 | 目标 (4,12)",
+          "detail": "玛丽娜丝道场柜台 | floor 2020 | 目标 (4,12) | 入口 (69,51)",
           "to": "2020",
           "x": 69,
           "y": 51,
@@ -8387,33 +8153,7 @@ export const WORLD = {
         {
           "id": "100-1",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (79,614)",
-          "to": "100",
-          "x": 74,
-          "y": 33,
-          "target": [
-            79,
-            614
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (79,615)",
-          "to": "100",
-          "x": 74,
-          "y": 34,
-          "target": [
-            79,
-            615
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-3",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (79,616)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (79,616) | 入口 4 格 (74,33)-(74,36)",
           "to": "100",
           "x": 74,
           "y": 35,
@@ -8424,51 +8164,12 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-4",
+          "id": "100-2",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (79,617)",
-          "to": "100",
-          "x": 74,
-          "y": 36,
-          "target": [
-            79,
-            617
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-5",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (114,660)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (114,662) | 入口 7 格 (108,79)-(108,85)",
           "to": "100",
           "x": 108,
-          "y": 79,
-          "target": [
-            114,
-            660
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-6",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (114,661)",
-          "to": "100",
-          "x": 108,
-          "y": 80,
-          "target": [
-            114,
-            661
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-7",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (114,662)",
-          "to": "100",
-          "x": 108,
-          "y": 81,
+          "y": 82,
           "target": [
             114,
             662
@@ -8476,28 +8177,132 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-8",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (114,663)",
-          "to": "100",
-          "x": 108,
-          "y": 82,
+          "id": "2001-3",
+          "label": "去 玛丽娜丝的武器店",
+          "detail": "玛丽娜丝的武器店 | floor 2001 | 目标 (10,16) | 入口 2 格 (92,89)-(92,90)",
+          "to": "2001",
+          "x": 92,
+          "y": 90,
           "target": [
-            114,
-            663
+            10,
+            16
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "2001-9",
-          "label": "去 玛丽娜丝的武器店",
-          "detail": "玛丽娜丝的武器店 | floor 2001 | 目标 (10,15)",
-          "to": "2001",
-          "x": 92,
-          "y": 89,
+          "id": "2002-4",
+          "label": "去 玛丽娜丝的道具店",
+          "detail": "玛丽娜丝的道具店 | floor 2002 | 目标 (16,21) | 入口 2 格 (73,73)-(74,73)",
+          "to": "2002",
+          "x": 74,
+          "y": 73,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2003-5",
+          "label": "去 玛丽娜丝的宠物店|00b僾",
+          "detail": "玛丽娜丝的宠物店|00b僾 | floor 2003 | 目标 (10,16) | 入口 2 格 (75,57)-(75,58)",
+          "to": "2003",
+          "x": 75,
+          "y": 58,
           "target": [
             10,
-            15
+            16
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2004-6",
+          "label": "去 玛丽娜丝的肉店",
+          "detail": "玛丽娜丝的肉店 | floor 2004 | 目标 (16,21) | 入口 4 格 (92,77)-(95,77)",
+          "to": "2004",
+          "x": 94,
+          "y": 77,
+          "target": [
+            16,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2005-7",
+          "label": "去 玛丽娜丝的医院|0V儑僢僾",
+          "detail": "玛丽娜丝的医院|0V儑僢僾 | floor 2005 | 目标 (18,33) | 入口 2 格 (66,81)-(66,82)",
+          "to": "2005",
+          "x": 66,
+          "y": 82,
+          "target": [
+            18,
+            33
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2006-8",
+          "label": "去 玛丽娜丝的村长家",
+          "detail": "玛丽娜丝的村长家 | floor 2006 | 目标 (21,21) | 入口 3 格 (56,48)-(58,48)",
+          "to": "2006",
+          "x": 57,
+          "y": 48,
+          "target": [
+            21,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2020-9",
+          "label": "去 玛丽娜丝道场柜台",
+          "detail": "玛丽娜丝道场柜台 | floor 2020 | 目标 (4,12) | 入口 (75,51)",
+          "to": "2020",
+          "x": 75,
+          "y": 51,
+          "target": [
+            4,
+            12
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2001-10",
+          "label": "去 玛丽娜丝的武器店",
+          "detail": "玛丽娜丝的武器店 | floor 2001 | 目标 (10,16) | 入口 2 格 (97,92)-(97,93)",
+          "to": "2001",
+          "x": 97,
+          "y": 93,
+          "target": [
+            10,
+            16
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2002-11",
+          "label": "去 玛丽娜丝的道具店",
+          "detail": "玛丽娜丝的道具店 | floor 2002 | 目标 (15,21) | 入口 (77,75)",
+          "to": "2002",
+          "x": 77,
+          "y": 75,
+          "target": [
+            15,
+            21
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "2003-12",
+          "label": "去 玛丽娜丝的宠物店|00b僾",
+          "detail": "玛丽娜丝的宠物店|00b僾 | floor 2003 | 目标 (10,16) | 入口 2 格 (86,60)-(87,60)",
+          "to": "2003",
+          "x": 87,
+          "y": 60,
+          "target": [
+            10,
+            16
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -9024,52 +8829,13 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,89)",
-          "to": "2000",
-          "x": 10,
-          "y": 15,
-          "target": [
-            92,
-            89
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-1",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,90)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,90) | 入口 2 格 (10,15)-(10,16)",
           "to": "2000",
           "x": 10,
           "y": 16,
           "target": [
             92,
             90
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-2",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (97,92)",
-          "to": "2000",
-          "x": 10,
-          "y": 15,
-          "target": [
-            97,
-            92
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-3",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (97,93)",
-          "to": "2000",
-          "x": 10,
-          "y": 16,
-          "target": [
-            97,
-            93
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -9299,52 +9065,13 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (73,73)",
-          "to": "2000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            73,
-            73
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-1",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (74,73)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (74,73) | 入口 2 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
           "target": [
             74,
             73
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-2",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (76,75)",
-          "to": "2000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            76,
-            75
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-3",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (77,75)",
-          "to": "2000",
-          "x": 16,
-          "y": 21,
-          "target": [
-            77,
-            75
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -9491,52 +9218,13 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,57)",
-          "to": "2000",
-          "x": 10,
-          "y": 15,
-          "target": [
-            75,
-            57
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-1",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,58)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,58) | 入口 2 格 (10,15)-(10,16)",
           "to": "2000",
           "x": 10,
           "y": 16,
           "target": [
             75,
             58
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-2",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (86,60)",
-          "to": "2000",
-          "x": 10,
-          "y": 15,
-          "target": [
-            86,
-            60
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-3",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (87,60)",
-          "to": "2000",
-          "x": 10,
-          "y": 16,
-          "target": [
-            87,
-            60
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -9676,51 +9364,12 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,77)",
-          "to": "2000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            92,
-            77
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-1",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (93,77)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (93,77) | 入口 2 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
           "target": [
             93,
-            77
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-2",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (94,77)",
-          "to": "2000",
-          "x": 15,
-          "y": 21,
-          "target": [
-            94,
-            77
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-3",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (95,77)",
-          "to": "2000",
-          "x": 16,
-          "y": 21,
-          "target": [
-            95,
             77
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -10001,10 +9650,10 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (66,82)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (66,82) | 入口 2 格 (10,15)-(10,16)",
           "to": "2000",
           "x": 10,
-          "y": 15,
+          "y": 16,
           "target": [
             66,
             82
@@ -10014,13 +9663,13 @@ export const WORLD = {
         {
           "id": "2000-1",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (66,81)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (66,82) | 入口 2 格 (25,49)-(26,49)",
           "to": "2000",
-          "x": 25,
+          "x": 26,
           "y": 49,
           "target": [
             66,
-            81
+            82
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -10167,20 +9816,7 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (56,48)",
-          "to": "2000",
-          "x": 20,
-          "y": 21,
-          "target": [
-            56,
-            48
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-1",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (57,48)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (57,48) | 入口 2 格 (20,21)-(21,21)",
           "to": "2000",
           "x": 21,
           "y": 21,
@@ -10285,25 +9921,12 @@ export const WORLD = {
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (69,51)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (69,51) | 入口 (4,12)",
           "to": "2000",
           "x": 4,
           "y": 12,
           "target": [
             69,
-            51
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2000-1",
-          "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,51)",
-          "to": "2000",
-          "x": 4,
-          "y": 12,
-          "target": [
-            75,
             51
           ],
           "source": "ref___data/map/mapwarp.txt"
@@ -10582,35 +10205,9 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (74,586)",
-          "to": "100",
-          "x": 65,
-          "y": 63,
-          "target": [
-            74,
-            586
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (73,587)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (72,588) | 入口 7 格 (62,63)-(65,66)",
           "to": "100",
           "x": 64,
-          "y": 64,
-          "target": [
-            73,
-            587
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (72,588)",
-          "to": "100",
-          "x": 63,
           "y": 65,
           "target": [
             72,
@@ -10619,35 +10216,9 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-3",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (71,589)",
-          "to": "100",
-          "x": 62,
-          "y": 66,
-          "target": [
-            71,
-            589
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2033-4",
+          "id": "2033-1",
           "label": "去 玛丽娜丝庄园聊天柜台",
-          "detail": "玛丽娜丝庄园聊天柜台 | floor 2033 | 目标 (4,11)",
-          "to": "2033",
-          "x": 46,
-          "y": 30,
-          "target": [
-            4,
-            11
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2033-5",
-          "label": "去 玛丽娜丝庄园聊天柜台",
-          "detail": "玛丽娜丝庄园聊天柜台 | floor 2033 | 目标 (5,11)",
+          "detail": "玛丽娜丝庄园聊天柜台 | floor 2033 | 目标 (5,11) | 入口 2 格 (46,30)-(47,30)",
           "to": "2033",
           "x": 47,
           "y": 30,
@@ -10658,22 +10229,9 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "2035-6",
+          "id": "2035-2",
           "label": "去 庄园素材贩售店|00",
-          "detail": "庄园素材贩售店|00 | floor 2035 | 目标 (5,11)",
-          "to": "2035",
-          "x": 34,
-          "y": 40,
-          "target": [
-            5,
-            11
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2035-7",
-          "label": "去 庄园素材贩售店|00",
-          "detail": "庄园素材贩售店|00 | floor 2035 | 目标 (6,11)",
+          "detail": "庄园素材贩售店|00 | floor 2035 | 目标 (6,11) | 入口 2 格 (34,40)-(35,40)",
           "to": "2035",
           "x": 35,
           "y": 40,
@@ -10742,20 +10300,7 @@ export const WORLD = {
         {
           "id": "2030-0",
           "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (46,30)",
-          "to": "2030",
-          "x": 4,
-          "y": 11,
-          "target": [
-            46,
-            30
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2030-1",
-          "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (47,30)",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (47,30) | 入口 2 格 (4,11)-(5,11)",
           "to": "2030",
           "x": 5,
           "y": 11,
@@ -10870,20 +10415,7 @@ export const WORLD = {
         {
           "id": "2030-0",
           "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (34,40)",
-          "to": "2030",
-          "x": 5,
-          "y": 11,
-          "target": [
-            34,
-            40
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "2030-1",
-          "label": "去 玛丽娜丝的庄园",
-          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (35,40)",
+          "detail": "玛丽娜丝的庄园 | floor 2030 | 目标 (35,40) | 入口 2 格 (5,11)-(6,11)",
           "to": "2030",
           "x": 6,
           "y": 11,
@@ -11084,7 +10616,7 @@ export const WORLD = {
         {
           "id": "8200-0",
           "label": "去 英雄战场|8",
-          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30)",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (194,84)",
           "to": "8200",
           "x": 194,
           "y": 84,
@@ -11095,28 +10627,132 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         },
         {
-          "id": "100-1",
+          "id": "8200-1",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (196,139)",
+          "to": "8200",
+          "x": 196,
+          "y": 139,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-2",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (149,3)",
+          "to": "8200",
+          "x": 149,
+          "y": 3,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-3",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (133,64)",
+          "to": "8200",
+          "x": 133,
+          "y": 64,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-4",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (143,150)",
+          "to": "8200",
+          "x": 143,
+          "y": 150,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-5",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (69,18)",
+          "to": "8200",
+          "x": 69,
+          "y": 18,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-6",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (72,68)",
+          "to": "8200",
+          "x": 72,
+          "y": 68,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-7",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (71,151)",
+          "to": "8200",
+          "x": 71,
+          "y": 151,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-8",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (19,17)",
+          "to": "8200",
+          "x": 19,
+          "y": 17,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "8200-9",
+          "label": "去 英雄战场|8",
+          "detail": "英雄战场|8 | floor 8200 | 目标 (210,30) | 入口 (25,86)",
+          "to": "8200",
+          "x": 25,
+          "y": 86,
+          "target": [
+            210,
+            30
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        },
+        {
+          "id": "100-10",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (396,186)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (396,186) | 入口 (216,6)",
           "to": "100",
           "x": 216,
           "y": 6,
           "target": [
             396,
             186
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (396,187)",
-          "to": "100",
-          "x": 216,
-          "y": 6,
-          "target": [
-            396,
-            187
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -11215,39 +10851,13 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (653,608)",
-          "to": "100",
-          "x": 2,
-          "y": 22,
-          "target": [
-            653,
-            608
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-1",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (653,609)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (653,609) | 入口 3 格 (2,22)-(2,24)",
           "to": "100",
           "x": 2,
           "y": 23,
           "target": [
             653,
             609
-          ],
-          "source": "ref___data/map/mapwarp.txt"
-        },
-        {
-          "id": "100-2",
-          "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (653,610)",
-          "to": "100",
-          "x": 2,
-          "y": 24,
-          "target": [
-            653,
-            610
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -11314,7 +10924,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (191,365)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (191,365) | 入口 (40,3)",
           "to": "100",
           "x": 40,
           "y": 3,
@@ -11377,7 +10987,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (318,428)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (318,428) | 入口 (14,49)",
           "to": "100",
           "x": 14,
           "y": 49,
@@ -11449,7 +11059,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (132,421)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (132,421) | 入口 (76,67)",
           "to": "100",
           "x": 76,
           "y": 67,
@@ -11544,9 +11154,9 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (237,445)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (237,445) | 入口 2 格 (25,49)-(26,49)",
           "to": "100",
-          "x": 25,
+          "x": 26,
           "y": 49,
           "target": [
             237,
@@ -11616,10 +11226,10 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (328,633)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (328,633) | 入口 2 格 (0,43)-(0,44)",
           "to": "100",
           "x": 0,
-          "y": 43,
+          "y": 44,
           "target": [
             328,
             633
@@ -11680,7 +11290,7 @@ export const WORLD = {
         {
           "id": "100-0",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (666,235)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (666,235) | 入口 (12,2)",
           "to": "100",
           "x": 12,
           "y": 2,
