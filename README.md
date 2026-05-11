@@ -11,9 +11,9 @@
 
 ### 试玩 https://pet.catlabs.cn
 
-### Cloudflare PWA
+### Cloudflare
 
-这个仓库已新增 Cloudflare Workers + 静态资源的 PWA 版本，入口说明见 [README.cloudflare.md](README.cloudflare.md)。
+这个仓库已新增 Cloudflare Workers + 静态资源版本，入口说明见 [README.cloudflare.md](README.cloudflare.md)。
 
 ### 截图
 

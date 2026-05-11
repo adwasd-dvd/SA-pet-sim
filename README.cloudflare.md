@@ -1,6 +1,6 @@
-# Cloudflare PWA 版本
+# Cloudflare 版本
 
-这个目录保留原 Go 版本，同时新增了可以直接部署到 Cloudflare Workers 的 PWA：
+这个目录保留原 Go 版本，同时新增了可以直接部署到 Cloudflare Workers 的网页应用：
 
 - `public/`：静态前端、PWA manifest、service worker、游戏数据和素材。
 - `src/worker.js`：Worker API，移植了原来的宠物生成和升级算法。

@@ -1,5 +1,5 @@
 {
-  "name": "sa-pet-sim-pwa",
+  "name": "sa-pet-sim",
   "main": "src/worker.js",
   "compatibility_date": "2026-05-10",
   "assets": {
