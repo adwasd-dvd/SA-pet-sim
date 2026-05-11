@@ -467,7 +467,7 @@ function clientMapDrawOrder(width, height) {
 }
 
 function isoPoint(x, y, halfW, halfH) {
-  return [(y - x) * halfW, (x + y) * halfH];
+  return [(x - y) * halfW, (x + y) * halfH];
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
@@ -501,17 +501,23 @@ function includeTileBounds(bounds, frame, x, y) {
 function drawAtlasTile(ctx, atlas, tileId, x, y) {
   const frame = atlas.frames?.[tileId];
   if (!frame) return;
+  const dx = Math.round(x + frame.xoffset);
+  const dy = Math.round(y + frame.yoffset);
+  ctx.save();
+  ctx.translate(dx, dy + frame.height);
+  ctx.scale(1, -1);
   ctx.drawImage(
     atlas.image,
     frame.x,
     frame.y,
     frame.width,
     frame.height,
-    Math.round(x + frame.xoffset),
-    Math.round(y + frame.yoffset),
+    0,
+    0,
     frame.width,
     frame.height
   );
+  ctx.restore();
 }
 
 async function renderLs2MapBuffer(canvas, buf) {

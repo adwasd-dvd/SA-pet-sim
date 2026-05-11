@@ -159,7 +159,7 @@ function clientMapDrawOrder(width, height) {
 }
 
 function isoPoint(x, y) {
-  return [(y - x) * HALF_W, (x + y) * HALF_H];
+  return [(x - y) * HALF_W, (x + y) * HALF_H];
 }
 
 function blitImage(canvas, image, x, y) {
@@ -172,7 +172,7 @@ function blitImage(canvas, image, x, y) {
     for (let sx = 0; sx < image.width; sx += 1) {
       const tx = dx + sx;
       if (tx < 0 || tx >= canvas.width) continue;
-      const si = (sy * image.width + sx) * 4;
+      const si = ((image.height - 1 - sy) * image.width + sx) * 4;
       const alpha = image.rgba[si + 3];
       if (!alpha) continue;
       const di = (ty * canvas.width + tx) * 4;
