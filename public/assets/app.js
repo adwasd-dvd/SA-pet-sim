@@ -1,7 +1,7 @@
 const SAVE_KEY = "sa-pet-sim-game-v1";
 const MAP_ZOOM_MIN = 0.5;
-const MAP_ZOOM_MAX = 3;
-const MAP_ZOOM_STEP = 0.25;
+const MAP_ZOOM_MAX = 8;
+const MAP_ZOOM_STEP = 0.5;
 
 let game = null;
 let installPrompt = null;
