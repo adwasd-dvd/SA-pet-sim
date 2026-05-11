@@ -203,6 +203,7 @@ function render() {
 
 function renderMap(map) {
   const layout = mapLayout(map);
+  const metrics = mapMetrics(map);
   if (mapView.mapId !== map.id) {
     mapView.mapId = map.id;
     mapView.centerOnNextRender = true;
@@ -221,7 +222,7 @@ function renderMap(map) {
       return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.id}" title="${escapeHtml(exit.detail || exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
     })
   ];
-  els.mapCanvas.innerHTML = `<div class="map-content">${markers.join("")}</div>`;
+  els.mapCanvas.innerHTML = `<div class="map-content" style="width:${Math.ceil(metrics.width)}px;height:${Math.ceil(metrics.height)}px">${markers.join("")}</div>`;
   if (mapView.centerOnNextRender) {
     centerMapOnPoint(layout.player);
     mapView.centerOnNextRender = false;
@@ -271,10 +272,8 @@ function centerMapOnPlayer() {
 
 function centerMapOnPoint(point) {
   const rect = els.mapCanvas.getBoundingClientRect();
-  const baseW = rect.width || 1;
-  const baseH = rect.height || 340;
-  mapView.panX = baseW / 2 - (point[0] / 100) * baseW * mapView.zoom;
-  mapView.panY = baseH / 2 - (point[1] / 100) * baseH * mapView.zoom;
+  mapView.panX = (rect.width || 1) / 2 - point[0] * mapView.zoom;
+  mapView.panY = (rect.height || 340) / 2 - point[1] * mapView.zoom;
   clampMapPan();
 }
 
@@ -292,16 +291,19 @@ function applyMapView() {
 
 function clampMapPan() {
   const rect = els.mapCanvas.getBoundingClientRect();
-  const baseW = rect.width || 1;
-  const baseH = rect.height || 340;
-  const scaledW = baseW * mapView.zoom;
-  const scaledH = baseH * mapView.zoom;
-  mapView.panX = scaledW <= baseW
-    ? (baseW - scaledW) / 2
-    : Math.max(baseW - scaledW, Math.min(0, mapView.panX));
-  mapView.panY = scaledH <= baseH
-    ? (baseH - scaledH) / 2
-    : Math.max(baseH - scaledH, Math.min(0, mapView.panY));
+  const viewportW = rect.width || 1;
+  const viewportH = rect.height || 340;
+  const content = els.mapCanvas.querySelector(".map-content");
+  const contentW = content?.offsetWidth || viewportW;
+  const contentH = content?.offsetHeight || viewportH;
+  const scaledW = contentW * mapView.zoom;
+  const scaledH = contentH * mapView.zoom;
+  mapView.panX = scaledW <= viewportW
+    ? (viewportW - scaledW) / 2
+    : Math.max(viewportW - scaledW, Math.min(0, mapView.panX));
+  mapView.panY = scaledH <= viewportH
+    ? (viewportH - scaledH) / 2
+    : Math.max(viewportH - scaledH, Math.min(0, mapView.panY));
 }
 
 function onMapPointerDown(event) {
@@ -377,7 +379,7 @@ async function renderLs2Map(map) {
   if (!map.clientMapFile && !map.mapFile) return;
   const canvas = els.mapCanvas.querySelector(".ls2-map");
   if (!canvas) return;
-  const mapUrl = map.mapFile || map.clientMapFile;
+  const mapUrl = map.clientMapFile || map.mapFile;
   const rsp = await fetch(mapUrl);
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
@@ -435,6 +437,15 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
   const bounds = mapPixelBounds(width, height, tileAt, atlas, halfW, halfH);
   canvas.width = Math.max(1, Math.ceil(bounds.maxX - bounds.minX));
   canvas.height = Math.max(1, Math.ceil(bounds.maxY - bounds.minY));
+  canvas.dataset.minX = String(bounds.minX);
+  canvas.dataset.minY = String(bounds.minY);
+  canvas.style.width = `${canvas.width}px`;
+  canvas.style.height = `${canvas.height}px`;
+  const content = canvas.closest(".map-content");
+  if (content) {
+    content.style.width = `${canvas.width}px`;
+    content.style.height = `${canvas.height}px`;
+  }
   const ctx = canvas.getContext("2d", { alpha: true });
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -446,24 +457,32 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
     const px = screenX - bounds.minX;
     const py = screenY - bounds.minY;
     drawAtlasTile(ctx, atlas, ground, px, py);
-    if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py, depth: mapX + mapY });
+    if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
   }
-  objects.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
   for (const object of objects) {
     drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
   }
-  els.mapCanvas.dataset.mapSize = `${width} x ${height} | 45deg iso + client atlas`;
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
+  syncMapMarkers(game.world.map);
+  clampMapPan();
+  applyMapView();
 }
 
 function clientMapDrawOrder(width, height) {
   const cells = [];
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      const [mapX, mapY] = mapRenderPoint(x, y, width, height);
-      cells.push({ x, y, depth: mapX + mapY });
+  let ti = height - 1;
+  let tj = 0;
+  while (ti >= 0) {
+    let y = ti;
+    let x = tj;
+    while (y >= 0 && x >= 0) {
+      cells.push({ x, y });
+      y -= 1;
+      x -= 1;
     }
+    if (tj < width - 1) tj += 1;
+    else ti -= 1;
   }
-  cells.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
   return cells;
 }
 
@@ -473,6 +492,74 @@ function mapRenderPoint(x, y, width, height) {
 
 function isoPoint(x, y, halfW, halfH) {
   return [(x + y) * halfW, (y - x) * halfH];
+}
+
+function mapMetrics(map) {
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const margin = 192;
+  const points = [
+    mapRenderPoint(0, 0, width, height),
+    mapRenderPoint(width - 1, 0, width, height),
+    mapRenderPoint(0, height - 1, width, height),
+    mapRenderPoint(width - 1, height - 1, width, height)
+  ].map(([x, y]) => isoPoint(x, y, 32, 24));
+  const minX = Math.min(...points.map((point) => point[0]));
+  const maxX = Math.max(...points.map((point) => point[0]));
+  const minY = Math.min(...points.map((point) => point[1]));
+  const maxY = Math.max(...points.map((point) => point[1]));
+  return {
+    minX,
+    minY,
+    margin,
+    width: maxX - minX + margin * 2,
+    height: maxY - minY + margin * 2
+  };
+}
+
+function mapWorldPoint(map, x, y) {
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const metrics = mapMetrics(map);
+  const [mapX, mapY] = mapRenderPoint(
+    Math.max(0, Math.min(width - 1, Number(x) || 0)),
+    Math.max(0, Math.min(height - 1, Number(y) || 0)),
+    width,
+    height
+  );
+  const [screenX, screenY] = isoPoint(mapX, mapY, 32, 24);
+  return [
+    screenX - metrics.minX + metrics.margin,
+    screenY - metrics.minY + metrics.margin
+  ];
+}
+
+function mapClientPoint(map, x, y) {
+  const canvas = els.mapCanvas.querySelector(".ls2-map");
+  if (!canvas?.width || !canvas?.height) return mapWorldPoint(map, x, y);
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const [mapX, mapY] = mapRenderPoint(
+    Math.max(0, Math.min(width - 1, Number(x) || 0)),
+    Math.max(0, Math.min(height - 1, Number(y) || 0)),
+    width,
+    height
+  );
+  const [screenX, screenY] = isoPoint(mapX, mapY, 32, 24);
+  return [screenX - Number(canvas.dataset.minX || 0), screenY - Number(canvas.dataset.minY || 0)];
+}
+
+function syncMapMarkers(map) {
+  const pairs = [
+    [els.mapCanvas.querySelector(".map-marker.player"), mapClientPoint(map, game.location?.x, game.location?.y)],
+    ...map.npcs.map((npc) => [els.mapCanvas.querySelector(`[data-npc="${CSS.escape(npc.id)}"]`), mapClientPoint(map, npc.x, npc.y)]),
+    ...map.exits.map((exit) => [els.mapCanvas.querySelector(`[data-exit="${CSS.escape(exit.id)}"]`), mapClientPoint(map, exit.x, exit.y)])
+  ];
+  for (const [el, point] of pairs) {
+    if (!el) continue;
+    el.style.left = `${Math.round(point[0])}px`;
+    el.style.top = `${Math.round(point[1])}px`;
+  }
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
@@ -606,31 +693,7 @@ function mapLayout(map) {
 }
 
 function worldPoint(map, x, y) {
-  const width = Math.max(1, Number(map.size?.[0]) || 1);
-  const height = Math.max(1, Number(map.size?.[1]) || 1);
-  const halfW = 32;
-  const halfH = 24;
-  const [mapX, mapY] = mapRenderPoint(
-    Math.max(0, Math.min(width - 1, Number(x) || 0)),
-    Math.max(0, Math.min(height - 1, Number(y) || 0)),
-    width,
-    height
-  );
-  const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
-  const cornerPoints = [
-    mapRenderPoint(0, 0, width, height),
-    mapRenderPoint(width - 1, 0, width, height),
-    mapRenderPoint(0, height - 1, width, height),
-    mapRenderPoint(width - 1, height - 1, width, height)
-  ].map(([cx, cy]) => isoPoint(cx, cy, halfW, halfH));
-  const minX = Math.min(...cornerPoints.map((point) => point[0]));
-  const maxX = Math.max(...cornerPoints.map((point) => point[0]));
-  const minY = Math.min(...cornerPoints.map((point) => point[1]));
-  const maxY = Math.max(...cornerPoints.map((point) => point[1]));
-  return [
-    Math.max(5, Math.min(95, ((screenX - minX) / Math.max(1, maxX - minX)) * 100)),
-    Math.max(8, Math.min(92, ((screenY - minY) / Math.max(1, maxY - minY)) * 100))
-  ];
+  return mapWorldPoint(map, x, y);
 }
 
 function renderNpc(map) {
@@ -874,7 +937,7 @@ function updateNetState() {
 }
 
 function mapPos(point) {
-  return `left:${point[0]}%;top:${point[1]}%`;
+  return `left:${Math.round(point[0])}px;top:${Math.round(point[1])}px`;
 }
 
 function highlight(text, q) {

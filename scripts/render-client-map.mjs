@@ -58,9 +58,8 @@ function main() {
       const px = screenX - bounds.minX;
       const py = screenY - bounds.minY;
       blitImage(canvas, getImage(cell.tile), px, py);
-      if (getImage(cell.parts)) objects.push({ tileId: cell.parts, x: px, y: py, depth: mapX + mapY });
+      if (getImage(cell.parts)) objects.push({ tileId: cell.parts, x: px, y: py });
     }
-    objects.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
     for (const object of objects) blitImage(canvas, getImage(object.tileId), object.x, object.y);
     fs.writeFileSync(outPath, encodePng(canvas.width, canvas.height, canvas.rgba));
     console.log(JSON.stringify({
@@ -150,13 +149,19 @@ function include(bounds, image, x, y) {
 
 function clientMapDrawOrder(width, height) {
   const cells = [];
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      const [mapX, mapY] = mapRenderPoint(x, y, width, height);
-      cells.push({ x, y, depth: mapX + mapY });
+  let ti = height - 1;
+  let tj = 0;
+  while (ti >= 0) {
+    let y = ti;
+    let x = tj;
+    while (y >= 0 && x >= 0) {
+      cells.push({ x, y });
+      y -= 1;
+      x -= 1;
     }
+    if (tj < width - 1) tj += 1;
+    else ti -= 1;
   }
-  cells.sort((a, b) => a.depth - b.depth || a.y - b.y || a.x - b.x);
   return cells;
 }
 
