@@ -170,12 +170,9 @@ async function createPlayerGame(env, request, body) {
 function travelGame(game, to) {
   game = normalizeGame(game);
   const map = currentMap(game);
-  const exit = map.exits.find((item) => item.to === to || item.id === to);
+  const exit = findExit(map, to);
   if (!exit) throw new Error("这个出口不存在");
-  game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
-  game.encounter = null;
-  addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
-  return withMap(game);
+  return applyExit(game, exit);
 }
 
 function walkGame(game, dx, dy) {
@@ -187,6 +184,26 @@ function walkGame(game, dx, dy) {
   const nextY = clampInt(Number(game.location.y || 0) + Math.sign(dy), 0, height - 1, game.location.y);
   game.location = { ...game.location, x: nextX, y: nextY };
   game.encounter = null;
+  const exit = exitAt(map, nextX, nextY);
+  if (exit) return applyExit(game, exit);
+  return withMap(game);
+}
+
+function findExit(map, id) {
+  return map.exits.find((item) => item.id === id || item.to === id);
+}
+
+function exitAt(map, x, y) {
+  return map.exits.find((exit) => {
+    const bounds = Array.isArray(exit.bounds) ? exit.bounds : [exit.x, exit.y, exit.x, exit.y];
+    return x >= bounds[0] && y >= bounds[1] && x <= bounds[2] && y <= bounds[3];
+  });
+}
+
+function applyExit(game, exit) {
+  game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
+  game.encounter = null;
+  addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
   return withMap(game);
 }
 

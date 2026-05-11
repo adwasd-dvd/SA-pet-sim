@@ -130,7 +130,6 @@ function bindEvents() {
   els.mapZoomOut.addEventListener("click", () => zoomMap(mapView.zoom - MAP_ZOOM_STEP));
   els.mapZoomIn.addEventListener("click", () => zoomMap(mapView.zoom + MAP_ZOOM_STEP));
   els.mapZoomReset.addEventListener("click", resetMapView);
-  els.mapCanvas.addEventListener("wheel", onMapWheel, { passive: false });
   els.mapCanvas.addEventListener("pointerdown", onMapPointerDown);
   els.mapCanvas.addEventListener("pointermove", onMapPointerMove);
   els.mapCanvas.addEventListener("pointerup", onMapPointerUp);
@@ -217,7 +216,7 @@ function renderMap(map) {
     }),
     ...map.exits.map((exit, index) => {
       const point = layout.exits[index] || [86, 55];
-      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.to}" title="${escapeHtml(exit.detail || exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
+      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.id}" title="${escapeHtml(exit.detail || exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content">${markers.join("")}</div>`;
@@ -301,16 +300,6 @@ function clampMapPan() {
   mapView.panY = scaledH <= baseH
     ? (baseH - scaledH) / 2
     : Math.max(baseH - scaledH, Math.min(0, mapView.panY));
-}
-
-function onMapWheel(event) {
-  event.preventDefault();
-  const rect = els.mapCanvas.getBoundingClientRect();
-  const direction = event.deltaY < 0 ? 1 : -1;
-  zoomMap(mapView.zoom + direction * MAP_ZOOM_STEP, {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top
-  });
 }
 
 function onMapPointerDown(event) {
@@ -552,7 +541,7 @@ function dialogSpeaker(speaker, dialog) {
 
 function renderExits(map) {
   els.exitList.innerHTML = map.exits.map((exit) => `
-    <button class="list-btn" type="button" data-exit="${exit.to}">
+    <button class="list-btn" type="button" data-exit="${exit.id}">
       <strong>${escapeHtml(exit.label)}</strong>
       <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y})</span>
     </button>

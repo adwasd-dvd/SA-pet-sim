@@ -69,6 +69,7 @@ for (const floor of selectedFloors) {
       to: String(warp.toFloor),
       x: marker.x,
       y: marker.y,
+      bounds: [bounds.minX, bounds.minY, bounds.maxX, bounds.maxY],
       target: [targetPoint.x, targetPoint.y],
       source: "ref___data/map/mapwarp.txt"
     });
