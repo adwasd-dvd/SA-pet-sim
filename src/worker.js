@@ -23,6 +23,88 @@ const rankTab = [
   [550, 600]
 ];
 
+const WORLD = {
+  startMap: "samgill",
+  maps: {
+    samgill: {
+      id: "samgill",
+      name: "萨姆吉尔村",
+      floorId: 100,
+      summary: "海边的新手村，适合建立人物、学习抓宠和接第一批委托。",
+      size: [18, 12],
+      spawn: [9, 6],
+      encounterPets: [100, 101, 102, 103, 104, 105, 106, 107],
+      npcs: [
+        { id: "elder", name: "村长", x: 9, y: 4, type: "quest", dialogue: "年轻的原始人，先去草原抓一只伙伴吧。带着宠物回来，我会给你下一步指引。", questId: "first-pet" },
+        { id: "trainer", name: "宠物训练师", x: 12, y: 7, type: "trainer", dialogue: "宠物成长需要战斗，也需要耐心。我可以帮你做一次安全训练。" },
+        { id: "guide", name: "旅行向导", x: 5, y: 7, type: "guide", dialogue: "村外草原有低等级野兽，森林路口通向更远的地方。" }
+      ],
+      exits: [
+        { id: "plain", label: "去村外草原", to: "plain", x: 16, y: 6, target: [2, 6], source: "mapwarp.txt" }
+      ]
+    },
+    plain: {
+      id: "plain",
+      name: "村外草原",
+      floorId: 101,
+      summary: "低等级练级区，常见乌力系和布依系宠物。",
+      size: [22, 14],
+      spawn: [2, 6],
+      encounterPets: [108, 109, 110, 111, 112, 113, 114, 115],
+      npcs: [
+        { id: "hunter", name: "猎人", x: 8, y: 5, type: "hint", dialogue: "血低的时候不要硬撑。抓宠最好先观察属性和成长。" },
+        { id: "lost", name: "迷路的小孩", x: 15, y: 9, type: "quest", dialogue: "我想回村子，可是路上有野兽。你能带我回去吗？", questId: "lost-child" }
+      ],
+      exits: [
+        { id: "samgill", label: "回萨姆吉尔村", to: "samgill", x: 0, y: 6, target: [15, 6], source: "mapwarp.txt" },
+        { id: "forest", label: "去森林路口", to: "forest", x: 21, y: 8, target: [2, 8], source: "mapwarp.txt" }
+      ]
+    },
+    forest: {
+      id: "forest",
+      name: "森林路口",
+      floorId: 102,
+      summary: "更危险的区域，宠物等级略高，也更容易遇到任务 NPC。",
+      size: [24, 16],
+      spawn: [2, 8],
+      encounterPets: [116, 117, 118, 119, 120, 121, 122, 123],
+      npcs: [
+        { id: "herbalist", name: "采药人", x: 10, y: 6, type: "quest", dialogue: "森林里有治疗用的草药，但附近的野兽越来越凶。", questId: "forest-herb" },
+        { id: "stone", name: "古老石碑", x: 17, y: 10, type: "lore", dialogue: "石碑上刻着模糊的路线：村庄、草原、森林，再往前就是真正的冒险。" }
+      ],
+      exits: [
+        { id: "plain", label: "回村外草原", to: "plain", x: 0, y: 8, target: [20, 8], source: "mapwarp.txt" }
+      ]
+    }
+  },
+  quests: {
+    "first-pet": {
+      id: "first-pet",
+      title: "第一只伙伴",
+      source: "mission.txt / npc event seed",
+      description: "村长希望你在村外草原捕获第一只宠物。",
+      steps: ["和村长交谈", "去村外草原遇敌", "捕获一只宠物", "回村找村长"],
+      reward: "石币 120，人物经验 30"
+    },
+    "lost-child": {
+      id: "lost-child",
+      title: "迷路的小孩",
+      source: "npc/*.arg pattern",
+      description: "把草原上的小孩带回萨姆吉尔村。",
+      steps: ["在草原找到迷路的小孩", "回到萨姆吉尔村", "向村长报告"],
+      reward: "石币 80，宠物训练机会"
+    },
+    "forest-herb": {
+      id: "forest-herb",
+      title: "森林草药",
+      source: "npc event script seed",
+      description: "采药人需要你调查森林里的野兽。",
+      steps: ["到森林路口", "和采药人交谈", "完成 3 次安全训练"],
+      reward: "治疗药草，人物经验 60"
+    }
+  }
+};
+
 let cache;
 let charId = 0;
 const charSet = new Map();
@@ -66,9 +148,207 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await analyzePet(env, body.pet, String(body.prompt || "")));
     }
+    if (url.pathname === "/api/game/new" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await createPlayerGame(env, request, body));
+    }
+    if (url.pathname === "/api/game/travel" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(travelGame(body.game, String(body.to || "")));
+    }
+    if (url.pathname === "/api/game/talk" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(talkGame(body.game, String(body.npcId || "")));
+    }
+    if (url.pathname === "/api/game/encounter" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await encounterGame(env, request, body.game));
+    }
+    if (url.pathname === "/api/game/capture" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(captureGame(body.game));
+    }
+    if (url.pathname === "/api/game/train" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(trainGame(body.game, Number(body.petIndex) || 0));
+    }
+    if (url.pathname === "/api/ai/guide" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await guideGame(env, body.game, String(body.prompt || "")));
+    }
     return json({ error: "not found" }, 404);
   } catch (error) {
     return json({ error: error.message || "server error" }, 500);
+  }
+}
+
+async function createPlayerGame(env, request, body) {
+  const data = await loadGameData(env, request);
+  const starter = createEnemy(data, Number(body.starterPet) || 100, 1) || createEnemy(data, pick(data.enemyNoList), 1);
+  const name = String(body.name || "").trim().slice(0, 12) || "新来的原始人";
+  return withMap({
+    id: crypto.randomUUID(),
+    player: {
+      name,
+      level: 1,
+      exp: 0,
+      stone: 100,
+      hp: 100,
+      maxHp: 100
+    },
+    location: {
+      mapId: WORLD.startMap,
+      x: WORLD.maps[WORLD.startMap].spawn[0],
+      y: WORLD.maps[WORLD.startMap].spawn[1]
+    },
+    pets: [starter],
+    inventory: [{ id: "stone", name: "石币", qty: 100 }],
+    quests: {},
+    flags: {},
+    encounter: null,
+    log: [`${name} 来到了 ${WORLD.maps[WORLD.startMap].name}。`]
+  });
+}
+
+function travelGame(game, to) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const exit = map.exits.find((item) => item.to === to || item.id === to);
+  if (!exit) throw new Error("这个出口不存在");
+  game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
+  game.encounter = null;
+  addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
+  return withMap(game);
+}
+
+function talkGame(game, npcId) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  if (npc.questId && !game.quests[npc.questId]) {
+    game.quests[npc.questId] = { ...WORLD.quests[npc.questId], status: "进行中", progress: 0 };
+    addLog(game, `接到任务「${WORLD.quests[npc.questId].title}」。`);
+  }
+  addLog(game, `${npc.name}：${npc.dialogue}`);
+  return withMap(game, { npc });
+}
+
+async function encounterGame(env, request, game) {
+  game = normalizeGame(game);
+  const data = await loadGameData(env, request);
+  const map = currentMap(game);
+  const petNo = pick(map.encounterPets);
+  const enemy = createEnemy(data, petNo, Math.max(1, game.player.level + randInt(3) - 1));
+  if (!enemy) throw new Error("当前地图没有可遇敌宠物");
+  enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
+  game.encounter = enemy;
+  addLog(game, `野外遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
+  return withMap(game);
+}
+
+function captureGame(game) {
+  game = normalizeGame(game);
+  if (!game.encounter) throw new Error("当前没有可捕获目标");
+  const target = game.encounter;
+  const rate = Number(target.CaptureRate || 35);
+  const ok = Math.random() * 100 < rate;
+  if (ok) {
+    game.pets.push(target);
+    game.encounter = null;
+    game.player.exp += 12;
+    game.player.stone += 20;
+    addQuestProgress(game, "first-pet", 1);
+    addLog(game, `捕获成功！${target.Name} 加入了队伍。`);
+  } else {
+    addLog(game, `${target.Name} 挣脱了绳索。`);
+  }
+  return withMap(game, { captured: ok });
+}
+
+function trainGame(game, petIndex) {
+  game = normalizeGame(game);
+  const pet = game.pets[petIndex];
+  if (!pet) throw new Error("没有找到这只宠物");
+  const before = pet.Lv;
+  const up = pet.Lv < 10 ? 2 : 1;
+  for (let i = 0; i < up; i += 1) petLevelUp(pet);
+  game.player.exp += 10 * (pet.Lv - before);
+  game.player.stone += 12;
+  addQuestProgress(game, "forest-herb", 1);
+  addLog(game, `${pet.Name} 完成训练，从 Lv.${before} 提升到 Lv.${pet.Lv}。`);
+  return withMap(game);
+}
+
+async function guideGame(env, game, prompt) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const context = {
+    player: game.player,
+    map: { name: map.name, summary: map.summary, exits: map.exits.map((e) => e.label), npcs: map.npcs.map((n) => n.name) },
+    pets: game.pets.map(petSummary),
+    quests: Object.values(game.quests),
+    recentLog: game.log.slice(-6)
+  };
+  if (env.AI && typeof env.AI.run === "function") {
+    const messages = [
+      { role: "system", content: "你是单人版石器时代游戏里的向导。只根据给你的当前游戏状态回答，给玩家下一步建议。简洁中文，最多三段。" },
+      { role: "user", content: `${prompt || "我下一步该做什么？"}\n\n当前状态：${JSON.stringify(context)}` }
+    ];
+    const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
+    const rsp = await env.AI.run(model, { messages });
+    return { text: rsp.response || rsp.text || fallbackGuide(context), model };
+  }
+  return { text: fallbackGuide(context), model: "local-rule" };
+}
+
+function fallbackGuide(context) {
+  const quest = context.quests.find((item) => item.status === "进行中");
+  if (quest) {
+    return `你现在在${context.map.name}。建议继续任务「${quest.title}」：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。当前地图 NPC：${context.map.npcs.join("、") || "无"}。`;
+  }
+  return `你现在在${context.map.name}。可以先和 NPC 交谈接任务，或者去野外遇敌抓宠。出口：${context.map.exits.join("、") || "暂无"}`;
+}
+
+function normalizeGame(game) {
+  if (!game || !game.player || !game.location) throw new Error("需要先创建人物");
+  game.pets ||= [];
+  game.inventory ||= [];
+  game.quests ||= {};
+  game.flags ||= {};
+  game.log ||= [];
+  return game;
+}
+
+function withMap(game, extra = {}) {
+  const map = currentMap(game);
+  return {
+    ...game,
+    world: {
+      map,
+      quests: WORLD.quests
+    },
+    ...extra
+  };
+}
+
+function currentMap(game) {
+  const map = WORLD.maps[game.location.mapId];
+  if (!map) throw new Error("当前地图不存在");
+  return map;
+}
+
+function addLog(game, text) {
+  game.log.push(text);
+  game.log = game.log.slice(-24);
+}
+
+function addQuestProgress(game, questId, amount) {
+  const quest = game.quests[questId];
+  if (!quest || quest.status === "完成") return;
+  quest.progress = Math.min((quest.progress || 0) + amount, quest.steps.length);
+  if (quest.progress >= quest.steps.length - 1) {
+    quest.status = "可回报";
   }
 }
 

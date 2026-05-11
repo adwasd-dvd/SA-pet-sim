@@ -17,72 +17,115 @@
           <span>石器时代宠物模拟器</span>
         </a>
         <div class="install-row">
+          <span id="saveState" class="net-state">本地存档</span>
           <span id="netState" class="net-state">在线</span>
-          <button id="installBtn" class="icon-btn" type="button" hidden title="安装 PWA">＋</button>
+          <button id="installBtn" class="icon-btn" type="button" hidden title="安装">＋</button>
         </div>
       </header>
 
       <main>
-        <section class="pet-stage" aria-live="polite">
-          <div class="pet-meta">
-            <p class="eyebrow">捕获到 1 级宠物</p>
-            <h1 id="petName">载入中</h1>
-            <p id="petNo" class="muted">No. --</p>
-            <div id="attrs" class="attrs"></div>
-            <div class="actions">
-              <button id="randomBtn" type="button">随机遇敌</button>
-              <button id="sameBtn" type="button">原地遇敌</button>
-              <button id="shareBtn" type="button">分享</button>
-            </div>
+        <section id="creator" class="creator">
+          <div>
+            <p class="eyebrow">单人冒险模式</p>
+            <h1>创建人物，进入石器世界</h1>
+            <p class="muted">出生在萨姆吉尔村，和 NPC 对话，去野外遇敌，捕获宠物并训练队伍。</p>
           </div>
-          <div class="pet-visual">
-            <img id="petImg" src="/f/logo.gif" alt="宠物图片">
-          </div>
+          <form id="createForm" class="create-form">
+            <label>
+              人物名字
+              <input id="playerName" maxlength="12" placeholder="新来的原始人">
+            </label>
+            <button type="submit">开始冒险</button>
+          </form>
         </section>
 
-        <section class="tabs" aria-label="宠物信息">
-          <div class="tab-list" role="tablist">
-            <button class="tab active" type="button" data-tab="stats" role="tab">资料</button>
-            <button class="tab" type="button" data-tab="skills" role="tab">技能</button>
-            <button class="tab" type="button" data-tab="data" role="tab">资料库</button>
-            <button class="tab" type="button" data-tab="ai" role="tab">AI</button>
-          </div>
-
-          <section id="statsTab" class="tab-panel active">
-            <table class="stat-table">
-              <thead>
-                <tr><th></th><th>初始值</th><th>当前值</th><th>成长率</th></tr>
-              </thead>
-              <tbody id="statsBody"></tbody>
-            </table>
-            <div class="level-actions">
-              <button id="lv1Btn" type="button">Lv +1</button>
-              <button id="lv10Btn" type="button">Lv +10</button>
-              <button id="lvMaxBtn" type="button">到 Lv 140</button>
+        <section id="game" class="game" hidden>
+          <section class="hud">
+            <div>
+              <p class="eyebrow">当前人物</p>
+              <h1 id="playerTitle">--</h1>
+              <p id="playerStats" class="muted">--</p>
+            </div>
+            <div class="hud-actions">
+              <button id="guideBtn" type="button">AI 向导</button>
+              <button id="newGameBtn" type="button">重新开始</button>
             </div>
           </section>
 
-          <section id="skillsTab" class="tab-panel">
-            <table class="stat-table">
-              <thead><tr><th>技能格</th><th>技能</th><th>描述</th></tr></thead>
-              <tbody id="skillsBody"></tbody>
-            </table>
+          <section class="world-grid">
+            <article class="map-panel">
+              <div class="map-head">
+                <div>
+                  <p class="eyebrow">当前地图</p>
+                  <h2 id="mapName">--</h2>
+                  <p id="mapSummary" class="muted">--</p>
+                </div>
+                <button id="encounterBtn" type="button">野外遇敌</button>
+              </div>
+              <div id="mapCanvas" class="map-canvas" aria-label="地图"></div>
+            </article>
+
+            <aside class="side-panel">
+              <section>
+                <h3>NPC</h3>
+                <div id="npcList" class="stack"></div>
+              </section>
+              <section>
+                <h3>出口</h3>
+                <div id="exitList" class="stack"></div>
+              </section>
+            </aside>
           </section>
 
-          <section id="dataTab" class="tab-panel">
-            <div class="search-row">
-              <input id="dataQuery" type="search" placeholder="搜索地图、NPC、道具、宠物、遇敌数据">
-              <button id="dataSearchBtn" type="button">搜索</button>
+          <section id="encounterPanel" class="encounter-panel" hidden>
+            <div>
+              <p class="eyebrow">遭遇</p>
+              <h2 id="encounterName">--</h2>
+              <p id="encounterStats" class="muted">--</p>
             </div>
-            <div id="dataResults" class="result-list"></div>
+            <img id="encounterImg" src="/f/logo.gif" alt="遇敌宠物">
+            <div class="encounter-actions">
+              <button id="captureBtn" type="button">捕获</button>
+              <button id="skipEncounterBtn" type="button">放走</button>
+            </div>
           </section>
 
-          <section id="aiTab" class="tab-panel">
-            <div class="ai-panel">
-              <textarea id="aiPrompt" rows="4" placeholder="例如：这只宠物值得练吗？帮我分析成长率和技能。"></textarea>
-              <button id="aiBtn" type="button">AI 分析</button>
-              <div id="aiResult" class="ai-result"></div>
+          <section class="tabs" aria-label="游戏信息">
+            <div class="tab-list" role="tablist">
+              <button class="tab active" type="button" data-tab="pets" role="tab">宠物</button>
+              <button class="tab" type="button" data-tab="quests" role="tab">任务</button>
+              <button class="tab" type="button" data-tab="log" role="tab">日志</button>
+              <button class="tab" type="button" data-tab="data" role="tab">资料库</button>
+              <button class="tab" type="button" data-tab="ai" role="tab">AI</button>
             </div>
+
+            <section id="petsTab" class="tab-panel active">
+              <div id="petList" class="pet-list"></div>
+            </section>
+
+            <section id="questsTab" class="tab-panel">
+              <div id="questList" class="result-list"></div>
+            </section>
+
+            <section id="logTab" class="tab-panel">
+              <div id="gameLog" class="log-list"></div>
+            </section>
+
+            <section id="dataTab" class="tab-panel">
+              <div class="search-row">
+                <input id="dataQuery" type="search" placeholder="搜索地图、NPC、道具、宠物、遇敌数据">
+                <button id="dataSearchBtn" type="button">搜索</button>
+              </div>
+              <div id="dataResults" class="result-list"></div>
+            </section>
+
+            <section id="aiTab" class="tab-panel">
+              <div class="ai-panel">
+                <textarea id="aiPrompt" rows="4" placeholder="例如：我下一步该做什么？这只宠物值得练吗？"></textarea>
+                <button id="aiBtn" type="button">询问向导</button>
+                <div id="aiResult" class="ai-result"></div>
+              </div>
+            </section>
           </section>
         </section>
       </main>

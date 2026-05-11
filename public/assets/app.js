@@ -1,27 +1,41 @@
-let pet = null;
+const SAVE_KEY = "sa-pet-sim-game-v1";
+
+let game = null;
 let installPrompt = null;
 
 const els = {
-  netState: byId("netState"),
-  installBtn: byId("installBtn"),
-  petName: byId("petName"),
-  petNo: byId("petNo"),
-  petImg: byId("petImg"),
-  attrs: byId("attrs"),
-  statsBody: byId("statsBody"),
-  skillsBody: byId("skillsBody"),
-  randomBtn: byId("randomBtn"),
-  sameBtn: byId("sameBtn"),
-  shareBtn: byId("shareBtn"),
-  lv1Btn: byId("lv1Btn"),
-  lv10Btn: byId("lv10Btn"),
-  lvMaxBtn: byId("lvMaxBtn"),
+  creator: byId("creator"),
+  game: byId("game"),
+  createForm: byId("createForm"),
+  playerName: byId("playerName"),
+  playerTitle: byId("playerTitle"),
+  playerStats: byId("playerStats"),
+  mapName: byId("mapName"),
+  mapSummary: byId("mapSummary"),
+  mapCanvas: byId("mapCanvas"),
+  npcList: byId("npcList"),
+  exitList: byId("exitList"),
+  encounterPanel: byId("encounterPanel"),
+  encounterName: byId("encounterName"),
+  encounterStats: byId("encounterStats"),
+  encounterImg: byId("encounterImg"),
+  encounterBtn: byId("encounterBtn"),
+  captureBtn: byId("captureBtn"),
+  skipEncounterBtn: byId("skipEncounterBtn"),
+  petList: byId("petList"),
+  questList: byId("questList"),
+  gameLog: byId("gameLog"),
   dataQuery: byId("dataQuery"),
   dataSearchBtn: byId("dataSearchBtn"),
   dataResults: byId("dataResults"),
   aiPrompt: byId("aiPrompt"),
   aiBtn: byId("aiBtn"),
-  aiResult: byId("aiResult")
+  aiResult: byId("aiResult"),
+  guideBtn: byId("guideBtn"),
+  newGameBtn: byId("newGameBtn"),
+  installBtn: byId("installBtn"),
+  netState: byId("netState"),
+  saveState: byId("saveState")
 };
 
 init();
@@ -36,25 +50,47 @@ function init() {
     installPrompt = event;
     els.installBtn.hidden = false;
   });
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+  const saved = localStorage.getItem(SAVE_KEY);
+  if (saved) {
+    game = JSON.parse(saved);
+    showGame();
+    render();
   }
-  const parsedUrl = new URL(window.location.href);
-  getPet(Number(parsedUrl.searchParams.get("no")) || 0);
 }
 
 function bindEvents() {
-  els.randomBtn.addEventListener("click", () => getPet(0));
-  els.sameBtn.addEventListener("click", () => getPet(pet?.PetId || 0));
-  els.lv1Btn.addEventListener("click", () => levelUp(1));
-  els.lv10Btn.addEventListener("click", () => levelUp(10));
-  els.lvMaxBtn.addEventListener("click", () => levelUp(140));
-  els.shareBtn.addEventListener("click", sharePet);
+  els.createForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    game = await api("/api/game/new", { name: els.playerName.value });
+    save();
+    showGame();
+    render();
+  });
+  els.encounterBtn.addEventListener("click", () => mutate("/api/game/encounter", {}));
+  els.captureBtn.addEventListener("click", () => mutate("/api/game/capture", {}));
+  els.skipEncounterBtn.addEventListener("click", () => {
+    if (!game) return;
+    game.encounter = null;
+    game.log.push("你放走了野外宠物。");
+    save();
+    render();
+  });
   els.dataSearchBtn.addEventListener("click", searchData);
   els.dataQuery.addEventListener("keydown", (event) => {
     if (event.key === "Enter") searchData();
   });
-  els.aiBtn.addEventListener("click", analyzePet);
+  els.aiBtn.addEventListener("click", askGuide);
+  els.guideBtn.addEventListener("click", () => {
+    showTab("ai");
+    askGuide();
+  });
+  els.newGameBtn.addEventListener("click", () => {
+    localStorage.removeItem(SAVE_KEY);
+    game = null;
+    els.game.hidden = true;
+    els.creator.hidden = false;
+  });
   els.installBtn.addEventListener("click", async () => {
     if (!installPrompt) return;
     installPrompt.prompt();
@@ -65,24 +101,122 @@ function bindEvents() {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => showTab(tab.dataset.tab));
   });
-  els.petImg.addEventListener("error", () => {
-    els.petImg.src = "/f/logo.gif";
+  els.encounterImg.addEventListener("error", () => {
+    els.encounterImg.src = "/f/logo.gif";
   });
 }
 
-async function getPet(no) {
-  setBusy(true);
-  pet = await api("/api/getpet", { no });
-  renderPet();
-  history.replaceState(null, "", `?no=${pet.PetId}`);
-  setBusy(false);
+async function mutate(path, body) {
+  if (!game) return;
+  game = await api(path, { ...body, game });
+  save();
+  render();
 }
 
-async function levelUp(up) {
-  if (!pet) return;
-  const target = up === 140 ? Math.max(1, 140 - pet.Lv) : up;
-  pet = await api("/api/levelup", { pet, up: target });
-  renderPet();
+function showGame() {
+  els.creator.hidden = true;
+  els.game.hidden = false;
+}
+
+function render() {
+  if (!game) return;
+  const map = game.world.map;
+  els.playerTitle.textContent = game.player.name;
+  els.playerStats.textContent = `Lv.${game.player.level} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
+  els.mapName.textContent = map.name;
+  els.mapSummary.textContent = `${map.summary}  来源：mapwarp.txt / encount.txt / npc scripts`;
+  renderMap(map);
+  renderNpc(map);
+  renderExits(map);
+  renderEncounter();
+  renderPets();
+  renderQuests();
+  renderLog();
+  els.saveState.textContent = "已存档";
+}
+
+function renderMap(map) {
+  const [w, h] = map.size;
+  els.mapCanvas.style.setProperty("--cols", w);
+  els.mapCanvas.style.setProperty("--rows", h);
+  const markers = [
+    `<button class="tile player" style="${pos(game.location.x, game.location.y, w, h)}" title="${escapeHtml(game.player.name)}">人</button>`,
+    ...map.npcs.map((npc) => `<button class="tile npc" style="${pos(npc.x, npc.y, w, h)}" data-npc="${npc.id}" title="${escapeHtml(npc.name)}">${escapeHtml(npc.name.slice(0, 1))}</button>`),
+    ...map.exits.map((exit) => `<button class="tile exit" style="${pos(exit.x, exit.y, w, h)}" data-exit="${exit.to}" title="${escapeHtml(exit.label)}">出</button>`)
+  ];
+  els.mapCanvas.innerHTML = markers.join("");
+  els.mapCanvas.querySelectorAll("[data-npc]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/talk", { npcId: btn.dataset.npc }));
+  });
+  els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
+  });
+}
+
+function renderNpc(map) {
+  els.npcList.innerHTML = map.npcs.map((npc) => `
+    <button class="list-btn" type="button" data-npc="${npc.id}">
+      <strong>${escapeHtml(npc.name)}</strong>
+      <span>${escapeHtml(npc.type)} | (${npc.x}, ${npc.y})</span>
+    </button>
+  `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
+  els.npcList.querySelectorAll("[data-npc]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/talk", { npcId: btn.dataset.npc }));
+  });
+}
+
+function renderExits(map) {
+  els.exitList.innerHTML = map.exits.map((exit) => `
+    <button class="list-btn" type="button" data-exit="${exit.to}">
+      <strong>${escapeHtml(exit.label)}</strong>
+      <span>${escapeHtml(exit.source)} | (${exit.x}, ${exit.y})</span>
+    </button>
+  `).join("") || `<p class="empty">当前地图没有出口。</p>`;
+  els.exitList.querySelectorAll("[data-exit]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
+  });
+}
+
+function renderEncounter() {
+  const enemy = game.encounter;
+  els.encounterPanel.hidden = !enemy;
+  if (!enemy) return;
+  els.encounterName.textContent = `${enemy.Name} Lv.${enemy.Lv}`;
+  els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | HP ${enemy.WorkMaxHp} | 攻 ${enemy.WorkFixStr} | 防 ${enemy.WorkFixTough} | 敏 ${enemy.WorkFixDex}`;
+  els.encounterImg.src = `/f/pet/${enemy.ImgNo}.gif`;
+}
+
+function renderPets() {
+  els.petList.innerHTML = game.pets.map((pet, index) => `
+    <article class="pet-card">
+      <img src="/f/pet/${pet.ImgNo}.gif" alt="">
+      <div>
+        <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
+        <p class="muted">No.${pet.PetId} | HP ${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>
+        <p>总成长 <strong>${fmt(pet.Growth)}</strong></p>
+      </div>
+      <button type="button" data-train="${index}">训练</button>
+    </article>
+  `).join("");
+  els.petList.querySelectorAll("[data-train]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.train) }));
+  });
+}
+
+function renderQuests() {
+  const quests = Object.values(game.quests || {});
+  els.questList.innerHTML = quests.map((quest) => `
+    <article class="result-item">
+      <div><strong>${escapeHtml(quest.title)}</strong><span>${escapeHtml(quest.status)}</span></div>
+      <p>${escapeHtml(quest.description)}</p>
+      <p class="muted">下一步：${escapeHtml(quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)] || "完成")}</p>
+      <p class="muted">奖励：${escapeHtml(quest.reward)} | 来源：${escapeHtml(quest.source)}</p>
+    </article>
+  `).join("") || `<p class="empty">还没有接任务，先和 NPC 聊聊。</p>`;
+}
+
+function renderLog() {
+  els.gameLog.innerHTML = game.log.slice().reverse().map((line) => `<p>${escapeHtml(line)}</p>`).join("");
 }
 
 async function searchData() {
@@ -105,68 +239,11 @@ async function searchData() {
   `).join("");
 }
 
-async function analyzePet() {
-  if (!pet) return;
-  els.aiResult.textContent = "分析中...";
-  const data = await api("/api/ai/analyze", { pet, prompt: els.aiPrompt.value });
-  els.aiResult.textContent = data.text || "没有返回分析。";
-}
-
-function renderPet() {
-  if (!pet) return;
-  els.petName.textContent = pet.Name;
-  els.petNo.textContent = `No. ${pet.PetId}-${pet.Id}`;
-  els.petImg.src = `/f/pet/${pet.ImgNo}.gif`;
-  els.attrs.innerHTML = [
-    ["地", pet.EarthAT, "earth"],
-    ["水", pet.WaterAT, "water"],
-    ["火", pet.FireAT, "fire"],
-    ["风", pet.WindAT, "wind"]
-  ].filter(([, value]) => value > 0).map(([name, value, type]) => `
-    <div class="attr ${type}">
-      <span>${name}</span>
-      <meter min="0" max="100" value="${value}"></meter>
-      <b>${value}</b>
-    </div>
-  `).join("") || `<div class="attr neutral"><span>无</span><meter min="0" max="100" value="0"></meter><b>0</b></div>`;
-  renderStats();
-  renderSkills();
-}
-
-function renderStats() {
-  const rows = [
-    ["等级", pet.BornLv, pet.Lv, ""],
-    ["耐久力", pet.BornPoint[0], pet.WorkMaxHp, pet.GrowthHp],
-    ["攻击力", pet.BornPoint[1], pet.WorkFixStr, pet.GrowthStr],
-    ["防御力", pet.BornPoint[2], pet.WorkFixTough, pet.GrowthTough],
-    ["敏捷力", pet.BornPoint[3], pet.WorkFixDex, pet.GrowthDex],
-    ["总成长", "", "", pet.Growth]
-  ];
-  els.statsBody.innerHTML = rows.map(([name, born, current, growth]) => `
-    <tr>
-      <td>${name}</td>
-      <td>${born}</td>
-      <td>${current}</td>
-      <td>${growth === "" ? "" : `<strong>${fmt(growth)}</strong>`}</td>
-    </tr>
-  `).join("");
-  els.lv1Btn.disabled = pet.Lv >= 140;
-  els.lv10Btn.disabled = pet.Lv >= 140;
-  els.lvMaxBtn.disabled = pet.Lv >= 140;
-}
-
-function renderSkills() {
-  const skills = pet.PetSkills || [];
-  els.skillsBody.innerHTML = Array.from({ length: pet.Slot || 0 }, (_, index) => {
-    const skill = skills[index];
-    return `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${skill ? escapeHtml(skill.Name) : ""}</td>
-        <td>${skill ? escapeHtml(skill.Des) : ""}</td>
-      </tr>
-    `;
-  }).join("");
+async function askGuide() {
+  if (!game) return;
+  els.aiResult.textContent = "向导思考中...";
+  const data = await api("/api/ai/guide", { game, prompt: els.aiPrompt.value });
+  els.aiResult.textContent = data.text || "向导暂时没有建议。";
 }
 
 function showTab(name) {
@@ -176,18 +253,6 @@ function showTab(name) {
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     panel.classList.toggle("active", panel.id === `${name}Tab`);
   });
-}
-
-async function sharePet() {
-  if (!pet) return;
-  const text = `${pet.Name} Lv.${pet.Lv} 总成长 ${fmt(pet.Growth)} ${location.href}`;
-  if (navigator.share) {
-    await navigator.share({ title: "石器时代宠物模拟器", text, url: location.href });
-    return;
-  }
-  await navigator.clipboard?.writeText(text);
-  els.shareBtn.textContent = "已复制";
-  setTimeout(() => { els.shareBtn.textContent = "分享"; }, 1200);
 }
 
 async function api(path, body) {
@@ -201,14 +266,17 @@ async function api(path, body) {
   return data;
 }
 
-function setBusy(busy) {
-  els.randomBtn.disabled = busy;
-  els.sameBtn.disabled = busy;
+function save() {
+  localStorage.setItem(SAVE_KEY, JSON.stringify(game));
 }
 
 function updateNetState() {
   els.netState.textContent = navigator.onLine ? "在线" : "离线";
   els.netState.classList.toggle("offline", !navigator.onLine);
+}
+
+function pos(x, y, w, h) {
+  return `left:${(x / Math.max(1, w - 1)) * 100}%;top:${(y / Math.max(1, h - 1)) * 100}%`;
 }
 
 function highlight(text, q) {
@@ -228,7 +296,7 @@ function escapeHtml(value) {
 
 function fmt(value) {
   const n = Number(value);
-  return Number.isFinite(n) ? n.toFixed(2) : "";
+  return Number.isFinite(n) ? n.toFixed(2) : "0.00";
 }
 
 function byId(id) {

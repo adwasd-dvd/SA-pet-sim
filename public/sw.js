@@ -1,4 +1,4 @@
-const CACHE = "sa-pet-sim-v1";
+const CACHE = "sa-pet-sim-v2";
 const SHELL = [
   "/",
   "/index.html",
@@ -26,6 +26,16 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith("/api/")) return;
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).then((response) => {
+        const copy = response.clone();
+        caches.open(CACHE).then((cache) => cache.put("/index.html", copy));
+        return response;
+      }).catch(() => caches.match("/index.html"))
+    );
+    return;
+  }
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
       if (event.request.method === "GET" && response.ok) {
