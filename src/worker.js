@@ -16,6 +16,8 @@ const DATA_FILES = {
 };
 
 const CHAR_MAXUPLEVEL = 140;
+const SAVE_SCHEMA = "saac-pwa-v1";
+const MAXCHAR_PER_USER = 4;
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -80,6 +82,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(travelGame(body.game, String(body.to || "")));
     }
+    if (url.pathname === "/api/game/walk" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(walkGame(body.game, Number(body.dx) || 0, Number(body.dy) || 0));
+    }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
       return json(talkGame(body.game, String(body.npcId || "")));
@@ -118,8 +124,26 @@ async function createPlayerGame(env, request, body) {
   const data = await loadGameData(env, request);
   const starter = createEnemy(data, Number(body.starterPet) || 100, 1) || createEnemy(data, pick(data.enemyNoList), 1);
   const name = String(body.name || "").trim().slice(0, 12) || "新来的原始人";
+  const now = new Date().toISOString();
+  const accountId = cleanAccountId(body.accountId) || `local-${crypto.randomUUID().slice(0, 8)}`;
   return withMap({
     id: crypto.randomUUID(),
+    account: {
+      id: accountId,
+      name: "本地账号",
+      activeSlot: 0,
+      maxSlots: MAXCHAR_PER_USER,
+      lock: null,
+      source: "参考 SAAC char.c: id.slot.char"
+    },
+    character: {
+      id: crypto.randomUUID(),
+      slot: 0,
+      name,
+      createdAt: now,
+      updatedAt: now,
+      deleted: false
+    },
     player: {
       name,
       level: 1,
@@ -151,6 +175,18 @@ function travelGame(game, to) {
   game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
   game.encounter = null;
   addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
+  return withMap(game);
+}
+
+function walkGame(game, dx, dy) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const nextX = clampInt(Number(game.location.x || 0) + Math.sign(dx), 0, width - 1, game.location.x);
+  const nextY = clampInt(Number(game.location.y || 0) + Math.sign(dy), 0, height - 1, game.location.y);
+  game.location = { ...game.location, x: nextX, y: nextY };
+  game.encounter = null;
   return withMap(game);
 }
 
@@ -476,17 +512,146 @@ function fallbackGuide(context) {
 
 function normalizeGame(game) {
   if (!game || !game.player || !game.location) throw new Error("需要先创建人物");
+  ensureSaveIdentity(game);
   game.pets ||= [];
   game.inventory ||= [];
   game.quests ||= {};
   ensureFlags(game);
   game.dialog ||= null;
   game.log ||= [];
+  game.character.name = game.player.name;
+  game.character.updatedAt = new Date().toISOString();
+  game.save = buildSaacSave(game);
   return game;
+}
+
+function ensureSaveIdentity(game) {
+  const now = new Date().toISOString();
+  game.account ||= {};
+  game.account.id = cleanAccountId(game.account.id) || `local-${stableFlag(game.id || game.player.name).toString(36)}`;
+  game.account.name ||= "本地账号";
+  game.account.activeSlot = clampInt(game.account.activeSlot, 0, MAXCHAR_PER_USER - 1, 0);
+  game.account.maxSlots = MAXCHAR_PER_USER;
+  game.account.lock ||= null;
+  game.account.source ||= "参考 SAAC char.c: id.slot.char";
+  game.character ||= {};
+  game.character.id ||= game.id || `${game.account.id}-${game.account.activeSlot}`;
+  game.character.slot = clampInt(game.character.slot ?? game.account.activeSlot, 0, MAXCHAR_PER_USER - 1, game.account.activeSlot);
+  game.character.name = game.player.name;
+  game.character.createdAt ||= now;
+  game.character.updatedAt ||= now;
+  game.character.deleted = Boolean(game.character.deleted);
+}
+
+function buildSaacSave(game) {
+  const option = buildCharOption(game);
+  const info = buildCharInfo(game);
+  return {
+    schema: SAVE_SCHEMA,
+    source: "SAAC charSave/makeSaveCharString model: charname|option|charinfo",
+    fileName: `${game.account.id}.${game.character.slot}.char`,
+    accountId: game.account.id,
+    slot: game.character.slot,
+    name: game.player.name,
+    option,
+    info,
+    serialized: [escapeSaacField(game.player.name), escapeSaacField(option), escapeSaacField(info)].join("|"),
+    updatedAt: game.character.updatedAt
+  };
+}
+
+function buildCharOption(game) {
+  return [
+    `lv=${game.player.level}`,
+    `floor=${game.location.mapId}`,
+    `x=${game.location.x}`,
+    `y=${game.location.y}`,
+    `pet=${game.pets.length}`,
+    `item=${game.inventory.length}`
+  ].join(",");
+}
+
+function buildCharInfo(game) {
+  const activeQuests = Object.values(game.quests || {}).filter((quest) => quest.status !== "完成").map((quest) => quest.title);
+  return [
+    "DATASTART=1",
+    `SCHEMA=${SAVE_SCHEMA}`,
+    `ACCOUNT=${game.account.id}`,
+    `SLOT=${game.character.slot}`,
+    `CHARID=${game.character.id}`,
+    `NAME=${game.player.name}`,
+    `LV=${game.player.level}`,
+    `EXP=${game.player.exp}`,
+    `STONE=${game.player.stone}`,
+    `HP=${game.player.hp}`,
+    `MAXHP=${game.player.maxHp}`,
+    `FLOOR=${game.location.mapId}`,
+    `X=${game.location.x}`,
+    `Y=${game.location.y}`,
+    `PETCOUNT=${game.pets.length}`,
+    `ITEMCOUNT=${game.inventory.length}`,
+    `QUESTS=${safeJson(activeQuests)}`,
+    `FLAGS_END=${(game.flags?.endEvents || []).join(",")}`,
+    `FLAGS_NOW=${(game.flags?.nowEvents || []).join(",")}`,
+    `FLAGS_BITS=${safeJson(game.flags?.bits || {})}`,
+    `NPC_TALK=${safeJson(game.flags?.npcTalkCounts || {})}`,
+    `PETS=${safeJson(game.pets.map(petSaveSummary))}`,
+    `ITEMS=${safeJson(game.inventory.map(itemSaveSummary))}`,
+    `UPDATED=${game.character.updatedAt}`,
+    "DATAEND=1"
+  ].join("\n");
+}
+
+function escapeSaacField(value = "") {
+  return String(value)
+    .replaceAll("\\", "\\y")
+    .replaceAll("\n", "\\n")
+    .replaceAll(",", "\\c")
+    .replaceAll("|", "\\z");
+}
+
+function safeJson(value) {
+  return JSON.stringify(value).replaceAll("\n", " ");
+}
+
+function petSaveSummary(pet) {
+  return {
+    id: pet.Id,
+    no: pet.PetId,
+    name: pet.Name,
+    level: pet.LV,
+    hp: pet.HP,
+    maxHp: pet.MaxHP,
+    exp: pet.Exp,
+    image: pet.ImgNo
+  };
+}
+
+function itemSaveSummary(item) {
+  return {
+    id: item.id,
+    name: item.name,
+    qty: item.qty,
+    type: item.type,
+    level: item.level
+  };
+}
+
+function cleanAccountId(value = "") {
+  return String(value).trim().replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 24);
+}
+
+function clampInt(value, min, max, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, Math.trunc(n)));
 }
 
 function withMap(game, extra = {}) {
   const map = currentMap(game);
+  ensureSaveIdentity(game);
+  ensureFlags(game);
+  game.save = buildSaacSave(game);
   return {
     ...game,
     world: {

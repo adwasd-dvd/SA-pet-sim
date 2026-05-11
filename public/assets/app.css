@@ -107,6 +107,10 @@ main {
   border-radius: 999px;
   padding: 4px 10px;
   font-size: 13px;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .net-state.offline {
@@ -721,12 +725,24 @@ h3 {
 }
 
 .result-item,
+.result-card,
 .log-list p,
 .ai-result {
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 12px;
   background: #fff;
+}
+
+.result-card {
+  display: grid;
+  gap: 6px;
+}
+
+.result-card span {
+  color: var(--muted);
+  font-size: 13px;
+  word-break: break-word;
 }
 
 .result-item div {
@@ -759,6 +775,14 @@ h3 {
   min-height: 72px;
   color: var(--muted);
   white-space: pre-wrap;
+}
+
+.save-text {
+  margin-top: 12px;
+  min-height: 180px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  white-space: pre;
 }
 
 mark {

@@ -6,6 +6,7 @@ const MAP_DEFAULT_ZOOM = 4.5;
 
 let game = null;
 let installPrompt = null;
+let walkInFlight = false;
 const mapView = {
   zoom: MAP_DEFAULT_ZOOM,
   panX: 0,
@@ -60,6 +61,8 @@ const els = {
   aiPrompt: byId("aiPrompt"),
   aiBtn: byId("aiBtn"),
   aiResult: byId("aiResult"),
+  saveInfo: byId("saveInfo"),
+  saveText: byId("saveText"),
   guideBtn: byId("guideBtn"),
   newGameBtn: byId("newGameBtn"),
   installBtn: byId("installBtn"),
@@ -193,7 +196,8 @@ function render() {
   renderPets();
   renderQuests();
   renderLog();
-  els.saveState.textContent = "已存档";
+  renderSavePanel();
+  renderSaveState();
 }
 
 function renderMap(map) {
@@ -342,21 +346,17 @@ function onGameKeyDown(event) {
   walkPlayer(direction[0], direction[1]);
 }
 
-function walkPlayer(dx, dy) {
-  const map = game?.world?.map;
-  if (!map) return;
-  const width = Math.max(1, Number(map.size?.[0]) || 1);
-  const height = Math.max(1, Number(map.size?.[1]) || 1);
-  const currentX = Number(game.location.x || 0);
-  const currentY = Number(game.location.y || 0);
-  const nextX = Math.max(0, Math.min(width - 1, currentX + dx));
-  const nextY = Math.max(0, Math.min(height - 1, currentY + dy));
-  if (nextX === currentX && nextY === currentY) return;
-  game.location = { ...game.location, x: nextX, y: nextY };
-  game.encounter = null;
-  mapView.centerOnNextRender = true;
-  save();
-  render();
+async function walkPlayer(dx, dy) {
+  if (walkInFlight) return;
+  walkInFlight = true;
+  try {
+    game = await api("/api/game/walk", { game, dx, dy });
+    mapView.centerOnNextRender = true;
+    save();
+    render();
+  } finally {
+    walkInFlight = false;
+  }
 }
 
 function onMapPointerMove(event) {
@@ -650,6 +650,31 @@ function showTab(name) {
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     panel.classList.toggle("active", panel.id === `${name}Tab`);
   });
+}
+
+function renderSaveState() {
+  const save = game?.save;
+  if (!save) {
+    els.saveState.textContent = "本地存档";
+    return;
+  }
+  els.saveState.textContent = `槽 ${save.slot} | ${save.fileName}`;
+}
+
+function renderSavePanel() {
+  const save = game?.save;
+  if (!save) return;
+  els.saveInfo.innerHTML = `
+    <article class="result-card">
+      <strong>账号 ${escapeHtml(save.accountId)} / 人物槽 ${save.slot}</strong>
+      <span>${escapeHtml(save.fileName)} | ${escapeHtml(save.schema)} | ${escapeHtml(save.updatedAt || "")}</span>
+    </article>
+    <article class="result-card">
+      <strong>SAAC 字符串结构</strong>
+      <span>charname | option | charinfo，对应原 SAAC 的 makeSaveCharString。</span>
+    </article>
+  `;
+  els.saveText.value = save.serialized || "";
 }
 
 async function api(path, body) {

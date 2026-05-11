@@ -7,7 +7,7 @@
     <title>石器时代宠物模拟器</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=13">
+    <link rel="stylesheet" href="/assets/app.css?v=14">
   </head>
   <body>
     <div class="app-shell">
@@ -126,6 +126,7 @@
               <button class="tab active" type="button" data-tab="pets" role="tab">宠物</button>
               <button class="tab" type="button" data-tab="quests" role="tab">任务</button>
               <button class="tab" type="button" data-tab="log" role="tab">日志</button>
+              <button class="tab" type="button" data-tab="save" role="tab">存档</button>
               <button class="tab" type="button" data-tab="data" role="tab">资料库</button>
               <button class="tab" type="button" data-tab="ai" role="tab">AI</button>
             </div>
@@ -140,6 +141,11 @@
 
             <section id="logTab" class="tab-panel">
               <div id="gameLog" class="log-list"></div>
+            </section>
+
+            <section id="saveTab" class="tab-panel">
+              <div id="saveInfo" class="result-list"></div>
+              <textarea id="saveText" class="save-text" rows="8" readonly></textarea>
             </section>
 
             <section id="dataTab" class="tab-panel">
@@ -161,6 +167,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=13"></script>
+    <script type="module" src="/assets/app.js?v=14"></script>
   </body>
 </html>
