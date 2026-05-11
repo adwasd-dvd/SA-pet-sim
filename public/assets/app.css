@@ -226,17 +226,64 @@ h3 {
   min-width: 104px;
 }
 
+.map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 10px;
+}
+
+.zoom-controls {
+  display: inline-grid;
+  grid-template-columns: 42px 72px 42px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.zoom-controls button {
+  min-width: 0;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  padding: 10px 0;
+  background: #fff;
+  color: var(--ink);
+}
+
+.zoom-controls button:last-child {
+  border-right: 0;
+}
+
+.zoom-controls button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.zoom-controls span {
+  font-size: 13px;
+  font-weight: 900;
+}
+
 .map-canvas {
   position: relative;
   min-height: 340px;
   margin-top: 16px;
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
     radial-gradient(circle at 22% 30%, rgb(255 255 255 / 28%) 0 9%, transparent 10%),
     radial-gradient(circle at 76% 78%, rgb(36 68 59 / 18%) 0 13%, transparent 14%),
     linear-gradient(135deg, #8eaa72 0%, #c8ba78 52%, #7d9b6a 100%);
+}
+
+.map-content {
+  position: relative;
+  width: 100%;
+  height: 340px;
 }
 
 .map-canvas.map-fallback::before {
@@ -266,7 +313,7 @@ h3 {
   position: absolute;
   right: 10px;
   top: 10px;
-  z-index: 1;
+  z-index: 4;
   border-radius: 999px;
   padding: 4px 8px;
   background: rgb(255 253 247 / 78%);

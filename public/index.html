@@ -7,7 +7,7 @@
     <title>石器时代宠物模拟器</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=7">
+    <link rel="stylesheet" href="/assets/app.css?v=8">
   </head>
   <body>
     <div class="app-shell">
@@ -60,7 +60,14 @@
                   <h2 id="mapName">--</h2>
                   <p id="mapSummary" class="muted">--</p>
                 </div>
-                <button id="encounterBtn" type="button">野外遇敌</button>
+                <div class="map-actions">
+                  <div class="zoom-controls" aria-label="地图缩放">
+                    <button id="mapZoomOut" type="button" title="缩小地图">-</button>
+                    <button id="mapZoomReset" type="button" title="重置缩放"><span id="mapZoomValue">100%</span></button>
+                    <button id="mapZoomIn" type="button" title="放大地图">+</button>
+                  </div>
+                  <button id="encounterBtn" type="button">野外遇敌</button>
+                </div>
               </div>
               <div id="mapCanvas" class="map-canvas" aria-label="地图"></div>
               <div class="map-help">
@@ -153,6 +160,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=7"></script>
+    <script type="module" src="/assets/app.js?v=8"></script>
   </body>
 </html>

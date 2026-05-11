@@ -1,7 +1,11 @@
 const SAVE_KEY = "sa-pet-sim-game-v1";
+const MAP_ZOOM_MIN = 0.5;
+const MAP_ZOOM_MAX = 3;
+const MAP_ZOOM_STEP = 0.25;
 
 let game = null;
 let installPrompt = null;
+let mapZoom = 1;
 
 const els = {
   creator: byId("creator"),
@@ -13,6 +17,10 @@ const els = {
   mapName: byId("mapName"),
   mapSummary: byId("mapSummary"),
   mapCanvas: byId("mapCanvas"),
+  mapZoomOut: byId("mapZoomOut"),
+  mapZoomReset: byId("mapZoomReset"),
+  mapZoomIn: byId("mapZoomIn"),
+  mapZoomValue: byId("mapZoomValue"),
   npcList: byId("npcList"),
   exitList: byId("exitList"),
   encounterPanel: byId("encounterPanel"),
@@ -100,6 +108,9 @@ function bindEvents() {
     if (event.key === "Enter") searchData();
   });
   els.aiBtn.addEventListener("click", askGuide);
+  els.mapZoomOut.addEventListener("click", () => setMapZoom(mapZoom - MAP_ZOOM_STEP));
+  els.mapZoomIn.addEventListener("click", () => setMapZoom(mapZoom + MAP_ZOOM_STEP));
+  els.mapZoomReset.addEventListener("click", () => setMapZoom(1));
   els.guideBtn.addEventListener("click", () => {
     showTab("ai");
     askGuide();
@@ -178,7 +189,8 @@ function renderMap(map) {
       return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.to}" title="${escapeHtml(exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
     })
   ];
-  els.mapCanvas.innerHTML = markers.join("");
+  els.mapCanvas.innerHTML = `<div class="map-content">${markers.join("")}</div>`;
+  applyMapZoom();
   renderLs2Map(map).catch(() => {
     els.mapCanvas.classList.add("map-fallback");
   });
@@ -188,6 +200,22 @@ function renderMap(map) {
   els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
   });
+}
+
+function setMapZoom(value) {
+  mapZoom = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, value));
+  applyMapZoom();
+}
+
+function applyMapZoom() {
+  const content = els.mapCanvas.querySelector(".map-content");
+  if (content) {
+    content.style.width = `${Math.round(mapZoom * 100)}%`;
+    content.style.height = `${Math.round(340 * mapZoom)}px`;
+  }
+  els.mapZoomValue.textContent = `${Math.round(mapZoom * 100)}%`;
+  els.mapZoomOut.disabled = mapZoom <= MAP_ZOOM_MIN;
+  els.mapZoomIn.disabled = mapZoom >= MAP_ZOOM_MAX;
 }
 
 async function renderLs2Map(map) {
