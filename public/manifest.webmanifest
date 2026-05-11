@@ -1,0 +1,22 @@
+{
+  "name": "石器时代宠物模拟器",
+  "short_name": "SA Pet Sim",
+  "description": "Cloudflare Workers 上运行的石器时代宠物成长率 PWA。",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ec",
+  "theme_color": "#24443b",
+  "icons": [
+    {
+      "src": "/f/logo.gif",
+      "sizes": "48x48",
+      "type": "image/gif"
+    },
+    {
+      "src": "/f/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}

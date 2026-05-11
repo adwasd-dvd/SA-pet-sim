@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#24443b">
+    <title>石器时代宠物模拟器</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/f/favicon.ico">
+    <link rel="stylesheet" href="/assets/app.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="回到首页">
+          <img src="/f/logo.gif" alt="">
+          <span>石器时代宠物模拟器</span>
+        </a>
+        <div class="install-row">
+          <span id="netState" class="net-state">在线</span>
+          <button id="installBtn" class="icon-btn" type="button" hidden title="安装 PWA">＋</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="pet-stage" aria-live="polite">
+          <div class="pet-meta">
+            <p class="eyebrow">捕获到 1 级宠物</p>
+            <h1 id="petName">载入中</h1>
+            <p id="petNo" class="muted">No. --</p>
+            <div id="attrs" class="attrs"></div>
+            <div class="actions">
+              <button id="randomBtn" type="button">随机遇敌</button>
+              <button id="sameBtn" type="button">原地遇敌</button>
+              <button id="shareBtn" type="button">分享</button>
+            </div>
+          </div>
+          <div class="pet-visual">
+            <img id="petImg" src="/f/logo.gif" alt="宠物图片">
+          </div>
+        </section>
+
+        <section class="tabs" aria-label="宠物信息">
+          <div class="tab-list" role="tablist">
+            <button class="tab active" type="button" data-tab="stats" role="tab">资料</button>
+            <button class="tab" type="button" data-tab="skills" role="tab">技能</button>
+            <button class="tab" type="button" data-tab="data" role="tab">资料库</button>
+            <button class="tab" type="button" data-tab="ai" role="tab">AI</button>
+          </div>
+
+          <section id="statsTab" class="tab-panel active">
+            <table class="stat-table">
+              <thead>
+                <tr><th></th><th>初始值</th><th>当前值</th><th>成长率</th></tr>
+              </thead>
+              <tbody id="statsBody"></tbody>
+            </table>
+            <div class="level-actions">
+              <button id="lv1Btn" type="button">Lv +1</button>
+              <button id="lv10Btn" type="button">Lv +10</button>
+              <button id="lvMaxBtn" type="button">到 Lv 140</button>
+            </div>
+          </section>
+
+          <section id="skillsTab" class="tab-panel">
+            <table class="stat-table">
+              <thead><tr><th>技能格</th><th>技能</th><th>描述</th></tr></thead>
+              <tbody id="skillsBody"></tbody>
+            </table>
+          </section>
+
+          <section id="dataTab" class="tab-panel">
+            <div class="search-row">
+              <input id="dataQuery" type="search" placeholder="搜索地图、NPC、道具、宠物、遇敌数据">
+              <button id="dataSearchBtn" type="button">搜索</button>
+            </div>
+            <div id="dataResults" class="result-list"></div>
+          </section>
+
+          <section id="aiTab" class="tab-panel">
+            <div class="ai-panel">
+              <textarea id="aiPrompt" rows="4" placeholder="例如：这只宠物值得练吗？帮我分析成长率和技能。"></textarea>
+              <button id="aiBtn" type="button">AI 分析</button>
+              <div id="aiResult" class="ai-result"></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/assets/app.js"></script>
+  </body>
+</html>

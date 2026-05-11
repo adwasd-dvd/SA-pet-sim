@@ -1,0 +1,16 @@
+{
+  "name": "sa-pet-sim-pwa",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-05-10",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./public",
+    "not_found_handling": "single-page-application"
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -11,6 +11,10 @@
 
 ### 试玩 https://pet.catlabs.cn
 
+### Cloudflare PWA
+
+这个仓库已新增 Cloudflare Workers + 静态资源的 PWA 版本，入口说明见 [README.cloudflare.md](README.cloudflare.md)。
+
 ### 截图
 
 <img src="https://raw.githubusercontent.com/zii/pet-sim/master/bin/data/screenshot.jpg" width="40%">
