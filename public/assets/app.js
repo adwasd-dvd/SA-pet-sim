@@ -434,19 +434,36 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas) {
   const ctx = canvas.getContext("2d", { alpha: true });
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let diagonal = 0; diagonal <= width + height - 2; diagonal += 1) {
-    const startX = Math.max(0, diagonal - (height - 1));
-    const endX = Math.min(width - 1, diagonal);
-    for (let x = startX; x <= endX; x += 1) {
-      const y = diagonal - x;
-      const [ground, object] = tileAt(y * width + x);
-      const px = (x + y) * halfW - bounds.minX;
-      const py = (y - x) * halfH - bounds.minY;
-      drawAtlasTile(ctx, atlas, ground, px, py);
-      drawAtlasTile(ctx, atlas, object, px, py);
-    }
+  const objects = [];
+  for (const { x, y } of clientMapDrawOrder(width, height)) {
+    const [ground, object] = tileAt(y * width + x);
+    const px = (x + y) * halfW - bounds.minX;
+    const py = (y - x) * halfH - bounds.minY;
+    drawAtlasTile(ctx, atlas, ground, px, py);
+    if (atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
+  }
+  for (const object of objects) {
+    drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
   }
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client atlas + offsets`;
+}
+
+function clientMapDrawOrder(width, height) {
+  const cells = [];
+  let ti = height - 1;
+  let tj = 0;
+  while (ti >= 0) {
+    let y = ti;
+    let x = tj;
+    while (y >= 0 && x >= 0) {
+      cells.push({ x, y });
+      y -= 1;
+      x -= 1;
+    }
+    if (tj < width - 1) tj += 1;
+    else ti -= 1;
+  }
+  return cells;
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
