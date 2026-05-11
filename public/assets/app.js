@@ -3,10 +3,12 @@ const MAP_ZOOM_MIN = 0.5;
 const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
 const MAP_DEFAULT_ZOOM = 4.5;
+const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
 
 let game = null;
 let installPrompt = null;
 let walkInFlight = false;
+let tileAtlasPromise = null;
 const mapView = {
   zoom: MAP_DEFAULT_ZOOM,
   panX: 0,
@@ -379,26 +381,87 @@ async function renderLs2Map(map) {
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
   if (map.clientMapFile) {
-    renderClientDatMap(canvas, buf);
+    await renderClientDatMap(canvas, buf);
     return;
   }
   renderLs2MapBuffer(canvas, buf);
 }
 
-function renderClientDatMap(canvas, buf) {
+async function renderClientDatMap(canvas, buf) {
   const view = new DataView(buf);
   const width = view.getUint32(0, true);
   const height = view.getUint32(4, true);
   const expected = 8 + width * height * 6;
   if (!width || !height || buf.byteLength < expected) throw new Error("invalid client map");
-  drawTilePreview(canvas, width, height, (index) => {
+  const tileAt = (index) => {
     const offset = 8 + index * 6;
     return [
       view.getUint16(offset, true),
       view.getUint16(offset + 2, true),
       view.getUint16(offset + 4, true)
     ];
-  });
+  };
+  const atlas = await loadTileAtlas();
+  if (atlas) {
+    drawRealTileMap(canvas, width, height, tileAt, atlas);
+    return;
+  }
+  drawTilePreview(canvas, width, height, tileAt);
+}
+
+async function loadTileAtlas() {
+  if (!tileAtlasPromise) {
+    tileAtlasPromise = (async () => {
+      const rsp = await fetch(TILE_ATLAS_MANIFEST);
+      if (!rsp.ok) return null;
+      const manifest = await rsp.json();
+      const image = new Image();
+      image.decoding = "async";
+      image.src = manifest.image;
+      await image.decode();
+      return { ...manifest, image };
+    })().catch(() => null);
+  }
+  return tileAtlasPromise;
+}
+
+function drawRealTileMap(canvas, width, height, tileAt, atlas) {
+  const max = Math.max(width, height);
+  const tilePx = max <= 180 ? 6 : max <= 420 ? 3 : 2;
+  canvas.width = width * tilePx;
+  canvas.height = height * tilePx;
+  const ctx = canvas.getContext("2d", { alpha: false });
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#27443b";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const [ground, object, overlay] = tileAt(y * width + x);
+      drawAtlasTile(ctx, atlas, ground, x * tilePx, y * tilePx, tilePx, true);
+      drawAtlasTile(ctx, atlas, object, x * tilePx, y * tilePx, tilePx, false);
+      drawAtlasTile(ctx, atlas, overlay, x * tilePx, y * tilePx, tilePx, false);
+    }
+  }
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client tiles`;
+}
+
+function drawAtlasTile(ctx, atlas, tileId, x, y, size, fillGround) {
+  const index = atlas.tiles?.[tileId];
+  if (index === undefined) {
+    if (fillGround) {
+      const color = tileColor(tileId, 0, 0);
+      ctx.fillStyle = `rgb(${color[0]} ${color[1]} ${color[2]})`;
+      ctx.fillRect(x, y, size, size);
+    }
+    return;
+  }
+  if (fillGround) {
+    ctx.fillStyle = atlas.colors?.[tileId] || "#506f4b";
+    ctx.fillRect(x, y, size, size);
+  }
+  const sx = (index % atlas.columns) * atlas.tileWidth;
+  const sy = Math.floor(index / atlas.columns) * atlas.tileHeight;
+  ctx.drawImage(atlas.image, sx, sy, atlas.tileWidth, atlas.tileHeight, x, y, size, size);
 }
 
 function renderLs2MapBuffer(canvas, buf) {

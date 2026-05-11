@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:world": "node scripts/build-world.mjs",
+    "build:world": "node scripts/build-world.mjs && node scripts/extract-client-tiles.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "check": "wrangler deploy --dry-run"
