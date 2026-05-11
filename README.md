@@ -1,7 +1,7 @@
 # pet-sim
 ![LOGO](https://upload.wikimedia.org/wikipedia/zh/e/e1/STONEAGE_ICON.GIF)
 
-### 石器时代宠物模拟器
+### 石器时代 Web 重构
 
 《石器时代》是日本Japan System Supply（简称JSS）于1999年开发的一款网络游戏，最特别的就是有许多可爱的恐龙和怪兽。原始人可以将这些恐龙怪兽捉来饲养，并做为随身携带的宠物。凡遇到危险的敌人或野兽时，就可以使唤出可爱的宠物来一起并肩作战。
 

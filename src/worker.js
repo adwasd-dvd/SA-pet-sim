@@ -1080,7 +1080,7 @@ async function analyzePet(env, pet, prompt) {
   const summary = petSummary(pet);
   if (env.AI && typeof env.AI.run === "function") {
     const messages = [
-      { role: "system", content: "你是石器时代宠物模拟器助手。用简洁中文分析宠物成长率、属性和技能，给出是否值得练的建议。" },
+      { role: "system", content: "你是石器时代 Web 重构里的游戏向导。用简洁中文分析宠物成长率、属性、技能、地图、NPC 和任务状态，给出下一步建议。" },
       { role: "user", content: `${prompt || "分析这只宠物。"}\n\n宠物数据：${JSON.stringify(summary)}` }
     ];
     const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";

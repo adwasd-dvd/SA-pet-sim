@@ -1,4 +1,4 @@
-# SA Pet Sim Development Plan
+# StoneAge Web Rebuild Development Plan
 
 This project is no longer just a fork cleanup. The goal is to rebuild Stone Age as a browser-first PWA that preserves the client/server behavior where it matters, then adds an AI layer that helps the world feel alive.
 

@@ -2,7 +2,7 @@ const SAVE_KEY = "sa-pet-sim-game-v1";
 const MAP_ZOOM_MIN = 0.5;
 const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
-const MAP_DEFAULT_ZOOM = 4.5;
+const MAP_DEFAULT_ZOOM = 1;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
 
 let game = null;
@@ -143,6 +143,7 @@ function bindEvents() {
   els.mapCanvas.addEventListener("pointercancel", onMapPointerUp);
   els.mapCanvas.addEventListener("click", onMapCanvasClick);
   els.npcList.addEventListener("click", onNpcListClick);
+  window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
     showTab("ai");
@@ -230,10 +231,8 @@ function renderMap(map) {
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content" style="width:${Math.ceil(metrics.width)}px;height:${Math.ceil(metrics.height)}px">${markers.join("")}</div>`;
-  if (mapView.centerOnNextRender) {
-    centerMapOnPoint(layout.player);
-    mapView.centerOnNextRender = false;
-  }
+  centerMapOnPoint(layout.player);
+  mapView.centerOnNextRender = false;
   clampMapPan();
   applyMapView();
   renderLs2Map(map).catch(() => {
@@ -277,7 +276,7 @@ function resetMapView() {
 
 function centerMapOnPlayer() {
   if (!game?.world?.map) return;
-  centerMapOnPoint(worldPoint(game.world.map, game.location?.x, game.location?.y));
+  centerMapOnPoint(mapClientPoint(game.world.map, game.location?.x, game.location?.y));
 }
 
 function centerMapOnPoint(point) {
@@ -479,6 +478,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
   drawNpcSprites(ctx, map, bounds, atlas);
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
   syncMapMarkers(game.world.map);
+  centerMapOnPlayer();
   clampMapPan();
   applyMapView();
 }

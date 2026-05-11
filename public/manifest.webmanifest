@@ -1,7 +1,7 @@
 {
-  "name": "石器时代宠物模拟器",
-  "short_name": "SA Pet Sim",
-  "description": "Cloudflare Workers 上运行的石器时代宠物成长率 PWA。",
+  "name": "石器时代 Web 重构",
+  "short_name": "StoneAge Web",
+  "description": "在 Cloudflare Workers 上重构石器时代客户端、地图、NPC、宠物、战斗与账号存档。",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -64,7 +64,7 @@ main {
 }
 
 main:has(.game:not([hidden])) {
-  width: min(1480px, calc(100% - 18px));
+  width: min(1260px, calc(100% - 18px));
   margin-top: 10px;
   margin-bottom: 24px;
 }
@@ -204,12 +204,15 @@ h3 {
 
 .game {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  --game-view-width: min(800px, calc(100vw - 460px));
+  --game-view-height: min(600px, calc(100vh - 220px));
+  grid-template-columns: var(--game-view-width) minmax(300px, 420px);
   grid-template-areas:
     "hud hud"
     "world tabs";
-  gap: 10px;
-  min-height: calc(100vh - 94px);
+  align-items: start;
+  justify-content: center;
+  gap: 8px 12px;
 }
 
 .hud {
@@ -218,8 +221,8 @@ h3 {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  min-height: 72px;
-  padding: 12px 16px;
+  min-height: 48px;
+  padding: 8px 12px;
 }
 
 .hud h1 {
@@ -237,23 +240,58 @@ h3 {
 .world-grid {
   grid-area: world;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 10px;
+  grid-template-columns: var(--game-view-width);
+  grid-template-rows: var(--game-view-height) minmax(150px, auto);
+  gap: 8px;
   min-height: 0;
 }
 
 .map-panel {
+  position: relative;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  min-height: calc(100vh - 176px);
-  padding: 12px;
+  width: var(--game-view-width);
+  height: var(--game-view-height);
+  min-height: 0;
+  overflow: hidden;
+  border: 4px solid #f5b400;
+  padding: 0;
+  background: #0d0f0f;
 }
 
 .map-head {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 8;
   display: flex;
   align-items: start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
+  width: calc(100% - 20px);
+  pointer-events: none;
+}
+
+.map-head > div {
+  max-width: 360px;
+  border: 1px solid rgb(255 255 255 / 42%);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: rgb(255 253 247 / 84%);
+  box-shadow: 0 8px 18px rgb(0 0 0 / 18%);
+  pointer-events: auto;
+}
+
+.map-head h2 {
+  margin-bottom: 4px;
+  font-size: 22px;
+}
+
+.map-head .muted {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  font-size: 13px;
 }
 
 .map-head button {
@@ -265,6 +303,7 @@ h3 {
   flex-wrap: wrap;
   justify-content: end;
   gap: 10px;
+  pointer-events: auto;
 }
 
 .zoom-controls {
@@ -303,12 +342,13 @@ h3 {
 
 .map-canvas {
   position: relative;
+  width: 100%;
   height: 100%;
-  min-height: 560px;
-  margin-top: 10px;
+  min-height: 0;
+  margin-top: 0;
   overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 0;
+  border-radius: 0;
   cursor: grab;
   touch-action: none;
   background:
@@ -376,7 +416,7 @@ h3 {
 
 .map-region {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   display: grid;
   gap: 4px;
   max-width: 210px;
@@ -405,7 +445,7 @@ h3 {
 
 .map-marker {
   position: absolute;
-  z-index: 3;
+  z-index: 5;
   display: inline-grid;
   grid-template-columns: 34px auto;
   align-items: center;
@@ -441,7 +481,7 @@ h3 {
 }
 
 .map-marker.player {
-  z-index: 5;
+  z-index: 7;
   background: var(--forest);
   box-shadow: 0 0 0 5px rgb(255 255 255 / 30%), 0 8px 18px rgb(0 0 0 / 22%);
 }
@@ -488,11 +528,19 @@ h3 {
 }
 
 .map-help {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
-  margin-top: 12px;
-  color: var(--muted);
+  margin-top: 0;
+  padding: 5px 10px;
+  border-top: 2px solid rgb(120 78 28 / 55%);
+  background: linear-gradient(#9f612b, #7b461d);
+  color: #fff7d0;
   font-size: 13px;
 }
 
@@ -528,11 +576,29 @@ h3 {
 
 .side-panel {
   display: grid;
-  align-content: start;
-  max-height: calc(100vh - 176px);
+  grid-template-columns: 1fr 1fr;
+  align-content: stretch;
+  width: var(--game-view-width);
+  min-height: 170px;
+  max-height: 240px;
   overflow: auto;
-  gap: 18px;
+  gap: 12px;
+  border-color: #0b4055;
+  background: #176a86;
   padding: 16px;
+  color: #fff;
+  box-shadow: none;
+}
+
+.side-panel h3 {
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: 20px;
+}
+
+.side-panel section {
+  min-width: 0;
+  overflow: auto;
 }
 
 .stack {
@@ -546,7 +612,7 @@ h3 {
   min-height: 54px;
   width: 100%;
   text-align: left;
-  background: #fff;
+  background: rgb(255 255 255 / 92%);
   color: var(--ink);
   border-color: var(--line);
 }
@@ -711,7 +777,13 @@ h3 {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   align-self: start;
-  max-height: calc(100vh - 100px);
+  height: var(--game-view-height);
+  min-height: 0;
+  max-height: var(--game-view-height);
+  border: 3px solid #09364a;
+  padding: 8px;
+  background: #176a86;
+  box-shadow: none;
   margin-top: 0;
 }
 
@@ -719,15 +791,15 @@ h3 {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgb(255 255 255 / 30%);
 }
 
 .tab {
   min-width: 82px;
   border-radius: 6px 6px 0 0;
-  border-color: var(--line);
-  background: transparent;
-  color: var(--ink);
+  border-color: rgb(255 255 255 / 38%);
+  background: rgb(255 255 255 / 12%);
+  color: #fff;
 }
 
 .tab.active {
@@ -741,7 +813,7 @@ h3 {
   display: none;
   margin-top: -1px;
   min-height: 0;
-  max-height: calc(100vh - 154px);
+  max-height: calc(var(--game-view-height) - 58px);
   overflow: auto;
   padding: 18px;
   border-top-left-radius: 0;
@@ -891,6 +963,8 @@ mark {
   }
 
   .game {
+    --game-view-width: min(100%, calc(100vw - 18px));
+    --game-view-height: min(520px, calc(100vh - 210px));
     grid-template-areas:
       "hud"
       "world"
@@ -905,8 +979,8 @@ mark {
   }
 
   .map-canvas {
-    height: 360px;
-    min-height: 360px;
+    height: 100%;
+    min-height: 0;
   }
 
   .map-panel,
