@@ -5,7 +5,17 @@ const MAP_ZOOM_STEP = 0.25;
 
 let game = null;
 let installPrompt = null;
-let mapZoom = 1;
+const mapView = {
+  zoom: 1,
+  panX: 0,
+  panY: 0,
+  dragging: false,
+  moved: false,
+  startX: 0,
+  startY: 0,
+  startPanX: 0,
+  startPanY: 0
+};
 
 const els = {
   creator: byId("creator"),
@@ -108,9 +118,14 @@ function bindEvents() {
     if (event.key === "Enter") searchData();
   });
   els.aiBtn.addEventListener("click", askGuide);
-  els.mapZoomOut.addEventListener("click", () => setMapZoom(mapZoom - MAP_ZOOM_STEP));
-  els.mapZoomIn.addEventListener("click", () => setMapZoom(mapZoom + MAP_ZOOM_STEP));
-  els.mapZoomReset.addEventListener("click", () => setMapZoom(1));
+  els.mapZoomOut.addEventListener("click", () => zoomMap(mapView.zoom - MAP_ZOOM_STEP));
+  els.mapZoomIn.addEventListener("click", () => zoomMap(mapView.zoom + MAP_ZOOM_STEP));
+  els.mapZoomReset.addEventListener("click", resetMapView);
+  els.mapCanvas.addEventListener("wheel", onMapWheel, { passive: false });
+  els.mapCanvas.addEventListener("pointerdown", onMapPointerDown);
+  els.mapCanvas.addEventListener("pointermove", onMapPointerMove);
+  els.mapCanvas.addEventListener("pointerup", onMapPointerUp);
+  els.mapCanvas.addEventListener("pointercancel", onMapPointerUp);
   els.guideBtn.addEventListener("click", () => {
     showTab("ai");
     askGuide();
@@ -190,32 +205,112 @@ function renderMap(map) {
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content">${markers.join("")}</div>`;
-  applyMapZoom();
+  clampMapPan();
+  applyMapView();
   renderLs2Map(map).catch(() => {
     els.mapCanvas.classList.add("map-fallback");
   });
   els.mapCanvas.querySelectorAll("[data-npc]").forEach((btn) => {
-    btn.addEventListener("click", () => openDialog(btn.dataset.npc));
+    btn.addEventListener("click", () => {
+      if (!mapView.moved) openDialog(btn.dataset.npc);
+    });
   });
   els.mapCanvas.querySelectorAll("[data-exit]").forEach((btn) => {
-    btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
+    btn.addEventListener("click", () => {
+      if (!mapView.moved) mutate("/api/game/travel", { to: btn.dataset.exit });
+    });
   });
 }
 
-function setMapZoom(value) {
-  mapZoom = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, value));
-  applyMapZoom();
+function zoomMap(value, anchor = null) {
+  const nextZoom = Math.max(MAP_ZOOM_MIN, Math.min(MAP_ZOOM_MAX, value));
+  const oldZoom = mapView.zoom;
+  if (nextZoom === oldZoom) return;
+  const rect = els.mapCanvas.getBoundingClientRect();
+  const point = anchor || { x: rect.width / 2, y: rect.height / 2 };
+  const worldX = (point.x - mapView.panX) / oldZoom;
+  const worldY = (point.y - mapView.panY) / oldZoom;
+  mapView.zoom = nextZoom;
+  mapView.panX = point.x - worldX * nextZoom;
+  mapView.panY = point.y - worldY * nextZoom;
+  clampMapPan();
+  applyMapView();
 }
 
-function applyMapZoom() {
+function resetMapView() {
+  mapView.zoom = 1;
+  mapView.panX = 0;
+  mapView.panY = 0;
+  applyMapView();
+}
+
+function applyMapView() {
   const content = els.mapCanvas.querySelector(".map-content");
   if (content) {
-    content.style.width = `${Math.round(mapZoom * 100)}%`;
-    content.style.height = `${Math.round(340 * mapZoom)}px`;
+    content.style.transform = `translate(${Math.round(mapView.panX)}px, ${Math.round(mapView.panY)}px) scale(${mapView.zoom})`;
   }
-  els.mapZoomValue.textContent = `${Math.round(mapZoom * 100)}%`;
-  els.mapZoomOut.disabled = mapZoom <= MAP_ZOOM_MIN;
-  els.mapZoomIn.disabled = mapZoom >= MAP_ZOOM_MAX;
+  els.mapZoomValue.textContent = `${Math.round(mapView.zoom * 100)}%`;
+  els.mapZoomOut.disabled = mapView.zoom <= MAP_ZOOM_MIN;
+  els.mapZoomIn.disabled = mapView.zoom >= MAP_ZOOM_MAX;
+}
+
+function clampMapPan() {
+  const rect = els.mapCanvas.getBoundingClientRect();
+  const baseW = rect.width || 1;
+  const baseH = rect.height || 340;
+  const scaledW = baseW * mapView.zoom;
+  const scaledH = baseH * mapView.zoom;
+  mapView.panX = scaledW <= baseW
+    ? (baseW - scaledW) / 2
+    : Math.max(baseW - scaledW, Math.min(0, mapView.panX));
+  mapView.panY = scaledH <= baseH
+    ? (baseH - scaledH) / 2
+    : Math.max(baseH - scaledH, Math.min(0, mapView.panY));
+}
+
+function onMapWheel(event) {
+  event.preventDefault();
+  const rect = els.mapCanvas.getBoundingClientRect();
+  const direction = event.deltaY < 0 ? 1 : -1;
+  zoomMap(mapView.zoom + direction * MAP_ZOOM_STEP, {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  });
+}
+
+function onMapPointerDown(event) {
+  if (event.button !== 0) return;
+  mapView.dragging = true;
+  mapView.moved = false;
+  mapView.startX = event.clientX;
+  mapView.startY = event.clientY;
+  mapView.startPanX = mapView.panX;
+  mapView.startPanY = mapView.panY;
+  els.mapCanvas.classList.add("dragging");
+  els.mapCanvas.setPointerCapture(event.pointerId);
+}
+
+function onMapPointerMove(event) {
+  if (!mapView.dragging) return;
+  const dx = event.clientX - mapView.startX;
+  const dy = event.clientY - mapView.startY;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) mapView.moved = true;
+  mapView.panX = mapView.startPanX + dx;
+  mapView.panY = mapView.startPanY + dy;
+  clampMapPan();
+  applyMapView();
+}
+
+function onMapPointerUp(event) {
+  if (!mapView.dragging) return;
+  mapView.dragging = false;
+  els.mapCanvas.classList.remove("dragging");
+  if (els.mapCanvas.hasPointerCapture(event.pointerId)) {
+    els.mapCanvas.releasePointerCapture(event.pointerId);
+  }
+  setTimeout(() => {
+    mapView.moved = false;
+  }, 0);
 }
 
 async function renderLs2Map(map) {
