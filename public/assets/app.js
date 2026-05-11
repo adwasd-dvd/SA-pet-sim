@@ -321,20 +321,26 @@ function renderDialog() {
   els.dialogPanel.hidden = !dialog?.open;
   if (!dialog?.open) return;
   els.dialogNpcName.textContent = dialog.npcName || "NPC";
-  els.dialogSource.textContent = dialog.source || "点击 NPC 后输入 hi 或任意问题";
+  els.dialogSource.textContent = dialog.source || "点击 NPC 后已自动打招呼，可继续追问";
   els.dialogMessages.innerHTML = (dialog.messages || []).map((message) => `
-    <p class="dialog-bubble ${message.speaker === "player" ? "player" : "npc"}">
-      <span>${message.speaker === "player" ? escapeHtml(game.player.name) : escapeHtml(dialog.npcName || "NPC")}</span>
+    <p class="dialog-bubble ${message.speaker === "player" ? "player" : message.speaker === "system" ? "system" : "npc"}">
+      <span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>
       ${escapeHtml(message.text)}
     </p>
   `).join("");
-  els.dialogSuggestions.innerHTML = (dialog.suggestions || ["hi", "任务", "地图"]).map((item) => `
+  els.dialogSuggestions.innerHTML = (dialog.suggestions || ["任务", "地图", "抓宠"]).map((item) => `
     <button class="ghost-btn" type="button" data-say="${escapeHtml(item)}">${escapeHtml(item)}</button>
   `).join("");
   els.dialogSuggestions.querySelectorAll("[data-say]").forEach((btn) => {
     btn.addEventListener("click", () => sendDialog(btn.dataset.say));
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
+}
+
+function dialogSpeaker(speaker, dialog) {
+  if (speaker === "player") return game.player.name;
+  if (speaker === "system") return "系统";
+  return dialog.npcName || "NPC";
 }
 
 function renderExits(map) {

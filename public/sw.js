@@ -1,10 +1,10 @@
-const CACHE = "sa-pet-sim-v5";
+const CACHE = "sa-pet-sim-v6";
 const SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/assets/app.css?v=5",
-  "/assets/app.js?v=5",
+  "/assets/app.css?v=6",
+  "/assets/app.js?v=6",
   "/f/logo.gif",
   "/f/favicon.ico",
   "/data/enemybase2.txt",

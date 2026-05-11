@@ -489,6 +489,15 @@ h3 {
   border-color: rgb(189 138 40 / 36%);
 }
 
+.dialog-bubble.system {
+  justify-self: center;
+  width: auto;
+  max-width: 92%;
+  border-color: rgb(102 112 107 / 30%);
+  background: #f5f1e6;
+  color: var(--muted);
+}
+
 .dialog-suggestions,
 .dialog-form {
   display: flex;

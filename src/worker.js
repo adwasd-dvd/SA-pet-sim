@@ -238,13 +238,12 @@ function talkGame(game, npcId) {
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
-  const reply = applyNpcHi(game, npc);
+  const reply = runNpcTalk(game, npc, "hi");
   openDialog(game, npc, [
-    npcMessage("npc", "你点了点头，照旧服规矩先说了 hi。"),
+    npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
     npcMessage("player", "hi"),
     npcMessage("npc", reply)
   ]);
-  addLog(game, `${npc.name}：${reply}`);
   return withMap(game, { npc });
 }
 
@@ -256,14 +255,20 @@ async function dialogGame(env, game, npcId, message) {
 
   const text = message.trim().slice(0, 160);
   if (!text) {
+    const reply = runNpcTalk(game, npc, "hi");
     openDialog(game, npc, [
-      npcMessage("npc", dialogOpenLine(npc))
+      npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
+      npcMessage("player", "hi"),
+      npcMessage("npc", reply)
     ]);
-    addLog(game, `你看向了 ${npc.name}。`);
     return withMap(game, { npc });
   }
 
-  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : [npcMessage("npc", dialogOpenLine(npc))];
+  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : [
+    npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
+    npcMessage("player", "hi"),
+    npcMessage("npc", runNpcTalk(game, npc, "hi"))
+  ];
   const reply = await npcReply(env, game, npc, text);
   openDialog(game, npc, [
     ...existing,
@@ -343,22 +348,9 @@ async function guideGame(env, game, prompt) {
   return { text: fallbackGuide(context), model: "local-rule" };
 }
 
-function dialogOpenLine(npc) {
-  const openers = {
-    elder: "年轻人，旧规矩是先对 NPC 说 hi。你也可以直接问任务、抓宠或者地图。",
-    trainer: "要训练宠物就跟我说 hi，或者问我训练、成长、技能。",
-    guide: "我认路。你可以说 hi，也可以问出口、地图、草原、森林。",
-    hunter: "别急着冲出去。先说 hi，或者问我怎么抓宠和练级。",
-    lost: "你是从村子来的吗？如果愿意帮我，先跟我说 hi。",
-    herbalist: "森林里的草药不太平。你可以说 hi，也可以问草药、野兽或任务。",
-    stone: "石碑没有嘴，但古老的字会回应你的问候。试着说 hi。"
-  };
-  return openers[npc.id] || `${npc.name} 看着你，像是在等你先说 hi。`;
-}
-
 async function npcReply(env, game, npc, text) {
   const lower = text.toLowerCase();
-  if (isGreeting(lower)) return applyNpcHi(game, npc);
+  if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
@@ -395,6 +387,17 @@ function applyNpcHi(game, npc) {
   return npc.dialogue;
 }
 
+function runNpcTalk(game, npc, text) {
+  const body = text.trim().toLowerCase();
+  if (isGreeting(body)) {
+    const reply = applyNpcHi(game, npc);
+    addLog(game, `${game.player.name} 对 ${npc.name} 说：hi`);
+    addLog(game, `${npc.name}：${reply}`);
+    return reply;
+  }
+  return fallbackNpcReply(npc);
+}
+
 function completeQuest(game, questId) {
   const quest = game.quests[questId];
   if (!quest || quest.status === "完成") return;
@@ -407,16 +410,16 @@ function completeQuest(game, questId) {
 }
 
 function questReply(game, npc) {
-  if (!npc.questId) return `${npc.name} 这里没有正式委托，但他提醒你多和地图上的 NPC 说 hi。`;
+  if (!npc.questId) return `${npc.name} 这里没有正式委托，但可以继续问地图、抓宠或训练。`;
   const quest = game.quests[npc.questId];
-  if (!quest) return `我这里有「${WORLD.quests[npc.questId].title}」。照旧服流程，你先对我说 hi，我就会把任务记到人物 flag 里。`;
-  if (quest.status === "可回报") return `你已经可以回报「${quest.title}」了。再对我说 hi，我会结算奖励。`;
+  if (!quest) return `我这里有「${WORLD.quests[npc.questId].title}」。点选我时客户端会自动打招呼并触发任务。`;
+  if (quest.status === "可回报") return `你已经可以回报「${quest.title}」了。再次点选我会自动送出 hi 并结算奖励。`;
   return `「${quest.title}」还在进行中。下一步是：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。`;
 }
 
 function captureReply(game, npc) {
   if (npc.id === "hunter") return "抓宠先观察等级和捕获率，血不够就回村。遇敌后点捕获，成功了宠物会进队伍。";
-  if (npc.id === "elder") return "第一只伙伴要去村外草原找。抓到以后回来找我说 hi。";
+  if (npc.id === "elder") return "第一只伙伴要去村外草原找。抓到以后回来再点我，客户端会自动打招呼。";
   return "宠物会在野外遇敌中出现。不同地图的 encounter 表不同，越往外越危险。";
 }
 
@@ -434,12 +437,12 @@ function mapReply(game, npc) {
 
 function fallbackNpcReply(npc) {
   const hints = {
-    elder: "你说得有点新鲜。旧服 NPC 最认 hi，你也可以问任务或抓宠。",
+    elder: "你说得有点新鲜。可以问任务或抓宠；默认打招呼已经在点选时自动发生了。",
     trainer: "我听懂了一点。若是宠物相关，问训练、技能、成长会更准。",
-    guide: "我能回答地图、出口和去哪儿。也可以先说 hi。",
-    stone: "石碑上的字纹闪了一下，似乎只认 hi、地图和森林这些词。"
+    guide: "我能回答地图、出口和去哪儿。",
+    stone: "石碑上的字纹闪了一下，似乎只认地图和森林这些词。"
   };
-  return hints[npc.id] || "NPC 沉思了一会儿。你可以试试说 hi、任务、地图、抓宠或训练。";
+  return hints[npc.id] || "NPC 沉思了一会儿。你可以试试说任务、地图、抓宠或训练。";
 }
 
 async function aiNpcReply(env, game, npc, text) {
@@ -468,15 +471,15 @@ function openDialog(game, npc, messages) {
     npcType: npc.type,
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc),
-    source: "参考 gmsv 的 NPC 对话模式：玩家文字触发脚本，hi 是经典开场"
+    source: "参考 gmsv：点击 NPC 后客户端自动送出 P|hi，再由 CHAR_Talk 触发 NPC talkedfunc"
   };
 }
 
 function dialogSuggestions(npc) {
-  const base = ["hi", "任务", "地图"];
-  if (npc.type === "trainer") return ["hi", "训练", "成长"];
-  if (npc.id === "hunter") return ["hi", "抓宠", "练级"];
-  if (npc.id === "guide") return ["hi", "出口", "森林"];
+  const base = ["任务", "地图", "抓宠"];
+  if (npc.type === "trainer") return ["训练", "成长", "技能"];
+  if (npc.id === "hunter") return ["抓宠", "练级", "任务"];
+  if (npc.id === "guide") return ["出口", "地图", "森林"];
   return base;
 }
 
