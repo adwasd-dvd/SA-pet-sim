@@ -479,6 +479,24 @@ function applyExit(game, exit) {
   return withMap(game);
 }
 
+function applyWarpTarget(game, target, label) {
+  const targetMap = WORLD.maps[String(target.mapId)];
+  if (!targetMap) throw new Error("目标地图尚未加载");
+  const width = Math.max(1, Number(targetMap.size?.[0]) || 1);
+  const height = Math.max(1, Number(targetMap.size?.[1]) || 1);
+  const x = clampInt(target.x, 0, width - 1, 0);
+  const y = clampInt(target.y, 0, height - 1, 0);
+  game.location = { mapId: targetMap.id, x, y };
+  game.encounter = null;
+  game.battle = null;
+  game.walk = { steps: 0, encounterSteps: 0 };
+  game.character ||= {};
+  game.character.updatedAt = new Date().toISOString();
+  addLog(game, `你通过「${label}」来到 ${targetMap.name} (${x},${y})。`);
+  updateQuestProgress(game, "enterMap", { mapId: targetMap.id });
+  return targetMap;
+}
+
 function buyGame(game, npcId, itemId) {
   game = normalizeGame(game);
   const map = currentMap(game);
@@ -804,6 +822,7 @@ async function npcReply(env, game, npc, text) {
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(npc);
+  if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
@@ -825,6 +844,7 @@ function applyNpcHi(game, npc) {
   setEventFlag(game, eventFlagForNpc(npc.id), "now");
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
+  if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
@@ -963,6 +983,116 @@ function savePointReply(game, npc) {
   return `${npc.name} 已记录你的冒险进度。\n来源：gmsv npc_savepoint 会设置 LASTTALKELDER 并触发 SAAC 角色保存。`;
 }
 
+function warpPromptReply(game, npc) {
+  if (!npc.warp?.target) return fallbackNpcReply(npc);
+  const target = npc.warp.target;
+  const targetMap = WORLD.maps[target.mapId];
+  const targetName = targetMap?.name || `floor ${target.mapId}`;
+  const permission = warpPermission(game, npc.warp);
+  if (!targetMap) {
+    return `${npc.name} 的原版脚本目标是 ${targetName} (${target.x},${target.y})，但这个 floor 尚未打包进当前 Worker 地图集。\n来源：${npc.warp.source}`;
+  }
+  if (!permission.ok) {
+    const line = npc.warp.payMessage || npc.warp.moneyMessage || `${npc.name} 说：现在还不能传送。`;
+    return `${line}\n条件：${npc.warp.free || "未满足"}\n来源：${npc.warp.source}`;
+  }
+  const costLine = permission.cost > 0 ? `需要 ${permission.cost} 石币。` : "当前满足免费传送条件。";
+  const intro = permission.free
+    ? npc.warp.freeMessage || `${npc.name} 可以送你去 ${targetName}。`
+    : npc.warp.payMessage || `${npc.name} 可以送你去 ${targetName}。`;
+  return `${intro}\n目的地：${targetName} (${target.x},${target.y})。${costLine} 输入“传送”确认。`;
+}
+
+function warpNpcReply(game, npc) {
+  if (!npc.warp?.target) return fallbackNpcReply(npc);
+  const target = npc.warp.target;
+  const targetMap = WORLD.maps[target.mapId];
+  if (!targetMap) {
+    return `${npc.name} 已解析到原版 WARP:${target.mapId},${target.x},${target.y}，但目标地图还没有打包进当前 Worker。`;
+  }
+  const permission = warpPermission(game, npc.warp);
+  if (!permission.ok) {
+    const line = npc.warp.payMessage || npc.warp.moneyMessage || `${npc.name}：现在还不能传送。`;
+    return `${line}\n条件：${npc.warp.free || "未满足"}`;
+  }
+  if (permission.cost > 0 && Number(game.player.stone || 0) < permission.cost) {
+    return npc.warp.moneyMessage || `${npc.name}：传送需要 ${permission.cost} 石币，你现在的石币不够。`;
+  }
+  if (permission.cost > 0) {
+    game.player.stone = Number(game.player.stone || 0) - permission.cost;
+    syncStoneItem(game);
+  }
+  const consumed = permission.free ? consumeWarpItems(game, npc.warp) : [];
+  const arrived = applyWarpTarget(game, target, npc.name);
+  setEventFlag(game, eventFlagForNpcAction(npc.id, "warp"), "end");
+  const paid = permission.cost > 0 ? `花费 ${permission.cost} 石币，` : "";
+  const ticket = consumed.length ? `消耗 ${consumed.join("、")}，` : "";
+  return `${npc.name} 启动传送，${ticket}${paid}你来到 ${arrived.name} (${game.location.x},${game.location.y})。\n来源：gmsv npc_warpman WARP:${target.mapId},${target.x},${target.y}`;
+}
+
+function warpPermission(game, warp) {
+  const hasFreeSpec = Boolean(String(warp.free || "").trim());
+  const free = warpFreeStatus(game, warp.free || "");
+  const cost = warpCost(game, warp.cost);
+  if (hasFreeSpec && free.ok) return { ok: true, free: true, cost: 0 };
+  if (!hasFreeSpec && cost === 0) return { ok: true, free: true, cost: 0 };
+  if (cost == null) return { ok: false, free: false, cost: 0, reason: free.reason };
+  return { ok: true, free: false, cost };
+}
+
+function warpFreeStatus(game, spec) {
+  const raw = String(spec || "").trim();
+  if (!raw || /^ALLFREE$/i.test(raw)) return { ok: true };
+  const parts = raw.split(/[&|]/).map((item) => item.trim()).filter(Boolean);
+  if (!parts.length) return { ok: true };
+  for (const part of parts) {
+    if (!warpConditionMet(game, part)) return { ok: false, reason: raw };
+  }
+  return { ok: true };
+}
+
+function warpConditionMet(game, part) {
+  const level = part.match(/^LV\s*(>=|<=|>|<|=)\s*(\d+)$/i);
+  if (level) {
+    const playerLevel = Number(game.player.level || 1);
+    const target = Number(level[2]);
+    if (level[1] === ">") return playerLevel > target;
+    if (level[1] === ">=") return playerLevel >= target;
+    if (level[1] === "<") return playerLevel < target;
+    if (level[1] === "<=") return playerLevel <= target;
+    return playerLevel === target;
+  }
+  const item = part.match(/^ITEM\s*=\s*(\d+)(?:\*(\d+))?$/i);
+  if (item) return inventoryQty(game, Number(item[1])) >= Number(item[2] || 1);
+  return false;
+}
+
+function warpCost(game, cost) {
+  if (!cost) return 0;
+  if (cost.mode === "fixed") return Math.max(0, Number(cost.amount || 0));
+  if (cost.mode === "level-multiplier") return Math.max(0, Number(game.player.level || 1) * Number(cost.amount || 0));
+  return null;
+}
+
+function consumeWarpItems(game, warp) {
+  if (!Array.isArray(warp.deleteItems) || !warp.deleteItems.length) return [];
+  const consumed = [];
+  for (const id of warp.deleteItems) {
+    const item = game.inventory?.find((entry) => Number(entry.id) === Number(id) && Number(entry.qty || 0) > 0);
+    if (!item) continue;
+    item.qty = Number(item.qty || 0) - 1;
+    consumed.push(item.name || `item ${id}`);
+  }
+  game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
+  return consumed;
+}
+
+function inventoryQty(game, id) {
+  return (game.inventory || [])
+    .filter((item) => Number(item.id) === Number(id))
+    .reduce((sum, item) => sum + Number(item.qty || 0), 0);
+}
+
 function mapReply(game, npc) {
   const map = currentMap(game);
   const exits = map.exits.map((exit) => exit.label).join("、") || "暂无出口";
@@ -975,6 +1105,10 @@ function isHealerNpc(npc) {
 
 function isSavePointNpc(npc) {
   return /savepoint|save/i.test(`${npc.type} ${npc.template} ${npc.script}`);
+}
+
+function isWarpNpc(npc) {
+  return Boolean(npc.warp?.target) || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`);
 }
 
 function eventFlagForNpcAction(npcId, action) {
@@ -1020,6 +1154,7 @@ function openDialog(game, npc, messages) {
     npcName: npc.name,
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade) : null,
+    warp: npc.warp || null,
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc),
     source: "参考 gmsv：点击 NPC 后客户端自动送出 P|hi，再由 CHAR_Talk 触发 NPC talkedfunc"
@@ -1042,7 +1177,7 @@ function withTradeState(game, trade) {
 function dialogSuggestions(npc) {
   if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
   if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
-  if (/warp/i.test(npc.type)) return ["hi", "传送", "出口"];
+  if (npc.warp || /warp/i.test(npc.type)) return ["hi", "传送", "出口"];
   if (/save/i.test(npc.type)) return ["hi", "记录", "地图"];
   return ["hi", "任务", "地图"];
 }

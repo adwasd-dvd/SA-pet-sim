@@ -13,7 +13,8 @@ const worldOut = path.join(appRoot, "src", "world-data.js");
 const gb18030 = new TextDecoder("gb18030");
 
 const START_FLOOR = 1000;
-const MAX_MAPS = 42;
+const MAX_MAPS = 44;
+const FORCED_FLOORS = [122, 1021];
 const MAX_NPCS_PER_MAP = 120;
 
 const mapFiles = scanMapFiles();
@@ -187,6 +188,7 @@ function parseNpcs() {
       const argPath = enemy.argPath || "";
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
+      const warp = readNpcWarp(argPath, file);
       const functionset = template.functionset || enemy.template || "NPC";
       const name = cleanName(kv.name || template.name || functionset);
       idCounter += 1;
@@ -202,7 +204,8 @@ function parseNpcs() {
         script: argPath || enemy.template,
         template: enemy.template,
         graphic: kv.graphicname || template.graphicname || "",
-        ...(trade ? { trade } : {})
+        ...(trade ? { trade } : {}),
+        ...(warp ? { warp } : {})
       });
     }
   }
@@ -253,7 +256,8 @@ function selectFloors() {
   const selected = [];
   const queued = [START_FLOOR];
   const seen = new Set();
-  while (queued.length && selected.length < MAX_MAPS) {
+  const bfsLimit = Math.max(1, MAX_MAPS - FORCED_FLOORS.length);
+  while (queued.length && selected.length < bfsLimit) {
     const floor = queued.shift();
     if (seen.has(floor) || !mapFiles.has(floor)) continue;
     seen.add(floor);
@@ -262,6 +266,9 @@ function selectFloors() {
     for (const item of next) {
       if (!seen.has(item) && !queued.includes(item)) queued.push(item);
     }
+  }
+  for (const floor of FORCED_FLOORS) {
+    if (mapFiles.has(floor) && !selected.includes(floor)) selected.push(floor);
   }
   for (const floor of [1006, 100, 101, 2000, 2006, 3000, 3006, 4000, 4006]) {
     if (selected.length >= MAX_MAPS) break;
@@ -403,6 +410,64 @@ function readNpcTrade(argPath, createFile) {
     mainMessage: cleanName(kv.main_msg || kv.buy_main || ""),
     items: items.slice(0, 40)
   };
+}
+
+function readNpcWarp(argPath, createFile) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const target = parseWarpTarget(text);
+  if (!target) return null;
+  const kv = parseColonFile(text);
+  const free = trimInlineValue(kv.free || "");
+  const money = trimInlineValue(kv.money || "");
+  return {
+    kind: "warpman",
+    target,
+    free: cleanName(free),
+    money: cleanName(money),
+    cost: parseWarpCost(money),
+    deleteItems: expandItemList(kv.delitem || ""),
+    freeMessage: cleanScriptText(kv.freemsg || kv.free_msg || ""),
+    payMessage: cleanScriptText(kv.paymsg || kv.pay_msg || ""),
+    normalMessage: cleanScriptText(kv.nomal_msg || kv.normalmsg || kv.main_msg || ""),
+    moneyMessage: cleanScriptText(kv.moneymsg || kv.money_msg || ""),
+    partyMessage: cleanScriptText(kv.partymsg || kv.party_msg || ""),
+    warpMessage: cleanScriptText(kv.warp_msg || ""),
+    source: relativeRef(file)
+  };
+}
+
+function parseWarpTarget(text) {
+  const matches = [...text.matchAll(/\b(?:WARP|TO)\s*:\s*(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)/gi)];
+  for (const match of matches) {
+    const floor = Number(match[1]);
+    const x = Number(match[2]);
+    const y = Number(match[3]);
+    if ([floor, x, y].some((value) => !Number.isFinite(value))) continue;
+    if (floor <= 0) continue;
+    return { mapId: String(floor), floor, x, y };
+  }
+  return null;
+}
+
+function parseWarpCost(value = "") {
+  const text = cleanName(trimInlineValue(value)).toUpperCase();
+  if (!text) return null;
+  if (text === "-1") return { mode: "unavailable" };
+  const levelCost = text.match(/^LV\s*\*\s*(\d+)$/);
+  if (levelCost) return { mode: "level-multiplier", amount: Number(levelCost[1]) };
+  const fixed = Number(text);
+  if (Number.isFinite(fixed) && fixed >= 0) return { mode: "fixed", amount: fixed };
+  return { mode: "unknown", raw: cleanName(value) };
+}
+
+function trimInlineValue(value = "") {
+  return String(value).split(/\|(?:to|warp|money|delitem|over)\b:?/i)[0].trim();
+}
+
+function cleanScriptText(value = "") {
+  return cleanName(String(value).replace(/\\n/g, "\n").replace(/%[0-9]*[a-z]/gi, ""));
 }
 
 function parseColonFile(text) {

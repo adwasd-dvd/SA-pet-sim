@@ -60,7 +60,25 @@ assertEqual(game.save.json.savePoint.npcId, saveNpc.npc.id, "save json records s
 assert(game.save.info.includes("LAST_SAVEPOINT="), "saac-like save info includes last savepoint");
 assert(game.flags.bits[`end:${stableFlag(`${saveNpc.npc.id}:savepoint`)}`], "savepoint end flag set");
 
-console.log("NPC actions OK: healer recovery and savepoint recording mutate game/save state.");
+const warpNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && npc.warp.cost?.mode === "level-multiplier");
+if (!warpNpc) throw new Error("missing loaded warp NPC fixture");
+
+game.location = { mapId: warpNpc.map.id, x: warpNpc.npc.x + 1, y: warpNpc.npc.y };
+game.player.level = 1;
+game.player.stone = 100;
+const warpCost = Number(warpNpc.npc.warp.cost.amount || 0);
+game = await api("/api/game/dialog", { game, npcId: warpNpc.npc.id, message: "传送" });
+assertEqual(game.location.mapId, warpNpc.npc.warp.target.mapId, "warp NPC moves player to target map");
+assertEqual(game.location.x, warpNpc.npc.warp.target.x, "warp NPC sets target x");
+assertEqual(game.location.y, warpNpc.npc.warp.target.y, "warp NPC sets target y");
+assertEqual(game.player.stone, 100 - warpCost, "warp NPC charges level-based stone cost");
+assert(game.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("启动传送")), "warp NPC replies with travel text");
+assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
+assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
+
+console.log("NPC actions OK: healer, savepoint, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

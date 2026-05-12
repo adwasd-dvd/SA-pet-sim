@@ -707,7 +707,27 @@ export const WORLD = {
           "source": "ref___data/npc/genout/11100npc.create",
           "script": "file:genout/wpm_100_443_127",
           "template": "npcgen_warpman",
-          "graphic": "100433"
+          "graphic": "100433",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "11101",
+              "floor": 11101,
+              "x": 33,
+              "y": 29
+            },
+            "free": "LV>0",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "干么，有什么事吗？,喂，你看什么看。",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "在卡坦有梦德",
+            "source": "ref___data/npc/genout/wpm_100_443_127"
+          }
         },
         {
           "id": "100-278-325-4508",
@@ -720,7 +740,29 @@ export const WORLD = {
           "source": "ref___data/npc/genout/genou.create",
           "script": "file:genout/wpm_100_278_325",
           "template": "npcgen_warpman",
-          "graphic": "16202"
+          "graphic": "16202",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "11201",
+              "floor": 11201,
+              "x": 29,
+              "y": 79
+            },
+            "free": "LV>69&ENDEV=4",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [],
+            "freeMessage": "你进入这个洞窟 应该没问题吧 等级低的人进入这里的话 会有危险的啊 请进吧。",
+            "payMessage": "这里是非常危险的恐龙出没的地方 你现在的等级进来这里还太危险了 你还是不要进来比较好。",
+            "normalMessage": "",
+            "moneyMessage": "你的强度好像还不够进入这里。 等你变强一点再来比较好哦。",
+            "partyMessage": "团队不能进入这里",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_100_278_325"
+          }
         },
         {
           "id": "100-412-339-5190",
@@ -733,7 +775,29 @@ export const WORLD = {
           "source": "ref___data/npc/genout/nevent_03.create",
           "script": "file:genout/wpm_100_412_339",
           "template": "npcgen_warpman",
-          "graphic": "16056"
+          "graphic": "16056",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "10601",
+              "floor": 10601,
+              "x": 28,
+              "y": 49
+            },
+            "free": "LV>0",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [],
+            "freeMessage": "由于这个坑道的采矿竞争率很高， 所以不允许团体行动。 最近有盗矿贼出没，我们都严加戒备。 你是不是也想来这大捞一笔啊？ 如果你要进去的话，我可以让你从这边通过唷！",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "最近盗矿贼出没，大家都严加戒备。 由于这个缘故， 所以团体行动是不被允许的。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_100_412_339"
+          }
         },
         {
           "id": "100-258-170-1585",
@@ -1982,7 +2046,29 @@ export const WORLD = {
           "source": "ref___data/npc/genout/meiro.create",
           "script": "file:genout/wpm_120_19_15",
           "template": "npcgen_warpman",
-          "graphic": "16017"
+          "graphic": "16017",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "122",
+              "floor": 122,
+              "x": 6,
+              "y": 5
+            },
+            "free": "LV>49",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [],
+            "freeMessage": "你就算进入地下的迷宫洞窟 也没有问题吧。 等级低的人 到那里会很危险啊。 你要进入迷宫吗？",
+            "payMessage": "这里的地下洞窟是一个迷宫啊。 以你的等级来说还太危险了 你还是不要去比较好。",
+            "normalMessage": "",
+            "moneyMessage": "你的强度还不足以去那里 你变强一点再来比较好。",
+            "partyMessage": "团队没办法进入那里",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_120_19_15"
+          }
         },
         {
           "id": "120-10-16-4991",
@@ -2108,6 +2194,254 @@ export const WORLD = {
           "target": [
             643,
             677
+          ],
+          "source": "ref___data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "122": {
+      "id": "122",
+      "floorId": 122,
+      "name": "迷宫",
+      "mapFile": "/data/maps/122.ls2map",
+      "clientMapFile": "/data/client-maps/122.dat",
+      "clientMapSource": "公益石器时代/map/122.dat",
+      "summary": "迷宫 | floor=122 | 300x200 | ref___data/map/extra/122",
+      "size": [
+        300,
+        200
+      ],
+      "spawn": [
+        289,
+        168
+      ],
+      "encounterPets": [
+        565,
+        566,
+        567,
+        568,
+        569,
+        570
+      ],
+      "npcs": [
+        {
+          "id": "122-162-12-15",
+          "name": "宝物袋",
+          "x": 162,
+          "y": 12,
+          "type": "NPCEnemy",
+          "dialogue": "绑在袋口的绳子",
+          "dialogueLines": [
+            "绑在袋口的绳子",
+            "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
+          ],
+          "source": "ref___data/npc/100/sb_mimi.create",
+          "script": "file:100/sb_mimi.arg",
+          "template": "sb_hag",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-78-96-11",
+          "name": "宝物袋",
+          "x": 78,
+          "y": 96,
+          "type": "NPCEnemy",
+          "dialogue": "绑在袋口的绳子",
+          "dialogueLines": [
+            "绑在袋口的绳子",
+            "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
+          ],
+          "source": "ref___data/npc/100/sb_mimi.create",
+          "script": "file:100/sb_mimi.arg",
+          "template": "sb_hag",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-78-102-10",
+          "name": "宝物袋",
+          "x": 78,
+          "y": 102,
+          "type": "NPCEnemy",
+          "dialogue": "绑在袋口的绳子",
+          "dialogueLines": [
+            "绑在袋口的绳子",
+            "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
+          ],
+          "source": "ref___data/npc/100/sb_mimi.create",
+          "script": "file:100/sb_mimi.arg",
+          "template": "sb_hag",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-120-145-14",
+          "name": "宝物袋",
+          "x": 120,
+          "y": 145,
+          "type": "NPCEnemy",
+          "dialogue": "绑在袋口的绳子",
+          "dialogueLines": [
+            "绑在袋口的绳子",
+            "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
+          ],
+          "source": "ref___data/npc/100/sb_mimi.create",
+          "script": "file:100/sb_mimi.arg",
+          "template": "sb_hag",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-45-152-13",
+          "name": "宝物袋",
+          "x": 45,
+          "y": 152,
+          "type": "NPCEnemy",
+          "dialogue": "绑在袋口的绳子",
+          "dialogueLines": [
+            "绑在袋口的绳子",
+            "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
+          ],
+          "source": "ref___data/npc/100/sb_mimi.create",
+          "script": "file:100/sb_mimi.arg",
+          "template": "sb_hag",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-93-152-12",
+          "name": "宝物袋",
+          "x": 93,
+          "y": 152,
+          "type": "NPCEnemy",
+          "dialogue": "绑在袋口的绳子",
+          "dialogueLines": [
+            "绑在袋口的绳子",
+            "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
+          ],
+          "source": "ref___data/npc/100/sb_mimi.create",
+          "script": "file:100/sb_mimi.arg",
+          "template": "sb_hag",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-162-12-1296",
+          "name": "宝袋",
+          "x": 162,
+          "y": 12,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：ref___data/npc/extra/event/marju04a",
+          "dialogueLines": [],
+          "source": "ref___data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju04a",
+          "template": "changeevent",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-282-48-1294",
+          "name": "宝袋",
+          "x": 282,
+          "y": 48,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：ref___data/npc/extra/event/marju03a",
+          "dialogueLines": [],
+          "source": "ref___data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju03a",
+          "template": "changeevent",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-216-51-1292",
+          "name": "宝袋",
+          "x": 216,
+          "y": 51,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：ref___data/npc/extra/event/marju02a",
+          "dialogueLines": [],
+          "source": "ref___data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju02a",
+          "template": "changeevent",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-54-90-1293",
+          "name": "宝袋",
+          "x": 54,
+          "y": 90,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：ref___data/npc/extra/event/marju03",
+          "dialogueLines": [],
+          "source": "ref___data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju03",
+          "template": "changeevent",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-111-127-1295",
+          "name": "宝袋",
+          "x": 111,
+          "y": 127,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：ref___data/npc/extra/event/marju04",
+          "dialogueLines": [],
+          "source": "ref___data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju04",
+          "template": "changeevent",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-39-164-1291",
+          "name": "宝袋",
+          "x": 39,
+          "y": 164,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：ref___data/npc/extra/event/marju02",
+          "dialogueLines": [],
+          "source": "ref___data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju02",
+          "template": "changeevent",
+          "graphic": "16073"
+        },
+        {
+          "id": "122-6-5-4992",
+          "name": "Warp",
+          "x": 6,
+          "y": 5,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/genout/meiro.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "122-289-168-4993",
+          "name": "Warp",
+          "x": 289,
+          "y": 168,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/genout/meiro.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "120-0",
+          "label": "去 靠近水田的家|00",
+          "detail": "靠近水田的家|00 | floor 120 | 目标 (17,12) | 入口 (6,5)",
+          "to": "120",
+          "x": 6,
+          "y": 5,
+          "bounds": [
+            6,
+            5,
+            6,
+            5
+          ],
+          "target": [
+            17,
+            12
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -3066,7 +3400,29 @@ export const WORLD = {
           "source": "ref___data/npc/poru/samugiru_grandfather.create",
           "script": "file:poru/wpm_500_470_470",
           "template": "npcgen_warpman",
-          "graphic": "100388"
+          "graphic": "100388",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "500",
+              "floor": 500,
+              "x": 274,
+              "y": 369
+            },
+            "free": "ITEM=2414&LV>79",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [],
+            "freeMessage": "那我就说萨姆吉尔尚未成人时的第一个英雄事迹！ 另外切记！！不可思议的贝壳千万不要掉了！否则可能会无法交谈哦！",
+            "payMessage": "乌力～～乌力",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "不好意思、可以一个一个来吗？",
+            "warpMessage": "",
+            "source": "ref___data/npc/poru/wpm_500_470_470"
+          }
         },
         {
           "id": "1000-56-59-2263",
@@ -3079,7 +3435,39 @@ export const WORLD = {
           "source": "ref___data/npc/genout/duelroom.create",
           "script": "file:genout/wpm_1000_56_59",
           "template": "npcgen_warpman",
-          "graphic": "16055"
+          "graphic": "16055",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "130",
+              "floor": 130,
+              "x": 57,
+              "y": 13
+            },
+            "free": "ITEM=2597",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2521,
+              2522,
+              2523,
+              2524,
+              2602,
+              2598,
+              2599,
+              2600,
+              2601
+            ],
+            "freeMessage": "欢迎来到斗技场 现在斗技场有人的出席者。 请慢慢使用。",
+            "payMessage": "没有门票。 请到那里购买门票。 现在的入场者有人。",
+            "normalMessage": "",
+            "moneyMessage": "不好意思请多关照。",
+            "partyMessage": "以团队无法入场。 请把团队解散之后再个别 入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_1000_56_59"
+          }
         },
         {
           "id": "1000-112-37-6381",
@@ -7836,7 +8224,39 @@ export const WORLD = {
           "source": "ref___data/npc/genout/chatroom.create",
           "script": "file:genout/wpm_1012_14_13",
           "template": "npcgen_warpman",
-          "graphic": "16202"
+          "graphic": "16202",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "110",
+              "floor": 110,
+              "x": 37,
+              "y": 21
+            },
+            "free": "ITEM=2521*1",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2522,
+              2523,
+              2524,
+              2602,
+              2597,
+              2598,
+              2599,
+              2600,
+              2601
+            ],
+            "freeMessage": "欢迎来到聊天室 现在聊天室里有人的 出席者。 请您慢慢使用。",
+            "payMessage": "没有门票。 请到那里购买门票。 现在的入场者有人。",
+            "normalMessage": "",
+            "moneyMessage": "真的是不好意思。",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别 入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_1012_14_13"
+          }
         },
         {
           "id": "1012-15-21-6382",
@@ -8203,7 +8623,30 @@ export const WORLD = {
           "source": "ref___data/npc/genout/shop_m.create",
           "script": "file:genout/wpm_1020_18_12",
           "template": "npcgen_warpman",
-          "graphic": "16065"
+          "graphic": "16065",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 130
+            },
+            "free": "",
+            "money": "LV*5",
+            "cost": {
+              "mode": "level-multiplier",
+              "amount": 5
+            },
+            "deleteItems": [],
+            "freeMessage": "＝＝＝＝＝＝道场的柜台＝＝＝＝＝＝",
+            "payMessage": "＝＝＝＝＝＝道场的柜台＝＝＝＝＝＝ 这个道场可以容纳一百人 现在入场共人 道场的入场费个石头 的收费。可以吗？ 另外，离场后到医务室的话 不能再回到道场",
+            "normalMessage": "",
+            "moneyMessage": "＝＝＝＝＝＝道场的柜台＝＝＝＝＝＝ 对不起，金额不足。 请先存够钱后再入场。",
+            "partyMessage": "＝＝＝＝＝＝道场的柜台＝＝＝＝＝＝ 团队的状况下不得入场 请先将团队解散后 一位一位入场",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_1020_18_12"
+          }
         },
         {
           "id": "1020-4-12-6368",
@@ -8240,6 +8683,1587 @@ export const WORLD = {
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
+    },
+    "1021": {
+      "id": "1021",
+      "floorId": 1021,
+      "name": "百人联手道场|00",
+      "mapFile": "/data/maps/1021.ls2map",
+      "clientMapFile": "/data/client-maps/1021.dat",
+      "clientMapSource": "公益石器时代/map/1021.dat",
+      "summary": "百人联手道场|00 | floor=1021 | 407x144 | ref___data/map/sainasu/samugiru/1021",
+      "size": [
+        407,
+        144
+      ],
+      "spawn": [
+        203,
+        72
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "1021-4-16-722",
+          "name": "第 100 个弟子",
+          "x": 4,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou100.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou100.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-16-692",
+          "name": "第 90 个弟子",
+          "x": 48,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou090.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou090.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-16-662",
+          "name": "第 80 个弟子",
+          "x": 92,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou080.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou080.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-16-632",
+          "name": "第 70 个弟子",
+          "x": 136,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou070.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou070.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-16-602",
+          "name": "第 60 个弟子",
+          "x": 180,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou060.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou060.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-16-572",
+          "name": "第 50 个弟子",
+          "x": 224,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou050.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou050.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-16-542",
+          "name": "第 40 个弟子",
+          "x": 268,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou040.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou040.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-16-512",
+          "name": "第 30 个弟子",
+          "x": 312,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou030.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou030.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-16-482",
+          "name": "第 20 个弟子",
+          "x": 356,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou020.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou020.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-16-452",
+          "name": "第 10 个弟子",
+          "x": 400,
+          "y": 16,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou010.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou010.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-28-719",
+          "name": "第 99 个弟子",
+          "x": 4,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou099.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou099.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-28-689",
+          "name": "第 89 个弟子",
+          "x": 48,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou089.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou089.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-28-659",
+          "name": "第 79 个弟子",
+          "x": 92,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou079.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou079.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-28-629",
+          "name": "第 69 个弟子",
+          "x": 136,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou069.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou069.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-28-599",
+          "name": "第 59 个弟子",
+          "x": 180,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou059.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou059.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-28-569",
+          "name": "第 49 个弟子",
+          "x": 224,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou049.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou049.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-28-539",
+          "name": "第 39 个弟子",
+          "x": 268,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou039.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou039.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-28-509",
+          "name": "第 29 个弟子",
+          "x": 312,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou029.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou029.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-28-479",
+          "name": "第 19 个弟子",
+          "x": 356,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou019.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou019.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-28-449",
+          "name": "第 9 个弟子",
+          "x": 400,
+          "y": 28,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou009.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou009.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-40-716",
+          "name": "第 98 个弟子",
+          "x": 4,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou098.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou098.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-40-686",
+          "name": "第 88 个弟子",
+          "x": 48,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou088.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou088.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-40-656",
+          "name": "第 78 个弟子",
+          "x": 92,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou078.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou078.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-40-626",
+          "name": "第 68 个弟子",
+          "x": 136,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou068.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou068.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-40-596",
+          "name": "第 58 个弟子",
+          "x": 180,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou058.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou058.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-40-566",
+          "name": "第 48 个弟子",
+          "x": 224,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou048.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou048.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-40-536",
+          "name": "第 38 个弟子",
+          "x": 268,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou038.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou038.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-40-506",
+          "name": "第 28 个弟子",
+          "x": 312,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou028.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou028.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-40-476",
+          "name": "第 18 个弟子",
+          "x": 356,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou018.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou018.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-40-446",
+          "name": "第 8 个弟子",
+          "x": 400,
+          "y": 40,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou008.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou008.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-52-713",
+          "name": "第 97 个弟子",
+          "x": 4,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou097.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou097.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-52-683",
+          "name": "第 87 个弟子",
+          "x": 48,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou087.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou087.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-52-653",
+          "name": "第 77 个弟子",
+          "x": 92,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou077.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou077.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-52-623",
+          "name": "第 67 个弟子",
+          "x": 136,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou067.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou067.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-52-593",
+          "name": "第 57 个弟子",
+          "x": 180,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou057.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou057.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-52-563",
+          "name": "第 47 个弟子",
+          "x": 224,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou047.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou047.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-52-533",
+          "name": "第 37 个弟子",
+          "x": 268,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou037.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou037.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-52-503",
+          "name": "第 27 个弟子",
+          "x": 312,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou027.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou027.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-52-473",
+          "name": "第 17 个弟子",
+          "x": 356,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou017.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou017.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-52-443",
+          "name": "第 7 个弟子",
+          "x": 400,
+          "y": 52,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou007.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou007.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-64-710",
+          "name": "第 96 个弟子",
+          "x": 4,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou096.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou096.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-64-680",
+          "name": "第 86 个弟子",
+          "x": 48,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou086.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou086.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-64-650",
+          "name": "第 76 个弟子",
+          "x": 92,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou076.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou076.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-64-620",
+          "name": "第 66 个弟子",
+          "x": 136,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou066.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou066.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-64-590",
+          "name": "第 56 个弟子",
+          "x": 180,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou056.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou056.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-64-560",
+          "name": "第 46 个弟子",
+          "x": 224,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou046.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou046.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-64-530",
+          "name": "第 36 个弟子",
+          "x": 268,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou036.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou036.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-64-500",
+          "name": "第 26 个弟子",
+          "x": 312,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou026.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou026.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-64-470",
+          "name": "第 16 个弟子",
+          "x": 356,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou016.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou016.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-64-440",
+          "name": "第 6 个弟子",
+          "x": 400,
+          "y": 64,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou006.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou006.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-76-707",
+          "name": "第 95 个弟子",
+          "x": 4,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou095.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou095.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-76-677",
+          "name": "第 85 个弟子",
+          "x": 48,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou085.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou085.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-76-647",
+          "name": "第 75 个弟子",
+          "x": 92,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou075.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou075.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-76-617",
+          "name": "第 65 个弟子",
+          "x": 136,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou065.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou065.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-76-587",
+          "name": "第 55 个弟子",
+          "x": 180,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou055.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou055.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-76-557",
+          "name": "第 45 个弟子",
+          "x": 224,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou045.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou045.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-76-527",
+          "name": "第 35 个弟子",
+          "x": 268,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou035.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou035.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-76-497",
+          "name": "第 25 个弟子",
+          "x": 312,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou025.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou025.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-76-467",
+          "name": "第 15 个弟子",
+          "x": 356,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou015.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou015.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-76-437",
+          "name": "第 5 个弟子",
+          "x": 400,
+          "y": 76,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou005.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou005.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-88-704",
+          "name": "第 94 个弟子",
+          "x": 4,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou094.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou094.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-88-674",
+          "name": "第 84 个弟子",
+          "x": 48,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou084.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou084.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-88-644",
+          "name": "第 74 个弟子",
+          "x": 92,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou074.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou074.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-88-614",
+          "name": "第 64 个弟子",
+          "x": 136,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou064.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou064.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-88-584",
+          "name": "第 54 个弟子",
+          "x": 180,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou054.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou054.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-88-554",
+          "name": "第 44 个弟子",
+          "x": 224,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou044.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou044.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-88-524",
+          "name": "第 34 个弟子",
+          "x": 268,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou034.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou034.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-88-494",
+          "name": "第 24 个弟子",
+          "x": 312,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou024.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou024.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-88-464",
+          "name": "第 14 个弟子",
+          "x": 356,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou014.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou014.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-88-434",
+          "name": "第 4 个弟子",
+          "x": 400,
+          "y": 88,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou004.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou004.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-100-701",
+          "name": "第 93 个弟子",
+          "x": 4,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou093.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou093.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-100-671",
+          "name": "第 83 个弟子",
+          "x": 48,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou083.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou083.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-100-641",
+          "name": "第 73 个弟子",
+          "x": 92,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou073.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou073.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-100-611",
+          "name": "第 63 个弟子",
+          "x": 136,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou063.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou063.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-100-581",
+          "name": "第 53 个弟子",
+          "x": 180,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou053.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou053.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-100-551",
+          "name": "第 43 个弟子",
+          "x": 224,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou043.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou043.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-100-521",
+          "name": "第 33 个弟子",
+          "x": 268,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou033.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou033.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-100-491",
+          "name": "第 23 个弟子",
+          "x": 312,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou023.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou023.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-100-461",
+          "name": "第 13 个弟子",
+          "x": 356,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou013.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou013.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-100-431",
+          "name": "第 3 个弟子",
+          "x": 400,
+          "y": 100,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou003.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou003.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-112-698",
+          "name": "第 92 个弟子",
+          "x": 4,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou092.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou092.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-112-668",
+          "name": "第 82 个弟子",
+          "x": 48,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou082.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou082.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-112-638",
+          "name": "第 72 个弟子",
+          "x": 92,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou072.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou072.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-112-608",
+          "name": "第 62 个弟子",
+          "x": 136,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou062.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou062.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-112-578",
+          "name": "第 52 个弟子",
+          "x": 180,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou052.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou052.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-112-548",
+          "name": "第 42 个弟子",
+          "x": 224,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou042.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou042.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-112-518",
+          "name": "第 32 个弟子",
+          "x": 268,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou032.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou032.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-112-488",
+          "name": "第 22 个弟子",
+          "x": 312,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou022.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou022.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-112-458",
+          "name": "第 12 个弟子",
+          "x": 356,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou012.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou012.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-112-428",
+          "name": "第 2 个弟子",
+          "x": 400,
+          "y": 112,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou002.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou002.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-4-124-695",
+          "name": "第 91 个弟子",
+          "x": 4,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou091.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou091.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-48-124-665",
+          "name": "第 81 个弟子",
+          "x": 48,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou081.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou081.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-92-124-635",
+          "name": "第 71 个弟子",
+          "x": 92,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou071.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou071.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-136-124-605",
+          "name": "第 61 个弟子",
+          "x": 136,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou061.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou061.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-180-124-575",
+          "name": "第 51 个弟子",
+          "x": 180,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou051.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou051.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-224-124-545",
+          "name": "第 41 个弟子",
+          "x": 224,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou041.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou041.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-268-124-515",
+          "name": "第 31 个弟子",
+          "x": 268,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou031.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou031.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-312-124-485",
+          "name": "第 21 个弟子",
+          "x": 312,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou021.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou021.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-356-124-455",
+          "name": "第 11 个弟子",
+          "x": 356,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou011.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou011.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-400-124-425",
+          "name": "第 1 个弟子",
+          "x": 400,
+          "y": 124,
+          "type": "NPCEnemy",
+          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou001.arg",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "file:doujyou/samdou001.arg",
+          "template": "sb_dou",
+          "graphic": "100091"
+        },
+        {
+          "id": "1021-10-18-723",
+          "name": "跳跃点",
+          "x": 10,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-54-18-693",
+          "name": "跳跃点",
+          "x": 54,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-98-18-663",
+          "name": "跳跃点",
+          "x": 98,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-142-18-633",
+          "name": "跳跃点",
+          "x": 142,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-186-18-603",
+          "name": "跳跃点",
+          "x": 186,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-230-18-573",
+          "name": "跳跃点",
+          "x": 230,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-274-18-543",
+          "name": "跳跃点",
+          "x": 274,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-318-18-513",
+          "name": "跳跃点",
+          "x": 318,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-362-18-483",
+          "name": "跳跃点",
+          "x": 362,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-406-18-453",
+          "name": "跳跃点",
+          "x": 406,
+          "y": 18,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-10-19-724",
+          "name": "跳跃点",
+          "x": 10,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-54-19-694",
+          "name": "跳跃点",
+          "x": 54,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-98-19-664",
+          "name": "跳跃点",
+          "x": 98,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-142-19-634",
+          "name": "跳跃点",
+          "x": 142,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-186-19-604",
+          "name": "跳跃点",
+          "x": 186,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-230-19-574",
+          "name": "跳跃点",
+          "x": 230,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-274-19-544",
+          "name": "跳跃点",
+          "x": 274,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-318-19-514",
+          "name": "跳跃点",
+          "x": 318,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-362-19-484",
+          "name": "跳跃点",
+          "x": 362,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        },
+        {
+          "id": "1021-406-19-454",
+          "name": "跳跃点",
+          "x": 406,
+          "y": 19,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "ref___data/npc/doujyou/samdou.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": "0"
+        }
+      ],
+      "exits": []
     },
     "1040": {
       "id": "1040",
@@ -8340,7 +10364,27 @@ export const WORLD = {
           "source": "ref___data/npc/genout/family.create",
           "script": "file:genout/wpm_1040_48_25",
           "template": "npcgen_fmpkcallman",
-          "graphic": "16206"
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1040",
+              "floor": 1040,
+              "x": 47,
+              "y": 25
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_1040_48_25"
+          }
         },
         {
           "id": "1040-47-29-1467",
@@ -8405,7 +10449,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_2",
           "template": "npcgen_warpman",
-          "graphic": "16128"
+          "graphic": "16128",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1046",
+              "floor": 1046,
+              "x": 5,
+              "y": 11
+            },
+            "free": "ITEM=19330",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是商店警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认身上拥有通行证，除非您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm1_2"
+          }
         },
         {
           "id": "1040-59-37-1388",
@@ -8418,7 +10482,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_1",
           "template": "npcgen_warpman",
-          "graphic": "16207"
+          "graphic": "16207",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1041",
+              "floor": 1041,
+              "x": 0,
+              "y": 10
+            },
+            "free": "ITEM=19001",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是家族守护警卫！这里是族长的家，你要进入吗？",
+            "payMessage": "这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm1_1"
+          }
         },
         {
           "id": "1040-61-43-7436",
@@ -8444,7 +10528,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_4",
           "template": "npcgen_warpman",
-          "graphic": "16127"
+          "graphic": "16127",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1045",
+              "floor": 1045,
+              "x": 6,
+              "y": 11
+            },
+            "free": "LV>0&MANOR=0",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是商店警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm1_4"
+          }
         },
         {
           "id": "1040-35-58-1391",
@@ -8457,7 +10561,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_3",
           "template": "npcgen_warpman",
-          "graphic": "16120"
+          "graphic": "16120",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1047",
+              "floor": 1047,
+              "x": 0,
+              "y": 7
+            },
+            "free": "ITEM=19330",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是商店警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认身上拥有通行证，除非您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm1_3"
+          }
         },
         {
           "id": "1040-59-25-4226",
@@ -8666,7 +10790,29 @@ export const WORLD = {
           "source": "ref___data/npc/genout/family.create",
           "script": "file:genout/wpm_1043_4_3",
           "template": "npcgen_warpman",
-          "graphic": "16203"
+          "graphic": "16203",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1044",
+              "floor": 1044,
+              "x": 16,
+              "y": 30
+            },
+            "free": "ITEM=19001",
+            "money": "",
+            "cost": null,
+            "deleteItems": [
+              19001
+            ],
+            "freeMessage": "我是家族守护警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认身上拥有通行证，除非您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_1043_4_3"
+          }
         },
         {
           "id": "1043-4-11-4227",
@@ -10661,7 +12807,29 @@ export const WORLD = {
           "source": "ref___data/npc/genout/1400npc_m.create",
           "script": "file:genout/wpm_1400_100_97",
           "template": "npcgen_warpman",
-          "graphic": "16209"
+          "graphic": "16209",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "10402",
+              "floor": 10402,
+              "x": 25,
+              "y": 19
+            },
+            "free": "LV>0",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [],
+            "freeMessage": "======水井的看守====== 这里是迷幻洞窟 等级不够的话可就危险了 就算这样也没关系吗？",
+            "payMessage": "＝＝＝＝＝＝ 水井的看守 ＝＝＝＝＝＝ 这里是举行成人仪式的场所 如果等级不到３０的话，是无法成功举行仪式的。",
+            "normalMessage": "",
+            "moneyMessage": "＝＝＝＝＝＝ 水井的看守 ＝＝＝＝＝＝ 你还不够资格进入这里 再回去多锻炼，下回再来！",
+            "partyMessage": "＝＝＝＝＝＝ 水井的看守 ＝＝＝＝＝＝ 无法参加宴会",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_1400_100_97"
+          }
         },
         {
           "id": "1400-89-76-6458",
@@ -12422,7 +14590,39 @@ export const WORLD = {
           "source": "ref___data/npc/genout/duelroom.create",
           "script": "file:genout/wpm_2000_85_79",
           "template": "npcgen_warpman",
-          "graphic": "16055"
+          "graphic": "16055",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "130",
+              "floor": 130,
+              "x": 57,
+              "y": 22
+            },
+            "free": "ITEM=2598",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2521,
+              2522,
+              2523,
+              2524,
+              2602,
+              2597,
+              2599,
+              2600,
+              2601
+            ],
+            "freeMessage": "欢迎来到斗技场 现在斗技场有人的出席者。 请慢慢使用。",
+            "payMessage": "没有门票。 请到那里购买门票。 现在的入场者有人。",
+            "normalMessage": "",
+            "moneyMessage": "不好意思请多关照。",
+            "partyMessage": "以团队无法入场。 请把团队解散之后再个别 入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_2000_85_79"
+          }
         },
         {
           "id": "2000-74-33-1547",
@@ -14956,7 +17156,27 @@ export const WORLD = {
           "source": "ref___data/npc/genout/family.create",
           "script": "file:genout/wpm_2030_59_43",
           "template": "npcgen_fmpkcallman",
-          "graphic": "16203"
+          "graphic": "16203",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2030",
+              "floor": 2030,
+              "x": 59,
+              "y": 44
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_2030_59_43"
+          }
         },
         {
           "id": "2030-62-61-4156",
@@ -14995,7 +17215,27 @@ export const WORLD = {
           "source": "ref___data/npc/genout/family.create",
           "script": "file:genout/wpm_2030_56_27",
           "template": "npcgen_warpman",
-          "graphic": "16207"
+          "graphic": "16207",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2031",
+              "floor": 2031,
+              "x": 0,
+              "y": 10
+            },
+            "free": "ITEM=19002",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是家族守护警卫！这里是族长的家，你要进入吗？",
+            "payMessage": "这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_2030_56_27"
+          }
         },
         {
           "id": "2030-61-45-4153",
@@ -15021,7 +17261,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/wpm2_3",
           "template": "npcgen_warpman",
-          "graphic": "16126"
+          "graphic": "16126",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2036",
+              "floor": 2036,
+              "x": 5,
+              "y": 11
+            },
+            "free": "LV>0&MANOR=1",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是商店警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm2_3"
+          }
         },
         {
           "id": "2030-45-62-1406",
@@ -15034,7 +17294,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/wpm2_1",
           "template": "npcgen_warpman",
-          "graphic": "16120"
+          "graphic": "16120",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2037",
+              "floor": 2037,
+              "x": 0,
+              "y": 6
+            },
+            "free": "ITEM=19331",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是商店警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认身上拥有通行证，除非您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm2_1"
+          }
         },
         {
           "id": "2030-31-65-1407",
@@ -15047,7 +17327,27 @@ export const WORLD = {
           "source": "ref___data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/wpm2_2",
           "template": "npcgen_warpman",
-          "graphic": "16121"
+          "graphic": "16121",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2038",
+              "floor": 2038,
+              "x": 0,
+              "y": 7
+            },
+            "free": "ITEM=19331",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "我是商店警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认身上拥有通行证，除非您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/family/npc/wpm2_2"
+          }
         },
         {
           "id": "2030-46-30-4258",
@@ -15282,7 +17582,29 @@ export const WORLD = {
           "source": "ref___data/npc/genout/family.create",
           "script": "file:genout/wpm_2033_4_3",
           "template": "npcgen_warpman",
-          "graphic": "16203"
+          "graphic": "16203",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2034",
+              "floor": 2034,
+              "x": 10,
+              "y": 18
+            },
+            "free": "ITEM=19002",
+            "money": "",
+            "cost": null,
+            "deleteItems": [
+              19002
+            ],
+            "freeMessage": "我是家族守护警卫！你要进入吗？",
+            "payMessage": "我是商店警卫！你要进入吗？ 进入前请您确认身上拥有通行证，除非您是拥有该庄园的家族成员。",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
+            "warpMessage": "",
+            "source": "ref___data/npc/genout/wpm_2033_4_3"
+          }
         },
         {
           "id": "2033-4-11-4259",
@@ -15523,7 +17845,27 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic1.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 191,
+              "y": 90
+            },
+            "free": "LV>0",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "ref___data/npc/heroic/heroic1.arg"
+          }
         },
         {
           "id": "8200-158-33-6819",
@@ -15980,7 +18322,29 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/class/war.create",
           "script": "file:sa70/class/war.arg",
           "template": "npcgen_warpman",
-          "graphic": "16181"
+          "graphic": "16181",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "8219",
+              "floor": 8219,
+              "x": 153,
+              "y": 5
+            },
+            "free": "LV>29&ENDEV!=4",
+            "money": "",
+            "cost": null,
+            "deleteItems": [
+              2112
+            ],
+            "freeMessage": "还没通过成人礼的试炼就想来就职，你也未免太自满了？",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "请一个一个来嘿！！",
+            "warpMessage": "",
+            "source": "ref___data/npc/sa70/class/war.arg"
+          }
         },
         {
           "id": "8216-26-26-7515",
