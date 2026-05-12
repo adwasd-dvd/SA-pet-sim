@@ -801,6 +801,8 @@ async function guideGame(env, game, prompt) {
 async function npcReply(env, game, npc, text) {
   const lower = text.toLowerCase();
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
+  if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
+  if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
@@ -821,6 +823,8 @@ function hasAny(text, tokens) {
 function applyNpcHi(game, npc) {
   ensureFlags(game);
   setEventFlag(game, eventFlagForNpc(npc.id), "now");
+  if (isHealerNpc(npc)) return healerReply(game, npc);
+  if (isSavePointNpc(npc)) return savePointReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
@@ -889,10 +893,92 @@ function trainReply(game, npc) {
   return `${npc.name} 当前没有可模拟的训练脚本，只保留原 NPC 数据入口：${npc.source || npc.script || npc.type}。`;
 }
 
+function healerReply(game, npc) {
+  const before = {
+    playerHp: Number(game.player.hp || 0),
+    pets: game.pets.map((pet) => Number(pet.Hp || 0))
+  };
+  const cost = healerCost(game, npc);
+  const needed = needsHealing(game);
+  if (!needed) {
+    setEventFlag(game, eventFlagForNpcAction(npc.id, "healer-check"), "now");
+    return `${npc.name} 查看了你的状态：人物和宠物都不需要治疗。`;
+  }
+  if (cost > 0 && Number(game.player.stone || 0) < cost) {
+    return `${npc.name}：治疗需要 ${cost} 石币，你现在的石币不够。`;
+  }
+  if (cost > 0) {
+    game.player.stone = Number(game.player.stone || 0) - cost;
+    syncStoneItem(game);
+  }
+  healParty(game);
+  setEventFlag(game, eventFlagForNpcAction(npc.id, "healer"), "now");
+  const restored = [
+    Math.max(0, Number(game.player.hp || 0) - before.playerHp),
+    ...game.pets.map((pet, index) => Math.max(0, Number(pet.Hp || 0) - Number(before.pets[index] || 0)))
+  ].reduce((sum, item) => sum + item, 0);
+  const line = cost > 0
+    ? `${npc.name} 为人物和宠物恢复了耐久，花费 ${cost} 石币。`
+    : `${npc.name} 为人物和宠物恢复了耐久。`;
+  addLog(game, `${line} 合计恢复 ${restored}。`);
+  return `${line}\n来源：gmsv npc_windowhealer / npc_healer 会恢复玩家与宠物 HP/MP。`;
+}
+
+function needsHealing(game) {
+  if (Number(game.player.hp || 0) < Number(game.player.maxHp || 0)) return true;
+  return game.pets.some((pet) => Number(pet.Hp || 0) < Number(pet.WorkMaxHp || 0));
+}
+
+function healerCost(game, npc) {
+  if (!/windowhealer/i.test(`${npc.type} ${npc.template}`)) return 0;
+  if (!needsHealing(game)) return 0;
+  return Math.max(1, Math.floor(Number(game.player.level || 1) * 2));
+}
+
+function healParty(game) {
+  game.player.hp = Number(game.player.maxHp || game.player.hp || 1);
+  for (const pet of game.pets) {
+    pet.WorkMaxHp ||= Math.max(1, Number(pet.Hp || 1));
+    pet.Hp = Number(pet.WorkMaxHp || pet.Hp || 1);
+    if (Number.isFinite(Number(pet.WorkMaxMp))) pet.Mp = Number(pet.WorkMaxMp || 0);
+    pet.IsDie = false;
+  }
+}
+
+function savePointReply(game, npc) {
+  ensureFlags(game);
+  const now = new Date().toISOString();
+  game.savePoint = {
+    npcId: npc.id,
+    npcName: npc.name,
+    mapId: game.location.mapId,
+    x: npc.x,
+    y: npc.y,
+    source: npc.source || npc.script || npc.template,
+    savedAt: now
+  };
+  game.character.updatedAt = now;
+  setEventFlag(game, eventFlagForNpcAction(npc.id, "savepoint"), "end");
+  addLog(game, `${npc.name} 已记录你的冒险进度。`);
+  return `${npc.name} 已记录你的冒险进度。\n来源：gmsv npc_savepoint 会设置 LASTTALKELDER 并触发 SAAC 角色保存。`;
+}
+
 function mapReply(game, npc) {
   const map = currentMap(game);
   const exits = map.exits.map((exit) => exit.label).join("、") || "暂无出口";
   return `当前地图是${map.name}。出口：${exits}。`;
+}
+
+function isHealerNpc(npc) {
+  return /healer/i.test(`${npc.type} ${npc.template} ${npc.script}`);
+}
+
+function isSavePointNpc(npc) {
+  return /savepoint|save/i.test(`${npc.type} ${npc.template} ${npc.script}`);
+}
+
+function eventFlagForNpcAction(npcId, action) {
+  return stableFlag(`${npcId}:${action}`);
 }
 
 function fallbackNpcReply(npc) {
@@ -1027,6 +1113,7 @@ function normalizeGame(game) {
   game.quests ||= {};
   ensureFlags(game);
   game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.savePoint ||= null;
   game.dialog ||= null;
   game.battle ||= null;
   game.log ||= [];
@@ -1103,6 +1190,7 @@ function buildSaveJson(game) {
     inventory: game.inventory.map((item) => ({ ...item })),
     inventoryState: inventoryState(game),
     quests: game.quests || {},
+    savePoint: game.savePoint ? { ...game.savePoint } : null,
     flags: {
       endEvents: [...(game.flags?.endEvents || [])],
       nowEvents: [...(game.flags?.nowEvents || [])],
@@ -1147,6 +1235,7 @@ function buildCharInfo(game) {
     `Y=${game.location.y}`,
     `PETCOUNT=${game.pets.length}`,
     `ITEMCOUNT=${game.inventory.length}`,
+    `LAST_SAVEPOINT=${game.savePoint ? safeJson(game.savePoint) : ""}`,
     `WALK_STEPS=${game.walk?.steps || 0}`,
     `ENCOUNTER_STEPS=${game.walk?.encounterSteps || 0}`,
     `QUESTS=${safeJson(activeQuests)}`,

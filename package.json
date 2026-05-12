@@ -8,10 +8,11 @@
     "check:resources": "node scripts/check-resources.mjs",
     "check:maps": "node scripts/check-map-atlas.mjs",
     "check:movement": "node scripts/check-movement-collision.mjs",
+    "check:npc": "node scripts/check-npc-actions.mjs",
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "npm run check:maps && npm run check:movement && wrangler deploy --dry-run"
+    "check": "npm run check:maps && npm run check:movement && npm run check:npc && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "wrangler": "^4.15.0"
