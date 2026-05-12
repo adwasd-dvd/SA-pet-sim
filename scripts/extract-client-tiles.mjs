@@ -11,6 +11,7 @@ const outputRoot = path.join(projectRoot, "public/data/client-tiles");
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
 const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
+const ATLAS_VERSION = "player-sprite-v2";
 
 const RECORD_SIZE = 80;
 const ATLAS_W = 4096;
@@ -84,7 +85,7 @@ function main() {
   const manifestPath = path.join(outputRoot, "tiles.json");
   fs.writeFileSync(atlasPath, encodePng(atlas.width, atlas.height, atlas.rgba));
   fs.writeFileSync(manifestPath, `${JSON.stringify({
-    image: "/data/client-tiles/tiles-atlas.png",
+    image: `/data/client-tiles/tiles-atlas.png?v=${ATLAS_VERSION}`,
     atlasWidth: atlas.width,
     atlasHeight: atlas.height,
     count: entries.length,

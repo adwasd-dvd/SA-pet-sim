@@ -8,7 +8,7 @@ const REAL_TILE_CELL_LIMIT = 90000;
 const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
-const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
+const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=player-sprite-v2";
 const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
@@ -37,6 +37,7 @@ const PLAYER_WALK_FRAMES = Object.freeze({
   6: [10470, 10471, 10472, 10473, 10474, 10475],
   7: [10513, 10514, 10515, 10516, 10517, 10518]
 });
+const PLAYER_FRAME_IDS = new Set(Object.values(PLAYER_STAND_FRAMES).concat(Object.values(PLAYER_WALK_FRAMES)).flat());
 const DEFAULT_PLAYER_FRAME = PLAYER_STAND_FRAMES[DEFAULT_PLAYER_DIRECTION][0];
 
 let game = null;
@@ -831,7 +832,7 @@ function collectNpcSprites(map, atlas, locate) {
 function collectPlayerSprites(map, atlas, locate) {
   if (!map || !game?.location) return [];
   const tileId = playerFrameTileId(atlas);
-  if (tileId <= CG_INVISIBLE || !atlas.frames?.[tileId]) return [];
+  if (tileId <= CG_INVISIBLE || !isUsablePlayerFrame(tileId, atlas.frames?.[tileId])) return [];
   return [locate(tileId)];
 }
 
@@ -849,7 +850,13 @@ function playerFrameTileId(atlas = loadedTileAtlas) {
 function firstAvailablePlayerFrame(frames, atlas) {
   if (!Array.isArray(frames)) return null;
   if (!atlas) return frames[0] || null;
-  return frames.find((id) => atlas.frames?.[id]) || null;
+  return frames.find((id) => isUsablePlayerFrame(id, atlas.frames?.[id])) || null;
+}
+
+function isUsablePlayerFrame(tileId, frame) {
+  if (!frame || !PLAYER_FRAME_IDS.has(Number(tileId))) return false;
+  if (Number(frame.bitmapNo) !== Number(tileId) || Number(frame.graphicNo || 0) !== 0) return false;
+  return frame.width >= 24 && frame.width <= 96 && frame.height >= 45 && frame.height <= 96;
 }
 
 function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
