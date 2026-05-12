@@ -363,6 +363,7 @@ function renderMap(map) {
   }
   const markers = [
     `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
+    `<canvas class="ls2-sprites" aria-hidden="true"></canvas>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
     `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}" aria-label="${escapeHtml(game.player.name)}"><b aria-hidden="true">你</b><span>${escapeHtml(game.player.name)}</span></button>`,
     ...map.npcs.map((npc, index) => {
@@ -435,6 +436,17 @@ function centerMapOnPoint(point) {
   clampMapPan();
 }
 
+function isPlayerNearViewportEdge(margin = 128) {
+  if (!game?.world?.map) return true;
+  const rect = els.mapCanvas.getBoundingClientRect();
+  const width = rect.width || 1;
+  const height = rect.height || 340;
+  const [x, y] = mapClientPoint(game.world.map, game.location?.x, game.location?.y);
+  const screenX = x * mapView.zoom + mapView.panX;
+  const screenY = y * mapView.zoom + mapView.panY;
+  return screenX < margin || screenY < margin || screenX > width - margin || screenY > height - margin;
+}
+
 function applyMapView() {
   const content = els.mapCanvas.querySelector(".map-content");
   const markerScale = Number((1 / mapView.zoom).toFixed(4));
@@ -446,6 +458,7 @@ function applyMapView() {
   els.mapZoomOut.disabled = mapView.zoom <= MAP_ZOOM_MIN;
   els.mapZoomIn.disabled = mapView.zoom >= MAP_ZOOM_MAX;
   scheduleLargeMapRender();
+  scheduleLargeMapSpriteRender();
 }
 
 function clampMapPan() {
@@ -521,7 +534,7 @@ async function walkPlayer(dx, dy) {
     const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
     if (moved) startPlayerWalkAnimation(animDir);
     else facePlayerDirection(animDir);
-    mapView.centerOnNextRender = true;
+    mapView.centerOnNextRender = before.mapId !== game.location.mapId || isPlayerNearViewportEdge();
     save();
     render();
     return moved;
@@ -572,8 +585,7 @@ function syncPlayerAnimationDirectionFromGame(force = false) {
 
 function invalidatePlayerSpriteRender() {
   if (!largeMapRenderer) return;
-  largeMapRenderer.lastKey = "";
-  scheduleLargeMapRender();
+  scheduleLargeMapSpriteRender();
 }
 
 function schedulePlayerAnimTick() {
@@ -1176,6 +1188,7 @@ function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLa
   canvas.style.width = "1px";
   canvas.style.height = "1px";
   const content = canvas.closest(".map-content");
+  const spriteCanvas = content?.querySelector(".ls2-sprites") || null;
   if (content) {
     content.classList.add("has-real-map");
     content.style.width = `${fullWidth}px`;
@@ -1194,6 +1207,8 @@ function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLa
     atlas,
     map: map || game.world.map,
     raf: 0,
+    spriteCanvas,
+    spriteRaf: 0,
     lastKey: ""
   };
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | ${sourceLabel} | real viewport`;
@@ -1205,6 +1220,7 @@ function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLa
 
 function resetLargeMapRenderer() {
   if (largeMapRenderer?.raf) cancelAnimationFrame(largeMapRenderer.raf);
+  if (largeMapRenderer?.spriteRaf) cancelAnimationFrame(largeMapRenderer.spriteRaf);
   largeMapRenderer = null;
 }
 
@@ -1220,8 +1236,19 @@ function scheduleLargeMapRender() {
   });
 }
 
-function renderLargeMapViewport(renderer) {
-  if (renderer !== largeMapRenderer || renderer.renderVersion !== mapRenderVersion) return;
+function scheduleLargeMapSpriteRender() {
+  if (!largeMapRenderer || largeMapRenderer.renderVersion !== mapRenderVersion) return;
+  if (!largeMapRenderer.spriteCanvas?.isConnected) return;
+  if (largeMapRenderer.spriteRaf) return;
+  largeMapRenderer.spriteRaf = requestAnimationFrame(() => {
+    const renderer = largeMapRenderer;
+    if (!renderer) return;
+    renderer.spriteRaf = 0;
+    renderLargeMapSprites(renderer);
+  });
+}
+
+function largeMapViewportState(renderer) {
   const viewport = els.mapCanvas.getBoundingClientRect();
   const zoom = Math.max(0.1, mapView.zoom || 1);
   const viewportW = Math.max(1, Math.ceil(viewport.width || 1));
@@ -1237,7 +1264,17 @@ function renderLargeMapViewport(renderer) {
   const pixelScale = Math.max(0.35, Math.min(zoom * dpr, LARGE_MAP_CANVAS_MAX_SIDE / cssW, LARGE_MAP_CANVAS_MAX_SIDE / cssH));
   const pixelW = Math.max(1, Math.ceil(cssW * pixelScale));
   const pixelH = Math.max(1, Math.ceil(cssH * pixelScale));
-  const key = [
+  return {
+    left,
+    top,
+    right,
+    bottom,
+    cssW,
+    cssH,
+    pixelScale,
+    pixelW,
+    pixelH,
+    key: [
     left,
     top,
     right,
@@ -1246,43 +1283,103 @@ function renderLargeMapViewport(renderer) {
     pixelH,
     renderer.width,
     renderer.height
-  ].join(":");
-  if (key === renderer.lastKey) return;
-  renderer.lastKey = key;
-  const { canvas } = renderer;
-  canvas.width = pixelW;
-  canvas.height = pixelH;
-  canvas.style.left = `${left}px`;
-  canvas.style.top = `${top}px`;
-  canvas.style.width = `${cssW}px`;
-  canvas.style.height = `${cssH}px`;
-  const ctx = canvas.getContext("2d", { alpha: true });
-  ctx.imageSmoothingEnabled = false;
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.clearRect(0, 0, pixelW, pixelH);
-  ctx.fillStyle = MAP_BACKDROP_COLOR;
-  ctx.fillRect(0, 0, pixelW, pixelH);
-  ctx.setTransform(pixelScale, 0, 0, pixelScale, -left * pixelScale, -top * pixelScale);
-  drawViewportTiles(ctx, renderer, left, top, right, bottom);
+    ].join(":")
+  };
 }
 
-function drawViewportTiles(ctx, renderer, left, top, right, bottom) {
+function renderLargeMapViewport(renderer) {
+  if (renderer !== largeMapRenderer || renderer.renderVersion !== mapRenderVersion) return;
+  const state = largeMapViewportState(renderer);
+  if (state.key === renderer.lastKey) return;
+  renderer.lastKey = state.key;
+  renderer.viewportState = state;
+  configureViewportCanvas(renderer.canvas, state);
+  if (renderer.spriteCanvas) configureViewportCanvas(renderer.spriteCanvas, state);
+  const ctx = renderer.canvas.getContext("2d", { alpha: true });
+  ctx.imageSmoothingEnabled = false;
+  resetViewportContext(ctx, state);
+  ctx.fillStyle = MAP_BACKDROP_COLOR;
+  ctx.fillRect(0, 0, state.pixelW, state.pixelH);
+  setViewportWorldTransform(ctx, state);
+  drawViewportBaseTiles(ctx, renderer, state);
+  renderLargeMapSprites(renderer, state);
+}
+
+function configureViewportCanvas(canvas, state) {
+  if (!canvas) return;
+  canvas.width = state.pixelW;
+  canvas.height = state.pixelH;
+  canvas.style.left = `${state.left}px`;
+  canvas.style.top = `${state.top}px`;
+  canvas.style.width = `${state.cssW}px`;
+  canvas.style.height = `${state.cssH}px`;
+}
+
+function resetViewportContext(ctx, state) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, state.pixelW, state.pixelH);
+}
+
+function setViewportWorldTransform(ctx, state) {
+  ctx.setTransform(
+    state.pixelScale,
+    0,
+    0,
+    state.pixelScale,
+    -state.left * state.pixelScale,
+    -state.top * state.pixelScale
+  );
+}
+
+function viewportTileBounds(renderer, state) {
   const corners = [
-    contentToTilePoint(renderer, left, top),
-    contentToTilePoint(renderer, right, top),
-    contentToTilePoint(renderer, left, bottom),
-    contentToTilePoint(renderer, right, bottom)
+    contentToTilePoint(renderer, state.left, state.top),
+    contentToTilePoint(renderer, state.right, state.top),
+    contentToTilePoint(renderer, state.left, state.bottom),
+    contentToTilePoint(renderer, state.right, state.bottom)
   ];
-  const x1 = Math.max(0, Math.floor(Math.min(...corners.map((point) => point[0]))) - LARGE_MAP_TILE_PADDING);
-  const y1 = Math.max(0, Math.floor(Math.min(...corners.map((point) => point[1]))) - LARGE_MAP_TILE_PADDING);
-  const x2 = Math.min(renderer.width - 1, Math.ceil(Math.max(...corners.map((point) => point[0]))) + LARGE_MAP_TILE_PADDING);
-  const y2 = Math.min(renderer.height - 1, Math.ceil(Math.max(...corners.map((point) => point[1]))) + LARGE_MAP_TILE_PADDING);
+  return {
+    x1: Math.max(0, Math.floor(Math.min(...corners.map((point) => point[0]))) - LARGE_MAP_TILE_PADDING),
+    y1: Math.max(0, Math.floor(Math.min(...corners.map((point) => point[1]))) - LARGE_MAP_TILE_PADDING),
+    x2: Math.min(renderer.width - 1, Math.ceil(Math.max(...corners.map((point) => point[0]))) + LARGE_MAP_TILE_PADDING),
+    y2: Math.min(renderer.height - 1, Math.ceil(Math.max(...corners.map((point) => point[1]))) + LARGE_MAP_TILE_PADDING)
+  };
+}
+
+function drawViewportBaseTiles(ctx, renderer, state) {
+  const { x1, y1, x2, y2 } = viewportTileBounds(renderer, state);
+  forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
+    const [ground, object] = renderer.tileAt(y * renderer.width + x);
+    const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
+    if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
+    if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
+      drawAtlasTile(ctx, renderer.atlas, object, screenX, screenY);
+    }
+  });
+}
+
+function renderLargeMapSprites(renderer, state = largeMapViewportState(renderer)) {
+  if (renderer !== largeMapRenderer || renderer.renderVersion !== mapRenderVersion) return;
+  if (!renderer.spriteCanvas?.isConnected) return;
+  if (state.key !== renderer.lastKey) {
+    renderLargeMapViewport(renderer);
+    return;
+  }
+  configureViewportCanvas(renderer.spriteCanvas, state);
+  const ctx = renderer.spriteCanvas.getContext("2d", { alpha: true });
+  ctx.imageSmoothingEnabled = false;
+  resetViewportContext(ctx, state);
+  setViewportWorldTransform(ctx, state);
+  drawViewportDynamicSprites(ctx, renderer, state);
+}
+
+function drawViewportDynamicSprites(ctx, renderer, state) {
+  const { x1, y1, x2, y2 } = viewportTileBounds(renderer, state);
   const sprites = [];
   let order = 0;
   forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
     const [ground, object] = renderer.tileAt(y * renderer.width + x);
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
-    if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
     if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
       sprites.push(mapDepthSprite(
         renderer.atlas,

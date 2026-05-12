@@ -961,7 +961,8 @@ h3 {
   box-shadow: 0 10px 22px rgb(71 57 28 / 12%);
 }
 
-.ls2-map {
+.ls2-map,
+.ls2-sprites {
   position: absolute;
   left: 0;
   top: 0;
@@ -969,6 +970,14 @@ h3 {
   opacity: 1;
   filter: none;
   pointer-events: none;
+}
+
+.ls2-map {
+  z-index: 0;
+}
+
+.ls2-sprites {
+  z-index: 1;
 }
 
 .map-canvas::after {
