@@ -11,13 +11,14 @@ const outputRoot = path.join(projectRoot, "public/data/client-tiles");
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
 const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
-const ATLAS_VERSION = "player-sprite-v2";
+const ATLAS_VERSION = "field-cursor-v1";
 
 const RECORD_SIZE = 80;
 const ATLAS_W = 4096;
 const COLOR_KEY = 0;
 const FIELD_UI_GRAPHIC_IDS = [
-  // Original field menu resources from client-source/systeminc/anim_tbl.h
+  // Original field/mouse UI resources from client-source/systeminc/anim_tbl.h
+  25000, 25001,
   26100, 26101, 26102, 26103, 26104, 26105, 26106, 26107, 26111, 26112,
   26113, 26114, 26115, 26116, 26117, 26118, 26119, 26120, 26121, 26233,
   26234, 26235, 26236, 26237, 26238, 26248, 26249, 26260, 26294, 26295,

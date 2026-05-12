@@ -1000,6 +1000,13 @@ h3 {
   z-index: 1;
 }
 
+.map-grid-cursor {
+  z-index: 3;
+  opacity: .9;
+  filter: drop-shadow(0 1px 0 rgb(0 0 0 / 62%));
+  pointer-events: none;
+}
+
 .map-canvas::after {
   content: attr(data-map-size);
   position: absolute;

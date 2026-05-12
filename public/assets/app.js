@@ -8,11 +8,12 @@ const REAL_TILE_CELL_LIMIT = 90000;
 const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
-const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=player-sprite-v2";
+const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=field-cursor-v1";
 const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
+const CG_GRID_CURSOR = 25001;
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -119,7 +120,8 @@ const mapView = {
   startX: 0,
   startY: 0,
   startPanX: 0,
-  startPanY: 0
+  startPanY: 0,
+  hoverTile: null
 };
 
 const els = {
@@ -261,6 +263,7 @@ function bindEvents() {
   els.mapCanvas.addEventListener("pointermove", onMapPointerMove);
   els.mapCanvas.addEventListener("pointerup", onMapPointerUp);
   els.mapCanvas.addEventListener("pointercancel", onMapPointerUp);
+  els.mapCanvas.addEventListener("pointerleave", onMapPointerLeave);
   els.mapCanvas.addEventListener("click", onMapCanvasClick);
   els.npcList.addEventListener("click", onNpcListClick);
   window.addEventListener("resize", centerMapOnPlayer);
@@ -358,6 +361,7 @@ function renderMap(map) {
       clampMapPan();
     }
     applyMapView();
+    syncMapCursor(map);
     return;
   }
   resetLargeMapRenderer();
@@ -371,6 +375,7 @@ function renderMap(map) {
   const markers = [
     `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
     `<canvas class="ls2-sprites" aria-hidden="true"></canvas>`,
+    `<span class="map-grid-cursor client-atlas-sprite" data-atlas-sprite="${CG_GRID_CURSOR}" aria-hidden="true" hidden></span>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
     `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}" aria-label="${escapeHtml(game.player.name)}"><b aria-hidden="true">你</b><span>${escapeHtml(game.player.name)}</span></button>`,
     ...map.npcs.map((npc, index) => {
@@ -383,6 +388,8 @@ function renderMap(map) {
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content" style="width:${Math.ceil(metrics.width)}px;height:${Math.ceil(metrics.height)}px">${markers.join("")}</div>`;
+  hydrateAtlasSprites(loadedTileAtlas);
+  syncMapCursor(map);
   centerMapOnPoint(layout.player);
   mapView.centerOnNextRender = false;
   clampMapPan();
@@ -406,6 +413,7 @@ function onMapCanvasClick(event) {
   }
   const target = mapTileFromPointer(event);
   if (target) {
+    setMapHoverTile(target);
     followRouteTo(target);
   }
 }
@@ -642,12 +650,11 @@ async function followRouteTo(target, routeData = null) {
   if (!game) return;
   if (routeInFlight) {
     routeToken += 1;
-    routeInFlight = false;
-    return;
   }
   const token = ++routeToken;
   routeInFlight = true;
   try {
+    if (!await waitForWalkSlot(token)) return false;
     const data = routeData || await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
     const route = Array.isArray(data.route) ? data.route : [];
     if (!route.length) {
@@ -656,6 +663,7 @@ async function followRouteTo(target, routeData = null) {
     }
     for (const step of route) {
       if (token !== routeToken) return false;
+      if (!await waitForWalkSlot(token)) return false;
       const beforeMap = game.location.mapId;
       const moved = await walkPlayer(step.dx, step.dy);
       if (!moved || game.location.mapId !== beforeMap) return moved;
@@ -666,8 +674,16 @@ async function followRouteTo(target, routeData = null) {
     addClientLog(error.message || "无法计算路线。");
     return false;
   } finally {
-    routeInFlight = false;
+    if (token === routeToken) routeInFlight = false;
   }
+}
+
+async function waitForWalkSlot(token, timeoutMs = 800) {
+  const startedAt = performance.now();
+  while (walkInFlight && token === routeToken && performance.now() - startedAt < timeoutMs) {
+    await wait(16);
+  }
+  return token === routeToken && !walkInFlight;
 }
 
 async function goToNpc(npcId) {
@@ -740,7 +756,10 @@ function mapTileFromPointer(event) {
 }
 
 function onMapPointerMove(event) {
-  if (!mapView.dragging) return;
+  if (!mapView.dragging) {
+    setMapHoverTile(mapTileFromPointer(event));
+    return;
+  }
   const dx = event.clientX - mapView.startX;
   const dy = event.clientY - mapView.startY;
   if (Math.abs(dx) > 3 || Math.abs(dy) > 3) mapView.moved = true;
@@ -760,6 +779,38 @@ function onMapPointerUp(event) {
   setTimeout(() => {
     mapView.moved = false;
   }, 0);
+}
+
+function onMapPointerLeave() {
+  if (mapView.dragging) return;
+  setMapHoverTile(null);
+}
+
+function setMapHoverTile(tile) {
+  const next = tile && game?.world?.map
+    ? { mapId: game.world.map.id, x: Number(tile.x), y: Number(tile.y) }
+    : null;
+  if (
+    mapView.hoverTile?.mapId === next?.mapId
+    && mapView.hoverTile?.x === next?.x
+    && mapView.hoverTile?.y === next?.y
+  ) return;
+  mapView.hoverTile = next;
+  syncMapCursor(game?.world?.map);
+}
+
+function syncMapCursor(map) {
+  const cursor = els.mapCanvas.querySelector(".map-grid-cursor");
+  if (!cursor) return;
+  const tile = mapView.hoverTile;
+  if (!map || !tile || tile.mapId !== map.id) {
+    cursor.hidden = true;
+    return;
+  }
+  const [x, y] = mapClientPoint(map, tile.x, tile.y);
+  cursor.style.left = `${Math.round(x)}px`;
+  cursor.style.top = `${Math.round(y)}px`;
+  cursor.hidden = false;
 }
 
 async function renderLs2Map(map, renderVersion) {
