@@ -381,6 +381,10 @@ h3 {
   mix-blend-mode: soft-light;
 }
 
+.map-content.has-real-map::after {
+  display: none;
+}
+
 .map-canvas.map-fallback::before {
   content: "";
   position: absolute;
@@ -397,8 +401,9 @@ h3 {
   left: 0;
   top: 0;
   image-rendering: pixelated;
-  opacity: .9;
-  filter: saturate(1.16) contrast(1.12);
+  opacity: 1;
+  filter: none;
+  pointer-events: none;
 }
 
 .map-canvas::after {

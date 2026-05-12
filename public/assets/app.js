@@ -3,14 +3,19 @@ const MAP_ZOOM_MIN = 0.5;
 const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
 const MAP_DEFAULT_ZOOM = 1;
+const CG_INVISIBLE = 99;
 const REAL_TILE_CELL_LIMIT = 90000;
 const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
+const LARGE_MAP_VIEW_PADDING = 192;
+const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
 
 let game = null;
 let installPrompt = null;
 let walkInFlight = false;
 let tileAtlasPromise = null;
+let largeMapRenderer = null;
+let mapRenderVersion = 0;
 const mapView = {
   zoom: MAP_DEFAULT_ZOOM,
   panX: 0,
@@ -218,6 +223,8 @@ function render() {
 }
 
 function renderMap(map) {
+  resetLargeMapRenderer();
+  const renderVersion = ++mapRenderVersion;
   const layout = mapLayout(map);
   const metrics = mapMetrics(map);
   if (mapView.mapId !== map.id) {
@@ -243,7 +250,7 @@ function renderMap(map) {
   mapView.centerOnNextRender = false;
   clampMapPan();
   applyMapView();
-  renderLs2Map(map).catch(() => {
+  renderLs2Map(map, renderVersion).catch(() => {
     els.mapCanvas.classList.add("map-fallback");
   });
 }
@@ -304,6 +311,7 @@ function applyMapView() {
   els.mapZoomValue.textContent = `${Math.round(mapView.zoom * 100)}%`;
   els.mapZoomOut.disabled = mapView.zoom <= MAP_ZOOM_MIN;
   els.mapZoomIn.disabled = mapView.zoom >= MAP_ZOOM_MAX;
+  scheduleLargeMapRender();
 }
 
 function clampMapPan() {
@@ -396,7 +404,7 @@ function onMapPointerUp(event) {
   }, 0);
 }
 
-async function renderLs2Map(map) {
+async function renderLs2Map(map, renderVersion) {
   if (!map.clientMapFile && !map.mapFile) return;
   const canvas = els.mapCanvas.querySelector(".ls2-map");
   if (!canvas) return;
@@ -404,14 +412,15 @@ async function renderLs2Map(map) {
   const rsp = await fetch(mapUrl);
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
+  if (renderVersion !== mapRenderVersion) return;
   if (mapUrl === map.clientMapFile) {
-    await renderClientDatMap(canvas, buf, map);
+    await renderClientDatMap(canvas, buf, map, renderVersion);
     return;
   }
-  await renderLs2MapBuffer(canvas, buf, map);
+  await renderLs2MapBuffer(canvas, buf, map, renderVersion);
 }
 
-async function renderClientDatMap(canvas, buf, map) {
+async function renderClientDatMap(canvas, buf, map, renderVersion) {
   const view = new DataView(buf);
   const width = view.getUint32(0, true);
   const height = view.getUint32(4, true);
@@ -428,11 +437,16 @@ async function renderClientDatMap(canvas, buf, map) {
       view.getUint16(eventOffset, true)
     ];
   };
+  const atlas = await loadTileAtlas();
+  if (renderVersion !== mapRenderVersion) return;
   if (width * height > REAL_TILE_CELL_LIMIT) {
+    if (atlas) {
+      drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "client DAT viewport", renderVersion);
+      return;
+    }
     drawLargeIsoPreview(canvas, width, height, tileAt, map, "client DAT overview");
     return;
   }
-  const atlas = await loadTileAtlas();
   if (atlas) {
     drawRealTileMap(canvas, width, height, tileAt, atlas, map);
     return;
@@ -468,6 +482,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
   canvas.style.height = `${canvas.height}px`;
   const content = canvas.closest(".map-content");
   if (content) {
+    content.classList.add("has-real-map");
     content.style.width = `${canvas.width}px`;
     content.style.height = `${canvas.height}px`;
   }
@@ -481,8 +496,8 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     const px = screenX - bounds.minX;
     const py = screenY - bounds.minY;
-    drawAtlasTile(ctx, atlas, ground, px, py);
-    if (object > 99 && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
+    if (ground > CG_INVISIBLE) drawAtlasTile(ctx, atlas, ground, px, py);
+    if (object > CG_INVISIBLE && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
   }
   for (const object of objects) {
     drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
@@ -609,8 +624,8 @@ function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
       const [ground, object] = tileAt(y * width + x);
       const [mapX, mapY] = mapRenderPoint(x, y, width, height);
       const [px, py] = isoPoint(mapX, mapY, halfW, halfH);
-      includeTileBounds(bounds, atlas.frames?.[ground], px, py);
-      if (object > 99) includeTileBounds(bounds, atlas.frames?.[object], px, py);
+      if (ground > CG_INVISIBLE) includeTileBounds(bounds, atlas.frames?.[ground], px, py);
+      if (object > CG_INVISIBLE) includeTileBounds(bounds, atlas.frames?.[object], px, py);
     }
   }
   if (!Number.isFinite(bounds.minX)) return { minX: 0, minY: 0, maxX: width * 64, maxY: height * 48 };
@@ -653,7 +668,7 @@ function drawAtlasTile(ctx, atlas, tileId, x, y) {
   ctx.restore();
 }
 
-async function renderLs2MapBuffer(canvas, buf, map = null) {
+async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRenderVersion) {
   const view = new DataView(buf);
   const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
   if (magic !== "LS2MAP") throw new Error("invalid LS2MAP");
@@ -668,16 +683,179 @@ async function renderLs2MapBuffer(canvas, buf, map = null) {
       0
     ];
   };
+  const atlas = await loadTileAtlas();
+  if (renderVersion !== mapRenderVersion) return;
   if (width * height > REAL_TILE_CELL_LIMIT) {
+    if (atlas) {
+      drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "LS2MAP viewport", renderVersion);
+      return;
+    }
     drawLargeIsoPreview(canvas, width, height, tileAt, map, "LS2MAP overview");
     return;
   }
-  const atlas = await loadTileAtlas();
   if (atlas) {
     drawRealTileMap(canvas, width, height, tileAt, atlas, map);
     return;
   }
   drawTilePreview(canvas, width, height, tileAt);
+}
+
+function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLabel, renderVersion) {
+  const metrics = mapMetrics(map || { size: [width, height] });
+  const fullWidth = Math.max(1, Math.ceil(metrics.width));
+  const fullHeight = Math.max(1, Math.ceil(metrics.height));
+  const minX = metrics.minX - metrics.margin;
+  const minY = metrics.minY - metrics.margin;
+  canvas.classList.add("viewport-tile-map");
+  canvas.dataset.minX = String(minX);
+  canvas.dataset.minY = String(minY);
+  canvas.style.width = "1px";
+  canvas.style.height = "1px";
+  const content = canvas.closest(".map-content");
+  if (content) {
+    content.classList.add("has-real-map");
+    content.style.width = `${fullWidth}px`;
+    content.style.height = `${fullHeight}px`;
+  }
+  largeMapRenderer = {
+    renderVersion,
+    canvas,
+    width,
+    height,
+    fullWidth,
+    fullHeight,
+    minX,
+    minY,
+    tileAt,
+    atlas,
+    map: map || game.world.map,
+    raf: 0,
+    lastKey: ""
+  };
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | ${sourceLabel} | real viewport`;
+  syncMapMarkers(largeMapRenderer.map);
+  centerMapOnPlayer();
+  clampMapPan();
+  applyMapView();
+}
+
+function resetLargeMapRenderer() {
+  if (largeMapRenderer?.raf) cancelAnimationFrame(largeMapRenderer.raf);
+  largeMapRenderer = null;
+}
+
+function scheduleLargeMapRender() {
+  if (!largeMapRenderer || largeMapRenderer.renderVersion !== mapRenderVersion) return;
+  if (!largeMapRenderer.canvas?.isConnected) return;
+  if (largeMapRenderer.raf) return;
+  largeMapRenderer.raf = requestAnimationFrame(() => {
+    const renderer = largeMapRenderer;
+    if (!renderer) return;
+    renderer.raf = 0;
+    renderLargeMapViewport(renderer);
+  });
+}
+
+function renderLargeMapViewport(renderer) {
+  if (renderer !== largeMapRenderer || renderer.renderVersion !== mapRenderVersion) return;
+  const viewport = els.mapCanvas.getBoundingClientRect();
+  const zoom = Math.max(0.1, mapView.zoom || 1);
+  const viewportW = Math.max(1, Math.ceil(viewport.width || 1));
+  const viewportH = Math.max(1, Math.ceil(viewport.height || 340));
+  const pad = LARGE_MAP_VIEW_PADDING / zoom + 96;
+  const left = Math.max(0, Math.floor((-mapView.panX / zoom) - pad));
+  const top = Math.max(0, Math.floor((-mapView.panY / zoom) - pad));
+  const right = Math.min(renderer.fullWidth, Math.ceil(((viewportW - mapView.panX) / zoom) + pad));
+  const bottom = Math.min(renderer.fullHeight, Math.ceil(((viewportH - mapView.panY) / zoom) + pad));
+  const cssW = Math.max(1, right - left);
+  const cssH = Math.max(1, bottom - top);
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const pixelScale = Math.max(0.35, Math.min(zoom * dpr, LARGE_MAP_CANVAS_MAX_SIDE / cssW, LARGE_MAP_CANVAS_MAX_SIDE / cssH));
+  const pixelW = Math.max(1, Math.ceil(cssW * pixelScale));
+  const pixelH = Math.max(1, Math.ceil(cssH * pixelScale));
+  const key = [
+    left,
+    top,
+    right,
+    bottom,
+    pixelW,
+    pixelH,
+    renderer.width,
+    renderer.height
+  ].join(":");
+  if (key === renderer.lastKey) return;
+  renderer.lastKey = key;
+  const { canvas } = renderer;
+  canvas.width = pixelW;
+  canvas.height = pixelH;
+  canvas.style.left = `${left}px`;
+  canvas.style.top = `${top}px`;
+  canvas.style.width = `${cssW}px`;
+  canvas.style.height = `${cssH}px`;
+  const ctx = canvas.getContext("2d", { alpha: true });
+  ctx.imageSmoothingEnabled = false;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, pixelW, pixelH);
+  ctx.setTransform(pixelScale, 0, 0, pixelScale, -left * pixelScale, -top * pixelScale);
+  drawViewportTiles(ctx, renderer, left, top, right, bottom);
+}
+
+function drawViewportTiles(ctx, renderer, left, top, right, bottom) {
+  const corners = [
+    contentToTilePoint(renderer, left, top),
+    contentToTilePoint(renderer, right, top),
+    contentToTilePoint(renderer, left, bottom),
+    contentToTilePoint(renderer, right, bottom)
+  ];
+  const x1 = Math.max(0, Math.floor(Math.min(...corners.map((point) => point[0]))) - LARGE_MAP_TILE_PADDING);
+  const y1 = Math.max(0, Math.floor(Math.min(...corners.map((point) => point[1]))) - LARGE_MAP_TILE_PADDING);
+  const x2 = Math.min(renderer.width - 1, Math.ceil(Math.max(...corners.map((point) => point[0]))) + LARGE_MAP_TILE_PADDING);
+  const y2 = Math.min(renderer.height - 1, Math.ceil(Math.max(...corners.map((point) => point[1]))) + LARGE_MAP_TILE_PADDING);
+  const objects = [];
+  forEachClientDrawTile(x1, y1, x2, y2, (x, y) => {
+    const [ground, object] = renderer.tileAt(y * renderer.width + x);
+    const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
+    if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
+    if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
+      objects.push({ tileId: object, x: screenX, y: screenY, gx: x, gy: y });
+    }
+  });
+  const npcs = (renderer.map?.npcs || [])
+    .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
+    .filter((npc) => npc.graphicId > CG_INVISIBLE && renderer.atlas.frames?.[npc.graphicId])
+    .map((npc) => {
+      const [x, y] = mapTileContentPoint(renderer, npc.x, npc.y);
+      return { tileId: npc.graphicId, x, y, gx: npc.x, gy: npc.y };
+    });
+  [...objects, ...npcs]
+    .sort((a, b) => (a.gx - a.gy) - (b.gx - b.gy) || b.gy - a.gy || a.gx - b.gx)
+    .forEach((entry) => drawAtlasTile(ctx, renderer.atlas, entry.tileId, entry.x, entry.y));
+}
+
+function forEachClientDrawTile(x1, y1, x2, y2, callback) {
+  for (let diff = x1 - y2; diff <= x2 - y1; diff += 1) {
+    const yStart = Math.min(y2, x2 - diff);
+    const yEnd = Math.max(y1, x1 - diff);
+    for (let y = yStart; y >= yEnd; y -= 1) {
+      const x = diff + y;
+      callback(x, y);
+    }
+  }
+}
+
+function mapTileContentPoint(renderer, x, y) {
+  const [mapX, mapY] = mapRenderPoint(x, y, renderer.width, renderer.height);
+  const [screenX, screenY] = isoPoint(mapX, mapY, 32, 24);
+  return [screenX - renderer.minX, screenY - renderer.minY];
+}
+
+function contentToTilePoint(renderer, contentX, contentY) {
+  const screenX = contentX + renderer.minX;
+  const screenY = contentY + renderer.minY;
+  return [
+    (screenX / 32 - screenY / 24) / 2,
+    (screenX / 32 + screenY / 24) / 2
+  ];
 }
 
 function drawLargeIsoPreview(canvas, width, height, tileAt, map, sourceLabel) {
@@ -708,7 +886,13 @@ function drawLargeIsoPreview(canvas, width, height, tileAt, map, sourceLabel) {
     for (let x = 0; x < width; x += step) {
       const [ground, object, overlay] = tileAt(y * width + x);
       const [screenX, screenY] = isoPoint(x, y, 32, 24);
-      drawIsoSample(ctx, screenX - minX, screenY - minY, step, tileColor(ground, object, overlay));
+      drawIsoSample(
+        ctx,
+        screenX - minX,
+        screenY - minY,
+        step,
+        tileColor(ground > CG_INVISIBLE ? ground : 0, object > CG_INVISIBLE ? object : 0, overlay)
+      );
     }
   }
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | ${sourceLabel} | sampled ${step}x`;
@@ -746,7 +930,7 @@ function drawTilePreview(canvas, width, height, tileAt) {
       const sy = Math.min(height - 1, y * scale);
       const index = sy * width + sx;
       const [ground, object, overlay] = tileAt(index);
-      const color = tileColor(ground, object, overlay);
+      const color = tileColor(ground > CG_INVISIBLE ? ground : 0, object > CG_INVISIBLE ? object : 0, overlay);
       const i = (y * outW + x) * 4;
       img.data[i] = color[0];
       img.data[i + 1] = color[1];
