@@ -911,6 +911,28 @@ h3 {
   display: none;
 }
 
+.map-content.has-real-map .map-marker.npc,
+.map-content.has-real-map .map-marker.exit {
+  width: 64px;
+  height: 64px;
+  max-width: none;
+  min-height: 0;
+  translate: -50% -74%;
+  background: transparent;
+  box-shadow: none;
+}
+
+.map-content.has-real-map .map-marker.npc b,
+.map-content.has-real-map .map-marker.exit b {
+  opacity: 0;
+}
+
+.map-content.has-real-map .map-marker.npc:focus-visible,
+.map-content.has-real-map .map-marker.exit:focus-visible {
+  outline: 1px solid rgb(255 236 156 / 56%);
+  outline-offset: -18px;
+}
+
 .map-content::after {
   content: "";
   position: absolute;

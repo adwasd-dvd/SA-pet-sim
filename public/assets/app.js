@@ -318,14 +318,14 @@ function renderMap(map) {
   const markers = [
     `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
-    `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}"><b>你</b><span>${escapeHtml(game.player.name)}</span></button>`,
+    `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}" aria-label="${escapeHtml(game.player.name)}"><b aria-hidden="true">你</b><span>${escapeHtml(game.player.name)}</span></button>`,
     ...map.npcs.map((npc, index) => {
       const point = layout.npcs[index] || [45, 50];
-      return `<button class="map-marker npc" style="${mapPos(point)}" data-npc="${npc.id}" title="${escapeHtml(npc.name)}"><b>${escapeHtml(npc.name.slice(0, 1))}</b><span>${escapeHtml(npc.name)}</span></button>`;
+      return `<button class="map-marker npc" style="${mapPos(point)}" data-npc="${npc.id}" title="${escapeHtml(npc.name)}" aria-label="${escapeHtml(npc.name)}"><b aria-hidden="true">${escapeHtml(npc.name.slice(0, 1))}</b><span>${escapeHtml(npc.name)}</span></button>`;
     }),
     ...map.exits.map((exit, index) => {
       const point = layout.exits[index] || [86, 55];
-      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.id}" title="${escapeHtml(exit.detail || exit.label)}"><b>出</b><span>${escapeHtml(exit.label)}</span></button>`;
+      return `<button class="map-marker exit" style="${mapPos(point)}" data-exit="${exit.id}" title="${escapeHtml(exit.detail || exit.label)}" aria-label="${escapeHtml(exit.label)}"><b aria-hidden="true">出</b><span>${escapeHtml(exit.label)}</span></button>`;
     })
   ];
   els.mapCanvas.innerHTML = `<div class="map-content" style="width:${Math.ceil(metrics.width)}px;height:${Math.ceil(metrics.height)}px">${markers.join("")}</div>`;
