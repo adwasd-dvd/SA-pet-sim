@@ -883,6 +883,95 @@ h3 {
   gap: 8px;
 }
 
+.battle-box {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(180px, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+}
+
+.battle-target {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.battle-target img {
+  width: 72px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.battle-target strong,
+.battle-party strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.battle-target span,
+.battle-party span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.battle-party {
+  min-width: 0;
+}
+
+.meter {
+  height: 8px;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eadfca;
+}
+
+.meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #b24a39;
+}
+
+.meter.pet i {
+  background: #2f7a61;
+}
+
+.battle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: end;
+}
+
+.battle-box-log {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 4px;
+  max-height: 74px;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.battle-box-log p {
+  margin: 0;
+}
+
 .shop-box {
   flex: 1 1 100%;
   display: grid;
@@ -1263,6 +1352,14 @@ mark {
     width: auto;
     max-height: none;
     transform: none;
+  }
+
+  .battle-box {
+    grid-template-columns: 1fr;
+  }
+
+  .battle-actions {
+    justify-content: start;
   }
 
   .pet-card {

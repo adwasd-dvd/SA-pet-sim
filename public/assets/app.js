@@ -1281,8 +1281,9 @@ function renderDialog() {
       ${escapeHtml(message.text)}
     </p>
   `).join("");
+  const battle = renderDialogBattle();
   const shop = renderDialogShop(dialog);
-  els.dialogSuggestions.innerHTML = (dialog.suggestions || ["任务", "地图", "交易"]).map((item) => `
+  els.dialogSuggestions.innerHTML = battle + (dialog.suggestions || ["任务", "地图", "交易"]).map((item) => `
     <button class="ghost-btn" type="button" data-say="${escapeHtml(item)}">${escapeHtml(item)}</button>
   `).join("") + shop;
   els.dialogSuggestions.querySelectorAll("[data-say]").forEach((btn) => {
@@ -1291,7 +1292,52 @@ function renderDialog() {
   els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
   });
+  els.dialogSuggestions.querySelectorAll("[data-battle-img]").forEach((img) => {
+    const fallback = () => {
+      if (img.dataset.fallback === "1") return;
+      img.dataset.fallback = "1";
+      img.src = "/f/logo.gif";
+    };
+    img.addEventListener("error", fallback);
+    if (img.complete && img.naturalWidth === 0) fallback();
+  });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
+}
+
+function renderDialogBattle() {
+  const enemy = game?.encounter;
+  if (!enemy) return "";
+  const activePet = game.pets?.[0] || null;
+  const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
+  const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
+  const petMax = activePet ? Math.max(1, Number(activePet.WorkMaxHp || activePet.Hp || 1)) : 1;
+  const petHp = activePet ? Math.max(0, Number(activePet.Hp || petMax)) : 0;
+  const battleLog = (game.battle?.log || []).slice(-4);
+  return `
+    <div class="battle-box">
+      <div class="battle-target">
+        <img data-battle-img src="/f/pet/${Number(enemy.ImgNo || 0)}.gif" alt="${escapeHtml(enemy.Name || "遇敌")}" loading="lazy">
+        <div>
+          <strong>${escapeHtml(enemy.Name || "野外宠物")} Lv.${Number(enemy.Lv || 1)}</strong>
+          <span>HP ${enemyHp}/${enemyMax} | 捕获率 ${Number(enemy.CaptureRate || 0)}%</span>
+          <div class="meter"><i style="width:${clampPercent(enemyHp, enemyMax)}%"></i></div>
+        </div>
+      </div>
+      <div class="battle-party">
+        <strong>${activePet ? escapeHtml(activePet.Name) : "无出战宠物"}</strong>
+        <span>${activePet ? `HP ${petHp}/${petMax}` : "需要至少一只宠物"}</span>
+        <div class="meter pet"><i style="width:${clampPercent(petHp, petMax)}%"></i></div>
+      </div>
+      <div class="battle-actions">
+        <button class="ghost-btn" type="button" data-say="攻击" ${activePet ? "" : "disabled"}>攻击</button>
+        <button class="ghost-btn" type="button" data-say="捕获">捕获</button>
+        <button class="ghost-btn" type="button" data-say="放走">放走</button>
+      </div>
+      <div class="battle-box-log">
+        ${battleLog.length ? battleLog.map((line) => `<p>${escapeHtml(line)}</p>`).join("") : `<p>战斗开始。</p>`}
+      </div>
+    </div>
+  `;
 }
 
 function dialogDebugLine(dialog) {
