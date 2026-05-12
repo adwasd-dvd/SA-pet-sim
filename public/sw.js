@@ -1,10 +1,10 @@
-const CACHE = "stoneage-web-v59";
+const CACHE = "stoneage-web-v60";
 const SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/assets/app.css?v=34",
-  "/assets/app.js?v=44",
+  "/assets/app.css?v=35",
+  "/assets/app.js?v=45",
   "/data/client-tiles/tiles.json",
   "/data/client-tiles/tiles-atlas.png",
   "/f/logo.gif",
@@ -38,13 +38,21 @@ self.addEventListener("fetch", (event) => {
     );
     return;
   }
+  if (url.pathname === "/assets/app.css" || url.pathname === "/assets/app.js") {
+    event.respondWith(fetchAndCache(event.request).catch(() => caches.match(event.request)));
+    return;
+  }
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
-      if (event.request.method === "GET" && response.ok) {
-        const copy = response.clone();
-        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-      }
-      return response;
-    }).catch(() => caches.match("/index.html")))
+    caches.match(event.request).then((cached) => cached || fetchAndCache(event.request).catch(() => caches.match("/index.html")))
   );
 });
+
+function fetchAndCache(request) {
+  return fetch(request).then((response) => {
+    if (request.method === "GET" && response.ok) {
+      const copy = response.clone();
+      caches.open(CACHE).then((cache) => cache.put(request, copy));
+    }
+    return response;
+  });
+}
