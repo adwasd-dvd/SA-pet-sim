@@ -19,6 +19,10 @@ const CHAR_MAXUPLEVEL = 140;
 const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
+const CG_INVISIBLE = 99;
+const MAP_BLOCKED = 1;
+const MAP_SPECIAL = 2;
+const EVENT_NPC = 1;
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -30,6 +34,8 @@ const rankTab = [
 
 let cache;
 let charId = 0;
+let tileMetaPromise = null;
+const collisionCache = new Map();
 
 export default {
   async fetch(request, env) {
@@ -168,10 +174,15 @@ async function walkGame(env, request, game, dx, dy) {
   const height = Math.max(1, Number(map.size?.[1]) || 1);
   const nextX = clampInt(Number(game.location.x || 0) + Math.sign(dx), 0, width - 1, game.location.x);
   const nextY = clampInt(Number(game.location.y || 0) + Math.sign(dy), 0, height - 1, game.location.y);
+  const exit = exitAt(map, nextX, nextY);
+  if (!exit && (await blocksMove(env, request, map, nextX, nextY))) {
+    noteBlockedMove(game, map, nextX, nextY);
+    noteNearby(game, map);
+    return withMap(game);
+  }
   game.location = { ...game.location, x: nextX, y: nextY };
   game.encounter = null;
   game.battle = null;
-  const exit = exitAt(map, nextX, nextY);
   if (exit) return applyExit(game, exit);
   noteNearby(game, map);
   game.walk ||= { steps: 0, encounterSteps: 0 };
@@ -189,6 +200,137 @@ function exitAt(map, x, y) {
     const bounds = Array.isArray(exit.bounds) ? exit.bounds : [exit.x, exit.y, exit.x, exit.y];
     return x >= bounds[0] && y >= bounds[1] && x <= bounds[2] && y <= bounds[3];
   });
+}
+
+async function blocksMove(env, request, map, x, y) {
+  if (map.npcs.some((npc) => Number(npc.x) === x && Number(npc.y) === y)) return true;
+  const collision = await loadCollisionMap(env, request, map);
+  if (!collision || x < 0 || y < 0 || x >= collision.width || y >= collision.height) return true;
+  return collision.hitMap[y * collision.width + x] === MAP_BLOCKED;
+}
+
+function noteBlockedMove(game, map, x, y) {
+  game.walk ||= { steps: 0, encounterSteps: 0 };
+  const key = `${map.id}:${x}:${y}`;
+  if (game.walk.blockedKey === key) return;
+  game.walk.blockedKey = key;
+  addLog(game, `前方 (${x},${y}) 被地形或 NPC 挡住，无法通行。`);
+}
+
+async function loadCollisionMap(env, request, map) {
+  const path = map.clientMapFile || map.mapFile;
+  if (!path) return null;
+  if (collisionCache.has(path)) return collisionCache.get(path);
+  const [buf, tileMeta] = await Promise.all([
+    assetBuffer(env, request, path),
+    loadTileMeta(env, request)
+  ]);
+  const collision = map.clientMapFile
+    ? buildClientDatCollision(buf, tileMeta, path)
+    : buildLs2Collision(buf, tileMeta, path);
+  collisionCache.set(path, collision);
+  return collision;
+}
+
+async function loadTileMeta(env, request) {
+  tileMetaPromise ||= assetJson(env, request, "/data/client-tiles/tiles.json");
+  return tileMetaPromise;
+}
+
+function buildClientDatCollision(buf, tileMeta, source) {
+  const view = new DataView(buf);
+  const width = view.getUint32(0, true);
+  const height = view.getUint32(4, true);
+  const layerSize = width * height * 2;
+  const expected = 8 + layerSize * 3;
+  if (!width || !height || buf.byteLength < expected) throw new Error(`invalid client map: ${source}`);
+  return buildCollisionFromLayers(width, height, tileMeta, (index) => {
+    const tileOffset = 8 + index * 2;
+    const partsOffset = 8 + layerSize + index * 2;
+    const eventOffset = 8 + layerSize * 2 + index * 2;
+    return [
+      view.getUint16(tileOffset, true),
+      view.getUint16(partsOffset, true),
+      view.getUint16(eventOffset, true)
+    ];
+  }, `${source} client DAT hitMap`);
+}
+
+function buildLs2Collision(buf, tileMeta, source) {
+  const bytes = new Uint8Array(buf, 0, Math.min(6, buf.byteLength));
+  const magic = String.fromCharCode(...bytes);
+  if (magic !== "LS2MAP") throw new Error(`invalid LS2MAP: ${source}`);
+  const view = new DataView(buf);
+  const width = view.getUint16(0x28, false);
+  const height = view.getUint16(0x2a, false);
+  const objectLayer = 44 + width * height * 2;
+  return buildCollisionFromLayers(width, height, tileMeta, (index) => [
+    view.getUint16(44 + index * 2, false),
+    objectLayer + index * 2 + 1 < buf.byteLength ? view.getUint16(objectLayer + index * 2, false) : 0,
+    0
+  ], `${source} LS2MAP hitMap`);
+}
+
+function buildCollisionFromLayers(width, height, tileMeta, tileAt, source) {
+  const hitMap = new Uint8Array(width * height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const index = y * width + x;
+      const [ground, parts, event] = tileAt(index);
+      applyGroundCollision(hitMap, width, height, x, y, ground, tileMeta);
+      applyPartsCollision(hitMap, width, height, x, y, parts, tileMeta);
+      if ((event & 0x0fff) === EVENT_NPC) markHit(hitMap, width, height, x, y, MAP_BLOCKED);
+    }
+  }
+  return { width, height, hitMap, source };
+}
+
+function applyGroundCollision(hitMap, width, height, x, y, tileId, tileMeta) {
+  if (tileId > CG_INVISIBLE) {
+    const frame = tileMeta.frames?.[tileId];
+    if (!frame) return;
+    const hit = Number(frame.hit || 0);
+    if (hit === 0) markHit(hitMap, width, height, x, y, MAP_BLOCKED);
+    else if (hit === 2) markHit(hitMap, width, height, x, y, MAP_SPECIAL);
+    return;
+  }
+  applyControlTileCollision(hitMap, width, height, x, y, tileId);
+}
+
+function applyPartsCollision(hitMap, width, height, x, y, tileId, tileMeta) {
+  if (tileId > CG_INVISIBLE) {
+    const frame = tileMeta.frames?.[tileId];
+    if (!frame) return;
+    const hit = Number(frame.hit || 0);
+    const hitX = Math.max(1, Number(frame.hitX || 1));
+    const hitY = Math.max(1, Number(frame.hitY || 1));
+    if (hit === 0 || hit === 2) {
+      for (let ky = 0; ky < hitY; ky += 1) {
+        for (let kx = 0; kx < hitX; kx += 1) {
+          markHit(hitMap, width, height, x + kx, y - ky, hit === 2 ? MAP_SPECIAL : MAP_BLOCKED);
+        }
+      }
+    } else if (hit === 1 && tileId >= 15680 && tileId <= 15732) {
+      markHit(hitMap, width, height, x, y, MAP_BLOCKED);
+    }
+    return;
+  }
+  applyControlTileCollision(hitMap, width, height, x, y, tileId);
+}
+
+function applyControlTileCollision(hitMap, width, height, x, y, tileId) {
+  if ([1, 2, 5, 6, 9, 10].includes(tileId)) markHit(hitMap, width, height, x, y, MAP_BLOCKED);
+  else if (tileId === 4) markHit(hitMap, width, height, x, y, MAP_SPECIAL);
+}
+
+function markHit(hitMap, width, height, x, y, value) {
+  if (x < 0 || y < 0 || x >= width || y >= height) return;
+  const index = y * width + x;
+  if (value === MAP_SPECIAL) {
+    hitMap[index] = MAP_SPECIAL;
+  } else if (hitMap[index] !== MAP_SPECIAL) {
+    hitMap[index] = MAP_BLOCKED;
+  }
 }
 
 function noteNearby(game, map) {
@@ -1335,6 +1477,17 @@ async function assetText(env, request, path) {
   const rsp = await env.ASSETS.fetch(new Request(url));
   if (!rsp.ok) throw new Error(`missing asset: ${path}`);
   return rsp.text();
+}
+
+async function assetBuffer(env, request, path) {
+  const url = new URL(path, request.url);
+  const rsp = await env.ASSETS.fetch(new Request(url));
+  if (!rsp.ok) throw new Error(`missing asset: ${path}`);
+  return rsp.arrayBuffer();
+}
+
+async function assetJson(env, request, path) {
+  return JSON.parse(await assetText(env, request, path));
 }
 
 async function readJson(request) {

@@ -7,10 +7,11 @@
     "build:world": "node scripts/build-world.mjs && node scripts/extract-client-tiles.mjs",
     "check:resources": "node scripts/check-resources.mjs",
     "check:maps": "node scripts/check-map-atlas.mjs",
+    "check:movement": "node scripts/check-movement-collision.mjs",
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "npm run check:maps && wrangler deploy --dry-run"
+    "check": "npm run check:maps && npm run check:movement && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "wrangler": "^4.15.0"
