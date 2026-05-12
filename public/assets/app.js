@@ -508,20 +508,25 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
   const ctx = canvas.getContext("2d", { alpha: true });
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const objects = [];
-  for (const { x, y } of clientMapDrawOrder(width, height)) {
+  const sprites = [];
+  let order = 0;
+  for (const { x, y } of clientMapDisplayOrder(width, height)) {
     const [ground, object] = tileAt(y * width + x);
     const [mapX, mapY] = mapRenderPoint(x, y, width, height);
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     const px = screenX - bounds.minX;
     const py = screenY - bounds.minY;
     if (ground > CG_INVISIBLE) drawAtlasTile(ctx, atlas, ground, px, py);
-    if (object > CG_INVISIBLE && atlas.frames?.[object]) objects.push({ tileId: object, x: px, y: py });
+    if (object > CG_INVISIBLE && atlas.frames?.[object]) {
+      sprites.push({ tileId: object, x: px, y: py, depth: screenY, order: order++ });
+    }
   }
-  for (const object of objects) {
-    drawAtlasTile(ctx, atlas, object.tileId, object.x, object.y);
-  }
-  drawNpcSprites(ctx, map, bounds, atlas);
+  sprites.push(...collectNpcSprites(map, atlas, (npc, index) => {
+    const [mapX, mapY] = mapRenderPoint(npc.x, npc.y, width, height);
+    const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
+    return { x: screenX - bounds.minX, y: screenY - bounds.minY, depth: screenY, order: order + index };
+  }));
+  drawDepthSprites(ctx, atlas, sprites);
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
   syncMapMarkers(game.world.map);
   centerMapOnPlayer();
@@ -529,17 +534,18 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
   applyMapView();
 }
 
-function drawNpcSprites(ctx, map, bounds, atlas) {
-  if (!map?.npcs?.length) return;
-  const npcs = map.npcs
+function collectNpcSprites(map, atlas, locate) {
+  if (!map?.npcs?.length) return [];
+  return map.npcs
     .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
-    .filter((npc) => npc.graphicId > 99 && atlas.frames?.[npc.graphicId])
-    .sort((a, b) => (a.x + a.y) - (b.x + b.y) || a.y - b.y || a.x - b.x);
-  for (const npc of npcs) {
-    const [mapX, mapY] = mapRenderPoint(npc.x, npc.y, map.size?.[0] || 1, map.size?.[1] || 1);
-    const [screenX, screenY] = isoPoint(mapX, mapY, 32, 24);
-    drawAtlasTile(ctx, atlas, npc.graphicId, screenX - bounds.minX, screenY - bounds.minY);
-  }
+    .filter((npc) => npc.graphicId > CG_INVISIBLE && atlas.frames?.[npc.graphicId])
+    .map((npc, index) => ({ tileId: npc.graphicId, ...locate(npc, index) }));
+}
+
+function drawDepthSprites(ctx, atlas, sprites) {
+  sprites
+    .sort((a, b) => a.depth - b.depth || a.order - b.order)
+    .forEach((entry) => drawAtlasTile(ctx, atlas, entry.tileId, entry.x, entry.y));
 }
 
 function clientMapDrawOrder(width, height) {
@@ -558,6 +564,10 @@ function clientMapDrawOrder(width, height) {
     else ti -= 1;
   }
   return cells;
+}
+
+function clientMapDisplayOrder(width, height) {
+  return clientMapDrawOrder(width, height).reverse();
 }
 
 function mapRenderPoint(x, y, width, height) {
@@ -836,25 +846,27 @@ function drawViewportTiles(ctx, renderer, left, top, right, bottom) {
   const y1 = Math.max(0, Math.floor(Math.min(...corners.map((point) => point[1]))) - LARGE_MAP_TILE_PADDING);
   const x2 = Math.min(renderer.width - 1, Math.ceil(Math.max(...corners.map((point) => point[0]))) + LARGE_MAP_TILE_PADDING);
   const y2 = Math.min(renderer.height - 1, Math.ceil(Math.max(...corners.map((point) => point[1]))) + LARGE_MAP_TILE_PADDING);
-  const objects = [];
-  forEachClientDrawTile(x1, y1, x2, y2, (x, y) => {
+  const sprites = [];
+  let order = 0;
+  forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
     const [ground, object] = renderer.tileAt(y * renderer.width + x);
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
     if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
     if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
-      objects.push({ tileId: object, x: screenX, y: screenY, gx: x, gy: y });
+      sprites.push({
+        tileId: object,
+        x: screenX,
+        y: screenY,
+        depth: screenY + renderer.minY,
+        order: order++
+      });
     }
   });
-  const npcs = (renderer.map?.npcs || [])
-    .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
-    .filter((npc) => npc.graphicId > CG_INVISIBLE && renderer.atlas.frames?.[npc.graphicId])
-    .map((npc) => {
-      const [x, y] = mapTileContentPoint(renderer, npc.x, npc.y);
-      return { tileId: npc.graphicId, x, y, gx: npc.x, gy: npc.y };
-    });
-  [...objects, ...npcs]
-    .sort((a, b) => (a.gx - a.gy) - (b.gx - b.gy) || b.gy - a.gy || a.gx - b.gx)
-    .forEach((entry) => drawAtlasTile(ctx, renderer.atlas, entry.tileId, entry.x, entry.y));
+  sprites.push(...collectNpcSprites(renderer.map, renderer.atlas, (npc, index) => {
+    const [x, y] = mapTileContentPoint(renderer, npc.x, npc.y);
+    return { x, y, depth: y + renderer.minY, order: order + index };
+  }));
+  drawDepthSprites(ctx, renderer.atlas, sprites);
 }
 
 function forEachClientDrawTile(x1, y1, x2, y2, callback) {
@@ -866,6 +878,12 @@ function forEachClientDrawTile(x1, y1, x2, y2, callback) {
       callback(x, y);
     }
   }
+}
+
+function forEachClientDisplayTile(x1, y1, x2, y2, callback) {
+  const cells = [];
+  forEachClientDrawTile(x1, y1, x2, y2, (x, y) => cells.push([x, y]));
+  for (let i = cells.length - 1; i >= 0; i -= 1) callback(cells[i][0], cells[i][1]);
 }
 
 function mapTileContentPoint(renderer, x, y) {
