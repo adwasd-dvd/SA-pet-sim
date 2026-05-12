@@ -132,6 +132,7 @@ let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
 let npcSortMode = "source";
 let exitSortMode = "source";
+let lastNpcMapClick = { id: "", at: 0 };
 let playerAnimState = {
   dir: DEFAULT_PLAYER_DIRECTION,
   startedAt: 0,
@@ -497,17 +498,22 @@ function clearWarpTransitionTimer() {
 }
 
 function onMapCanvasClick(event) {
-  if (isBattleOpen()) return;
+  if (isBattleOpen() || game?.dialog?.open) return;
   if (mapView.suppressNextClick) {
     mapView.suppressNextClick = false;
     return;
   }
   if (mapView.moved) return;
-  const npcBtn = event.target.closest("[data-npc]");
-  if (npcBtn && els.mapCanvas.contains(npcBtn)) {
-    goToNpc(npcBtn.dataset.npc, { openWhenNear: false });
+  const npc = npcFromMapEvent(event, 2);
+  if (npc) {
+    const now = performance.now();
+    const repeated = lastNpcMapClick.id === npc.id && now - lastNpcMapClick.at < 520;
+    lastNpcMapClick = { id: npc.id, at: now };
+    const near = cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
+    goToNpc(npc.id, { openWhenNear: near && repeated });
     return;
   }
+  lastNpcMapClick = { id: "", at: 0 };
   const exitBtn = event.target.closest("[data-exit]");
   if (exitBtn && els.mapCanvas.contains(exitBtn)) {
     goToExit(exitBtn.dataset.exit);
@@ -521,11 +527,35 @@ function onMapCanvasClick(event) {
 }
 
 function onMapCanvasDoubleClick(event) {
-  if (isBattleOpen()) return;
-  const npcBtn = event.target.closest("[data-npc]");
-  if (!npcBtn || !els.mapCanvas.contains(npcBtn)) return;
+  if (isBattleOpen() || game?.dialog?.open) return;
+  const npc = npcFromMapEvent(event, 2);
+  if (!npc) return;
   event.preventDefault();
-  goToNpc(npcBtn.dataset.npc, { openWhenNear: true });
+  lastNpcMapClick = { id: npc.id, at: performance.now() };
+  goToNpc(npc.id, { openWhenNear: true });
+}
+
+function npcFromMapEvent(event, maxTileDistance = 1) {
+  const npcBtn = event.target.closest("[data-npc]");
+  if (npcBtn && els.mapCanvas.contains(npcBtn)) return npcById(npcBtn.dataset.npc);
+  const tile = mapTileFromPointer(event);
+  if (!tile) return null;
+  return nearestNpcToTile(tile, maxTileDistance);
+}
+
+function npcById(npcId) {
+  return game?.world?.map?.npcs?.find((item) => item.id === npcId) || null;
+}
+
+function nearestNpcToTile(tile, maxDistance) {
+  const npcs = game?.world?.map?.npcs || [];
+  let best = null;
+  for (const npc of npcs) {
+    const distance = cellDistance(tile.x, tile.y, npc.x, npc.y);
+    if (distance > maxDistance) continue;
+    if (!best || distance < best.distance) best = { npc, distance };
+  }
+  return best?.npc || null;
 }
 
 function zoomMap(value, anchor = null) {

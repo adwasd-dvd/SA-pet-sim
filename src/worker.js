@@ -1642,21 +1642,34 @@ async function applyGuideRequest(env, request, game, prompt) {
     };
   }
 
-  if (hasAny(lower, ["瞬移", "传送", "傳送", "带我去", "帶我去", "送我去", "飛到", "飞到"])) {
-    const exit = chooseGuideExit(game, text);
-    if (!exit) {
+  if (isTeleportRequest(lower)) {
+    const teleport = chooseGuideTeleport(game, text);
+    if (!teleport) {
       const map = currentMap(game);
       const labels = map.exits.map((item) => item.label).slice(0, 5).join("、") || "当前地图没有出口";
       return {
-        text: `我没判断出你想去哪个出口。你可以直接说“带我去 ${labels}”。`,
+        text: `我没判断出你想去哪里。你可以说完整地图名、floor，或直接说“带我去 ${labels}”。`,
         action: { type: "teleport-refused" }
       };
     }
-    const targetMap = WORLD.maps[exit.to];
-    applyExit(game, exit);
+    let targetMap;
+    if (teleport.exit) {
+      targetMap = WORLD.maps[teleport.exit.to];
+      applyExit(game, teleport.exit);
+    } else {
+      targetMap = WORLD.maps[teleport.target.mapId];
+      applyWarpTarget(game, teleport.target, `AI 向导瞬移到 ${targetMap?.name || teleport.target.mapId}`);
+    }
     return {
-      text: `我带你走「${exit.label}」，到了 ${targetMap?.name || exit.to}。这类帮忙只会使用当前地图已有的 mapwarp 出口。`,
-      action: { type: "teleport", exitId: exit.id, mapId: exit.to }
+      text: teleport.exit
+        ? `我带你走「${teleport.exit.label}」，到了 ${targetMap?.name || teleport.exit.to}。`
+        : `我直接把你送到 ${targetMap?.name || teleport.target.mapId}。这属于 AI 向导辅助瞬移，不会伪装成原版 NPC 脚本。`,
+      action: {
+        type: "teleport",
+        mode: teleport.exit ? "mapwarp" : "guide-warp",
+        exitId: teleport.exit?.id,
+        mapId: teleport.exit?.to || teleport.target.mapId
+      }
     };
   }
 
@@ -1707,15 +1720,65 @@ function chooseGuideExit(game, prompt) {
   return scored[0]?.score > 0 ? scored[0].exit : (map.exits.length === 1 ? map.exits[0] : null);
 }
 
+function chooseGuideTeleport(game, prompt) {
+  const exit = chooseGuideExit(game, prompt);
+  const map = chooseWorldMapFromPrompt(prompt);
+  if (exit && (!map || String(exit.to) === String(map.id))) return { exit };
+  if (!map) return null;
+  const spawn = Array.isArray(map.spawn) ? map.spawn : [Math.floor((Number(map.size?.[0]) || 2) / 2), Math.floor((Number(map.size?.[1]) || 2) / 2)];
+  return {
+    target: {
+      mapId: map.id,
+      x: spawn[0],
+      y: spawn[1],
+      source: "AI guide world-map teleport"
+    }
+  };
+}
+
+function chooseWorldMapFromPrompt(prompt) {
+  const normalized = guideSearchText(prompt);
+  const tokens = guideSearchTokens(prompt);
+  const scored = Object.values(WORLD.maps).map((map) => {
+    const name = guideSearchText(map.name || "");
+    const summary = guideSearchText(map.summary || "");
+    const floor = guideSearchText(`${map.floorId || map.id}`);
+    let score = 0;
+    if (name && normalized.includes(name)) score += 20;
+    if (floor && normalized.includes(floor)) score += 10;
+    for (const token of tokens) {
+      if (name.includes(token)) score += token.length * 2;
+      else if (summary.includes(token)) score += token.length;
+    }
+    if ((normalized.includes("渔村") || normalized.includes("魚村") || normalized.includes("鱼村")) && /渔村|魚村|鱼村/.test(map.name || "")) score += 18;
+    if (normalized.includes("玛丽娜丝") && /玛丽娜丝/.test(map.name || "")) score += 10;
+    if (normalized.includes("萨姆吉尔") && /萨姆吉尔/.test(map.name || "")) score += 10;
+    if (normalized.includes("柯奥") && /柯奥/.test(map.name || "")) score += 10;
+    return { map, score };
+  }).sort((a, b) => b.score - a.score);
+  return scored[0]?.score > 0 ? scored[0].map : null;
+}
+
+function isTeleportRequest(text) {
+  return hasAny(text, ["瞬移", "传送", "傳送", "带我去", "帶我去", "送我去", "飛到", "飞到", "送到", "移动到", "移動到"]);
+}
+
 function guideSearchText(value) {
-  return String(value || "").toLowerCase().replace(/\s+/g, "");
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[|�]/g, "")
+    .replace(/\s+/g, "");
 }
 
 function guideSearchTokens(value) {
-  const stop = new Set(["帮我", "帶我", "带我", "送我", "传送", "傳送", "瞬移", "到", "去", "一下", "可以", "能不能", "请", "請"]);
-  return (String(value || "").match(/[\u4e00-\u9fff]{2,}|[a-z0-9]+/gi) || [])
-    .map(guideSearchText)
-    .filter((token) => token.length >= 2 && !stop.has(token));
+  const stopWords = ["帮我", "幫我", "帶我", "带我", "送我", "传送", "傳送", "瞬移", "移动到", "移動到", "到", "去", "一下", "可以", "能不能", "请", "請"];
+  let cleaned = guideSearchText(value);
+  for (const word of stopWords) cleaned = cleaned.replaceAll(guideSearchText(word), "");
+  const tokens = new Set((cleaned.match(/[\u4e00-\u9fff]{2,}|[a-z0-9]+/gi) || []).map(guideSearchText));
+  for (let size = 2; size <= Math.min(4, cleaned.length); size += 1) {
+    for (let i = 0; i <= cleaned.length - size; i += 1) tokens.add(cleaned.slice(i, i + size));
+  }
+  return [...tokens].filter((token) => token.length >= 2);
 }
 
 async function npcReply(env, request, game, npc, text) {
@@ -1754,7 +1817,8 @@ function isAiModeOff(text) {
 }
 
 function isAiRequest(text) {
-  return hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "打折", "折扣", "便宜", "优惠", "優待", "优待", "平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "卖我", "要一个", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
+  return isTeleportRequest(text)
+    || hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "打折", "折扣", "便宜", "优惠", "優待", "优待", "平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "卖我", "要一个", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
 }
 
 function isNpcAiMode(game, npc) {
@@ -2140,6 +2204,29 @@ function isWarpNpc(npc) {
   return Boolean(npc.warp?.target) || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`);
 }
 
+function isTransportNpc(npc) {
+  return /bus|巴士|客运|客運|长毛象|長毛象/i.test(`${npc.name || ""} ${npc.type || ""} ${npc.template || ""} ${npc.script || ""}`);
+}
+
+function npcTeleportInfoReply(game, npc, text) {
+  const map = currentMap(game);
+  const targetMap = chooseWorldMapFromPrompt(text);
+  const directExit = targetMap ? map.exits.find((exit) => String(exit.to) === String(targetMap.id)) : chooseGuideExit(game, text);
+  recordNpcVmEvent(game, npc, "say", "ok", {
+    reason: "ai-teleport-info",
+    targetMapId: targetMap?.id || "",
+    directExitId: directExit?.id || ""
+  });
+  if (directExit) {
+    return `${npc.name} 认真想了想：我不是传送师，不能直接把你瞬移过去。不过这张地图有「${directExit.label}」，从那里可以到 ${WORLD.maps[directExit.to]?.name || directExit.to}。你可以让右侧 AI 向导帮你瞬移，或自己走这个出口。`;
+  }
+  const exits = map.exits.map((exit) => exit.label).slice(0, 6).join("、") || "当前地图没有出口";
+  if (targetMap) {
+    return `${npc.name} 认真想了想：${targetMap.name} 确实在地图资料里，但我这个 NPC 没有传送脚本，不能直接瞬移你。当前可走出口是：${exits}。`;
+  }
+  return `${npc.name} 没听清你想瞬移到哪里。可以说完整地点名，例如“玛丽娜丝渔村”，也可以用右侧 AI 向导直接请求传送。当前可走出口是：${exits}。`;
+}
+
 function isNpcEnemy(npc) {
   return Boolean(npc?.npcEnemy) || /npcenemy/i.test(`${npc?.type || ""} ${npc?.template || ""}`);
 }
@@ -2247,6 +2334,10 @@ async function aiNpcReply(env, game, npc, text) {
 
 function inferNpcAiAction(game, npc, text) {
   const lower = String(text || "").toLowerCase();
+  if (isTeleportRequest(lower)) {
+    if (isWarpNpc(npc) || isTransportNpc(npc)) return { type: "warp", text: lower };
+    return { type: "teleportInfo", text: lower };
+  }
   if (hasAny(lower, ["避敌", "不会遇到", "野外敌人", "不遇敌", "免遇敌", "安全通过", "护送"])) {
     return { type: "noEncounter", seconds: aiNoEncounterSeconds(game, npc, lower) };
   }
@@ -2259,8 +2350,8 @@ function inferNpcAiAction(game, npc, text) {
   if (isNpcEnemy(npc) && hasAny(lower, ["贿赂", "收钱", "买路", "给你石币", "给钱", "威胁", "恐吓", "让我过去", "放我过去", "让开"])) {
     return { type: "negotiatePass", text: lower };
   }
-  if (isWarpNpc(npc) && hasAny(lower, ["商量传送", "商量坐车", "去别的地图", "去其他地图", "出发", "前往", "bus", "巴士", "传送", "傳送"])) {
-    return { type: "warp" };
+  if ((isWarpNpc(npc) || isTransportNpc(npc)) && hasAny(lower, ["商量传送", "商量坐车", "去别的地图", "去其他地图", "出发", "前往", "bus", "巴士", "传送", "傳送"])) {
+    return { type: "warp", text: lower };
   }
   return null;
 }
@@ -2282,8 +2373,24 @@ function aiShopDiscountPercent(game, npc, text) {
 function applyNpcAiAction(game, npc, action) {
   recordNpcVmEvent(game, npc, "debug", "ok", { reason: "ai-action-proposal", action: action.type });
   if (action.type === "warp") {
-    const reply = warpNpcReply(game, npc);
-    return `${npc.name} 听完你的请求，决定按原版传送脚本处理。\n${reply}`;
+    if (isWarpNpc(npc)) {
+      const reply = warpNpcReply(game, npc);
+      return `${npc.name} 听完你的请求，决定按原版传送脚本处理。\n${reply}`;
+    }
+    const teleport = chooseGuideTeleport(game, action.text || "");
+    if (!teleport) return `${npc.name} 摇摇头：我能帮你坐车，但你得说清楚要去哪个村或地图。`;
+    const targetMap = teleport.exit ? WORLD.maps[teleport.exit.to] : WORLD.maps[teleport.target.mapId];
+    if (teleport.exit) applyExit(game, teleport.exit);
+    else applyWarpTarget(game, teleport.target, `${npc.name} 帮忙传送`);
+    recordNpcVmEvent(game, npc, "warp", "ok", {
+      reason: "ai-transport-npc",
+      mapId: targetMap?.id,
+      source: npc.script || npc.source || ""
+    });
+    return `${npc.name} 听完你的请求，答应帮你过去。\n你来到了 ${targetMap?.name || "目标地图"}。`;
+  }
+  if (action.type === "teleportInfo") {
+    return npcTeleportInfoReply(game, npc, action.text || "");
   }
   if (action.type === "noEncounter") {
     const seconds = clampInt(action.seconds, 30, 600, 180);
