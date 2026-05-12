@@ -1,6 +1,7 @@
 import { WORLD } from "./world-data.js";
 
 const DATA_FILES = {
+  enemy: "/data/enemy1.txt",
   enemyBase: "/data/enemybase2.txt",
   skills: "/data/petskill2.txt",
   searchable: [
@@ -1130,8 +1131,8 @@ function isNoChoice(text) {
 }
 
 async function startNpcEnemyBattle(env, request, game, npc) {
-  const enemy = await createNpcEnemyEncounter(env, request, game, npc);
-  if (!enemy) {
+  const enemies = await createNpcEnemyEncounterParty(env, request, game, npc);
+  if (!enemies.length) {
     recordNpcVmEvent(game, npc, "startBattle", "blocked", {
       reason: "missing-enemyno",
       enemyNos: npc.npcEnemy?.enemyNos || [],
@@ -1139,6 +1140,7 @@ async function startNpcEnemyBattle(env, request, game, npc) {
     });
     return `${npc.name} 的 NPCEnemy 脚本没有可用的 enemyno，无法开战。`;
   }
+  const enemy = enemies[0];
   runNpcVmAction(game, npc, {
     type: "window",
     reason: "npcenemy-start",
@@ -1149,6 +1151,7 @@ async function startNpcEnemyBattle(env, request, game, npc) {
   const event = runNpcVmAction(game, npc, {
     type: "startBattle",
     enemy,
+    enemies,
     reason: "npcenemy",
     enemyNos: npc.npcEnemy?.enemyNos || [],
     source: npc.npcEnemy?.source || npc.script || npc.source || ""
@@ -1171,27 +1174,38 @@ async function startNpcEnemyBattle(env, request, game, npc) {
     if (startMessage) game.battle.log = [...(game.battle.log || []), `${npc.name}：${startMessage}`].slice(-8);
   }
   const startMessage = npcEnemyStartMessage(npc);
+  const enemyList = enemies.map((item) => `${item.Name} Lv.${item.Lv}`).join("、");
   if (startMessage) addLog(game, `${npc.name}：${startMessage}`);
-  addLog(game, `${npc.name} 召出 ${enemy.Name} Lv.${enemy.Lv}。`);
-  return `${startMessage}\n${enemy.Name} Lv.${enemy.Lv} 出现了。`;
+  addLog(game, `${npc.name} 召出 ${enemyList}。`);
+  return `${startMessage}\n${enemyList} 出现了。`;
 }
 
-async function createNpcEnemyEncounter(env, request, game, npc) {
+async function createNpcEnemyEncounterParty(env, request, game, npc) {
   const data = await loadGameData(env, request);
-  const enemyNos = (npc.npcEnemy?.enemyNos || []).filter((item) => data.enemyBaseSet.has(Number(item)));
-  if (!enemyNos.length) return null;
-  const enemyNo = Number(pick(enemyNos));
-  const level = Math.max(1, Number(game.pets?.[0]?.Lv || game.player.level || 1));
-  const enemy = createEnemy(data, enemyNo, level);
+  return (npc.npcEnemy?.enemyNos || [])
+    .map((enemyNo) => createEnemyFromEnemySpec(data, Number(enemyNo), {
+      npcId: npc.id,
+      npcName: npc.name,
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    }))
+    .filter(Boolean);
+}
+
+function createEnemyFromEnemySpec(data, enemyId, npcEnemy = null) {
+  const spec = data.enemySpecsById.get(Number(enemyId));
+  if (!spec) return null;
+  const level = randRange(spec.lvMin, spec.lvMax);
+  const enemy = createEnemy(data, spec.tempNo, level);
   if (!enemy) return null;
+  enemy.EnemyId = spec.id;
+  enemy.EnemyTempNo = spec.tempNo;
+  enemy.EnemyLvMin = spec.lvMin;
+  enemy.EnemyLvMax = spec.lvMax;
+  enemy.EnemyCreateMin = spec.createMin;
+  enemy.EnemyCreateMax = spec.createMax;
   enemy.CaptureRate = 0;
-  enemy.source = `${npc.npcEnemy?.source || npc.script || npc.source || "NPCEnemy"} + ${GMSV_DATA_SOURCE}/enemybase2.txt`;
-  enemy.npcEnemy = {
-    npcId: npc.id,
-    npcName: npc.name,
-    enemyNo,
-    source: npc.npcEnemy?.source || npc.script || npc.source || ""
-  };
+  enemy.source = `${GMSV_DATA_SOURCE}/enemy1.txt enemy ${spec.id} -> ${GMSV_DATA_SOURCE}/enemybase2.txt ${spec.tempNo}`;
+  if (npcEnemy) enemy.npcEnemy = npcEnemy;
   return enemy;
 }
 
@@ -1322,14 +1336,36 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
   let result = options.result || "turn";
   let exp = 0;
   let stone = 0;
+  let defeatedEnemies = [];
   if (enemy.Hp <= 0) {
+    const nextEnemy = advanceBattleEnemy(game, enemy, battleLog);
+    if (nextEnemy) {
+      result = "next-enemy";
+      battleLog.forEach((line) => addLog(game, line));
+      return {
+        result,
+        enemyName,
+        nextEnemyName: nextEnemy.Name,
+        petName,
+        exp,
+        stone,
+        sourceCommand: options.sourceCommand,
+        itemUse: options.itemUse || null,
+        defeatedEnemies: game.battle?.defeatedEnemies || [],
+        log: battleLog
+      };
+    }
     result = "victory";
-    exp = 10 + Number(enemy.Lv || 1) * 6;
-    stone = 12 + Number(enemy.Lv || 1) * 4;
+    defeatedEnemies = completedBattleEnemies(game, enemy);
+    exp = defeatedEnemies.reduce((sum, item) => sum + 10 + Number(item.Lv || 1) * 6, 0);
+    stone = defeatedEnemies.reduce((sum, item) => sum + 12 + Number(item.Lv || 1) * 4, 0);
     game.player.exp += exp;
     game.player.stone += stone;
     syncStoneItem(game);
-    battleLog.push(`击败 ${enemy.Name}，获得 ${exp} 经验和 ${stone} 石币。`);
+    const defeatedText = defeatedEnemies.length > 1
+      ? `击败敌方 ${defeatedEnemies.length} 人`
+      : `击败 ${enemy.Name}`;
+    battleLog.push(`${defeatedText}，获得 ${exp} 经验和 ${stone} 石币。`);
     maybeLevelPlayer(game);
     updateQuestProgress(game, "fieldWin", {
       mapId: game.location.mapId,
@@ -1352,7 +1388,41 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   }
   battleLog.forEach((line) => addLog(game, line));
-  return { result, enemyName, petName, exp, stone, sourceCommand: options.sourceCommand, itemUse: options.itemUse || null, log: battleLog };
+  return { result, enemyName, petName, exp, stone, sourceCommand: options.sourceCommand, itemUse: options.itemUse || null, defeatedEnemies, log: battleLog };
+}
+
+function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
+  const battle = game.battle;
+  if (!battle || !Array.isArray(battle.enemyParty) || battle.enemyParty.length <= 1) return null;
+  const activeIndex = Math.max(0, Number(battle.activeEnemyIndex || 0));
+  battle.enemyParty[activeIndex] = { ...battle.enemyParty[activeIndex], ...defeatedEnemy, Hp: 0 };
+  const nextIndex = battle.enemyParty.findIndex((item, index) => index > activeIndex && Number(item.Hp || 0) > 0);
+  if (nextIndex < 0) return null;
+  battle.defeatedEnemies ||= [];
+  battle.defeatedEnemies.push(enemyBattleSummary(defeatedEnemy));
+  const nextEnemy = battle.enemyParty[nextIndex];
+  battle.activeEnemyIndex = nextIndex;
+  game.encounter = nextEnemy;
+  battle.mode = "command";
+  battleLog.push(`击倒 ${defeatedEnemy.Name}。`);
+  battleLog.push(`敌方第 ${nextIndex + 1}/${battle.enemyParty.length} 个目标 ${nextEnemy.Name} Lv.${nextEnemy.Lv} 上前。`);
+  battle.log = [...(battle.log || []), ...battleLog].slice(-8);
+  return nextEnemy;
+}
+
+function completedBattleEnemies(game, finalEnemy) {
+  const defeated = Array.isArray(game.battle?.defeatedEnemies) ? [...game.battle.defeatedEnemies] : [];
+  defeated.push(enemyBattleSummary(finalEnemy));
+  return defeated;
+}
+
+function enemyBattleSummary(enemy) {
+  return {
+    EnemyId: enemy.EnemyId,
+    PetId: enemy.PetId,
+    Name: enemy.Name,
+    Lv: enemy.Lv
+  };
 }
 
 function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
@@ -1534,7 +1604,7 @@ function battleActionReply(game, npc, text) {
   const outcome = event.detail?.outcome || {};
   const lines = Array.isArray(outcome.log) ? outcome.log : [];
   const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
-  if (outcome.result === "turn" || outcome.result === "item") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“放走”结束。`;
+  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“放走”结束。`;
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
@@ -2132,14 +2202,24 @@ function applyNpcVmGive(game, action) {
 
 function applyNpcVmStartBattle(game, action) {
   if (!action.enemy) return { ok: false, mutated: false, error: "没有可用的遇敌资料" };
-  game.encounter = { ...action.enemy };
+  const enemyParty = Array.isArray(action.enemies) && action.enemies.length
+    ? action.enemies.map((enemy) => ({ ...enemy }))
+    : [{ ...action.enemy }];
+  game.encounter = enemyParty[0];
   game.battle = null;
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.walk.encounterSteps = 0;
   const activePet = game.pets?.[0];
   if (activePet) {
     ensureBattleState(game, activePet, game.encounter);
-    if (game.battle) game.battle.source = `npc-action-vm startBattle from ${GMSV_DATA_SOURCE}/encount.txt`;
+    if (game.battle) {
+      game.battle.source = action.source
+        ? `npc-action-vm startBattle from ${action.source}`
+        : `npc-action-vm startBattle from ${GMSV_DATA_SOURCE}/encount.txt`;
+      game.battle.enemyParty = enemyParty;
+      game.battle.activeEnemyIndex = 0;
+      game.battle.defeatedEnemies = [];
+    }
   }
   return { ok: true, mutated: true };
 }
@@ -2168,6 +2248,8 @@ function npcVmActionDetail(action, mutation) {
   }
   if (enemy && typeof enemy === "object") {
     out.enemyNo = enemy.No;
+    out.enemyId = enemy.EnemyId;
+    out.enemyTempNo = enemy.EnemyTempNo;
     out.enemyName = enemy.Name;
     out.enemyLevel = enemy.Lv;
     out.enemyImage = enemy.ImgNo;
@@ -2182,6 +2264,8 @@ function npcVmActionDetail(action, mutation) {
       stone: mutation.outcome.stone,
       rate: mutation.outcome.rate,
       itemUse: mutation.outcome.itemUse,
+      defeatedEnemies: mutation.outcome.defeatedEnemies,
+      nextEnemyName: mutation.outcome.nextEnemyName,
       log: mutation.outcome.log
     };
   }
@@ -2701,14 +2785,15 @@ function stableFlag(value) {
 
 async function loadGameData(env, request) {
   if (cache) return cache;
-  const [enemyText, skillText] = await Promise.all([
+  const [enemyText, enemyBaseText, skillText] = await Promise.all([
+    assetText(env, request, DATA_FILES.enemy),
     assetText(env, request, DATA_FILES.enemyBase),
     assetText(env, request, DATA_FILES.skills)
   ]);
   const skills = parseSkills(skillText);
   const enemyBaseSet = new Map();
   const enemyNoList = [];
-  for (const line of lines(enemyText)) {
+  for (const line of lines(enemyBaseText)) {
     const rows = line.split(",");
     if (rows.length < 56) continue;
     const petSkills = [];
@@ -2754,8 +2839,35 @@ async function loadGameData(env, request) {
     enemyBaseSet.set(eb.No, eb);
     enemyNoList.push(eb.No);
   }
-  cache = { enemyBaseSet, enemyNoList, skills };
+  const enemySpecsById = parseEnemySpecs(enemyText, enemyBaseSet);
+  cache = { enemyBaseSet, enemyNoList, enemySpecsById, skills };
   return cache;
+}
+
+function parseEnemySpecs(text, enemyBaseSet) {
+  const specs = new Map();
+  for (const line of lines(text)) {
+    const rows = line.split(",");
+    if (rows.length < 10) continue;
+    const offset = Number.isFinite(Number.parseInt(rows[2], 10)) && Number.parseInt(rows[2], 10) > 0 ? 2 : 3;
+    const id = toInt(rows[offset]);
+    const tempNo = toInt(rows[offset + 1]);
+    if (!id || !tempNo || !enemyBaseSet.has(tempNo)) continue;
+    const rawMin = toInt(rows[offset + 2]);
+    const rawMax = toInt(rows[offset + 3]);
+    const maxLevel = Math.max(1, rawMax || rawMin || 1);
+    const minLevel = Math.max(1, rawMin || maxLevel);
+    specs.set(id, {
+      id,
+      tempNo,
+      lvMin: Math.min(minLevel, maxLevel),
+      lvMax: Math.max(minLevel, maxLevel),
+      createMax: Math.max(1, toInt(rows[offset + 4]) || 1),
+      createMin: Math.max(1, toInt(rows[offset + 5]) || 1),
+      source: `${GMSV_DATA_SOURCE}/enemy1.txt`
+    });
+  }
+  return specs;
 }
 
 function parseSkills(text) {
@@ -2988,6 +3100,12 @@ function toFloat(value) {
 
 function randInt(n) {
   return Math.floor(Math.random() * n);
+}
+
+function randRange(min, max) {
+  const low = Math.min(Number(min) || 1, Number(max) || 1);
+  const high = Math.max(Number(min) || 1, Number(max) || 1);
+  return Math.floor(low + Math.random() * (high - low + 1));
 }
 
 function pick(list) {

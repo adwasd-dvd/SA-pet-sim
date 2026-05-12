@@ -324,7 +324,9 @@ function bindEvents() {
   els.mapCanvas.addEventListener("pointercancel", onMapPointerUp);
   els.mapCanvas.addEventListener("pointerleave", onMapPointerLeave);
   els.mapCanvas.addEventListener("click", onMapCanvasClick);
+  els.mapCanvas.addEventListener("dblclick", onMapCanvasDoubleClick);
   els.npcList.addEventListener("click", onNpcListClick);
+  els.npcList.addEventListener("dblclick", onNpcListDoubleClick);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
@@ -499,7 +501,7 @@ function onMapCanvasClick(event) {
   if (mapView.moved) return;
   const npcBtn = event.target.closest("[data-npc]");
   if (npcBtn && els.mapCanvas.contains(npcBtn)) {
-    goToNpc(npcBtn.dataset.npc);
+    goToNpc(npcBtn.dataset.npc, { openWhenNear: false });
     return;
   }
   const exitBtn = event.target.closest("[data-exit]");
@@ -512,6 +514,14 @@ function onMapCanvasClick(event) {
     setMapHoverTile(target);
     followRouteTo(target);
   }
+}
+
+function onMapCanvasDoubleClick(event) {
+  if (isBattleOpen()) return;
+  const npcBtn = event.target.closest("[data-npc]");
+  if (!npcBtn || !els.mapCanvas.contains(npcBtn)) return;
+  event.preventDefault();
+  goToNpc(npcBtn.dataset.npc, { openWhenNear: true });
 }
 
 function zoomMap(value, anchor = null) {
@@ -837,16 +847,19 @@ async function waitForWalkSlot(token, timeoutMs = 800) {
   return token === routeToken && !walkInFlight;
 }
 
-async function goToNpc(npcId) {
+async function goToNpc(npcId, options = {}) {
   if (isBattleOpen()) {
     addClientLog("战斗中无法和 NPC 对话。");
     return;
   }
+  const openWhenNear = Boolean(options.openWhenNear);
   const map = game?.world?.map;
   const npc = map?.npcs?.find((item) => item.id === npcId);
   if (!npc) return;
   if (cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2) {
-    await openDialog(npc.id);
+    await faceNpc(npc);
+    if (openWhenNear) await openDialog(npc.id);
+    else addClientLog(`已面对 ${npc.name}。双击 NPC 开始对话。`);
     return;
   }
   let approach;
@@ -863,7 +876,25 @@ async function goToNpc(npcId) {
   const reached = await followRouteTo(approach.target, approach);
   const currentMap = game?.world?.map;
   const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
-  if (reached && stillNear) await openDialog(npc.id);
+  if (reached && stillNear) {
+    if (openWhenNear) await openDialog(npc.id);
+    else addClientLog(`已靠近 ${npc.name}。双击 NPC 开始对话。`);
+  }
+}
+
+async function faceNpc(npc) {
+  if (!game || !npc) return;
+  try {
+    game = await api("/api/game/turn", {
+      game,
+      dx: Number(npc.x || 0) - Number(game.location.x || 0),
+      dy: Number(npc.y || 0) - Number(game.location.y || 0)
+    });
+    save();
+    render();
+  } catch {
+    // Facing is a client comfort action; failed facing should not block NPC interaction.
+  }
 }
 
 async function goToExit(exitId) {
@@ -1915,7 +1946,14 @@ function renderNpc(map) {
 
 function onNpcListClick(event) {
   const btn = event.target.closest("[data-npc]");
-  if (btn && els.npcList.contains(btn)) goToNpc(btn.dataset.npc);
+  if (btn && els.npcList.contains(btn)) goToNpc(btn.dataset.npc, { openWhenNear: false });
+}
+
+function onNpcListDoubleClick(event) {
+  const btn = event.target.closest("[data-npc]");
+  if (!btn || !els.npcList.contains(btn)) return;
+  event.preventDefault();
+  goToNpc(btn.dataset.npc, { openWhenNear: true });
 }
 
 async function openDialog(npcId) {
@@ -2077,7 +2115,11 @@ function renderBattlePanel() {
   const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
   const petMax = activePet ? Math.max(1, Number(activePet.WorkMaxHp || activePet.Hp || 1)) : 1;
   const petHp = activePet ? Math.max(0, Number(activePet.Hp || petMax)) : 0;
-  els.battleTitle.textContent = `BATTLE ${Number(battle.turn || 0) + 1}`;
+  const partyCount = Array.isArray(battle.enemyParty) ? battle.enemyParty.length : 1;
+  const activeEnemyNo = Math.min(partyCount, Number(battle.activeEnemyIndex || 0) + 1);
+  els.battleTitle.textContent = partyCount > 1
+    ? `BATTLE ${Number(battle.turn || 0) + 1} | 敌 ${activeEnemyNo}/${partyCount}`
+    : `BATTLE ${Number(battle.turn || 0) + 1}`;
   els.battleSource.textContent = battle.sourceCommand
     ? `${battle.sourceCommand} | ${battle.source || "gmsv battle_command.c"}`
     : (battle.source || enemy.source || "gmsv battle_command.c");
@@ -2104,6 +2146,7 @@ function renderBattlePanel() {
   els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
     const disabled = entry.disabled
       || (!activePet && ["attack", "guard", "wait", "item"].includes(entry.action))
+      || (entry.action === "capture" && Number(enemy.CaptureRate ?? 35) <= 0)
       || (entry.action === "item" && !hasBattleItem);
     return `
       <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""}>
@@ -2149,6 +2192,10 @@ function onBattlePanelClick(event) {
 
 async function sendBattleAction(action) {
   if (!game?.encounter) return;
+  if (action === "capture" && Number(game.encounter.CaptureRate ?? 35) <= 0) {
+    addClientLog("这个目标不能捕获。");
+    return;
+  }
   try {
     game = await api("/api/game/battle", { game, action });
     battleItemMenuOpen = false;
