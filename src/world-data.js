@@ -1585,6 +1585,48 @@ export const WORLD = {
             24,
             43
           ],
+          "tiles": [
+            {
+              "x": 607,
+              "y": 561,
+              "target": [
+                24,
+                41
+              ]
+            },
+            {
+              "x": 607,
+              "y": 562,
+              "target": [
+                24,
+                42
+              ]
+            },
+            {
+              "x": 607,
+              "y": 563,
+              "target": [
+                24,
+                43
+              ]
+            },
+            {
+              "x": 607,
+              "y": 564,
+              "target": [
+                24,
+                44
+              ]
+            },
+            {
+              "x": 607,
+              "y": 565,
+              "target": [
+                24,
+                45
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1603,6 +1645,64 @@ export const WORLD = {
           "target": [
             63,
             64
+          ],
+          "tiles": [
+            {
+              "x": 73,
+              "y": 586,
+              "target": [
+                65,
+                62
+              ]
+            },
+            {
+              "x": 72,
+              "y": 587,
+              "target": [
+                64,
+                63
+              ]
+            },
+            {
+              "x": 71,
+              "y": 588,
+              "target": [
+                63,
+                64
+              ]
+            },
+            {
+              "x": 70,
+              "y": 589,
+              "target": [
+                62,
+                65
+              ]
+            },
+            {
+              "x": 72,
+              "y": 586,
+              "target": [
+                64,
+                63
+              ]
+            },
+            {
+              "x": 71,
+              "y": 587,
+              "target": [
+                63,
+                64
+              ]
+            },
+            {
+              "x": 70,
+              "y": 588,
+              "target": [
+                62,
+                65
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1623,6 +1723,40 @@ export const WORLD = {
             50,
             118
           ],
+          "tiles": [
+            {
+              "x": 638,
+              "y": 491,
+              "target": [
+                50,
+                116
+              ]
+            },
+            {
+              "x": 638,
+              "y": 492,
+              "target": [
+                50,
+                117
+              ]
+            },
+            {
+              "x": 638,
+              "y": 493,
+              "target": [
+                50,
+                118
+              ]
+            },
+            {
+              "x": 638,
+              "y": 494,
+              "target": [
+                50,
+                119
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1641,6 +1775,48 @@ export const WORLD = {
           "target": [
             119,
             111
+          ],
+          "tiles": [
+            {
+              "x": 706,
+              "y": 487,
+              "target": [
+                117,
+                111
+              ]
+            },
+            {
+              "x": 707,
+              "y": 487,
+              "target": [
+                118,
+                111
+              ]
+            },
+            {
+              "x": 708,
+              "y": 487,
+              "target": [
+                119,
+                111
+              ]
+            },
+            {
+              "x": 709,
+              "y": 487,
+              "target": [
+                120,
+                111
+              ]
+            },
+            {
+              "x": 710,
+              "y": 487,
+              "target": [
+                121,
+                111
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1661,6 +1837,40 @@ export const WORLD = {
             72,
             35
           ],
+          "tiles": [
+            {
+              "x": 78,
+              "y": 614,
+              "target": [
+                72,
+                33
+              ]
+            },
+            {
+              "x": 78,
+              "y": 615,
+              "target": [
+                72,
+                34
+              ]
+            },
+            {
+              "x": 78,
+              "y": 616,
+              "target": [
+                72,
+                35
+              ]
+            },
+            {
+              "x": 78,
+              "y": 617,
+              "target": [
+                72,
+                36
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1679,6 +1889,40 @@ export const WORLD = {
           "target": [
             107,
             81
+          ],
+          "tiles": [
+            {
+              "x": 113,
+              "y": 660,
+              "target": [
+                107,
+                79
+              ]
+            },
+            {
+              "x": 113,
+              "y": 661,
+              "target": [
+                107,
+                80
+              ]
+            },
+            {
+              "x": 113,
+              "y": 662,
+              "target": [
+                107,
+                81
+              ]
+            },
+            {
+              "x": 113,
+              "y": 663,
+              "target": [
+                107,
+                82
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1699,6 +1943,48 @@ export const WORLD = {
             65,
             35
           ],
+          "tiles": [
+            {
+              "x": 470,
+              "y": 631,
+              "target": [
+                63,
+                35
+              ]
+            },
+            {
+              "x": 471,
+              "y": 631,
+              "target": [
+                64,
+                35
+              ]
+            },
+            {
+              "x": 472,
+              "y": 631,
+              "target": [
+                65,
+                35
+              ]
+            },
+            {
+              "x": 473,
+              "y": 631,
+              "target": [
+                66,
+                35
+              ]
+            },
+            {
+              "x": 474,
+              "y": 631,
+              "target": [
+                67,
+                35
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1717,6 +2003,72 @@ export const WORLD = {
           "target": [
             24,
             63
+          ],
+          "tiles": [
+            {
+              "x": 622,
+              "y": 190,
+              "target": [
+                24,
+                59
+              ]
+            },
+            {
+              "x": 622,
+              "y": 191,
+              "target": [
+                24,
+                60
+              ]
+            },
+            {
+              "x": 622,
+              "y": 192,
+              "target": [
+                24,
+                61
+              ]
+            },
+            {
+              "x": 622,
+              "y": 193,
+              "target": [
+                24,
+                62
+              ]
+            },
+            {
+              "x": 622,
+              "y": 194,
+              "target": [
+                24,
+                63
+              ]
+            },
+            {
+              "x": 622,
+              "y": 195,
+              "target": [
+                24,
+                64
+              ]
+            },
+            {
+              "x": 622,
+              "y": 196,
+              "target": [
+                24,
+                65
+              ]
+            },
+            {
+              "x": 622,
+              "y": 197,
+              "target": [
+                24,
+                66
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1737,6 +2089,32 @@ export const WORLD = {
             71,
             115
           ],
+          "tiles": [
+            {
+              "x": 258,
+              "y": 170,
+              "target": [
+                70,
+                115
+              ]
+            },
+            {
+              "x": 259,
+              "y": 170,
+              "target": [
+                71,
+                115
+              ]
+            },
+            {
+              "x": 260,
+              "y": 170,
+              "target": [
+                72,
+                115
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1755,6 +2133,24 @@ export const WORLD = {
           "target": [
             16,
             21
+          ],
+          "tiles": [
+            {
+              "x": 184,
+              "y": 339,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 185,
+              "y": 339,
+              "target": [
+                16,
+                21
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1775,6 +2171,24 @@ export const WORLD = {
             10,
             17
           ],
+          "tiles": [
+            {
+              "x": 549,
+              "y": 638,
+              "target": [
+                10,
+                17
+              ]
+            },
+            {
+              "x": 549,
+              "y": 637,
+              "target": [
+                10,
+                16
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1793,6 +2207,24 @@ export const WORLD = {
           "target": [
             10,
             17
+          ],
+          "tiles": [
+            {
+              "x": 643,
+              "y": 676,
+              "target": [
+                10,
+                16
+              ]
+            },
+            {
+              "x": 643,
+              "y": 677,
+              "target": [
+                10,
+                17
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1813,6 +2245,16 @@ export const WORLD = {
             76,
             67
           ],
+          "tiles": [
+            {
+              "x": 132,
+              "y": 421,
+              "target": [
+                76,
+                67
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1831,6 +2273,16 @@ export const WORLD = {
           "target": [
             40,
             3
+          ],
+          "tiles": [
+            {
+              "x": 191,
+              "y": 365,
+              "target": [
+                40,
+                3
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1851,6 +2303,16 @@ export const WORLD = {
             14,
             49
           ],
+          "tiles": [
+            {
+              "x": 318,
+              "y": 428,
+              "target": [
+                14,
+                49
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1869,6 +2331,16 @@ export const WORLD = {
           "target": [
             25,
             49
+          ],
+          "tiles": [
+            {
+              "x": 237,
+              "y": 445,
+              "target": [
+                25,
+                49
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1889,6 +2361,16 @@ export const WORLD = {
             0,
             43
           ],
+          "tiles": [
+            {
+              "x": 328,
+              "y": 633,
+              "target": [
+                0,
+                43
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1907,6 +2389,16 @@ export const WORLD = {
           "target": [
             12,
             2
+          ],
+          "tiles": [
+            {
+              "x": 666,
+              "y": 235,
+              "target": [
+                12,
+                2
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -1927,6 +2419,24 @@ export const WORLD = {
             216,
             6
           ],
+          "tiles": [
+            {
+              "x": 396,
+              "y": 186,
+              "target": [
+                216,
+                6
+              ]
+            },
+            {
+              "x": 396,
+              "y": 187,
+              "target": [
+                216,
+                6
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -1945,6 +2455,32 @@ export const WORLD = {
           "target": [
             2,
             23
+          ],
+          "tiles": [
+            {
+              "x": 653,
+              "y": 608,
+              "target": [
+                2,
+                22
+              ]
+            },
+            {
+              "x": 653,
+              "y": 609,
+              "target": [
+                2,
+                23
+              ]
+            },
+            {
+              "x": 653,
+              "y": 610,
+              "target": [
+                2,
+                24
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -2012,6 +2548,24 @@ export const WORLD = {
           "target": [
             185,
             339
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                184,
+                339
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                185,
+                339
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -2115,6 +2669,24 @@ export const WORLD = {
             549,
             638
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 17,
+              "target": [
+                549,
+                638
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                549,
+                637
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -2194,6 +2766,24 @@ export const WORLD = {
           "target": [
             643,
             677
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                643,
+                676
+              ]
+            },
+            {
+              "x": 10,
+              "y": 17,
+              "target": [
+                643,
+                677
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -2442,6 +3032,16 @@ export const WORLD = {
           "target": [
             17,
             12
+          ],
+          "tiles": [
+            {
+              "x": 6,
+              "y": 5,
+              "target": [
+                17,
+                12
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -3904,6 +4504,40 @@ export const WORLD = {
             637,
             493
           ],
+          "tiles": [
+            {
+              "x": 49,
+              "y": 116,
+              "target": [
+                637,
+                491
+              ]
+            },
+            {
+              "x": 49,
+              "y": 117,
+              "target": [
+                637,
+                492
+              ]
+            },
+            {
+              "x": 49,
+              "y": 118,
+              "target": [
+                637,
+                493
+              ]
+            },
+            {
+              "x": 49,
+              "y": 119,
+              "target": [
+                637,
+                494
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -3922,6 +4556,48 @@ export const WORLD = {
           "target": [
             708,
             488
+          ],
+          "tiles": [
+            {
+              "x": 117,
+              "y": 112,
+              "target": [
+                706,
+                488
+              ]
+            },
+            {
+              "x": 118,
+              "y": 112,
+              "target": [
+                707,
+                488
+              ]
+            },
+            {
+              "x": 119,
+              "y": 112,
+              "target": [
+                708,
+                488
+              ]
+            },
+            {
+              "x": 120,
+              "y": 112,
+              "target": [
+                709,
+                488
+              ]
+            },
+            {
+              "x": 121,
+              "y": 112,
+              "target": [
+                710,
+                488
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -3942,6 +4618,32 @@ export const WORLD = {
             10,
             15
           ],
+          "tiles": [
+            {
+              "x": 63,
+              "y": 99,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 63,
+              "y": 100,
+              "target": [
+                10,
+                16
+              ]
+            },
+            {
+              "x": 63,
+              "y": 98,
+              "target": [
+                10,
+                15
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -3960,6 +4662,32 @@ export const WORLD = {
           "target": [
             10,
             15
+          ],
+          "tiles": [
+            {
+              "x": 67,
+              "y": 108,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 67,
+              "y": 109,
+              "target": [
+                10,
+                16
+              ]
+            },
+            {
+              "x": 67,
+              "y": 107,
+              "target": [
+                10,
+                15
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -3980,6 +4708,24 @@ export const WORLD = {
             16,
             21
           ],
+          "tiles": [
+            {
+              "x": 69,
+              "y": 72,
+              "target": [
+                16,
+                21
+              ]
+            },
+            {
+              "x": 68,
+              "y": 72,
+              "target": [
+                15,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -3998,6 +4744,24 @@ export const WORLD = {
           "target": [
             16,
             21
+          ],
+          "tiles": [
+            {
+              "x": 54,
+              "y": 81,
+              "target": [
+                16,
+                21
+              ]
+            },
+            {
+              "x": 53,
+              "y": 81,
+              "target": [
+                15,
+                21
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -4018,6 +4782,24 @@ export const WORLD = {
             16,
             21
           ],
+          "tiles": [
+            {
+              "x": 81,
+              "y": 66,
+              "target": [
+                16,
+                21
+              ]
+            },
+            {
+              "x": 80,
+              "y": 66,
+              "target": [
+                15,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -4036,6 +4818,24 @@ export const WORLD = {
           "target": [
             10,
             21
+          ],
+          "tiles": [
+            {
+              "x": 98,
+              "y": 44,
+              "target": [
+                10,
+                20
+              ]
+            },
+            {
+              "x": 98,
+              "y": 45,
+              "target": [
+                10,
+                21
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -4056,6 +4856,24 @@ export const WORLD = {
             10,
             26
           ],
+          "tiles": [
+            {
+              "x": 106,
+              "y": 91,
+              "target": [
+                10,
+                25
+              ]
+            },
+            {
+              "x": 106,
+              "y": 92,
+              "target": [
+                10,
+                26
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -4074,6 +4892,24 @@ export const WORLD = {
           "target": [
             4,
             12
+          ],
+          "tiles": [
+            {
+              "x": 97,
+              "y": 110,
+              "target": [
+                4,
+                12
+              ]
+            },
+            {
+              "x": 97,
+              "y": 111,
+              "target": [
+                4,
+                12
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -4094,6 +4930,16 @@ export const WORLD = {
             10,
             15
           ],
+          "tiles": [
+            {
+              "x": 63,
+              "y": 117,
+              "target": [
+                10,
+                15
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -4112,6 +4958,16 @@ export const WORLD = {
           "target": [
             10,
             16
+          ],
+          "tiles": [
+            {
+              "x": 63,
+              "y": 118,
+              "target": [
+                10,
+                16
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -4132,6 +4988,24 @@ export const WORLD = {
             16,
             21
           ],
+          "tiles": [
+            {
+              "x": 112,
+              "y": 37,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 113,
+              "y": 37,
+              "target": [
+                16,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -4150,6 +5024,16 @@ export const WORLD = {
           "target": [
             10,
             16
+          ],
+          "tiles": [
+            {
+              "x": 79,
+              "y": 112,
+              "target": [
+                10,
+                16
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -4697,6 +5581,24 @@ export const WORLD = {
             63,
             100
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                63,
+                99
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                63,
+                100
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -4969,6 +5871,24 @@ export const WORLD = {
             67,
             109
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                67,
+                108
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                67,
+                109
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -5156,6 +6076,24 @@ export const WORLD = {
             69,
             72
           ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                69,
+                72
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                68,
+                72
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -5314,6 +6252,24 @@ export const WORLD = {
           "target": [
             54,
             81
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                54,
+                81
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                53,
+                81
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -5617,6 +6573,24 @@ export const WORLD = {
             81,
             66
           ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                81,
+                66
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                80,
+                66
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -5829,6 +6803,24 @@ export const WORLD = {
           "target": [
             98,
             45
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 20,
+              "target": [
+                98,
+                44
+              ]
+            },
+            {
+              "x": 10,
+              "y": 21,
+              "target": [
+                98,
+                45
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -7968,6 +8960,24 @@ export const WORLD = {
             106,
             92
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 25,
+              "target": [
+                106,
+                91
+              ]
+            },
+            {
+              "x": 10,
+              "y": 26,
+              "target": [
+                106,
+                92
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -8156,6 +9166,24 @@ export const WORLD = {
             63,
             117
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                63,
+                117
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                63,
+                117
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -8303,6 +9331,24 @@ export const WORLD = {
             113,
             37
           ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                112,
+                37
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                113,
+                37
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -8382,6 +9428,24 @@ export const WORLD = {
           "target": [
             79,
             112
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                79,
+                112
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                79,
+                112
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -8577,6 +9641,24 @@ export const WORLD = {
             63,
             118
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                63,
+                118
+              ]
+            },
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                63,
+                118
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -8679,6 +9761,16 @@ export const WORLD = {
           "target": [
             97,
             110
+          ],
+          "tiles": [
+            {
+              "x": 4,
+              "y": 12,
+              "target": [
+                97,
+                110
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -10719,6 +11811,48 @@ export const WORLD = {
             606,
             563
           ],
+          "tiles": [
+            {
+              "x": 23,
+              "y": 41,
+              "target": [
+                606,
+                561
+              ]
+            },
+            {
+              "x": 23,
+              "y": 42,
+              "target": [
+                606,
+                562
+              ]
+            },
+            {
+              "x": 23,
+              "y": 43,
+              "target": [
+                606,
+                563
+              ]
+            },
+            {
+              "x": 23,
+              "y": 44,
+              "target": [
+                606,
+                564
+              ]
+            },
+            {
+              "x": 23,
+              "y": 45,
+              "target": [
+                606,
+                565
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -10738,6 +11872,24 @@ export const WORLD = {
             5,
             11
           ],
+          "tiles": [
+            {
+              "x": 59,
+              "y": 25,
+              "target": [
+                4,
+                11
+              ]
+            },
+            {
+              "x": 60,
+              "y": 25,
+              "target": [
+                5,
+                11
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -10756,6 +11908,24 @@ export const WORLD = {
           "target": [
             0,
             7
+          ],
+          "tiles": [
+            {
+              "x": 51,
+              "y": 56,
+              "target": [
+                0,
+                6
+              ]
+            },
+            {
+              "x": 51,
+              "y": 57,
+              "target": [
+                0,
+                7
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -10858,6 +12028,24 @@ export const WORLD = {
           "target": [
             60,
             25
+          ],
+          "tiles": [
+            {
+              "x": 4,
+              "y": 11,
+              "target": [
+                59,
+                25
+              ]
+            },
+            {
+              "x": 5,
+              "y": 11,
+              "target": [
+                60,
+                25
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -10986,6 +12174,24 @@ export const WORLD = {
           "target": [
             51,
             57
+          ],
+          "tiles": [
+            {
+              "x": 0,
+              "y": 6,
+              "target": [
+                51,
+                56
+              ]
+            },
+            {
+              "x": 0,
+              "y": 7,
+              "target": [
+                51,
+                57
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -11685,6 +12891,48 @@ export const WORLD = {
           "target": [
             472,
             630
+          ],
+          "tiles": [
+            {
+              "x": 63,
+              "y": 34,
+              "target": [
+                470,
+                630
+              ]
+            },
+            {
+              "x": 64,
+              "y": 34,
+              "target": [
+                471,
+                630
+              ]
+            },
+            {
+              "x": 65,
+              "y": 34,
+              "target": [
+                472,
+                630
+              ]
+            },
+            {
+              "x": 66,
+              "y": 34,
+              "target": [
+                473,
+                630
+              ]
+            },
+            {
+              "x": 67,
+              "y": 34,
+              "target": [
+                474,
+                630
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -12429,6 +13677,72 @@ export const WORLD = {
             621,
             194
           ],
+          "tiles": [
+            {
+              "x": 23,
+              "y": 59,
+              "target": [
+                621,
+                190
+              ]
+            },
+            {
+              "x": 23,
+              "y": 60,
+              "target": [
+                621,
+                191
+              ]
+            },
+            {
+              "x": 23,
+              "y": 61,
+              "target": [
+                621,
+                192
+              ]
+            },
+            {
+              "x": 23,
+              "y": 62,
+              "target": [
+                621,
+                193
+              ]
+            },
+            {
+              "x": 23,
+              "y": 63,
+              "target": [
+                621,
+                194
+              ]
+            },
+            {
+              "x": 23,
+              "y": 64,
+              "target": [
+                621,
+                195
+              ]
+            },
+            {
+              "x": 23,
+              "y": 65,
+              "target": [
+                621,
+                196
+              ]
+            },
+            {
+              "x": 23,
+              "y": 66,
+              "target": [
+                621,
+                197
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -13057,6 +14371,32 @@ export const WORLD = {
           "target": [
             259,
             171
+          ],
+          "tiles": [
+            {
+              "x": 70,
+              "y": 116,
+              "target": [
+                258,
+                171
+              ]
+            },
+            {
+              "x": 71,
+              "y": 116,
+              "target": [
+                259,
+                171
+              ]
+            },
+            {
+              "x": 72,
+              "y": 116,
+              "target": [
+                260,
+                171
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -14994,6 +16334,16 @@ export const WORLD = {
             4,
             12
           ],
+          "tiles": [
+            {
+              "x": 69,
+              "y": 51,
+              "target": [
+                4,
+                12
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15012,6 +16362,40 @@ export const WORLD = {
           "target": [
             79,
             616
+          ],
+          "tiles": [
+            {
+              "x": 74,
+              "y": 33,
+              "target": [
+                79,
+                614
+              ]
+            },
+            {
+              "x": 74,
+              "y": 34,
+              "target": [
+                79,
+                615
+              ]
+            },
+            {
+              "x": 74,
+              "y": 35,
+              "target": [
+                79,
+                616
+              ]
+            },
+            {
+              "x": 74,
+              "y": 36,
+              "target": [
+                79,
+                617
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -15032,6 +16416,64 @@ export const WORLD = {
             114,
             662
           ],
+          "tiles": [
+            {
+              "x": 108,
+              "y": 79,
+              "target": [
+                114,
+                660
+              ]
+            },
+            {
+              "x": 108,
+              "y": 80,
+              "target": [
+                114,
+                661
+              ]
+            },
+            {
+              "x": 108,
+              "y": 81,
+              "target": [
+                114,
+                662
+              ]
+            },
+            {
+              "x": 108,
+              "y": 82,
+              "target": [
+                114,
+                663
+              ]
+            },
+            {
+              "x": 108,
+              "y": 83,
+              "target": [
+                114,
+                661
+              ]
+            },
+            {
+              "x": 108,
+              "y": 84,
+              "target": [
+                114,
+                662
+              ]
+            },
+            {
+              "x": 108,
+              "y": 85,
+              "target": [
+                114,
+                663
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15050,6 +16492,24 @@ export const WORLD = {
           "target": [
             10,
             16
+          ],
+          "tiles": [
+            {
+              "x": 92,
+              "y": 89,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 92,
+              "y": 90,
+              "target": [
+                10,
+                16
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -15070,6 +16530,24 @@ export const WORLD = {
             16,
             21
           ],
+          "tiles": [
+            {
+              "x": 73,
+              "y": 73,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 74,
+              "y": 73,
+              "target": [
+                16,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15088,6 +16566,24 @@ export const WORLD = {
           "target": [
             10,
             16
+          ],
+          "tiles": [
+            {
+              "x": 75,
+              "y": 57,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 75,
+              "y": 58,
+              "target": [
+                10,
+                16
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -15108,6 +16604,40 @@ export const WORLD = {
             16,
             21
           ],
+          "tiles": [
+            {
+              "x": 92,
+              "y": 77,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 93,
+              "y": 77,
+              "target": [
+                16,
+                21
+              ]
+            },
+            {
+              "x": 94,
+              "y": 77,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 95,
+              "y": 77,
+              "target": [
+                16,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15126,6 +16656,24 @@ export const WORLD = {
           "target": [
             18,
             33
+          ],
+          "tiles": [
+            {
+              "x": 66,
+              "y": 82,
+              "target": [
+                10,
+                16
+              ]
+            },
+            {
+              "x": 66,
+              "y": 81,
+              "target": [
+                25,
+                49
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -15146,6 +16694,32 @@ export const WORLD = {
             21,
             21
           ],
+          "tiles": [
+            {
+              "x": 56,
+              "y": 48,
+              "target": [
+                20,
+                21
+              ]
+            },
+            {
+              "x": 57,
+              "y": 48,
+              "target": [
+                21,
+                21
+              ]
+            },
+            {
+              "x": 58,
+              "y": 48,
+              "target": [
+                21,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15164,6 +16738,16 @@ export const WORLD = {
           "target": [
             4,
             12
+          ],
+          "tiles": [
+            {
+              "x": 75,
+              "y": 51,
+              "target": [
+                4,
+                12
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -15184,6 +16768,24 @@ export const WORLD = {
             10,
             16
           ],
+          "tiles": [
+            {
+              "x": 97,
+              "y": 92,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 97,
+              "y": 93,
+              "target": [
+                10,
+                16
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15203,6 +16805,16 @@ export const WORLD = {
             15,
             21
           ],
+          "tiles": [
+            {
+              "x": 77,
+              "y": 75,
+              "target": [
+                15,
+                21
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -15221,6 +16833,24 @@ export const WORLD = {
           "target": [
             10,
             16
+          ],
+          "tiles": [
+            {
+              "x": 86,
+              "y": 60,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 87,
+              "y": 60,
+              "target": [
+                10,
+                16
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -15781,6 +17411,24 @@ export const WORLD = {
             92,
             90
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                92,
+                89
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                92,
+                90
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -16040,6 +17688,24 @@ export const WORLD = {
             74,
             73
           ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                73,
+                73
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                74,
+                73
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -16226,6 +17892,24 @@ export const WORLD = {
             75,
             58
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                75,
+                57
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                75,
+                58
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -16384,6 +18068,24 @@ export const WORLD = {
           "target": [
             93,
             77
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                92,
+                77
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                93,
+                77
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -16687,6 +18389,24 @@ export const WORLD = {
             66,
             82
           ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                66,
+                82
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                66,
+                82
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -16705,6 +18425,24 @@ export const WORLD = {
           "target": [
             66,
             82
+          ],
+          "tiles": [
+            {
+              "x": 25,
+              "y": 49,
+              "target": [
+                66,
+                81
+              ]
+            },
+            {
+              "x": 26,
+              "y": 49,
+              "target": [
+                66,
+                82
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -16919,6 +18657,24 @@ export const WORLD = {
             57,
             48
           ],
+          "tiles": [
+            {
+              "x": 20,
+              "y": 21,
+              "target": [
+                56,
+                48
+              ]
+            },
+            {
+              "x": 21,
+              "y": 21,
+              "target": [
+                57,
+                48
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -17037,6 +18793,16 @@ export const WORLD = {
           "target": [
             69,
             51
+          ],
+          "tiles": [
+            {
+              "x": 4,
+              "y": 12,
+              "target": [
+                69,
+                51
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -17511,6 +19277,64 @@ export const WORLD = {
             72,
             588
           ],
+          "tiles": [
+            {
+              "x": 65,
+              "y": 63,
+              "target": [
+                74,
+                586
+              ]
+            },
+            {
+              "x": 64,
+              "y": 64,
+              "target": [
+                73,
+                587
+              ]
+            },
+            {
+              "x": 63,
+              "y": 65,
+              "target": [
+                72,
+                588
+              ]
+            },
+            {
+              "x": 62,
+              "y": 66,
+              "target": [
+                71,
+                589
+              ]
+            },
+            {
+              "x": 65,
+              "y": 64,
+              "target": [
+                73,
+                587
+              ]
+            },
+            {
+              "x": 64,
+              "y": 65,
+              "target": [
+                72,
+                588
+              ]
+            },
+            {
+              "x": 63,
+              "y": 66,
+              "target": [
+                71,
+                589
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -17530,6 +19354,24 @@ export const WORLD = {
             5,
             11
           ],
+          "tiles": [
+            {
+              "x": 46,
+              "y": 30,
+              "target": [
+                4,
+                11
+              ]
+            },
+            {
+              "x": 47,
+              "y": 30,
+              "target": [
+                5,
+                11
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -17548,6 +19390,24 @@ export const WORLD = {
           "target": [
             6,
             11
+          ],
+          "tiles": [
+            {
+              "x": 34,
+              "y": 40,
+              "target": [
+                5,
+                11
+              ]
+            },
+            {
+              "x": 35,
+              "y": 40,
+              "target": [
+                6,
+                11
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -17650,6 +19510,24 @@ export const WORLD = {
           "target": [
             47,
             30
+          ],
+          "tiles": [
+            {
+              "x": 4,
+              "y": 11,
+              "target": [
+                46,
+                30
+              ]
+            },
+            {
+              "x": 5,
+              "y": 11,
+              "target": [
+                47,
+                30
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -17778,6 +19656,24 @@ export const WORLD = {
           "target": [
             35,
             40
+          ],
+          "tiles": [
+            {
+              "x": 5,
+              "y": 11,
+              "target": [
+                34,
+                40
+              ]
+            },
+            {
+              "x": 6,
+              "y": 11,
+              "target": [
+                35,
+                40
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -18045,6 +19941,16 @@ export const WORLD = {
             210,
             30
           ],
+          "tiles": [
+            {
+              "x": 194,
+              "y": 84,
+              "target": [
+                210,
+                30
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -18063,6 +19969,16 @@ export const WORLD = {
           "target": [
             210,
             30
+          ],
+          "tiles": [
+            {
+              "x": 196,
+              "y": 139,
+              "target": [
+                210,
+                30
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -18083,6 +19999,16 @@ export const WORLD = {
             210,
             30
           ],
+          "tiles": [
+            {
+              "x": 149,
+              "y": 3,
+              "target": [
+                210,
+                30
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -18101,6 +20027,16 @@ export const WORLD = {
           "target": [
             210,
             30
+          ],
+          "tiles": [
+            {
+              "x": 133,
+              "y": 64,
+              "target": [
+                210,
+                30
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -18121,6 +20057,16 @@ export const WORLD = {
             210,
             30
           ],
+          "tiles": [
+            {
+              "x": 143,
+              "y": 150,
+              "target": [
+                210,
+                30
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -18139,6 +20085,16 @@ export const WORLD = {
           "target": [
             210,
             30
+          ],
+          "tiles": [
+            {
+              "x": 69,
+              "y": 18,
+              "target": [
+                210,
+                30
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -18159,6 +20115,16 @@ export const WORLD = {
             210,
             30
           ],
+          "tiles": [
+            {
+              "x": 72,
+              "y": 68,
+              "target": [
+                210,
+                30
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -18177,6 +20143,16 @@ export const WORLD = {
           "target": [
             210,
             30
+          ],
+          "tiles": [
+            {
+              "x": 71,
+              "y": 151,
+              "target": [
+                210,
+                30
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         },
@@ -18197,6 +20173,16 @@ export const WORLD = {
             210,
             30
           ],
+          "tiles": [
+            {
+              "x": 19,
+              "y": 17,
+              "target": [
+                210,
+                30
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -18216,6 +20202,16 @@ export const WORLD = {
             210,
             30
           ],
+          "tiles": [
+            {
+              "x": 25,
+              "y": 86,
+              "target": [
+                210,
+                30
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         },
         {
@@ -18234,6 +20230,16 @@ export const WORLD = {
           "target": [
             396,
             186
+          ],
+          "tiles": [
+            {
+              "x": 216,
+              "y": 6,
+              "target": [
+                396,
+                186
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -18378,6 +20384,32 @@ export const WORLD = {
             653,
             609
           ],
+          "tiles": [
+            {
+              "x": 2,
+              "y": 22,
+              "target": [
+                653,
+                608
+              ]
+            },
+            {
+              "x": 2,
+              "y": 23,
+              "target": [
+                653,
+                609
+              ]
+            },
+            {
+              "x": 2,
+              "y": 24,
+              "target": [
+                653,
+                610
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -18462,6 +20494,16 @@ export const WORLD = {
             191,
             365
           ],
+          "tiles": [
+            {
+              "x": 40,
+              "y": 3,
+              "target": [
+                191,
+                365
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -18534,6 +20576,16 @@ export const WORLD = {
           "target": [
             318,
             428
+          ],
+          "tiles": [
+            {
+              "x": 14,
+              "y": 49,
+              "target": [
+                318,
+                428
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -18620,6 +20672,16 @@ export const WORLD = {
           "target": [
             132,
             421
+          ],
+          "tiles": [
+            {
+              "x": 76,
+              "y": 67,
+              "target": [
+                132,
+                421
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }
@@ -18729,6 +20791,24 @@ export const WORLD = {
             237,
             445
           ],
+          "tiles": [
+            {
+              "x": 25,
+              "y": 49,
+              "target": [
+                237,
+                445
+              ]
+            },
+            {
+              "x": 26,
+              "y": 49,
+              "target": [
+                237,
+                445
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -18812,6 +20892,24 @@ export const WORLD = {
             328,
             633
           ],
+          "tiles": [
+            {
+              "x": 0,
+              "y": 43,
+              "target": [
+                328,
+                633
+              ]
+            },
+            {
+              "x": 0,
+              "y": 44,
+              "target": [
+                328,
+                633
+              ]
+            }
+          ],
           "source": "ref___data/map/mapwarp.txt"
         }
       ]
@@ -18885,6 +20983,16 @@ export const WORLD = {
           "target": [
             666,
             235
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 2,
+              "target": [
+                666,
+                235
+              ]
+            }
           ],
           "source": "ref___data/map/mapwarp.txt"
         }

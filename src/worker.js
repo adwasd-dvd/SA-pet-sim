@@ -232,10 +232,22 @@ function findExit(map, id) {
 }
 
 function exitAt(map, x, y) {
-  return map.exits.find((exit) => {
+  for (const exit of map.exits) {
+    const tile = (exit.tiles || []).find((item) => Number(item.x) === x && Number(item.y) === y);
+    if (tile) {
+      return {
+        ...exit,
+        x: tile.x,
+        y: tile.y,
+        target: tile.target,
+        sourceTile: { x: tile.x, y: tile.y, target: tile.target }
+      };
+    }
+    if (Array.isArray(exit.tiles) && exit.tiles.length) continue;
     const bounds = Array.isArray(exit.bounds) ? exit.bounds : [exit.x, exit.y, exit.x, exit.y];
-    return x >= bounds[0] && y >= bounds[1] && x <= bounds[2] && y <= bounds[3];
-  });
+    if (x >= bounds[0] && y >= bounds[1] && x <= bounds[2] && y <= bounds[3]) return exit;
+  }
+  return null;
 }
 
 async function blocksMove(env, request, map, x, y) {
@@ -471,9 +483,24 @@ function noteNearby(game, map) {
 }
 
 function applyExit(game, exit) {
+  const from = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
+  const now = new Date().toISOString();
   game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
   game.encounter = null;
+  game.battle = null;
   game.walk = { steps: 0, encounterSteps: 0 };
+  game.lastWarp = {
+    kind: "mapwarp",
+    exitId: exit.id,
+    label: exit.label,
+    from,
+    sourceTile: exit.sourceTile || { x: exit.x, y: exit.y, target: exit.target },
+    to: { mapId: exit.to, x: exit.target[0], y: exit.target[1] },
+    source: exit.source,
+    warpedAt: now
+  };
+  game.character ||= {};
+  game.character.updatedAt = now;
   addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
   updateQuestProgress(game, "enterMap", { mapId: exit.to });
   return withMap(game);
@@ -482,6 +509,8 @@ function applyExit(game, exit) {
 function applyWarpTarget(game, target, label) {
   const targetMap = WORLD.maps[String(target.mapId)];
   if (!targetMap) throw new Error("目标地图尚未加载");
+  const from = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
+  const now = new Date().toISOString();
   const width = Math.max(1, Number(targetMap.size?.[0]) || 1);
   const height = Math.max(1, Number(targetMap.size?.[1]) || 1);
   const x = clampInt(target.x, 0, width - 1, 0);
@@ -490,8 +519,15 @@ function applyWarpTarget(game, target, label) {
   game.encounter = null;
   game.battle = null;
   game.walk = { steps: 0, encounterSteps: 0 };
+  game.lastWarp = {
+    kind: "npc-warp",
+    label,
+    from,
+    to: { mapId: targetMap.id, x, y },
+    warpedAt: now
+  };
   game.character ||= {};
-  game.character.updatedAt = new Date().toISOString();
+  game.character.updatedAt = game.lastWarp.warpedAt;
   addLog(game, `你通过「${label}」来到 ${targetMap.name} (${x},${y})。`);
   updateQuestProgress(game, "enterMap", { mapId: targetMap.id });
   return targetMap;
@@ -1249,6 +1285,7 @@ function normalizeGame(game) {
   ensureFlags(game);
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.savePoint ||= null;
+  game.lastWarp ||= null;
   game.dialog ||= null;
   game.battle ||= null;
   game.log ||= [];
@@ -1326,6 +1363,7 @@ function buildSaveJson(game) {
     inventoryState: inventoryState(game),
     quests: game.quests || {},
     savePoint: game.savePoint ? { ...game.savePoint } : null,
+    lastWarp: game.lastWarp ? { ...game.lastWarp } : null,
     flags: {
       endEvents: [...(game.flags?.endEvents || [])],
       nowEvents: [...(game.flags?.nowEvents || [])],
@@ -1368,6 +1406,7 @@ function buildCharInfo(game) {
     `FLOOR=${game.location.mapId}`,
     `X=${game.location.x}`,
     `Y=${game.location.y}`,
+    `LAST_WARP=${game.lastWarp?.to ? `${game.lastWarp.to.mapId},${game.lastWarp.to.x},${game.lastWarp.to.y}` : "NONE"}`,
     `PETCOUNT=${game.pets.length}`,
     `ITEMCOUNT=${game.inventory.length}`,
     `LAST_SAVEPOINT=${game.savePoint ? safeJson(game.savePoint) : ""}`,
@@ -1461,7 +1500,7 @@ function nearbyState(game, map) {
     .slice(0, 5)
     .map((npc) => ({ id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type }));
   const exits = map.exits
-    .filter((exit) => distanceToBounds(exit.bounds || [exit.x, exit.y, exit.x, exit.y], x, y) <= 2)
+    .filter((exit) => distanceToExit(exit, x, y) <= 2)
     .slice(0, 5)
     .map((exit) => ({ id: exit.id, label: exit.label, x: exit.x, y: exit.y, to: exit.to }));
   return { npcs, exits };
@@ -1475,6 +1514,13 @@ function distanceToBounds(bounds, x, y) {
   const dx = x < bounds[0] ? bounds[0] - x : x > bounds[2] ? x - bounds[2] : 0;
   const dy = y < bounds[1] ? bounds[1] - y : y > bounds[3] ? y - bounds[3] : 0;
   return Math.max(dx, dy);
+}
+
+function distanceToExit(exit, x, y) {
+  if (Array.isArray(exit.tiles) && exit.tiles.length) {
+    return Math.min(...exit.tiles.map((tile) => distance(tile.x, tile.y, x, y)));
+  }
+  return distanceToBounds(exit.bounds || [exit.x, exit.y, exit.x, exit.y], x, y);
 }
 
 function addLog(game, text) {

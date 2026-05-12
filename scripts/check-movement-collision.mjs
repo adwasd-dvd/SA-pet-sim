@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import worker from "../src/worker.js";
+import { WORLD } from "../src/world-data.js";
 
 const appRoot = path.resolve(import.meta.dirname, "..");
 const publicRoot = path.join(appRoot, "public");
@@ -52,7 +53,32 @@ game = await api("/api/game/walk", { game, dx: 1, dy: 0 });
 assertEqual(game.location.x, 41, "NPC collision keeps x");
 assertEqual(game.location.y, 72, "NPC collision keeps y");
 
-console.log("Movement collision OK: routing, blocked terrain, open movement, and NPC cells are enforced.");
+const exactExit = WORLD.maps["1000"].exits
+  .find((exit) => exit.to === "100" && exit.tiles?.some((tile) => tile.x === 49 && tile.y === 116));
+if (!exactExit) throw new Error("missing exact mapwarp fixture");
+
+route = await api("/api/game/route", {
+  game: { ...game, location: { mapId: "1000", x: 48, y: 116 } },
+  targetX: 49,
+  targetY: 116
+});
+assertEqual(route.blocked, false, "route can target exact warp tile");
+assertEqual(route.route.length, 1, "route reaches adjacent exact warp tile");
+
+game.location = { mapId: "1000", x: 48, y: 116 };
+game = await api("/api/game/walk", { game, dx: 1, dy: 0 });
+assertEqual(game.location.mapId, "100", "stepping onto mapwarp changes floor");
+assertEqual(game.location.x, 637, "mapwarp uses exact source tile target x");
+assertEqual(game.location.y, 491, "mapwarp uses exact source tile target y");
+assertEqual(game.lastWarp.sourceTile.x, 49, "lastWarp records source tile x");
+assertEqual(game.lastWarp.sourceTile.y, 116, "lastWarp records source tile y");
+assert(game.save.info.includes("LAST_WARP=100,637,491"), "saac-like save info records last mapwarp");
+
+console.log("Movement collision OK: routing, blocked terrain, NPC cells, and exact mapwarp tiles are enforced.");
+
+function assert(value, label) {
+  if (!value) throw new Error(label);
+}
 
 function assertEqual(actual, expected, label) {
   if (actual !== expected) {

@@ -79,6 +79,11 @@ for (const floor of selectedFloors) {
       y: marker.y,
       bounds: [bounds.minX, bounds.minY, bounds.maxX, bounds.maxY],
       target: [targetPoint.x, targetPoint.y],
+      tiles: cluster.map((item) => ({
+        x: item.x,
+        y: item.y,
+        target: [item.toX, item.toY]
+      })),
       source: "ref___data/map/mapwarp.txt"
     });
   }
