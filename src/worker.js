@@ -746,14 +746,15 @@ function buyGame(game, npcId, itemId) {
   const item = npc.trade.items.find((entry) => entry.id === itemId);
   if (!item) throw new Error("商品不存在");
   const price = Number(item.price || item.cost || 0);
-  if (game.player.stone < price) throw new Error("石币不够");
+  if (Number(game.player.stone || 0) < price) throw new Error("石币不够");
   if (!canCarryItem(game, item)) throw new Error(`背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具`);
-  game.player.stone -= price;
-  addInventoryItem(game, item, 1);
-  syncStoneItem(game);
   recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price });
-  if (price > 0) runNpcVmAction(game, npc, { type: "take", item: "stone", qty: price, reason: "buy" });
-  runNpcVmAction(game, npc, { type: "give", itemId, itemName: item.name, qty: 1, reason: "buy" });
+  if (price > 0) {
+    const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: price, reason: "buy" });
+    if (!taken.ok) throw new Error(taken.error || "石币不够");
+  }
+  const given = runNpcVmAction(game, npc, { type: "give", item, itemId, itemName: item.name, qty: 1, reason: "buy" });
+  if (!given.ok) throw new Error(given.error || "购买失败");
   addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币。`);
   openDialog(game, npc, [
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
@@ -1144,13 +1145,13 @@ function completeQuest(game, questId, npc = null) {
   quest.progress = quest.steps.length;
   const expReward = Number(quest.expReward || 20);
   const stoneReward = Number(quest.stoneReward || 80);
-  game.player.exp += expReward;
-  game.player.stone += stoneReward;
-  syncStoneItem(game);
   if (npc) {
     setNpcVmFlag(game, npc, eventFlagForQuest(questId), "end", "quest-complete");
     runNpcVmAction(game, npc, { type: "give", exp: expReward, stone: stoneReward, reason: "quest" });
   } else {
+    game.player.exp += expReward;
+    game.player.stone += stoneReward;
+    syncStoneItem(game);
     setEventFlag(game, eventFlagForQuest(questId), "end");
   }
   addLog(game, `完成任务「${quest.title}」，获得奖励。`);
@@ -1192,9 +1193,8 @@ function healerReply(game, npc) {
     return `${npc.name}：治疗需要 ${cost} 石币，你现在的石币不够。`;
   }
   if (cost > 0) {
-    game.player.stone = Number(game.player.stone || 0) - cost;
-    syncStoneItem(game);
-    runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "heal" });
+    const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "heal" });
+    if (!taken.ok) return `${npc.name}：治疗需要 ${cost} 石币，你现在的石币不够。`;
   }
   healParty(game);
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "healer"), "now", "healer");
@@ -1292,9 +1292,8 @@ function warpNpcReply(game, npc) {
     return npc.warp.moneyMessage || `${npc.name}：传送需要 ${permission.cost} 石币，你现在的石币不够。`;
   }
   if (permission.cost > 0) {
-    game.player.stone = Number(game.player.stone || 0) - permission.cost;
-    syncStoneItem(game);
-    runNpcVmAction(game, npc, { type: "take", item: "stone", qty: permission.cost, reason: "warp" });
+    const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: permission.cost, reason: "warp" });
+    if (!taken.ok) return npc.warp.moneyMessage || `${npc.name}：传送需要 ${permission.cost} 石币，你现在的石币不够。`;
   }
   const consumed = permission.free ? consumeWarpItems(game, npc.warp) : [];
   for (const itemName of consumed) {
@@ -1515,14 +1514,130 @@ function recordNpcVmEvent(game, npc, action, status = "ok", detail = {}) {
 function runNpcVmAction(game, npc, action = {}) {
   const type = String(action.type || action.action || "");
   const status = String(action.status || "ok");
+  const mutation = applyNpcVmMutation(game, type, action);
+  const event = recordNpcVmEvent(
+    game,
+    npc,
+    type,
+    mutation.ok ? status : "blocked",
+    npcVmActionDetail(action, mutation)
+  );
+  event.ok = mutation.ok;
+  if (mutation.error) event.error = mutation.error;
+  return event;
+}
+
+function applyNpcVmMutation(game, type, action) {
+  if (!NPC_VM_ACTIONS.has(type)) return { ok: false, mutated: false, error: `unsupported action: ${type || "empty"}` };
   if (type === "setFlag") {
+    if (!action.shiftbit) return { ok: true, mutated: false };
     setEventFlag(game, action.shiftbit, action.kind || "end");
+    return { ok: true, mutated: true };
   }
-  const { type: _type, action: _action, status: _status, ...detail } = action;
-  return recordNpcVmEvent(game, npc, type, status, {
+  if (type === "take") return applyNpcVmTake(game, action);
+  if (type === "give") return applyNpcVmGive(game, action);
+  return { ok: true, mutated: false };
+}
+
+function applyNpcVmTake(game, action) {
+  const qty = npcVmAmount(action.qty ?? action.amount, 1);
+  if (qty <= 0) return { ok: true, mutated: false };
+  const key = npcVmItemKey(action);
+  if (isStoneKey(key)) {
+    if (Number(game.player.stone || 0) < qty) return { ok: false, mutated: false, error: "石币不够" };
+    game.player.stone = Number(game.player.stone || 0) - qty;
+    syncStoneItem(game);
+    return { ok: true, mutated: true };
+  }
+  if (action.itemId != null || (typeof action.item === "object" && action.item?.id != null)) {
+    const id = Number(action.itemId ?? action.item.id);
+    const item = game.inventory?.find((entry) => Number(entry.id) === id && Number(entry.qty || 0) > 0);
+    if (!item || Number(item.qty || 0) < qty) return { ok: false, mutated: false, error: "道具不足" };
+    item.qty = Number(item.qty || 0) - qty;
+    game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
+    return { ok: true, mutated: true };
+  }
+  return { ok: true, mutated: false };
+}
+
+function applyNpcVmGive(game, action) {
+  let mutated = false;
+  const exp = npcVmAmount(action.exp, 0);
+  if (exp > 0) {
+    game.player.exp = Number(game.player.exp || 0) + exp;
+    mutated = true;
+  }
+  const stone = npcVmAmount(action.stone, 0);
+  if (stone > 0) {
+    game.player.stone = Number(game.player.stone || 0) + stone;
+    syncStoneItem(game);
+    mutated = true;
+  }
+  const qty = npcVmAmount(action.qty ?? action.amount, 1);
+  const item = npcVmGiveItem(action);
+  if (item && qty > 0) {
+    if (isStoneKey(item.id)) {
+      game.player.stone = Number(game.player.stone || 0) + qty;
+      syncStoneItem(game);
+      mutated = true;
+    } else {
+      if (!canCarryItem(game, item)) return { ok: false, mutated, error: `背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具` };
+      addInventoryItem(game, item, qty);
+      mutated = true;
+    }
+  }
+  return { ok: true, mutated };
+}
+
+function npcVmActionDetail(action, mutation) {
+  const { type: _type, action: _action, status: _status, item, ...detail } = action;
+  const out = {
     executor: "npc-action-vm",
-    ...detail
-  });
+    ...detail,
+    mutated: Boolean(mutation.mutated)
+  };
+  if (item != null && typeof item === "object") {
+    if (out.itemId == null && item.id != null) out.itemId = item.id;
+    if (out.itemName == null && item.name) out.itemName = item.name;
+  } else if (item != null) {
+    out.item = item;
+  }
+  if (mutation.error) out.error = mutation.error;
+  return out;
+}
+
+function npcVmAmount(value, fallback) {
+  const amount = Number(value ?? fallback);
+  if (!Number.isFinite(amount)) return fallback;
+  return Math.max(0, Math.floor(amount));
+}
+
+function npcVmItemKey(action) {
+  if (action.item != null && typeof action.item === "object") return action.item.id;
+  return action.item ?? action.itemId ?? action.itemName;
+}
+
+function npcVmGiveItem(action) {
+  if (action.item != null && typeof action.item === "object") return action.item;
+  if (action.itemId == null && action.item == null) return null;
+  if (isStoneKey(action.item)) return { id: "stone", name: "石币" };
+  return {
+    id: action.itemId ?? action.item,
+    name: action.itemName || `item ${action.itemId ?? action.item}`,
+    image: action.image,
+    type: action.itemType || action.typeName,
+    useField: action.useField,
+    target: action.target,
+    level: action.level,
+    price: action.price,
+    cost: action.cost,
+    description: action.description
+  };
+}
+
+function isStoneKey(value) {
+  const key = String(value ?? "").toLowerCase();
+  return key === "stone" || key === "stones" || key === "石币";
 }
 
 function recentNpcVmEvents(game, npc) {

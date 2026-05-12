@@ -66,11 +66,18 @@ assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "debug"
 assert(teacherGame.save.json.npcVmEvents.some((event) => event.action === "debug" && event.npcId === teacher.id), "save json carries recent NPC VM events");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "训练" });
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "unsupported" && event.detail?.originalAction === "fieldSkill"), "unsupported VM actions preserve original action");
+const questExpReward = Number(teacherGame.quests[teacher.questId].expReward || 20);
+const questStoneReward = Number(teacherGame.quests[teacher.questId].stoneReward || 80);
+const expBeforeQuest = teacherGame.player.exp;
+const stoneBeforeQuest = teacherGame.player.stone;
 teacherGame.quests[teacher.questId].status = "可回报";
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "hi" });
+assertEqual(teacherGame.player.exp, expBeforeQuest + questExpReward, "teacher quest reward adds player exp through VM");
+assertEqual(teacherGame.player.stone, stoneBeforeQuest + questStoneReward, "teacher quest reward adds stone through VM");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "quest-complete"), "teacher quest complete records setFlag VM event");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "quest"), "teacher quest complete records give VM event");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.executor === "npc-action-vm"), "teacher give runs through NPC VM executor");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.mutated === true), "teacher give mutates state through NPC VM executor");
 
 const healer = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
@@ -121,6 +128,17 @@ await expectApiError(
   "请先走近",
   "shop purchase rejects remote NPC window action"
 );
+game.location = { mapId: shopNpc.map.id, x: shopNpc.npc.x + 1, y: shopNpc.npc.y };
+game.player.stone = 10000;
+const shopItem = shopNpc.npc.trade.items[0];
+const shopPrice = Number(shopItem.price || shopItem.cost || 0);
+const shopQtyBefore = inventoryQty(game, shopItem.id);
+game = await api("/api/game/buy", { game, npcId: shopNpc.npc.id, itemId: shopItem.id });
+assertEqual(game.player.stone, 10000 - shopPrice, "shop buy charges stone through VM");
+assertEqual(inventoryQty(game, shopItem.id), shopQtyBefore + 1, "shop buy gives item through VM");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "buy"), "shop buy records shop VM event");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop buy runs stone take through NPC VM executor");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop buy runs item give through NPC VM executor");
 
 const warpNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
@@ -183,6 +201,12 @@ function farLocation(map, npc) {
 
 function distance(ax, ay, bx, by) {
   return Math.max(Math.abs(Number(ax) - Number(bx)), Math.abs(Number(ay) - Number(by)));
+}
+
+function inventoryQty(game, id) {
+  return (game.inventory || [])
+    .filter((item) => Number(item.id) === Number(id))
+    .reduce((sum, item) => sum + Number(item.qty || 0), 0);
 }
 
 function stableFlag(value) {
