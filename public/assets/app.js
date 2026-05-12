@@ -8,7 +8,7 @@ const REAL_TILE_CELL_LIMIT = 90000;
 const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
-const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=field-cursor-v1";
+const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=battle-sprites-v1";
 const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
@@ -18,6 +18,28 @@ const MOVE_MODE_CHANGE_TIME = 1000;
 const MOVE_CLICK_WAIT_TIME = 250;
 const WARP_EFFECT_MS = 680;
 const DIALOG_SCROLL_STEP = 56;
+const BATTLE_KEY_ACTIONS = Object.freeze({
+  "1": "attack",
+  h: "attack",
+  "2": "guard",
+  g: "guard",
+  "3": "capture",
+  t: "capture",
+  "4": "wait",
+  n: "wait",
+  "5": "escape",
+  escape: "escape",
+  e: "escape"
+});
+const BATTLE_ACTIONS = Object.freeze([
+  { action: "attack", label: "攻击", command: "H|0" },
+  { action: "guard", label: "防御", command: "G" },
+  { action: "capture", label: "捕获", command: "T|0" },
+  { action: "item", label: "道具", command: "I", disabled: true },
+  { action: "pet", label: "宠物", command: "S", disabled: true },
+  { action: "wait", label: "待机", command: "N" },
+  { action: "escape", label: "逃跑", command: "E" }
+]);
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -185,6 +207,22 @@ const els = {
   dialogCloseBtn: byId("dialogCloseBtn"),
   dialogScrollUpBtn: byId("dialogScrollUpBtn"),
   dialogScrollDownBtn: byId("dialogScrollDownBtn"),
+  battlePanel: byId("battlePanel"),
+  battleTitle: byId("battleTitle"),
+  battleSource: byId("battleSource"),
+  battleEnemyTarget: byId("battleEnemyTarget"),
+  battleEnemyImg: byId("battleEnemyImg"),
+  battleEnemyName: byId("battleEnemyName"),
+  battleEnemyStats: byId("battleEnemyStats"),
+  battleEnemyHpBar: byId("battleEnemyHpBar"),
+  battlePetImg: byId("battlePetImg"),
+  battlePetName: byId("battlePetName"),
+  battlePetStats: byId("battlePetStats"),
+  battlePetHpBar: byId("battlePetHpBar"),
+  battlePlayerName: byId("battlePlayerName"),
+  battlePlayerStats: byId("battlePlayerStats"),
+  battleCommandGrid: byId("battleCommandGrid"),
+  sourceBattleLog: byId("sourceBattleLog"),
   petList: byId("petList"),
   questList: byId("questList"),
   gameLog: byId("gameLog"),
@@ -264,6 +302,7 @@ function bindEvents() {
   });
   els.dialogScrollUpBtn.addEventListener("click", () => scrollDialogMessages(-DIALOG_SCROLL_STEP));
   els.dialogScrollDownBtn.addEventListener("click", () => scrollDialogMessages(DIALOG_SCROLL_STEP));
+  els.battlePanel.addEventListener("click", onBattlePanelClick);
   els.dataSearchBtn.addEventListener("click", searchData);
   els.dataQuery.addEventListener("keydown", (event) => {
     if (event.key === "Enter") searchData();
@@ -354,6 +393,7 @@ function render() {
   renderNpc(map);
   renderExits(map);
   renderDialog();
+  renderBattlePanel();
   renderEncounter();
   renderPets();
   renderQuests();
@@ -446,6 +486,7 @@ function clearWarpTransitionTimer() {
 }
 
 function onMapCanvasClick(event) {
+  if (isBattleOpen()) return;
   if (mapView.suppressNextClick) {
     mapView.suppressNextClick = false;
     return;
@@ -545,6 +586,7 @@ function clampMapPan() {
 
 function onMapPointerDown(event) {
   if (event.button !== 0) return;
+  if (isBattleOpen()) return;
   clearMapHoldMove();
   mapView.dragging = true;
   mapView.moved = false;
@@ -570,6 +612,12 @@ function onGameKeyDown(event) {
     else if (key === "pageup") scrollDialogMessages(-DIALOG_SCROLL_STEP * 3);
     else if (key === "pagedown") scrollDialogMessages(DIALOG_SCROLL_STEP * 3);
     else els.dialogInput.focus();
+    event.preventDefault();
+    return;
+  }
+  if (isBattleOpen()) {
+    const action = BATTLE_KEY_ACTIONS[key];
+    if (action) sendBattleAction(action);
     event.preventDefault();
     return;
   }
@@ -731,6 +779,10 @@ function schedulePlayerAnimTick() {
 
 async function followRouteTo(target, routeData = null) {
   if (!game) return;
+  if (isBattleOpen()) {
+    addClientLog("战斗中无法移动。");
+    return false;
+  }
   if (routeInFlight) {
     routeToken += 1;
   }
@@ -772,6 +824,10 @@ async function waitForWalkSlot(token, timeoutMs = 800) {
 }
 
 async function goToNpc(npcId) {
+  if (isBattleOpen()) {
+    addClientLog("战斗中无法和 NPC 对话。");
+    return;
+  }
   const map = game?.world?.map;
   const npc = map?.npcs?.find((item) => item.id === npcId);
   if (!npc) return;
@@ -797,6 +853,10 @@ async function goToNpc(npcId) {
 }
 
 async function goToExit(exitId) {
+  if (isBattleOpen()) {
+    addClientLog("战斗中无法移动到出口。");
+    return;
+  }
   const map = game?.world?.map;
   const exit = map?.exits?.find((item) => item.id === exitId);
   if (!exit) return;
@@ -1909,8 +1969,9 @@ function updateDialogScrollButtons() {
 function renderDialog() {
   const dialog = game?.dialog;
   if (dialog?.open) clientWindowOpen = false;
-  els.dialogPanel.hidden = !dialog?.open;
-  if (!dialog?.open) {
+  const battleOpen = isBattleOpen();
+  els.dialogPanel.hidden = !dialog?.open || battleOpen;
+  if (!dialog?.open || battleOpen) {
     updateDialogScrollButtons();
     return;
   }
@@ -1980,6 +2041,84 @@ function renderDialogBattle() {
       </div>
     </div>
   `;
+}
+
+function isBattleOpen() {
+  return Boolean(game?.encounter);
+}
+
+function renderBattlePanel() {
+  const enemy = game?.encounter;
+  els.battlePanel.hidden = !enemy;
+  els.mapCanvas.classList.toggle("in-battle", Boolean(enemy));
+  els.battlePanel.closest(".map-panel")?.classList.toggle("battle-active", Boolean(enemy));
+  if (!enemy) return;
+  clientWindowOpen = false;
+  const activePet = game.pets?.[0] || null;
+  const battle = game.battle || {};
+  const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
+  const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
+  const petMax = activePet ? Math.max(1, Number(activePet.WorkMaxHp || activePet.Hp || 1)) : 1;
+  const petHp = activePet ? Math.max(0, Number(activePet.Hp || petMax)) : 0;
+  els.battleTitle.textContent = `BATTLE ${Number(battle.turn || 0) + 1}`;
+  els.battleSource.textContent = battle.sourceCommand
+    ? `${battle.sourceCommand} | ${battle.source || "gmsv battle_command.c"}`
+    : (battle.source || enemy.source || "gmsv battle_command.c");
+  setBattleSprite(els.battleEnemyImg, enemy.ImgNo);
+  els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
+  els.battleEnemyStats.textContent = `HP ${enemyHp}/${enemyMax} | 攻 ${Number(enemy.WorkFixStr || 0)} 防 ${Number(enemy.WorkFixTough || 0)} 敏 ${Number(enemy.WorkFixDex || 0)}`;
+  els.battleEnemyHpBar.style.width = `${clampPercent(enemyHp, enemyMax)}%`;
+  if (activePet) {
+    setBattleSprite(els.battlePetImg, activePet.ImgNo);
+    els.battlePetName.textContent = `${activePet.Name} Lv.${Number(activePet.Lv || 1)}`;
+    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | 攻 ${Number(activePet.WorkFixStr || 0)} 防 ${Number(activePet.WorkFixTough || 0)} 敏 ${Number(activePet.WorkFixDex || 0)}`;
+    els.battlePetHpBar.style.width = `${clampPercent(petHp, petMax)}%`;
+  } else {
+    setBattleSprite(els.battlePetImg, null);
+    els.battlePetName.textContent = "无出战宠物";
+    els.battlePetStats.textContent = "无法攻击或防御";
+    els.battlePetHpBar.style.width = "0%";
+  }
+  els.battlePlayerName.textContent = game.player.name;
+  els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)}`;
+  els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
+    const disabled = entry.disabled || (!activePet && ["attack", "guard", "wait"].includes(entry.action));
+    return `
+      <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""}>
+        <b>${escapeHtml(entry.label)}</b>
+        <span>${escapeHtml(entry.command)}</span>
+        <small>${index + 1}</small>
+      </button>
+    `;
+  }).join("");
+  const log = (battle.log || game.log || []).slice(-6);
+  els.sourceBattleLog.innerHTML = log.length
+    ? log.map((line) => `<p>${escapeHtml(line)}</p>`).join("")
+    : `<p>战斗开始。</p>`;
+}
+
+function setBattleSprite(el, tileId) {
+  const id = Number(tileId || 0);
+  el.dataset.atlasSprite = id > 0 ? String(id) : "";
+  if (loadedTileAtlas) applyAtlasSprite(el, loadedTileAtlas, el.dataset.atlasSprite);
+  else el.hidden = id <= 0;
+}
+
+function onBattlePanelClick(event) {
+  const btn = event.target.closest("[data-battle-action]");
+  if (!btn || !els.battlePanel.contains(btn) || btn.disabled) return;
+  sendBattleAction(btn.dataset.battleAction);
+}
+
+async function sendBattleAction(action) {
+  if (!game?.encounter) return;
+  try {
+    game = await api("/api/game/battle", { game, action });
+    save();
+    render();
+  } catch (error) {
+    addClientLog(error.message || "战斗指令失败。");
+  }
 }
 
 function dialogDebugLine(dialog) {
@@ -2130,7 +2269,7 @@ function renderFieldMessage() {
 
 function renderClientWindow() {
   if (!els.clientWindow) return;
-  if (!game || !clientWindowOpen) {
+  if (!game || !clientWindowOpen || isBattleOpen()) {
     els.clientWindow.hidden = true;
     return;
   }

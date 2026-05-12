@@ -8,10 +8,11 @@ const mapRoot = path.join(projectRoot, "public/data/maps");
 const clientMapRoot = path.join(projectRoot, "public/data/client-maps");
 const worldPath = path.join(projectRoot, "src/world-data.js");
 const outputRoot = path.join(projectRoot, "public/data/client-tiles");
+const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
 const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
-const ATLAS_VERSION = "field-cursor-v1";
+const ATLAS_VERSION = "battle-sprites-v1";
 
 const RECORD_SIZE = 80;
 const ATLAS_W = 4096;
@@ -112,6 +113,7 @@ function collectTileIds(dir) {
     }
   }
   collectNpcGraphicIds(ids);
+  collectEncounterPetBitmapIds(ids);
   FIELD_UI_GRAPHIC_IDS.forEach((id) => ids.add(id));
   DEFAULT_PLAYER_SPRITE_FRAME_IDS.forEach((id) => ids.add(id));
   return ids;
@@ -123,6 +125,24 @@ function collectNpcGraphicIds(ids) {
   for (const match of text.matchAll(/"graphic":\s*"(\d+)"/g)) {
     const id = Number(match[1]);
     if (Number.isFinite(id) && id > 99) ids.add(id);
+  }
+}
+
+function collectEncounterPetBitmapIds(ids) {
+  if (!fs.existsSync(worldPath) || !fs.existsSync(enemyBasePath)) return;
+  const petNos = new Set([100]);
+  const worldText = fs.readFileSync(worldPath, "utf8");
+  for (const match of worldText.matchAll(/"encounterPets":\s*\[([\s\S]*?)\]/g)) {
+    for (const id of match[1].matchAll(/\d+/g)) {
+      petNos.add(Number(id[0]));
+    }
+  }
+  for (const line of fs.readFileSync(enemyBasePath, "utf8").split(/\r?\n/)) {
+    const rows = line.split(",");
+    if (rows.length < 37) continue;
+    const petNo = Number(rows[6]);
+    const imageNo = Number(rows[36]);
+    if (petNos.has(petNo) && Number.isFinite(imageNo) && imageNo > 99) ids.add(imageNo);
   }
 }
 

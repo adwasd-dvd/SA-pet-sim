@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=48">
+    <link rel="stylesheet" href="/assets/app.css?v=49">
   </head>
   <body>
     <div class="app-shell">
@@ -151,6 +151,34 @@
                   <button type="submit">确定</button>
                 </form>
               </section>
+              <section id="battlePanel" class="source-battle-panel" hidden>
+                <div class="source-battle-stage">
+                  <button id="battleEnemyTarget" class="battle-combatant enemy" type="button" data-battle-action="attack" aria-label="攻击目标">
+                    <span id="battleEnemyImg" class="battle-sprite client-atlas-sprite" data-atlas-sprite="" aria-hidden="true"></span>
+                    <strong id="battleEnemyName">--</strong>
+                    <span id="battleEnemyStats">--</span>
+                    <i><b id="battleEnemyHpBar"></b></i>
+                  </button>
+                  <div class="battle-combatant party">
+                    <span id="battlePetImg" class="battle-sprite client-atlas-sprite" data-atlas-sprite="" aria-hidden="true"></span>
+                    <strong id="battlePetName">--</strong>
+                    <span id="battlePetStats">--</span>
+                    <i><b id="battlePetHpBar"></b></i>
+                  </div>
+                  <div class="battle-player-card">
+                    <strong id="battlePlayerName">--</strong>
+                    <span id="battlePlayerStats">--</span>
+                  </div>
+                </div>
+                <div class="source-battle-command">
+                  <div>
+                    <strong id="battleTitle">BATTLE</strong>
+                    <span id="battleSource">--</span>
+                  </div>
+                  <div id="battleCommandGrid" class="battle-command-grid"></div>
+                </div>
+                <div id="sourceBattleLog" class="source-battle-log" aria-live="polite"></div>
+              </section>
               <div class="client-bottom-line" aria-label="原版频道与聊天栏">
                 <span class="channel">一般频道</span>
                 <span id="fieldMessage" class="field-message">--</span>
@@ -236,6 +264,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=64"></script>
+    <script type="module" src="/assets/app.js?v=65"></script>
   </body>
 </html>
