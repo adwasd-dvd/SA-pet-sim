@@ -1119,7 +1119,7 @@ function performBattleAction(game, action) {
     return performCaptureAction(game);
   }
   if (move.type === "item") {
-    return performBattleItemAction(game);
+    return performBattleItemAction(game, move.itemId);
   }
   if (!["attack", "guard", "wait"].includes(move.type)) throw new Error("这个战斗动作还没有实现");
   const activePet = game.pets[0];
@@ -1167,6 +1167,8 @@ function performBattleAction(game, action) {
 
 function normalizeBattleMove(action) {
   const value = String(action || "attack").toLowerCase();
+  const itemMatch = value.match(/^item[:|](\d+)$/);
+  if (itemMatch) return { type: "item", command: "I", itemId: Number(itemMatch[1]) };
   if (["release", "放走"].includes(value)) return { type: "escape", command: "E", release: true };
   if (["run", "escape", "逃跑", "离开", "離開", "e"].includes(value)) return { type: "escape", command: "E" };
   if (["capture", "catch", "捕获", "抓宠", "抓", "t", "t|0"].includes(value)) return { type: "capture", command: "T|0" };
@@ -1177,13 +1179,13 @@ function normalizeBattleMove(action) {
   return { type: value, command: value };
 }
 
-function performBattleItemAction(game) {
+function performBattleItemAction(game, itemId = null) {
   if (!game.encounter) throw new Error("当前没有战斗目标");
   const activePet = game.pets[0];
   if (!activePet) throw new Error("你需要至少一只宠物才能在战斗中使用道具");
   ensureBattleState(game, activePet, game.encounter);
 
-  const item = firstUsableRecoveryItem(game);
+  const item = itemId == null ? firstUsableRecoveryItem(game) : findInventoryItem(game, itemId);
   if (!item) throw new Error("背包里没有可用于战斗恢复的道具");
 
   const enemy = game.encounter;

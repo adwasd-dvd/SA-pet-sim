@@ -127,6 +127,7 @@ let activeTab = "pets";
 let clientWindowOpen = false;
 let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
+let battleItemMenuOpen = false;
 let playerAnimState = {
   dir: DEFAULT_PLAYER_DIRECTION,
   startedAt: 0,
@@ -610,7 +611,11 @@ function onGameKeyDown(event) {
   }
   if (isBattleOpen()) {
     const action = BATTLE_KEY_ACTIONS[key];
-    if (action) sendBattleAction(action);
+    if (action === "item") {
+      toggleBattleItemMenu();
+    } else if (action) {
+      sendBattleAction(action);
+    }
     event.preventDefault();
     return;
   }
@@ -2060,7 +2065,10 @@ function renderBattlePanel() {
   els.battlePanel.hidden = !enemy;
   els.mapCanvas.classList.toggle("in-battle", Boolean(enemy));
   els.battlePanel.closest(".map-panel")?.classList.toggle("battle-active", Boolean(enemy));
-  if (!enemy) return;
+  if (!enemy) {
+    battleItemMenuOpen = false;
+    return;
+  }
   clientWindowOpen = false;
   const activePet = game.pets?.[0] || null;
   const battle = game.battle || {};
@@ -2089,7 +2097,9 @@ function renderBattlePanel() {
   }
   els.battlePlayerName.textContent = game.player.name;
   els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)}`;
-  const hasBattleItem = battleUsableItems().length > 0;
+  const battleItems = battleUsableItems();
+  const hasBattleItem = battleItems.length > 0;
+  if (!hasBattleItem) battleItemMenuOpen = false;
   els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
     const disabled = entry.disabled
       || (!activePet && ["attack", "guard", "wait", "item"].includes(entry.action))
@@ -2101,7 +2111,7 @@ function renderBattlePanel() {
         <small>${index + 1}</small>
       </button>
     `;
-  }).join("");
+  }).join("") + renderBattleItemPicker(battleItems);
   const log = (battle.log || game.log || []).slice(-6);
   els.sourceBattleLog.innerHTML = log.length
     ? log.map((line) => `<p>${escapeHtml(line)}</p>`).join("")
@@ -2116,8 +2126,23 @@ function setBattleSprite(el, tileId) {
 }
 
 function onBattlePanelClick(event) {
+  const itemBtn = event.target.closest("[data-battle-item]");
+  if (itemBtn && els.battlePanel.contains(itemBtn)) {
+    sendBattleAction(`item:${itemBtn.dataset.battleItem}`);
+    return;
+  }
+  const closeBtn = event.target.closest("[data-battle-items-close]");
+  if (closeBtn && els.battlePanel.contains(closeBtn)) {
+    battleItemMenuOpen = false;
+    renderBattlePanel();
+    return;
+  }
   const btn = event.target.closest("[data-battle-action]");
   if (!btn || !els.battlePanel.contains(btn) || btn.disabled) return;
+  if (btn.dataset.battleAction === "item") {
+    toggleBattleItemMenu();
+    return;
+  }
   sendBattleAction(btn.dataset.battleAction);
 }
 
@@ -2125,11 +2150,37 @@ async function sendBattleAction(action) {
   if (!game?.encounter) return;
   try {
     game = await api("/api/game/battle", { game, action });
+    battleItemMenuOpen = false;
     save();
     render();
   } catch (error) {
     addClientLog(error.message || "战斗指令失败。");
   }
+}
+
+function toggleBattleItemMenu() {
+  if (!game?.encounter || !battleUsableItems().length) return;
+  battleItemMenuOpen = !battleItemMenuOpen;
+  renderBattlePanel();
+}
+
+function renderBattleItemPicker(items) {
+  if (!battleItemMenuOpen) return "";
+  return `
+    <div class="battle-item-picker" aria-label="战斗道具">
+      <div>
+        <strong>ITEM</strong>
+        <button type="button" data-battle-items-close title="关闭">×</button>
+      </div>
+      ${items.map((item, index) => `
+        <button type="button" data-battle-item="${item.id}">
+          <b>${escapeHtml(item.name || `item ${item.id}`)}</b>
+          <span>x${Number(item.qty || 0)}</span>
+          <small>${index + 1}</small>
+        </button>
+      `).join("")}
+    </div>
+  `;
 }
 
 function dialogDebugLine(dialog) {
