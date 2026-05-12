@@ -561,6 +561,27 @@ async function walkPlayer(dx, dy) {
   }
 }
 
+async function turnPlayer(face) {
+  if (!game || !face) return false;
+  try {
+    const dir = Number(face.dir);
+    const payload = {
+      game,
+      dx: Number(face.dx) || 0,
+      dy: Number(face.dy) || 0
+    };
+    if (Number.isFinite(dir)) payload.dir = dir;
+    game = await api("/api/game/turn", payload);
+    facePlayerDirection(clientAnimDirectionFromServerDir(currentServerDirection()));
+    save();
+    render();
+    return true;
+  } catch (error) {
+    addClientLog(error.message || "无法转向。");
+    return false;
+  }
+}
+
 function startPlayerWalkAnimation(dir, from = game?.location, to = game?.location) {
   setPlayerDirection(dir);
   playerAnimState.startedAt = performance.now();
@@ -659,6 +680,7 @@ async function followRouteTo(target, routeData = null) {
     const route = Array.isArray(data.route) ? data.route : [];
     if (!route.length) {
       if (data.blocked) addClientLog("那里无法通行。");
+      if (data.face && token === routeToken) return turnPlayer(data.face);
       return !data.blocked;
     }
     for (const step of route) {
@@ -669,6 +691,7 @@ async function followRouteTo(target, routeData = null) {
       if (!moved || game.location.mapId !== beforeMap) return moved;
       await wait(85);
     }
+    if (data.face && token === routeToken) return turnPlayer(data.face);
     return true;
   } catch (error) {
     addClientLog(error.message || "无法计算路线。");

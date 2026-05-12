@@ -40,7 +40,16 @@ assertEqual(route.blocked, false, "open route is reachable");
 assertEqual(route.route.length, 3, "open diagonal route length");
 
 route = await api("/api/game/route", { game, targetX: start.x - 1, targetY: start.y - 1 });
-assertEqual(route.blocked, true, "blocked target route is rejected");
+assertEqual(route.blocked, false, "blocked target can be approached source-style");
+assertEqual(route.reason, "target-blocked-nearby", "blocked target reports source-style nearby facing route");
+assertEqual(route.route.length, 0, "adjacent blocked target needs no movement route");
+assertEqual(route.face.dir, 7, "blocked target route turns toward requested cell");
+
+game = await api("/api/game/turn", { game, dir: route.face.dir, dx: route.face.dx, dy: route.face.dy });
+assertEqual(game.location.x, start.x, "turn keeps x");
+assertEqual(game.location.y, start.y, "turn keeps y");
+assertEqual(game.player.dir, 7, "turn API records requested direction");
+assert(game.save.info.includes("DIR=7"), "saac-like save info records turn direction");
 
 game = await api("/api/game/walk", { game, dx: -1, dy: -1 });
 assertEqual(game.location.x, start.x, "blocked terrain keeps x");
@@ -114,7 +123,7 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, NPC cells, Worker exit routes, exact mapwarp tiles, and NPC approach routes are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, source-style blocked-target facing, NPC cells, Worker exit routes, exact mapwarp tiles, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

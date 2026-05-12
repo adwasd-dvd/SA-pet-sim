@@ -100,6 +100,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await walkGame(env, request, body.game, Number(body.dx) || 0, Number(body.dy) || 0));
     }
+    if (url.pathname === "/api/game/turn" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(turnGame(body.game, body));
+    }
     if (url.pathname === "/api/game/route" && request.method === "POST") {
       const body = await readJson(request);
       return json(await routeGame(env, request, body.game, Number(body.targetX), Number(body.targetY)));
@@ -266,6 +270,19 @@ async function walkGame(env, request, game, dx, dy) {
   return withMap(game);
 }
 
+function turnGame(game, body = {}) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const fallback = game.player?.dir ?? game.location?.dir;
+  const hasExplicitDir = body.dir !== undefined && body.dir !== null && Number.isFinite(Number(body.dir));
+  const dir = hasExplicitDir
+    ? normalizeDir(Number(body.dir))
+    : dirFromDelta(Number(body.dx) || 0, Number(body.dy) || 0, fallback);
+  setCharacterDir(game, dir);
+  noteNearby(game, map);
+  return withMap(game);
+}
+
 async function routeGame(env, request, game, targetX, targetY) {
   game = normalizeGame(game);
   const map = currentMap(game);
@@ -284,6 +301,18 @@ async function routeGame(env, request, game, targetX, targetY) {
     return { from, target, route: [], blocked: false, reason: "already-there" };
   }
   if (!canStandAt(map, collision, target.x, target.y)) {
+    const approach = findBlockedTargetApproach(map, collision, from, target);
+    if (approach) {
+      return {
+        from,
+        target,
+        standTarget: approach.target,
+        face: faceTargetFrom(approach.target, target),
+        route: approach.route,
+        blocked: false,
+        reason: "target-blocked-nearby"
+      };
+    }
     return { from, target, route: [], blocked: true, reason: "target-blocked" };
   }
   const route = findRoute(map, collision, from, target);
@@ -294,6 +323,43 @@ async function routeGame(env, request, game, targetX, targetY) {
     blocked: route.length === 0,
     reason: route.length ? "ok" : "unreachable"
   };
+}
+
+function findBlockedTargetApproach(map, collision, from, target) {
+  const candidates = [];
+  const maxRadius = 3;
+  for (let y = target.y - maxRadius; y <= target.y + maxRadius; y += 1) {
+    for (let x = target.x - maxRadius; x <= target.x + maxRadius; x += 1) {
+      if (x === target.x && y === target.y) continue;
+      if (!canStandAt(map, collision, x, y)) continue;
+      candidates.push({
+        x,
+        y,
+        targetDistance: distance(x, y, target.x, target.y),
+        fromDistance: routeHeuristic(from.x, from.y, x, y)
+      });
+    }
+  }
+  candidates.sort((a, b) => (
+    a.targetDistance - b.targetDistance
+    || a.fromDistance - b.fromDistance
+    || a.y - b.y
+    || a.x - b.x
+  ));
+  for (const candidate of candidates) {
+    if (candidate.x === from.x && candidate.y === from.y) {
+      return { target: { x: candidate.x, y: candidate.y }, route: [] };
+    }
+    const route = findRoute(map, collision, from, candidate);
+    if (route.length) return { target: { x: candidate.x, y: candidate.y }, route };
+  }
+  return null;
+}
+
+function faceTargetFrom(from, target) {
+  const dir = dirFromDelta(target.x - from.x, target.y - from.y, DEFAULT_CHAR_DIR);
+  const { dx, dy } = deltaForDir(dir);
+  return { dir, dx, dy, x: target.x, y: target.y };
 }
 
 async function routeNpcGame(env, request, game, npcId) {
