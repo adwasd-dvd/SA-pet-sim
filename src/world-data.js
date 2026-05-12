@@ -1,11 +1,11 @@
 export const WORLD = {
   "source": {
-    "root": "ref___data",
-    "maps": "ref___data/map/** LS2MAP",
+    "root": "gmsv-data",
+    "maps": "gmsv-data/map/** LS2MAP",
     "clientMaps": "公益石器时代/map/*.dat",
-    "npcs": "ref___data/npc/**/*.create + .template + args/config",
-    "warps": "ref___data/map/mapwarp.txt",
-    "encounters": "ref___data/encount.txt"
+    "npcs": "gmsv-data/npc/**/*.create + .template + args/config",
+    "warps": "gmsv-data/map/mapwarp.txt",
+    "encounters": "gmsv-data/encount.txt"
   },
   "startMap": "1000",
   "maps": {
@@ -16,7 +16,7 @@ export const WORLD = {
       "mapFile": "/data/maps/100.ls2map",
       "clientMapFile": "/data/client-maps/100.dat",
       "clientMapSource": "公益石器时代/map/100.dat",
-      "summary": "萨伊那斯 | floor=100 | 800x800 | ref___data/map/sainasu/sainasu",
+      "summary": "萨伊那斯 | floor=100 | 800x800 | gmsv-data/map/sainasu/sainasu",
       "size": [
         800,
         800
@@ -46,13 +46,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/genout/nevent_03.create",
+          "source": "gmsv-data/npc/genout/nevent_03.create",
           "script": "file:genout/ss_100_412_337",
           "template": "npcgen_shop",
           "graphic": "16017",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_100_412_337",
+            "source": "gmsv-data/npc/genout/ss_100_412_337",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -121,13 +121,13 @@ export const WORLD = {
             "如果能赢过我的话就让你通过。要决胜负吗？",
             "有什么事吗？"
           ],
-          "source": "ref___data/npc/100/sb_ganzo.create",
+          "source": "gmsv-data/npc/100/sb_ganzo.create",
           "script": "file:100/sb_ganzo.arg",
           "template": "sb_ganzo",
           "graphic": "100401",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_ganzo.arg",
+            "source": "gmsv-data/npc/100/sb_ganzo.arg",
             "entype": 2,
             "enemyNos": [
               253,
@@ -155,13 +155,13 @@ export const WORLD = {
             "什么！给我滚到旁边去！",
             "什么!别妨碍我们、滚到旁边去!"
           ],
-          "source": "ref___data/npc/100/sb_dpd.create",
+          "source": "gmsv-data/npc/100/sb_dpd.create",
           "script": "file:100/sb_dpd.arg",
           "template": "sb_dice",
           "graphic": "100432",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_dpd.arg",
+            "source": "gmsv-data/npc/100/sb_dpd.arg",
             "entype": 2,
             "enemyNos": [
               1283,
@@ -195,13 +195,13 @@ export const WORLD = {
             "什么！给我滚到旁边去！",
             "什么!别妨碍我们、滚到旁边去!"
           ],
-          "source": "ref___data/npc/100/sb_dpd.create",
+          "source": "gmsv-data/npc/100/sb_dpd.create",
           "script": "file:100/sb_dpd.arg",
           "template": "sb_por",
           "graphic": "100436",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_dpd.arg",
+            "source": "gmsv-data/npc/100/sb_dpd.arg",
             "entype": 2,
             "enemyNos": [
               1283,
@@ -235,13 +235,13 @@ export const WORLD = {
             "什么！给我滚到旁边去！",
             "什么!别妨碍我们、滚到旁边去!"
           ],
-          "source": "ref___data/npc/100/sb_dpd.create",
+          "source": "gmsv-data/npc/100/sb_dpd.create",
           "script": "file:100/sb_dpd.arg",
           "template": "sb_dar",
           "graphic": "100434",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_dpd.arg",
+            "source": "gmsv-data/npc/100/sb_dpd.arg",
             "entype": 2,
             "enemyNos": [
               1283,
@@ -274,7 +274,7 @@ export const WORLD = {
           "dialogueLines": [
             "这是白狼勇士工公会，准备好要学技能了吗？"
           ],
-          "source": "ref___data/npc/sa70/skill.create",
+          "source": "gmsv-data/npc/sa70/skill.create",
           "script": "file:sa70/warsk3",
           "template": "ProfessionShop",
           "graphic": "16185"
@@ -285,9 +285,9 @@ export const WORLD = {
           "x": 290,
           "y": 96,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_5d",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_5d",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_5d",
           "template": "changeevent",
           "graphic": "16066"
@@ -298,9 +298,9 @@ export const WORLD = {
           "x": 230,
           "y": 180,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/seimu/event/event02_1",
+          "dialogue": "脚本入口：gmsv-data/npc/seimu/event/event02_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/seimu/event/event02_n.create",
+          "source": "gmsv-data/npc/seimu/event/event02_n.create",
           "script": "file:seimu/event/event02_1",
           "template": "changeevent",
           "graphic": "16033"
@@ -311,9 +311,9 @@ export const WORLD = {
           "x": 615,
           "y": 190,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/scipt_plus/fishlevelup/npc_at_100",
+          "dialogue": "脚本入口：gmsv-data/npc/scipt_plus/fishlevelup/npc_at_100",
           "dialogueLines": [],
-          "source": "ref___data/npc/scipt_plus/fishlevelup/fishlevelup.create",
+          "source": "gmsv-data/npc/scipt_plus/fishlevelup/fishlevelup.create",
           "script": "file:scipt_plus/fishlevelup/npc_at_100",
           "template": "changeevent",
           "graphic": "16054"
@@ -324,9 +324,9 @@ export const WORLD = {
           "x": 670,
           "y": 245,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_2d",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_2d",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_2d",
           "template": "changeevent",
           "graphic": "16065"
@@ -339,7 +339,7 @@ export const WORLD = {
           "type": "WindowHealer",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_winhealer",
           "template": "npcgen_winhealer",
           "graphic": "16012"
@@ -350,9 +350,9 @@ export const WORLD = {
           "x": 183,
           "y": 346,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_100_183_346",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_100_183_346",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_100_183_346",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -363,9 +363,9 @@ export const WORLD = {
           "x": 346,
           "y": 356,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/genou_3",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/genou_3",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/genou/genou.create",
+          "source": "gmsv-data/npc/sainasu/event/genou/genou.create",
           "script": "file:sainasu/event/genou_3",
           "template": "changeevent",
           "graphic": "100110"
@@ -376,9 +376,9 @@ export const WORLD = {
           "x": 167,
           "y": 398,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/rion",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/rion",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/rion.create",
+          "source": "gmsv-data/npc/sainasu/event/rion.create",
           "script": "file:sainasu/event/rion",
           "template": "changeevent",
           "graphic": "100015"
@@ -391,7 +391,7 @@ export const WORLD = {
           "type": "WindowHealer",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_winhealer",
           "template": "npcgen_winhealer",
           "graphic": "16058"
@@ -402,9 +402,9 @@ export const WORLD = {
           "x": 344,
           "y": 466,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_100_344_466",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_100_344_466",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_100_344_466",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -415,9 +415,9 @@ export const WORLD = {
           "x": 404,
           "y": 466,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa80/gloves/gloves_1",
+          "dialogue": "脚本入口：gmsv-data/npc/sa80/gloves/gloves_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa80/gloves/gloves.create",
+          "source": "gmsv-data/npc/sa80/gloves/gloves.create",
           "script": "file:sa80/gloves/gloves_1",
           "template": "changeevent",
           "graphic": "16353"
@@ -428,9 +428,9 @@ export const WORLD = {
           "x": 74,
           "y": 489,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_12d",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_12d",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_12d",
           "template": "changeevent",
           "graphic": "16066"
@@ -441,9 +441,9 @@ export const WORLD = {
           "x": 727,
           "y": 500,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_1d",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_1d",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_1d",
           "template": "changeevent",
           "graphic": "16065"
@@ -454,9 +454,9 @@ export const WORLD = {
           "x": 428,
           "y": 543,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_7d",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_7d",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_7d",
           "template": "changeevent",
           "graphic": "16065"
@@ -467,9 +467,9 @@ export const WORLD = {
           "x": 291,
           "y": 96,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_291_96",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_291_96",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_100_291_96",
           "template": "npcgen_signboard",
           "graphic": "10063"
@@ -480,9 +480,9 @@ export const WORLD = {
           "x": 465,
           "y": 128,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_465_128",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_465_128",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/11100npc.create",
+          "source": "gmsv-data/npc/genout/11100npc.create",
           "script": "file:genout/signb_100_465_128",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -493,9 +493,9 @@ export const WORLD = {
           "x": 670,
           "y": 244,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_670_244",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_670_244",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_100_670_244",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -506,9 +506,9 @@ export const WORLD = {
           "x": 413,
           "y": 335,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_413_335",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_413_335",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/nevent_03.create",
+          "source": "gmsv-data/npc/genout/nevent_03.create",
           "script": "file:genout/signb_100_413_335",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -521,7 +521,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10063"
@@ -532,9 +532,9 @@ export const WORLD = {
           "x": 190,
           "y": 363,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_190_363",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_190_363",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10000npc.create",
+          "source": "gmsv-data/npc/genout/10000npc.create",
           "script": "file:genout/signb_100_190_363",
           "template": "npcgen_signboard",
           "graphic": "10095"
@@ -545,9 +545,9 @@ export const WORLD = {
           "x": 190,
           "y": 426,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_190_426",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_190_426",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10000npc.create",
+          "source": "gmsv-data/npc/genout/10000npc.create",
           "script": "file:genout/signb_100_190_426",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -558,9 +558,9 @@ export const WORLD = {
           "x": 627,
           "y": 485,
           "type": "Bus",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/bus.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/bus.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/bus.create",
+          "source": "gmsv-data/npc/chatroom/bus.create",
           "script": "file:chatroom/bus.arg",
           "template": "bus",
           "graphic": "100355"
@@ -571,9 +571,9 @@ export const WORLD = {
           "x": 631,
           "y": 485,
           "type": "Bus",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/bus3.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/bus3.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/bus.create",
+          "source": "gmsv-data/npc/chatroom/bus.create",
           "script": "file:chatroom/bus3.arg",
           "template": "bus",
           "graphic": "100355"
@@ -584,9 +584,9 @@ export const WORLD = {
           "x": 633,
           "y": 486,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_100_633_486",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_100_633_486",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/msg_100_633_486",
           "template": "npcgen_man",
           "graphic": "16027"
@@ -597,9 +597,9 @@ export const WORLD = {
           "x": 635,
           "y": 487,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_635_487",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_635_487",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_635_487",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -610,9 +610,9 @@ export const WORLD = {
           "x": 626,
           "y": 488,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_626_488",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_626_488",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_626_488",
           "template": "npcgen_signboard",
           "graphic": "10401"
@@ -623,9 +623,9 @@ export const WORLD = {
           "x": 629,
           "y": 488,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_629_488",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_629_488",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_629_488",
           "template": "npcgen_signboard",
           "graphic": "10401"
@@ -636,9 +636,9 @@ export const WORLD = {
           "x": 75,
           "y": 489,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_75_489",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_75_489",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_100_75_489",
           "template": "npcgen_signboard",
           "graphic": "10063"
@@ -649,9 +649,9 @@ export const WORLD = {
           "x": 728,
           "y": 501,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_728_501",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_728_501",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_100_728_501",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -662,9 +662,9 @@ export const WORLD = {
           "x": 428,
           "y": 544,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_428_544",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_428_544",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_100_428_544",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -675,9 +675,9 @@ export const WORLD = {
           "x": 460,
           "y": 625,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_460_625",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_460_625",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_460_625",
           "template": "npcgen_signboard",
           "graphic": "10401"
@@ -688,9 +688,9 @@ export const WORLD = {
           "x": 463,
           "y": 625,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_463_625",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_463_625",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_463_625",
           "template": "npcgen_signboard",
           "graphic": "10401"
@@ -701,9 +701,9 @@ export const WORLD = {
           "x": 467,
           "y": 627,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_100_467_627",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_100_467_627",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/msg_100_467_627",
           "template": "npcgen_man",
           "graphic": "16026"
@@ -714,9 +714,9 @@ export const WORLD = {
           "x": 469,
           "y": 629,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_469_629",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_469_629",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_469_629",
           "template": "npcgen_signboard",
           "graphic": "10095"
@@ -727,9 +727,9 @@ export const WORLD = {
           "x": 115,
           "y": 654,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_100_115_654",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_100_115_654",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/msg_100_115_654",
           "template": "npcgen_man",
           "graphic": "16027"
@@ -740,9 +740,9 @@ export const WORLD = {
           "x": 120,
           "y": 654,
           "type": "Bus",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/bus4.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/bus4.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/bus.create",
+          "source": "gmsv-data/npc/chatroom/bus.create",
           "script": "file:chatroom/bus4.arg",
           "template": "bus",
           "graphic": "100355"
@@ -753,9 +753,9 @@ export const WORLD = {
           "x": 119,
           "y": 656,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_119_656",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_119_656",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_119_656",
           "template": "npcgen_signboard",
           "graphic": "10401"
@@ -766,9 +766,9 @@ export const WORLD = {
           "x": 122,
           "y": 656,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_122_656",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_122_656",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_122_656",
           "template": "npcgen_signboard",
           "graphic": "10401"
@@ -779,9 +779,9 @@ export const WORLD = {
           "x": 114,
           "y": 658,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_100_114_658",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_100_114_658",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/bus.create",
+          "source": "gmsv-data/npc/genout/bus.create",
           "script": "file:genout/signb_100_114_658",
           "template": "npcgen_signboard",
           "graphic": "10095"
@@ -792,9 +792,9 @@ export const WORLD = {
           "x": 443,
           "y": 127,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_100_443_127",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_100_443_127",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/11100npc.create",
+          "source": "gmsv-data/npc/genout/11100npc.create",
           "script": "file:genout/wpm_100_443_127",
           "template": "npcgen_warpman",
           "graphic": "100433",
@@ -816,7 +816,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "",
             "warpMessage": "在卡坦有梦德",
-            "source": "ref___data/npc/genout/wpm_100_443_127"
+            "source": "gmsv-data/npc/genout/wpm_100_443_127"
           }
         },
         {
@@ -825,9 +825,9 @@ export const WORLD = {
           "x": 278,
           "y": 325,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_100_278_325",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_100_278_325",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/genou.create",
+          "source": "gmsv-data/npc/genout/genou.create",
           "script": "file:genout/wpm_100_278_325",
           "template": "npcgen_warpman",
           "graphic": "16202",
@@ -851,7 +851,7 @@ export const WORLD = {
             "moneyMessage": "你的强度好像还不够进入这里。 等你变强一点再来比较好哦。",
             "partyMessage": "团队不能进入这里",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_100_278_325"
+            "source": "gmsv-data/npc/genout/wpm_100_278_325"
           }
         },
         {
@@ -860,9 +860,9 @@ export const WORLD = {
           "x": 412,
           "y": 339,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_100_412_339",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_100_412_339",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/nevent_03.create",
+          "source": "gmsv-data/npc/genout/nevent_03.create",
           "script": "file:genout/wpm_100_412_339",
           "template": "npcgen_warpman",
           "graphic": "16056",
@@ -886,7 +886,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "最近盗矿贼出没，大家都严加戒备。 由于这个缘故， 所以团体行动是不被允许的。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_100_412_339"
+            "source": "gmsv-data/npc/genout/wpm_100_412_339"
           }
         },
         {
@@ -897,7 +897,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -910,7 +910,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -923,7 +923,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -936,7 +936,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -949,7 +949,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -962,7 +962,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -975,7 +975,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -988,7 +988,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1001,7 +1001,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1014,7 +1014,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1027,7 +1027,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1040,7 +1040,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon03.create",
+          "source": "gmsv-data/npc/genout/dungeon03.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1053,7 +1053,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1066,7 +1066,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1079,7 +1079,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1092,7 +1092,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10701d.create",
+          "source": "gmsv-data/npc/genout/10701d.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1105,7 +1105,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1118,7 +1118,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1131,7 +1131,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1144,7 +1144,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1157,7 +1157,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1170,7 +1170,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1183,7 +1183,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1196,7 +1196,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1209,7 +1209,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1222,7 +1222,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1235,7 +1235,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1248,7 +1248,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1261,7 +1261,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1274,7 +1274,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1287,7 +1287,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1300,7 +1300,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1313,7 +1313,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1326,7 +1326,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1339,7 +1339,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1352,7 +1352,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1365,7 +1365,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1378,7 +1378,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1391,7 +1391,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1404,7 +1404,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1417,7 +1417,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1430,7 +1430,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1443,7 +1443,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1456,7 +1456,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1469,7 +1469,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1482,7 +1482,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1495,7 +1495,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1508,7 +1508,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1521,7 +1521,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1534,7 +1534,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1547,7 +1547,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1560,7 +1560,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1573,7 +1573,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1586,7 +1586,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1599,7 +1599,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1612,7 +1612,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1625,7 +1625,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1638,7 +1638,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1651,7 +1651,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -1717,7 +1717,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2030-1",
@@ -1794,7 +1794,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1000-2",
@@ -1847,7 +1847,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1000-3",
@@ -1908,7 +1908,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2000-4",
@@ -1961,7 +1961,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2000-5",
@@ -2014,7 +2014,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1100-6",
@@ -2075,7 +2075,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1300-7",
@@ -2160,7 +2160,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1400-8",
@@ -2205,7 +2205,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "101-9",
@@ -2242,7 +2242,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "120-10",
@@ -2279,7 +2279,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "121-11",
@@ -2316,7 +2316,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "10701-12",
@@ -2345,7 +2345,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "10001-13",
@@ -2374,7 +2374,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "10101-14",
@@ -2403,7 +2403,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "10901-15",
@@ -2432,7 +2432,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "11001-16",
@@ -2461,7 +2461,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "31401-17",
@@ -2490,7 +2490,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-18",
@@ -2527,7 +2527,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8216-19",
@@ -2572,7 +2572,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -2583,7 +2583,7 @@ export const WORLD = {
       "mapFile": "/data/maps/101.ls2map",
       "clientMapFile": "/data/client-maps/101.dat",
       "clientMapSource": "公益石器时代/map/101.dat",
-      "summary": "阿布的独栋房屋 | floor=101 | 30x30 | ref___data/map/sainasu/sonota/101",
+      "summary": "阿布的独栋房屋 | floor=101 | 30x30 | gmsv-data/map/sainasu/sonota/101",
       "size": [
         30,
         30
@@ -2602,7 +2602,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -2615,7 +2615,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -2657,7 +2657,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -2668,7 +2668,7 @@ export const WORLD = {
       "mapFile": "/data/maps/120.ls2map",
       "clientMapFile": "/data/client-maps/120.dat",
       "clientMapSource": "公益石器时代/map/120.dat",
-      "summary": "靠近水田的家|00 | floor=120 | 30x30 | ref___data/map/extra/120",
+      "summary": "靠近水田的家|00 | floor=120 | 30x30 | gmsv-data/map/extra/120",
       "size": [
         30,
         30
@@ -2685,9 +2685,9 @@ export const WORLD = {
           "x": 19,
           "y": 15,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_120_19_15",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_120_19_15",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "file:genout/wpm_120_19_15",
           "template": "npcgen_warpman",
           "graphic": "16017",
@@ -2711,7 +2711,7 @@ export const WORLD = {
             "moneyMessage": "你的强度还不足以去那里 你变强一点再来比较好。",
             "partyMessage": "团队没办法进入那里",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_120_19_15"
+            "source": "gmsv-data/npc/genout/wpm_120_19_15"
           }
         },
         {
@@ -2722,7 +2722,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -2735,7 +2735,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -2777,7 +2777,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -2788,7 +2788,7 @@ export const WORLD = {
       "mapFile": "/data/maps/121.ls2map",
       "clientMapFile": "/data/client-maps/121.dat",
       "clientMapSource": "公益石器时代/map/121.dat",
-      "summary": "岬之家 | floor=121 | 30x30 | ref___data/map/extra/121",
+      "summary": "岬之家 | floor=121 | 30x30 | gmsv-data/map/extra/121",
       "size": [
         30,
         30
@@ -2805,9 +2805,9 @@ export const WORLD = {
           "x": 23,
           "y": 15,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_121_23_15",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_121_23_15",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "file:genout/msg_121_23_15",
           "template": "npcgen_man",
           "graphic": "16064"
@@ -2820,7 +2820,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -2833,7 +2833,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -2875,7 +2875,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -2886,7 +2886,7 @@ export const WORLD = {
       "mapFile": "/data/maps/122.ls2map",
       "clientMapFile": "/data/client-maps/122.dat",
       "clientMapSource": "公益石器时代/map/122.dat",
-      "summary": "迷宫 | floor=122 | 300x200 | ref___data/map/extra/122",
+      "summary": "迷宫 | floor=122 | 300x200 | gmsv-data/map/extra/122",
       "size": [
         300,
         200
@@ -2915,13 +2915,13 @@ export const WORLD = {
             "绑在袋口的绳子",
             "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
           ],
-          "source": "ref___data/npc/100/sb_mimi.create",
+          "source": "gmsv-data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
           "graphic": "16073",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_mimi.arg",
+            "source": "gmsv-data/npc/100/sb_mimi.arg",
             "entype": 2,
             "enemyNos": [
               1117,
@@ -2958,13 +2958,13 @@ export const WORLD = {
             "绑在袋口的绳子",
             "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
           ],
-          "source": "ref___data/npc/100/sb_mimi.create",
+          "source": "gmsv-data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
           "graphic": "16073",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_mimi.arg",
+            "source": "gmsv-data/npc/100/sb_mimi.arg",
             "entype": 2,
             "enemyNos": [
               1117,
@@ -3001,13 +3001,13 @@ export const WORLD = {
             "绑在袋口的绳子",
             "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
           ],
-          "source": "ref___data/npc/100/sb_mimi.create",
+          "source": "gmsv-data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
           "graphic": "16073",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_mimi.arg",
+            "source": "gmsv-data/npc/100/sb_mimi.arg",
             "entype": 2,
             "enemyNos": [
               1117,
@@ -3044,13 +3044,13 @@ export const WORLD = {
             "绑在袋口的绳子",
             "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
           ],
-          "source": "ref___data/npc/100/sb_mimi.create",
+          "source": "gmsv-data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
           "graphic": "16073",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_mimi.arg",
+            "source": "gmsv-data/npc/100/sb_mimi.arg",
             "entype": 2,
             "enemyNos": [
               1117,
@@ -3087,13 +3087,13 @@ export const WORLD = {
             "绑在袋口的绳子",
             "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
           ],
-          "source": "ref___data/npc/100/sb_mimi.create",
+          "source": "gmsv-data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
           "graphic": "16073",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_mimi.arg",
+            "source": "gmsv-data/npc/100/sb_mimi.arg",
             "entype": 2,
             "enemyNos": [
               1117,
@@ -3130,13 +3130,13 @@ export const WORLD = {
             "绑在袋口的绳子",
             "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。"
           ],
-          "source": "ref___data/npc/100/sb_mimi.create",
+          "source": "gmsv-data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
           "graphic": "16073",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_mimi.arg",
+            "source": "gmsv-data/npc/100/sb_mimi.arg",
             "entype": 2,
             "enemyNos": [
               1117,
@@ -3168,9 +3168,9 @@ export const WORLD = {
           "x": 162,
           "y": 12,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju04a",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju04a",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju04a",
           "template": "changeevent",
           "graphic": "16073"
@@ -3181,9 +3181,9 @@ export const WORLD = {
           "x": 282,
           "y": 48,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju03a",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju03a",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju03a",
           "template": "changeevent",
           "graphic": "16073"
@@ -3194,9 +3194,9 @@ export const WORLD = {
           "x": 216,
           "y": 51,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju02a",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju02a",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju02a",
           "template": "changeevent",
           "graphic": "16073"
@@ -3207,9 +3207,9 @@ export const WORLD = {
           "x": 54,
           "y": 90,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju03",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju03",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju03",
           "template": "changeevent",
           "graphic": "16073"
@@ -3220,9 +3220,9 @@ export const WORLD = {
           "x": 111,
           "y": 127,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju04",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju04",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju04",
           "template": "changeevent",
           "graphic": "16073"
@@ -3233,9 +3233,9 @@ export const WORLD = {
           "x": 39,
           "y": 164,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju02",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju02",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju02",
           "template": "changeevent",
           "graphic": "16073"
@@ -3248,7 +3248,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -3261,7 +3261,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/meiro.create",
+          "source": "gmsv-data/npc/genout/meiro.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -3295,7 +3295,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -3306,7 +3306,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1000.ls2map",
       "clientMapFile": "/data/client-maps/1000.dat",
       "clientMapSource": "公益石器时代/map/1000.dat",
-      "summary": "萨姆吉尔村 | floor=1000 | 160x160 | ref___data/map/sainasu/samugiru/samugiru",
+      "summary": "萨姆吉尔村 | floor=1000 | 160x160 | gmsv-data/map/sainasu/samugiru/samugiru",
       "size": [
         160,
         160
@@ -3328,7 +3328,7 @@ export const WORLD = {
             "欢迎光临，我是新来的美露露，请多指教。",
             "我笨手笨脚的常惹老板生气。"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_109_63",
           "template": "npcgen_timeman",
           "graphic": "16013"
@@ -3346,7 +3346,7 @@ export const WORLD = {
             "这间店“ＢＡＲ Ｓｉｌｋｙ ＣＬＵＢ”是连锁店，在其它村庄也有。这间就是萨姆吉尔店。",
             "不可对店里的女生动手动脚，因为有小孩子会进来。"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_119_65",
           "template": "npcgen_timeman",
           "graphic": "16025"
@@ -3362,7 +3362,7 @@ export const WORLD = {
             "辛苦工作一整天后，喝个一杯很舒服呢！但也不可喝过多免得跑出啤酒肚。",
             "想去吉鲁岛是有办法的…这我也知道啊。"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_116_66",
           "template": "npcgen_timeman",
           "graphic": "16016"
@@ -3378,7 +3378,7 @@ export const WORLD = {
             "欢迎光临，那里有空位！",
             "喔～是这样吗？常常都有人说我长得很可爱呢！"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_116_69",
           "template": "npcgen_timeman",
           "graphic": "16015"
@@ -3398,7 +3398,7 @@ export const WORLD = {
             "成人练习不只是听课。到村外确认一次野外宠物资料，再回来向我报告。",
             "如果遇到危险，记得先让宠物出战；击败或捕获一只野外宠物就足够了。"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_42_72",
           "template": "npcgen_timeman",
           "graphic": "16002",
@@ -3414,7 +3414,7 @@ export const WORLD = {
           "dialogueLines": [
             "所谓的恋爱方程式…"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_39_75",
           "template": "npcgen_timeman",
           "graphic": "16004"
@@ -3429,7 +3429,7 @@ export const WORLD = {
           "dialogueLines": [
             "１加１等于２，２加２等于４，３加３等于６…"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_42_75",
           "template": "npcgen_timeman",
           "graphic": "16006"
@@ -3444,7 +3444,7 @@ export const WORLD = {
           "dialogueLines": [
             "哈哈老师不知道！"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_36_78",
           "template": "npcgen_timeman",
           "graphic": "16005"
@@ -3459,7 +3459,7 @@ export const WORLD = {
           "dialogueLines": [
             "老师上课好无聊喔！来玩游戏嘛！"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_42_79",
           "template": "npcgen_timeman",
           "graphic": "16011"
@@ -3474,7 +3474,7 @@ export const WORLD = {
           "dialogueLines": [
             "那个乌力斯坦是头牛还是山猪啊？"
           ],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_42_81",
           "template": "npcgen_timeman",
           "graphic": "16003"
@@ -3489,13 +3489,13 @@ export const WORLD = {
           "dialogueLines": [
             "我有卖很神奇的东西喔！"
           ],
-          "source": "ref___data/npc/genout/shop_nuke1.create",
+          "source": "gmsv-data/npc/genout/shop_nuke1.create",
           "script": "file:genout/ss_1000_94_101",
           "template": "npcgen_shop",
           "graphic": "16067",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1000_94_101",
+            "source": "gmsv-data/npc/genout/ss_1000_94_101",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -3581,13 +3581,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1000_64_112",
           "template": "npcgen_shop",
           "graphic": "16067",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1000_64_112",
+            "source": "gmsv-data/npc/genout/ss_1000_64_112",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -3726,13 +3726,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality1.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality1.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality1.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -3759,13 +3759,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality7.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality7.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality7.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -3787,9 +3787,9 @@ export const WORLD = {
           "x": 108,
           "y": 28,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_edc",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_edc",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_edc",
           "template": "changeevent",
           "graphic": "16027"
@@ -3800,9 +3800,9 @@ export const WORLD = {
           "x": 63,
           "y": 43,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/dance/dance.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/dance/dance.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/dance/dance.create",
+          "source": "gmsv-data/npc/sa70/dance/dance.create",
           "script": "file:sa70/dance/dance.arg",
           "template": "changeevent",
           "graphic": "16083"
@@ -3813,9 +3813,9 @@ export const WORLD = {
           "x": 72,
           "y": 48,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/poru/samugiru04",
+          "dialogue": "脚本入口：gmsv-data/npc/poru/samugiru04",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/samugiru_grandfather.create",
+          "source": "gmsv-data/npc/poru/samugiru_grandfather.create",
           "script": "file:poru/samugiru04",
           "template": "changeevent",
           "graphic": "16001"
@@ -3826,9 +3826,9 @@ export const WORLD = {
           "x": 33,
           "y": 56,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_0cd",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_0cd",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_0cd",
           "template": "changeevent",
           "graphic": "16027"
@@ -3841,7 +3841,7 @@ export const WORLD = {
           "type": "Alldoman",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/won/syu.create",
+          "source": "gmsv-data/npc/won/syu.create",
           "script": "npc_alldoman",
           "template": "npc_alldoman",
           "graphic": "10060"
@@ -3852,9 +3852,9 @@ export const WORLD = {
           "x": 48,
           "y": 62,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/fighter",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/fighter",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/newbie.create",
+          "source": "gmsv-data/npc/sa60/newbie/newbie.create",
           "script": "file:sa60/newbie/fighter",
           "template": "changeevent",
           "graphic": "16496"
@@ -3865,9 +3865,9 @@ export const WORLD = {
           "x": 50,
           "y": 62,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/ticket1000",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/ticket1000",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/chatroom.create",
+          "source": "gmsv-data/npc/chatroom/chatroom.create",
           "script": "file:chatroom/ticket1000",
           "template": "changeevent",
           "graphic": "16014"
@@ -3878,9 +3878,9 @@ export const WORLD = {
           "x": 31,
           "y": 69,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/treasure/treasure1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/treasure/treasure1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/treasure/treasure.create",
+          "source": "gmsv-data/npc/sa70/treasure/treasure.create",
           "script": "file:sa70/treasure/treasure1.arg",
           "template": "changeevent",
           "graphic": "16102"
@@ -3891,9 +3891,9 @@ export const WORLD = {
           "x": 73,
           "y": 72,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa75/angel/angelitem",
+          "dialogue": "脚本入口：gmsv-data/npc/sa75/angel/angelitem",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa75/angel/angel.create",
+          "source": "gmsv-data/npc/sa75/angel/angel.create",
           "script": "file:sa75/angel/angelitem",
           "template": "changeevent",
           "graphic": "16154"
@@ -3904,9 +3904,9 @@ export const WORLD = {
           "x": 94,
           "y": 99,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_1000_94_99",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_1000_94_99",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_1000_94_99",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -3917,9 +3917,9 @@ export const WORLD = {
           "x": 126,
           "y": 99,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_1c",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_1c",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_1c",
           "template": "changeevent",
           "graphic": "16067"
@@ -3930,9 +3930,9 @@ export const WORLD = {
           "x": 117,
           "y": 101,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/beers/beers1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/beers/beers1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/beers/beers.create",
+          "source": "gmsv-data/npc/sa70/beers/beers.create",
           "script": "file:sa70/beers/beers1.arg",
           "template": "changeevent",
           "graphic": "16090"
@@ -3943,9 +3943,9 @@ export const WORLD = {
           "x": 51,
           "y": 106,
           "type": "NPC_NewNpcMan",
-          "dialogue": "脚本入口：ref___data/npc/demale/testnpc01.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/demale/testnpc01.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/demale/testnpc01.create",
+          "source": "gmsv-data/npc/demale/testnpc01.create",
           "script": "file:demale/testnpc01.arg",
           "template": "npc_newnpcman",
           "graphic": "100401"
@@ -3956,9 +3956,9 @@ export const WORLD = {
           "x": 77,
           "y": 118,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/meat/meat1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/meat/meat1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/meat/meat.create",
+          "source": "gmsv-data/npc/sa70/meat/meat.create",
           "script": "file:sa70/meat/meat1.arg",
           "template": "changeevent",
           "graphic": "16022"
@@ -3969,9 +3969,9 @@ export const WORLD = {
           "x": 57,
           "y": 124,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event02_2",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event02_2",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event02.create",
+          "source": "gmsv-data/npc/sainasu/event/event02.create",
           "script": "file:sainasu/event/event02_2",
           "template": "changeevent",
           "graphic": "16030"
@@ -3982,9 +3982,9 @@ export const WORLD = {
           "x": 97,
           "y": 32,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/poru/samugiru2",
+          "dialogue": "脚本入口：gmsv-data/npc/poru/samugiru2",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/samugiru01.create",
+          "source": "gmsv-data/npc/poru/samugiru01.create",
           "script": "file:poru/samugiru2",
           "template": "npcgen_man",
           "graphic": "16028"
@@ -3995,9 +3995,9 @@ export const WORLD = {
           "x": 128,
           "y": 36,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_128_36",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_128_36",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_128_36",
           "template": "npcgen_man",
           "graphic": "16009"
@@ -4008,9 +4008,9 @@ export const WORLD = {
           "x": 79,
           "y": 37,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_79_37",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_79_37",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_79_37",
           "template": "npcgen_man",
           "graphic": "16019"
@@ -4021,9 +4021,9 @@ export const WORLD = {
           "x": 111,
           "y": 37,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1000_111_37",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1000_111_37",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/chatkanban.create",
+          "source": "gmsv-data/npc/genout/chatkanban.create",
           "script": "file:genout/signb_1000_111_37",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -4034,9 +4034,9 @@ export const WORLD = {
           "x": 82,
           "y": 39,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_82_39",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_82_39",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_82_39",
           "template": "npcgen_man",
           "graphic": "16021"
@@ -4047,9 +4047,9 @@ export const WORLD = {
           "x": 97,
           "y": 43,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_97_43",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_97_43",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_97_43",
           "template": "npcgen_man",
           "graphic": "16207"
@@ -4060,9 +4060,9 @@ export const WORLD = {
           "x": 97,
           "y": 46,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_97_46",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_97_46",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_97_46",
           "template": "npcgen_man",
           "graphic": "16207"
@@ -4075,7 +4075,7 @@ export const WORLD = {
           "type": "Duelranking",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/duelranking.create",
+          "source": "gmsv-data/npc/chatroom/duelranking.create",
           "script": "duelranking",
           "template": "duelranking",
           "graphic": "10070"
@@ -4086,9 +4086,9 @@ export const WORLD = {
           "x": 52,
           "y": 64,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1000_52_64",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1000_52_64",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/signb_1000_52_64",
           "template": "npcgen_signboard",
           "graphic": "10061"
@@ -4101,7 +4101,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
@@ -4112,9 +4112,9 @@ export const WORLD = {
           "x": 93,
           "y": 72,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/poru/samugiru02",
+          "dialogue": "脚本入口：gmsv-data/npc/poru/samugiru02",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/samugiru01.create",
+          "source": "gmsv-data/npc/poru/samugiru01.create",
           "script": "file:poru/samugiru02",
           "template": "npcgen_man",
           "graphic": "16039"
@@ -4125,9 +4125,9 @@ export const WORLD = {
           "x": 74,
           "y": 93,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_74_93",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_74_93",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_74_93",
           "template": "npcgen_man",
           "graphic": "16033"
@@ -4140,7 +4140,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
@@ -4151,9 +4151,9 @@ export const WORLD = {
           "x": 106,
           "y": 95,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_106_95",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_106_95",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_106_95",
           "template": "npcgen_man",
           "graphic": "16045"
@@ -4166,7 +4166,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "16038"
@@ -4177,9 +4177,9 @@ export const WORLD = {
           "x": 118,
           "y": 95,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_118_95",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_118_95",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_118_95",
           "template": "npcgen_man",
           "graphic": "16032"
@@ -4192,7 +4192,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "16033"
@@ -4203,9 +4203,9 @@ export const WORLD = {
           "x": 127,
           "y": 100,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1000_127_100",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1000_127_100",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_1000_127_100",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -4216,9 +4216,9 @@ export const WORLD = {
           "x": 63,
           "y": 103,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_63_103",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_63_103",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_63_103",
           "template": "npcgen_man",
           "graphic": "16048"
@@ -4231,7 +4231,7 @@ export const WORLD = {
           "type": "Duelranking",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/duelranking.create",
+          "source": "gmsv-data/npc/chatroom/duelranking.create",
           "script": "duelranking",
           "template": "duelranking",
           "graphic": "10069"
@@ -4242,9 +4242,9 @@ export const WORLD = {
           "x": 50,
           "y": 106,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/poru/samugiru03",
+          "dialogue": "脚本入口：gmsv-data/npc/poru/samugiru03",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/samugiru01.create",
+          "source": "gmsv-data/npc/poru/samugiru01.create",
           "script": "file:poru/samugiru03",
           "template": "npcgen_man",
           "graphic": "16019"
@@ -4257,7 +4257,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "16209"
@@ -4268,9 +4268,9 @@ export const WORLD = {
           "x": 66,
           "y": 128,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1000_66_128",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1000_66_128",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1000npc_m.create",
+          "source": "gmsv-data/npc/genout/1000npc_m.create",
           "script": "file:genout/msg_1000_66_128",
           "template": "npcgen_man",
           "graphic": "16202"
@@ -4281,9 +4281,9 @@ export const WORLD = {
           "x": 71,
           "y": 48,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/poru/wpm_500_470_470",
+          "dialogue": "脚本入口：gmsv-data/npc/poru/wpm_500_470_470",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/samugiru_grandfather.create",
+          "source": "gmsv-data/npc/poru/samugiru_grandfather.create",
           "script": "file:poru/wpm_500_470_470",
           "template": "npcgen_warpman",
           "graphic": "100388",
@@ -4307,7 +4307,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "不好意思、可以一个一个来吗？",
             "warpMessage": "",
-            "source": "ref___data/npc/poru/wpm_500_470_470"
+            "source": "gmsv-data/npc/poru/wpm_500_470_470"
           }
         },
         {
@@ -4316,9 +4316,9 @@ export const WORLD = {
           "x": 56,
           "y": 59,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1000_56_59",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1000_56_59",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/duelroom.create",
+          "source": "gmsv-data/npc/genout/duelroom.create",
           "script": "file:genout/wpm_1000_56_59",
           "template": "npcgen_warpman",
           "graphic": "16055",
@@ -4352,7 +4352,7 @@ export const WORLD = {
             "moneyMessage": "不好意思请多关照。",
             "partyMessage": "以团队无法入场。 请把团队解散之后再个别 入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_1000_56_59"
+            "source": "gmsv-data/npc/genout/wpm_1000_56_59"
           }
         },
         {
@@ -4363,7 +4363,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4376,7 +4376,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4389,7 +4389,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4402,7 +4402,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4415,7 +4415,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4428,7 +4428,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4441,7 +4441,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4454,7 +4454,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4467,7 +4467,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4480,7 +4480,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4493,7 +4493,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4506,7 +4506,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4519,7 +4519,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4532,7 +4532,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4545,7 +4545,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4558,7 +4558,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4571,7 +4571,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4584,7 +4584,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4597,7 +4597,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4610,7 +4610,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4623,7 +4623,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/dragon_warp.create",
+          "source": "gmsv-data/npc/poru/dragon_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4636,7 +4636,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4649,7 +4649,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4662,7 +4662,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4675,7 +4675,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4688,7 +4688,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4701,7 +4701,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4714,7 +4714,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4727,7 +4727,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4740,7 +4740,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4753,7 +4753,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4766,7 +4766,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -4824,7 +4824,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "100-1",
@@ -4885,7 +4885,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1001-2",
@@ -4930,7 +4930,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1002-3",
@@ -4975,7 +4975,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1003-4",
@@ -5012,7 +5012,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1004-5",
@@ -5049,7 +5049,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1005-6",
@@ -5086,7 +5086,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1006-7",
@@ -5123,7 +5123,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1009-8",
@@ -5160,7 +5160,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1020-9",
@@ -5197,7 +5197,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1011-10",
@@ -5226,7 +5226,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1014-11",
@@ -5255,7 +5255,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1012-12",
@@ -5292,7 +5292,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1013-13",
@@ -5321,7 +5321,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -5332,7 +5332,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1001.ls2map",
       "clientMapFile": "/data/client-maps/1001.dat",
       "clientMapSource": "公益石器时代/map/1001.dat",
-      "summary": "萨姆吉尔的武器店 | floor=1001 | 30x30 | ref___data/map/sainasu/samugiru/1001",
+      "summary": "萨姆吉尔的武器店 | floor=1001 | 30x30 | gmsv-data/map/sainasu/samugiru/1001",
       "size": [
         30,
         30
@@ -5353,13 +5353,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1001_17_13",
           "template": "npcgen_shop",
           "graphic": "16017",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1001_17_13",
+            "source": "gmsv-data/npc/genout/ss_1001_17_13",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -5601,13 +5601,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1001_17_15",
           "template": "npcgen_shop",
           "graphic": "16018",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1001_17_15",
+            "source": "gmsv-data/npc/genout/ss_1001_17_15",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -5817,7 +5817,7 @@ export const WORLD = {
             "棍棒",
             "斧头"
           ],
-          "source": "ref___data/npc/sainasu/bukiya.create",
+          "source": "gmsv-data/npc/sainasu/bukiya.create",
           "script": "conff:sainasu/bukiya01.conf",
           "template": "windowman",
           "graphic": "16208"
@@ -5830,7 +5830,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -5843,7 +5843,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -5885,7 +5885,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -5896,7 +5896,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1002.ls2map",
       "clientMapFile": "/data/client-maps/1002.dat",
       "clientMapSource": "公益石器时代/map/1002.dat",
-      "summary": "萨姆吉尔的道具店 | floor=1002 | 30x30 | ref___data/map/sainasu/samugiru/1002",
+      "summary": "萨姆吉尔的道具店 | floor=1002 | 30x30 | gmsv-data/map/sainasu/samugiru/1002",
       "size": [
         30,
         30
@@ -5924,7 +5924,7 @@ export const WORLD = {
             "防御系法术",
             "‘关于法术的基本知识’"
           ],
-          "source": "ref___data/npc/sainasu/jujutu.create",
+          "source": "gmsv-data/npc/sainasu/jujutu.create",
           "script": "conff:sainasu/jujutu01.conf",
           "template": "windowman",
           "graphic": "16201"
@@ -5939,13 +5939,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1002_18_15",
           "template": "npcgen_shop",
           "graphic": "16033",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1002_18_15",
+            "source": "gmsv-data/npc/genout/ss_1002_18_15",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -6120,7 +6120,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6133,7 +6133,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6175,7 +6175,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -6186,7 +6186,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1003.ls2map",
       "clientMapFile": "/data/client-maps/1003.dat",
       "clientMapSource": "公益石器时代/map/1003.dat",
-      "summary": "萨姆吉尔的宠物店|00 | floor=1003 | 30x30 | ref___data/map/sainasu/samugiru/1003",
+      "summary": "萨姆吉尔的宠物店|00 | floor=1003 | 30x30 | gmsv-data/map/sainasu/samugiru/1003",
       "size": [
         30,
         30
@@ -6207,7 +6207,7 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临宠物店。你的宠物要卖还是寄放都可以。"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ps_1003_12_13",
           "template": "npcgen_petshop",
           "graphic": "16038"
@@ -6223,7 +6223,7 @@ export const WORLD = {
             "这个村里的超级饲育员",
             "好了！要教它什么好呢？"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/psks_1003_18_13",
           "template": "npcgen_petskillshop",
           "graphic": "16047"
@@ -6245,7 +6245,7 @@ export const WORLD = {
             "关于普通特技是吗？",
             "普通特技共有下列几种技巧。"
           ],
-          "source": "ref___data/npc/sainasu/wazaya.create",
+          "source": "gmsv-data/npc/sainasu/wazaya.create",
           "script": "conff:sainasu/wazaya01.conf",
           "template": "windowman",
           "graphic": "16209"
@@ -6260,7 +6260,7 @@ export const WORLD = {
           "dialogueLines": [
             "准备好要学技能了吗？"
           ],
-          "source": "ref___data/npc/freeshop/freeshop01.create",
+          "source": "gmsv-data/npc/freeshop/freeshop01.create",
           "script": "file:freeshop/freeshop04.arg",
           "template": "FreePetSkill",
           "graphic": "16096"
@@ -6271,9 +6271,9 @@ export const WORLD = {
           "x": 19,
           "y": 15,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/petmaster",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/petmaster",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/newbie.create",
+          "source": "gmsv-data/npc/sa60/newbie/newbie.create",
           "script": "file:sa60/newbie/petmaster",
           "template": "changeevent",
           "graphic": "16122"
@@ -6286,7 +6286,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100252"
@@ -6299,7 +6299,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100250"
@@ -6310,9 +6310,9 @@ export const WORLD = {
           "x": 16,
           "y": 13,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1003_16_13",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1003_16_13",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_1003_16_13",
           "template": "npcgen_man",
           "graphic": "16016"
@@ -6325,7 +6325,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6338,7 +6338,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6380,7 +6380,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -6391,7 +6391,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1004.ls2map",
       "clientMapFile": "/data/client-maps/1004.dat",
       "clientMapSource": "公益石器时代/map/1004.dat",
-      "summary": "萨姆吉尔的肉店 | floor=1004 | 30x30 | ref___data/map/sainasu/samugiru/1004",
+      "summary": "萨姆吉尔的肉店 | floor=1004 | 30x30 | gmsv-data/map/sainasu/samugiru/1004",
       "size": [
         30,
         30
@@ -6412,13 +6412,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1004_17_13",
           "template": "npcgen_shop",
           "graphic": "16054",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1004_17_13",
+            "source": "gmsv-data/npc/genout/ss_1004_17_13",
             "buyRate": 1,
             "sellRate": 1,
             "buyWords": [
@@ -6502,7 +6502,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6515,7 +6515,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6557,7 +6557,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -6568,7 +6568,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1005.ls2map",
       "clientMapFile": "/data/client-maps/1005.dat",
       "clientMapSource": "公益石器时代/map/1005.dat",
-      "summary": "萨姆吉尔的医院 | floor=1005 | 30x30 | ref___data/map/sainasu/samugiru/1005",
+      "summary": "萨姆吉尔的医院 | floor=1005 | 30x30 | gmsv-data/map/sainasu/samugiru/1005",
       "size": [
         30,
         30
@@ -6589,13 +6589,13 @@ export const WORLD = {
           "dialogueLines": [
             "到了"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1005_14_14",
           "template": "npcgen_shop",
           "graphic": "16023",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1005_14_14",
+            "source": "gmsv-data/npc/genout/ss_1005_14_14",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -6781,9 +6781,9 @@ export const WORLD = {
           "x": 11,
           "y": 13,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1005_11_13",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1005_11_13",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/newdir.create",
+          "source": "gmsv-data/npc/genout/newdir.create",
           "script": "file:genout/msg_1005_11_13",
           "template": "changeevent",
           "graphic": "16024"
@@ -6796,7 +6796,7 @@ export const WORLD = {
           "type": "WindowHealer",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_winhealer",
           "template": "npcgen_winhealer",
           "graphic": "16012"
@@ -6809,7 +6809,7 @@ export const WORLD = {
           "type": "Charm",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_charm",
           "template": "npcgen_charm",
           "graphic": "16065"
@@ -6822,7 +6822,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6835,7 +6835,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -6877,7 +6877,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -6888,7 +6888,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1006.ls2map",
       "clientMapFile": "/data/client-maps/1006.dat",
       "clientMapSource": "公益石器时代/map/1006.dat",
-      "summary": "萨姆吉尔的村长家 | floor=1006 | 30x40 | ref___data/map/sainasu/samugiru/1006",
+      "summary": "萨姆吉尔的村长家 | floor=1006 | 30x40 | gmsv-data/map/sainasu/samugiru/1006",
       "size": [
         30,
         40
@@ -6916,7 +6916,7 @@ export const WORLD = {
             "嗯...普普通通啦！",
             "不好也不坏。"
           ],
-          "source": "ref___data/npc/sainasu/uranai.create",
+          "source": "gmsv-data/npc/sainasu/uranai.create",
           "script": "file:sainasu/uranai",
           "template": "luckyman",
           "graphic": "16021"
@@ -6938,7 +6938,7 @@ export const WORLD = {
             "2",
             "你想了解哪一方面。"
           ],
-          "source": "ref___data/npc/newguest/familyman.create",
+          "source": "gmsv-data/npc/newguest/familyman.create",
           "script": "conff:newguest/familyman.conf",
           "template": "familyman",
           "graphic": "16125"
@@ -6960,7 +6960,7 @@ export const WORLD = {
             "退出或者解散家族",
             "想离开你的族人们了吗？"
           ],
-          "source": "ref___data/npc/family/familyman.create",
+          "source": "gmsv-data/npc/family/familyman.create",
           "script": "conff:family/familyman.conf",
           "template": "familyman",
           "graphic": "16065"
@@ -6982,7 +6982,7 @@ export const WORLD = {
             "关于对战",
             "关于操作吗？"
           ],
-          "source": "ref___data/npc/sainasu/windowman.create",
+          "source": "gmsv-data/npc/sainasu/windowman.create",
           "script": "conff:sainasu/manual.conf",
           "template": "windowman",
           "graphic": "16017"
@@ -7001,7 +7001,7 @@ export const WORLD = {
             "家族个人帐户",
             "家族共同帐户"
           ],
-          "source": "ref___data/npc/family/bankman.create",
+          "source": "gmsv-data/npc/family/bankman.create",
           "script": "conff:family/bankman.conf",
           "template": "bankman",
           "graphic": "16017"
@@ -7012,9 +7012,9 @@ export const WORLD = {
           "x": 18,
           "y": 22,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1006_18_22",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1006_18_22",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_1006_18_22",
           "template": "changeevent",
           "graphic": "16210"
@@ -7025,9 +7025,9 @@ export const WORLD = {
           "x": 16,
           "y": 16,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1006_16_16",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1006_16_16",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_1006_16_16",
           "template": "npcgen_man",
           "graphic": "16054"
@@ -7040,7 +7040,7 @@ export const WORLD = {
           "type": "FmDengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/fmdengon.create",
+          "source": "gmsv-data/npc/family/fmdengon.create",
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
@@ -7053,7 +7053,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -7066,7 +7066,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -7108,7 +7108,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -7119,7 +7119,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1009.ls2map",
       "clientMapFile": "/data/client-maps/1009.dat",
       "clientMapSource": "公益石器时代/map/1009.dat",
-      "summary": "萨姆吉尔的便利商店 | floor=1009 | 40x60 | ref___data/map/sainasu/samugiru/1009",
+      "summary": "萨姆吉尔的便利商店 | floor=1009 | 40x60 | gmsv-data/map/sainasu/samugiru/1009",
       "size": [
         40,
         60
@@ -7140,13 +7140,13 @@ export const WORLD = {
           "dialogueLines": [
             "接任务要先买委托书喔！"
           ],
-          "source": "ref___data/npc/genout/mission.create",
+          "source": "gmsv-data/npc/genout/mission.create",
           "script": "file:genout/ss_1009_20_12",
           "template": "npcgen_shop",
           "graphic": "16201",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1009_20_12",
+            "source": "gmsv-data/npc/genout/ss_1009_20_12",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -7258,7 +7258,7 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎！"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/pis_1009_14_13",
           "template": "npcgen_poolitemshop",
           "graphic": "16055"
@@ -7273,13 +7273,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_15",
           "template": "npcgen_shop",
           "graphic": "16208",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1009_27_15",
+            "source": "gmsv-data/npc/genout/ss_1009_27_15",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -7352,13 +7352,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_17",
           "template": "npcgen_shop",
           "graphic": "16017",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1009_27_17",
+            "source": "gmsv-data/npc/genout/ss_1009_27_17",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -7808,13 +7808,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临。"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_24",
           "template": "npcgen_shop",
           "graphic": "16033",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1009_27_24",
+            "source": "gmsv-data/npc/genout/ss_1009_27_24",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -8264,13 +8264,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临。"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_28",
           "template": "npcgen_shop",
           "graphic": "16206",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1009_27_28",
+            "source": "gmsv-data/npc/genout/ss_1009_27_28",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -8727,7 +8727,7 @@ export const WORLD = {
             "关于加工的方法是这样的…",
             "所谓的装备的加工不是由玩家来进行而是"
           ],
-          "source": "ref___data/npc/jaruga/menu.create",
+          "source": "gmsv-data/npc/jaruga/menu.create",
           "script": "conff:jaruga/gousei.conf",
           "template": "windowman",
           "graphic": "16209"
@@ -8742,13 +8742,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临。"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1009_27_37",
           "template": "npcgen_shop",
           "graphic": "16067",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1009_27_37",
+            "source": "gmsv-data/npc/genout/ss_1009_27_37",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -9194,9 +9194,9 @@ export const WORLD = {
           "x": 18,
           "y": 12,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/M_1000",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/M_1000",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/mission.create",
+          "source": "gmsv-data/npc/extra/event/mission.create",
           "script": "file:extra/event/M_1000",
           "template": "changeevent",
           "graphic": "16200"
@@ -9209,7 +9209,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9222,7 +9222,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9264,7 +9264,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -9275,7 +9275,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1011.ls2map",
       "clientMapFile": "/data/client-maps/1011.dat",
       "clientMapSource": "公益石器时代/map/1011.dat",
-      "summary": "长毛象快递|00畖0 | floor=1011 | 30x30 | ref___data/map/sainasu/samugiru/1011",
+      "summary": "长毛象快递|00畖0 | floor=1011 | 30x30 | gmsv-data/map/sainasu/samugiru/1011",
       "size": [
         30,
         30
@@ -9297,13 +9297,13 @@ export const WORLD = {
             "谢谢！今天是来打工的吗？",
             "还是送东西来的呢？"
           ],
-          "source": "ref___data/npc/genout/unsoya_1.create",
+          "source": "gmsv-data/npc/genout/unsoya_1.create",
           "script": "file:genout/ss_1011_13_13",
           "template": "npcgen_shop",
           "graphic": "16055",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1011_13_13",
+            "source": "gmsv-data/npc/genout/ss_1011_13_13",
             "buyRate": 0.2,
             "sellRate": 2,
             "buyWords": [
@@ -9376,7 +9376,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/unsoya_1.create",
+          "source": "gmsv-data/npc/genout/unsoya_1.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100355"
@@ -9387,9 +9387,9 @@ export const WORLD = {
           "x": 14,
           "y": 17,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1014_14_17",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1014_14_17",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/unsoya_1.create",
+          "source": "gmsv-data/npc/genout/unsoya_1.create",
           "script": "file:genout/msg_1014_14_17",
           "template": "npcgen_warpman",
           "graphic": "16036"
@@ -9400,9 +9400,9 @@ export const WORLD = {
           "x": 14,
           "y": 20,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/worksell_1014.conf",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/worksell_1014.conf",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/newbie2.create",
+          "source": "gmsv-data/npc/sa60/newbie/newbie2.create",
           "script": "file:sa60/newbie/worksell_1014.conf",
           "template": "npcgen_warpman",
           "graphic": "16018"
@@ -9415,7 +9415,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9428,7 +9428,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9470,7 +9470,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -9481,7 +9481,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1012.ls2map",
       "clientMapFile": "/data/client-maps/1012.dat",
       "clientMapSource": "公益石器时代/map/1012.dat",
-      "summary": "聊天室柜台|0喟破饨陓0 | floor=1012 | 30x30 | ref___data/map/sainasu/samugiru/1012",
+      "summary": "聊天室柜台|0喟破饨陓0 | floor=1012 | 30x30 | gmsv-data/map/sainasu/samugiru/1012",
       "size": [
         30,
         30
@@ -9509,7 +9509,7 @@ export const WORLD = {
             "要进入聊天室必需要有门票。",
             "门票要在各个村子交出来。"
           ],
-          "source": "ref___data/npc/chatroom/chatroom.create",
+          "source": "gmsv-data/npc/chatroom/chatroom.create",
           "script": "conff:chatroom/chatroom.conf",
           "template": "windowman",
           "graphic": "16033"
@@ -9520,9 +9520,9 @@ export const WORLD = {
           "x": 18,
           "y": 16,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/ticket1012",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/ticket1012",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/chatroom.create",
+          "source": "gmsv-data/npc/chatroom/chatroom.create",
           "script": "file:chatroom/ticket1012",
           "template": "changeevent",
           "graphic": "16065"
@@ -9533,9 +9533,9 @@ export const WORLD = {
           "x": 14,
           "y": 13,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1012_14_13",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1012_14_13",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/chatroom.create",
+          "source": "gmsv-data/npc/genout/chatroom.create",
           "script": "file:genout/wpm_1012_14_13",
           "template": "npcgen_warpman",
           "graphic": "16202",
@@ -9569,7 +9569,7 @@ export const WORLD = {
             "moneyMessage": "真的是不好意思。",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别 入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_1012_14_13"
+            "source": "gmsv-data/npc/genout/wpm_1012_14_13"
           }
         },
         {
@@ -9580,7 +9580,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9593,7 +9593,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9635,7 +9635,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -9646,7 +9646,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1013.ls2map",
       "clientMapFile": "/data/client-maps/1013.dat",
       "clientMapSource": "公益石器时代/map/1013.dat",
-      "summary": "老爷爷的家 | floor=1013 | 30x30 | ref___data/map/poru/1013",
+      "summary": "老爷爷的家 | floor=1013 | 30x30 | gmsv-data/map/poru/1013",
       "size": [
         30,
         30
@@ -9663,9 +9663,9 @@ export const WORLD = {
           "x": 14,
           "y": 16,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/poru/girl",
+          "dialogue": "脚本入口：gmsv-data/npc/poru/girl",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/samugiru01.create",
+          "source": "gmsv-data/npc/poru/samugiru01.create",
           "script": "file:poru/girl",
           "template": "changeevent",
           "graphic": "16009"
@@ -9678,7 +9678,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/dragon_warp.create",
+          "source": "gmsv-data/npc/poru/dragon_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9691,7 +9691,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/poru/dragon_warp.create",
+          "source": "gmsv-data/npc/poru/dragon_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9733,7 +9733,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -9744,7 +9744,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1014.ls2map",
       "clientMapFile": "/data/client-maps/1014.dat",
       "clientMapSource": "公益石器时代/map/1014.dat",
-      "summary": "长毛象快递|00 | floor=1014 | 30x30 | ref___data/map/sainasu/samugiru/1014",
+      "summary": "长毛象快递|00 | floor=1014 | 30x30 | gmsv-data/map/sainasu/samugiru/1014",
       "size": [
         30,
         30
@@ -9765,13 +9765,13 @@ export const WORLD = {
           "dialogueLines": [
             "谢谢！"
           ],
-          "source": "ref___data/npc/genout/unsoya_1.create",
+          "source": "gmsv-data/npc/genout/unsoya_1.create",
           "script": "file:genout/lbis_1014_13_13",
           "template": "npcgen_limitshop",
           "graphic": "16055",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/lbis_1014_13_13",
+            "source": "gmsv-data/npc/genout/lbis_1014_13_13",
             "buyRate": 1,
             "sellRate": 1.5,
             "buyWords": [
@@ -9851,7 +9851,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/unsoya_1.create",
+          "source": "gmsv-data/npc/genout/unsoya_1.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100355"
@@ -9862,9 +9862,9 @@ export const WORLD = {
           "x": 14,
           "y": 17,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1014_14_17",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1014_14_17",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/unsoya_1.create",
+          "source": "gmsv-data/npc/genout/unsoya_1.create",
           "script": "file:genout/msg_1014_14_17",
           "template": "npcgen_warpman",
           "graphic": "16036"
@@ -9875,9 +9875,9 @@ export const WORLD = {
           "x": 14,
           "y": 20,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/worksell_1014.conf",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/worksell_1014.conf",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/newbie2.create",
+          "source": "gmsv-data/npc/sa60/newbie/newbie2.create",
           "script": "file:sa60/newbie/worksell_1014.conf",
           "template": "npcgen_warpman",
           "graphic": "16018"
@@ -9890,7 +9890,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9903,7 +9903,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -9945,7 +9945,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -9956,7 +9956,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1020.ls2map",
       "clientMapFile": "/data/client-maps/1020.dat",
       "clientMapSource": "公益石器时代/map/1020.dat",
-      "summary": "萨姆吉尔道场柜台 | floor=1020 | 25x25 | ref___data/map/sainasu/samugiru/1020",
+      "summary": "萨姆吉尔道场柜台 | floor=1020 | 25x25 | gmsv-data/map/sainasu/samugiru/1020",
       "size": [
         25,
         25
@@ -9973,9 +9973,9 @@ export const WORLD = {
           "x": 14,
           "y": 9,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1020_14_9",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1020_14_9",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/signb_1020_14_9",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -9986,9 +9986,9 @@ export const WORLD = {
           "x": 18,
           "y": 12,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1020_18_12",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1020_18_12",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/wpm_1020_18_12",
           "template": "npcgen_warpman",
           "graphic": "16065",
@@ -10013,7 +10013,7 @@ export const WORLD = {
             "moneyMessage": "＝＝＝＝＝＝道场的柜台＝＝＝＝＝＝ 对不起，金额不足。 请先存够钱后再入场。",
             "partyMessage": "＝＝＝＝＝＝道场的柜台＝＝＝＝＝＝ 团队的状况下不得入场 请先将团队解散后 一位一位入场",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_1020_18_12"
+            "source": "gmsv-data/npc/genout/wpm_1020_18_12"
           }
         },
         {
@@ -10024,7 +10024,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -10058,7 +10058,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -10069,7 +10069,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1021.ls2map",
       "clientMapFile": "/data/client-maps/1021.dat",
       "clientMapSource": "公益石器时代/map/1021.dat",
-      "summary": "百人联手道场|00 | floor=1021 | 407x144 | ref___data/map/sainasu/samugiru/1021",
+      "summary": "百人联手道场|00 | floor=1021 | 407x144 | gmsv-data/map/sainasu/samugiru/1021",
       "size": [
         407,
         144
@@ -10086,15 +10086,15 @@ export const WORLD = {
           "x": 4,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou100.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou100.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou100.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou100.arg",
+            "source": "gmsv-data/npc/doujyou/samdou100.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10135,15 +10135,15 @@ export const WORLD = {
           "x": 48,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou090.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou090.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou090.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou090.arg",
+            "source": "gmsv-data/npc/doujyou/samdou090.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10184,15 +10184,15 @@ export const WORLD = {
           "x": 92,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou080.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou080.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou080.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou080.arg",
+            "source": "gmsv-data/npc/doujyou/samdou080.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10233,15 +10233,15 @@ export const WORLD = {
           "x": 136,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou070.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou070.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou070.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou070.arg",
+            "source": "gmsv-data/npc/doujyou/samdou070.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10282,15 +10282,15 @@ export const WORLD = {
           "x": 180,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou060.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou060.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou060.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou060.arg",
+            "source": "gmsv-data/npc/doujyou/samdou060.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10331,15 +10331,15 @@ export const WORLD = {
           "x": 224,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou050.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou050.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou050.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou050.arg",
+            "source": "gmsv-data/npc/doujyou/samdou050.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10380,15 +10380,15 @@ export const WORLD = {
           "x": 268,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou040.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou040.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou040.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou040.arg",
+            "source": "gmsv-data/npc/doujyou/samdou040.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10429,15 +10429,15 @@ export const WORLD = {
           "x": 312,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou030.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou030.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou030.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou030.arg",
+            "source": "gmsv-data/npc/doujyou/samdou030.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10478,15 +10478,15 @@ export const WORLD = {
           "x": 356,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou020.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou020.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou020.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou020.arg",
+            "source": "gmsv-data/npc/doujyou/samdou020.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10527,15 +10527,15 @@ export const WORLD = {
           "x": 400,
           "y": 16,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou010.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou010.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou010.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou010.arg",
+            "source": "gmsv-data/npc/doujyou/samdou010.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10576,15 +10576,15 @@ export const WORLD = {
           "x": 4,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou099.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou099.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou099.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou099.arg",
+            "source": "gmsv-data/npc/doujyou/samdou099.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10625,15 +10625,15 @@ export const WORLD = {
           "x": 48,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou089.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou089.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou089.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou089.arg",
+            "source": "gmsv-data/npc/doujyou/samdou089.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10674,15 +10674,15 @@ export const WORLD = {
           "x": 92,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou079.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou079.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou079.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou079.arg",
+            "source": "gmsv-data/npc/doujyou/samdou079.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10723,15 +10723,15 @@ export const WORLD = {
           "x": 136,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou069.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou069.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou069.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou069.arg",
+            "source": "gmsv-data/npc/doujyou/samdou069.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10772,15 +10772,15 @@ export const WORLD = {
           "x": 180,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou059.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou059.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou059.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou059.arg",
+            "source": "gmsv-data/npc/doujyou/samdou059.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10821,15 +10821,15 @@ export const WORLD = {
           "x": 224,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou049.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou049.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou049.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou049.arg",
+            "source": "gmsv-data/npc/doujyou/samdou049.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10870,15 +10870,15 @@ export const WORLD = {
           "x": 268,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou039.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou039.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou039.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou039.arg",
+            "source": "gmsv-data/npc/doujyou/samdou039.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10919,15 +10919,15 @@ export const WORLD = {
           "x": 312,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou029.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou029.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou029.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou029.arg",
+            "source": "gmsv-data/npc/doujyou/samdou029.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -10968,15 +10968,15 @@ export const WORLD = {
           "x": 356,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou019.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou019.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou019.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou019.arg",
+            "source": "gmsv-data/npc/doujyou/samdou019.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11017,15 +11017,15 @@ export const WORLD = {
           "x": 400,
           "y": 28,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou009.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou009.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou009.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou009.arg",
+            "source": "gmsv-data/npc/doujyou/samdou009.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11066,15 +11066,15 @@ export const WORLD = {
           "x": 4,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou098.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou098.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou098.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou098.arg",
+            "source": "gmsv-data/npc/doujyou/samdou098.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11115,15 +11115,15 @@ export const WORLD = {
           "x": 48,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou088.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou088.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou088.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou088.arg",
+            "source": "gmsv-data/npc/doujyou/samdou088.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11164,15 +11164,15 @@ export const WORLD = {
           "x": 92,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou078.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou078.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou078.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou078.arg",
+            "source": "gmsv-data/npc/doujyou/samdou078.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11213,15 +11213,15 @@ export const WORLD = {
           "x": 136,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou068.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou068.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou068.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou068.arg",
+            "source": "gmsv-data/npc/doujyou/samdou068.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11262,15 +11262,15 @@ export const WORLD = {
           "x": 180,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou058.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou058.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou058.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou058.arg",
+            "source": "gmsv-data/npc/doujyou/samdou058.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11311,15 +11311,15 @@ export const WORLD = {
           "x": 224,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou048.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou048.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou048.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou048.arg",
+            "source": "gmsv-data/npc/doujyou/samdou048.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11360,15 +11360,15 @@ export const WORLD = {
           "x": 268,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou038.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou038.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou038.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou038.arg",
+            "source": "gmsv-data/npc/doujyou/samdou038.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11409,15 +11409,15 @@ export const WORLD = {
           "x": 312,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou028.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou028.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou028.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou028.arg",
+            "source": "gmsv-data/npc/doujyou/samdou028.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11458,15 +11458,15 @@ export const WORLD = {
           "x": 356,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou018.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou018.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou018.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou018.arg",
+            "source": "gmsv-data/npc/doujyou/samdou018.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11507,15 +11507,15 @@ export const WORLD = {
           "x": 400,
           "y": 40,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou008.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou008.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou008.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou008.arg",
+            "source": "gmsv-data/npc/doujyou/samdou008.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11556,15 +11556,15 @@ export const WORLD = {
           "x": 4,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou097.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou097.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou097.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou097.arg",
+            "source": "gmsv-data/npc/doujyou/samdou097.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11605,15 +11605,15 @@ export const WORLD = {
           "x": 48,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou087.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou087.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou087.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou087.arg",
+            "source": "gmsv-data/npc/doujyou/samdou087.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11654,15 +11654,15 @@ export const WORLD = {
           "x": 92,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou077.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou077.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou077.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou077.arg",
+            "source": "gmsv-data/npc/doujyou/samdou077.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11703,15 +11703,15 @@ export const WORLD = {
           "x": 136,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou067.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou067.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou067.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou067.arg",
+            "source": "gmsv-data/npc/doujyou/samdou067.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11752,15 +11752,15 @@ export const WORLD = {
           "x": 180,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou057.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou057.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou057.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou057.arg",
+            "source": "gmsv-data/npc/doujyou/samdou057.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11801,15 +11801,15 @@ export const WORLD = {
           "x": 224,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou047.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou047.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou047.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou047.arg",
+            "source": "gmsv-data/npc/doujyou/samdou047.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11850,15 +11850,15 @@ export const WORLD = {
           "x": 268,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou037.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou037.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou037.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou037.arg",
+            "source": "gmsv-data/npc/doujyou/samdou037.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11899,15 +11899,15 @@ export const WORLD = {
           "x": 312,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou027.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou027.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou027.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou027.arg",
+            "source": "gmsv-data/npc/doujyou/samdou027.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11948,15 +11948,15 @@ export const WORLD = {
           "x": 356,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou017.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou017.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou017.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou017.arg",
+            "source": "gmsv-data/npc/doujyou/samdou017.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -11997,15 +11997,15 @@ export const WORLD = {
           "x": 400,
           "y": 52,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou007.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou007.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou007.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou007.arg",
+            "source": "gmsv-data/npc/doujyou/samdou007.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12046,15 +12046,15 @@ export const WORLD = {
           "x": 4,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou096.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou096.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou096.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou096.arg",
+            "source": "gmsv-data/npc/doujyou/samdou096.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12095,15 +12095,15 @@ export const WORLD = {
           "x": 48,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou086.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou086.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou086.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou086.arg",
+            "source": "gmsv-data/npc/doujyou/samdou086.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12144,15 +12144,15 @@ export const WORLD = {
           "x": 92,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou076.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou076.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou076.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou076.arg",
+            "source": "gmsv-data/npc/doujyou/samdou076.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12193,15 +12193,15 @@ export const WORLD = {
           "x": 136,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou066.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou066.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou066.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou066.arg",
+            "source": "gmsv-data/npc/doujyou/samdou066.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12242,15 +12242,15 @@ export const WORLD = {
           "x": 180,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou056.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou056.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou056.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou056.arg",
+            "source": "gmsv-data/npc/doujyou/samdou056.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12291,15 +12291,15 @@ export const WORLD = {
           "x": 224,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou046.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou046.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou046.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou046.arg",
+            "source": "gmsv-data/npc/doujyou/samdou046.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12340,15 +12340,15 @@ export const WORLD = {
           "x": 268,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou036.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou036.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou036.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou036.arg",
+            "source": "gmsv-data/npc/doujyou/samdou036.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12389,15 +12389,15 @@ export const WORLD = {
           "x": 312,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou026.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou026.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou026.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou026.arg",
+            "source": "gmsv-data/npc/doujyou/samdou026.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12438,15 +12438,15 @@ export const WORLD = {
           "x": 356,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou016.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou016.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou016.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou016.arg",
+            "source": "gmsv-data/npc/doujyou/samdou016.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12487,15 +12487,15 @@ export const WORLD = {
           "x": 400,
           "y": 64,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou006.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou006.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou006.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou006.arg",
+            "source": "gmsv-data/npc/doujyou/samdou006.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12536,15 +12536,15 @@ export const WORLD = {
           "x": 4,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou095.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou095.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou095.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou095.arg",
+            "source": "gmsv-data/npc/doujyou/samdou095.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12585,15 +12585,15 @@ export const WORLD = {
           "x": 48,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou085.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou085.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou085.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou085.arg",
+            "source": "gmsv-data/npc/doujyou/samdou085.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12634,15 +12634,15 @@ export const WORLD = {
           "x": 92,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou075.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou075.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou075.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou075.arg",
+            "source": "gmsv-data/npc/doujyou/samdou075.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12683,15 +12683,15 @@ export const WORLD = {
           "x": 136,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou065.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou065.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou065.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou065.arg",
+            "source": "gmsv-data/npc/doujyou/samdou065.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12732,15 +12732,15 @@ export const WORLD = {
           "x": 180,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou055.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou055.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou055.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou055.arg",
+            "source": "gmsv-data/npc/doujyou/samdou055.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12781,15 +12781,15 @@ export const WORLD = {
           "x": 224,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou045.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou045.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou045.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou045.arg",
+            "source": "gmsv-data/npc/doujyou/samdou045.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12830,15 +12830,15 @@ export const WORLD = {
           "x": 268,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou035.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou035.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou035.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou035.arg",
+            "source": "gmsv-data/npc/doujyou/samdou035.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12879,15 +12879,15 @@ export const WORLD = {
           "x": 312,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou025.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou025.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou025.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou025.arg",
+            "source": "gmsv-data/npc/doujyou/samdou025.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12928,15 +12928,15 @@ export const WORLD = {
           "x": 356,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou015.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou015.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou015.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou015.arg",
+            "source": "gmsv-data/npc/doujyou/samdou015.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -12977,15 +12977,15 @@ export const WORLD = {
           "x": 400,
           "y": 76,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou005.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou005.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou005.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou005.arg",
+            "source": "gmsv-data/npc/doujyou/samdou005.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13026,15 +13026,15 @@ export const WORLD = {
           "x": 4,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou094.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou094.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou094.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou094.arg",
+            "source": "gmsv-data/npc/doujyou/samdou094.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13075,15 +13075,15 @@ export const WORLD = {
           "x": 48,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou084.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou084.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou084.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou084.arg",
+            "source": "gmsv-data/npc/doujyou/samdou084.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13124,15 +13124,15 @@ export const WORLD = {
           "x": 92,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou074.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou074.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou074.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou074.arg",
+            "source": "gmsv-data/npc/doujyou/samdou074.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13173,15 +13173,15 @@ export const WORLD = {
           "x": 136,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou064.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou064.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou064.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou064.arg",
+            "source": "gmsv-data/npc/doujyou/samdou064.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13222,15 +13222,15 @@ export const WORLD = {
           "x": 180,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou054.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou054.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou054.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou054.arg",
+            "source": "gmsv-data/npc/doujyou/samdou054.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13271,15 +13271,15 @@ export const WORLD = {
           "x": 224,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou044.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou044.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou044.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou044.arg",
+            "source": "gmsv-data/npc/doujyou/samdou044.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13320,15 +13320,15 @@ export const WORLD = {
           "x": 268,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou034.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou034.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou034.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou034.arg",
+            "source": "gmsv-data/npc/doujyou/samdou034.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13369,15 +13369,15 @@ export const WORLD = {
           "x": 312,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou024.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou024.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou024.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou024.arg",
+            "source": "gmsv-data/npc/doujyou/samdou024.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13418,15 +13418,15 @@ export const WORLD = {
           "x": 356,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou014.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou014.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou014.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou014.arg",
+            "source": "gmsv-data/npc/doujyou/samdou014.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13467,15 +13467,15 @@ export const WORLD = {
           "x": 400,
           "y": 88,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou004.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou004.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou004.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou004.arg",
+            "source": "gmsv-data/npc/doujyou/samdou004.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13516,15 +13516,15 @@ export const WORLD = {
           "x": 4,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou093.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou093.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou093.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou093.arg",
+            "source": "gmsv-data/npc/doujyou/samdou093.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13565,15 +13565,15 @@ export const WORLD = {
           "x": 48,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou083.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou083.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou083.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou083.arg",
+            "source": "gmsv-data/npc/doujyou/samdou083.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13614,15 +13614,15 @@ export const WORLD = {
           "x": 92,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou073.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou073.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou073.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou073.arg",
+            "source": "gmsv-data/npc/doujyou/samdou073.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13663,15 +13663,15 @@ export const WORLD = {
           "x": 136,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou063.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou063.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou063.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou063.arg",
+            "source": "gmsv-data/npc/doujyou/samdou063.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13712,15 +13712,15 @@ export const WORLD = {
           "x": 180,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou053.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou053.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou053.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou053.arg",
+            "source": "gmsv-data/npc/doujyou/samdou053.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13761,15 +13761,15 @@ export const WORLD = {
           "x": 224,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou043.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou043.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou043.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou043.arg",
+            "source": "gmsv-data/npc/doujyou/samdou043.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13810,15 +13810,15 @@ export const WORLD = {
           "x": 268,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou033.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou033.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou033.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou033.arg",
+            "source": "gmsv-data/npc/doujyou/samdou033.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13859,15 +13859,15 @@ export const WORLD = {
           "x": 312,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou023.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou023.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou023.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou023.arg",
+            "source": "gmsv-data/npc/doujyou/samdou023.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13908,15 +13908,15 @@ export const WORLD = {
           "x": 356,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou013.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou013.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou013.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou013.arg",
+            "source": "gmsv-data/npc/doujyou/samdou013.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -13957,15 +13957,15 @@ export const WORLD = {
           "x": 400,
           "y": 100,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou003.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou003.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou003.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou003.arg",
+            "source": "gmsv-data/npc/doujyou/samdou003.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14006,15 +14006,15 @@ export const WORLD = {
           "x": 4,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou092.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou092.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou092.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou092.arg",
+            "source": "gmsv-data/npc/doujyou/samdou092.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14055,15 +14055,15 @@ export const WORLD = {
           "x": 48,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou082.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou082.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou082.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou082.arg",
+            "source": "gmsv-data/npc/doujyou/samdou082.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14104,15 +14104,15 @@ export const WORLD = {
           "x": 92,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou072.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou072.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou072.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou072.arg",
+            "source": "gmsv-data/npc/doujyou/samdou072.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14153,15 +14153,15 @@ export const WORLD = {
           "x": 136,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou062.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou062.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou062.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou062.arg",
+            "source": "gmsv-data/npc/doujyou/samdou062.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14202,15 +14202,15 @@ export const WORLD = {
           "x": 180,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou052.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou052.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou052.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou052.arg",
+            "source": "gmsv-data/npc/doujyou/samdou052.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14251,15 +14251,15 @@ export const WORLD = {
           "x": 224,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou042.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou042.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou042.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou042.arg",
+            "source": "gmsv-data/npc/doujyou/samdou042.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14300,15 +14300,15 @@ export const WORLD = {
           "x": 268,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou032.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou032.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou032.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou032.arg",
+            "source": "gmsv-data/npc/doujyou/samdou032.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14349,15 +14349,15 @@ export const WORLD = {
           "x": 312,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou022.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou022.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou022.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou022.arg",
+            "source": "gmsv-data/npc/doujyou/samdou022.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14398,15 +14398,15 @@ export const WORLD = {
           "x": 356,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou012.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou012.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou012.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou012.arg",
+            "source": "gmsv-data/npc/doujyou/samdou012.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14447,15 +14447,15 @@ export const WORLD = {
           "x": 400,
           "y": 112,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou002.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou002.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou002.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou002.arg",
+            "source": "gmsv-data/npc/doujyou/samdou002.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14496,15 +14496,15 @@ export const WORLD = {
           "x": 4,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou091.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou091.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou091.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou091.arg",
+            "source": "gmsv-data/npc/doujyou/samdou091.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14545,15 +14545,15 @@ export const WORLD = {
           "x": 48,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou081.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou081.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou081.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou081.arg",
+            "source": "gmsv-data/npc/doujyou/samdou081.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14594,15 +14594,15 @@ export const WORLD = {
           "x": 92,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou071.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou071.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou071.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou071.arg",
+            "source": "gmsv-data/npc/doujyou/samdou071.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14643,15 +14643,15 @@ export const WORLD = {
           "x": 136,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou061.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou061.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou061.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou061.arg",
+            "source": "gmsv-data/npc/doujyou/samdou061.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14692,15 +14692,15 @@ export const WORLD = {
           "x": 180,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou051.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou051.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou051.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou051.arg",
+            "source": "gmsv-data/npc/doujyou/samdou051.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14741,15 +14741,15 @@ export const WORLD = {
           "x": 224,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou041.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou041.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou041.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou041.arg",
+            "source": "gmsv-data/npc/doujyou/samdou041.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14790,15 +14790,15 @@ export const WORLD = {
           "x": 268,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou031.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou031.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou031.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou031.arg",
+            "source": "gmsv-data/npc/doujyou/samdou031.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14839,15 +14839,15 @@ export const WORLD = {
           "x": 312,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou021.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou021.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou021.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou021.arg",
+            "source": "gmsv-data/npc/doujyou/samdou021.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14888,15 +14888,15 @@ export const WORLD = {
           "x": 356,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou011.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou011.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou011.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou011.arg",
+            "source": "gmsv-data/npc/doujyou/samdou011.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14937,15 +14937,15 @@ export const WORLD = {
           "x": 400,
           "y": 124,
           "type": "NPCEnemy",
-          "dialogue": "脚本入口：ref___data/npc/doujyou/samdou001.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/doujyou/samdou001.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou001.arg",
           "template": "sb_dou",
           "graphic": "100091",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/doujyou/samdou001.arg",
+            "source": "gmsv-data/npc/doujyou/samdou001.arg",
             "entype": 2,
             "enemyNos": [
               564,
@@ -14988,7 +14988,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15001,7 +15001,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15014,7 +15014,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15027,7 +15027,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15040,7 +15040,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15053,7 +15053,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15066,7 +15066,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15079,7 +15079,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15092,7 +15092,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15105,7 +15105,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15118,7 +15118,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15131,7 +15131,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15144,7 +15144,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15157,7 +15157,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15170,7 +15170,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15183,7 +15183,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15196,7 +15196,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15209,7 +15209,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15222,7 +15222,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15235,7 +15235,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/doujyou/samdou.create",
+          "source": "gmsv-data/npc/doujyou/samdou.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": "0"
@@ -15250,7 +15250,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1040.ls2map",
       "clientMapFile": "/data/client-maps/1040.dat",
       "clientMapSource": "公益石器时代/map/1040.dat",
-      "summary": "萨姆吉尔庄园 | floor=1040 | 80x80 | ref___data/map/family/100/1040",
+      "summary": "萨姆吉尔庄园 | floor=1040 | 80x80 | gmsv-data/map/family/100/1040",
       "size": [
         80,
         80
@@ -15271,13 +15271,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/family/npc/familyshop1.create",
+          "source": "gmsv-data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/shop1_5",
           "template": "npcgen_shop",
           "graphic": "16036",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/family/npc/shop1_5",
+            "source": "gmsv-data/npc/family/npc/shop1_5",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -15326,7 +15326,7 @@ export const WORLD = {
             "你要参加那一种课程呢？",
             "初级班 (能骑乘 Lv40 以下的宠物)"
           ],
-          "source": "ref___data/npc/family/riderman.create",
+          "source": "gmsv-data/npc/family/riderman.create",
           "script": "conff:family/riderman.conf",
           "template": "riderman",
           "graphic": "16017"
@@ -15337,9 +15337,9 @@ export const WORLD = {
           "x": 48,
           "y": 25,
           "type": "FMPKCallMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1040_48_25",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1040_48_25",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_1040_48_25",
           "template": "npcgen_fmpkcallman",
           "graphic": "16206",
@@ -15361,7 +15361,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_1040_48_25"
+            "source": "gmsv-data/npc/genout/wpm_1040_48_25"
           }
         },
         {
@@ -15370,9 +15370,9 @@ export const WORLD = {
           "x": 47,
           "y": 29,
           "type": "ManorSman",
-          "dialogue": "脚本入口：ref___data/npc/family/manorsman.arg1",
+          "dialogue": "脚本入口：gmsv-data/npc/family/manorsman.arg1",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/scheduleman.create",
+          "source": "gmsv-data/npc/family/scheduleman.create",
           "script": "file:family/manorsman.arg1",
           "template": "manorsman",
           "graphic": "16061"
@@ -15383,9 +15383,9 @@ export const WORLD = {
           "x": 28,
           "y": 43,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1040_28_43",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1040_28_43",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/signb_1040_28_43",
           "template": "npcgen_signboard",
           "graphic": "10060"
@@ -15396,9 +15396,9 @@ export const WORLD = {
           "x": 23,
           "y": 20,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/eden3/rider.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/eden3/rider.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/eden3/rider.create",
+          "source": "gmsv-data/npc/eden3/rider.create",
           "script": "file:eden3/rider.arg",
           "template": "npcgen_warpman",
           "graphic": "100374"
@@ -15409,9 +15409,9 @@ export const WORLD = {
           "x": 47,
           "y": 23,
           "type": "FMWarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1040_47_23",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1040_47_23",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_1040_47_23",
           "template": "npcgen_fmwarpman",
           "graphic": "16203"
@@ -15422,9 +15422,9 @@ export const WORLD = {
           "x": 28,
           "y": 32,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm1_2",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm1_2",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop1.create",
+          "source": "gmsv-data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_2",
           "template": "npcgen_warpman",
           "graphic": "16128",
@@ -15446,7 +15446,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm1_2"
+            "source": "gmsv-data/npc/family/npc/wpm1_2"
           }
         },
         {
@@ -15455,9 +15455,9 @@ export const WORLD = {
           "x": 59,
           "y": 37,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm1_1",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm1_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop1.create",
+          "source": "gmsv-data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_1",
           "template": "npcgen_warpman",
           "graphic": "16207",
@@ -15479,7 +15479,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm1_1"
+            "source": "gmsv-data/npc/family/npc/wpm1_1"
           }
         },
         {
@@ -15488,9 +15488,9 @@ export const WORLD = {
           "x": 61,
           "y": 43,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/m_tiger",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/m_tiger",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/tiger.create",
+          "source": "gmsv-data/npc/sa60/newbie/tiger.create",
           "script": "file:sa60/newbie/m_tiger",
           "template": "npcgen_warpman",
           "graphic": "16354"
@@ -15501,9 +15501,9 @@ export const WORLD = {
           "x": 25,
           "y": 53,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm1_4",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm1_4",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop1.create",
+          "source": "gmsv-data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_4",
           "template": "npcgen_warpman",
           "graphic": "16127",
@@ -15525,7 +15525,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm1_4"
+            "source": "gmsv-data/npc/family/npc/wpm1_4"
           }
         },
         {
@@ -15534,9 +15534,9 @@ export const WORLD = {
           "x": 35,
           "y": 58,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm1_3",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm1_3",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop1.create",
+          "source": "gmsv-data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/wpm1_3",
           "template": "npcgen_warpman",
           "graphic": "16120",
@@ -15558,7 +15558,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm1_3"
+            "source": "gmsv-data/npc/family/npc/wpm1_3"
           }
         },
         {
@@ -15569,7 +15569,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15582,7 +15582,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15595,7 +15595,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15608,7 +15608,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15621,7 +15621,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15634,7 +15634,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15647,7 +15647,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15660,7 +15660,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15673,7 +15673,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15739,7 +15739,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1043-1",
@@ -15776,7 +15776,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "1048-2",
@@ -15813,7 +15813,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -15824,7 +15824,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1043.ls2map",
       "clientMapFile": "/data/client-maps/1043.dat",
       "clientMapSource": "公益石器时代/map/1043.dat",
-      "summary": "萨姆吉尔庄园聊天柜台 | floor=1043 | 12x12 | ref___data/map/family/100/1043",
+      "summary": "萨姆吉尔庄园聊天柜台 | floor=1043 | 12x12 | gmsv-data/map/family/100/1043",
       "size": [
         12,
         12
@@ -15841,9 +15841,9 @@ export const WORLD = {
           "x": 4,
           "y": 3,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1043_4_3",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1043_4_3",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_1043_4_3",
           "template": "npcgen_warpman",
           "graphic": "16203",
@@ -15867,7 +15867,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_1043_4_3"
+            "source": "gmsv-data/npc/genout/wpm_1043_4_3"
           }
         },
         {
@@ -15878,7 +15878,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15891,7 +15891,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -15933,7 +15933,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -15944,7 +15944,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1048.ls2map",
       "clientMapFile": "/data/client-maps/1048.dat",
       "clientMapSource": "公益石器时代/map/1048.dat",
-      "summary": "庄园素材贩售店|0 | floor=1048 | 12x12 | ref___data/map/family/100/1048",
+      "summary": "庄园素材贩售店|0 | floor=1048 | 12x12 | gmsv-data/map/family/100/1048",
       "size": [
         12,
         12
@@ -15965,13 +15965,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/family/npc/familyshop1.create",
+          "source": "gmsv-data/npc/family/npc/familyshop1.create",
           "script": "file:family/npc/shop1_2",
           "template": "npcgen_shop",
           "graphic": "16033",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/family/npc/shop1_2",
+            "source": "gmsv-data/npc/family/npc/shop1_2",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -16024,7 +16024,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16037,7 +16037,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16079,7 +16079,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -16090,7 +16090,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1100.ls2map",
       "clientMapFile": "/data/client-maps/1100.dat",
       "clientMapSource": "公益石器时代/map/1100.dat",
-      "summary": "柯奥村� | floor=1100 | 130x150 | ref___data/map/sainasu/kuo/kuomura",
+      "summary": "柯奥村� | floor=1100 | 130x150 | gmsv-data/map/sainasu/kuo/kuomura",
       "size": [
         130,
         150
@@ -16111,13 +16111,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1100_59_49",
           "template": "npcgen_shop",
           "graphic": "16068",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1100_59_49",
+            "source": "gmsv-data/npc/genout/ss_1100_59_49",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -16229,13 +16229,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1100_86_107",
           "template": "npcgen_shop",
           "graphic": "16018",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1100_86_107",
+            "source": "gmsv-data/npc/genout/ss_1100_86_107",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -16283,13 +16283,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality4.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality4.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality4.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -16316,13 +16316,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality11.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality11.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality11.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -16344,9 +16344,9 @@ export const WORLD = {
           "x": 44,
           "y": 31,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/risk/risk1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/risk/risk1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/risk/risk.create",
+          "source": "gmsv-data/npc/sa70/risk/risk.create",
           "script": "file:sa70/risk/risk1.arg",
           "template": "changeevent",
           "graphic": "16092"
@@ -16357,9 +16357,9 @@ export const WORLD = {
           "x": 78,
           "y": 55,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/gift/gift1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/gift/gift1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/gift/gift.create",
+          "source": "gmsv-data/npc/sa60/gift/gift.create",
           "script": "file:sa60/gift/gift1.arg",
           "template": "changeevent",
           "graphic": "16030"
@@ -16370,9 +16370,9 @@ export const WORLD = {
           "x": 98,
           "y": 76,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_2c",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_2c",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_2c",
           "template": "changeevent",
           "graphic": "16067"
@@ -16383,9 +16383,9 @@ export const WORLD = {
           "x": 50,
           "y": 91,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_1100_50_91",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_1100_50_91",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_1100_50_91",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -16396,9 +16396,9 @@ export const WORLD = {
           "x": 86,
           "y": 99,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event13_2",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event13_2",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event13n.create",
+          "source": "gmsv-data/npc/sainasu/event/event13n.create",
           "script": "file:sainasu/event/event13_2",
           "template": "changeevent",
           "graphic": "16048"
@@ -16409,9 +16409,9 @@ export const WORLD = {
           "x": 68,
           "y": 36,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_68_36",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_68_36",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_68_36",
           "template": "npcgen_man",
           "graphic": "16030"
@@ -16422,9 +16422,9 @@ export const WORLD = {
           "x": 50,
           "y": 51,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_50_51",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_50_51",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_50_51",
           "template": "npcgen_man",
           "graphic": "16001"
@@ -16435,9 +16435,9 @@ export const WORLD = {
           "x": 79,
           "y": 56,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_79_56",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_79_56",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_79_56",
           "template": "npcgen_man",
           "graphic": "16033"
@@ -16448,9 +16448,9 @@ export const WORLD = {
           "x": 97,
           "y": 62,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_97_62",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_97_62",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_97_62",
           "template": "npcgen_man",
           "graphic": "16202"
@@ -16461,9 +16461,9 @@ export const WORLD = {
           "x": 99,
           "y": 77,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1100_99_77",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1100_99_77",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_1100_99_77",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -16476,7 +16476,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
@@ -16487,9 +16487,9 @@ export const WORLD = {
           "x": 53,
           "y": 95,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_53_95",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_53_95",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_53_95",
           "template": "npcgen_man",
           "graphic": "16204"
@@ -16500,9 +16500,9 @@ export const WORLD = {
           "x": 56,
           "y": 95,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_56_95",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_56_95",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_56_95",
           "template": "npcgen_man",
           "graphic": "16204"
@@ -16515,7 +16515,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "100252"
@@ -16526,9 +16526,9 @@ export const WORLD = {
           "x": 66,
           "y": 108,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_66_108",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_66_108",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_66_108",
           "template": "npcgen_man",
           "graphic": "16056"
@@ -16539,9 +16539,9 @@ export const WORLD = {
           "x": 56,
           "y": 111,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1100_56_111",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1100_56_111",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1100npc_m.create",
+          "source": "gmsv-data/npc/genout/1100npc_m.create",
           "script": "file:genout/msg_1100_56_111",
           "template": "npcgen_man",
           "graphic": "16036"
@@ -16554,7 +16554,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16567,7 +16567,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16580,7 +16580,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16593,7 +16593,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16606,7 +16606,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16619,7 +16619,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16632,7 +16632,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16645,7 +16645,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16658,7 +16658,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16671,7 +16671,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16684,7 +16684,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16697,7 +16697,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16710,7 +16710,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16723,7 +16723,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16736,7 +16736,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16749,7 +16749,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16762,7 +16762,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16775,7 +16775,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16788,7 +16788,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -16854,7 +16854,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -16865,7 +16865,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1300.ls2map",
       "clientMapFile": "/data/client-maps/1300.dat",
       "clientMapSource": "公益石器时代/map/1300.dat",
-      "summary": "霍特尔村� | floor=1300 | 100x100 | ref___data/map/sainasu/hotoru/hotoru",
+      "summary": "霍特尔村� | floor=1300 | 100x100 | gmsv-data/map/sainasu/hotoru/hotoru",
       "size": [
         100,
         100
@@ -16887,7 +16887,7 @@ export const WORLD = {
             "阳光太强对肌肤不好。所以我才躲在树下。",
             "这的岛的南边好像有迷宫哦。"
           ],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/tman_1300_37_26",
           "template": "npcgen_timeman",
           "graphic": "16033"
@@ -16903,7 +16903,7 @@ export const WORLD = {
             "阳光太强对肌肤不好。所以我才躲在树下。",
             "这的岛的南边好像有迷宫哦。"
           ],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/tman_1300_37_26",
           "template": "npcgen_timeman",
           "graphic": "16033"
@@ -16918,13 +16918,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_1300_56_55",
           "template": "npcgen_shop",
           "graphic": "16067",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1300_56_55",
+            "source": "gmsv-data/npc/genout/ss_1300_56_55",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -17024,13 +17024,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality3.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality3.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality3.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -17057,13 +17057,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality9.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality9.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality9.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -17085,9 +17085,9 @@ export const WORLD = {
           "x": 29,
           "y": 23,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_1300_29_23",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_1300_29_23",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_1300_29_23",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -17098,9 +17098,9 @@ export const WORLD = {
           "x": 65,
           "y": 26,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_9c",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_9c",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_9c",
           "template": "changeevent",
           "graphic": "16068"
@@ -17111,9 +17111,9 @@ export const WORLD = {
           "x": 18,
           "y": 42,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event03_1",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event03_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event03.create",
+          "source": "gmsv-data/npc/sainasu/event/event03.create",
           "script": "file:sainasu/event/event03_1",
           "template": "changeevent",
           "graphic": "16048"
@@ -17124,9 +17124,9 @@ export const WORLD = {
           "x": 62,
           "y": 44,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/romance/romance1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/romance/romance1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/romance/romance.create",
+          "source": "gmsv-data/npc/sa70/romance/romance.create",
           "script": "file:sa70/romance/romance1.arg",
           "template": "changeevent",
           "graphic": "16048"
@@ -17137,9 +17137,9 @@ export const WORLD = {
           "x": 70,
           "y": 51,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/extra/event/marju",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju",
           "dialogueLines": [],
-          "source": "ref___data/npc/extra/event/marju.create",
+          "source": "gmsv-data/npc/extra/event/marju.create",
           "script": "file:extra/event/marju",
           "template": "changeevent",
           "graphic": "16046"
@@ -17150,9 +17150,9 @@ export const WORLD = {
           "x": 65,
           "y": 65,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event10",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event10",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event09-12.create",
+          "source": "gmsv-data/npc/sainasu/event/event09-12.create",
           "script": "file:sainasu/event/event10",
           "template": "changeevent",
           "graphic": "16206"
@@ -17163,9 +17163,9 @@ export const WORLD = {
           "x": 66,
           "y": 26,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1300_66_26",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1300_66_26",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_1300_66_26",
           "template": "npcgen_signboard",
           "graphic": "10063"
@@ -17176,9 +17176,9 @@ export const WORLD = {
           "x": 51,
           "y": 27,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_51_27",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_51_27",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_51_27",
           "template": "npcgen_man",
           "graphic": "16203"
@@ -17189,9 +17189,9 @@ export const WORLD = {
           "x": 54,
           "y": 27,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_54_27",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_54_27",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_54_27",
           "template": "npcgen_man",
           "graphic": "16202"
@@ -17202,9 +17202,9 @@ export const WORLD = {
           "x": 67,
           "y": 28,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_67_28",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_67_28",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_67_28",
           "template": "npcgen_man",
           "graphic": "16046"
@@ -17215,9 +17215,9 @@ export const WORLD = {
           "x": 25,
           "y": 50,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_25_50",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_25_50",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_25_50",
           "template": "npcgen_man",
           "graphic": "16049"
@@ -17230,7 +17230,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10063"
@@ -17241,9 +17241,9 @@ export const WORLD = {
           "x": 70,
           "y": 51,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_70_51",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_70_51",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_70_51",
           "template": "npcgen_man",
           "graphic": "16046"
@@ -17254,9 +17254,9 @@ export const WORLD = {
           "x": 29,
           "y": 57,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_29_57",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_29_57",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_29_57",
           "template": "npcgen_man",
           "graphic": "16065"
@@ -17267,9 +17267,9 @@ export const WORLD = {
           "x": 35,
           "y": 60,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_35_60",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_35_60",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_35_60",
           "template": "npcgen_man",
           "graphic": "16018"
@@ -17280,9 +17280,9 @@ export const WORLD = {
           "x": 38,
           "y": 68,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1300_38_68",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1300_38_68",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_38_68",
           "template": "npcgen_man",
           "graphic": "16049"
@@ -17295,7 +17295,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：file:genout/msg_1300_40_69",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_40_69",
           "template": "npcgen_man",
           "graphic": "16046"
@@ -17308,7 +17308,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：file:genout/msg_1300_40_71",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1300npc_m.create",
+          "source": "gmsv-data/npc/genout/1300npc_m.create",
           "script": "file:genout/msg_1300_40_71",
           "template": "npcgen_man",
           "graphic": "16033"
@@ -17321,7 +17321,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17334,7 +17334,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17347,7 +17347,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17360,7 +17360,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17373,7 +17373,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17386,7 +17386,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17399,7 +17399,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17412,7 +17412,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17425,7 +17425,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17438,7 +17438,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17451,7 +17451,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17464,7 +17464,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17477,7 +17477,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17490,7 +17490,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17503,7 +17503,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17516,7 +17516,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17529,7 +17529,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17542,7 +17542,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17555,7 +17555,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17568,7 +17568,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17581,7 +17581,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17594,7 +17594,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17607,7 +17607,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -17697,7 +17697,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -17708,7 +17708,7 @@ export const WORLD = {
       "mapFile": "/data/maps/1400.ls2map",
       "clientMapFile": "/data/client-maps/1400.dat",
       "clientMapSource": "公益石器时代/map/1400.dat",
-      "summary": "卡坦村温� | floor=1400 | 150x150 | ref___data/map/sainasu/katan/katan",
+      "summary": "卡坦村温� | floor=1400 | 150x150 | gmsv-data/map/sainasu/katan/katan",
       "size": [
         150,
         150
@@ -17729,13 +17729,13 @@ export const WORLD = {
           "dialogueLines": [
             "我有卖很神奇的东西喔！"
           ],
-          "source": "ref___data/npc/genout/shop_nuke1.create",
+          "source": "gmsv-data/npc/genout/shop_nuke1.create",
           "script": "file:genout/ss_1400_75_102",
           "template": "npcgen_shop",
           "graphic": "16067",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_1400_75_102",
+            "source": "gmsv-data/npc/genout/ss_1400_75_102",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -17783,13 +17783,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality10.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality10.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality10.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -17816,13 +17816,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality5.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality5.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality5.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -17844,9 +17844,9 @@ export const WORLD = {
           "x": 94,
           "y": 73,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/true/true1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/true/true1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/true/true.create",
+          "source": "gmsv-data/npc/sa70/true/true.create",
           "script": "file:sa70/true/true1.arg",
           "template": "changeevent",
           "graphic": "16047"
@@ -17857,9 +17857,9 @@ export const WORLD = {
           "x": 71,
           "y": 76,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event11",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event11",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event09-12.create",
+          "source": "gmsv-data/npc/sainasu/event/event09-12.create",
           "script": "file:sainasu/event/event11",
           "template": "changeevent",
           "graphic": "16203"
@@ -17870,9 +17870,9 @@ export const WORLD = {
           "x": 95,
           "y": 81,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/gift/gift2.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/gift/gift2.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/gift/gift.create",
+          "source": "gmsv-data/npc/sa60/gift/gift.create",
           "script": "file:sa60/gift/gift2.arg",
           "template": "changeevent",
           "graphic": "16049"
@@ -17883,9 +17883,9 @@ export const WORLD = {
           "x": 110,
           "y": 81,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_12c",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_12c",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_12c",
           "template": "changeevent",
           "graphic": "16067"
@@ -17896,9 +17896,9 @@ export const WORLD = {
           "x": 69,
           "y": 89,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event03_2",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event03_2",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event03.create",
+          "source": "gmsv-data/npc/sainasu/event/event03.create",
           "script": "file:sainasu/event/event03_2",
           "template": "changeevent",
           "graphic": "16057"
@@ -17909,9 +17909,9 @@ export const WORLD = {
           "x": 76,
           "y": 104,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_1400_76_104",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_1400_76_104",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_1400_76_104",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -17922,9 +17922,9 @@ export const WORLD = {
           "x": 98,
           "y": 104,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/desert/desert1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/desert/desert1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/desert/desert.create",
+          "source": "gmsv-data/npc/sa60/desert/desert.create",
           "script": "file:sa60/desert/desert1.arg",
           "template": "changeevent",
           "graphic": "16103"
@@ -17935,9 +17935,9 @@ export const WORLD = {
           "x": 78,
           "y": 70,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1400_78_70",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1400_78_70",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/signb_1400_78_70",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -17948,9 +17948,9 @@ export const WORLD = {
           "x": 81,
           "y": 71,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_81_71",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_81_71",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_81_71",
           "template": "npcgen_man",
           "graphic": "16046"
@@ -17961,9 +17961,9 @@ export const WORLD = {
           "x": 110,
           "y": 82,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_1400_110_82",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_1400_110_82",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_1400_110_82",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -17976,7 +17976,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：file:genout/msg_1400_78_85",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_78_85",
           "template": "npcgen_man",
           "graphic": "16007"
@@ -17987,9 +17987,9 @@ export const WORLD = {
           "x": 80,
           "y": 87,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_80_87",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_80_87",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_80_87",
           "template": "npcgen_man",
           "graphic": "16010"
@@ -18002,7 +18002,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：file:genout/msg_1400_81_93",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_81_93",
           "template": "npcgen_man",
           "graphic": "16017"
@@ -18013,9 +18013,9 @@ export const WORLD = {
           "x": 68,
           "y": 96,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_68_96",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_68_96",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_68_96",
           "template": "npcgen_man",
           "graphic": "16037"
@@ -18028,7 +18028,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
@@ -18039,9 +18039,9 @@ export const WORLD = {
           "x": 69,
           "y": 99,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_69_99",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_69_99",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_69_99",
           "template": "npcgen_man",
           "graphic": "16049"
@@ -18052,9 +18052,9 @@ export const WORLD = {
           "x": 70,
           "y": 100,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_70_100",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_70_100",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_70_100",
           "template": "npcgen_man",
           "graphic": "16046"
@@ -18065,9 +18065,9 @@ export const WORLD = {
           "x": 70,
           "y": 108,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_70_108",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_70_108",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_70_108",
           "template": "npcgen_man",
           "graphic": "16047"
@@ -18078,9 +18078,9 @@ export const WORLD = {
           "x": 74,
           "y": 109,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_74_109",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_74_109",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_74_109",
           "template": "npcgen_man",
           "graphic": "16045"
@@ -18091,9 +18091,9 @@ export const WORLD = {
           "x": 75,
           "y": 112,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1400_75_112",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1400_75_112",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/msg_1400_75_112",
           "template": "npcgen_man",
           "graphic": "16033"
@@ -18104,9 +18104,9 @@ export const WORLD = {
           "x": 100,
           "y": 97,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_1400_100_97",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_1400_100_97",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1400npc_m.create",
+          "source": "gmsv-data/npc/genout/1400npc_m.create",
           "script": "file:genout/wpm_1400_100_97",
           "template": "npcgen_warpman",
           "graphic": "16209",
@@ -18130,7 +18130,7 @@ export const WORLD = {
             "moneyMessage": "＝＝＝＝＝＝ 水井的看守 ＝＝＝＝＝＝ 你还不够资格进入这里 再回去多锻炼，下回再来！",
             "partyMessage": "＝＝＝＝＝＝ 水井的看守 ＝＝＝＝＝＝ 无法参加宴会",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_1400_100_97"
+            "source": "gmsv-data/npc/genout/wpm_1400_100_97"
           }
         },
         {
@@ -18141,7 +18141,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18154,7 +18154,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18167,7 +18167,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18180,7 +18180,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18193,7 +18193,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18206,7 +18206,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18219,7 +18219,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18232,7 +18232,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18245,7 +18245,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18258,7 +18258,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18271,7 +18271,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18284,7 +18284,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18297,7 +18297,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18310,7 +18310,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18323,7 +18323,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18336,7 +18336,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -18386,7 +18386,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -18397,7 +18397,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2000.ls2map",
       "clientMapFile": "/data/client-maps/2000.dat",
       "clientMapSource": "公益石器时代/map/2000.dat",
-      "summary": "玛丽娜丝渔村 | floor=2000 | 150x150 | ref___data/map/sainasu/marinasu/marinasu",
+      "summary": "玛丽娜丝渔村 | floor=2000 | 150x150 | gmsv-data/map/sainasu/marinasu/marinasu",
       "size": [
         150,
         150
@@ -18420,13 +18420,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/my/ruieryasi/rui_shop.create",
+          "source": "gmsv-data/npc/my/ruieryasi/rui_shop.create",
           "script": "file:my/ruieryasi/weapon2shop.arg",
           "template": "npcgen_shop",
           "graphic": "16990",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/my/ruieryasi/weapon2shop.arg",
+            "source": "gmsv-data/npc/my/ruieryasi/weapon2shop.arg",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -18611,13 +18611,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/my/ruieryasi/rui_shop.create",
+          "source": "gmsv-data/npc/my/ruieryasi/rui_shop.create",
           "script": "file:my/ruieryasi/weapon1shop.arg",
           "template": "npcgen_shop",
           "graphic": "17072",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/my/ruieryasi/weapon1shop.arg",
+            "source": "gmsv-data/npc/my/ruieryasi/weapon1shop.arg",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -18750,7 +18750,7 @@ export const WORLD = {
           "dialogueLines": [
             "准备好要学技能了吗？"
           ],
-          "source": "ref___data/npc/freeshop/freeshop01.create",
+          "source": "gmsv-data/npc/freeshop/freeshop01.create",
           "script": "file:freeshop/freeshop05.arg",
           "template": "FreePetSkill",
           "graphic": "16096"
@@ -18765,13 +18765,13 @@ export const WORLD = {
           "dialogueLines": [
             "我有卖很神奇的东西喔！"
           ],
-          "source": "ref___data/npc/genout/shop_nuke1.create",
+          "source": "gmsv-data/npc/genout/shop_nuke1.create",
           "script": "file:genout/ss_2000_67_62",
           "template": "npcgen_shop",
           "graphic": "16300",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_2000_67_62",
+            "source": "gmsv-data/npc/genout/ss_2000_67_62",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -18857,13 +18857,13 @@ export const WORLD = {
           "dialogueLines": [
             "PK道具，恶魔宝石。"
           ],
-          "source": "ref___data/npc/scipt_plus/test2nd/test2nd.create",
+          "source": "gmsv-data/npc/scipt_plus/test2nd/test2nd.create",
           "script": "file:scipt_plus/test2nd/c_can_mm",
           "template": "npcgen_shop",
           "graphic": "16191",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/scipt_plus/test2nd/c_can_mm",
+            "source": "gmsv-data/npc/scipt_plus/test2nd/c_can_mm",
             "buyRate": 24,
             "sellRate": 0.8,
             "buyWords": [
@@ -19041,13 +19041,13 @@ export const WORLD = {
           "dialogueLines": [
             "出售各种羽毛。"
           ],
-          "source": "ref___data/npc/scipt_plus/test2nd/test2nd.create",
+          "source": "gmsv-data/npc/scipt_plus/test2nd/test2nd.create",
           "script": "file:scipt_plus/test2nd/item",
           "template": "npcgen_shop",
           "graphic": "16191",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/scipt_plus/test2nd/item",
+            "source": "gmsv-data/npc/scipt_plus/test2nd/item",
             "buyRate": 6,
             "sellRate": 0.8,
             "buyWords": [
@@ -19303,7 +19303,7 @@ export const WORLD = {
           "dialogueLines": [
             "一到晚上就回家的也大有人在。"
           ],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/tman_2000_81_85",
           "template": "npcgen_timeman",
           "graphic": "16016"
@@ -19319,7 +19319,7 @@ export const WORLD = {
             "一到黑夜就变得跟白天判若两人的人也是不少，真可怕！当然一到晚上就回家的也大有人在。",
             "最近一位叫里奥的，喜欢玩躲迷藏的小男孩很有名哦。"
           ],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/tman_2000_79_89",
           "template": "npcgen_timeman",
           "graphic": "16033"
@@ -19335,7 +19335,7 @@ export const WORLD = {
             "啊～真是太忙碌了…那些小鬼头不知跑到那儿去玩了。",
             "天气很晴朗衣服一定很快就晒干了。"
           ],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/tman_2000_80_97",
           "template": "npcgen_timeman",
           "graphic": "16021"
@@ -19350,13 +19350,13 @@ export const WORLD = {
           "dialogueLines": [
             "好吧，我是走私的。"
           ],
-          "source": "ref___data/npc/scipt_plus/postman/postmanl.create",
+          "source": "gmsv-data/npc/scipt_plus/postman/postmanl.create",
           "script": "file:scipt_plus/postman/sell_at_2000",
           "template": "npcgen_shop",
           "graphic": "16024",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/scipt_plus/postman/sell_at_2000",
+            "source": "gmsv-data/npc/scipt_plus/postman/sell_at_2000",
             "buyRate": 1.334,
             "sellRate": 0.8,
             "buyWords": [
@@ -19392,13 +19392,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality2.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality2.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality2.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -19425,13 +19425,13 @@ export const WORLD = {
             "你想找麻烦吗！",
             "有什么事吗？还是你要找我们家另外八个兄弟。"
           ],
-          "source": "ref___data/npc/sa70/actuality/actuality.create",
+          "source": "gmsv-data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality8.arg",
           "template": "sb_dou",
           "graphic": "100037",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/sa70/actuality/actuality8.arg",
+            "source": "gmsv-data/npc/sa70/actuality/actuality8.arg",
             "entype": 2,
             "enemyNos": [
               2224
@@ -19453,9 +19453,9 @@ export const WORLD = {
           "x": 66,
           "y": 33,
           "type": "ItemchangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa50/alchemy/alchemyhp",
+          "dialogue": "脚本入口：gmsv-data/npc/sa50/alchemy/alchemyhp",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa50/alchemy/alchemy.create",
+          "source": "gmsv-data/npc/sa50/alchemy/alchemy.create",
           "script": "file:sa50/alchemy/alchemyhp",
           "template": "ITEMCHANGE",
           "graphic": "16095"
@@ -19468,7 +19468,7 @@ export const WORLD = {
           "type": "Alldoman",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/won/syu.create",
+          "source": "gmsv-data/npc/won/syu.create",
           "script": "npc_alldoman",
           "template": "npc_alldoman",
           "graphic": "10060"
@@ -19479,9 +19479,9 @@ export const WORLD = {
           "x": 49,
           "y": 47,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/king/event69_7",
+          "dialogue": "脚本入口：gmsv-data/npc/king/event69_7",
           "dialogueLines": [],
-          "source": "ref___data/npc/king/event69_alpha.create",
+          "source": "gmsv-data/npc/king/event69_alpha.create",
           "script": "file:king/event69_7",
           "template": "changeevent",
           "graphic": "16021"
@@ -19492,9 +19492,9 @@ export const WORLD = {
           "x": 50,
           "y": 48,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/king/event69_3",
+          "dialogue": "脚本入口：gmsv-data/npc/king/event69_3",
           "dialogueLines": [],
-          "source": "ref___data/npc/king/event69_alpha.create",
+          "source": "gmsv-data/npc/king/event69_alpha.create",
           "script": "file:king/event69_3",
           "template": "changeevent",
           "graphic": "16017"
@@ -19505,9 +19505,9 @@ export const WORLD = {
           "x": 67,
           "y": 58,
           "type": "SavePoint",
-          "dialogue": "脚本入口：ref___data/npc/genout/sp_2000_67_58",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/sp_2000_67_58",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/sp.create",
+          "source": "gmsv-data/npc/genout/sp.create",
           "script": "file:genout/sp_2000_67_58",
           "template": "npcgen_savepoint",
           "graphic": "10048"
@@ -19518,9 +19518,9 @@ export const WORLD = {
           "x": 40,
           "y": 63,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/nevent01_1",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/nevent01_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/nevent.create",
+          "source": "gmsv-data/npc/sainasu/event/nevent.create",
           "script": "file:sainasu/event/nevent01_1",
           "template": "changeevent",
           "graphic": "16064"
@@ -19531,9 +19531,9 @@ export const WORLD = {
           "x": 64,
           "y": 77,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/crisis/crisis1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/crisis/crisis1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/crisis/crisis.create",
+          "source": "gmsv-data/npc/sa70/crisis/crisis.create",
           "script": "file:sa70/crisis/crisis1.arg",
           "template": "changeevent",
           "graphic": "16096"
@@ -19544,9 +19544,9 @@ export const WORLD = {
           "x": 87,
           "y": 78,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/ticket2000",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/ticket2000",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/chatroom.create",
+          "source": "gmsv-data/npc/chatroom/chatroom.create",
           "script": "file:chatroom/ticket2000",
           "template": "changeevent",
           "graphic": "16014"
@@ -19557,9 +19557,9 @@ export const WORLD = {
           "x": 89,
           "y": 79,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/fighter",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/fighter",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/newbie.create",
+          "source": "gmsv-data/npc/sa60/newbie/newbie.create",
           "script": "file:sa60/newbie/fighter",
           "template": "changeevent",
           "graphic": "16496"
@@ -19570,9 +19570,9 @@ export const WORLD = {
           "x": 84,
           "y": 86,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa50/petfusion/petfusion",
+          "dialogue": "脚本入口：gmsv-data/npc/sa50/petfusion/petfusion",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa50/petfusion/petfusion.create",
+          "source": "gmsv-data/npc/sa50/petfusion/petfusion.create",
           "script": "file:sa50/petfusion/petfusion",
           "template": "changeevent",
           "graphic": "16091"
@@ -19583,9 +19583,9 @@ export const WORLD = {
           "x": 85,
           "y": 86,
           "type": "PetFusion",
-          "dialogue": "脚本入口：ref___data/npc/sa50/petfusion/petfusion.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa50/petfusion/petfusion.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa50/petfusion/petfusion.create",
+          "source": "gmsv-data/npc/sa50/petfusion/petfusion.create",
           "script": "file:sa50/petfusion/petfusion.arg",
           "template": "npc_petfusion",
           "graphic": "16048"
@@ -19596,9 +19596,9 @@ export const WORLD = {
           "x": 55,
           "y": 92,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/event02_1",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event02_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/event02.create",
+          "source": "gmsv-data/npc/sainasu/event/event02.create",
           "script": "file:sainasu/event/event02_1",
           "template": "changeevent",
           "graphic": "16027"
@@ -19609,9 +19609,9 @@ export const WORLD = {
           "x": 67,
           "y": 93,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/collect/collect1.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/collect/collect1.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/collect/collect.create",
+          "source": "gmsv-data/npc/sa70/collect/collect.create",
           "script": "file:sa70/collect/collect1.arg",
           "template": "changeevent",
           "graphic": "16056"
@@ -19622,9 +19622,9 @@ export const WORLD = {
           "x": 87,
           "y": 95,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_1200_58_43",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_1200_58_43",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/1200npc_m.create",
+          "source": "gmsv-data/npc/genout/1200npc_m.create",
           "script": "file:genout/msg_1200_58_43",
           "template": "changeevent",
           "graphic": "16209"
@@ -19635,9 +19635,9 @@ export const WORLD = {
           "x": 77,
           "y": 109,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/nevent01_2",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/nevent01_2",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/nevent.create",
+          "source": "gmsv-data/npc/sainasu/event/nevent.create",
           "script": "file:sainasu/event/nevent01_2",
           "template": "changeevent",
           "graphic": "16024"
@@ -19648,9 +19648,9 @@ export const WORLD = {
           "x": 80,
           "y": 115,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_4c",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_4c",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_4c",
           "template": "changeevent",
           "graphic": "16067"
@@ -19661,9 +19661,9 @@ export const WORLD = {
           "x": 88,
           "y": 116,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sainasu/event/oev_edd",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_edd",
           "dialogueLines": [],
-          "source": "ref___data/npc/sainasu/event/oev2.create",
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
           "script": "file:sainasu/event/oev_edd",
           "template": "changeevent",
           "graphic": "16033"
@@ -19674,9 +19674,9 @@ export const WORLD = {
           "x": 69,
           "y": 33,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_69_33",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_69_33",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_69_33",
           "template": "npcgen_man",
           "graphic": "16019"
@@ -19687,9 +19687,9 @@ export const WORLD = {
           "x": 55,
           "y": 52,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_55_52",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_55_52",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_55_52",
           "template": "npcgen_man",
           "graphic": "16204"
@@ -19700,9 +19700,9 @@ export const WORLD = {
           "x": 59,
           "y": 52,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_59_52",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_59_52",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_59_52",
           "template": "npcgen_man",
           "graphic": "16204"
@@ -19715,7 +19715,7 @@ export const WORLD = {
           "type": "Duelranking",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/duelranking.create",
+          "source": "gmsv-data/npc/chatroom/duelranking.create",
           "script": "duelranking",
           "template": "duelranking",
           "graphic": "10069"
@@ -19728,7 +19728,7 @@ export const WORLD = {
           "type": "TownPeople",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "100251"
@@ -19739,9 +19739,9 @@ export const WORLD = {
           "x": 73,
           "y": 55,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_73_55",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_73_55",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_73_55",
           "template": "npcgen_man",
           "graphic": "16204"
@@ -19754,7 +19754,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
@@ -19765,9 +19765,9 @@ export const WORLD = {
           "x": 52,
           "y": 71,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_2000_52_71",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_2000_52_71",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/chatkanban.create",
+          "source": "gmsv-data/npc/genout/chatkanban.create",
           "script": "file:genout/signb_2000_52_71",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -19778,9 +19778,9 @@ export const WORLD = {
           "x": 38,
           "y": 78,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_38_78",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_38_78",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_38_78",
           "template": "npcgen_man",
           "graphic": "16045"
@@ -19793,7 +19793,7 @@ export const WORLD = {
           "type": "Duelranking",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/duelranking.create",
+          "source": "gmsv-data/npc/chatroom/duelranking.create",
           "script": "duelranking",
           "template": "duelranking",
           "graphic": "10070"
@@ -19804,9 +19804,9 @@ export const WORLD = {
           "x": 87,
           "y": 78,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_2000_87_78",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_2000_87_78",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/signb_2000_87_78",
           "template": "npcgen_signboard",
           "graphic": "10061"
@@ -19817,9 +19817,9 @@ export const WORLD = {
           "x": 99,
           "y": 78,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_99_78",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_99_78",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_99_78",
           "template": "npcgen_man",
           "graphic": "16039"
@@ -19830,9 +19830,9 @@ export const WORLD = {
           "x": 97,
           "y": 85,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_97_85",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_97_85",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_97_85",
           "template": "npcgen_man",
           "graphic": "16036"
@@ -19843,9 +19843,9 @@ export const WORLD = {
           "x": 101,
           "y": 86,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_101_86",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_101_86",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/airway.create",
+          "source": "gmsv-data/npc/genout/airway.create",
           "script": "file:genout/msg_2000_101_86",
           "template": "npcgen_man",
           "graphic": "16026"
@@ -19856,9 +19856,9 @@ export const WORLD = {
           "x": 105,
           "y": 87,
           "type": "Airplane",
-          "dialogue": "脚本入口：ref___data/npc/chatroom/airplane.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/airplane.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/chatroom/airplane.create",
+          "source": "gmsv-data/npc/chatroom/airplane.create",
           "script": "file:chatroom/airplane.arg",
           "template": "airplane",
           "graphic": "100259"
@@ -19869,9 +19869,9 @@ export const WORLD = {
           "x": 106,
           "y": 87,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_2000_106_87",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_2000_106_87",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/airway.create",
+          "source": "gmsv-data/npc/genout/airway.create",
           "script": "file:genout/signb_2000_106_87",
           "template": "npcgen_signboard",
           "graphic": "10400"
@@ -19884,7 +19884,7 @@ export const WORLD = {
           "type": "Dengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
@@ -19895,9 +19895,9 @@ export const WORLD = {
           "x": 73,
           "y": 108,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_73_108",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_73_108",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_73_108",
           "template": "npcgen_man",
           "graphic": "16022"
@@ -19908,9 +19908,9 @@ export const WORLD = {
           "x": 59,
           "y": 109,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2000_59_109",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2000_59_109",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/2000npc_m.create",
+          "source": "gmsv-data/npc/genout/2000npc_m.create",
           "script": "file:genout/msg_2000_59_109",
           "template": "npcgen_man",
           "graphic": "16046"
@@ -19921,9 +19921,9 @@ export const WORLD = {
           "x": 80,
           "y": 116,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_2000_80_116",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_2000_80_116",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/oev2.create",
+          "source": "gmsv-data/npc/genout/oev2.create",
           "script": "file:genout/signb_2000_80_116",
           "template": "npcgen_signboard",
           "graphic": "10062"
@@ -19934,9 +19934,9 @@ export const WORLD = {
           "x": 62,
           "y": 33,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/cat/cat.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/cat/cat.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/cat/cat.create",
+          "source": "gmsv-data/npc/sa70/cat/cat.create",
           "script": "file:sa70/cat/cat.arg",
           "template": "npcgen_warpman",
           "graphic": "16084"
@@ -19947,9 +19947,9 @@ export const WORLD = {
           "x": 85,
           "y": 79,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_2000_85_79",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_2000_85_79",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/duelroom.create",
+          "source": "gmsv-data/npc/genout/duelroom.create",
           "script": "file:genout/wpm_2000_85_79",
           "template": "npcgen_warpman",
           "graphic": "16055",
@@ -19983,7 +19983,7 @@ export const WORLD = {
             "moneyMessage": "不好意思请多关照。",
             "partyMessage": "以团队无法入场。 请把团队解散之后再个别 入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_2000_85_79"
+            "source": "gmsv-data/npc/genout/wpm_2000_85_79"
           }
         },
         {
@@ -19994,7 +19994,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20007,7 +20007,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20020,7 +20020,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20033,7 +20033,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20046,7 +20046,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20059,7 +20059,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20072,7 +20072,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20085,7 +20085,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/quiz.create",
+          "source": "gmsv-data/npc/genout/quiz.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20098,7 +20098,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20111,7 +20111,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20124,7 +20124,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20137,7 +20137,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20150,7 +20150,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20163,7 +20163,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20176,7 +20176,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20189,7 +20189,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20202,7 +20202,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20215,7 +20215,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20228,7 +20228,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20241,7 +20241,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20254,7 +20254,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20267,7 +20267,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20280,7 +20280,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/100warp.create",
+          "source": "gmsv-data/npc/genout/100warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20293,7 +20293,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20306,7 +20306,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20319,7 +20319,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20332,7 +20332,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -20366,7 +20366,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "100-1",
@@ -20419,7 +20419,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "100-2",
@@ -20496,7 +20496,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2001-3",
@@ -20533,7 +20533,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2002-4",
@@ -20570,7 +20570,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2003-5",
@@ -20607,7 +20607,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2004-6",
@@ -20660,7 +20660,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2005-7",
@@ -20697,7 +20697,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2006-8",
@@ -20742,7 +20742,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2020-9",
@@ -20771,7 +20771,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2001-10",
@@ -20808,7 +20808,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2002-11",
@@ -20837,7 +20837,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2003-12",
@@ -20874,7 +20874,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -20885,7 +20885,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2001.ls2map",
       "clientMapFile": "/data/client-maps/2001.dat",
       "clientMapSource": "公益石器时代/map/2001.dat",
-      "summary": "玛丽娜丝的武器店 | floor=2001 | 30x30 | ref___data/map/sainasu/marinasu/2001",
+      "summary": "玛丽娜丝的武器店 | floor=2001 | 30x30 | gmsv-data/map/sainasu/marinasu/2001",
       "size": [
         30,
         30
@@ -20913,7 +20913,7 @@ export const WORLD = {
             "棍棒",
             "斧头"
           ],
-          "source": "ref___data/npc/sainasu/bukiya.create",
+          "source": "gmsv-data/npc/sainasu/bukiya.create",
           "script": "conff:sainasu/bukiya01.conf",
           "template": "windowman",
           "graphic": "16203"
@@ -20928,13 +20928,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2001_18_15",
           "template": "npcgen_shop",
           "graphic": "16017",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_2001_18_15",
+            "source": "gmsv-data/npc/genout/ss_2001_18_15",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -21176,13 +21176,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2001_18_18",
           "template": "npcgen_shop",
           "graphic": "16056",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_2001_18_18",
+            "source": "gmsv-data/npc/genout/ss_2001_18_18",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -21396,7 +21396,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -21409,7 +21409,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -21451,7 +21451,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -21462,7 +21462,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2002.ls2map",
       "clientMapFile": "/data/client-maps/2002.dat",
       "clientMapSource": "公益石器时代/map/2002.dat",
-      "summary": "玛丽娜丝的道具店 | floor=2002 | 30x30 | ref___data/map/sainasu/marinasu/2002",
+      "summary": "玛丽娜丝的道具店 | floor=2002 | 30x30 | gmsv-data/map/sainasu/marinasu/2002",
       "size": [
         30,
         30
@@ -21483,13 +21483,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2002_15_13",
           "template": "npcgen_shop",
           "graphic": "16035",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_2002_15_13",
+            "source": "gmsv-data/npc/genout/ss_2002_15_13",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -21660,7 +21660,7 @@ export const WORLD = {
             "防御系法术",
             "‘关于法术的基本知识’"
           ],
-          "source": "ref___data/npc/sainasu/jujutu.create",
+          "source": "gmsv-data/npc/sainasu/jujutu.create",
           "script": "conff:sainasu/jujutu01.conf",
           "template": "windowman",
           "graphic": "16066"
@@ -21673,7 +21673,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -21686,7 +21686,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -21728,7 +21728,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -21739,7 +21739,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2003.ls2map",
       "clientMapFile": "/data/client-maps/2003.dat",
       "clientMapSource": "公益石器时代/map/2003.dat",
-      "summary": "玛丽娜丝的宠物店|00b僾 | floor=2003 | 30x30 | ref___data/map/sainasu/marinasu/2003",
+      "summary": "玛丽娜丝的宠物店|00b僾 | floor=2003 | 30x30 | gmsv-data/map/sainasu/marinasu/2003",
       "size": [
         30,
         30
@@ -21767,7 +21767,7 @@ export const WORLD = {
             "关于普通特技是吗？",
             "普通特技共有下列几种技巧。"
           ],
-          "source": "ref___data/npc/sainasu/wazaya.create",
+          "source": "gmsv-data/npc/sainasu/wazaya.create",
           "script": "conff:sainasu/wazaya01.conf",
           "template": "windowman",
           "graphic": "16202"
@@ -21783,7 +21783,7 @@ export const WORLD = {
             "我是这个村里最棒的饲养人了。",
             "那么，要让它学什么呢？"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/psks_2003_18_14",
           "template": "npcgen_petskillshop",
           "graphic": "16046"
@@ -21799,7 +21799,7 @@ export const WORLD = {
             "玛丽娜丝～、宠物店～",
             "欢迎光临～"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ps_2003_18_17",
           "template": "npcgen_petshop",
           "graphic": "16036"
@@ -21810,9 +21810,9 @@ export const WORLD = {
           "x": 11,
           "y": 12,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/petmaster",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/petmaster",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/newbie.create",
+          "source": "gmsv-data/npc/sa60/newbie/newbie.create",
           "script": "file:sa60/newbie/petmaster",
           "template": "changeevent",
           "graphic": "16127"
@@ -21823,9 +21823,9 @@ export const WORLD = {
           "x": 13,
           "y": 12,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2003_12_12",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2003_12_12",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_2003_12_12",
           "template": "npcgen_man",
           "graphic": "16035"
@@ -21838,7 +21838,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100336"
@@ -21851,7 +21851,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100251"
@@ -21864,7 +21864,7 @@ export const WORLD = {
           "type": "npcgen_mugon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100252"
@@ -21877,7 +21877,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -21890,7 +21890,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -21932,7 +21932,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -21943,7 +21943,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2004.ls2map",
       "clientMapFile": "/data/client-maps/2004.dat",
       "clientMapSource": "公益石器时代/map/2004.dat",
-      "summary": "玛丽娜丝的肉店 | floor=2004 | 30x30 | ref___data/map/sainasu/marinasu/2004",
+      "summary": "玛丽娜丝的肉店 | floor=2004 | 30x30 | gmsv-data/map/sainasu/marinasu/2004",
       "size": [
         30,
         30
@@ -21964,13 +21964,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎！"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2004_17_13",
           "template": "npcgen_shop",
           "graphic": "16016",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_2004_17_13",
+            "source": "gmsv-data/npc/genout/ss_2004_17_13",
             "buyRate": 1,
             "sellRate": 1,
             "buyWords": [
@@ -22054,7 +22054,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22067,7 +22067,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22109,7 +22109,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -22120,7 +22120,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2005.ls2map",
       "clientMapFile": "/data/client-maps/2005.dat",
       "clientMapSource": "公益石器时代/map/2005.dat",
-      "summary": "玛丽娜丝的医院|0V儑僢僾 | floor=2005 | 30x30 | ref___data/map/sainasu/marinasu/2005",
+      "summary": "玛丽娜丝的医院|0V儑僢僾 | floor=2005 | 30x30 | gmsv-data/map/sainasu/marinasu/2005",
       "size": [
         30,
         30
@@ -22141,13 +22141,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎"
           ],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/ss_2005_15_7",
           "template": "npcgen_shop",
           "graphic": "16023",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/genout/ss_2005_15_7",
+            "source": "gmsv-data/npc/genout/ss_2005_15_7",
             "buyRate": 1,
             "sellRate": 0.2,
             "buyWords": [
@@ -22335,7 +22335,7 @@ export const WORLD = {
           "type": "WindowHealer",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_winhealer",
           "template": "npcgen_winhealer",
           "graphic": "16012"
@@ -22346,9 +22346,9 @@ export const WORLD = {
           "x": 18,
           "y": 7,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2005_18_7",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2005_18_7",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_2005_18_7",
           "template": "npcgen_man",
           "graphic": "16024"
@@ -22361,7 +22361,7 @@ export const WORLD = {
           "type": "Charm",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "npcgen_charm",
           "template": "npcgen_charm",
           "graphic": "16065"
@@ -22374,7 +22374,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22387,7 +22387,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22429,7 +22429,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2000-1",
@@ -22466,7 +22466,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -22477,7 +22477,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2006.ls2map",
       "clientMapFile": "/data/client-maps/2006.dat",
       "clientMapSource": "公益石器时代/map/2006.dat",
-      "summary": "玛丽娜丝的村长家 | floor=2006 | 40x30 | ref___data/map/sainasu/marinasu/2006",
+      "summary": "玛丽娜丝的村长家 | floor=2006 | 40x30 | gmsv-data/map/sainasu/marinasu/2006",
       "size": [
         40,
         30
@@ -22505,7 +22505,7 @@ export const WORLD = {
             "2",
             "你想了解哪一方面。"
           ],
-          "source": "ref___data/npc/newguest/familyman.create",
+          "source": "gmsv-data/npc/newguest/familyman.create",
           "script": "conff:newguest/familyman.conf",
           "template": "familyman",
           "graphic": "16062"
@@ -22527,7 +22527,7 @@ export const WORLD = {
             "嗯...普普通通啦！",
             "不好也不坏。"
           ],
-          "source": "ref___data/npc/sainasu/uranai.create",
+          "source": "gmsv-data/npc/sainasu/uranai.create",
           "script": "file:sainasu/uranai",
           "template": "luckyman",
           "graphic": "16034"
@@ -22549,7 +22549,7 @@ export const WORLD = {
             "退出或者解散家族",
             "想离开你的族人们了吗？"
           ],
-          "source": "ref___data/npc/family/familyman.create",
+          "source": "gmsv-data/npc/family/familyman.create",
           "script": "conff:family/familyman.conf",
           "template": "familyman",
           "graphic": "16030"
@@ -22571,7 +22571,7 @@ export const WORLD = {
             "关于对战",
             "关于操作吗？"
           ],
-          "source": "ref___data/npc/sainasu/windowman.create",
+          "source": "gmsv-data/npc/sainasu/windowman.create",
           "script": "conff:sainasu/manual.conf",
           "template": "windowman",
           "graphic": "16002"
@@ -22590,7 +22590,7 @@ export const WORLD = {
             "家族个人帐户",
             "家族共同帐户"
           ],
-          "source": "ref___data/npc/family/bankman.create",
+          "source": "gmsv-data/npc/family/bankman.create",
           "script": "conff:family/bankman.conf",
           "template": "bankman",
           "graphic": "16017"
@@ -22601,9 +22601,9 @@ export const WORLD = {
           "x": 23,
           "y": 14,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2006_23_14",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2006_23_14",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_2006_23_14",
           "template": "changeevent",
           "graphic": "16203"
@@ -22614,9 +22614,9 @@ export const WORLD = {
           "x": 20,
           "y": 14,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_2006_20_14",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_2006_20_14",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/shop_m.create",
+          "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/msg_2006_20_14",
           "template": "npcgen_man",
           "graphic": "16001"
@@ -22629,7 +22629,7 @@ export const WORLD = {
           "type": "FmDengon",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/fmdengon.create",
+          "source": "gmsv-data/npc/family/fmdengon.create",
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
@@ -22642,7 +22642,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22655,7 +22655,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/warp_y.create",
+          "source": "gmsv-data/npc/genout/warp_y.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22697,7 +22697,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -22708,7 +22708,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2020.ls2map",
       "clientMapFile": "/data/client-maps/2020.dat",
       "clientMapSource": "公益石器时代/map/2020.dat",
-      "summary": "玛丽娜丝道场柜台 | floor=2020 | 25x25 | ref___data/map/quiz/2020",
+      "summary": "玛丽娜丝道场柜台 | floor=2020 | 25x25 | gmsv-data/map/quiz/2020",
       "size": [
         25,
         25
@@ -22725,9 +22725,9 @@ export const WORLD = {
           "x": 18,
           "y": 11,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/quiz/uketuke",
+          "dialogue": "脚本入口：gmsv-data/npc/quiz/uketuke",
           "dialogueLines": [],
-          "source": "ref___data/npc/quiz/quiz.create",
+          "source": "gmsv-data/npc/quiz/quiz.create",
           "script": "file:quiz/uketuke",
           "template": "changeevent",
           "graphic": "16065"
@@ -22738,9 +22738,9 @@ export const WORLD = {
           "x": 18,
           "y": 13,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/quiz/uketuke",
+          "dialogue": "脚本入口：gmsv-data/npc/quiz/uketuke",
           "dialogueLines": [],
-          "source": "ref___data/npc/quiz/quiz.create",
+          "source": "gmsv-data/npc/quiz/quiz.create",
           "script": "file:quiz/uketuke",
           "template": "changeevent",
           "graphic": "16065"
@@ -22753,7 +22753,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/quiz.create",
+          "source": "gmsv-data/npc/genout/quiz.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22766,7 +22766,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/quiz.create",
+          "source": "gmsv-data/npc/genout/quiz.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22779,7 +22779,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/quiz.create",
+          "source": "gmsv-data/npc/genout/quiz.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22792,7 +22792,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/quiz.create",
+          "source": "gmsv-data/npc/genout/quiz.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -22826,7 +22826,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -22837,7 +22837,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2030.ls2map",
       "clientMapFile": "/data/client-maps/2030.dat",
       "clientMapSource": "公益石器时代/map/2030.dat",
-      "summary": "玛丽娜丝的庄园 | floor=2030 | 80x80 | ref___data/map/family/200/2030",
+      "summary": "玛丽娜丝的庄园 | floor=2030 | 80x80 | gmsv-data/map/family/200/2030",
       "size": [
         80,
         80
@@ -22867,7 +22867,7 @@ export const WORLD = {
             "你要参加那一种课程呢？",
             "初级班 (能骑乘 Lv40 以下的宠物)"
           ],
-          "source": "ref___data/npc/family/riderman.create",
+          "source": "gmsv-data/npc/family/riderman.create",
           "script": "conff:family/riderman.conf",
           "template": "riderman",
           "graphic": "16002"
@@ -22882,13 +22882,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/family/npc/familyshop2.create",
+          "source": "gmsv-data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/shop2_5",
           "template": "npcgen_shop",
           "graphic": "16036",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/family/npc/shop2_5",
+            "source": "gmsv-data/npc/family/npc/shop2_5",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -22926,9 +22926,9 @@ export const WORLD = {
           "x": 60,
           "y": 41,
           "type": "ManorSman",
-          "dialogue": "脚本入口：ref___data/npc/family/manorsman.arg2",
+          "dialogue": "脚本入口：gmsv-data/npc/family/manorsman.arg2",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/scheduleman.create",
+          "source": "gmsv-data/npc/family/scheduleman.create",
           "script": "file:family/manorsman.arg2",
           "template": "manorsman",
           "graphic": "16061"
@@ -22939,9 +22939,9 @@ export const WORLD = {
           "x": 59,
           "y": 43,
           "type": "FMPKCallMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_2030_59_43",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_2030_59_43",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_2030_59_43",
           "template": "npcgen_fmpkcallman",
           "graphic": "16203",
@@ -22963,7 +22963,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_2030_59_43"
+            "source": "gmsv-data/npc/genout/wpm_2030_59_43"
           }
         },
         {
@@ -22972,9 +22972,9 @@ export const WORLD = {
           "x": 62,
           "y": 61,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_2030_62_61",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_2030_62_61",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/signb_2030_62_61",
           "template": "npcgen_signboard",
           "graphic": "10061"
@@ -22985,9 +22985,9 @@ export const WORLD = {
           "x": 58,
           "y": 16,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa60/newbie/m_tiger",
+          "dialogue": "脚本入口：gmsv-data/npc/sa60/newbie/m_tiger",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa60/newbie/tiger.create",
+          "source": "gmsv-data/npc/sa60/newbie/tiger.create",
           "script": "file:sa60/newbie/m_tiger",
           "template": "npcgen_warpman",
           "graphic": "16354"
@@ -22998,9 +22998,9 @@ export const WORLD = {
           "x": 56,
           "y": 27,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_2030_56_27",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_2030_56_27",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_2030_56_27",
           "template": "npcgen_warpman",
           "graphic": "16207",
@@ -23022,7 +23022,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_2030_56_27"
+            "source": "gmsv-data/npc/genout/wpm_2030_56_27"
           }
         },
         {
@@ -23031,9 +23031,9 @@ export const WORLD = {
           "x": 61,
           "y": 45,
           "type": "FMWarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_2030_61_45",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_2030_61_45",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_2030_61_45",
           "template": "npcgen_fmwarpman",
           "graphic": "16205"
@@ -23044,9 +23044,9 @@ export const WORLD = {
           "x": 30,
           "y": 52,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm2_3",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm2_3",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop2.create",
+          "source": "gmsv-data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/wpm2_3",
           "template": "npcgen_warpman",
           "graphic": "16126",
@@ -23068,7 +23068,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm2_3"
+            "source": "gmsv-data/npc/family/npc/wpm2_3"
           }
         },
         {
@@ -23077,9 +23077,9 @@ export const WORLD = {
           "x": 45,
           "y": 62,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm2_1",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm2_1",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop2.create",
+          "source": "gmsv-data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/wpm2_1",
           "template": "npcgen_warpman",
           "graphic": "16120",
@@ -23101,7 +23101,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm2_1"
+            "source": "gmsv-data/npc/family/npc/wpm2_1"
           }
         },
         {
@@ -23110,9 +23110,9 @@ export const WORLD = {
           "x": 31,
           "y": 65,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/family/npc/wpm2_2",
+          "dialogue": "脚本入口：gmsv-data/npc/family/npc/wpm2_2",
           "dialogueLines": [],
-          "source": "ref___data/npc/family/npc/familyshop2.create",
+          "source": "gmsv-data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/wpm2_2",
           "template": "npcgen_warpman",
           "graphic": "16121",
@@ -23134,7 +23134,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/family/npc/wpm2_2"
+            "source": "gmsv-data/npc/family/npc/wpm2_2"
           }
         },
         {
@@ -23145,7 +23145,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23158,7 +23158,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23171,7 +23171,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23184,7 +23184,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23197,7 +23197,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23210,7 +23210,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23223,7 +23223,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23236,7 +23236,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23249,7 +23249,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23262,7 +23262,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23275,7 +23275,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23357,7 +23357,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2033-1",
@@ -23394,7 +23394,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "2035-2",
@@ -23431,7 +23431,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -23442,7 +23442,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2033.ls2map",
       "clientMapFile": "/data/client-maps/2033.dat",
       "clientMapSource": "公益石器时代/map/2033.dat",
-      "summary": "玛丽娜丝庄园聊天柜台 | floor=2033 | 12x12 | ref___data/map/family/200/2033",
+      "summary": "玛丽娜丝庄园聊天柜台 | floor=2033 | 12x12 | gmsv-data/map/family/200/2033",
       "size": [
         12,
         12
@@ -23459,9 +23459,9 @@ export const WORLD = {
           "x": 4,
           "y": 3,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/genout/wpm_2033_4_3",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_2033_4_3",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family.create",
+          "source": "gmsv-data/npc/genout/family.create",
           "script": "file:genout/wpm_2033_4_3",
           "template": "npcgen_warpman",
           "graphic": "16203",
@@ -23485,7 +23485,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "无法以团队入场。 请把团队解散之后再个别入场。",
             "warpMessage": "",
-            "source": "ref___data/npc/genout/wpm_2033_4_3"
+            "source": "gmsv-data/npc/genout/wpm_2033_4_3"
           }
         },
         {
@@ -23496,7 +23496,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23509,7 +23509,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23551,7 +23551,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -23562,7 +23562,7 @@ export const WORLD = {
       "mapFile": "/data/maps/2035.ls2map",
       "clientMapFile": "/data/client-maps/2035.dat",
       "clientMapSource": "公益石器时代/map/2035.dat",
-      "summary": "庄园素材贩售店|00 | floor=2035 | 12x12 | ref___data/map/family/200/2035",
+      "summary": "庄园素材贩售店|00 | floor=2035 | 12x12 | gmsv-data/map/family/200/2035",
       "size": [
         12,
         12
@@ -23583,13 +23583,13 @@ export const WORLD = {
           "dialogueLines": [
             "欢迎光临！"
           ],
-          "source": "ref___data/npc/family/npc/familyshop2.create",
+          "source": "gmsv-data/npc/family/npc/familyshop2.create",
           "script": "file:family/npc/shop2_2",
           "template": "npcgen_shop",
           "graphic": "16018",
           "trade": {
             "kind": "shop",
-            "source": "ref___data/npc/family/npc/shop2_2",
+            "source": "gmsv-data/npc/family/npc/shop2_2",
             "buyRate": 1,
             "sellRate": 0.5,
             "buyWords": [
@@ -23642,7 +23642,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23655,7 +23655,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/family_warp.create",
+          "source": "gmsv-data/npc/genout/family_warp.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -23697,7 +23697,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -23708,7 +23708,7 @@ export const WORLD = {
       "mapFile": "/data/maps/8200.ls2map",
       "clientMapFile": "/data/client-maps/8200.dat",
       "clientMapSource": "公益石器时代/map/8200.dat",
-      "summary": "英雄战场|8 | floor=8200 | 220x160 | ref___data/map/hero/8200",
+      "summary": "英雄战场|8 | floor=8200 | 220x160 | gmsv-data/map/hero/8200",
       "size": [
         220,
         160
@@ -23729,13 +23729,13 @@ export const WORLD = {
           "dialogueLines": [
             "你知道你闯入宾登斯家族支系之贝瑞达家族，乱闯入者死路一条。"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic10.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic10.arg",
+            "source": "gmsv-data/npc/heroic/heroic10.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -23789,13 +23789,13 @@ export const WORLD = {
           "dialogueLines": [
             "墓园的秘密你永远也别想知道！因为？？？你的实力只够给我打二拳而已。"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic7.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic7.arg",
+            "source": "gmsv-data/npc/heroic/heroic7.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -23850,7 +23850,7 @@ export const WORLD = {
             "你知道你闯入宾登斯家族支系之贝瑞达家族，乱闯入者死路一条。",
             "完全看不出来你像个英雄，再去练个几年再来吧。"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic1.arg",
           "template": "sb_dou",
           "graphic": "100091",
@@ -23872,11 +23872,11 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "",
             "warpMessage": "",
-            "source": "ref___data/npc/heroic/heroic1.arg"
+            "source": "gmsv-data/npc/heroic/heroic1.arg"
           },
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic1.arg",
+            "source": "gmsv-data/npc/heroic/heroic1.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -23903,13 +23903,13 @@ export const WORLD = {
           "dialogueLines": [
             "咦！有没有听到墓园里灵魂的哀嚎声呢？你也想当下一个吗？哈哈哈～～～～"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic4.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic4.arg",
+            "source": "gmsv-data/npc/heroic/heroic4.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -23963,13 +23963,13 @@ export const WORLD = {
           "dialogueLines": [
             "你用走的进来，我就让你飞着出去！"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic11.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic11.arg",
+            "source": "gmsv-data/npc/heroic/heroic11.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24023,13 +24023,13 @@ export const WORLD = {
           "dialogueLines": [
             "小心一点！我可不会手下留情的。"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic5.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic5.arg",
+            "source": "gmsv-data/npc/heroic/heroic5.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24083,13 +24083,13 @@ export const WORLD = {
           "dialogueLines": [
             "依我看来你的战斗力好像还蛮强的（我要小心应付才行）。"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic2.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic2.arg",
+            "source": "gmsv-data/npc/heroic/heroic2.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24143,13 +24143,13 @@ export const WORLD = {
           "dialogueLines": [
             "这里不是你该来的地方，快回去吧！否则别怪我～～～出手啰！"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic8.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic8.arg",
+            "source": "gmsv-data/npc/heroic/heroic8.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24203,13 +24203,13 @@ export const WORLD = {
           "dialogueLines": [
             "请问你是来观光的吗？滚回去吧！"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic6.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic6.arg",
+            "source": "gmsv-data/npc/heroic/heroic6.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24263,13 +24263,13 @@ export const WORLD = {
           "dialogueLines": [
             "杀！！"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic9.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic9.arg",
+            "source": "gmsv-data/npc/heroic/heroic9.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24323,13 +24323,13 @@ export const WORLD = {
           "dialogueLines": [
             "想和我过招还怕没有机会吗，只怕你不堪一击！！！"
           ],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic3.arg",
           "template": "sb_dou",
           "graphic": "101490",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/heroic/heroic3.arg",
+            "source": "gmsv-data/npc/heroic/heroic3.arg",
             "entype": 2,
             "enemyNos": [
               2262,
@@ -24379,9 +24379,9 @@ export const WORLD = {
           "x": 215,
           "y": 11,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/heroic/heroic.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/heroic/heroic.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic.arg",
           "template": "changeevent",
           "graphic": "10069"
@@ -24394,7 +24394,7 @@ export const WORLD = {
           "type": "WindowHealer",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/heroic/heroic.create",
+          "source": "gmsv-data/npc/heroic/heroic.create",
           "script": "npcgen_winhealer",
           "template": "npcgen_winhealer",
           "graphic": "16012"
@@ -24407,7 +24407,7 @@ export const WORLD = {
           "type": "Alldoman",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/won/syu.create",
+          "source": "gmsv-data/npc/won/syu.create",
           "script": "npc_alldoman",
           "template": "npc_alldoman",
           "graphic": "10061"
@@ -24441,7 +24441,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-1",
@@ -24470,7 +24470,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-2",
@@ -24499,7 +24499,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-3",
@@ -24528,7 +24528,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-4",
@@ -24557,7 +24557,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-5",
@@ -24586,7 +24586,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-6",
@@ -24615,7 +24615,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-7",
@@ -24644,7 +24644,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-8",
@@ -24673,7 +24673,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "8200-9",
@@ -24702,7 +24702,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         },
         {
           "id": "100-10",
@@ -24731,7 +24731,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -24742,7 +24742,7 @@ export const WORLD = {
       "mapFile": "/data/maps/8216.ls2map",
       "clientMapFile": "/data/client-maps/8216.dat",
       "clientMapSource": "公益石器时代/map/8216.dat",
-      "summary": "白狼勇士公会 | floor=8216 | 40x40 | ref___data/map/union/8216",
+      "summary": "白狼勇士公会 | floor=8216 | 40x40 | gmsv-data/map/union/8216",
       "size": [
         40,
         40
@@ -24763,7 +24763,7 @@ export const WORLD = {
           "dialogueLines": [
             "这是白狼勇士工公会，准备好要学技能了吗？"
           ],
-          "source": "ref___data/npc/sa70/skill.create",
+          "source": "gmsv-data/npc/sa70/skill.create",
           "script": "file:sa70/warsk",
           "template": "ProfessionShop",
           "graphic": "16185"
@@ -24774,9 +24774,9 @@ export const WORLD = {
           "x": 19,
           "y": 11,
           "type": "ItemchangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa80/classeq/wareq.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa80/classeq/wareq.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa80/classeq/classeq.create",
+          "source": "gmsv-data/npc/sa80/classeq/classeq.create",
           "script": "file:sa80/classeq/wareq.arg",
           "template": "ITEMCHANGE",
           "graphic": "16916"
@@ -24787,9 +24787,9 @@ export const WORLD = {
           "x": 6,
           "y": 23,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/class/war3",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/class/war3",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/class/war.create",
+          "source": "gmsv-data/npc/sa70/class/war.create",
           "script": "file:sa70/class/war3",
           "template": "changeevent",
           "graphic": "16183"
@@ -24800,9 +24800,9 @@ export const WORLD = {
           "x": 25,
           "y": 30,
           "type": "ExChangeMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/class/clean",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/class/clean",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/class/war.create",
+          "source": "gmsv-data/npc/sa70/class/war.create",
           "script": "file:sa70/class/clean",
           "template": "changeevent",
           "graphic": "16339"
@@ -24813,9 +24813,9 @@ export const WORLD = {
           "x": 28,
           "y": 23,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/class/war.arg",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/class/war.arg",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/class/war.create",
+          "source": "gmsv-data/npc/sa70/class/war.create",
           "script": "file:sa70/class/war.arg",
           "template": "npcgen_warpman",
           "graphic": "16181",
@@ -24839,7 +24839,7 @@ export const WORLD = {
             "moneyMessage": "",
             "partyMessage": "请一个一个来嘿！！",
             "warpMessage": "",
-            "source": "ref___data/npc/sa70/class/war.arg"
+            "source": "gmsv-data/npc/sa70/class/war.arg"
           }
         },
         {
@@ -24848,9 +24848,9 @@ export const WORLD = {
           "x": 26,
           "y": 26,
           "type": "WarpMan",
-          "dialogue": "脚本入口：ref___data/npc/sa70/class/war2",
+          "dialogue": "脚本入口：gmsv-data/npc/sa70/class/war2",
           "dialogueLines": [],
-          "source": "ref___data/npc/sa70/class/war.create",
+          "source": "gmsv-data/npc/sa70/class/war.create",
           "script": "file:sa70/class/war2",
           "template": "npcgen_warpman",
           "graphic": "16182"
@@ -24900,7 +24900,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -24911,7 +24911,7 @@ export const WORLD = {
       "mapFile": "/data/maps/10001.ls2map",
       "clientMapFile": "/data/client-maps/10001.dat",
       "clientMapSource": "公益石器时代/map/10001.dat",
-      "summary": "阿布的洞窟地下１楼|00 | floor=10001 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-00-01",
+      "summary": "阿布的洞窟地下１楼|00 | floor=10001 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-00-01",
       "size": [
         50,
         50
@@ -24932,9 +24932,9 @@ export const WORLD = {
           "x": 16,
           "y": 4,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_10001_16_4",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10001_16_4",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10000npc.create",
+          "source": "gmsv-data/npc/genout/10000npc.create",
           "script": "file:genout/msg_10001_16_4",
           "template": "npcgen_man",
           "graphic": "16044"
@@ -24947,7 +24947,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -24960,7 +24960,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -24994,7 +24994,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -25005,7 +25005,7 @@ export const WORLD = {
       "mapFile": "/data/maps/10101.ls2map",
       "clientMapFile": "/data/client-maps/10101.dat",
       "clientMapSource": "公益石器时代/map/10101.dat",
-      "summary": "往柯尔克的道路１楼|00 | floor=10101 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-01-01",
+      "summary": "往柯尔克的道路１楼|00 | floor=10101 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-01-01",
       "size": [
         50,
         50
@@ -25030,7 +25030,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25043,7 +25043,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25077,7 +25077,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -25088,7 +25088,7 @@ export const WORLD = {
       "mapFile": "/data/maps/10701.ls2map",
       "clientMapFile": "/data/client-maps/10701.dat",
       "clientMapSource": "公益石器时代/map/10701.dat",
-      "summary": "盗贼的洞窟地下１楼|0K | floor=10701 | 80x80 | ref___data/map/sainasu/dungeon/10701",
+      "summary": "盗贼的洞窟地下１楼|0K | floor=10701 | 80x80 | gmsv-data/map/sainasu/dungeon/10701",
       "size": [
         80,
         80
@@ -25113,13 +25113,13 @@ export const WORLD = {
             "那、那是我们的脚印…",
             "你做什么？我可是很忙的。到那边去。真是麻烦的家伙…。"
           ],
-          "source": "ref___data/npc/100/sb_nusu.create",
+          "source": "gmsv-data/npc/100/sb_nusu.create",
           "script": "file:100/sb_nusu1.arg",
           "template": "sb_n1",
           "graphic": "100405",
           "npcEnemy": {
             "kind": "NPCEnemy",
-            "source": "ref___data/npc/100/sb_nusu1.arg",
+            "source": "gmsv-data/npc/100/sb_nusu1.arg",
             "entype": 2,
             "enemyNos": [
               513,
@@ -25146,7 +25146,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10701d.create",
+          "source": "gmsv-data/npc/genout/10701d.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25159,7 +25159,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10701d.create",
+          "source": "gmsv-data/npc/genout/10701d.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25193,7 +25193,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -25204,7 +25204,7 @@ export const WORLD = {
       "mapFile": "/data/maps/10901.ls2map",
       "clientMapFile": "/data/client-maps/10901.dat",
       "clientMapSource": "公益石器时代/map/10901.dat",
-      "summary": "柯尔克的大坑道１楼 | floor=10901 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-09-01",
+      "summary": "柯尔克的大坑道１楼 | floor=10901 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-09-01",
       "size": [
         50,
         50
@@ -25223,9 +25223,9 @@ export const WORLD = {
           "x": 26,
           "y": 5,
           "type": "SignBoard",
-          "dialogue": "脚本入口：ref___data/npc/genout/signb_10901_26_5",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_10901_26_5",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10900npc.create",
+          "source": "gmsv-data/npc/genout/10900npc.create",
           "script": "file:genout/signb_10901_26_5",
           "template": "npcgen_signboard",
           "graphic": "10096"
@@ -25236,9 +25236,9 @@ export const WORLD = {
           "x": 46,
           "y": 6,
           "type": "TownPeople",
-          "dialogue": "脚本入口：ref___data/npc/genout/msg_10901_46_6",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10901_46_6",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/10900npc.create",
+          "source": "gmsv-data/npc/genout/10900npc.create",
           "script": "file:genout/msg_10901_46_6",
           "template": "npcgen_man",
           "graphic": "16209"
@@ -25251,7 +25251,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25264,7 +25264,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25277,7 +25277,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25319,7 +25319,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -25330,7 +25330,7 @@ export const WORLD = {
       "mapFile": "/data/maps/11001.ls2map",
       "clientMapFile": "/data/client-maps/11001.dat",
       "clientMapSource": "公益石器时代/map/11001.dat",
-      "summary": "柯奥山的小洞窟１楼 | floor=11001 | 50x50 | ref___data/map/sainasu/dungeon/dan_1-10-01",
+      "summary": "柯奥山的小洞窟１楼 | floor=11001 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-10-01",
       "size": [
         50,
         50
@@ -25352,7 +25352,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25365,7 +25365,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25378,7 +25378,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon00.create",
+          "source": "gmsv-data/npc/genout/dungeon00.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25420,7 +25420,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -25431,7 +25431,7 @@ export const WORLD = {
       "mapFile": "/data/maps/31401.ls2map",
       "clientMapFile": "/data/client-maps/31401.dat",
       "clientMapSource": "公益石器时代/map/31401.dat",
-      "summary": "奇努伊的海底通路|10 | floor=31401 | 120x40 | ref___data/map/giiru/dungeon/dun_3-14-01",
+      "summary": "奇努伊的海底通路|10 | floor=31401 | 120x40 | gmsv-data/map/giiru/dungeon/dun_3-14-01",
       "size": [
         120,
         40
@@ -25457,7 +25457,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon03.create",
+          "source": "gmsv-data/npc/genout/dungeon03.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25470,7 +25470,7 @@ export const WORLD = {
           "type": "Warp",
           "dialogue": "脚本入口：未配置脚本参数",
           "dialogueLines": [],
-          "source": "ref___data/npc/genout/dungeon03.create",
+          "source": "gmsv-data/npc/genout/dungeon03.create",
           "script": "npcgen_warp",
           "template": "npcgen_warp",
           "graphic": ""
@@ -25504,7 +25504,7 @@ export const WORLD = {
               ]
             }
           ],
-          "source": "ref___data/map/mapwarp.txt"
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     }
@@ -25529,7 +25529,7 @@ export const WORLD = {
         "visitEncounterMap": true,
         "fieldWin": true
       },
-      "source": "ref___data/npc/genout/1000npc_m.create + ref___data/encount.txt"
+      "source": "gmsv-data/npc/genout/1000npc_m.create + gmsv-data/encount.txt"
     }
   }
 };

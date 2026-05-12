@@ -9,7 +9,7 @@ This file is the durable memory for continuing development on another machine or
 - The original shape is `gmsv` game server + `saac` account/character server + local client; the web rebuild should eventually cover all three responsibilities.
 - User preference: keep the core cloud-first and Worker-native if possible, because expected player count is small; use original `gmsv/saac` as behavior specs, not as required daemons.
 - Future native clients should reuse the same cloud API/WebSocket protocol instead of forcing the browser build to imitate the old TCP client too early.
-- Deterministic source/ref-data behavior comes first; AI augments only after grounding in game state and source facts.
+- Deterministic source/gmsv-data behavior comes first; AI augments only after grounding in game state and source facts.
 
 ## Current Technical State
 
@@ -30,7 +30,7 @@ This file is the durable memory for continuing development on another machine or
 
 All major external references have been copied locally:
 
-- `external/sources/ref___data`
+- `external/sources/ref___data` (shown as `gmsv-data` in generated world/debug UI)
 - `external/sources/client-assets`
 - `external/sources/gmsv`
 - `external/sources/client-source`
@@ -41,7 +41,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 
 ## Map Rendering Conclusions
 
-- Ref-data is authoritative for map/game logic.
+- `gmsv-data` is authoritative for map/game logic.
 - Client `.dat` visual maps are used for visual reconstruction when available.
 - Projection follows client `drawMap` / `camMapToGamen`:
   - `screenX = (mapX + mapY) * 32`
@@ -116,8 +116,8 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 - Exit marker/list clicks now use Worker `/api/game/route-exit` to choose a reachable exact `mapwarp.txt` source tile and route there, so the same `/walk` path triggers real mapwarp instead of the UI calling instant `/travel` or guessing tiles client-side.
 - NPC marker/list clicks now use Worker `/api/game/route-npc` to route to a reachable tile within interaction range before opening dialogue, so map NPC buttons behave like in-world action hotspots rather than remote UI shortcuts without making many client-side route probes.
 - Worker NPC `talk/dialog` and shop `buy` actions now enforce source-style distance gates before mutating state, matching the original `CharDistance`/window checks; the client surfaces these refusals in log/dialog text instead of silently remote-operating NPCs.
-- NPC dialogs now include structured debug/source metadata (`source`, `script`, `template`, `type`, `actions`, gmsv talk flow) and the in-map dialog header shows the actual ref-data path/action profile, which is the handoff point for the deterministic script VM and future AI guardrails.
-- `npc-002` is implemented: default click-to-talk sends `hi`, custom dialog text appends in the same overlay, source dialogue advances one NPC line at a time, and asking an NPC about `来源/脚本/source/debug` returns the ref-data source and script entry.
+- NPC dialogs now include structured debug/source metadata (`source`, `script`, `template`, `type`, `actions`, gmsv talk flow) and the in-map dialog header shows the actual `gmsv-data` path/action profile, which is the handoff point for the deterministic script VM and future AI guardrails.
+- `npc-002` is implemented: default click-to-talk sends `hi`, custom dialog text appends in the same overlay, source dialogue advances one NPC line at a time, and asking an NPC about `来源/脚本/source/debug` returns the `gmsv-data` source and script entry.
 - `script-vm-001` has started: deterministic NPC replies now record `npcVmEvents` for whitelisted actions such as `say`, `quest`, `shop`, `window`, `warp`, `heal`, `save`, `setFlag`, `give`, `take`, `startBattle`, `battleAction`, `debug`, and unsupported future actions; dialog debug returns `actions`, VM `allowedActions`, global `supportedActions`, and the current NPC's recent `vmTrace`, and SAAC-like save JSON carries recent VM events for inspection. Stateful `setFlag/give/take/startBattle/battleAction` actions now run through `runNpcVmAction`, mutate flags/stone/exp/inventory/encounter/battle state inside the NPC VM executor, and mark trace detail with `executor: npc-action-vm` plus `mutated`.
 - `npc-runtime-002` has started: healer NPCs now perform source-style recovery for player/pets and savepoint NPCs record last savepoint into game/save state, including SAAC-like save info and event flags.
 - `warp-002` has started: NPC WarpMan args now parse source `WARP`, `FREE`, `MONEY`, and `DelItem` metadata into `WORLD`; dialog can prompt and execute loaded warp targets, including level/item checks, level-based stone cost, ticket consumption, logs, event flags, and SAAC-like save updates. Floors `122` and `1021` are forced into the compact Worker map set as renderable source warp fixtures.

@@ -9,6 +9,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=battle-sprites-v1";
+const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
@@ -385,7 +386,7 @@ function render() {
   els.playerTitle.textContent = game.player.name;
   els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
   els.mapName.textContent = map.name;
-  els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
+  els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：${GMSV_DATA_SOURCE}/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMapHud();
   els.encounterBtn.hidden = !ENCOUNTER_UI_ENABLED;
   els.encounterBtn.disabled = !ENCOUNTER_UI_ENABLED || !map.encounterPets?.length;
@@ -2202,7 +2203,7 @@ function renderDialogShop(dialog) {
     <div class="shop-box">
       <div>
         <strong>商品</strong>
-        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)} | ${escapeHtml(dialog.trade.source || "ref___data")}</span>
+        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)} | ${escapeHtml(dialog.trade.source || GMSV_DATA_SOURCE)}</span>
       </div>
       ${items.slice(0, 8).map((item) => `
         <button class="shop-item" type="button" data-buy="${item.id}" ${shopDisabled(item) ? "disabled" : ""}>
@@ -2610,7 +2611,7 @@ function clientDataWindow() {
         </article>
         <article>
           <strong>来源</strong>
-          <span>client map + npc scripts + mapwarp.txt</span>
+          <span>client map + gmsv-data/npc + gmsv-data/mapwarp.txt</span>
         </article>
       </div>
     `

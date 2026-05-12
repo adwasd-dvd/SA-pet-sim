@@ -15,6 +15,7 @@ const DATA_FILES = {
   ]
 };
 
+const GMSV_DATA_SOURCE = "gmsv-data";
 const CHAR_MAXUPLEVEL = 140;
 const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
@@ -992,7 +993,7 @@ function applyRecoveryItem(game, item) {
     before: preview.before,
     after: preview.next,
     restored: preview.restored,
-    source: item.source || "ref___data/itemset6.txt"
+    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
   };
 }
 
@@ -1077,7 +1078,7 @@ async function spawnEncounter(env, request, game, map, source) {
   const activePet = game.pets?.[0];
   if (activePet) {
     ensureBattleState(game, activePet, enemy);
-    if (game.battle) game.battle.source = `${source} encounter from ref___data/encount.txt + gmsv/char/encount.c`;
+    if (game.battle) game.battle.source = `${source} encounter from ${GMSV_DATA_SOURCE}/encount.txt + gmsv/char/encount.c`;
   }
   addLog(game, `${source}遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
   return enemy;
@@ -1089,7 +1090,7 @@ async function createEncounterEnemy(env, request, game, map) {
   const enemy = createEnemy(data, petNo, Math.max(1, game.player.level + randInt(3) - 1));
   if (!enemy) return null;
   enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
-  enemy.source = "ref___data/encount.txt + enemybase2.txt";
+  enemy.source = `${GMSV_DATA_SOURCE}/encount.txt + ${GMSV_DATA_SOURCE}/enemybase2.txt`;
   return enemy;
 }
 
@@ -1184,7 +1185,7 @@ async function createNpcEnemyEncounter(env, request, game, npc) {
   const enemy = createEnemy(data, enemyNo, level);
   if (!enemy) return null;
   enemy.CaptureRate = 0;
-  enemy.source = `${npc.npcEnemy?.source || npc.script || npc.source || "NPCEnemy"} + enemybase2.txt`;
+  enemy.source = `${npc.npcEnemy?.source || npc.script || npc.source || "NPCEnemy"} + ${GMSV_DATA_SOURCE}/enemybase2.txt`;
   enemy.npcEnemy = {
     npcId: npc.id,
     npcName: npc.name,
@@ -1436,7 +1437,7 @@ function ensureBattleState(game, pet, enemy) {
     startedAt: new Date().toISOString(),
     log: [`${pet.Name} 遭遇 ${enemy.Name}，战斗开始。`],
     sourceCommand: "",
-    source: "gmsv battle_command.c + battle.c command loop from ref-data enemy parameters"
+    source: `gmsv battle_command.c + battle.c command loop from ${GMSV_DATA_SOURCE} enemy parameters`
   };
 }
 
@@ -1659,7 +1660,7 @@ async function captureReply(env, request, game, npc) {
     reason: "npc-capture",
     mapId: map.id,
     mapName: map.name,
-    source: "ref___data/encount.txt"
+    source: `${GMSV_DATA_SOURCE}/encount.txt`
   });
   if (!event.ok) {
     return `${npc.name} 找不到可用的遇敌资料：${event.error || "startBattle 被 VM 拒绝"}。`;
@@ -2138,7 +2139,7 @@ function applyNpcVmStartBattle(game, action) {
   const activePet = game.pets?.[0];
   if (activePet) {
     ensureBattleState(game, activePet, game.encounter);
-    if (game.battle) game.battle.source = "npc-action-vm startBattle from ref___data/encount.txt";
+    if (game.battle) game.battle.source = `npc-action-vm startBattle from ${GMSV_DATA_SOURCE}/encount.txt`;
   }
   return { ok: true, mutated: true };
 }
@@ -2271,7 +2272,7 @@ function addInventoryItem(game, item, qty = 1) {
     price: item.price,
     cost: item.cost,
     description: item.description,
-    source: "ref___data/itemset6.txt"
+    source: `${GMSV_DATA_SOURCE}/itemset6.txt`
   });
 }
 

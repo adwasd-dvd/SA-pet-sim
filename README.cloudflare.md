@@ -34,5 +34,5 @@ npm run deploy
 - `POST /api/game/buy`：从可交易 NPC 购买道具。
 - `POST /api/game/encounter`、`/api/game/capture`：保留的后端实验接口，当前主 UI 不暴露自动遇敌/抓宠。
 - `POST /api/game/train`：宠物训练流程。
-- `POST /api/data/search`：搜索从 `ref___data` 同步来的宠物、地图、NPC、道具、遇敌资料。
+- `POST /api/data/search`：搜索从 `gmsv-data` 同步来的宠物、地图、NPC、道具、遇敌资料。
 - `POST /api/ai/guide`：用当前地图、NPC、任务、背包、宠物和日志生成游戏内向导建议。

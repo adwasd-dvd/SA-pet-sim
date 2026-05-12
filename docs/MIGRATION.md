@@ -12,7 +12,7 @@ external/sources/
 
 Current bundle contents:
 
-- `external/sources/ref___data`: canonical gameplay data.
+- `external/sources/ref___data`: canonical `gmsv-data` gameplay data. Generated world/debug output labels this as `gmsv-data`.
 - `external/sources/client-assets`: client maps, tile binaries, palettes, and related assets.
 - `external/sources/gmsv`: original game server runtime source.
 - `external/sources/client-source`: original 8.5 client source.

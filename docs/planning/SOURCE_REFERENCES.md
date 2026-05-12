@@ -1,10 +1,11 @@
 # Source References
 
-These local source trees are the canonical references for rebuilding the game behavior. When browser behavior and guessed logic disagree with these sources, prefer the source/ref-data path listed here.
+These local source trees are the canonical references for rebuilding the game behavior. When browser behavior and guessed logic disagree with these sources, prefer the gmsv-data path listed here.
 
 ## Canonical Data
 
 - Bundled: `external/sources/ref___data`
+- Display/source label in generated data and UI: `gmsv-data`
 - Original local path: `/Users/adwasd/Downloads/CodeX-projects/SA-Pet-sim/ref___data`
   - Primary gameplay data for maps, NPCs, pets, items, warps, encounters, and scripts.
   - Use this as the authoritative data source for gameplay logic.
@@ -41,7 +42,7 @@ These local source trees are the canonical references for rebuilding the game be
 
 ## Current Browser Rebuild Rules
 
-- Ref-data is canonical for logic; client map data is allowed for visual reconstruction.
+- `gmsv-data` is canonical for logic; client map data is allowed for visual reconstruction.
 - The Worker replaces `gmsv` runtime behavior.
 - Browser JSON/local storage and future Cloudflare persistence replace `saac`.
 - AI can explain or extend interaction only after the deterministic data/source-backed behavior has first been modeled.

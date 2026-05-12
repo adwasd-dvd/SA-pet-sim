@@ -11,6 +11,8 @@ const publicMapRoot = path.join(appRoot, "public", "data", "maps");
 const publicClientMapRoot = path.join(appRoot, "public", "data", "client-maps");
 const worldOut = path.join(appRoot, "src", "world-data.js");
 const gb18030 = new TextDecoder("gb18030");
+const GMSV_DATA_SOURCE = "gmsv-data";
+const CLIENT_ASSET_SOURCE = "client-assets";
 
 const START_FLOOR = 1000;
 const MAX_MAPS = 44;
@@ -84,7 +86,7 @@ for (const floor of selectedFloors) {
         y: item.y,
         target: [item.toX, item.toY]
       })),
-      source: "ref___data/map/mapwarp.txt"
+      source: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`
     });
   }
 }
@@ -95,11 +97,11 @@ applyFirstPlayableQuestHooks(maps, quests);
 const world = {
   source: {
     root: relativeRef(refRoot),
-    maps: "ref___data/map/** LS2MAP",
+    maps: `${GMSV_DATA_SOURCE}/map/** LS2MAP`,
     clientMaps: "公益石器时代/map/*.dat",
-    npcs: "ref___data/npc/**/*.create + .template + args/config",
-    warps: "ref___data/map/mapwarp.txt",
-    encounters: "ref___data/encount.txt"
+    npcs: `${GMSV_DATA_SOURCE}/npc/**/*.create + .template + args/config`,
+    warps: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`,
+    encounters: `${GMSV_DATA_SOURCE}/encount.txt`
   },
   startMap: String(START_FLOOR),
   maps,
@@ -305,7 +307,7 @@ function firstPlayableQuests() {
         visitEncounterMap: true,
         fieldWin: true
       },
-      source: "ref___data/npc/genout/1000npc_m.create + ref___data/encount.txt"
+      source: `${GMSV_DATA_SOURCE}/npc/genout/1000npc_m.create + ${GMSV_DATA_SOURCE}/encount.txt`
     }
   };
 }
@@ -650,5 +652,16 @@ function clamp(value, max) {
 }
 
 function relativeRef(file) {
-  return path.relative(path.dirname(refRoot), file).replaceAll(path.sep, "/");
+  const resolved = path.resolve(file);
+  const refRelative = path.relative(refRoot, resolved);
+  if (!refRelative) return GMSV_DATA_SOURCE;
+  if (!refRelative.startsWith("..") && !path.isAbsolute(refRelative)) {
+    return `${GMSV_DATA_SOURCE}/${refRelative}`.replaceAll(path.sep, "/");
+  }
+  const clientRelative = path.relative(clientRoot, resolved);
+  if (!clientRelative) return CLIENT_ASSET_SOURCE;
+  if (!clientRelative.startsWith("..") && !path.isAbsolute(clientRelative)) {
+    return `${CLIENT_ASSET_SOURCE}/${clientRelative}`.replaceAll(path.sep, "/");
+  }
+  return path.relative(appRoot, resolved).replaceAll(path.sep, "/");
 }
