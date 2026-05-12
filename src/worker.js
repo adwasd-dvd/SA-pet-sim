@@ -2731,13 +2731,15 @@ function npcEnemyNegotiationReply(game, npc, text) {
     recordNpcVmEvent(game, npc, "debug", strongEnough ? "ok" : "blocked", { reason: "ai-threat", strongEnough });
     if (!strongEnough) return `${npc.name} 冷笑了一声：这种话对守路的人没用。想过去就按原版规则决胜负，或拿出足够的石币谈。`;
   }
-  const cost = Math.max(80, Number(game.player.level || 1) * 40);
-  if (Number(game.player.stone || 0) < cost) {
+  const cost = threat ? 0 : Math.max(80, Number(game.player.level || 1) * 40);
+  if (cost > 0 && Number(game.player.stone || 0) < cost) {
     recordNpcVmEvent(game, npc, "take", "blocked", { reason: "ai-bribe", cost, current: game.player.stone });
     return `${npc.name} 看了一眼你的钱袋：至少 ${cost} 石币才值得我装作没看见。`;
   }
-  const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: threat ? "ai-threat-bribe" : "ai-bribe" });
-  if (!taken.ok) return `${npc.name} 没有收下：${taken.error || "石币不够"}。`;
+  if (cost > 0) {
+    const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "ai-bribe" });
+    if (!taken.ok) return `${npc.name} 没有收下：${taken.error || "石币不够"}。`;
+  }
   const event = runNpcVmAction(game, npc, {
     type: "effect",
     effect: "npcBypass",
@@ -2748,7 +2750,9 @@ function npcEnemyNegotiationReply(game, npc, text) {
     source: npc.npcEnemy?.source || npc.script || npc.source || ""
   });
   if (!event.ok) return `${npc.name} 收了钱，但没能让开：${event.error || "npcBypass 被 VM 拒绝"}。`;
-  return `${npc.name} 收下 ${cost} 石币，侧身让开一会儿。通路会打开 5 分钟；这是临时交涉，不会改掉原版 NPCEnemy 的战斗脚本。`;
+  return threat
+    ? `${npc.name} 判断你现在确实不好惹，侧身让开一会儿。通路会打开 5 分钟；这是临时威慑，不会改掉原版 NPCEnemy 的战斗脚本。`
+    : `${npc.name} 收下 ${cost} 石币，侧身让开一会儿。通路会打开 5 分钟；这是临时交涉，不会改掉原版 NPCEnemy 的战斗脚本。`;
 }
 
 function worldTradeItems() {

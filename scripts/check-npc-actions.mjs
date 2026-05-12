@@ -261,6 +261,15 @@ assert(ganzoBribeGame.player.stone < 1000, "NPCEnemy bribe takes stone through V
 assert(ganzoBribeGame.flags.npcEnemyDefeats[ganzo.id]?.until, "NPCEnemy bribe opens temporary bypass");
 assert(!ganzoBribeGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "NPCEnemy bribe hides blocker while bypass is active");
 
+let ganzoThreatGame = await api("/api/game/new", { name: "ganzo-threat-test" });
+ganzoThreatGame.location = { mapId: "100", x: ganzo.x, y: ganzo.y + 1 };
+ganzoThreatGame.player.level = 12;
+ganzoThreatGame.player.stone = 1000;
+ganzoThreatGame = await api("/api/game/dialog", { game: ganzoThreatGame, npcId: ganzo.id, message: "AI对话" });
+ganzoThreatGame = await api("/api/game/dialog", { game: ganzoThreatGame, npcId: ganzo.id, message: "威胁他让我过去" });
+assertEqual(ganzoThreatGame.player.stone, 1000, "strong NPCEnemy threat does not take bribe money");
+assert(ganzoThreatGame.flags.npcEnemyDefeats[ganzo.id]?.mode === "threat", "strong NPCEnemy threat opens bypass as threat mode");
+
 const battleNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ map, npc }) => map.encounterPets?.length && npc.id && !npc.npcEnemy);
