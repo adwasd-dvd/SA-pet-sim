@@ -1274,7 +1274,7 @@ function renderDialog() {
   els.dialogPanel.hidden = !dialog?.open;
   if (!dialog?.open) return;
   els.dialogNpcName.textContent = dialog.npcName || "NPC";
-  els.dialogSource.textContent = dialog.source || "点击 NPC 后已自动打招呼，可继续追问";
+  els.dialogSource.textContent = dialogDebugLine(dialog);
   els.dialogMessages.innerHTML = (dialog.messages || []).map((message) => `
     <p class="dialog-bubble ${message.speaker === "player" ? "player" : message.speaker === "system" ? "system" : "npc"}">
       <span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>
@@ -1292,6 +1292,17 @@ function renderDialog() {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
+}
+
+function dialogDebugLine(dialog) {
+  const debug = dialog?.debug;
+  if (!debug) return dialog?.source || "点击 NPC 后已自动打招呼，可继续追问";
+  const parts = [];
+  if (debug.source) parts.push(debug.source);
+  if (debug.script && debug.script !== debug.source) parts.push(debug.script);
+  if (debug.template && debug.template !== debug.script) parts.push(`template:${debug.template}`);
+  if (debug.actions?.length) parts.push(`actions:${debug.actions.join("/")}`);
+  return parts.join(" | ") || dialog.source || debug.talkFlow || "点击 NPC 后已自动打招呼，可继续追问";
 }
 
 function renderDialogShop(dialog) {

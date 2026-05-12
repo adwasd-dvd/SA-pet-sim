@@ -55,6 +55,10 @@ assertEqual(game.player.hp, game.player.maxHp, "healer restores player hp");
 assertEqual(game.pets[0].Hp, game.pets[0].WorkMaxHp, "healer restores active pet hp");
 assert(game.player.stone < stoneBefore, "window healer charges stone");
 assert(game.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("恢复")), "healer replies with recovery text");
+assertEqual(game.dialog.debug.source, healer.npc.source, "dialog debug records healer source");
+assertEqual(game.dialog.debug.template, healer.npc.template, "dialog debug records healer template");
+assert(game.dialog.debug.actions.includes("heal"), "dialog debug profiles healer action");
+assert(game.dialog.source.includes(healer.npc.source), "dialog source line includes source path");
 assert(game.flags.bits[`now:${stableFlag(`${healer.npc.id}:healer`)}`], "healer action flag set");
 
 const saveNpc = Object.values(WORLD.maps)
@@ -96,6 +100,8 @@ assertEqual(game.location.x, warpNpc.npc.warp.target.x, "warp NPC sets target x"
 assertEqual(game.location.y, warpNpc.npc.warp.target.y, "warp NPC sets target y");
 assertEqual(game.player.stone, 100 - warpCost, "warp NPC charges level-based stone cost");
 assert(game.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("启动传送")), "warp NPC replies with travel text");
+assert(game.dialog.debug.actions.includes("warp"), "dialog debug profiles warp action");
+assert(game.dialog.source.includes(warpNpc.npc.source), "dialog source line includes warp source path");
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 

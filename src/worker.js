@@ -1376,6 +1376,7 @@ async function aiNpcReply(env, game, npc, text) {
 }
 
 function openDialog(game, npc, messages) {
+  const debug = npcDebugInfo(npc);
   game.dialog = {
     open: true,
     npcId: npc.id,
@@ -1385,8 +1386,41 @@ function openDialog(game, npc, messages) {
     warp: npc.warp || null,
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc),
-    source: "参考 gmsv：点击 NPC 后客户端自动送出 P|hi，再由 CHAR_Talk 触发 NPC talkedfunc"
+    source: dialogSourceLine(debug),
+    debug
   };
+}
+
+function npcDebugInfo(npc) {
+  return {
+    source: npc.source || "",
+    script: npc.script || "",
+    template: npc.template || "",
+    type: npc.type || "",
+    graphic: npc.graphic || "",
+    actions: npcActionProfile(npc),
+    talkFlow: "gmsv CHAR_Talk -> NPC talkedfunc; browser click sends P|hi"
+  };
+}
+
+function dialogSourceLine(debug) {
+  const parts = [];
+  if (debug.source) parts.push(debug.source);
+  if (debug.script && debug.script !== debug.source) parts.push(debug.script);
+  if (debug.template && debug.template !== debug.script) parts.push(`template:${debug.template}`);
+  if (debug.actions?.length) parts.push(`actions:${debug.actions.join("/")}`);
+  return parts.join(" | ") || "参考 gmsv：点击 NPC 后客户端自动送出 P|hi，再由 CHAR_Talk 触发 NPC talkedfunc";
+}
+
+function npcActionProfile(npc) {
+  const actions = [];
+  if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
+  if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
+  if (isHealerNpc(npc)) actions.push("heal");
+  if (isSavePointNpc(npc)) actions.push("save");
+  if (npc.questId) actions.push("quest");
+  if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
+  return [...new Set(actions)];
 }
 
 function withTradeState(game, trade) {
