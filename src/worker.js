@@ -248,6 +248,14 @@ async function walkGame(env, request, game, dx, dy) {
   const map = currentMap(game);
   const width = Math.max(1, Number(map.size?.[0]) || 1);
   const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const requestedDx = Math.sign(Number(dx) || 0);
+  const requestedDy = Math.sign(Number(dy) || 0);
+  if (requestedDx === 0 && requestedDy === 0) {
+    const currentExit = exitAt(map, game.location.x, game.location.y);
+    if (currentExit) return applyExit(game, currentExit);
+    noteNearby(game, map);
+    return withMap(game);
+  }
   const dir = dirFromDelta(dx, dy, game.player?.dir ?? game.location?.dir);
   const delta = deltaForDir(dir);
   setCharacterDir(game, dir);
@@ -791,7 +799,8 @@ function applyExit(game, exit) {
   const from = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
   const dir = normalizeDir(game.player?.dir ?? game.location?.dir);
   const now = new Date().toISOString();
-  game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1], dir };
+  const to = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
+  game.location = { ...to, dir };
   setCharacterDir(game, dir);
   game.encounter = null;
   game.battle = null;
@@ -802,10 +811,11 @@ function applyExit(game, exit) {
     label: exit.label,
     from,
     sourceTile: exit.sourceTile || { x: exit.x, y: exit.y, target: exit.target },
-    to: { mapId: exit.to, x: exit.target[0], y: exit.target[1] },
+    to,
     source: exit.source,
     warpedAt: now
   };
+  game.transition = warpTransition("mapwarp", exit.label, from, to, exit.source, now);
   game.character ||= {};
   game.character.updatedAt = now;
   addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
@@ -835,11 +845,25 @@ function applyWarpTarget(game, target, label) {
     to: { mapId: targetMap.id, x, y },
     warpedAt: now
   };
+  game.transition = warpTransition("npc-warp", label, from, game.lastWarp.to, target.source || "npc warp", now);
   game.character ||= {};
   game.character.updatedAt = game.lastWarp.warpedAt;
   addLog(game, `你通过「${label}」来到 ${targetMap.name} (${x},${y})。`);
   updateQuestProgress(game, "enterMap", { mapId: targetMap.id });
   return targetMap;
+}
+
+function warpTransition(kind, label, from, to, source, at) {
+  return {
+    id: `${kind}:${from.mapId},${from.x},${from.y}->${to.mapId},${to.x},${to.y}:${at}`,
+    type: "warp",
+    kind,
+    label,
+    from,
+    to,
+    source,
+    at
+  };
 }
 
 function buyGame(game, npcId, itemId) {

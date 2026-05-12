@@ -16,6 +16,7 @@ const MAP_BACKDROP_COLOR = "#000000";
 const CG_GRID_CURSOR = 25001;
 const MOVE_MODE_CHANGE_TIME = 1000;
 const MOVE_CLICK_WAIT_TIME = 250;
+const WARP_EFFECT_MS = 680;
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -99,6 +100,8 @@ let largeMapRenderer = null;
 let mapRenderVersion = 0;
 let activeTab = "pets";
 let clientWindowOpen = false;
+let activeWarpTransitionKey = "";
+let warpTransitionTimer = 0;
 let playerAnimState = {
   dir: DEFAULT_PLAYER_DIRECTION,
   startedAt: 0,
@@ -343,6 +346,7 @@ function render() {
     ? (map.encounterPets?.length ? "主动触发一次野外遇敌" : "当前地图没有 encount.txt 遇敌资料")
     : "遇敌捕获界面已关闭";
   renderMap(map);
+  syncWarpTransition();
   renderNpc(map);
   renderExits(map);
   renderDialog();
@@ -405,6 +409,36 @@ function renderMap(map) {
   renderLs2Map(map, renderVersion).catch(() => {
     els.mapCanvas.classList.add("map-fallback");
   });
+}
+
+function syncWarpTransition() {
+  const transition = game?.transition?.type === "warp" ? game.transition : null;
+  if (!transition) {
+    clearWarpTransitionTimer();
+    activeWarpTransitionKey = "";
+    els.mapCanvas.classList.remove("warping");
+    return;
+  }
+  const key = transition.id || `${transition.kind}:${transition.from?.mapId}->${transition.to?.mapId}:${transition.at}`;
+  els.mapCanvas.classList.add("warping");
+  if (key === activeWarpTransitionKey) return;
+  clearWarpTransitionTimer();
+  activeWarpTransitionKey = key;
+  warpTransitionTimer = window.setTimeout(() => {
+    if (game?.transition && (game.transition.id || "") === (transition.id || "")) {
+      game.transition = null;
+      save();
+    }
+    els.mapCanvas.classList.remove("warping");
+    activeWarpTransitionKey = "";
+    warpTransitionTimer = 0;
+  }, WARP_EFFECT_MS);
+}
+
+function clearWarpTransitionTimer() {
+  if (!warpTransitionTimer) return;
+  window.clearTimeout(warpTransitionTimer);
+  warpTransitionTimer = 0;
 }
 
 function onMapCanvasClick(event) {

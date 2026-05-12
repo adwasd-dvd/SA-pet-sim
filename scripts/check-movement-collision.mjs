@@ -76,6 +76,25 @@ const exactExit = WORLD.maps["1000"].exits
   .find((exit) => exit.to === "100" && exit.tiles?.some((tile) => tile.x === 49 && tile.y === 116));
 if (!exactExit) throw new Error("missing exact mapwarp fixture");
 
+route = await api("/api/game/route-exit", {
+  game: { ...game, location: { mapId: "1000", x: 49, y: 116, dir: 2 } },
+  exitId: exactExit.id
+});
+assertEqual(route.reason, "already-at-exit", "route-exit reports already standing on exact source tile");
+assertEqual(route.route[0].dx, 0, "already-at-exit uses zero-step route dx");
+assertEqual(route.route[0].dy, 0, "already-at-exit uses zero-step route dy");
+
+let warpGame = await api("/api/game/walk", {
+  game: { ...game, location: { mapId: "1000", x: 49, y: 116, dir: 2 }, player: { ...game.player, dir: 2 } },
+  dx: 0,
+  dy: 0
+});
+assertEqual(warpGame.location.mapId, "100", "zero-step walk on exact mapwarp changes floor");
+assertEqual(warpGame.location.x, 637, "zero-step mapwarp uses exact source target x");
+assertEqual(warpGame.location.y, 491, "zero-step mapwarp uses exact source target y");
+assertEqual(warpGame.transition.type, "warp", "mapwarp records transient warp transition");
+assertEqual(warpGame.transition.kind, "mapwarp", "mapwarp transition keeps kind");
+
 route = await api("/api/game/route", {
   game: { ...game, location: { mapId: "1000", x: 48, y: 116 } },
   targetX: 49,
@@ -105,6 +124,8 @@ assertEqual(game.player.dir, 2, "mapwarp preserves source direction");
 assertEqual(game.location.dir, 2, "mapwarp location preserves source direction");
 assertEqual(game.lastWarp.sourceTile.x, 49, "lastWarp records source tile x");
 assertEqual(game.lastWarp.sourceTile.y, 116, "lastWarp records source tile y");
+assertEqual(game.transition.type, "warp", "walked mapwarp records transient transition");
+assertEqual(game.transition.to.mapId, "100", "transition records target floor");
 assert(game.save.info.includes("LAST_WARP=100,637,491"), "saac-like save info records last mapwarp");
 assert(game.save.info.includes("DIR=2"), "saac-like save info records mapwarp direction");
 
@@ -123,7 +144,7 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, source-style blocked-target facing, NPC cells, Worker exit routes, exact mapwarp tiles, and NPC approach routes are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, source-style blocked-target facing, NPC cells, Worker exit routes, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

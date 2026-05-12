@@ -974,7 +974,7 @@ h3 {
   display: none;
 }
 
-.map-canvas.map-fallback::before {
+.map-canvas.map-fallback:not(.warping)::before {
   content: "";
   position: absolute;
   inset: 47% -8% auto -8%;
@@ -983,6 +983,28 @@ h3 {
   border: 1px solid rgb(90 73 40 / 18%);
   background: rgb(244 222 159 / 72%);
   box-shadow: 0 10px 22px rgb(71 57 28 / 12%);
+}
+
+.map-canvas.warping::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  background: #000;
+  animation: warp-fade 680ms ease-out both;
+}
+
+@keyframes warp-fade {
+  0% {
+    opacity: .92;
+  }
+  42% {
+    opacity: .82;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .ls2-map,
