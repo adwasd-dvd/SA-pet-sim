@@ -635,6 +635,26 @@ h3 {
   padding: 16px;
 }
 
+.battle-log {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 6px;
+  max-height: 116px;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.battle-log:empty {
+  display: none;
+}
+
+.battle-log p {
+  margin: 0;
+}
+
 .encounter-panel img {
   max-width: 120px;
   max-height: 100px;
@@ -757,13 +777,27 @@ h3 {
 }
 
 .shop-item span {
+  display: grid;
+  gap: 3px;
   overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-item small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
   text-overflow: ellipsis;
 }
 
 .shop-item b {
   white-space: nowrap;
   color: var(--forest);
+}
+
+.shop-item:disabled b {
+  color: var(--muted);
 }
 
 .dialog-form input {
@@ -861,8 +895,29 @@ h3 {
   background: #fff;
 }
 
+.inventory-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.inventory-head h3 {
+  margin-bottom: 0;
+}
+
+.inventory-head span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 9px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
 .inventory-item {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
   border-top: 1px solid var(--line);
@@ -870,8 +925,21 @@ h3 {
 }
 
 .inventory-item span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.inventory-item small {
   color: var(--muted);
   font-size: 13px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.inventory-item button {
+  min-height: 34px;
+  padding: 0 12px;
 }
 
 .result-list,
@@ -912,6 +980,32 @@ h3 {
 .result-item p {
   margin: 8px 0 0;
   word-break: break-word;
+}
+
+.quest-card {
+  display: grid;
+  gap: 8px;
+}
+
+.quest-progress {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.quest-progress span {
+  height: 8px;
+  border-radius: 999px;
+  background: #e5ddca;
+}
+
+.quest-progress span.done {
+  background: var(--forest-2);
+}
+
+.quest-progress span.current {
+  background: var(--gold);
 }
 
 .log-list p {

@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=26">
+    <link rel="stylesheet" href="/assets/app.css?v=30">
   </head>
   <body>
     <div class="app-shell">
@@ -116,9 +116,11 @@
             </div>
             <img id="encounterImg" src="/f/logo.gif" alt="遇敌宠物">
             <div class="encounter-actions">
+              <button id="attackBtn" type="button">攻击</button>
               <button id="captureBtn" type="button">捕获</button>
               <button id="skipEncounterBtn" type="button">放走</button>
             </div>
+            <div id="battleLog" class="battle-log" aria-live="polite"></div>
           </section>
 
           <section class="tabs" aria-label="游戏信息">
@@ -172,6 +174,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=26"></script>
+    <script type="module" src="/assets/app.js?v=30"></script>
   </body>
 </html>

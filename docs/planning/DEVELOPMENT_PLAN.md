@@ -19,15 +19,39 @@ This project is no longer just a fork cleanup. The goal is to rebuild Stone Age 
    - Canonical data remains ref-data/client/server source derived.
    - AI must cite or ground itself in current map, NPC, flags, inventory, quests, and server script facts.
 
+4. Grow from single-player PWA into an online game runtime.
+   - Treat `gmsv` as the source reference for world simulation, not as a monolith that must run unchanged inside a Worker.
+   - Treat `saac` as the source reference for account/character persistence, then rebuild the persistence semantics with browser JSON, D1, and Durable Objects.
+   - Use WebSocket rooms for real-time map, party, chat, battle, and trade state.
+   - Keep original TCP client compatibility as a later bridge/container/VPS track, not the first blocker.
+
 ## Current Ground Rules
 
 - Source paths are tracked in `docs/planning/SOURCE_REFERENCES.md`.
+- Cloud and multiplayer runtime direction is tracked in `docs/planning/CLOUD_RUNTIME_STRATEGY.md`.
+- Worker-native `gmsv/saac` porting decisions are tracked in `docs/planning/WORKER_NATIVE_GMSV_PORT.md`.
 - Character/account persistence is tracked in `docs/planning/SAVE_SCHEMA.md`.
 - Visual maps use client map rendering behavior.
 - Map geometry and projection follow the original client `drawMap` / `camMapToGamen` logic.
 - Each tile sprite is vertically flipped before being pasted into its diamond cell.
 - NPC, warp, encounter, shop, quest, and account semantics come from ref-data and server source.
 - Client `.dat` visual data may be used for visual reconstruction, while ref-data remains authoritative for game logic.
+- AI may propose dialogue or allowed actions, but deterministic game services must validate and execute every state change.
+
+## Cloud Runtime Direction
+
+Cloudflare is a good fit for the browser-first rebuild when the project is split into web-native services:
+
+- Worker: API gateway, static assets, light deterministic game APIs, AI routing.
+- Durable Objects: per-account locks, map rooms, battle rooms, party/trade sessions, WebSocket coordination.
+- D1: account, character, inventory, pet, quest, and save snapshot data.
+- R2 or Static Assets: generated maps, tile atlases, data tables, large client resources.
+- KV: read-heavy config/cache only, not authoritative character saves.
+- Workers AI or external models: grounded NPC wording and guide responses.
+
+Plain Workers are not the right place for unmodified long-running `gmsv/saac` TCP daemons. That path should use Containers, a VPS, or a protocol bridge later if old native client compatibility becomes a priority.
+
+The preferred near-term strategy is still Cloudflare-first: port the `gmsv/saac` behavior into Worker-native services instead of running the original daemon. `mysqlclient` becomes D1/DO persistence, `pthread/epoll` becomes Durable Object/WebSocket event handling, and Lua/LuaJIT behavior starts as a deterministic NPC action VM before any Lua/WASM compatibility work.
 
 ## Milestones
 
@@ -137,6 +161,22 @@ Acceptance:
 
 - AI answer includes source-grounded current context.
 - AI does not invent NPC/shop/warp data when ref-data has the answer.
+
+### M8: Cloud Multiplayer Runtime
+
+Goal: Make the browser rebuild feel like an online game again.
+
+- Add a Durable Object map room that owns nearby player presence and chat.
+- Add a WebSocket protocol for enter, move, talk, leave, and room state snapshots.
+- Persist character changes through a per-character lock/session boundary.
+- Keep room hot state separate from D1 save snapshots.
+
+Acceptance:
+
+- Two browser tabs can see each other on the same map.
+- Moving in one tab broadcasts a position update to the other tab.
+- Chat appears only to players in the same room/range.
+- Reloading preserves the character through cloud persistence.
 
 ## Engineering Tracks
 

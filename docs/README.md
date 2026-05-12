@@ -7,6 +7,8 @@ This is the documentation entrypoint for the StoneAge Web Rebuild.
 - `docs/MIGRATION.md`: how to move this project to another computer.
 - `docs/planning/PROJECT_MEMORY.md`: current project memory, decisions, and next work.
 - `docs/planning/DEVELOPMENT_PLAN.md`: long-term rebuild plan.
+- `docs/planning/CLOUD_RUNTIME_STRATEGY.md`: cloud/web/multiplayer/AI NPC architecture strategy.
+- `docs/planning/WORKER_NATIVE_GMSV_PORT.md`: plan for replacing `gmsv/saac` process dependencies with Worker-native services.
 - `docs/planning/tasks.jsonl`: machine-readable task backlog and progress.
 
 ## Source And Data

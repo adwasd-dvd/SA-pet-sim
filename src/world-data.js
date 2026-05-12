@@ -2208,12 +2208,15 @@ export const WORLD = {
             "我是萨姆吉尔的老师，想知道任何事情我都可以为你解答。",
             "这个村庄之所以名为萨姆吉尔，就是取自于开创英雄萨姆吉尔的名号。",
             "说起萨姆吉尔，在村子中央有一座他的石像。我年轻时可以抱得动它唷。什么！你不相信啊？",
-            "在这个世界，成人之后会被视为已经可以独当一面。经过成人礼之后，许多地方就无法成行了。"
+            "在这个世界，成人之后会被视为已经可以独当一面。经过成人礼之后，许多地方就无法成行了。",
+            "成人练习不只是听课。到村外确认一次野外宠物资料，再回来向我报告。",
+            "如果遇到危险，记得先让宠物出战；击败或捕获一只野外宠物就足够了。"
           ],
           "source": "ref___data/npc/genout/1000npc_m.create",
           "script": "file:genout/tman_1000_42_72",
           "template": "npcgen_timeman",
-          "graphic": "16002"
+          "graphic": "16002",
+          "questId": "samugiru-field-practice"
         },
         {
           "id": "1000-39-75-1508",
@@ -16524,5 +16527,27 @@ export const WORLD = {
       ]
     }
   },
-  "quests": {}
+  "quests": {
+    "samugiru-field-practice": {
+      "id": "samugiru-field-practice",
+      "title": "萨姆吉尔野外练习",
+      "description": "萨姆吉尔的老师让新来的冒险者到村外确认野外宠物资料，完成一次战斗或捕获后回来报告。",
+      "steps": [
+        "向萨姆吉尔的老师打招呼。",
+        "离开萨姆吉尔村，前往有野外遇敌资料的地图。",
+        "击败或捕获一只野外宠物。",
+        "回到萨姆吉尔的老师身边报告。"
+      ],
+      "reward": "经验 40 / 石币 120",
+      "expReward": 40,
+      "stoneReward": 120,
+      "startNpcId": "1000-42-72-1505",
+      "returnNpcId": "1000-42-72-1505",
+      "objectives": {
+        "visitEncounterMap": true,
+        "fieldWin": true
+      },
+      "source": "ref___data/npc/genout/1000npc_m.create + ref___data/encount.txt"
+    }
+  }
 };

@@ -22,4 +22,4 @@ const result = spawnSync("tar", args, { stdio: "inherit" });
 if (result.status !== 0) process.exit(result.status || 1);
 
 console.log(`\nWrote ${archive}`);
-console.log("This archive includes the project folder, including external/sources when it exists locally.");
+console.log("Note: external source trees are not copied into this archive unless you place them under the project first.");

@@ -83,6 +83,9 @@ for (const floor of selectedFloors) {
   }
 }
 
+const quests = firstPlayableQuests();
+applyFirstPlayableQuestHooks(maps, quests);
+
 const world = {
   source: {
     root: relativeRef(refRoot),
@@ -94,7 +97,7 @@ const world = {
   },
   startMap: String(START_FLOOR),
   maps,
-  quests: {}
+  quests
 };
 
 writeFileSync(worldOut, `export const WORLD = ${JSON.stringify(world, null, 2)};\n`);
@@ -265,6 +268,46 @@ function selectFloors() {
     if (mapFiles.has(floor) && !selected.includes(floor)) selected.push(floor);
   }
   return selected;
+}
+
+function firstPlayableQuests() {
+  return {
+    "samugiru-field-practice": {
+      id: "samugiru-field-practice",
+      title: "萨姆吉尔野外练习",
+      description: "萨姆吉尔的老师让新来的冒险者到村外确认野外宠物资料，完成一次战斗或捕获后回来报告。",
+      steps: [
+        "向萨姆吉尔的老师打招呼。",
+        "离开萨姆吉尔村，前往有野外遇敌资料的地图。",
+        "击败或捕获一只野外宠物。",
+        "回到萨姆吉尔的老师身边报告。"
+      ],
+      reward: "经验 40 / 石币 120",
+      expReward: 40,
+      stoneReward: 120,
+      startNpcId: "1000-42-72-1505",
+      returnNpcId: "1000-42-72-1505",
+      objectives: {
+        visitEncounterMap: true,
+        fieldWin: true
+      },
+      source: "ref___data/npc/genout/1000npc_m.create + ref___data/encount.txt"
+    }
+  };
+}
+
+function applyFirstPlayableQuestHooks(maps, quests) {
+  for (const quest of Object.values(quests)) {
+    const map = maps[String(START_FLOOR)];
+    const npc = map?.npcs?.find((item) => item.id === quest.startNpcId || item.id === quest.returnNpcId);
+    if (!npc) continue;
+    npc.questId = quest.id;
+    npc.dialogueLines = [
+      ...(npc.dialogueLines || []),
+      "成人练习不只是听课。到村外确认一次野外宠物资料，再回来向我报告。",
+      "如果遇到危险，记得先让宠物出战；击败或捕获一只野外宠物就足够了。"
+    ];
+  }
 }
 
 function defaultSpawn(floor, mapInfo) {

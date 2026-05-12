@@ -1,6 +1,5 @@
-bin/server
-bin/static/pet/
-pet.zip
+node_modules/
+.wrangler/
 public/debug/
 external/sources/
 external/transfer/

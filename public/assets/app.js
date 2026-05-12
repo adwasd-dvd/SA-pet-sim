@@ -1,4 +1,4 @@
-const SAVE_KEY = "sa-pet-sim-game-v1";
+const SAVE_KEY = "stoneage-web-game-v1";
 const MAP_ZOOM_MIN = 0.5;
 const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
@@ -44,8 +44,10 @@ const els = {
   encounterStats: byId("encounterStats"),
   encounterImg: byId("encounterImg"),
   encounterBtn: byId("encounterBtn"),
+  attackBtn: byId("attackBtn"),
   captureBtn: byId("captureBtn"),
   skipEncounterBtn: byId("skipEncounterBtn"),
+  battleLog: byId("battleLog"),
   dialogPanel: byId("dialogPanel"),
   dialogNpcName: byId("dialogNpcName"),
   dialogSource: byId("dialogSource"),
@@ -108,10 +110,12 @@ function bindEvents() {
     render();
   });
   els.encounterBtn.addEventListener("click", () => mutate("/api/game/encounter", {}));
+  els.attackBtn.addEventListener("click", () => mutate("/api/game/battle", { action: "attack" }));
   els.captureBtn.addEventListener("click", () => mutate("/api/game/capture", {}));
   els.skipEncounterBtn.addEventListener("click", () => {
     if (!game) return;
     game.encounter = null;
+    game.battle = null;
     game.log.push("你放走了野外宠物。");
     save();
     render();
@@ -194,9 +198,11 @@ function render() {
   if (!game) return;
   const map = game.world.map;
   els.playerTitle.textContent = game.player.name;
-  els.playerStats.textContent = `Lv.${game.player.level} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
+  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
   els.mapName.textContent = map.name;
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
+  els.encounterBtn.disabled = !map.encounterPets?.length;
+  els.encounterBtn.title = map.encounterPets?.length ? "主动触发一次野外遇敌" : "当前地图没有 encount.txt 遇敌资料";
   renderMap(map);
   renderNpc(map);
   renderExits(map);
@@ -790,12 +796,19 @@ function renderDialog() {
 function renderDialogShop(dialog) {
   const items = dialog.trade?.items || [];
   if (!items.length) return "";
+  const state = dialog.trade.inventory || inventoryState();
   return `
     <div class="shop-box">
-      <div><strong>商品</strong><span>${escapeHtml(dialog.trade.source || "ref___data")}</span></div>
+      <div>
+        <strong>商品</strong>
+        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)} | ${escapeHtml(dialog.trade.source || "ref___data")}</span>
+      </div>
       ${items.slice(0, 8).map((item) => `
-        <button class="shop-item" type="button" data-buy="${item.id}">
-          <span>${escapeHtml(item.name)}</span>
+        <button class="shop-item" type="button" data-buy="${item.id}" ${shopDisabled(item) ? "disabled" : ""}>
+          <span>
+            <strong>${escapeHtml(item.name)}</strong>
+            <small>${escapeHtml(shopItemHint(item))}</small>
+          </span>
           <b>${Number(item.price || 0)} 石币</b>
         </button>
       `).join("")}
@@ -803,11 +816,51 @@ function renderDialogShop(dialog) {
   `;
 }
 
+function shopDisabled(item) {
+  return item.affordable === false || item.canCarry === false;
+}
+
+function shopItemHint(item) {
+  if (item.affordable === false) return "石币不足";
+  if (item.canCarry === false) return "背包已满";
+  const details = [];
+  if (item.level) details.push(`Lv.${item.level}`);
+  if (item.description) details.push(item.description);
+  return details.join(" | ") || `item ${item.id}`;
+}
+
 async function buyItem(itemId) {
   if (!game?.dialog?.npcId) return;
-  game = await api("/api/game/buy", { game, npcId: game.dialog.npcId, itemId });
+  try {
+    game = await api("/api/game/buy", { game, npcId: game.dialog.npcId, itemId });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "购买失败");
+  }
+}
+
+async function useItem(itemId) {
+  if (!game) return;
+  try {
+    game = await api("/api/game/use-item", { game, itemId });
+    save();
+    render();
+  } catch (error) {
+    game.log.push(error.message || "道具使用失败");
+    save();
+    render();
+  }
+}
+
+function appendDialogSystem(text) {
+  if (!game?.dialog) return;
+  game.dialog.messages = [
+    ...(game.dialog.messages || []),
+    { speaker: "system", text, at: Date.now() }
+  ].slice(-12);
   save();
-  render();
+  renderDialog();
 }
 
 function dialogSpeaker(speaker, dialog) {
@@ -833,8 +886,13 @@ function renderEncounter() {
   els.encounterPanel.hidden = !enemy;
   if (!enemy) return;
   els.encounterName.textContent = `${enemy.Name} Lv.${enemy.Lv}`;
-  els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | HP ${enemy.WorkMaxHp} | 攻 ${enemy.WorkFixStr} | 防 ${enemy.WorkFixTough} | 敏 ${enemy.WorkFixDex}`;
+  const activePet = game.pets?.[0];
+  const enemyHp = Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : Number(enemy.WorkMaxHp || 0);
+  const petHp = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || activePet.WorkMaxHp || 0)}/${activePet.WorkMaxHp}` : "无出战宠物";
+  els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | 敌 HP ${enemyHp}/${enemy.WorkMaxHp} | 攻 ${enemy.WorkFixStr} | 防 ${enemy.WorkFixTough} | 敏 ${enemy.WorkFixDex} | ${petHp}`;
   els.encounterImg.src = `/f/pet/${enemy.ImgNo}.gif`;
+  els.attackBtn.disabled = !activePet;
+  els.battleLog.innerHTML = (game.battle?.log || []).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
 }
 
 function renderPets() {
@@ -843,20 +901,27 @@ function renderPets() {
       <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
       <div>
         <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
-        <p class="muted">No.${pet.PetId} | HP ${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>
+        <p class="muted">No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>
         <p>总成长 <strong>${fmt(pet.Growth)}</strong></p>
       </div>
       <button type="button" data-train="${index}">训练</button>
     </article>
   `).join("");
   const inventory = (game.inventory || []).filter((item) => item.id !== "stone");
+  const state = inventoryState();
   els.petList.innerHTML = pets + `
     <article class="inventory-box">
-      <h3>背包</h3>
+      <div class="inventory-head">
+        <h3>背包</h3>
+        <span>${state.used}/${state.capacity}</span>
+      </div>
       ${inventory.map((item) => `
         <div class="inventory-item">
-          <strong>${escapeHtml(item.name)}</strong>
-          <span>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))} | ${escapeHtml(item.description || item.source || "")}</span>
+          <span>
+            <strong>${escapeHtml(item.name)}</strong>
+            <small>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))} | ${escapeHtml(item.description || item.source || "")}</small>
+          </span>
+          <button type="button" data-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>使用</button>
         </div>
       `).join("") || `<p class="empty">背包还没有道具。</p>`}
     </article>
@@ -864,18 +929,44 @@ function renderPets() {
   els.petList.querySelectorAll("[data-train]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.train) }));
   });
+  els.petList.querySelectorAll("[data-use-item]").forEach((btn) => {
+    btn.addEventListener("click", () => useItem(Number(btn.dataset.useItem)));
+  });
+}
+
+function inventoryState() {
+  const serverState = game?.inventoryState || game?.save?.json?.inventoryState;
+  if (serverState?.capacity) return serverState;
+  const used = (game?.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0).length;
+  return { used, capacity: 15, remaining: Math.max(0, 15 - used) };
+}
+
+function inventoryItemUsable(item) {
+  const text = `${item.name || ""} ${item.description || ""}`;
+  return /耐久力|耐力|HP|小的肉|乾燥肉|大的肉|高级肉|复活|气绝/i.test(text);
 }
 
 function renderQuests() {
   const quests = Object.values(game.quests || {});
   els.questList.innerHTML = quests.map((quest) => `
-    <article class="result-item">
+    <article class="result-item quest-card">
       <div><strong>${escapeHtml(quest.title)}</strong><span>${escapeHtml(quest.status)}</span></div>
       <p>${escapeHtml(quest.description)}</p>
-      <p class="muted">下一步：${escapeHtml(quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)] || "完成")}</p>
+      <div class="quest-progress" aria-label="任务进度">
+        ${(quest.steps || []).map((step, index) => `
+          <span class="${index < Number(quest.progress || 0) ? "done" : index === Number(quest.progress || 0) && quest.status !== "完成" ? "current" : ""}" title="${escapeHtml(step)}"></span>
+        `).join("")}
+      </div>
+      <p class="muted">下一步：${escapeHtml(nextQuestStep(quest))}</p>
       <p class="muted">奖励：${escapeHtml(quest.reward)} | 来源：${escapeHtml(quest.source)}</p>
     </article>
   `).join("") || `<p class="empty">还没有接任务，先和 NPC 聊聊。</p>`;
+}
+
+function nextQuestStep(quest) {
+  if (quest.status === "完成") return "完成";
+  if (quest.status === "可回报") return quest.steps?.[quest.steps.length - 1] || "回报任务";
+  return quest.steps?.[Math.min(Number(quest.progress || 0), quest.steps.length - 1)] || "继续探索";
 }
 
 function renderLog() {

@@ -18,6 +18,7 @@ const DATA_FILES = {
 const CHAR_MAXUPLEVEL = 140;
 const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
+const INVENTORY_CAPACITY = 15;
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -29,7 +30,6 @@ const rankTab = [
 
 let cache;
 let charId = 0;
-const charSet = new Map();
 
 export default {
   async fetch(request, env) {
@@ -44,31 +44,9 @@ export default {
 async function handleApi(request, env, url) {
   try {
     if (request.method === "OPTIONS") return json({});
-    if (url.pathname === "/api/getpet" && request.method === "POST") {
-      const body = await readJson(request);
-      const data = await loadGameData(env, request);
-      const no = Number(body.no) || pick(data.enemyNoList);
-      const pet = createEnemy(data, no, 1);
-      if (!pet) return json({ error: "pet not found" }, 404);
-      return json(pet);
-    }
-    if (url.pathname === "/api/levelup" && request.method === "POST") {
-      const body = await readJson(request);
-      let pet = body.pet;
-      if (!pet && body.id) pet = charSet.get(Number(body.id));
-      if (!pet) return json({ error: "pet not found" }, 404);
-      const up = Math.max(1, Math.min(Number(body.up) || 1, CHAR_MAXUPLEVEL));
-      for (let i = 0; i < up; i += 1) petLevelUp(pet);
-      charSet.set(pet.Id, pet);
-      return json(pet);
-    }
     if (url.pathname === "/api/data/search" && request.method === "POST") {
       const body = await readJson(request);
       return json(await searchData(env, request, String(body.q || "").trim()));
-    }
-    if (url.pathname === "/api/ai/analyze" && request.method === "POST") {
-      const body = await readJson(request);
-      return json(await analyzePet(env, body.pet, String(body.prompt || "")));
     }
     if (url.pathname === "/api/game/new" && request.method === "POST") {
       const body = await readJson(request);
@@ -98,6 +76,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(buyGame(body.game, String(body.npcId || ""), Number(body.itemId)));
     }
+    if (url.pathname === "/api/game/use-item" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(useItemGame(body.game, Number(body.itemId)));
+    }
     if (url.pathname === "/api/game/encounter" && request.method === "POST") {
       const body = await readJson(request);
       return json(await encounterGame(env, request, body.game));
@@ -105,6 +87,10 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/capture" && request.method === "POST") {
       const body = await readJson(request);
       return json(captureGame(body.game));
+    }
+    if (url.pathname === "/api/game/battle" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(battleGame(body.game, String(body.action || "attack")));
     }
     if (url.pathname === "/api/game/train" && request.method === "POST") {
       const body = await readJson(request);
@@ -225,6 +211,7 @@ function applyExit(game, exit) {
   game.encounter = null;
   game.walk = { steps: 0, encounterSteps: 0 };
   addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
+  updateQuestProgress(game, "enterMap", { mapId: exit.to });
   return withMap(game);
 }
 
@@ -238,6 +225,7 @@ function buyGame(game, npcId, itemId) {
   if (!item) throw new Error("商品不存在");
   const price = Number(item.price || item.cost || 0);
   if (game.player.stone < price) throw new Error("石币不够");
+  if (!canCarryItem(game, item)) throw new Error(`背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具`);
   game.player.stone -= price;
   addInventoryItem(game, item, 1);
   syncStoneItem(game);
@@ -247,6 +235,75 @@ function buyGame(game, npcId, itemId) {
     npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币。`)
   ]);
   return withMap(game, { npc });
+}
+
+function useItemGame(game, itemId) {
+  game = normalizeGame(game);
+  const item = game.inventory.find((entry) => Number(entry.id) === Number(itemId) && Number(entry.qty || 0) > 0);
+  if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
+
+  const effect = itemEffect(item);
+  if (!effect.usable) throw new Error(`${item.name} 还没有可模拟的使用效果`);
+
+  const activePet = game.pets[0] || null;
+  const target = selectItemTarget(game, activePet, effect);
+  if (!target) throw new Error("当前没有可以恢复的目标");
+
+  const before = Number(target.hpField.owner[target.hpField.key] || 0);
+  const max = Number(target.maxHp || 1);
+  const next = effect.revive
+    ? Math.min(max, Math.max(before, effect.amount))
+    : Math.min(max, before + effect.amount);
+  if (next <= before) throw new Error(`${target.name} 的耐久力已经不需要恢复`);
+
+  target.hpField.owner[target.hpField.key] = next;
+  item.qty = Number(item.qty || 0) - 1;
+  if (item.qty <= 0) {
+    game.inventory = game.inventory.filter((entry) => entry === item || Number(entry.qty || 0) > 0);
+    game.inventory = game.inventory.filter((entry) => entry !== item);
+  }
+  addLog(game, `使用 ${item.name}，${target.name} 的耐久力恢复 ${next - before}。`);
+  return withMap(game);
+}
+
+function itemEffect(item) {
+  const text = `${item.name || ""} ${item.description || ""}`;
+  const revive = text.includes("复活") || text.includes("气绝");
+  const hpMatch = text.match(/(?:耐久力|耐力|HP)\s*(\d+)/i) || text.match(/回复成耐力\s*(\d+)/);
+  if (hpMatch) {
+    return {
+      usable: true,
+      amount: Math.max(1, Number(hpMatch[1]) || 1),
+      revive
+    };
+  }
+  if (text.includes("小的肉")) return { usable: true, amount: 20, revive: false };
+  if (text.includes("乾燥肉")) return { usable: true, amount: 35, revive: false };
+  if (text.includes("大的肉")) return { usable: true, amount: 65, revive: false };
+  if (text.includes("高级肉")) return { usable: true, amount: 80, revive: false };
+  return { usable: false, amount: 0, revive: false };
+}
+
+function selectItemTarget(game, activePet, effect) {
+  if (activePet) {
+    activePet.WorkMaxHp ||= Math.max(1, Number(activePet.Hp || 1));
+    if (!Number.isFinite(Number(activePet.Hp))) activePet.Hp = activePet.WorkMaxHp;
+    if (effect.revive || Number(activePet.Hp || 0) < Number(activePet.WorkMaxHp || 1)) {
+      return {
+        name: activePet.Name,
+        maxHp: activePet.WorkMaxHp,
+        hpField: { owner: activePet, key: "Hp" }
+      };
+    }
+  }
+  if (Number(game.player.hp || 0) < Number(game.player.maxHp || 1)) {
+    return {
+      name: game.player.name,
+      maxHp: game.player.maxHp,
+      hpField: { owner: game.player, key: "hp" }
+    };
+  }
+  return null;
 }
 
 function talkGame(game, npcId) {
@@ -339,10 +396,107 @@ function captureGame(game) {
     game.player.exp += 12;
     game.player.stone += 20;
     addLog(game, `捕获成功！${target.Name} 加入了队伍。`);
+    updateQuestProgress(game, "fieldWin", {
+      mapId: game.location.mapId,
+      petName: target.Name,
+      result: "capture"
+    });
   } else {
     addLog(game, `${target.Name} 挣脱了绳索。`);
   }
   return withMap(game, { captured: ok });
+}
+
+function battleGame(game, action) {
+  game = normalizeGame(game);
+  if (!game.encounter) throw new Error("当前没有战斗目标");
+  if (action !== "attack") throw new Error("这个战斗动作还没有实现");
+  const activePet = game.pets[0];
+  if (!activePet) throw new Error("你需要至少一只宠物才能战斗");
+  ensureBattleState(game, activePet, game.encounter);
+
+  const enemy = game.encounter;
+  const battleLog = [];
+  const petFirst = Number(activePet.WorkFixDex || 0) >= Number(enemy.WorkFixDex || 0);
+  const petTurn = () => {
+    const damage = combatDamage(activePet, enemy);
+    enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - damage);
+    battleLog.push(`${activePet.Name} 攻击 ${enemy.Name}，造成 ${damage} 伤害。`);
+  };
+  const enemyTurn = () => {
+    const damage = combatDamage(enemy, activePet);
+    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - damage);
+    battleLog.push(`${enemy.Name} 反击 ${activePet.Name}，造成 ${damage} 伤害。`);
+  };
+
+  if (petFirst) {
+    petTurn();
+    if (enemy.Hp > 0) enemyTurn();
+  } else {
+    enemyTurn();
+    if (activePet.Hp > 0) petTurn();
+  }
+
+  game.battle.turn = Number(game.battle.turn || 0) + 1;
+  if (enemy.Hp <= 0) {
+    const exp = 10 + Number(enemy.Lv || 1) * 6;
+    const stone = 12 + Number(enemy.Lv || 1) * 4;
+    game.player.exp += exp;
+    game.player.stone += stone;
+    syncStoneItem(game);
+    battleLog.push(`击败 ${enemy.Name}，获得 ${exp} 经验和 ${stone} 石币。`);
+    maybeLevelPlayer(game);
+    updateQuestProgress(game, "fieldWin", {
+      mapId: game.location.mapId,
+      petName: enemy.Name,
+      result: "battle"
+    });
+    game.encounter = null;
+    game.battle = null;
+  } else if (activePet.Hp <= 0) {
+    const recovered = Math.max(1, Math.floor(Number(activePet.WorkMaxHp || 1) * 0.35));
+    activePet.Hp = recovered;
+    game.player.hp = Math.max(1, Math.floor(Number(game.player.maxHp || 1) * 0.5));
+    game.encounter = null;
+    game.battle = null;
+    battleLog.push(`${activePet.Name} 被击倒，你带着队伍撤退并恢复了少量体力。`);
+  } else {
+    game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
+  }
+  battleLog.forEach((line) => addLog(game, line));
+  return withMap(game);
+}
+
+function ensureBattleState(game, pet, enemy) {
+  pet.WorkMaxHp ||= Math.max(1, Number(pet.Hp || 1));
+  enemy.WorkMaxHp ||= Math.max(1, Number(enemy.Hp || 1));
+  if (!Number.isFinite(Number(pet.Hp)) || Number(pet.Hp) <= 0) pet.Hp = pet.WorkMaxHp;
+  if (!Number.isFinite(Number(enemy.Hp)) || Number(enemy.Hp) <= 0) enemy.Hp = enemy.WorkMaxHp;
+  game.battle ||= {
+    turn: 0,
+    startedAt: new Date().toISOString(),
+    log: [`${pet.Name} 遭遇 ${enemy.Name}，战斗开始。`],
+    source: "first-pass Worker battle loop from ref-data enemy parameters"
+  };
+}
+
+function combatDamage(attacker, defender) {
+  const attack = Math.max(1, Number(attacker.WorkFixStr || attacker.level || attacker.Lv || 1));
+  const defense = Math.max(0, Number(defender.WorkFixTough || 0));
+  const variance = 0.85 + Math.random() * 0.3;
+  const raw = attack * variance - defense * 0.42;
+  const critical = Math.random() * 100 < Math.max(2, Number(attacker.Critical || 0) * 0.35);
+  return Math.max(1, Math.floor(raw * (critical ? 1.6 : 1)));
+}
+
+function maybeLevelPlayer(game) {
+  const needed = game.player.level * 60;
+  if (game.player.exp < needed) return;
+  game.player.exp -= needed;
+  game.player.level += 1;
+  game.player.maxHp += 12;
+  game.player.hp = game.player.maxHp;
+  addLog(game, `${game.player.name} 提升到 Lv.${game.player.level}。`);
 }
 
 function trainGame(game, petIndex) {
@@ -406,8 +560,8 @@ function applyNpcHi(game, npc) {
   const line = nextNpcDialogueLine(game, npc);
   if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
-      game.quests[npc.questId] = { ...WORLD.quests[npc.questId], status: "进行中", progress: 0 };
-      addLog(game, `接到任务「${WORLD.quests[npc.questId].title}」。`);
+      startQuest(game, npc.questId);
+      return `${line} ${game.quests[npc.questId].steps[1]}`;
     } else if (game.quests[npc.questId].status === "可回报") {
       completeQuest(game, npc.questId);
       return `${line} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
@@ -450,6 +604,7 @@ function completeQuest(game, questId) {
   quest.progress = quest.steps.length;
   game.player.exp += Number(quest.expReward || 20);
   game.player.stone += Number(quest.stoneReward || 80);
+  syncStoneItem(game);
   setEventFlag(game, eventFlagForQuest(questId), "end");
   addLog(game, `完成任务「${quest.title}」，获得奖励。`);
 }
@@ -514,10 +669,23 @@ function openDialog(game, npc, messages) {
     npcId: npc.id,
     npcName: npc.name,
     npcType: npc.type,
-    trade: npc.trade || null,
+    trade: npc.trade ? withTradeState(game, npc.trade) : null,
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc),
     source: "参考 gmsv：点击 NPC 后客户端自动送出 P|hi，再由 CHAR_Talk 触发 NPC talkedfunc"
+  };
+}
+
+function withTradeState(game, trade) {
+  const state = inventoryState(game);
+  return {
+    ...trade,
+    inventory: state,
+    items: (trade.items || []).map((item) => ({
+      ...item,
+      affordable: game.player.stone >= Number(item.price || item.cost || 0),
+      canCarry: canCarryItem(game, item)
+    }))
   };
 }
 
@@ -542,10 +710,31 @@ function addInventoryItem(game, item, qty = 1) {
     qty,
     image: item.image,
     type: item.type,
+    useField: item.useField,
+    target: item.target,
     level: item.level,
+    price: item.price,
+    cost: item.cost,
     description: item.description,
     source: "ref___data/itemset6.txt"
   });
+}
+
+function canCarryItem(game, item) {
+  if (!item || item.id === "stone") return true;
+  const id = Number(item.id);
+  if (game.inventory?.some((entry) => Number(entry.id) === id)) return true;
+  return inventoryState(game).used < INVENTORY_CAPACITY;
+}
+
+function inventoryState(game) {
+  const used = (game.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0).length;
+  return {
+    used,
+    capacity: INVENTORY_CAPACITY,
+    remaining: Math.max(0, INVENTORY_CAPACITY - used),
+    source: "gmsv CHAR_MAXITEMNUM=15; stone is currency, not an item slot"
+  };
 }
 
 function syncStoneItem(game) {
@@ -575,6 +764,7 @@ function normalizeGame(game) {
   ensureFlags(game);
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.dialog ||= null;
+  game.battle ||= null;
   game.log ||= [];
   game.character.name = game.player.name;
   game.character.updatedAt = new Date().toISOString();
@@ -647,6 +837,7 @@ function buildSaveJson(game) {
     location: { ...game.location },
     pets: game.pets.map((pet) => ({ ...pet })),
     inventory: game.inventory.map((item) => ({ ...item })),
+    inventoryState: inventoryState(game),
     quests: game.quests || {},
     flags: {
       endEvents: [...(game.flags?.endEvents || [])],
@@ -759,6 +950,7 @@ function withMap(game, extra = {}) {
   return {
     ...game,
     nearby: nearbyState(game, map),
+    inventoryState: inventoryState(game),
     world: {
       map,
       quests: WORLD.quests
@@ -809,6 +1001,49 @@ function addQuestProgress(game, questId, amount) {
   if (quest.progress >= quest.steps.length - 1) {
     quest.status = "可回报";
   }
+}
+
+function startQuest(game, questId) {
+  const source = WORLD.quests[questId];
+  if (!source) return null;
+  game.quests[questId] = {
+    ...source,
+    status: "进行中",
+    progress: Math.min(1, source.steps.length - 1),
+    startedAt: new Date().toISOString()
+  };
+  setEventFlag(game, eventFlagForQuest(questId), "now");
+  addLog(game, `接到任务「${source.title}」。`);
+  return game.quests[questId];
+}
+
+function updateQuestProgress(game, event, payload = {}) {
+  for (const [questId, quest] of Object.entries(game.quests || {})) {
+    if (!quest || quest.status === "完成") continue;
+    const target = questProgressTarget(quest, event, payload);
+    if (!target || target <= Number(quest.progress || 0)) continue;
+    quest.progress = Math.min(target, quest.steps.length - 1);
+    if (quest.progress >= quest.steps.length - 1) {
+      quest.status = "可回报";
+      addLog(game, `任务「${quest.title}」已完成目标，可以回报。`);
+    } else {
+      addLog(game, `任务「${quest.title}」推进：${quest.steps[quest.progress]}`);
+    }
+    game.quests[questId] = quest;
+  }
+}
+
+function questProgressTarget(quest, event, payload) {
+  const objectives = quest.objectives || {};
+  if (event === "enterMap" && objectives.visitEncounterMap) {
+    const map = WORLD.maps[String(payload.mapId || "")];
+    if (map?.encounterPets?.length) return Math.max(2, Number(quest.progress || 0));
+  }
+  if (event === "fieldWin" && objectives.fieldWin) {
+    const map = WORLD.maps[String(payload.mapId || "")];
+    if (map?.encounterPets?.length) return Math.max(quest.steps.length - 1, Number(quest.progress || 0));
+  }
+  return 0;
 }
 
 function createFlags() {
@@ -1013,7 +1248,6 @@ function createEnemy(data, ebno, baselevel) {
   char.Dex = paramCal(tp.BaseDex);
   complianceParameter(char);
   char.BornPoint = [char.WorkMaxHp, char.WorkFixStr, char.WorkFixTough, char.WorkFixDex];
-  charSet.set(char.Id, char);
   return char;
 }
 
@@ -1075,21 +1309,6 @@ async function searchData(env, request, q) {
   return { query: q, results: results.slice(0, 60) };
 }
 
-async function analyzePet(env, pet, prompt) {
-  if (!pet) return { text: "先捕获一只宠物，再让我分析。" };
-  const summary = petSummary(pet);
-  if (env.AI && typeof env.AI.run === "function") {
-    const messages = [
-      { role: "system", content: "你是石器时代 Web 重构里的游戏向导。用简洁中文分析宠物成长率、属性、技能、地图、NPC 和任务状态，给出下一步建议。" },
-      { role: "user", content: `${prompt || "分析这只宠物。"}\n\n宠物数据：${JSON.stringify(summary)}` }
-    ];
-    const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
-    const rsp = await env.AI.run(model, { messages });
-    return { text: rsp.response || rsp.text || fallbackAnalysis(pet), model };
-  }
-  return { text: fallbackAnalysis(pet), model: "local-rule" };
-}
-
 function petSummary(pet) {
   return {
     name: pet.Name,
@@ -1107,24 +1326,6 @@ function petSummary(pet) {
     attributes: { earth: pet.EarthAT, water: pet.WaterAT, fire: pet.FireAT, wind: pet.WindAT },
     skills: (pet.PetSkills || []).filter(Boolean).map((sk) => sk.Name)
   };
-}
-
-function fallbackAnalysis(pet) {
-  const growth = Number(pet.Growth || 0);
-  const verdict = pet.Lv < 20
-    ? "等级还低，建议先拉到 30 级以上再判断成长。"
-    : growth >= 6.0
-      ? "总成长表现很亮眼，值得继续练。"
-      : growth >= 5.4
-        ? "总成长属于可用区间，可以看技能和属性再决定。"
-        : "总成长偏低，更适合做图鉴或过渡。";
-  const best = [
-    ["攻", pet.GrowthStr || 0],
-    ["防", pet.GrowthTough || 0],
-    ["敏", pet.GrowthDex || 0],
-    ["血", pet.GrowthHp || 0]
-  ].sort((a, b) => b[1] - a[1])[0][0];
-  return `${pet.Name} 当前 Lv.${pet.Lv}，总成长 ${round2(growth)}。优势项是${best}成长。${verdict}`;
 }
 
 async function assetText(env, request, path) {
