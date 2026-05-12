@@ -11,6 +11,7 @@ const atlas = readJson(atlasPath);
 const frames = atlas?.frames || {};
 const reports = [];
 const missing = new Map();
+const missingMetadata = new Map();
 
 for (const file of listFiles(clientMapRoot, ".dat")) {
   const report = checkClientDat(file);
@@ -28,6 +29,14 @@ if (missing.size) {
   console.error("Missing map atlas frames:");
   for (const [id, count] of [...missing.entries()].sort((a, b) => b[1] - a[1]).slice(0, 40)) {
     console.error(`  ${id}: ${count} references`);
+  }
+  process.exit(1);
+}
+
+if (missingMetadata.size) {
+  console.error("Missing map atlas priority metadata:");
+  for (const [id, fields] of [...missingMetadata.entries()].sort((a, b) => Number(a[0]) - Number(b[0])).slice(0, 40)) {
+    console.error(`  ${id}: ${[...fields].sort().join(", ")}`);
   }
   process.exit(1);
 }
@@ -80,7 +89,17 @@ function includeTile(report, tileId) {
     return;
   }
   report.drawable += 1;
-  if (!frames[tileId]) missing.set(tileId, (missing.get(tileId) || 0) + 1);
+  const frame = frames[tileId];
+  if (!frame) {
+    missing.set(tileId, (missing.get(tileId) || 0) + 1);
+    return;
+  }
+  for (const field of ["bitmapNo", "hit", "hitRaw", "prioType", "hitX", "hitY", "heightFlag"]) {
+    if (typeof frame[field] !== "number") {
+      if (!missingMetadata.has(tileId)) missingMetadata.set(tileId, new Set());
+      missingMetadata.get(tileId).add(field);
+    }
+  }
 }
 
 function mapReport(file, width, height) {

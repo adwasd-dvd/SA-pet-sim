@@ -10,6 +10,8 @@ const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
 const ENCOUNTER_UI_ENABLED = false;
+const MAP_GRID_SIZE = 64;
+const TILE_HALF_H = 24;
 
 let game = null;
 let installPrompt = null;
@@ -518,13 +520,24 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     const py = screenY - bounds.minY;
     if (ground > CG_INVISIBLE) drawAtlasTile(ctx, atlas, ground, px, py);
     if (object > CG_INVISIBLE && atlas.frames?.[object]) {
-      sprites.push({ tileId: object, x: px, y: py, depth: screenY, order: order++ });
+      sprites.push(mapDepthSprite(atlas, object, px, py, screenX, screenY, x, y, "part", order++));
     }
   }
   sprites.push(...collectNpcSprites(map, atlas, (npc, index) => {
     const [mapX, mapY] = mapRenderPoint(npc.x, npc.y, width, height);
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
-    return { x: screenX - bounds.minX, y: screenY - bounds.minY, depth: screenY, order: order + index };
+    return mapDepthSprite(
+      atlas,
+      npc.graphicId,
+      screenX - bounds.minX,
+      screenY - bounds.minY,
+      screenX,
+      screenY,
+      npc.x,
+      npc.y,
+      "char",
+      order + index
+    );
   }));
   drawDepthSprites(ctx, atlas, sprites);
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
@@ -539,13 +552,59 @@ function collectNpcSprites(map, atlas, locate) {
   return map.npcs
     .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
     .filter((npc) => npc.graphicId > CG_INVISIBLE && atlas.frames?.[npc.graphicId])
-    .map((npc, index) => ({ tileId: npc.graphicId, ...locate(npc, index) }));
+    .map((npc, index) => locate(npc, index));
+}
+
+function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
+  const frame = atlas.frames?.[tileId] || {};
+  return {
+    tileId,
+    type,
+    x,
+    y,
+    screenX,
+    screenY,
+    mapX: (Number(gridX) || 0) * MAP_GRID_SIZE,
+    mapY: (Number(gridY) || 0) * MAP_GRID_SIZE,
+    depth: screenY,
+    order,
+    hit: Number(frame.hit || 0),
+    prioType: Number(frame.prioType || 0),
+    hitX: Number(frame.hitX || 1),
+    hitY: Number(frame.hitY || 1)
+  };
 }
 
 function drawDepthSprites(ctx, atlas, sprites) {
   sprites
-    .sort((a, b) => a.depth - b.depth || a.order - b.order)
+    .sort(compareDepthSprites)
     .forEach((entry) => drawAtlasTile(ctx, atlas, entry.tileId, entry.x, entry.y));
+}
+
+function compareDepthSprites(a, b) {
+  if (a.type === "part" && b.type === "char") {
+    return partCoversChar(b, a) ? 1 : -1;
+  }
+  if (a.type === "char" && b.type === "part") {
+    return partCoversChar(a, b) ? -1 : 1;
+  }
+  return a.depth - b.depth || a.order - b.order;
+}
+
+function partCoversChar(char, part) {
+  if (part.hit !== 0 && part.prioType === 3) return false;
+  if (part.prioType === 1) return !(char.mapX <= part.mapX || char.mapY >= part.mapY);
+  if (char.mapX > part.mapX && char.mapY < part.mapY) return true;
+  const hitX = Math.max(1, part.hitX || 1);
+  const hitY = Math.max(1, part.hitY || 1);
+  if (char.screenX > part.screenX) {
+    if (part.screenY - (hitX - 1) * TILE_HALF_H <= char.screenY) return false;
+  } else if (char.screenX < part.screenX) {
+    if (part.screenY - (hitY - 1) * TILE_HALF_H <= char.screenY) return false;
+  } else if (part.screenY <= char.screenY) {
+    return false;
+  }
+  return true;
 }
 
 function clientMapDrawOrder(width, height) {
@@ -853,18 +912,34 @@ function drawViewportTiles(ctx, renderer, left, top, right, bottom) {
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
     if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
     if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
-      sprites.push({
-        tileId: object,
-        x: screenX,
-        y: screenY,
-        depth: screenY + renderer.minY,
-        order: order++
-      });
+      sprites.push(mapDepthSprite(
+        renderer.atlas,
+        object,
+        screenX,
+        screenY,
+        screenX + renderer.minX,
+        screenY + renderer.minY,
+        x,
+        y,
+        "part",
+        order++
+      ));
     }
   });
   sprites.push(...collectNpcSprites(renderer.map, renderer.atlas, (npc, index) => {
     const [x, y] = mapTileContentPoint(renderer, npc.x, npc.y);
-    return { x, y, depth: y + renderer.minY, order: order + index };
+    return mapDepthSprite(
+      renderer.atlas,
+      npc.graphicId,
+      x,
+      y,
+      x + renderer.minX,
+      y + renderer.minY,
+      npc.x,
+      npc.y,
+      "char",
+      order + index
+    );
   }));
   drawDepthSprites(ctx, renderer.atlas, sprites);
 }

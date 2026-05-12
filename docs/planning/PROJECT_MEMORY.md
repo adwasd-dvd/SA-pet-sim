@@ -88,26 +88,27 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - `cleanup-001`
 - `quest-001`
 - `worker-port-001`
+- `map-render-002`
 
 See `docs/planning/tasks.jsonl` for the full backlog.
 
 ## Likely Next Work
 
-1. `map-render-002`: port exact `adrn` parts/NPC priority metadata for closer original-client layering.
-2. `client-ui-002`: rebuild original-client UHD game UI around the map.
-3. `script-vm-001`: deterministic NPC action VM for common script actions.
-4. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
-5. `warp-002`: complete source-grounded map jump and warp runtime.
-6. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
-7. `battle-002`: redesign encounter/battle/capture without resurrecting the removed auto capture UI.
-8. `worker-port-002`: define the JSON/WebSocket command protocol.
-9. `persistence-002`: D1/Durable Object cloud save plan.
-10. `realtime-001`: first map-room WebSocket architecture.
+1. `client-ui-002`: rebuild original-client UHD game UI around the map.
+2. `script-vm-001`: deterministic NPC action VM for common script actions.
+3. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
+4. `warp-002`: complete source-grounded map jump and warp runtime.
+5. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
+6. `battle-002`: redesign encounter/battle/capture without resurrecting the removed auto capture UI.
+7. `worker-port-002`: define the JSON/WebSocket command protocol.
+8. `persistence-002`: D1/Durable Object cloud save plan.
+9. `realtime-001`: first map-room WebSocket architecture.
 
 ## Latest Runtime Notes
 
 - Map rendering now uses real client DAT viewport rendering for large maps such as floor `100` / `萨伊那斯`; same-map walking updates markers/viewport without rebuilding `.map-content` or `.ls2-map`, avoiding step flicker.
 - Map layering now follows the original client's diagonal tile display order and puts parts/NPC sprites into one depth queue, so trees/walls/NPCs no longer render as a single flat overlay layer.
+- `map-render-002` is implemented: `scripts/extract-client-tiles.mjs` now exports `adrn` metadata (`bitmapNo`, `hit`, `hitRaw`, `prioType`, `hitX`, `hitY`, `heightFlag`) into `tiles.json`; `public/assets/app.js` uses a JS port of `checkPrioPartsVsChar` for parts-vs-character ordering; `scripts/check-map-atlas.mjs` validates priority metadata coverage.
 - Automatic walking encounters and the visible encounter/capture UI are disabled per user direction. Backend encounter/capture endpoints still exist as experimental hooks, but the main UI should not surface them until the battle/capture loop is redesigned around original game semantics.
 - `item-use-001` is implemented: `/api/game/use-item` consumes bought recovery items, restores active pet HP first and player HP when the pet is already full, and keeps unsupported inventory items visible but disabled in the UI.
 - `quest-001` data/runtime hooks exist, but its battle/capture progress step is currently not reachable from the main UI while automatic encounter/capture is disabled. Redesign this under a source-grounded battle/capture task before making it player-facing again.

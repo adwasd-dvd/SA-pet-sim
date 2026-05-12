@@ -41,8 +41,16 @@ function main() {
         image,
         width: decoded.width,
         height: decoded.height,
+        bitmapNo: record.bitmapNo,
+        graphicNo: record.graphicNo,
         xoffset: record.xoffset,
         yoffset: record.yoffset,
+        hit: record.hit,
+        hitRaw: record.hitRaw,
+        prioType: record.prioType,
+        hitX: record.hitX,
+        hitY: record.hitY,
+        heightFlag: record.heightFlag,
         color: averageColor(image)
       });
     }
@@ -165,8 +173,27 @@ function readAdrnRecords(file) {
     const height = data.readUInt32LE(offset + 24);
     const xoffset = data.readInt32LE(offset + 12);
     const yoffset = data.readInt32LE(offset + 16);
+    const hitX = data.readUInt8(offset + 28);
+    const hitY = data.readUInt8(offset + 29);
+    const hitRaw = data.readUInt16LE(offset + 30);
+    const heightFlag = data.readInt16LE(offset + 32);
     if (!bitmapNo || !size || !width || !height) continue;
-    const record = { bitmapNo, graphicNo, adder, size, width, height, xoffset, yoffset };
+    const record = {
+      bitmapNo,
+      graphicNo,
+      adder,
+      size,
+      width,
+      height,
+      xoffset,
+      yoffset,
+      hitX,
+      hitY,
+      hit: hitFlag(bitmapNo, hitRaw),
+      hitRaw,
+      prioType: Math.trunc(hitRaw / 100),
+      heightFlag
+    };
     if (graphicNo) records.set(graphicNo, record);
     else if (!records.has(bitmapNo)) records.set(bitmapNo, record);
   }
@@ -248,12 +275,20 @@ function buildAtlas(entries) {
     }
     frames.push({
       tileId: entry.tileId,
+      bitmapNo: entry.bitmapNo,
+      graphicNo: entry.graphicNo,
       x,
       y,
       width: entry.width,
       height: entry.height,
       xoffset: entry.xoffset,
-      yoffset: entry.yoffset
+      yoffset: entry.yoffset,
+      hit: entry.hit,
+      hitRaw: entry.hitRaw,
+      prioType: entry.prioType,
+      hitX: entry.hitX,
+      hitY: entry.hitY,
+      heightFlag: entry.heightFlag
     });
     x += entry.width;
     rowH = Math.max(rowH, entry.height);
@@ -283,6 +318,12 @@ function averageColor(rgba) {
   }
   if (!n) return "#000000";
   return `#${hex(Math.round(r / n))}${hex(Math.round(g / n))}${hex(Math.round(b / n))}`;
+}
+
+function hitFlag(bitmapNo, hitRaw) {
+  if ((bitmapNo >= 369715 && bitmapNo <= 369847) || bitmapNo === 369941) return 1;
+  if (bitmapNo >= 369641 && bitmapNo <= 369654) return 1;
+  return hitRaw % 100;
 }
 
 function hex(value) {
