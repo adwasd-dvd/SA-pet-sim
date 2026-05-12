@@ -917,6 +917,10 @@ h3 {
   cursor: grabbing;
 }
 
+.map-canvas.map-move-hold {
+  cursor: crosshair;
+}
+
 .map-content {
   position: relative;
   transform-origin: 0 0;

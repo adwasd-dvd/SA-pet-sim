@@ -14,6 +14,8 @@ const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
 const CG_GRID_CURSOR = 25001;
+const MOVE_MODE_CHANGE_TIME = 1000;
+const MOVE_CLICK_WAIT_TIME = 250;
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -121,7 +123,13 @@ const mapView = {
   startY: 0,
   startPanX: 0,
   startPanY: 0,
-  hoverTile: null
+  hoverTile: null,
+  holdPointerId: null,
+  holdMoveTimer: 0,
+  holdMoveInterval: 0,
+  holdMoveActive: false,
+  holdMoveLastKey: "",
+  suppressNextClick: false
 };
 
 const els = {
@@ -400,6 +408,10 @@ function renderMap(map) {
 }
 
 function onMapCanvasClick(event) {
+  if (mapView.suppressNextClick) {
+    mapView.suppressNextClick = false;
+    return;
+  }
   if (mapView.moved) return;
   const npcBtn = event.target.closest("[data-npc]");
   if (npcBtn && els.mapCanvas.contains(npcBtn)) {
@@ -495,12 +507,16 @@ function clampMapPan() {
 
 function onMapPointerDown(event) {
   if (event.button !== 0) return;
+  clearMapHoldMove();
   mapView.dragging = true;
   mapView.moved = false;
   mapView.startX = event.clientX;
   mapView.startY = event.clientY;
   mapView.startPanX = mapView.panX;
   mapView.startPanY = mapView.panY;
+  mapView.holdPointerId = event.pointerId;
+  setMapHoverTile(mapTileFromPointer(event));
+  mapView.holdMoveTimer = window.setTimeout(beginMapHoldMove, MOVE_MODE_CHANGE_TIME);
   els.mapCanvas.classList.add("dragging");
   els.mapCanvas.setPointerCapture(event.pointerId);
 }
@@ -783,9 +799,16 @@ function onMapPointerMove(event) {
     setMapHoverTile(mapTileFromPointer(event));
     return;
   }
+  if (mapView.holdMoveActive) {
+    setMapHoverTile(mapTileFromPointer(event));
+    return;
+  }
   const dx = event.clientX - mapView.startX;
   const dy = event.clientY - mapView.startY;
-  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) mapView.moved = true;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+    mapView.moved = true;
+    clearMapHoldMove();
+  }
   mapView.panX = mapView.startPanX + dx;
   mapView.panY = mapView.startPanY + dy;
   clampMapPan();
@@ -794,6 +817,8 @@ function onMapPointerMove(event) {
 
 function onMapPointerUp(event) {
   if (!mapView.dragging) return;
+  const wasHoldMove = mapView.holdMoveActive;
+  clearMapHoldMove({ suppressClick: wasHoldMove });
   mapView.dragging = false;
   els.mapCanvas.classList.remove("dragging");
   if (els.mapCanvas.hasPointerCapture(event.pointerId)) {
@@ -807,6 +832,42 @@ function onMapPointerUp(event) {
 function onMapPointerLeave() {
   if (mapView.dragging) return;
   setMapHoverTile(null);
+}
+
+function beginMapHoldMove() {
+  if (!game || !mapView.dragging || mapView.moved || !mapView.hoverTile) return;
+  mapView.holdMoveActive = true;
+  mapView.suppressNextClick = true;
+  mapView.holdMoveLastKey = "";
+  els.mapCanvas.classList.add("map-move-hold");
+  pulseMapHoldMove(true);
+  mapView.holdMoveInterval = window.setInterval(() => pulseMapHoldMove(), MOVE_CLICK_WAIT_TIME);
+}
+
+function pulseMapHoldMove(force = false) {
+  if (!mapView.holdMoveActive || !game?.world?.map || !mapView.hoverTile) return;
+  const tile = mapView.hoverTile;
+  if (tile.mapId !== game.world.map.id) return;
+  const key = `${tile.mapId}:${tile.x},${tile.y}`;
+  if (!force && key === mapView.holdMoveLastKey) return;
+  mapView.holdMoveLastKey = key;
+  followRouteTo({ x: tile.x, y: tile.y });
+}
+
+function clearMapHoldMove({ suppressClick = false } = {}) {
+  if (mapView.holdMoveTimer) {
+    window.clearTimeout(mapView.holdMoveTimer);
+    mapView.holdMoveTimer = 0;
+  }
+  if (mapView.holdMoveInterval) {
+    window.clearInterval(mapView.holdMoveInterval);
+    mapView.holdMoveInterval = 0;
+  }
+  if (suppressClick || mapView.holdMoveActive) mapView.suppressNextClick = true;
+  mapView.holdPointerId = null;
+  mapView.holdMoveActive = false;
+  mapView.holdMoveLastKey = "";
+  els.mapCanvas.classList.remove("map-move-hold");
 }
 
 function setMapHoverTile(tile) {
