@@ -943,6 +943,10 @@ function isUsablePlayerFrame(tileId, frame) {
 
 function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
   const frame = atlas.frames?.[tileId] || {};
+  const left = x + Number(frame.xoffset || 0);
+  const top = y + Number(frame.yoffset || 0);
+  const width = Number(frame.width || 0);
+  const height = Number(frame.height || 0);
   return {
     tileId,
     type,
@@ -954,11 +958,22 @@ function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, typ
     mapY: (Number(gridY) || 0) * MAP_GRID_SIZE,
     depth: screenY,
     order,
+    left,
+    top,
+    right: left + width,
+    bottom: top + height,
     hit: Number(frame.hit || 0),
     prioType: Number(frame.prioType || 0),
     hitX: Number(frame.hitX || 1),
     hitY: Number(frame.hitY || 1)
   };
+}
+
+function spritesOverlap(a, b, margin = 0) {
+  return a.left - margin < b.right
+    && a.right + margin > b.left
+    && a.top - margin < b.bottom
+    && a.bottom + margin > b.top;
 }
 
 function drawDepthSprites(ctx, atlas, sprites) {
@@ -1275,14 +1290,14 @@ function largeMapViewportState(renderer) {
     pixelW,
     pixelH,
     key: [
-    left,
-    top,
-    right,
-    bottom,
-    pixelW,
-    pixelH,
-    renderer.width,
-    renderer.height
+      left,
+      top,
+      right,
+      bottom,
+      pixelW,
+      pixelH,
+      renderer.width,
+      renderer.height
     ].join(":")
   };
 }
@@ -1375,13 +1390,15 @@ function renderLargeMapSprites(renderer, state = largeMapViewportState(renderer)
 
 function drawViewportDynamicSprites(ctx, renderer, state) {
   const { x1, y1, x2, y2 } = viewportTileBounds(renderer, state);
-  const sprites = [];
   let order = 0;
+  const charSprites = collectViewportCharSprites(renderer, order);
+  order += charSprites.length;
+  const sprites = [...charSprites];
   forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
-    const [ground, object] = renderer.tileAt(y * renderer.width + x);
+    const [, object] = renderer.tileAt(y * renderer.width + x);
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
     if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
-      sprites.push(mapDepthSprite(
+      const part = mapDepthSprite(
         renderer.atlas,
         object,
         screenX,
@@ -1392,9 +1409,15 @@ function drawViewportDynamicSprites(ctx, renderer, state) {
         y,
         "part",
         order++
-      ));
+      );
+      if (charSprites.some((char) => spritesOverlap(part, char, 10) && partCoversChar(char, part))) sprites.push(part);
     }
   });
+  drawDepthSprites(ctx, renderer.atlas, sprites);
+}
+
+function collectViewportCharSprites(renderer, order = 0) {
+  const sprites = [];
   sprites.push(...collectNpcSprites(renderer.map, renderer.atlas, (npc, index) => {
     const [x, y] = mapTileContentPoint(renderer, npc.x, npc.y);
     return mapDepthSprite(
@@ -1422,10 +1445,10 @@ function drawViewportDynamicSprites(ctx, renderer, state) {
       game.location?.x,
       game.location?.y,
       "char",
-      order + 10000
+      order + sprites.length + 10000
     );
   }));
-  drawDepthSprites(ctx, renderer.atlas, sprites);
+  return sprites;
 }
 
 function forEachClientDrawTile(x1, y1, x2, y2, callback) {
