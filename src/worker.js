@@ -23,6 +23,7 @@ const CG_INVISIBLE = 99;
 const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
 const EVENT_NPC = 1;
+const NPC_INTERACTION_RANGE = 2;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
 const rankTab = [
@@ -75,6 +76,10 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/route" && request.method === "POST") {
       const body = await readJson(request);
       return json(await routeGame(env, request, body.game, Number(body.targetX), Number(body.targetY)));
+    }
+    if (url.pathname === "/api/game/route-npc" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await routeNpcGame(env, request, body.game, String(body.npcId || "")));
     }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
@@ -225,6 +230,81 @@ async function routeGame(env, request, game, targetX, targetY) {
     blocked: route.length === 0,
     reason: route.length ? "ok" : "unreachable"
   };
+}
+
+async function routeNpcGame(env, request, game, npcId) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  const collision = await loadCollisionMap(env, request, map);
+  const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
+  const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
+  const from = {
+    x: clampInt(game.location.x, 0, width - 1, 0),
+    y: clampInt(game.location.y, 0, height - 1, 0)
+  };
+  if (distance(from.x, from.y, npc.x, npc.y) <= NPC_INTERACTION_RANGE) {
+    return {
+      from,
+      target: from,
+      route: [],
+      blocked: false,
+      reason: "already-near",
+      npc: routeNpcSummary(npc)
+    };
+  }
+  for (const target of npcApproachTargets(map, collision, npc, from)) {
+    const route = findRoute(map, collision, from, target);
+    if (route.length) {
+      return {
+        from,
+        target,
+        route,
+        blocked: false,
+        reason: "ok",
+        npc: routeNpcSummary(npc)
+      };
+    }
+  }
+  return {
+    from,
+    target: null,
+    route: [],
+    blocked: true,
+    reason: "unreachable-npc",
+    npc: routeNpcSummary(npc)
+  };
+}
+
+function npcApproachTargets(map, collision, npc, from) {
+  const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
+  const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
+  const targets = [];
+  const npcX = Number(npc.x);
+  const npcY = Number(npc.y);
+  for (let dy = -NPC_INTERACTION_RANGE; dy <= NPC_INTERACTION_RANGE; dy += 1) {
+    for (let dx = -NPC_INTERACTION_RANGE; dx <= NPC_INTERACTION_RANGE; dx += 1) {
+      if (dx === 0 && dy === 0) continue;
+      const x = npcX + dx;
+      const y = npcY + dy;
+      if (x < 0 || y < 0 || x >= width || y >= height) continue;
+      const npcDistance = distance(x, y, npcX, npcY);
+      if (npcDistance > NPC_INTERACTION_RANGE) continue;
+      if (!canStandAt(map, collision, x, y)) continue;
+      targets.push({
+        x,
+        y,
+        npcDistance,
+        distance: distance(from.x, from.y, x, y)
+      });
+    }
+  }
+  return targets.sort((a, b) => a.distance - b.distance || a.npcDistance - b.npcDistance || a.y - b.y || a.x - b.x);
+}
+
+function routeNpcSummary(npc) {
+  return { id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type };
 }
 
 function findExit(map, id) {

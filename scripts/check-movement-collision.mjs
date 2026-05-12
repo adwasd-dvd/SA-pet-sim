@@ -74,7 +74,22 @@ assertEqual(game.lastWarp.sourceTile.x, 49, "lastWarp records source tile x");
 assertEqual(game.lastWarp.sourceTile.y, 116, "lastWarp records source tile y");
 assert(game.save.info.includes("LAST_WARP=100,637,491"), "saac-like save info records last mapwarp");
 
-console.log("Movement collision OK: routing, blocked terrain, NPC cells, and exact mapwarp tiles are enforced.");
+let npcGame = await api("/api/game/new", { name: "npc-route-test" });
+const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
+if (!teacher) throw new Error("missing teacher NPC fixture");
+let npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id });
+assertEqual(npcRoute.blocked, false, "route-npc finds reachable interaction tile");
+assert(npcRoute.route.length > 0, "route-npc returns route steps from spawn");
+assert(distance(npcRoute.target.x, npcRoute.target.y, teacher.x, teacher.y) <= 2, "route-npc target is in interaction range");
+for (const step of npcRoute.route) {
+  npcGame = await api("/api/game/walk", { game: npcGame, dx: step.dx, dy: step.dy });
+}
+assert(distance(npcGame.location.x, npcGame.location.y, teacher.x, teacher.y) <= 2, "route-npc route reaches interaction range");
+npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id });
+assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
+assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
+
+console.log("Movement collision OK: routing, blocked terrain, NPC cells, exact mapwarp tiles, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -90,4 +105,8 @@ function assertLog(state, text) {
   if (!state.log.some((line) => line.includes(text))) {
     throw new Error(`missing log text: ${text}`);
   }
+}
+
+function distance(ax, ay, bx, by) {
+  return Math.max(Math.abs(Number(ax) - Number(bx)), Math.abs(Number(ay) - Number(by)));
 }

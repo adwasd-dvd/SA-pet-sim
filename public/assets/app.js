@@ -470,55 +470,15 @@ async function goToNpc(npcId) {
     await openDialog(npc.id);
     return;
   }
-  const approach = await findNpcApproach(npc);
-  if (!approach) {
+  const approach = await api("/api/game/route-npc", { game, npcId: npc.id });
+  if (approach.blocked || !approach.target) {
     addClientLog(`无法靠近 ${npc.name}。`);
     return;
   }
-  const reached = await followRouteTo(approach.target, approach.routeData);
+  const reached = await followRouteTo(approach.target, approach);
   const currentMap = game?.world?.map;
   const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
   if (reached && stillNear) await openDialog(npc.id);
-}
-
-async function findNpcApproach(npc) {
-  const candidates = npcApproachTiles(npc);
-  for (const target of candidates) {
-    const routeData = await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
-    if (!routeData.blocked) return { target, routeData };
-  }
-  return null;
-}
-
-function npcApproachTiles(npc) {
-  const origin = game?.location || { x: 0, y: 0 };
-  const map = game?.world?.map || {};
-  const width = Number(map.size?.[0] || 0);
-  const height = Number(map.size?.[1] || 0);
-  const out = [];
-  for (let dy = -2; dy <= 2; dy += 1) {
-    for (let dx = -2; dx <= 2; dx += 1) {
-      if (dx === 0 && dy === 0) continue;
-      const npcDistance = Math.max(Math.abs(dx), Math.abs(dy));
-      if (npcDistance > 2) continue;
-      const x = Number(npc.x) + dx;
-      const y = Number(npc.y) + dy;
-      out.push({
-        x,
-        y,
-        npcDistance,
-        distance: cellDistance(origin.x, origin.y, x, y)
-      });
-    }
-  }
-  return out
-    .filter((tile) => (
-      Number.isFinite(tile.x)
-      && Number.isFinite(tile.y)
-      && (!width || (tile.x >= 0 && tile.x < width))
-      && (!height || (tile.y >= 0 && tile.y < height))
-    ))
-    .sort((a, b) => a.distance - b.distance || a.npcDistance - b.npcDistance || a.y - b.y || a.x - b.x);
 }
 
 function goToExit(exitId) {
