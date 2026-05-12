@@ -13,6 +13,7 @@ const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
+const DEFAULT_PLAYER_GRAPHIC = 16034;
 
 let game = null;
 let installPrompt = null;
@@ -22,6 +23,8 @@ let routeToken = 0;
 let tileAtlasPromise = null;
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
+let activeTab = "pets";
+let clientWindowOpen = false;
 const mapView = {
   zoom: MAP_DEFAULT_ZOOM,
   panX: 0,
@@ -59,6 +62,11 @@ const els = {
   mapHudPetHpBar: byId("mapHudPetHpBar"),
   mapHudPetHpText: byId("mapHudPetHpText"),
   mapHudInventory: byId("mapHudInventory"),
+  fieldMessage: byId("fieldMessage"),
+  clientWindow: byId("clientWindow"),
+  clientWindowTitle: byId("clientWindowTitle"),
+  clientWindowBody: byId("clientWindowBody"),
+  clientWindowClose: byId("clientWindowClose"),
   npcList: byId("npcList"),
   exitList: byId("exitList"),
   encounterPanel: byId("encounterPanel"),
@@ -175,7 +183,7 @@ function bindEvents() {
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
-    showTab("ai");
+    showTab("ai", { openClientWindow: true });
     askGuide();
   });
   els.newGameBtn.addEventListener("click", () => {
@@ -195,7 +203,11 @@ function bindEvents() {
     tab.addEventListener("click", () => showTab(tab.dataset.tab));
   });
   document.querySelectorAll("[data-command-tab]").forEach((btn) => {
-    btn.addEventListener("click", () => showTab(btn.dataset.commandTab));
+    btn.addEventListener("click", () => showTab(btn.dataset.commandTab, { openClientWindow: true }));
+  });
+  els.clientWindowClose.addEventListener("click", () => {
+    clientWindowOpen = false;
+    renderClientWindow();
   });
   els.encounterImg.addEventListener("error", () => {
     els.encounterImg.src = "/f/logo.gif";
@@ -245,6 +257,8 @@ function render() {
   renderLog();
   renderSavePanel();
   renderSaveState();
+  renderFieldMessage();
+  renderClientWindow();
 }
 
 function renderMap(map) {
@@ -671,6 +685,22 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
       order + index
     );
   }));
+  sprites.push(...collectPlayerSprites(map, atlas, (tileId) => {
+    const [mapX, mapY] = mapRenderPoint(game.location?.x, game.location?.y, width, height);
+    const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
+    return mapDepthSprite(
+      atlas,
+      tileId,
+      screenX - bounds.minX,
+      screenY - bounds.minY,
+      screenX,
+      screenY,
+      game.location?.x,
+      game.location?.y,
+      "char",
+      order + 10000
+    );
+  }));
   drawDepthSprites(ctx, atlas, sprites);
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
   syncMapMarkers(game.world.map);
@@ -685,6 +715,13 @@ function collectNpcSprites(map, atlas, locate) {
     .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
     .filter((npc) => npc.graphicId > CG_INVISIBLE && atlas.frames?.[npc.graphicId])
     .map((npc, index) => locate(npc, index));
+}
+
+function collectPlayerSprites(map, atlas, locate) {
+  if (!map || !game?.location) return [];
+  const tileId = Number(game.player?.graphic || game.player?.graNo || game.player?.graphicId || DEFAULT_PLAYER_GRAPHIC);
+  if (tileId <= CG_INVISIBLE || !atlas.frames?.[tileId]) return [];
+  return [locate(tileId)];
 }
 
 function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
@@ -1073,6 +1110,21 @@ function drawViewportTiles(ctx, renderer, left, top, right, bottom) {
       npc.y,
       "char",
       order + index
+    );
+  }));
+  sprites.push(...collectPlayerSprites(renderer.map, renderer.atlas, (tileId) => {
+    const [x, y] = mapTileContentPoint(renderer, game.location?.x, game.location?.y);
+    return mapDepthSprite(
+      renderer.atlas,
+      tileId,
+      x,
+      y,
+      x + renderer.minX,
+      y + renderer.minY,
+      game.location?.x,
+      game.location?.y,
+      "char",
+      order + 10000
     );
   }));
   drawDepthSprites(ctx, renderer.atlas, sprites);
@@ -1486,6 +1538,211 @@ function renderMapHud() {
   els.mapHudInventory.textContent = `石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity} | 宠物 ${game.pets.length}`;
 }
 
+function renderFieldMessage() {
+  const last = [...(game.log || [])].reverse().find((line) => String(line || "").trim());
+  els.fieldMessage.textContent = last || `${game.player.name} 来到了 ${game.world.map.name}。`;
+}
+
+function renderClientWindow() {
+  if (!els.clientWindow) return;
+  if (!game || !clientWindowOpen) {
+    els.clientWindow.hidden = true;
+    return;
+  }
+  const content = clientWindowContent(activeTab);
+  els.clientWindowTitle.textContent = content.title;
+  els.clientWindowBody.innerHTML = content.html;
+  els.clientWindow.hidden = false;
+  bindClientWindowActions();
+}
+
+function clientWindowContent(name) {
+  if (name === "save") return clientItemWindow();
+  if (name === "quests") return clientQuestWindow();
+  if (name === "log") return clientLogWindow();
+  if (name === "data") return clientDataWindow();
+  if (name === "ai") return clientAiWindow();
+  return clientPetWindow();
+}
+
+function clientPetWindow() {
+  const pet = game.pets?.[0];
+  if (!pet) {
+    return {
+      title: "PET STATUS",
+      html: `<p class="client-empty">没有出战宠物。</p>`
+    };
+  }
+  const hp = Number(pet.Hp || 0);
+  const maxHp = Number(pet.WorkMaxHp || hp || 1);
+  const pets = game.pets || [];
+  return {
+    title: "PET STATUS",
+    html: `
+      <div class="client-pet-status">
+        <div class="client-pet-portrait">
+          <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
+          <strong>${escapeHtml(pet.Name)}</strong>
+        </div>
+        <div class="client-stat-stack">
+          ${clientStatRow("等级", pet.Lv)}
+          ${clientStatRow("经验值", Number(pet.Exp || 0))}
+          ${clientStatRow("NEXT", "-1")}
+          ${clientStatRow("耐久力", `${hp}/${maxHp}`)}
+          ${clientStatRow("攻击力", pet.WorkFixStr)}
+          ${clientStatRow("防御力", pet.WorkFixTough)}
+          ${clientStatRow("敏捷力", pet.WorkFixDex)}
+          ${clientStatRow("忠诚度", pet.Loyal || 100)}
+        </div>
+      </div>
+      <div class="client-meter-row">
+        <span>地属性</span><i style="width:${clampPercent(pet.Earth || pet.earth || 0, 10)}%"></i>
+      </div>
+      <div class="client-meter-row water">
+        <span>水属性</span><i style="width:${clampPercent(pet.Water || pet.water || 0, 10)}%"></i>
+      </div>
+      <div class="client-meter-row fire">
+        <span>火属性</span><i style="width:${clampPercent(pet.Fire || pet.fire || 0, 10)}%"></i>
+      </div>
+      <div class="client-meter-row wind">
+        <span>风属性</span><i style="width:${clampPercent(pet.Wind || pet.wind || 0, 10)}%"></i>
+      </div>
+      <div class="client-party-row">
+        ${pets.map((entry, index) => `
+          <button type="button" data-client-train="${index}" title="训练 ${escapeHtml(entry.Name)}">
+            <img src="/f/pet/${Number(entry.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
+            <span>Lv.${Number(entry.Lv || 1)}</span>
+          </button>
+        `).join("")}
+      </div>
+    `
+  };
+}
+
+function clientItemWindow() {
+  const inventory = (game.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
+  const state = inventoryState();
+  const capacity = Math.max(15, Number(state.capacity || 15));
+  const slots = Array.from({ length: capacity }, (_, index) => inventory[index] || null);
+  return {
+    title: "ITEM",
+    html: `
+      <div class="client-item-top">
+        <div class="client-item-category-grid">
+          ${["骨", "肉", "草", "石", "壶", "卷"].map((label) => `<span>${label}</span>`).join("")}
+        </div>
+        <div class="client-money-box">
+          <strong>Stone</strong>
+          <span>${Number(game.player.stone || 0)}</span>
+        </div>
+      </div>
+      <div class="client-slot-grid">
+        ${slots.map((item) => clientItemSlot(item)).join("")}
+      </div>
+      <div class="client-item-desc">
+        <strong>${inventory.length ? escapeHtml(inventory[0].name) : "背包"}</strong>
+        <span>${inventory.length ? escapeHtml(inventory[0].description || inventory[0].source || "道具资料来自 itemset6.txt。") : `空位 ${state.remaining ?? Math.max(0, capacity - state.used)}/${capacity}`}</span>
+      </div>
+    `
+  };
+}
+
+function clientItemSlot(item) {
+  if (!item) return `<span class="client-slot empty"></span>`;
+  const label = item.image || item.type || item.name || "物";
+  return `
+    <button class="client-slot filled" type="button" data-client-use-item="${item.id}" title="${escapeHtml(item.description || item.name)}" ${inventoryItemUsable(item) ? "" : "disabled"}>
+      <b>${escapeHtml(String(label).slice(0, 2))}</b>
+      <small>x${Number(item.qty || 0)}</small>
+    </button>
+  `;
+}
+
+function clientQuestWindow() {
+  const quests = Object.values(game.quests || {});
+  return {
+    title: "QUEST",
+    html: quests.length ? `
+      <div class="client-list-window">
+        ${quests.map((quest) => `
+          <article>
+            <strong>${escapeHtml(quest.title)}</strong>
+            <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
+          </article>
+        `).join("")}
+      </div>
+    ` : `<p class="client-empty">还没有接任务。</p>`
+  };
+}
+
+function clientLogWindow() {
+  const lines = (game.log || []).slice(-6).reverse();
+  return {
+    title: "LOG",
+    html: lines.length ? `
+      <div class="client-list-window log">
+        ${lines.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
+      </div>
+    ` : `<p class="client-empty">暂无日志。</p>`
+  };
+}
+
+function clientDataWindow() {
+  const map = game.world.map;
+  const near = nearbyText() || " | 附近：无";
+  return {
+    title: "DATA",
+    html: `
+      <div class="client-list-window">
+        <article>
+          <strong>${escapeHtml(map.name)}</strong>
+          <span>floor ${escapeHtml(map.floorId)} | ${escapeHtml(map.size?.join("x") || "--")}</span>
+        </article>
+        <article>
+          <strong>${escapeHtml(game.player.name)}</strong>
+          <span>Lv.${Number(game.player.level || 1)} | (${Number(game.location.x || 0)}, ${Number(game.location.y || 0)})${escapeHtml(near)}</span>
+        </article>
+        <article>
+          <strong>来源</strong>
+          <span>client map + npc scripts + mapwarp.txt</span>
+        </article>
+      </div>
+    `
+  };
+}
+
+function clientAiWindow() {
+  const prompt = els.aiPrompt.value.trim();
+  return {
+    title: "ACTION",
+    html: `
+      <div class="client-list-window">
+        <article>
+          <strong>AI 向导</strong>
+          <span>${escapeHtml(prompt || "可询问任务、地图、交易和下一步行动。")}</span>
+        </article>
+        <article>
+          <strong>回答</strong>
+          <span>${escapeHtml(els.aiResult.textContent || "点击外层 AI 按钮后会显示结果。")}</span>
+        </article>
+      </div>
+    `
+  };
+}
+
+function clientStatRow(label, value) {
+  return `<div class="client-stat-row"><b>${escapeHtml(label)}</b><span>${escapeHtml(value ?? "--")}</span></div>`;
+}
+
+function bindClientWindowActions() {
+  els.clientWindowBody.querySelectorAll("[data-client-train]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.clientTrain) }));
+  });
+  els.clientWindowBody.querySelectorAll("[data-client-use-item]").forEach((btn) => {
+    btn.addEventListener("click", () => useItem(Number(btn.dataset.clientUseItem)));
+  });
+}
+
 function renderPets() {
   const pets = game.pets.map((pet, index) => `
     <article class="pet-card">
@@ -1587,22 +1844,27 @@ async function searchData() {
 async function askGuide() {
   if (!game) return;
   els.aiResult.textContent = "向导思考中...";
+  renderClientWindow();
   const data = await api("/api/ai/guide", { game, prompt: els.aiPrompt.value });
   els.aiResult.textContent = data.text || "向导暂时没有建议。";
+  renderClientWindow();
 }
 
-function showTab(name) {
+function showTab(name, options = {}) {
+  activeTab = name || activeTab;
+  if (options.openClientWindow) clientWindowOpen = true;
   document.querySelectorAll(".tab").forEach((tab) => {
-    tab.classList.toggle("active", tab.dataset.tab === name);
+    tab.classList.toggle("active", tab.dataset.tab === activeTab);
   });
   document.querySelectorAll("[data-command-tab]").forEach((btn) => {
-    const active = btn.dataset.commandTab === name;
+    const active = btn.dataset.commandTab === activeTab;
     btn.classList.toggle("active", active);
     btn.setAttribute("aria-pressed", active ? "true" : "false");
   });
   document.querySelectorAll(".tab-panel").forEach((panel) => {
-    panel.classList.toggle("active", panel.id === `${name}Tab`);
+    panel.classList.toggle("active", panel.id === `${activeTab}Tab`);
   });
+  renderClientWindow();
 }
 
 function renderSaveState() {

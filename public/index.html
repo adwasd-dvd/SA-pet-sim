@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=35">
+    <link rel="stylesheet" href="/assets/app.css?v=36">
   </head>
   <body>
     <div class="app-shell">
@@ -54,6 +54,19 @@
 
           <section class="world-grid">
             <article class="map-panel">
+              <div class="client-field-menu client-field-menu-left" aria-label="原版左上指令">
+                <button type="button" data-command-tab="save" title="Mail"><span>ME</span><small>Mail</small></button>
+                <button type="button" data-command-tab="data" title="Call"><span>讯</span><small>Call</small></button>
+                <button type="button" data-command-tab="pets" title="宠物"><span>宠</span></button>
+                <button type="button" data-command-tab="quests" title="任务"><span>任</span></button>
+                <button type="button" data-command-tab="log" title="日志"><span>录</span></button>
+                <button type="button" data-command-tab="ai" title="AI 向导"><span>AI</span></button>
+              </div>
+              <div class="client-field-menu client-field-menu-right" aria-label="原版右上动作">
+                <button type="button" data-command-tab="log" title="加入战斗"><span>战</span></button>
+                <button type="button" data-command-tab="quests" title="任务查询"><span>?</span></button>
+                <button type="button" data-command-tab="ai" title="Action"><span>动</span><small>Action</small></button>
+              </div>
               <div class="map-head">
                 <div>
                   <p class="eyebrow">当前地图</p>
@@ -105,6 +118,18 @@
                 <span><b class="legend-dot player-dot"></b>你的位置</span>
                 <span><b class="legend-dot npc-dot"></b>可对话 NPC</span>
                 <span><b class="legend-dot exit-dot"></b>地图出口</span>
+              </div>
+              <section id="clientWindow" class="client-window" hidden>
+                <div class="client-window-head">
+                  <strong id="clientWindowTitle">ITEM</strong>
+                  <button id="clientWindowClose" type="button" title="关闭">×</button>
+                </div>
+                <div id="clientWindowBody" class="client-window-body"></div>
+              </section>
+              <div class="client-bottom-line" aria-label="原版频道与聊天栏">
+                <span class="channel">一般频道</span>
+                <span id="fieldMessage" class="field-message">--</span>
+                <span class="mode">abc　玩家模式　0</span>
               </div>
             </article>
 
@@ -203,6 +228,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=45"></script>
+    <script type="module" src="/assets/app.js?v=46"></script>
   </body>
 </html>
