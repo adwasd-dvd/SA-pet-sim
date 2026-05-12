@@ -23,6 +23,8 @@ const CG_INVISIBLE = 99;
 const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
 const EVENT_NPC = 1;
+const ROUTE_MAX_STEPS = 160;
+const ROUTE_MAX_VISITS = 12000;
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -69,6 +71,10 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/walk" && request.method === "POST") {
       const body = await readJson(request);
       return json(await walkGame(env, request, body.game, Number(body.dx) || 0, Number(body.dy) || 0));
+    }
+    if (url.pathname === "/api/game/route" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await routeGame(env, request, body.game, Number(body.targetX), Number(body.targetY)));
     }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
@@ -191,6 +197,36 @@ async function walkGame(env, request, game, dx, dy) {
   return withMap(game);
 }
 
+async function routeGame(env, request, game, targetX, targetY) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const collision = await loadCollisionMap(env, request, map);
+  const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
+  const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
+  const from = {
+    x: clampInt(game.location.x, 0, width - 1, 0),
+    y: clampInt(game.location.y, 0, height - 1, 0)
+  };
+  const target = {
+    x: clampInt(targetX, 0, width - 1, from.x),
+    y: clampInt(targetY, 0, height - 1, from.y)
+  };
+  if (from.x === target.x && from.y === target.y) {
+    return { from, target, route: [], blocked: false, reason: "already-there" };
+  }
+  if (!canStandAt(map, collision, target.x, target.y)) {
+    return { from, target, route: [], blocked: true, reason: "target-blocked" };
+  }
+  const route = findRoute(map, collision, from, target);
+  return {
+    from,
+    target,
+    route,
+    blocked: route.length === 0,
+    reason: route.length ? "ok" : "unreachable"
+  };
+}
+
 function findExit(map, id) {
   return map.exits.find((item) => item.id === id || item.to === id);
 }
@@ -203,10 +239,8 @@ function exitAt(map, x, y) {
 }
 
 async function blocksMove(env, request, map, x, y) {
-  if (map.npcs.some((npc) => Number(npc.x) === x && Number(npc.y) === y)) return true;
   const collision = await loadCollisionMap(env, request, map);
-  if (!collision || x < 0 || y < 0 || x >= collision.width || y >= collision.height) return true;
-  return collision.hitMap[y * collision.width + x] === MAP_BLOCKED;
+  return !canStandAt(map, collision, x, y);
 }
 
 function noteBlockedMove(game, map, x, y) {
@@ -331,6 +365,92 @@ function markHit(hitMap, width, height, x, y, value) {
   } else if (hitMap[index] !== MAP_SPECIAL) {
     hitMap[index] = MAP_BLOCKED;
   }
+}
+
+function canStandAt(map, collision, x, y) {
+  if (!collision || x < 0 || y < 0 || x >= collision.width || y >= collision.height) return false;
+  if (exitAt(map, x, y)) return true;
+  if (map.npcs.some((npc) => Number(npc.x) === x && Number(npc.y) === y)) return false;
+  return collision.hitMap[y * collision.width + x] !== MAP_BLOCKED;
+}
+
+function findRoute(map, collision, from, target) {
+  const startKey = routeKey(from.x, from.y);
+  const targetKey = routeKey(target.x, target.y);
+  const open = [{
+    x: from.x,
+    y: from.y,
+    key: startKey,
+    g: 0,
+    f: routeHeuristic(from.x, from.y, target.x, target.y)
+  }];
+  const best = new Map([[startKey, 0]]);
+  const cameFrom = new Map();
+  const moves = routeMoves();
+  let visits = 0;
+
+  while (open.length && visits < ROUTE_MAX_VISITS) {
+    open.sort((a, b) => a.f - b.f || a.g - b.g);
+    const current = open.shift();
+    if (current.key === targetKey) return reconstructRoute(cameFrom, current.key);
+    if (current.g >= ROUTE_MAX_STEPS) continue;
+    visits += 1;
+
+    for (const move of moves) {
+      const nx = current.x + move.dx;
+      const ny = current.y + move.dy;
+      if (!canStandAt(map, collision, nx, ny)) continue;
+      if (move.dx !== 0 && move.dy !== 0) {
+        const sideA = canStandAt(map, collision, current.x + move.dx, current.y);
+        const sideB = canStandAt(map, collision, current.x, current.y + move.dy);
+        if (!sideA && !sideB) continue;
+      }
+      const key = routeKey(nx, ny);
+      const nextG = current.g + 1;
+      if (nextG >= (best.get(key) ?? Infinity)) continue;
+      best.set(key, nextG);
+      cameFrom.set(key, { prev: current.key, dx: move.dx, dy: move.dy, x: nx, y: ny });
+      open.push({
+        x: nx,
+        y: ny,
+        key,
+        g: nextG,
+        f: nextG + routeHeuristic(nx, ny, target.x, target.y)
+      });
+    }
+  }
+  return [];
+}
+
+function reconstructRoute(cameFrom, key) {
+  const route = [];
+  while (cameFrom.has(key)) {
+    const step = cameFrom.get(key);
+    route.push({ dx: step.dx, dy: step.dy, x: step.x, y: step.y });
+    key = step.prev;
+  }
+  return route.reverse();
+}
+
+function routeMoves() {
+  return [
+    { dx: -1, dy: 1 },
+    { dx: -1, dy: 0 },
+    { dx: -1, dy: -1 },
+    { dx: 0, dy: -1 },
+    { dx: 1, dy: -1 },
+    { dx: 1, dy: 0 },
+    { dx: 1, dy: 1 },
+    { dx: 0, dy: 1 }
+  ];
+}
+
+function routeHeuristic(x, y, targetX, targetY) {
+  return Math.max(Math.abs(targetX - x), Math.abs(targetY - y));
+}
+
+function routeKey(x, y) {
+  return `${x},${y}`;
 }
 
 function noteNearby(game, map) {

@@ -16,6 +16,8 @@ const TILE_HALF_H = 24;
 let game = null;
 let installPrompt = null;
 let walkInFlight = false;
+let routeInFlight = false;
+let routeToken = 0;
 let tileAtlasPromise = null;
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
@@ -300,6 +302,12 @@ function onMapCanvasClick(event) {
   const exitBtn = event.target.closest("[data-exit]");
   if (exitBtn && els.mapCanvas.contains(exitBtn)) {
     mutate("/api/game/travel", { to: exitBtn.dataset.exit });
+    routeToken += 1;
+    return;
+  }
+  const target = mapTileFromPointer(event);
+  if (target) {
+    followRouteTo(target);
   }
 }
 
@@ -387,6 +395,7 @@ function onGameKeyDown(event) {
   const direction = screenDirectionForKey(key);
   if (!direction) return;
   event.preventDefault();
+  routeToken += 1;
   walkPlayer(direction[0], direction[1]);
 }
 
@@ -404,16 +413,76 @@ function screenDirectionForKey(key) {
 }
 
 async function walkPlayer(dx, dy) {
-  if (walkInFlight) return;
+  if (walkInFlight) return false;
   walkInFlight = true;
+  const before = {
+    mapId: game.location.mapId,
+    x: game.location.x,
+    y: game.location.y
+  };
   try {
     game = await api("/api/game/walk", { game, dx, dy });
     mapView.centerOnNextRender = true;
     save();
     render();
+    return before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
   } finally {
     walkInFlight = false;
   }
+}
+
+async function followRouteTo(target) {
+  if (!game) return;
+  if (routeInFlight) {
+    routeToken += 1;
+    routeInFlight = false;
+    return;
+  }
+  const token = ++routeToken;
+  routeInFlight = true;
+  try {
+    const data = await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
+    const route = Array.isArray(data.route) ? data.route : [];
+    if (!route.length) {
+      if (data.blocked) addClientLog("那里无法通行。");
+      return;
+    }
+    for (const step of route) {
+      if (token !== routeToken) return;
+      const beforeMap = game.location.mapId;
+      const moved = await walkPlayer(step.dx, step.dy);
+      if (!moved || game.location.mapId !== beforeMap) return;
+      await wait(85);
+    }
+  } catch (error) {
+    addClientLog(error.message || "无法计算路线。");
+  } finally {
+    routeInFlight = false;
+  }
+}
+
+function mapTileFromPointer(event) {
+  if (!game?.world?.map) return null;
+  const rect = els.mapCanvas.getBoundingClientRect();
+  const contentX = (event.clientX - rect.left - mapView.panX) / mapView.zoom;
+  const contentY = (event.clientY - rect.top - mapView.panY) / mapView.zoom;
+  const map = game.world.map;
+  const canvas = els.mapCanvas.querySelector(".ls2-map");
+  const metrics = mapMetrics(map);
+  const minX = Number.isFinite(Number(canvas?.dataset?.minX))
+    ? Number(canvas.dataset.minX)
+    : metrics.minX - metrics.margin;
+  const minY = Number.isFinite(Number(canvas?.dataset?.minY))
+    ? Number(canvas.dataset.minY)
+    : metrics.minY - metrics.margin;
+  const screenX = contentX + minX;
+  const screenY = contentY + minY;
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  return {
+    x: Math.max(0, Math.min(width - 1, Math.round((screenX / 32 - screenY / 24) / 2))),
+    y: Math.max(0, Math.min(height - 1, Math.round((screenX / 32 + screenY / 24) / 2)))
+  };
 }
 
 function onMapPointerMove(event) {
@@ -1506,6 +1575,17 @@ async function api(path, body) {
 
 function save() {
   localStorage.setItem(SAVE_KEY, JSON.stringify(game));
+}
+
+function addClientLog(text) {
+  if (!game) return;
+  game.log = [...(game.log || []), text].slice(-24);
+  save();
+  renderLog();
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function updateNetState() {

@@ -31,6 +31,12 @@ const api = async (pathName, body) => {
 
 let game = await api("/api/game/new", { name: "collision-test" });
 const start = { ...game.location };
+let route = await api("/api/game/route", { game, targetX: start.x + 3, targetY: start.y + 3 });
+assertEqual(route.blocked, false, "open route is reachable");
+assertEqual(route.route.length, 3, "open diagonal route length");
+
+route = await api("/api/game/route", { game, targetX: start.x - 1, targetY: start.y - 1 });
+assertEqual(route.blocked, true, "blocked target route is rejected");
 
 game = await api("/api/game/walk", { game, dx: -1, dy: -1 });
 assertEqual(game.location.x, start.x, "blocked terrain keeps x");
@@ -46,7 +52,7 @@ game = await api("/api/game/walk", { game, dx: 1, dy: 0 });
 assertEqual(game.location.x, 41, "NPC collision keeps x");
 assertEqual(game.location.y, 72, "NPC collision keeps y");
 
-console.log("Movement collision OK: blocked terrain, open movement, and NPC cells are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, open movement, and NPC cells are enforced.");
 
 function assertEqual(actual, expected, label) {
   if (actual !== expected) {
