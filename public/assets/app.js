@@ -312,6 +312,7 @@ function showGame() {
 
 function render() {
   if (!game) return;
+  syncPlayerAnimationDirectionFromGame();
   const map = game.world.map;
   els.playerTitle.textContent = game.player.name;
   els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
@@ -508,7 +509,7 @@ function normalizeDirection(dir) {
 async function walkPlayer(dx, dy) {
   if (walkInFlight) return false;
   walkInFlight = true;
-  const nextDir = directionForDelta(dx, dy);
+  const requestedServerDir = serverDirectionForDelta(dx, dy);
   const before = {
     mapId: game.location.mapId,
     x: game.location.x,
@@ -517,8 +518,9 @@ async function walkPlayer(dx, dy) {
   try {
     game = await api("/api/game/walk", { game, dx, dy });
     const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
-    if (moved) startPlayerWalkAnimation(nextDir);
-    else facePlayerDirection(nextDir);
+    const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
+    if (moved) startPlayerWalkAnimation(animDir);
+    else facePlayerDirection(animDir);
     mapView.centerOnNextRender = true;
     save();
     render();
@@ -544,14 +546,28 @@ function facePlayerDirection(dir) {
 
 function setPlayerDirection(dir) {
   playerAnimState.dir = normalizeDirection(dir);
-  if (game?.player) game.player.dir = playerAnimState.dir;
 }
 
-function directionForDelta(dx, dy) {
+function serverDirectionForDelta(dx, dy) {
   const sx = Math.sign(dx);
   const sy = Math.sign(dy);
   const index = SA_DIRECTION_DELTAS.findIndex(([dirX, dirY]) => dirX === sx && dirY === sy);
-  return index >= 0 ? index : playerAnimState.dir;
+  return index >= 0 ? index : currentServerDirection();
+}
+
+function currentServerDirection(fallback = DEFAULT_PLAYER_DIRECTION) {
+  return normalizeDirection(game?.player?.dir ?? game?.location?.dir ?? fallback);
+}
+
+function clientAnimDirectionFromServerDir(dir) {
+  // Original client anim_ang uses map.cpp moveAddTbl, offset by +3 from gmsv CHAR_DIR.
+  return normalizeDirection(normalizeDirection(dir) + 3);
+}
+
+function syncPlayerAnimationDirectionFromGame(force = false) {
+  if (!game) return;
+  if (!force && performance.now() < playerAnimState.walkUntil) return;
+  playerAnimState.dir = clientAnimDirectionFromServerDir(currentServerDirection());
 }
 
 function invalidatePlayerSpriteRender() {
@@ -1773,7 +1789,7 @@ function clientSettingsWindow() {
 }
 
 function clientTradeWindow() {
-  const forward = directionDelta(playerAnimState.dir) || [0, 0];
+  const forward = directionDelta(currentServerDirection()) || [0, 0];
   const targetX = Number(game.location.x || 0) + forward[0];
   const targetY = Number(game.location.y || 0) + forward[1];
   return {
@@ -1800,7 +1816,7 @@ function clientChannelWindow() {
 }
 
 function clientJoinBattleWindow() {
-  const forward = directionDelta(playerAnimState.dir) || [0, 0];
+  const forward = directionDelta(currentServerDirection()) || [0, 0];
   const targetX = Number(game.location.x || 0) + forward[0];
   const targetY = Number(game.location.y || 0) + forward[1];
   return {
@@ -1820,7 +1836,7 @@ function clientActionWindow() {
     html: `
       <div class="client-list-window">
         <article><strong>人物动作</strong><span>站立 / 点头 / 挥手</span></article>
-        <article><strong>当前方向</strong><span>${playerAnimState.dir}</span></article>
+        <article><strong>当前方向</strong><span>${currentServerDirection()}</span></article>
       </div>
     `
   };
