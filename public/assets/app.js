@@ -130,6 +130,7 @@ let playerAnimState = {
   startedAt: 0,
   walkUntil: 0,
   moveUntil: 0,
+  followCamera: false,
   mapId: null,
   fromX: 0,
   fromY: 0,
@@ -532,7 +533,8 @@ function resetMapView() {
 
 function centerMapOnPlayer() {
   if (!game?.world?.map) return;
-  centerMapOnPoint(mapClientPoint(game.world.map, game.location?.x, game.location?.y));
+  const point = playerTilePoint(game.location);
+  centerMapOnPoint(mapClientPoint(game.world.map, point.x, point.y));
 }
 
 function centerMapOnPoint(point) {
@@ -540,17 +542,6 @@ function centerMapOnPoint(point) {
   mapView.panX = (rect.width || 1) / 2 - point[0] * mapView.zoom;
   mapView.panY = (rect.height || 340) / 2 - point[1] * mapView.zoom;
   clampMapPan();
-}
-
-function isPlayerNearViewportEdge(margin = 128) {
-  if (!game?.world?.map) return true;
-  const rect = els.mapCanvas.getBoundingClientRect();
-  const width = rect.width || 1;
-  const height = rect.height || 340;
-  const [x, y] = mapClientPoint(game.world.map, game.location?.x, game.location?.y);
-  const screenX = x * mapView.zoom + mapView.panX;
-  const screenY = y * mapView.zoom + mapView.panY;
-  return screenX < margin || screenY < margin || screenX > width - margin || screenY > height - margin;
 }
 
 function applyMapView() {
@@ -659,10 +650,11 @@ async function walkPlayer(dx, dy) {
     const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
     if (moved && before.mapId === game.location.mapId) {
       startPlayerWalkAnimation(animDir, playerTilePoint(before), game.location);
+      mapView.centerOnNextRender = false;
     } else {
       facePlayerDirection(animDir);
+      mapView.centerOnNextRender = before.mapId !== game.location.mapId;
     }
-    mapView.centerOnNextRender = before.mapId !== game.location.mapId || isPlayerNearViewportEdge();
     save();
     render();
     return moved;
@@ -697,11 +689,13 @@ function startPlayerWalkAnimation(dir, from = game?.location, to = game?.locatio
   playerAnimState.startedAt = performance.now();
   playerAnimState.walkUntil = playerAnimState.startedAt + PLAYER_WALK_ANIM_MS;
   playerAnimState.moveUntil = playerAnimState.startedAt + PLAYER_WALK_MOVE_MS;
+  playerAnimState.followCamera = true;
   playerAnimState.mapId = to?.mapId || game?.location?.mapId || null;
   playerAnimState.fromX = Number(from?.x ?? to?.x ?? 0);
   playerAnimState.fromY = Number(from?.y ?? to?.y ?? 0);
   playerAnimState.toX = Number(to?.x ?? from?.x ?? 0);
   playerAnimState.toY = Number(to?.y ?? from?.y ?? 0);
+  followPlayerCamera();
   invalidatePlayerSpriteRender();
   schedulePlayerAnimTick();
 }
@@ -710,6 +704,7 @@ function facePlayerDirection(dir) {
   setPlayerDirection(dir);
   playerAnimState.walkUntil = 0;
   playerAnimState.moveUntil = 0;
+  playerAnimState.followCamera = false;
   playerAnimState.mapId = null;
   invalidatePlayerSpriteRender();
 }
@@ -768,12 +763,23 @@ function invalidatePlayerSpriteRender() {
   scheduleLargeMapSpriteRender();
 }
 
+function followPlayerCamera() {
+  if (!playerAnimState.followCamera || !game?.world?.map) return;
+  centerMapOnPlayer();
+  applyMapView();
+}
+
 function schedulePlayerAnimTick() {
   if (playerAnimState.raf) return;
   playerAnimState.raf = requestAnimationFrame(() => {
     playerAnimState.raf = 0;
+    followPlayerCamera();
     invalidatePlayerSpriteRender();
-    if (performance.now() < playerAnimState.walkUntil) schedulePlayerAnimTick();
+    if (performance.now() < playerAnimState.walkUntil) {
+      schedulePlayerAnimTick();
+    } else {
+      playerAnimState.followCamera = false;
+    }
   });
 }
 
