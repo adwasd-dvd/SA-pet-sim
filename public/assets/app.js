@@ -2287,6 +2287,10 @@ function shopItemHint(item) {
   if (item.affordable === false) return "石币不足";
   if (item.canCarry === false) return "背包已满";
   const details = [];
+  if (item.offMenu) {
+    const remaining = effectRemainingLabel(item.offMenuUntil);
+    details.push(`临时商品${remaining ? ` ${remaining}` : ""}`);
+  }
   if (Number(item.discountPercent || 0) > 0 && Number(item.sourcePrice || 0) > Number(item.price || 0)) {
     details.push(`AI 优惠 ${Number(item.discountPercent)}%：原价 ${Number(item.sourcePrice)}`);
   }
@@ -2300,6 +2304,14 @@ function shopPriceLabel(item) {
   const source = Number(item.sourcePrice || price);
   if (Number(item.discountPercent || 0) > 0 && source > price) return `${source}->${price} 石币`;
   return `${price} 石币`;
+}
+
+function effectRemainingLabel(until) {
+  const remaining = Math.ceil((Number(until || 0) - Date.now()) / 1000);
+  if (!Number.isFinite(remaining) || remaining <= 0) return "";
+  const minutes = Math.floor(remaining / 60);
+  const seconds = remaining % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 async function buyItem(itemId) {

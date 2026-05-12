@@ -2780,10 +2780,10 @@ function dialogSuggestions(npc, game = null) {
   if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
   const aiToggle = isNpcAiMode(game, npc) ? "普通对话" : "AI对话";
   if (isNpcEnemy(npc)) return isNpcAiMode(game, npc)
-    ? [aiToggle, "是", "否", "贿赂", "威胁"]
+    ? [aiToggle, "是", "否", "试着交涉"]
     : [aiToggle, "是", "否"];
   const aiHints = isNpcAiMode(game, npc)
-    ? ["请求避敌", npc.trade?.items?.length ? "商量打折" : "请求信息", isWarpNpc(npc) ? "商量传送" : "请求信息"]
+    ? ["请求避敌", npc.trade?.items?.length ? "看看柜台后面" : "请求信息", isWarpNpc(npc) ? "试着交涉" : "试着交涉"]
     : [];
   const base = npc.trade || /shop/i.test(npc.type)
     ? ["hi", "买东西", "地图"]
