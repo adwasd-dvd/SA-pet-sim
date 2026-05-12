@@ -879,22 +879,25 @@ function buyGame(game, npcId, itemId) {
   if (!npc) throw new Error("这个 NPC 不在当前地图");
   assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作 NPC 窗口");
   if (!npc.trade?.items?.length) throw new Error("这个 NPC 没有商品资料");
-  const item = npc.trade.items.find((entry) => entry.id === itemId);
+  const item = availableTradeItems(game, npc).find((entry) => Number(entry.id) === Number(itemId));
   if (!item) throw new Error("商品不存在");
-  const price = Number(item.price || item.cost || 0);
+  const sourcePrice = Number(item.price || item.cost || 0);
+  const discount = shopDiscountForNpc(game, npc);
+  const price = discountedShopPrice(game, npc, item);
   if (Number(game.player.stone || 0) < price) throw new Error("石币不够");
   if (!canCarryItem(game, item)) throw new Error(`背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具`);
-  recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price });
+  recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price, sourcePrice, discountPercent: discount?.percent || 0 });
   if (price > 0) {
     const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: price, reason: "buy" });
     if (!taken.ok) throw new Error(taken.error || "石币不够");
   }
   const given = runNpcVmAction(game, npc, { type: "give", item, itemId, itemName: item.name, qty: 1, reason: "buy" });
   if (!given.ok) throw new Error(given.error || "购买失败");
-  addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币。`);
+  const discountText = discount ? `（AI 协商 ${discount.percent}% 优待）` : "";
+  addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币${discountText}。`);
   openDialog(game, npc, [
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
-    npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币。`)
+    npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币${discountText}。`)
   ]);
   return withMap(game, { npc });
 }
@@ -1589,6 +1592,7 @@ async function npcReply(env, request, game, npc, text) {
   if (!game.encounter && isAiModeOn(lower)) return setNpcAiModeReply(game, npc, true);
   if (!game.encounter && isAiModeOff(lower)) return setNpcAiModeReply(game, npc, false);
   if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
+  if (!game.encounter && isNpcEnemy(npc) && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
   if (isNpcEnemy(npc)) return npcEnemyReply(env, request, game, npc, lower);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (!game.encounter && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
@@ -1615,7 +1619,7 @@ function isAiModeOff(text) {
 }
 
 function isAiRequest(text) {
-  return hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "bus", "ai:"]);
+  return hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "打折", "折扣", "便宜", "优惠", "優待", "优待", "平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "卖我", "要一个", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
 }
 
 function isNpcAiMode(game, npc) {
@@ -2050,14 +2054,21 @@ function fallbackNpcReply(npc) {
 }
 
 function tradeReply(game, npc) {
-  const items = (npc.trade?.items || []).slice(0, 8);
-  recordNpcVmEvent(game, npc, "shop", items.length ? "ok" : "unsupported", { items: items.length, source: npc.trade?.source || "" });
+  const items = availableTradeItems(game, npc).slice(0, 8);
+  const discount = shopDiscountForNpc(game, npc);
+  recordNpcVmEvent(game, npc, "shop", items.length ? "ok" : "unsupported", { items: items.length, source: npc.trade?.source || "", discountPercent: discount?.percent || 0 });
   if (!items.length) return `${npc.name} 没有可解析的商品清单。`;
+  const priceText = (item) => {
+    const price = discountedShopPrice(game, npc, item);
+    const sourcePrice = Number(item.price || item.cost || 0);
+    return discount && price < sourcePrice ? `${sourcePrice}->${price}石币` : `${price}石币`;
+  };
   return [
     npc.trade.mainMessage || "欢迎光临！",
-    `可购买：${items.map((item) => `${item.name}(${item.price}石币)`).join("、")}`,
+    `可购买：${items.map((item) => `${item.name}(${priceText(item)})`).join("、")}`,
+    discount ? `这次 AI 协商优待：${discount.percent}% 折扣，临时有效。` : "",
     `商品来源：${npc.trade.source}`
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 function sourceReply(game, npc) {
@@ -2104,6 +2115,15 @@ function inferNpcAiAction(game, npc, text) {
   if (hasAny(lower, ["避敌", "不会遇到", "野外敌人", "不遇敌", "免遇敌", "安全通过", "护送"])) {
     return { type: "noEncounter", seconds: aiNoEncounterSeconds(game, npc, lower) };
   }
+  if (npc.trade?.items?.length && hasAny(lower, ["打折", "折扣", "便宜", "优惠", "優待", "优待", "少一点", "少一點"])) {
+    return { type: "shopDiscount", percent: aiShopDiscountPercent(game, npc, lower), seconds: 600 };
+  }
+  if (npc.trade?.items?.length && hasAny(lower, ["平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "卖我", "要一个", "要把", "特殊", "稀有"])) {
+    return { type: "offMenuItem", text: lower };
+  }
+  if (isNpcEnemy(npc) && hasAny(lower, ["贿赂", "收钱", "买路", "给你石币", "给钱", "威胁", "恐吓", "让我过去", "放我过去", "让开"])) {
+    return { type: "negotiatePass", text: lower };
+  }
   if (isWarpNpc(npc) && hasAny(lower, ["商量传送", "商量坐车", "去别的地图", "去其他地图", "出发", "前往", "bus", "巴士", "传送", "傳送"])) {
     return { type: "warp" };
   }
@@ -2116,6 +2136,12 @@ function aiNoEncounterSeconds(game, npc, text) {
   const levelBonus = Math.min(90, Math.max(0, Number(game.player.level || 1) - 1) * 5);
   const serviceNpc = npc.trade || isHealerNpc(npc) || isSavePointNpc(npc) || isWarpNpc(npc);
   return clampInt(base + levelBonus + (serviceNpc ? 60 : 0), 90, 420, 180);
+}
+
+function aiShopDiscountPercent(game, npc, text) {
+  const polite = hasAny(text, ["请", "拜托", "能不能", "可以吗", "商量", "帮"]);
+  const loyalCustomer = Number(game.player.level || 1) >= 5 || Number(game.player.stone || 0) >= 1000;
+  return clampInt(10 + (polite ? 5 : 0) + (loyalCustomer ? 5 : 0), 5, 25, 10);
 }
 
 function applyNpcAiAction(game, npc, action) {
@@ -2139,6 +2165,60 @@ function applyNpcAiAction(game, npc, action) {
     const duration = rest ? `${minutes}分${rest}秒` : `${minutes}分钟`;
     return `${npc.name} 接受了你的说法，暂时帮你避开野外敌人 ${duration}。这只是 AI 协商后的 Worker 效果，不会改动原版遇敌表。`;
   }
+  if (action.type === "shopDiscount") {
+    const percent = clampInt(action.percent, 5, 30, 10);
+    const seconds = clampInt(action.seconds, 60, 1200, 600);
+    const event = runNpcVmAction(game, npc, {
+      type: "effect",
+      effect: "shopDiscount",
+      npcId: npc.id,
+      percent,
+      seconds,
+      reason: "ai-negotiation",
+      source: npc.trade?.source || "npc-ai-worker-guard"
+    });
+    if (!event.ok) return `${npc.name} 没能给出这个优惠：${event.error || "effect 被 VM 拒绝"}。`;
+    return `${npc.name} 点点头：这次给你 ${percent}% 的临时优惠。价格仍按原版商品表读取，只在结账时由 Worker 校验折扣。`;
+  }
+  if (action.type === "offMenuItem") {
+    const offer = chooseRoleFitOffMenuItem(game, npc, action.text || "");
+    if (!offer.item) {
+      recordNpcVmEvent(game, npc, "shop", "blocked", { action: "offMenu", reason: offer.reason, role: offer.role, text: String(action.text || "").slice(0, 80) });
+      return roleMismatchReply(npc, offer);
+    }
+    if (offer.mode === "gift") {
+      const giftKey = `${npc.id}:${offer.item.id}`;
+      game.effects ||= {};
+      game.effects.npcGifts ||= {};
+      if (game.effects.npcGifts[giftKey]) return `${npc.name} 摇摇头：刚才已经给过你了，店里的东西也要留着做生意。`;
+      const given = runNpcVmAction(game, npc, {
+        type: "give",
+        item: offer.item,
+        itemId: offer.item.id,
+        itemName: offer.item.name,
+        qty: 1,
+        reason: "ai-off-menu-gift"
+      });
+      if (!given.ok) return `${npc.name} 想给你 ${offer.item.name}，但 ${given.error || "背包放不下"}。`;
+      game.effects.npcGifts[giftKey] = Date.now();
+      return `${npc.name} 从柜台后面拿出 ${offer.item.name} 给你。${offer.explain}这是角色相符的小人情，不会凭空生成店外物品。`;
+    }
+    const event = runNpcVmAction(game, npc, {
+      type: "effect",
+      effect: "offMenuShop",
+      npcId: npc.id,
+      item: offer.item,
+      price: offer.price,
+      seconds: 600,
+      reason: "ai-off-menu-sale",
+      source: offer.item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+    });
+    if (!event.ok) return `${npc.name} 找到了 ${offer.item.name}，但 ${event.error || "不能摆上临时商品栏"}。`;
+    return `${npc.name} 翻了翻柜台后面：可以临时卖你 ${offer.item.name}，价格 ${offer.price} 石币。${offer.explain}输入“买东西”或点商品栏就能购买。`;
+  }
+  if (action.type === "negotiatePass") {
+    return npcEnemyNegotiationReply(game, npc, action.text || "");
+  }
   return fallbackNpcReply(npc);
 }
 
@@ -2149,7 +2229,7 @@ function openDialog(game, npc, messages) {
     npcId: npc.id,
     npcName: npc.name,
     npcType: npc.type,
-    trade: npc.trade ? withTradeState(game, npc.trade) : null,
+    trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     warp: npc.warp || null,
     aiMode: isNpcAiMode(game, npc),
     messages: messages.slice(-12),
@@ -2250,8 +2330,51 @@ function applyNpcVmMutation(game, type, action) {
 }
 
 function applyNpcVmEffect(game, action) {
-  if (action.effect !== "noEncounter") return { ok: false, mutated: false, error: `unsupported effect: ${action.effect || "empty"}` };
   game.effects ||= {};
+  if (action.effect === "shopDiscount") {
+    if (!action.npcId) return { ok: false, mutated: false, error: "shopDiscount 缺少 npcId" };
+    const seconds = clampInt(action.seconds ?? action.durationSeconds, 60, 1200, 600);
+    const percent = clampInt(action.percent, 5, 30, 10);
+    game.effects.shopDiscounts ||= {};
+    game.effects.shopDiscounts[action.npcId] = {
+      percent,
+      until: Date.now() + seconds * 1000,
+      reason: action.reason || "npc-effect",
+      source: action.source || ""
+    };
+    return { ok: true, mutated: true, effect: action.effect, npcId: action.npcId, percent, seconds };
+  }
+  if (action.effect === "offMenuShop") {
+    if (!action.npcId || !action.item) return { ok: false, mutated: false, error: "offMenuShop 缺少 npcId 或 item" };
+    const seconds = clampInt(action.seconds ?? action.durationSeconds, 60, 1200, 600);
+    const item = {
+      ...action.item,
+      price: Math.max(1, Number(action.price || action.item.price || action.item.cost || 1)),
+      offMenu: true,
+      source: action.source || action.item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+    };
+    game.effects.offMenuShop ||= {};
+    game.effects.offMenuShop[action.npcId] = {
+      until: Date.now() + seconds * 1000,
+      reason: action.reason || "npc-effect",
+      source: action.source || "",
+      items: [item]
+    };
+    return { ok: true, mutated: true, effect: action.effect, npcId: action.npcId, itemId: item.id, itemName: item.name, price: item.price, seconds };
+  }
+  if (action.effect === "npcBypass") {
+    if (!action.npcId) return { ok: false, mutated: false, error: "npcBypass 缺少 npcId" };
+    ensureFlags(game);
+    const seconds = clampInt(action.seconds ?? action.durationSeconds, 30, 1200, 300);
+    game.flags.npcEnemyDefeats[action.npcId] = {
+      until: new Date(Date.now() + seconds * 1000).toISOString(),
+      mode: action.mode || "negotiation",
+      source: action.source || "",
+      reason: action.reason || "npc-effect"
+    };
+    return { ok: true, mutated: true, effect: action.effect, npcId: action.npcId, seconds, mode: action.mode || "negotiation" };
+  }
+  if (action.effect !== "noEncounter") return { ok: false, mutated: false, error: `unsupported effect: ${action.effect || "empty"}` };
   const seconds = clampInt(action.seconds ?? action.durationSeconds, 30, 600, 180);
   const until = Math.max(Number(game.effects.noEncounterUntil || 0), Date.now() + seconds * 1000);
   game.effects.noEncounterUntil = until;
@@ -2425,26 +2548,238 @@ function recentNpcVmEvents(game, npc) {
     .slice(-8);
 }
 
-function withTradeState(game, trade) {
+function availableTradeItems(game, npc) {
+  const base = npc.trade?.items || [];
+  const extras = activeOffMenuItems(game, npc);
+  const seen = new Set();
+  return [...base, ...extras].filter((item) => {
+    const key = Number(item.id);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function activeOffMenuItems(game, npc) {
+  const entry = game.effects?.offMenuShop?.[npc.id];
+  if (!entry) return [];
+  const until = Number(entry.until || 0);
+  if (!Number.isFinite(until) || until <= Date.now()) {
+    if (game.effects?.offMenuShop) delete game.effects.offMenuShop[npc.id];
+    return [];
+  }
+  return (entry.items || []).map((item) => ({ ...item, offMenu: true, offMenuUntil: until }));
+}
+
+function withTradeState(game, trade, npc = null) {
   const state = inventoryState(game);
+  const discount = npc ? shopDiscountForNpc(game, npc) : null;
+  const items = npc ? availableTradeItems(game, npc) : (trade.items || []);
   return {
     ...trade,
+    discount,
     inventory: state,
-    items: (trade.items || []).map((item) => ({
+    items: items.map((item) => ({
       ...item,
-      affordable: game.player.stone >= Number(item.price || item.cost || 0),
+      sourcePrice: Number(item.price || item.cost || 0),
+      discountPrice: npc ? discountedShopPrice(game, npc, item) : Number(item.price || item.cost || 0),
+      discountPercent: discount?.percent || 0,
+      price: npc ? discountedShopPrice(game, npc, item) : Number(item.price || item.cost || 0),
+      affordable: game.player.stone >= (npc ? discountedShopPrice(game, npc, item) : Number(item.price || item.cost || 0)),
       canCarry: canCarryItem(game, item)
     }))
   };
 }
 
+function shopDiscountForNpc(game, npc) {
+  const entry = game.effects?.shopDiscounts?.[npc.id];
+  if (!entry) return null;
+  const until = Number(entry.until || 0);
+  if (!Number.isFinite(until) || until <= Date.now()) {
+    if (game.effects?.shopDiscounts) delete game.effects.shopDiscounts[npc.id];
+    return null;
+  }
+  const percent = clampInt(entry.percent, 0, 30, 0);
+  return percent > 0 ? { ...entry, percent, until } : null;
+}
+
+function discountedShopPrice(game, npc, item) {
+  const sourcePrice = Math.max(0, Number(item.price || item.cost || 0));
+  const discount = shopDiscountForNpc(game, npc);
+  if (!discount || sourcePrice <= 0) return sourcePrice;
+  return Math.max(1, Math.floor(sourcePrice * (100 - discount.percent) / 100));
+}
+
+function chooseRoleFitOffMenuItem(game, npc, text) {
+  const role = npcShopRole(npc);
+  const sold = new Set((npc.trade?.items || []).map((item) => Number(item.id)));
+  const queryTags = requestedItemTags(text);
+  const candidates = worldTradeItems()
+    .filter((item) => !sold.has(Number(item.id)))
+    .map((item) => ({ item, score: roleItemScore(role, item, queryTags, text) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score || Number(a.item.price || a.item.cost || 0) - Number(b.item.price || b.item.cost || 0));
+  const entry = candidates[0];
+  if (!entry) return { item: null, role, reason: queryTags.length ? "role-mismatch" : "no-hidden-item", queryTags };
+  const item = {
+    ...entry.item,
+    source: entry.item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
+  const basePrice = Math.max(1, Number(item.price || item.cost || 1));
+  const mode = shouldGiftOffMenuItem(game, npc, item, text) ? "gift" : "sale";
+  const price = mode === "gift" ? 0 : Math.max(1, Math.round(basePrice * 1.2));
+  return {
+    item: { ...item, price },
+    price,
+    mode,
+    role,
+    explain: offMenuExplain(npc, item, role)
+  };
+}
+
+function npcShopRole(npc) {
+  const text = `${npc.name || ""} ${npc.type || ""} ${npc.template || ""} ${npc.script || ""} ${(npc.trade?.items || []).map((item) => `${item.name} ${item.description} ${item.type}`).join(" ")}`;
+  const roles = [];
+  if (/肉/.test(text) || (npc.trade?.items || []).some((item) => /肉/.test(`${item.name} ${item.description}`))) roles.push("meat");
+  if (/药|藥|医|醫|耐久|气力|復活|复活/.test(text)) roles.push("medicine");
+  if (/武器|斧|枪|槍|棍|棒|爪|弓|投掷/.test(text) || (npc.trade?.items || []).some((item) => Number(item.type) === 1)) roles.push("weapon");
+  if (/防具|兜|铠|鎧|衣|帽|甲/.test(text)) roles.push("armor");
+  if (/首饰|首飾|戒|项链|項鍊/.test(text)) roles.push("accessory");
+  if (/素材|石|木|矿|礦|草|皮/.test(text)) roles.push("material");
+  if (/宠|寵|饲|飼|pet|skill/i.test(text)) roles.push("pet");
+  return roles.length ? [...new Set(roles)] : ["general"];
+}
+
+function requestedItemTags(text) {
+  const out = [];
+  const pairs = [
+    ["knife", /刀/],
+    ["meat", /肉/],
+    ["medicine", /药|藥|耐久|气力|復活|复活/],
+    ["weapon", /武器|斧|枪|槍|棍|棒|爪|弓|投掷/],
+    ["armor", /防具|兜|铠|鎧|衣|帽|甲/],
+    ["accessory", /首饰|首飾|戒|项链|項鍊/],
+    ["material", /素材|石|木|矿|礦|草|皮/],
+    ["pet", /宠|寵|饲|飼|技能/],
+    ["stat", /能力|攻击|攻|防御|防|敏捷|敏|加成/]
+  ];
+  for (const [tag, pattern] of pairs) {
+    if (pattern.test(text)) out.push(tag);
+  }
+  return out;
+}
+
+function roleItemScore(role, item, queryTags, text) {
+  const itemText = `${item.name || ""} ${item.description || ""}`;
+  const itemTags = itemRoleTags(item);
+  let score = 0;
+  for (const tag of role) {
+    if (itemTags.includes(tag)) score += 8;
+  }
+  for (const tag of queryTags) {
+    if (tag === "stat" && /攻|防|敏|耐久|气力/.test(itemText)) score += 4;
+    else if (itemTags.includes(tag)) score += 10;
+  }
+  if (queryTags.includes("knife") && !/刀/.test(itemText)) score -= 20;
+  if (/平时不卖|平常不卖|隐藏|特殊|稀有/.test(text)) score += 2;
+  return score;
+}
+
+function itemRoleTags(item) {
+  const text = `${item.name || ""} ${item.description || ""}`;
+  const tags = [];
+  if (/肉/.test(text)) tags.push("meat");
+  if (/药|藥|耐久|气力|復活|复活/.test(text)) tags.push("medicine");
+  if (/斧|枪|槍|棍|棒|爪|弓|投掷|刀/.test(text) || Number(item.type) === 1) tags.push("weapon");
+  if (/兜|铠|鎧|衣|帽|甲/.test(text)) tags.push("armor");
+  if (/首饰|首飾|戒|项链|項鍊/.test(text)) tags.push("accessory");
+  if (/石|木|矿|礦|草|皮|素材/.test(text)) tags.push("material");
+  if (/宠|寵|饲|飼|技能/.test(text)) tags.push("pet");
+  if (/攻|防|敏|耐久|气力/.test(text)) tags.push("stat");
+  return [...new Set(tags)];
+}
+
+function shouldGiftOffMenuItem(game, npc, item, text) {
+  const cheap = Number(item.price || item.cost || 0) <= 60;
+  const polite = hasAny(text, ["请", "拜托", "能不能", "可以吗", "帮"]);
+  return cheap && polite && /给|送|要/.test(text) && !/买|卖/.test(text);
+}
+
+function offMenuExplain(npc, item, role) {
+  if (role.includes("meat")) return "肉店只会拿出肉类和恢复用食物；";
+  if (role.includes("weapon")) return "武器店只会拿出武器架上同类装备；";
+  if (role.includes("medicine")) return "药店只会拿出药剂和恢复品；";
+  if (role.includes("material")) return "素材店只会拿出石、木、矿草皮这类材料；";
+  if (role.includes("armor")) return "防具店只会拿出兜、铠和护具；";
+  if (role.includes("accessory")) return "饰品店只会拿出首饰和戒指；";
+  return `${npc.name} 只会拿出和自己业务相符的东西；`;
+}
+
+function roleMismatchReply(npc, offer) {
+  if (offer.queryTags?.includes("knife") && offer.role?.includes("meat")) {
+    return `${npc.name} 把刀往身后收了收：我是卖肉的，切肉刀是吃饭工具，不能卖也不能送。你可以问我要肉或恢复用的食物。`;
+  }
+  const roleText = (offer.role || []).filter((item) => item !== "general").join("、") || "本职";
+  return `${npc.name} 想了想：这件事不太符合我的身份。可以继续探索，找更合适的 NPC；我这里能谈的范围是 ${roleText}。`;
+}
+
+function npcEnemyNegotiationReply(game, npc, text) {
+  if (!isNpcEnemy(npc)) return `${npc.name} 不负责守路，没法通过贿赂或威胁改变地图通行。`;
+  const threat = hasAny(text, ["威胁", "恐吓", "吓", "打服", "揍"]);
+  if (threat) {
+    const strongEnough = Number(game.player.level || 1) >= 10 || (game.pets || []).some((pet) => Number(pet.Lv || 1) >= 10);
+    recordNpcVmEvent(game, npc, "debug", strongEnough ? "ok" : "blocked", { reason: "ai-threat", strongEnough });
+    if (!strongEnough) return `${npc.name} 冷笑了一声：这种话对守路的人没用。想过去就按原版规则决胜负，或拿出足够的石币谈。`;
+  }
+  const cost = Math.max(80, Number(game.player.level || 1) * 40);
+  if (Number(game.player.stone || 0) < cost) {
+    recordNpcVmEvent(game, npc, "take", "blocked", { reason: "ai-bribe", cost, current: game.player.stone });
+    return `${npc.name} 看了一眼你的钱袋：至少 ${cost} 石币才值得我装作没看见。`;
+  }
+  const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: threat ? "ai-threat-bribe" : "ai-bribe" });
+  if (!taken.ok) return `${npc.name} 没有收下：${taken.error || "石币不够"}。`;
+  const event = runNpcVmAction(game, npc, {
+    type: "effect",
+    effect: "npcBypass",
+    npcId: npc.id,
+    seconds: 300,
+    mode: threat ? "threat" : "bribe",
+    reason: threat ? "ai-threat" : "ai-bribe",
+    source: npc.npcEnemy?.source || npc.script || npc.source || ""
+  });
+  if (!event.ok) return `${npc.name} 收了钱，但没能让开：${event.error || "npcBypass 被 VM 拒绝"}。`;
+  return `${npc.name} 收下 ${cost} 石币，侧身让开一会儿。通路会打开 5 分钟；这是临时交涉，不会改掉原版 NPCEnemy 的战斗脚本。`;
+}
+
+function worldTradeItems() {
+  const byId = new Map();
+  for (const map of Object.values(WORLD.maps || {})) {
+    for (const npc of map.npcs || []) {
+      for (const item of npc.trade?.items || []) {
+        if (!byId.has(Number(item.id))) {
+          byId.set(Number(item.id), {
+            ...item,
+            price: Number(item.price || item.cost || 0),
+            source: item.source || npc.trade.source || npc.source || `${GMSV_DATA_SOURCE}/itemset6.txt`,
+            shopNpcName: npc.name,
+            shopMapId: map.id
+          });
+        }
+      }
+    }
+  }
+  return [...byId.values()];
+}
+
 function dialogSuggestions(npc, game = null) {
   if (game?.encounter && game?.battle?.npcEnemy) return ["攻击", "防御", "道具", "逃跑"];
   if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
-  if (isNpcEnemy(npc)) return ["是", "否"];
   const aiToggle = isNpcAiMode(game, npc) ? "普通对话" : "AI对话";
+  if (isNpcEnemy(npc)) return isNpcAiMode(game, npc)
+    ? [aiToggle, "是", "否", "贿赂", "威胁"]
+    : [aiToggle, "是", "否"];
   const aiHints = isNpcAiMode(game, npc)
-    ? ["请求避敌", isWarpNpc(npc) ? "商量传送" : "请求信息"]
+    ? ["请求避敌", npc.trade?.items?.length ? "商量打折" : "请求信息", isWarpNpc(npc) ? "商量传送" : "请求信息"]
     : [];
   const base = npc.trade || /shop/i.test(npc.type)
     ? ["hi", "买东西", "地图"]

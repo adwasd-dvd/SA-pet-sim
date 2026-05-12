@@ -2272,7 +2272,7 @@ function renderDialogShop(dialog) {
             <strong>${escapeHtml(item.name)}</strong>
             <small>${escapeHtml(shopItemHint(item))}</small>
           </span>
-          <b>${Number(item.price || 0)} 石币</b>
+          <b>${shopPriceLabel(item)}</b>
         </button>
       `).join("")}
     </div>
@@ -2287,9 +2287,19 @@ function shopItemHint(item) {
   if (item.affordable === false) return "石币不足";
   if (item.canCarry === false) return "背包已满";
   const details = [];
+  if (Number(item.discountPercent || 0) > 0 && Number(item.sourcePrice || 0) > Number(item.price || 0)) {
+    details.push(`AI 优惠 ${Number(item.discountPercent)}%：原价 ${Number(item.sourcePrice)}`);
+  }
   if (item.level) details.push(`Lv.${item.level}`);
   if (item.description) details.push(item.description);
   return details.join(" | ") || `item ${item.id}`;
+}
+
+function shopPriceLabel(item) {
+  const price = Number(item.price || item.discountPrice || 0);
+  const source = Number(item.sourcePrice || price);
+  if (Number(item.discountPercent || 0) > 0 && source > price) return `${source}->${price} 石币`;
+  return `${price} 石币`;
 }
 
 async function buyItem(itemId) {
