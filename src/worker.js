@@ -752,8 +752,8 @@ function buyGame(game, npcId, itemId) {
   addInventoryItem(game, item, 1);
   syncStoneItem(game);
   recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price });
-  if (price > 0) recordNpcVmEvent(game, npc, "take", "ok", { item: "stone", qty: price, reason: "buy" });
-  recordNpcVmEvent(game, npc, "give", "ok", { itemId, itemName: item.name, qty: 1, reason: "buy" });
+  if (price > 0) runNpcVmAction(game, npc, { type: "take", item: "stone", qty: price, reason: "buy" });
+  runNpcVmAction(game, npc, { type: "give", itemId, itemName: item.name, qty: 1, reason: "buy" });
   addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币。`);
   openDialog(game, npc, [
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
@@ -1149,7 +1149,7 @@ function completeQuest(game, questId, npc = null) {
   syncStoneItem(game);
   if (npc) {
     setNpcVmFlag(game, npc, eventFlagForQuest(questId), "end", "quest-complete");
-    recordNpcVmEvent(game, npc, "give", "ok", { exp: expReward, stone: stoneReward, reason: "quest" });
+    runNpcVmAction(game, npc, { type: "give", exp: expReward, stone: stoneReward, reason: "quest" });
   } else {
     setEventFlag(game, eventFlagForQuest(questId), "end");
   }
@@ -1194,7 +1194,7 @@ function healerReply(game, npc) {
   if (cost > 0) {
     game.player.stone = Number(game.player.stone || 0) - cost;
     syncStoneItem(game);
-    recordNpcVmEvent(game, npc, "take", "ok", { item: "stone", qty: cost, reason: "heal" });
+    runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "heal" });
   }
   healParty(game);
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "healer"), "now", "healer");
@@ -1294,11 +1294,11 @@ function warpNpcReply(game, npc) {
   if (permission.cost > 0) {
     game.player.stone = Number(game.player.stone || 0) - permission.cost;
     syncStoneItem(game);
-    recordNpcVmEvent(game, npc, "take", "ok", { item: "stone", qty: permission.cost, reason: "warp" });
+    runNpcVmAction(game, npc, { type: "take", item: "stone", qty: permission.cost, reason: "warp" });
   }
   const consumed = permission.free ? consumeWarpItems(game, npc.warp) : [];
   for (const itemName of consumed) {
-    recordNpcVmEvent(game, npc, "take", "ok", { item: itemName, qty: 1, reason: "warp" });
+    runNpcVmAction(game, npc, { type: "take", item: itemName, qty: 1, reason: "warp" });
   }
   const arrived = applyWarpTarget(game, target, npc.name);
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "warp"), "end", "warp");
@@ -1510,6 +1510,19 @@ function recordNpcVmEvent(game, npc, action, status = "ok", detail = {}) {
   game.npcVmEvents.push(event);
   game.npcVmEvents = game.npcVmEvents.slice(-40);
   return event;
+}
+
+function runNpcVmAction(game, npc, action = {}) {
+  const type = String(action.type || action.action || "");
+  const status = String(action.status || "ok");
+  if (type === "setFlag") {
+    setEventFlag(game, action.shiftbit, action.kind || "end");
+  }
+  const { type: _type, action: _action, status: _status, ...detail } = action;
+  return recordNpcVmEvent(game, npc, type, status, {
+    executor: "npc-action-vm",
+    ...detail
+  });
 }
 
 function recentNpcVmEvents(game, npc) {
@@ -1941,9 +1954,9 @@ function setEventFlag(game, shiftbit, kind = "end") {
 }
 
 function setNpcVmFlag(game, npc, shiftbit, kind = "end", reason = "") {
-  setEventFlag(game, shiftbit, kind);
   if (!shiftbit) return;
-  recordNpcVmEvent(game, npc, "setFlag", "ok", {
+  runNpcVmAction(game, npc, {
+    type: "setFlag",
     kind,
     shiftbit,
     key: `${kind}:${shiftbit}`,
