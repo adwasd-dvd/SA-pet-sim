@@ -301,8 +301,7 @@ function onMapCanvasClick(event) {
   }
   const exitBtn = event.target.closest("[data-exit]");
   if (exitBtn && els.mapCanvas.contains(exitBtn)) {
-    mutate("/api/game/travel", { to: exitBtn.dataset.exit });
-    routeToken += 1;
+    goToExit(exitBtn.dataset.exit);
     return;
   }
   const target = mapTileFromPointer(event);
@@ -459,6 +458,30 @@ async function followRouteTo(target) {
   } finally {
     routeInFlight = false;
   }
+}
+
+function goToExit(exitId) {
+  const map = game?.world?.map;
+  const exit = map?.exits?.find((item) => item.id === exitId);
+  if (!exit) return;
+  const target = nearestExitTile(exit);
+  if (!target) return;
+  followRouteTo(target);
+}
+
+function nearestExitTile(exit) {
+  const tiles = Array.isArray(exit.tiles) && exit.tiles.length
+    ? exit.tiles
+    : [{ x: exit.x, y: exit.y }];
+  const origin = game?.location || { x: 0, y: 0 };
+  return tiles
+    .map((tile) => ({
+      x: Number(tile.x),
+      y: Number(tile.y),
+      distance: Math.max(Math.abs(Number(tile.x) - Number(origin.x || 0)), Math.abs(Number(tile.y) - Number(origin.y || 0)))
+    }))
+    .filter((tile) => Number.isFinite(tile.x) && Number.isFinite(tile.y))
+    .sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x)[0] || null;
 }
 
 function mapTileFromPointer(event) {
@@ -1323,7 +1346,7 @@ function renderExits(map) {
     </button>
   `).join("") || `<p class="empty">当前地图没有出口。</p>`;
   els.exitList.querySelectorAll("[data-exit]").forEach((btn) => {
-    btn.addEventListener("click", () => mutate("/api/game/travel", { to: btn.dataset.exit }));
+    btn.addEventListener("click", () => goToExit(btn.dataset.exit));
   });
 }
 
