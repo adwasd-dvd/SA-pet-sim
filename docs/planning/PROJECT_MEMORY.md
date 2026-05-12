@@ -61,6 +61,11 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - right auxiliary/info panel
   - lower status/NPC/exit panel
 - Current viewport is max 800x600 and shrinks to fit screen height.
+- Next UI direction is original-client-inspired UHD game UI, not a dashboard:
+  - map remains the main surface
+  - location/NPC/warp/action buttons live on or near the map where source data supports them
+  - character, pet, item bag, status, dialogue, shop, and save surfaces should feel like in-game windows/panels
+  - read `external/sources/client-source/system/menu.cpp`, `talkwindow.cpp`, `field.cpp`, `mouse.cpp`, and `sprdisp.cpp` before major UI changes
 
 ## Save Model
 
@@ -68,6 +73,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - Save doc: `docs/planning/SAVE_SCHEMA.md`.
 - Save panel supports JSON export/import.
 - Flags are available as `flags.endEvents`, `flags.nowEvents`, `flags.bits`, and `flags.npcTalkCounts`.
+- Upcoming NPC/runtime work should expand this toward original character `field`/flag/state semantics rather than inventing web-only quest state.
 
 ## Current Done Tasks
 
@@ -87,13 +93,16 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 
 ## Likely Next Work
 
-1. `worker-port-002`: define the JSON/WebSocket command protocol.
-2. `map-render-002`: port exact `adrn` parts/NPC priority metadata for closer original-client layering.
-3. `battle-002`: redesign encounter/battle/capture without resurrecting the removed auto capture UI.
-4. `persistence-002`: D1/Durable Object cloud save plan.
-5. `realtime-001`: first map-room WebSocket architecture.
-6. `npc-002`: source-grounded NPC dialogue overlay.
-7. `script-vm-001`: deterministic NPC action VM for common script actions.
+1. `map-render-002`: port exact `adrn` parts/NPC priority metadata for closer original-client layering.
+2. `client-ui-002`: rebuild original-client UHD game UI around the map.
+3. `script-vm-001`: deterministic NPC action VM for common script actions.
+4. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
+5. `warp-002`: complete source-grounded map jump and warp runtime.
+6. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
+7. `battle-002`: redesign encounter/battle/capture without resurrecting the removed auto capture UI.
+8. `worker-port-002`: define the JSON/WebSocket command protocol.
+9. `persistence-002`: D1/Durable Object cloud save plan.
+10. `realtime-001`: first map-room WebSocket architecture.
 
 ## Latest Runtime Notes
 
