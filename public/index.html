@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=43">
+    <link rel="stylesheet" href="/assets/app.css?v=44">
   </head>
   <body>
     <div class="app-shell">
@@ -57,6 +57,8 @@
               <div class="client-field-menu client-field-menu-left" aria-label="原版左上指令">
                 <span class="client-field-panel client-atlas-sprite" data-atlas-sprite="26236" aria-hidden="true"></span>
                 <button class="client-field-sprite-btn menu" type="button" data-command-tab="settings" data-atlas-off="26101" data-atlas-on="26102" title="游戏设定"><span class="client-field-label">游戏设定</span></button>
+                <button class="client-field-sprite-btn card" type="button" data-command-tab="card" data-atlas-off="26103" data-atlas-on="26104" title="交换名片"><span class="client-field-label">交换名片</span></button>
+                <button class="client-field-sprite-btn party" type="button" data-command-tab="party" data-atlas-off="26105" data-atlas-on="26106" title="加入队伍"><span class="client-field-label">加入队伍</span></button>
                 <button class="client-field-sprite-btn trade" type="button" data-command-tab="trade" data-atlas-off="26234" data-atlas-on="26235" title="进行交易"><span class="client-field-label">进行交易</span></button>
                 <button class="client-field-sprite-btn channel" type="button" data-command-tab="channel" data-atlas-off="26237" data-atlas-on="26238" title="家族功能"><span class="client-field-label">家族功能</span></button>
               </div>
@@ -64,8 +66,9 @@
                 <span class="client-field-panel client-atlas-sprite" data-atlas-sprite="26260" aria-hidden="true"></span>
                 <span class="client-field-right-back client-atlas-sprite" data-atlas-sprite="26121" aria-hidden="true"></span>
                 <button class="client-field-sprite-btn join" type="button" data-command-tab="joinBattle" data-atlas-off="26111" data-atlas-on="26112" title="加入战斗"><span class="client-field-label">加入战斗</span></button>
-                <button class="client-field-sprite-btn action" type="button" data-command-tab="actions" data-atlas-off="26115" data-atlas-on="26116" title="人物的各种动作"><span class="client-field-label">人物的各种动作</span></button>
+                <button class="client-field-sprite-btn duel" type="button" data-command-tab="duel" data-atlas-off="26113" data-atlas-on="26114" title="决斗"><span class="client-field-label">决斗</span></button>
                 <button class="client-field-sprite-btn help" type="button" data-command-tab="quests" data-atlas-off="26249" data-atlas-on="26248" title="任务查询"><span class="client-field-label">任务查询</span></button>
+                <button class="client-field-sprite-btn action" type="button" data-command-tab="actions" data-atlas-off="26115" data-atlas-on="26116" title="人物的各种动作"><span class="client-field-label">人物的各种动作</span></button>
               </div>
               <div class="map-head">
                 <div>
@@ -227,6 +230,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=58"></script>
+    <script type="module" src="/assets/app.js?v=59"></script>
   </body>
 </html>

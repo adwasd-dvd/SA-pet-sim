@@ -1924,9 +1924,12 @@ function renderClientWindow() {
 
 function clientWindowContent(name) {
   if (name === "settings") return clientSettingsWindow();
+  if (name === "card") return clientCardWindow();
+  if (name === "party") return clientPartyWindow();
   if (name === "trade") return clientTradeWindow();
   if (name === "channel") return clientChannelWindow();
   if (name === "joinBattle") return clientJoinBattleWindow();
+  if (name === "duel") return clientDuelWindow();
   if (name === "actions") return clientActionWindow();
   if (name === "save") return clientItemWindow();
   if (name === "quests") return clientQuestWindow();
@@ -1951,15 +1954,47 @@ function clientSettingsWindow() {
   };
 }
 
-function clientTradeWindow() {
+function frontTileTarget() {
   const forward = directionDelta(currentServerDirection()) || [0, 0];
-  const targetX = Number(game.location.x || 0) + forward[0];
-  const targetY = Number(game.location.y || 0) + forward[1];
+  return {
+    x: Number(game.location.x || 0) + forward[0],
+    y: Number(game.location.y || 0) + forward[1]
+  };
+}
+
+function clientCardWindow() {
+  const target = frontTileTarget();
+  return {
+    title: "CARD",
+    html: `
+      <div class="client-list-window">
+        <article><strong>交换名片</strong><span>面前 (${target.x}, ${target.y})</span></article>
+        <article><strong>状态</strong><span>面前没有可交换名片的玩家。</span></article>
+      </div>
+    `
+  };
+}
+
+function clientPartyWindow() {
+  const target = frontTileTarget();
+  return {
+    title: "PARTY",
+    html: `
+      <div class="client-list-window">
+        <article><strong>加入队伍</strong><span>面前 (${target.x}, ${target.y})</span></article>
+        <article><strong>状态</strong><span>附近没有可加入的队伍。</span></article>
+      </div>
+    `
+  };
+}
+
+function clientTradeWindow() {
+  const target = frontTileTarget();
   return {
     title: "TRADE",
     html: `
       <div class="client-list-window">
-        <article><strong>进行交易</strong><span>面前 (${targetX}, ${targetY})</span></article>
+        <article><strong>进行交易</strong><span>面前 (${target.x}, ${target.y})</span></article>
         <article><strong>状态</strong><span>附近没有可交易玩家。</span></article>
       </div>
     `
@@ -1979,15 +2014,26 @@ function clientChannelWindow() {
 }
 
 function clientJoinBattleWindow() {
-  const forward = directionDelta(currentServerDirection()) || [0, 0];
-  const targetX = Number(game.location.x || 0) + forward[0];
-  const targetY = Number(game.location.y || 0) + forward[1];
+  const target = frontTileTarget();
   return {
     title: "BATTLE",
     html: `
       <div class="client-list-window">
-        <article><strong>加入战斗</strong><span>面前 (${targetX}, ${targetY})</span></article>
+        <article><strong>加入战斗</strong><span>面前 (${target.x}, ${target.y})</span></article>
         <article><strong>状态</strong><span>面前没有可加入或观战的战斗。</span></article>
+      </div>
+    `
+  };
+}
+
+function clientDuelWindow() {
+  const target = frontTileTarget();
+  return {
+    title: "DUEL",
+    html: `
+      <div class="client-list-window">
+        <article><strong>决斗</strong><span>面前 (${target.x}, ${target.y})</span></article>
+        <article><strong>状态</strong><span>面前没有可决斗的玩家。</span></article>
       </div>
     `
   };
