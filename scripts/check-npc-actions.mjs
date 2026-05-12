@@ -117,6 +117,50 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "save" && even
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "savepoint"), "savepoint dialog debug includes setFlag VM trace");
 assert(game.flags.bits[`end:${stableFlag(`${saveNpc.npc.id}:savepoint`)}`], "savepoint end flag set");
 
+const ganzo = WORLD.maps["100"]?.npcs.find((npc) => npc.name === "坏心眼的愿藏");
+if (!ganzo) throw new Error("missing Ganzo NPCEnemy fixture");
+assertEqual(ganzo.graphic, "100401", "Ganzo uses source graphicname 100401");
+assert(ganzo.npcEnemy?.enemyNos.includes(253) && ganzo.npcEnemy?.enemyNos.includes(254), "Ganzo parses source enemyno list");
+let ganzoPromptGame = await api("/api/game/new", { name: "ganzo-prompt-test" });
+ganzoPromptGame.location = { mapId: "100", x: ganzo.x, y: ganzo.y + 1 };
+ganzoPromptGame = await api("/api/game/dialog", { game: ganzoPromptGame, npcId: ganzo.id });
+assert(!ganzoPromptGame.encounter, "Ganzo default dialog does not start battle before YES");
+assert(ganzoPromptGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("要决胜负吗")), "Ganzo default dialog asks source battle question");
+assert(ganzoPromptGame.dialog.suggestions.includes("是") && ganzoPromptGame.dialog.suggestions.includes("否"), "Ganzo prompt exposes source YES/NO buttons");
+assert(ganzoPromptGame.dialog.debug.actions.includes("window"), "Ganzo debug profiles NPCEnemy window action");
+assert(ganzoPromptGame.dialog.debug.actions.includes("startBattle"), "Ganzo debug profiles NPCEnemy battle action");
+ganzoPromptGame = await api("/api/game/dialog", { game: ganzoPromptGame, npcId: ganzo.id, message: "否" });
+assert(!ganzoPromptGame.encounter, "Ganzo NO keeps battle closed");
+assert(ganzoPromptGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("有什么事吗")), "Ganzo NO returns deniedmsg");
+assert(ganzoPromptGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.status === "cancel" && event.detail?.select === "no"), "Ganzo NO records source window cancel");
+
+let ganzoBattleGame = await api("/api/game/new", { name: "ganzo-battle-test" });
+ganzoBattleGame.location = { mapId: "100", x: ganzo.x, y: ganzo.y + 1 };
+ganzoBattleGame.player.level = 5;
+ganzoBattleGame.pets[0].Lv = 5;
+ganzoBattleGame = await api("/api/game/dialog", { game: ganzoBattleGame, npcId: ganzo.id, message: "是" });
+assert([253, 254].includes(Number(ganzoBattleGame.encounter?.PetId)), "Ganzo YES creates source enemyno encounter");
+assertEqual(ganzoBattleGame.encounter.CaptureRate, 0, "Ganzo NPCEnemy encounter is not catchable");
+assert(ganzoBattleGame.battle?.source?.includes("npc_npcenemy.c"), "Ganzo battle records NPCEnemy source");
+assertEqual(ganzoBattleGame.battle?.npcEnemy?.npcId, ganzo.id, "Ganzo battle keeps NPCEnemy metadata");
+assert(ganzoBattleGame.battle.log.some((line) => line.includes("呼拔吉，去吧")), "Ganzo battle logs source startmsg");
+assert(ganzoBattleGame.dialog.suggestions.includes("攻击") && ganzoBattleGame.dialog.suggestions.includes("防御"), "Ganzo battle exposes battle commands");
+assert(!ganzoBattleGame.dialog.suggestions.includes("捕获"), "Ganzo NPCEnemy battle does not suggest capture");
+let ganzoCaptureGame = JSON.parse(JSON.stringify(ganzoBattleGame));
+const ganzoPetsBeforeCapture = ganzoCaptureGame.pets.length;
+ganzoCaptureGame.encounter.WorkFixStr = 1;
+ganzoCaptureGame = await api("/api/game/battle", { game: ganzoCaptureGame, action: "捕获" });
+assertEqual(ganzoCaptureGame.battleOutcome.result, "capture-missed", "Ganzo NPCEnemy capture always misses");
+assertEqual(ganzoCaptureGame.pets.length, ganzoPetsBeforeCapture, "Ganzo NPCEnemy capture does not add a pet");
+ganzoBattleGame.encounter.Hp = 1;
+ganzoBattleGame.encounter.WorkFixDex = 0;
+ganzoBattleGame.pets[0].WorkFixStr = 999;
+ganzoBattleGame.pets[0].WorkFixDex = 999;
+ganzoBattleGame = await api("/api/game/battle", { game: ganzoBattleGame, action: "攻击" });
+assertEqual(ganzoBattleGame.battleOutcome.result, "victory", "Ganzo NPCEnemy can be defeated through battle API");
+assert(ganzoBattleGame.flags.npcEnemyDefeats[ganzo.id]?.until, "Ganzo victory records source dieact=0 respawn timer");
+assert(!ganzoBattleGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "Ganzo victory hides the blocker NPC from the active map");
+
 const shopNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.trade?.items?.length);
@@ -142,7 +186,7 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && even
 
 const battleNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
-  .find(({ map, npc }) => map.encounterPets?.length && npc.id);
+  .find(({ map, npc }) => map.encounterPets?.length && npc.id && !npc.npcEnemy);
 if (!battleNpc) throw new Error("missing NPC on encounter map fixture");
 let npcBattleGame = await api("/api/game/new", { name: "npc-start-battle-test" });
 npcBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
@@ -224,7 +268,7 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && even
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, battle start/attack/item/capture/release, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, NPCEnemy prompt/battle/defeat, battle start/attack/item/capture/release, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

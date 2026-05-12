@@ -124,7 +124,25 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_ganzo.create",
           "script": "file:100/sb_ganzo.arg",
           "template": "sb_ganzo",
-          "graphic": "100401"
+          "graphic": "100401",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_ganzo.arg",
+            "entype": 2,
+            "enemyNos": [
+              253,
+              254
+            ],
+            "askBattleMessages": [
+              "如果能赢过我的话就让你通过。要决胜负吗？"
+            ],
+            "startMessage": "呼拔吉，去吧！",
+            "deniedMessage": "有什么事吗？",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "100-344-355-1",
@@ -140,7 +158,31 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_dpd.create",
           "script": "file:100/sb_dpd.arg",
           "template": "sb_dice",
-          "graphic": "100432"
+          "graphic": "100432",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_dpd.arg",
+            "entype": 2,
+            "enemyNos": [
+              1283,
+              1282,
+              1284,
+              1285,
+              1286
+            ],
+            "askBattleMessages": [
+              "什么！给我滚到旁边去！",
+              "还是你打算阻挠我们！",
+              "我们的等级可都是LV65以上的呀!即使这样还是有赢的自信",
+              "的话就放马过来吧!"
+            ],
+            "startMessage": "放马过来!",
+            "deniedMessage": "什么!别妨碍我们、滚到旁边去!",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 300,
+            "warp": null
+          }
         },
         {
           "id": "100-344-356-2",
@@ -156,7 +198,31 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_dpd.create",
           "script": "file:100/sb_dpd.arg",
           "template": "sb_por",
-          "graphic": "100436"
+          "graphic": "100436",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_dpd.arg",
+            "entype": 2,
+            "enemyNos": [
+              1283,
+              1282,
+              1284,
+              1285,
+              1286
+            ],
+            "askBattleMessages": [
+              "什么！给我滚到旁边去！",
+              "还是你打算阻挠我们！",
+              "我们的等级可都是LV65以上的呀!即使这样还是有赢的自信",
+              "的话就放马过来吧!"
+            ],
+            "startMessage": "放马过来!",
+            "deniedMessage": "什么!别妨碍我们、滚到旁边去!",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 300,
+            "warp": null
+          }
         },
         {
           "id": "100-344-357-3",
@@ -172,7 +238,31 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_dpd.create",
           "script": "file:100/sb_dpd.arg",
           "template": "sb_dar",
-          "graphic": "100434"
+          "graphic": "100434",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_dpd.arg",
+            "entype": 2,
+            "enemyNos": [
+              1283,
+              1282,
+              1284,
+              1285,
+              1286
+            ],
+            "askBattleMessages": [
+              "什么！给我滚到旁边去！",
+              "还是你打算阻挠我们！",
+              "我们的等级可都是LV65以上的呀!即使这样还是有赢的自信",
+              "的话就放马过来吧!"
+            ],
+            "startMessage": "放马过来!",
+            "deniedMessage": "什么!别妨碍我们、滚到旁边去!",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 300,
+            "warp": null
+          }
         },
         {
           "id": "100-651-585-7570",
@@ -2828,7 +2918,34 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
-          "graphic": "16073"
+          "graphic": "16073",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_mimi.arg",
+            "entype": 2,
+            "enemyNos": [
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117
+            ],
+            "askBattleMessages": [
+              "绑在袋口的绳子",
+              "用切绳石把它割开吗？"
+            ],
+            "startMessage": "宝袋口打开了之后恐龙从里面飞了出来！",
+            "deniedMessage": "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "122-78-96-11",
@@ -2844,7 +2961,34 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
-          "graphic": "16073"
+          "graphic": "16073",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_mimi.arg",
+            "entype": 2,
+            "enemyNos": [
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117
+            ],
+            "askBattleMessages": [
+              "绑在袋口的绳子",
+              "用切绳石把它割开吗？"
+            ],
+            "startMessage": "宝袋口打开了之后恐龙从里面飞了出来！",
+            "deniedMessage": "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "122-78-102-10",
@@ -2860,7 +3004,34 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
-          "graphic": "16073"
+          "graphic": "16073",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_mimi.arg",
+            "entype": 2,
+            "enemyNos": [
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117
+            ],
+            "askBattleMessages": [
+              "绑在袋口的绳子",
+              "用切绳石把它割开吗？"
+            ],
+            "startMessage": "宝袋口打开了之后恐龙从里面飞了出来！",
+            "deniedMessage": "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "122-120-145-14",
@@ -2876,7 +3047,34 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
-          "graphic": "16073"
+          "graphic": "16073",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_mimi.arg",
+            "entype": 2,
+            "enemyNos": [
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117
+            ],
+            "askBattleMessages": [
+              "绑在袋口的绳子",
+              "用切绳石把它割开吗？"
+            ],
+            "startMessage": "宝袋口打开了之后恐龙从里面飞了出来！",
+            "deniedMessage": "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "122-45-152-13",
@@ -2892,7 +3090,34 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
-          "graphic": "16073"
+          "graphic": "16073",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_mimi.arg",
+            "entype": 2,
+            "enemyNos": [
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117
+            ],
+            "askBattleMessages": [
+              "绑在袋口的绳子",
+              "用切绳石把它割开吗？"
+            ],
+            "startMessage": "宝袋口打开了之后恐龙从里面飞了出来！",
+            "deniedMessage": "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "122-93-152-12",
@@ -2908,7 +3133,34 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_mimi.create",
           "script": "file:100/sb_mimi.arg",
           "template": "sb_hag",
-          "graphic": "16073"
+          "graphic": "16073",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_mimi.arg",
+            "entype": 2,
+            "enemyNos": [
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117,
+              1117
+            ],
+            "askBattleMessages": [
+              "绑在袋口的绳子",
+              "用切绳石把它割开吗？"
+            ],
+            "startMessage": "宝袋口打开了之后恐龙从里面飞了出来！",
+            "deniedMessage": "袋口被牢牢的绑起来，要拿里面的东西并不是那么简单的。",
+            "endMessage": "",
+            "dieAct": 0,
+            "respawnSeconds": 60,
+            "warp": null
+          }
         },
         {
           "id": "122-162-12-1296",
@@ -3477,7 +3729,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality1.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality1.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "我的日记呢！好像掉了。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1000-39-58-7488",
@@ -3493,7 +3762,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality7.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality7.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "你的打架技巧不错喔！",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1000-108-28-7702",
@@ -9805,7 +10091,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou100.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou100.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第100个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1008",
+              "floor": 1008,
+              "x": 20,
+              "y": 20
+            }
+          }
         },
         {
           "id": "1021-48-16-692",
@@ -9818,7 +10140,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou090.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou090.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第90个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-92-16-662",
@@ -9831,7 +10189,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou080.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou080.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第80个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-136-16-632",
@@ -9844,7 +10238,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou070.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou070.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第70个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-180-16-602",
@@ -9857,7 +10287,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou060.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou060.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第60个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-224-16-572",
@@ -9870,7 +10336,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou050.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou050.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第50个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-268-16-542",
@@ -9883,7 +10385,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou040.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou040.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第40个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-312-16-512",
@@ -9896,7 +10434,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou030.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou030.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第30个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-356-16-482",
@@ -9909,7 +10483,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou020.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou020.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第20个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-400-16-452",
@@ -9922,7 +10532,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou010.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou010.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第10个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 128
+            }
+          }
         },
         {
           "id": "1021-4-28-719",
@@ -9935,7 +10581,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou099.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou099.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第99个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-48-28-689",
@@ -9948,7 +10630,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou089.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou089.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第89个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-92-28-659",
@@ -9961,7 +10679,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou079.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou079.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第79个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-136-28-629",
@@ -9974,7 +10728,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou069.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou069.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第69个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-180-28-599",
@@ -9987,7 +10777,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou059.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou059.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第59个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-224-28-569",
@@ -10000,7 +10826,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou049.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou049.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第49个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-268-28-539",
@@ -10013,7 +10875,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou039.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou039.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第39个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-312-28-509",
@@ -10026,7 +10924,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou029.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou029.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第29个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-356-28-479",
@@ -10039,7 +10973,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou019.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou019.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第19个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-400-28-449",
@@ -10052,7 +11022,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou009.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou009.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第9个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 18
+            }
+          }
         },
         {
           "id": "1021-4-40-716",
@@ -10065,7 +11071,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou098.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou098.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第98个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-48-40-686",
@@ -10078,7 +11120,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou088.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou088.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第88个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-92-40-656",
@@ -10091,7 +11169,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou078.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou078.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第78个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-136-40-626",
@@ -10104,7 +11218,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou068.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou068.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第68个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-180-40-596",
@@ -10117,7 +11267,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou058.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou058.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第58个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-224-40-566",
@@ -10130,7 +11316,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou048.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou048.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第48个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-268-40-536",
@@ -10143,7 +11365,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou038.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou038.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第38个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-312-40-506",
@@ -10156,7 +11414,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou028.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou028.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第28个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-356-40-476",
@@ -10169,7 +11463,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou018.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou018.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第18个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-400-40-446",
@@ -10182,7 +11512,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou008.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou008.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第8个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 30
+            }
+          }
         },
         {
           "id": "1021-4-52-713",
@@ -10195,7 +11561,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou097.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou097.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第97个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-48-52-683",
@@ -10208,7 +11610,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou087.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou087.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第87个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-92-52-653",
@@ -10221,7 +11659,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou077.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou077.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第77个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-136-52-623",
@@ -10234,7 +11708,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou067.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou067.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第67个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-180-52-593",
@@ -10247,7 +11757,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou057.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou057.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第57个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-224-52-563",
@@ -10260,7 +11806,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou047.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou047.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第47个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-268-52-533",
@@ -10273,7 +11855,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou037.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou037.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第37个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-312-52-503",
@@ -10286,7 +11904,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou027.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou027.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第27个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-356-52-473",
@@ -10299,7 +11953,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou017.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou017.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第17个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-400-52-443",
@@ -10312,7 +12002,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou007.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou007.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第7个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 42
+            }
+          }
         },
         {
           "id": "1021-4-64-710",
@@ -10325,7 +12051,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou096.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou096.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第96个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-48-64-680",
@@ -10338,7 +12100,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou086.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou086.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第86个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-92-64-650",
@@ -10351,7 +12149,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou076.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou076.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第76个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-136-64-620",
@@ -10364,7 +12198,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou066.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou066.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第66个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-180-64-590",
@@ -10377,7 +12247,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou056.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou056.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第56个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-224-64-560",
@@ -10390,7 +12296,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou046.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou046.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第46个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-268-64-530",
@@ -10403,7 +12345,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou036.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou036.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第36个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-312-64-500",
@@ -10416,7 +12394,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou026.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou026.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第26个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-356-64-470",
@@ -10429,7 +12443,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou016.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou016.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第16个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-400-64-440",
@@ -10442,7 +12492,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou006.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou006.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第6个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 54
+            }
+          }
         },
         {
           "id": "1021-4-76-707",
@@ -10455,7 +12541,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou095.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou095.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第95个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-48-76-677",
@@ -10468,7 +12590,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou085.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou085.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第85个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-92-76-647",
@@ -10481,7 +12639,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou075.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou075.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第75个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-136-76-617",
@@ -10494,7 +12688,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou065.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou065.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第65个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-180-76-587",
@@ -10507,7 +12737,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou055.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou055.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第55个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-224-76-557",
@@ -10520,7 +12786,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou045.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou045.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第45个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-268-76-527",
@@ -10533,7 +12835,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou035.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou035.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第35个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-312-76-497",
@@ -10546,7 +12884,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou025.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou025.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第25个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-356-76-467",
@@ -10559,7 +12933,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou015.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou015.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第15个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-400-76-437",
@@ -10572,7 +12982,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou005.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou005.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第5个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 66
+            }
+          }
         },
         {
           "id": "1021-4-88-704",
@@ -10585,7 +13031,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou094.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou094.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第94个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-48-88-674",
@@ -10598,7 +13080,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou084.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou084.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第84个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-92-88-644",
@@ -10611,7 +13129,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou074.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou074.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第74个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-136-88-614",
@@ -10624,7 +13178,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou064.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou064.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第64个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-180-88-584",
@@ -10637,7 +13227,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou054.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou054.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第54个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-224-88-554",
@@ -10650,7 +13276,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou044.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou044.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第44个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-268-88-524",
@@ -10663,7 +13325,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou034.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou034.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第34个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-312-88-494",
@@ -10676,7 +13374,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou024.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou024.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第24个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-356-88-464",
@@ -10689,7 +13423,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou014.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou014.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第14个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-400-88-434",
@@ -10702,7 +13472,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou004.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou004.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第4个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 78
+            }
+          }
         },
         {
           "id": "1021-4-100-701",
@@ -10715,7 +13521,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou093.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou093.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第93个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-48-100-671",
@@ -10728,7 +13570,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou083.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou083.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第83个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-92-100-641",
@@ -10741,7 +13619,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou073.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou073.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第73个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-136-100-611",
@@ -10754,7 +13668,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou063.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou063.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第63个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-180-100-581",
@@ -10767,7 +13717,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou053.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou053.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第53个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-224-100-551",
@@ -10780,7 +13766,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou043.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou043.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第43个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-268-100-521",
@@ -10793,7 +13815,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou033.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou033.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第33个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-312-100-491",
@@ -10806,7 +13864,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou023.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou023.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第23个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-356-100-461",
@@ -10819,7 +13913,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou013.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou013.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第13个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-400-100-431",
@@ -10832,7 +13962,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou003.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou003.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第3个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 90
+            }
+          }
         },
         {
           "id": "1021-4-112-698",
@@ -10845,7 +14011,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou092.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou092.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第92个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-48-112-668",
@@ -10858,7 +14060,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou082.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou082.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第82个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-92-112-638",
@@ -10871,7 +14109,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou072.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou072.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第72个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-136-112-608",
@@ -10884,7 +14158,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou062.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou062.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第62个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-180-112-578",
@@ -10897,7 +14207,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou052.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou052.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第52个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-224-112-548",
@@ -10910,7 +14256,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou042.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou042.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第42个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-268-112-518",
@@ -10923,7 +14305,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou032.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou032.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第32个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-312-112-488",
@@ -10936,7 +14354,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou022.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou022.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第22个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-356-112-458",
@@ -10949,7 +14403,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou012.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou012.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第12个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-400-112-428",
@@ -10962,7 +14452,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou002.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou002.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第2个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 102
+            }
+          }
         },
         {
           "id": "1021-4-124-695",
@@ -10975,7 +14501,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou091.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou091.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第91个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 4,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-48-124-665",
@@ -10988,7 +14550,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou081.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou081.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第81个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 48,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-92-124-635",
@@ -11001,7 +14599,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou071.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou071.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第71个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 92,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-136-124-605",
@@ -11014,7 +14648,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou061.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou061.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第61个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 136,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-180-124-575",
@@ -11027,7 +14697,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou051.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou051.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第51个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 180,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-224-124-545",
@@ -11040,7 +14746,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou041.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou041.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第41个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 224,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-268-124-515",
@@ -11053,7 +14795,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou031.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou031.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第31个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 268,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-312-124-485",
@@ -11066,7 +14844,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou021.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou021.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第21个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 312,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-356-124-455",
@@ -11079,7 +14893,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou011.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou011.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第11个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 356,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-400-124-425",
@@ -11092,7 +14942,43 @@ export const WORLD = {
           "source": "ref___data/npc/doujyou/samdou.create",
           "script": "file:doujyou/samdou001.arg",
           "template": "sb_dou",
-          "graphic": "100091"
+          "graphic": "100091",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/doujyou/samdou001.arg",
+            "entype": 2,
+            "enemyNos": [
+              564,
+              565,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              575,
+              576,
+              577,
+              578,
+              579,
+              580
+            ],
+            "askBattleMessages": [],
+            "startMessage": "我是第1个人",
+            "deniedMessage": "",
+            "endMessage": "",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "1021",
+              "floor": 1021,
+              "x": 400,
+              "y": 114
+            }
+          }
         },
         {
           "id": "1021-10-18-723",
@@ -12400,7 +16286,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality4.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality4.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "你的打架技巧不错喔！",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1100-60-80-7492",
@@ -12416,7 +16319,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality11.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality11.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "你还真强啊！什么时候再来切磋切磋一下。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1100-44-31-7562",
@@ -13107,7 +17027,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality3.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality3.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "你还真强啊！什么时候再来切磋切磋一下。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1300-54-80-7490",
@@ -13123,7 +17060,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality9.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality9.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "哇！你真的好强喔！",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1300-29-23-6120",
@@ -13832,7 +17786,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality10.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality10.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "呜！别在打我了喔！下次我可不客气了！",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1400-83-87-7486",
@@ -13848,7 +17819,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality5.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality5.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "哇！你真的好强喔！",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "1400-94-73-7587",
@@ -15407,7 +19395,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality2.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality2.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "呜！别在打我了喔！下次我可不客气了！",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "2000-95-97-7489",
@@ -15423,7 +19428,24 @@ export const WORLD = {
           "source": "ref___data/npc/sa70/actuality/actuality.create",
           "script": "file:sa70/actuality/actuality8.arg",
           "template": "sb_dou",
-          "graphic": "100037"
+          "graphic": "100037",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/sa70/actuality/actuality8.arg",
+            "entype": 2,
+            "enemyNos": [
+              2224
+            ],
+            "askBattleMessages": [
+              "你想找麻烦吗！"
+            ],
+            "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
+            "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
+            "endMessage": "你还真强啊！什么时候再来切磋切磋一下。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
+          }
         },
         {
           "id": "2000-66-33-7317",
@@ -19710,7 +23732,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic10.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic10.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "你知道你闯入宾登斯家族支系之贝瑞达家族，乱闯入者死路一条。"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第十一层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 25,
+              "y": 87
+            }
+          }
         },
         {
           "id": "8200-96-6-6822",
@@ -19725,7 +23792,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic7.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic7.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "墓园的秘密你永远也别想知道！因为？？？你的实力只够给我打二拳而已。"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第八层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 71,
+              "y": 74
+            }
+          }
         },
         {
           "id": "8200-216-28-6816",
@@ -19761,6 +23873,24 @@ export const WORLD = {
             "partyMessage": "",
             "warpMessage": "",
             "source": "ref___data/npc/heroic/heroic1.arg"
+          },
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic1.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2289
+            ],
+            "askBattleMessages": [
+              "你知道你闯入宾登斯家族支系之贝瑞达家族，乱闯入者死路一条。"
+            ],
+            "startMessage": "",
+            "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
+            "endMessage": "就算你打败我了！在第二层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": null
           }
         },
         {
@@ -19776,7 +23906,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic4.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic4.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "咦！有没有听到墓园里灵魂的哀嚎声呢？你也想当下一个吗？哈哈哈～～～～"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第五层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 128,
+              "y": 90
+            }
+          }
         },
         {
           "id": "8200-8-64-6826",
@@ -19791,7 +23966,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic11.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic11.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "你用走的进来，我就让你飞着出去！"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第十二层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8212",
+              "floor": 8212,
+              "x": 197,
+              "y": 29
+            }
+          }
         },
         {
           "id": "8200-153-66-6820",
@@ -19806,7 +24026,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic5.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic5.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "小心一点！我可不会手下留情的。"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第六层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 132,
+              "y": 152
+            }
+          }
         },
         {
           "id": "8200-212-66-6817",
@@ -19821,7 +24086,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic2.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic2.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "依我看来你的战斗力好像还蛮强的（我要小心应付才行）。"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第三层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 193,
+              "y": 145
+            }
+          }
         },
         {
           "id": "8200-96-80-6823",
@@ -19836,7 +24146,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic8.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic8.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "这里不是你该来的地方，快回去吧！否则别怪我～～～出手啰！"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第九层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 72,
+              "y": 153
+            }
+          }
         },
         {
           "id": "8200-150-124-6821",
@@ -19851,7 +24206,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic6.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic6.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "请问你是来观光的吗？滚回去吧！"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第七层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 71,
+              "y": 28
+            }
+          }
         },
         {
           "id": "8200-97-130-6824",
@@ -19866,7 +24266,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic9.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic9.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "杀！！"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第十层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 24,
+              "y": 30
+            }
+          }
         },
         {
           "id": "8200-216-152-6818",
@@ -19881,7 +24326,52 @@ export const WORLD = {
           "source": "ref___data/npc/heroic/heroic.create",
           "script": "file:heroic/heroic3.arg",
           "template": "sb_dou",
-          "graphic": "101490"
+          "graphic": "101490",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/heroic/heroic3.arg",
+            "entype": 2,
+            "enemyNos": [
+              2262,
+              2263,
+              2264,
+              2265,
+              2266,
+              2267,
+              2268,
+              2269,
+              2270,
+              2271,
+              2272,
+              2273,
+              2274,
+              2275,
+              2276,
+              2277,
+              2278,
+              2279,
+              2280,
+              2281,
+              2282,
+              2283,
+              2284,
+              2285
+            ],
+            "askBattleMessages": [
+              "想和我过招还怕没有机会吗，只怕你不堪一击！！！"
+            ],
+            "startMessage": "",
+            "deniedMessage": "",
+            "endMessage": "就算你打败我了！在第四层楼还是会有人守护着。",
+            "dieAct": 1,
+            "respawnSeconds": 0,
+            "warp": {
+              "mapId": "8200",
+              "floor": 8200,
+              "x": 135,
+              "y": 23
+            }
+          }
         },
         {
           "id": "8200-215-11-6815",
@@ -20626,7 +25116,27 @@ export const WORLD = {
           "source": "ref___data/npc/100/sb_nusu.create",
           "script": "file:100/sb_nusu1.arg",
           "template": "sb_n1",
-          "graphic": "100405"
+          "graphic": "100405",
+          "npcEnemy": {
+            "kind": "NPCEnemy",
+            "source": "ref___data/npc/100/sb_nusu1.arg",
+            "entype": 2,
+            "enemyNos": [
+              513,
+              516
+            ],
+            "askBattleMessages": [
+              "那、那是我们的脚印…",
+              "被发现了就没办法了。",
+              "过来！抢走它！！"
+            ],
+            "startMessage": "嘿嘿嘿。现在才道歉已经太晚了。",
+            "deniedMessage": "你做什么？我可是很忙的。到那边去。真是麻烦的家伙…。",
+            "endMessage": "畜、畜生…",
+            "dieAct": 0,
+            "respawnSeconds": 300,
+            "warp": null
+          }
         },
         {
           "id": "10701-12-4-1620",

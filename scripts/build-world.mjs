@@ -195,6 +195,7 @@ function parseNpcs() {
       const trade = readNpcTrade(argPath, file);
       const warp = readNpcWarp(argPath, file);
       const functionset = template.functionset || enemy.template || "NPC";
+      const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
       idCounter += 1;
       push(out, floor, {
@@ -210,7 +211,8 @@ function parseNpcs() {
         template: enemy.template,
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
-        ...(warp ? { warp } : {})
+        ...(warp ? { warp } : {}),
+        ...(npcEnemy ? { npcEnemy } : {})
       });
     }
   }
@@ -441,6 +443,57 @@ function readNpcWarp(argPath, createFile) {
     warpMessage: cleanScriptText(kv.warp_msg || ""),
     source: relativeRef(file)
   };
+}
+
+function readNpcEnemy(argPath, createFile, functionset) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file || !/npcenemy/i.test(functionset || "")) return null;
+  const kv = parseNpcEnemyFile(readText(file));
+  const enemyNos = splitNumberList(kv.enemyno || "");
+  const askBattleMessages = [];
+  for (let i = 1; i <= 6; i += 1) {
+    const line = cleanScriptText(kv[`askbattlemsg${i}`] || "");
+    if (line) askBattleMessages.push(line);
+  }
+  return {
+    kind: "NPCEnemy",
+    source: relativeRef(file),
+    entype: Number(kv.entype || 0) || 0,
+    enemyNos,
+    askBattleMessages,
+    startMessage: cleanScriptText(kv.startmsg || ""),
+    deniedMessage: cleanScriptText(kv.deniedmsg || ""),
+    endMessage: cleanScriptText(kv.endmsg || kv["end msg"] || ""),
+    dieAct: Number(kv.dieact || 0) || 0,
+    respawnSeconds: Number(kv.time || 0) || 0,
+    warp: parseNpcEnemyWarp(kv)
+  };
+}
+
+function parseNpcEnemyFile(text) {
+  const kv = {};
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const match = line.match(/^([^:=]+)\s*[:=]\s*(.*)$/);
+    if (!match) continue;
+    kv[match[1].trim().toLowerCase()] = match[2].trim();
+  }
+  return kv;
+}
+
+function parseNpcEnemyWarp(kv) {
+  const floor = Number(kv.warpfl);
+  const x = Number(kv.warpx);
+  const y = Number(kv.warpy);
+  if (![floor, x, y].every(Number.isFinite) || floor <= 0) return null;
+  return { mapId: String(floor), floor, x, y };
+}
+
+function splitNumberList(value = "") {
+  return value.split(",")
+    .map((item) => Number(item.trim()))
+    .filter((item) => Number.isFinite(item) && item > 0);
 }
 
 function parseWarpTarget(text) {

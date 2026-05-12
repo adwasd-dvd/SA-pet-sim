@@ -1002,6 +1002,10 @@ function talkGame(game, npcId) {
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
   assertNpcInteractionRange(game, npc);
+  if (isNpcEnemy(npc)) {
+    openNpcEnemyStartWindow(game, npc);
+    return withMap(game, { npc });
+  }
   const reply = runNpcTalk(game, npc, "hi");
   openDialog(game, npc, [
     npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
@@ -1020,6 +1024,10 @@ async function dialogGame(env, request, game, npcId, message) {
 
   const text = message.trim().slice(0, 160);
   if (!text) {
+    if (isNpcEnemy(npc)) {
+      openNpcEnemyStartWindow(game, npc);
+      return withMap(game, { npc });
+    }
     const reply = runNpcTalk(game, npc, "hi");
     openDialog(game, npc, [
       npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
@@ -1029,11 +1037,7 @@ async function dialogGame(env, request, game, npcId, message) {
     return withMap(game, { npc });
   }
 
-  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : [
-    npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
-    npcMessage("player", "hi"),
-    npcMessage("npc", runNpcTalk(game, npc, "hi"))
-  ];
+  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc);
   const reply = await npcReply(env, request, game, npc, text);
   openDialog(game, npc, [
     ...existing,
@@ -1086,6 +1090,107 @@ async function createEncounterEnemy(env, request, game, map) {
   if (!enemy) return null;
   enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
   enemy.source = "ref___data/encount.txt + enemybase2.txt";
+  return enemy;
+}
+
+async function npcEnemyReply(env, request, game, npc, lower) {
+  if (isYesChoice(lower)) return startNpcEnemyBattle(env, request, game, npc);
+  if (isNoChoice(lower)) {
+    runNpcVmAction(game, npc, {
+      type: "window",
+      status: "cancel",
+      reason: "npcenemy-start",
+      windowType: "CHAR_WINDOWTYPE_NPCENEMY_START",
+      select: "no",
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    });
+    const denied = npcEnemyDeniedMessage(npc);
+    recordNpcVmEvent(game, npc, "say", "ok", { line: denied, reason: "npcenemy-denied" });
+    return denied;
+  }
+  runNpcVmAction(game, npc, {
+    type: "window",
+    reason: "npcenemy-start",
+    windowType: "CHAR_WINDOWTYPE_NPCENEMY_START",
+    buttons: "YESNO",
+    source: npc.npcEnemy?.source || npc.script || npc.source || ""
+  });
+  return npcEnemyAskMessage(npc);
+}
+
+function isYesChoice(text) {
+  return /(^|\s)(yes|y|ok)(\s|$)/i.test(text)
+    || hasAny(text, ["是", "好", "确定", "確定", "愿意", "願意", "决胜负", "決勝負", "战斗", "戰鬥", "开战", "開始", "开始"]);
+}
+
+function isNoChoice(text) {
+  return /(^|\s)(no|n|cancel)(\s|$)/i.test(text)
+    || hasAny(text, ["否", "不", "算了", "取消", "不要", "拒绝", "拒絕"]);
+}
+
+async function startNpcEnemyBattle(env, request, game, npc) {
+  const enemy = await createNpcEnemyEncounter(env, request, game, npc);
+  if (!enemy) {
+    recordNpcVmEvent(game, npc, "startBattle", "blocked", {
+      reason: "missing-enemyno",
+      enemyNos: npc.npcEnemy?.enemyNos || [],
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    });
+    return `${npc.name} 的 NPCEnemy 脚本没有可用的 enemyno，无法开战。`;
+  }
+  runNpcVmAction(game, npc, {
+    type: "window",
+    reason: "npcenemy-start",
+    windowType: "CHAR_WINDOWTYPE_NPCENEMY_START",
+    select: "yes",
+    source: npc.npcEnemy?.source || npc.script || npc.source || ""
+  });
+  const event = runNpcVmAction(game, npc, {
+    type: "startBattle",
+    enemy,
+    reason: "npcenemy",
+    enemyNos: npc.npcEnemy?.enemyNos || [],
+    source: npc.npcEnemy?.source || npc.script || npc.source || ""
+  });
+  if (!event.ok) return `${npc.name} 找不到可用的敌人资料：${event.error || "startBattle 被 VM 拒绝"}。`;
+  if (game.battle) {
+    const startMessage = npcEnemyStartMessage(npc);
+    game.battle.source = `gmsv/npc/npc_npcenemy.c NPC_NPCEnemy_BattleIn + ${npc.npcEnemy?.source || npc.script || npc.source || ""}`;
+    game.battle.sourceCommand = "YES";
+    game.battle.npcEnemy = {
+      npcId: npc.id,
+      npcName: npc.name,
+      source: npc.npcEnemy?.source || npc.script || npc.source || "",
+      dieAct: Number(npc.npcEnemy?.dieAct || 0),
+      respawnSeconds: Number(npc.npcEnemy?.respawnSeconds || 0),
+      startMessage,
+      endMessage: npc.npcEnemy?.endMessage || "",
+      warp: npc.npcEnemy?.warp || null
+    };
+    if (startMessage) game.battle.log = [...(game.battle.log || []), `${npc.name}：${startMessage}`].slice(-8);
+  }
+  const startMessage = npcEnemyStartMessage(npc);
+  if (startMessage) addLog(game, `${npc.name}：${startMessage}`);
+  addLog(game, `${npc.name} 召出 ${enemy.Name} Lv.${enemy.Lv}。`);
+  return `${startMessage}\n${enemy.Name} Lv.${enemy.Lv} 出现了。`;
+}
+
+async function createNpcEnemyEncounter(env, request, game, npc) {
+  const data = await loadGameData(env, request);
+  const enemyNos = (npc.npcEnemy?.enemyNos || []).filter((item) => data.enemyBaseSet.has(Number(item)));
+  if (!enemyNos.length) return null;
+  const enemyNo = Number(pick(enemyNos));
+  const level = Math.max(1, Number(game.pets?.[0]?.Lv || game.player.level || 1));
+  const enemy = createEnemy(data, enemyNo, level);
+  if (!enemy) return null;
+  enemy.CaptureRate = 0;
+  enemy.source = `${npc.npcEnemy?.source || npc.script || npc.source || "NPCEnemy"} + enemybase2.txt`;
+  enemy.npcEnemy = {
+    npcId: npc.id,
+    npcName: npc.name,
+    enemyNo,
+    source: npc.npcEnemy?.source || npc.script || npc.source || ""
+  };
   return enemy;
 }
 
@@ -1230,6 +1335,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
       petName: enemy.Name,
       result: "battle"
     });
+    settleNpcEnemyVictory(game, game.battle?.npcEnemy, battleLog);
     game.encounter = null;
     game.battle = null;
   } else if (activePet.Hp <= 0) {
@@ -1248,6 +1354,32 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
   return { result, enemyName, petName, exp, stone, sourceCommand: options.sourceCommand, itemUse: options.itemUse || null, log: battleLog };
 }
 
+function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
+  if (!npcEnemy?.npcId) return;
+  ensureFlags(game);
+  setEventFlag(game, stableFlag(`${npcEnemy.npcId}:npcenemy-win`), "end");
+  if (npcEnemy.endMessage) battleLog.push(npcEnemy.endMessage);
+  if (Number(npcEnemy.dieAct || 0) === 1 && npcEnemy.warp?.mapId && WORLD.maps[npcEnemy.warp.mapId]) {
+    game.location = {
+      ...game.location,
+      mapId: npcEnemy.warp.mapId,
+      x: Number(npcEnemy.warp.x || 0),
+      y: Number(npcEnemy.warp.y || 0)
+    };
+    battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 让开并把你送到 (${game.location.x},${game.location.y})。`);
+    return;
+  }
+  const respawnSeconds = Math.max(1, Number(npcEnemy.respawnSeconds || 60));
+  game.flags.npcEnemyDefeats ||= {};
+  game.flags.npcEnemyDefeats[npcEnemy.npcId] = {
+    npcName: npcEnemy.npcName || "",
+    source: npcEnemy.source || "",
+    defeatedAt: new Date().toISOString(),
+    until: new Date(Date.now() + respawnSeconds * 1000).toISOString()
+  };
+  battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 暂时退开，通路打开 ${respawnSeconds} 秒。`);
+}
+
 function performCaptureAction(game) {
   if (!game.encounter) throw new Error("当前没有可捕获目标");
   const target = game.encounter;
@@ -1258,7 +1390,7 @@ function performCaptureAction(game) {
     game.battle.sourceCommand = "T|0";
     game.battle.mode = "resolving";
   }
-  const rate = Math.max(0, Math.min(100, Number(target.CaptureRate || 35)));
+  const rate = Math.max(0, Math.min(100, Number(target.CaptureRate ?? 35)));
   const ok = Math.random() * 100 < rate;
   if (ok) {
     game.pets.push({ ...target });
@@ -1368,13 +1500,14 @@ async function npcReply(env, request, game, npc, text) {
   if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["道具", "物品", "item"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
+  if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
+  if (isNpcEnemy(npc)) return npcEnemyReply(env, request, game, npc, lower);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
-  if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(env, request, game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
   if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
@@ -1753,6 +1886,46 @@ function isWarpNpc(npc) {
   return Boolean(npc.warp?.target) || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`);
 }
 
+function isNpcEnemy(npc) {
+  return Boolean(npc?.npcEnemy) || /npcenemy/i.test(`${npc?.type || ""} ${npc?.template || ""}`);
+}
+
+function npcEnemyAskMessage(npc) {
+  return npc?.npcEnemy?.askBattleMessages?.find(Boolean)
+    || npcDialogueLines(npc).find(Boolean)
+    || "如果能赢过我的话就让你通过。要决胜负吗？";
+}
+
+function npcEnemyDeniedMessage(npc) {
+  return npc?.npcEnemy?.deniedMessage || "有什么事吗？";
+}
+
+function npcEnemyStartMessage(npc) {
+  return npc?.npcEnemy?.startMessage || "来吧！";
+}
+
+function npcInitialDialogMessages(game, npc) {
+  if (isNpcEnemy(npc)) {
+    runNpcVmAction(game, npc, {
+      type: "window",
+      reason: "npcenemy-start",
+      windowType: "CHAR_WINDOWTYPE_NPCENEMY_START",
+      buttons: "YESNO",
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    });
+    return [npcMessage("npc", npcEnemyAskMessage(npc))];
+  }
+  return [
+    npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
+    npcMessage("player", "hi"),
+    npcMessage("npc", runNpcTalk(game, npc, "hi"))
+  ];
+}
+
+function openNpcEnemyStartWindow(game, npc) {
+  openDialog(game, npc, npcInitialDialogMessages(game, npc));
+}
+
 function eventFlagForNpcAction(npcId, action) {
   return stableFlag(`${npcId}:${action}`);
 }
@@ -1845,6 +2018,7 @@ function dialogSourceLine(debug) {
 
 function npcActionProfile(npc) {
   const actions = [];
+  if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
@@ -2068,7 +2242,9 @@ function withTradeState(game, trade) {
 }
 
 function dialogSuggestions(npc, game = null) {
+  if (game?.encounter && game?.battle?.npcEnemy) return ["攻击", "防御", "道具", "逃跑"];
   if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
+  if (isNpcEnemy(npc)) return ["是", "否"];
   if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
   if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
   if (npc.warp || /warp/i.test(npc.type)) return ["hi", "传送", "出口"];
@@ -2353,7 +2529,20 @@ function withMap(game, extra = {}) {
 function currentMap(game) {
   const map = WORLD.maps[game.location.mapId];
   if (!map) throw new Error("当前地图不存在");
-  return map;
+  return visibleMapForGame(game, map);
+}
+
+function visibleMapForGame(game, map) {
+  if (!map.npcs?.length) return map;
+  const npcs = map.npcs.filter((npc) => !isNpcEnemyDefeated(game, npc));
+  return npcs.length === map.npcs.length ? map : { ...map, npcs };
+}
+
+function isNpcEnemyDefeated(game, npc) {
+  const entry = game.flags?.npcEnemyDefeats?.[npc.id];
+  if (!entry) return false;
+  const until = Date.parse(entry.until || "");
+  return Number.isFinite(until) && until > Date.now();
 }
 
 function nearbyState(game, map) {
@@ -2459,6 +2648,7 @@ function ensureFlags(game) {
   game.flags.nowEvents = normalizeFlagArray(game.flags.nowEvents);
   game.flags.bits ||= {};
   game.flags.npcTalkCounts ||= {};
+  game.flags.npcEnemyDefeats ||= {};
 }
 
 function normalizeFlagArray(value) {
