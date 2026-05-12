@@ -1490,18 +1490,19 @@ h3 {
 
 .dialog-panel {
   position: absolute;
-  left: 42px;
-  right: 42px;
-  bottom: 35px;
+  left: 28px;
+  right: 28px;
+  bottom: 31px;
   z-index: 15;
   display: grid;
-  gap: 6px;
+  grid-template-rows: auto minmax(76px, 1fr) auto auto;
+  gap: 5px;
   width: auto;
-  max-height: min(292px, calc(100% - 94px));
+  max-height: min(286px, calc(100% - 88px));
   overflow: hidden;
   border: 2px solid #18120c;
   border-radius: 2px;
-  padding: 7px;
+  padding: 6px;
   background:
     linear-gradient(90deg, rgb(255 239 168 / 24%) 0 1px, transparent 1px calc(100% - 1px), rgb(0 0 0 / 42%) calc(100% - 1px)),
     linear-gradient(180deg, rgb(91 55 25 / 92%), rgb(11 15 16 / 92%) 30%, rgb(6 8 9 / 94%));
@@ -1518,12 +1519,12 @@ h3 {
 
 .dialog-head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 48px;
+  grid-template-columns: minmax(0, 1fr) 28px;
   align-items: center;
-  gap: 8px;
-  min-height: 25px;
+  gap: 6px;
+  min-height: 23px;
   border: 1px solid #4f2c15;
-  padding: 3px 4px 3px 8px;
+  padding: 2px 3px 2px 8px;
   background:
     repeating-linear-gradient(0deg, rgb(91 48 18 / 86%) 0 2px, rgb(149 85 31 / 86%) 2px 4px),
     linear-gradient(180deg, #b77631, #4b2510);
@@ -1541,7 +1542,7 @@ h3 {
   overflow: hidden;
   margin: 0;
   color: #ffef7c;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.1;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1549,7 +1550,7 @@ h3 {
 
 .dialog-head .muted {
   overflow: hidden;
-  margin: 2px 0 0;
+  margin: 1px 0 0;
   color: #f0d89e;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 10px;
@@ -1559,21 +1560,28 @@ h3 {
 }
 
 .dialog-head button {
-  width: 48px;
+  width: 26px;
   min-width: 0;
-  min-height: 24px;
+  min-height: 21px;
   border: 1px solid #5b180e;
   border-radius: 2px;
   padding: 0;
   background: linear-gradient(180deg, #fff5d4, #b43a27 54%, #651108);
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
+}
+
+.dialog-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22px;
+  min-height: 0;
 }
 
 .dialog-messages {
   display: grid;
   gap: 5px;
-  max-height: min(128px, calc(var(--game-view-height) - 288px));
+  max-height: none;
+  min-height: 0;
   overflow: auto;
   border: 1px solid rgb(220 180 91 / 55%);
   border-radius: 0;
@@ -1583,43 +1591,67 @@ h3 {
     rgb(9 11 12 / 80%);
 }
 
-.dialog-bubble {
-  width: min(88%, 520px);
-  margin: 0;
-  border: 1px solid rgb(220 180 91 / 32%);
+.dialog-scroll {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border: 1px solid rgb(220 180 91 / 55%);
+  border-left: 0;
+  background: linear-gradient(180deg, #2b2118, #100d0b);
+}
+
+.dialog-scroll button {
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1px solid rgb(220 180 91 / 38%);
   border-radius: 0;
-  padding: 5px 7px;
-  background: rgb(255 246 209 / 10%);
+  padding: 0;
+  background: transparent;
+  color: #ffef7c;
+  font-size: 11px;
+  line-height: 1;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 82%);
+}
+
+.dialog-scroll button:last-child {
+  border-bottom: 0;
+}
+
+.dialog-scroll button:disabled {
+  color: #77664a;
+  opacity: .5;
+}
+
+.dialog-bubble {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 2px 4px 3px;
+  background: transparent;
   color: #fffdf3;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .dialog-bubble span {
-  display: block;
-  margin-bottom: 3px;
+  display: inline;
+  margin-right: 6px;
+  margin-bottom: 0;
   color: #ffef7c;
   font-size: 10px;
   font-weight: 800;
 }
 
 .dialog-bubble.player {
-  justify-self: end;
-  border-color: rgb(117 189 241 / 42%);
-  background: rgb(25 62 71 / 64%);
+  color: #d7f6ff;
 }
 
 .dialog-bubble.npc {
-  justify-self: start;
-  border-color: rgb(220 180 91 / 46%);
+  color: #fffdf3;
 }
 
 .dialog-bubble.system {
-  justify-self: center;
-  width: auto;
-  max-width: 92%;
-  border-color: rgb(210 210 210 / 28%);
-  background: rgb(255 255 255 / 10%);
   color: #e2d8bd;
 }
 
@@ -1633,7 +1665,7 @@ h3 {
 
 .dialog-suggestions button,
 .dialog-form button {
-  min-height: 28px;
+  min-height: 24px;
   border: 1px solid #d1a155;
   border-radius: 2px;
   padding: 0 9px;
@@ -1648,10 +1680,10 @@ h3 {
 }
 
 .dialog-form input {
-  min-height: 28px;
+  min-height: 24px;
   border: 1px solid #d1a155;
   border-radius: 2px;
-  padding: 5px 7px;
+  padding: 3px 7px;
   background: rgb(4 7 8 / 82%);
   color: #fffdf3;
   font-size: 12px;

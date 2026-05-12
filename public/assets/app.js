@@ -17,6 +17,7 @@ const CG_GRID_CURSOR = 25001;
 const MOVE_MODE_CHANGE_TIME = 1000;
 const MOVE_CLICK_WAIT_TIME = 250;
 const WARP_EFFECT_MS = 680;
+const DIALOG_SCROLL_STEP = 56;
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -182,6 +183,8 @@ const els = {
   dialogForm: byId("dialogForm"),
   dialogInput: byId("dialogInput"),
   dialogCloseBtn: byId("dialogCloseBtn"),
+  dialogScrollUpBtn: byId("dialogScrollUpBtn"),
+  dialogScrollDownBtn: byId("dialogScrollDownBtn"),
   petList: byId("petList"),
   questList: byId("questList"),
   gameLog: byId("gameLog"),
@@ -254,12 +257,13 @@ function bindEvents() {
     const text = els.dialogInput.value.trim();
     if (text) sendDialog(text);
   });
+  els.dialogInput.addEventListener("keydown", onDialogInputKeyDown);
+  els.dialogMessages.addEventListener("scroll", updateDialogScrollButtons);
   els.dialogCloseBtn.addEventListener("click", () => {
-    if (!game) return;
-    game.dialog = null;
-    save();
-    renderDialog();
+    closeDialog();
   });
+  els.dialogScrollUpBtn.addEventListener("click", () => scrollDialogMessages(-DIALOG_SCROLL_STEP));
+  els.dialogScrollDownBtn.addEventListener("click", () => scrollDialogMessages(DIALOG_SCROLL_STEP));
   els.dataSearchBtn.addEventListener("click", searchData);
   els.dataQuery.addEventListener("keydown", (event) => {
     if (event.key === "Enter") searchData();
@@ -561,6 +565,14 @@ function onGameKeyDown(event) {
   const tag = event.target?.tagName?.toLowerCase();
   if (tag === "input" || tag === "textarea" || tag === "select" || event.target?.isContentEditable) return;
   const key = event.key.toLowerCase();
+  if (game.dialog?.open) {
+    if (key === "escape") closeDialog();
+    else if (key === "pageup") scrollDialogMessages(-DIALOG_SCROLL_STEP * 3);
+    else if (key === "pagedown") scrollDialogMessages(DIALOG_SCROLL_STEP * 3);
+    else els.dialogInput.focus();
+    event.preventDefault();
+    return;
+  }
   const direction = screenDirectionForKey(key, event.code);
   if (!direction) return;
   event.preventDefault();
@@ -1860,11 +1872,48 @@ async function sendDialog(message) {
   }
 }
 
+function onDialogInputKeyDown(event) {
+  const key = event.key.toLowerCase();
+  if (key === "escape") {
+    event.preventDefault();
+    closeDialog();
+  } else if (key === "pageup") {
+    event.preventDefault();
+    scrollDialogMessages(-DIALOG_SCROLL_STEP * 3);
+  } else if (key === "pagedown") {
+    event.preventDefault();
+    scrollDialogMessages(DIALOG_SCROLL_STEP * 3);
+  }
+}
+
+function closeDialog() {
+  if (!game) return;
+  game.dialog = null;
+  save();
+  renderDialog();
+}
+
+function scrollDialogMessages(delta) {
+  if (els.dialogPanel.hidden) return;
+  els.dialogMessages.scrollTop += delta;
+  updateDialogScrollButtons();
+}
+
+function updateDialogScrollButtons() {
+  const canScroll = els.dialogMessages.scrollHeight > els.dialogMessages.clientHeight + 1;
+  els.dialogScrollUpBtn.disabled = !canScroll || els.dialogMessages.scrollTop <= 0;
+  els.dialogScrollDownBtn.disabled = !canScroll
+    || els.dialogMessages.scrollTop + els.dialogMessages.clientHeight >= els.dialogMessages.scrollHeight - 1;
+}
+
 function renderDialog() {
   const dialog = game?.dialog;
   if (dialog?.open) clientWindowOpen = false;
   els.dialogPanel.hidden = !dialog?.open;
-  if (!dialog?.open) return;
+  if (!dialog?.open) {
+    updateDialogScrollButtons();
+    return;
+  }
   els.dialogNpcName.textContent = dialog.npcName || "NPC";
   els.dialogSource.textContent = dialogDebugLine(dialog);
   els.dialogMessages.innerHTML = (dialog.messages || []).map((message) => `
@@ -1894,6 +1943,7 @@ function renderDialog() {
     if (img.complete && img.naturalWidth === 0) fallback();
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
+  updateDialogScrollButtons();
 }
 
 function renderDialogBattle() {
