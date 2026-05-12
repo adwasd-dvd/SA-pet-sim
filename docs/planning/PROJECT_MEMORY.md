@@ -47,6 +47,10 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - `screenX = (mapX + mapY) * 32`
   - `screenY = (-mapX + mapY) * 24`
 - Tile sprites from the client atlas must be vertically flipped before drawing into each diamond cell.
+- Draw order follows original client `system/map.cpp::drawMap` plus `SortDispBuffer` behavior:
+  - ground tiles use the client's diagonal scan in final display order
+  - parts/objects and NPC sprites are drawn through a shared screen-depth queue
+  - future accuracy work should include `adrn` hit/prio metadata and port `setPartsPrio` more exactly
 - Current default zoom is `100%`.
 - Camera recenters on the player using the rendered client-map coordinate space.
 
@@ -84,16 +88,17 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 ## Likely Next Work
 
 1. `worker-port-002`: define the JSON/WebSocket command protocol.
-2. `persistence-002`: D1/Durable Object cloud save plan.
-3. `realtime-001`: first map-room WebSocket architecture.
-4. `npc-002`: source-grounded NPC dialogue overlay.
-5. `script-001`: common NPC action VM from `gmsv` and ref-data.
-6. `script-vm-001`: deterministic NPC action VM for common script actions.
+2. `map-render-002`: port exact `adrn` parts/NPC priority metadata for closer original-client layering.
+3. `battle-002`: redesign encounter/battle/capture without resurrecting the removed auto capture UI.
+4. `persistence-002`: D1/Durable Object cloud save plan.
+5. `realtime-001`: first map-room WebSocket architecture.
+6. `npc-002`: source-grounded NPC dialogue overlay.
+7. `script-vm-001`: deterministic NPC action VM for common script actions.
 
 ## Latest Runtime Notes
 
-- `battle-001` first pass is implemented: `/api/game/battle` supports an `attack` action for the active first pet against the current encounter, applies speed-order turns, stores temporary `game.battle.log`, grants exp/stone on victory, and clears the encounter on win/defeat.
-- Encounter overlay now has Attack / Capture / Release controls and displays enemy/current pet HP plus recent battle lines.
-- Maps without `encounterPets` disable the manual `野外遇敌` button to avoid direct encounter calls from safe village maps.
+- Map rendering now uses real client DAT viewport rendering for large maps such as floor `100` / `萨伊那斯`; same-map walking updates markers/viewport without rebuilding `.map-content` or `.ls2-map`, avoiding step flicker.
+- Map layering now follows the original client's diagonal tile display order and puts parts/NPC sprites into one depth queue, so trees/walls/NPCs no longer render as a single flat overlay layer.
+- Automatic walking encounters and the visible encounter/capture UI are disabled per user direction. Backend encounter/capture endpoints still exist as experimental hooks, but the main UI should not surface them until the battle/capture loop is redesigned around original game semantics.
 - `item-use-001` is implemented: `/api/game/use-item` consumes bought recovery items, restores active pet HP first and player HP when the pet is already full, and keeps unsupported inventory items visible but disabled in the UI.
-- `quest-001` is implemented: generated world data now gives `萨姆吉尔的老师` the `samugiru-field-practice` quest, and the Worker advances it when the player leaves for an encounter map, defeats/captures a wild pet, then returns to report. The quest panel shows step progress and completion state.
+- `quest-001` data/runtime hooks exist, but its battle/capture progress step is currently not reachable from the main UI while automatic encounter/capture is disabled. Redesign this under a source-grounded battle/capture task before making it player-facing again.

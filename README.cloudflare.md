@@ -3,7 +3,7 @@
 这个目录是可以直接部署到 Cloudflare Workers 的网页应用。当前主线是 `石器时代 Web 重构`，旧的独立模拟器和 Go 服务已经移除：
 
 - `public/`：静态前端、PWA manifest、service worker、游戏数据和素材。
-- `src/worker.js`：Worker API，承载网页游戏的创建人物、同步、移动、NPC 对话、商店、遇敌、捕获、训练和 AI 向导入口。
+- `src/worker.js`：Worker API，承载网页游戏的创建人物、同步、移动、NPC 对话、商店、训练、存档和 AI 向导入口。
 - `wrangler.jsonc`：Cloudflare Workers 静态资产和 Workers AI 绑定配置。
 - `external/sources/`：本地迁移用的原始数据/源码副本，不提交到 git，但会被迁移打包脚本包含。
 
@@ -29,9 +29,10 @@ npm run deploy
 
 - `POST /api/game/new`：创建网页游戏人物和初始状态。
 - `POST /api/game/sync`：同步/规范化当前游戏存档。
-- `POST /api/game/walk`：按地图坐标移动并触发出口/遇敌。
+- `POST /api/game/walk`：按地图坐标移动并触发出口；自动遇敌/抓宠 UI 当前已关闭。
 - `POST /api/game/dialog`：和当前地图 NPC 对话。
 - `POST /api/game/buy`：从可交易 NPC 购买道具。
-- `POST /api/game/encounter`、`/api/game/capture`、`/api/game/train`：当前网页游戏的遇敌、捕获和训练流程。
+- `POST /api/game/encounter`、`/api/game/capture`：保留的后端实验接口，当前主 UI 不暴露自动遇敌/抓宠。
+- `POST /api/game/train`：宠物训练流程。
 - `POST /api/data/search`：搜索从 `ref___data` 同步来的宠物、地图、NPC、道具、遇敌资料。
 - `POST /api/ai/guide`：用当前地图、NPC、任务、背包、宠物和日志生成游戏内向导建议。
