@@ -1303,6 +1303,7 @@ async function openDialog(npcId) {
   if (!game) return;
   try {
     game = await api("/api/game/dialog", { game, npcId });
+    clientWindowOpen = false;
     save();
     render();
     els.dialogInput.focus();
@@ -1328,6 +1329,7 @@ async function sendDialog(message) {
 
 function renderDialog() {
   const dialog = game?.dialog;
+  if (dialog?.open) clientWindowOpen = false;
   els.dialogPanel.hidden = !dialog?.open;
   if (!dialog?.open) return;
   els.dialogNpcName.textContent = dialog.npcName || "NPC";

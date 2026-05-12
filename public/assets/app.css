@@ -1366,78 +1366,138 @@ h3 {
 }
 
 .dialog-panel {
-  position: fixed;
-  left: 50%;
-  bottom: 16px;
-  z-index: 35;
+  position: absolute;
+  left: 42px;
+  right: 42px;
+  bottom: 35px;
+  z-index: 15;
   display: grid;
-  gap: 12px;
-  width: min(800px, calc(100vw - 32px));
-  max-height: min(520px, calc(100vh - 128px));
-  padding: 16px;
-  transform: translateX(-50%);
+  gap: 6px;
+  width: auto;
+  max-height: min(292px, calc(100% - 94px));
+  overflow: hidden;
+  border: 2px solid #18120c;
+  border-radius: 2px;
+  padding: 7px;
+  background:
+    linear-gradient(90deg, rgb(255 239 168 / 24%) 0 1px, transparent 1px calc(100% - 1px), rgb(0 0 0 / 42%) calc(100% - 1px)),
+    linear-gradient(180deg, rgb(91 55 25 / 92%), rgb(11 15 16 / 92%) 30%, rgb(6 8 9 / 94%));
+  box-shadow:
+    0 0 0 1px #c68a38,
+    inset 0 0 0 1px rgb(255 236 156 / 24%),
+    0 8px 22px rgb(0 0 0 / 36%);
+  color: #fffdf3;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+  font-size: 12px;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 82%);
+  transform: none;
 }
 
 .dialog-head {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 8px;
+  min-height: 25px;
+  border: 1px solid #4f2c15;
+  padding: 3px 4px 3px 8px;
+  background:
+    repeating-linear-gradient(0deg, rgb(91 48 18 / 86%) 0 2px, rgb(149 85 31 / 86%) 2px 4px),
+    linear-gradient(180deg, #b77631, #4b2510);
+}
+
+.dialog-head > div {
+  min-width: 0;
+}
+
+.dialog-head .eyebrow {
+  display: none;
 }
 
 .dialog-head h2 {
-  margin-bottom: 4px;
-  font-size: 24px;
+  overflow: hidden;
+  margin: 0;
+  color: #ffef7c;
+  font-size: 14px;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dialog-head .muted {
+  overflow: hidden;
+  margin: 2px 0 0;
+  color: #f0d89e;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dialog-head button {
+  width: 48px;
+  min-width: 0;
+  min-height: 24px;
+  border: 1px solid #5b180e;
+  border-radius: 2px;
+  padding: 0;
+  background: linear-gradient(180deg, #fff5d4, #b43a27 54%, #651108);
+  color: #fff;
+  font-size: 12px;
 }
 
 .dialog-messages {
   display: grid;
-  gap: 10px;
-  max-height: min(280px, 34vh);
+  gap: 5px;
+  max-height: min(128px, calc(var(--game-view-height) - 288px));
   overflow: auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 12px;
-  background: #fff;
+  border: 1px solid rgb(220 180 91 / 55%);
+  border-radius: 0;
+  padding: 7px;
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 8%) 0 25%, transparent 25% 50%, rgb(255 255 255 / 6%) 50% 75%, transparent 75%) 0 0 / 18px 18px,
+    rgb(9 11 12 / 80%);
 }
 
 .dialog-bubble {
-  width: min(82%, 680px);
+  width: min(88%, 520px);
   margin: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: var(--panel);
+  border: 1px solid rgb(220 180 91 / 32%);
+  border-radius: 0;
+  padding: 5px 7px;
+  background: rgb(255 246 209 / 10%);
+  color: #fffdf3;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .dialog-bubble span {
   display: block;
-  margin-bottom: 4px;
-  color: var(--muted);
-  font-size: 12px;
+  margin-bottom: 3px;
+  color: #ffef7c;
+  font-size: 10px;
   font-weight: 800;
 }
 
 .dialog-bubble.player {
   justify-self: end;
-  border-color: rgb(49 116 166 / 36%);
-  background: #eef7fb;
+  border-color: rgb(117 189 241 / 42%);
+  background: rgb(25 62 71 / 64%);
 }
 
 .dialog-bubble.npc {
   justify-self: start;
-  border-color: rgb(189 138 40 / 36%);
+  border-color: rgb(220 180 91 / 46%);
 }
 
 .dialog-bubble.system {
   justify-self: center;
   width: auto;
   max-width: 92%;
-  border-color: rgb(102 112 107 / 30%);
-  background: #f5f1e6;
-  color: var(--muted);
+  border-color: rgb(210 210 210 / 28%);
+  background: rgb(255 255 255 / 10%);
+  color: #e2d8bd;
 }
 
 .dialog-suggestions,
@@ -1445,7 +1505,33 @@ h3 {
 .save-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
+}
+
+.dialog-suggestions button,
+.dialog-form button {
+  min-height: 28px;
+  border: 1px solid #d1a155;
+  border-radius: 2px;
+  padding: 0 9px;
+  background: linear-gradient(180deg, #284d43, #102426);
+  color: #fff4c8;
+  font-size: 12px;
+}
+
+.dialog-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+}
+
+.dialog-form input {
+  min-height: 28px;
+  border: 1px solid #d1a155;
+  border-radius: 2px;
+  padding: 5px 7px;
+  background: rgb(4 7 8 / 82%);
+  color: #fffdf3;
+  font-size: 12px;
 }
 
 .battle-box {
@@ -1911,6 +1997,22 @@ mark {
     font-size: 11px;
   }
 
+  .dialog-panel {
+    left: 8px;
+    right: 8px;
+    bottom: 35px;
+    max-height: calc(100% - 84px);
+  }
+
+  .dialog-messages {
+    max-height: 126px;
+  }
+
+  .dialog-suggestions {
+    max-height: 64px;
+    overflow: auto;
+  }
+
   .client-pet-status {
     grid-template-columns: 86px minmax(0, 1fr);
   }
@@ -1954,7 +2056,6 @@ mark {
     position: static;
   }
 
-  .dialog-panel,
   .encounter-panel {
     position: static;
     width: auto;

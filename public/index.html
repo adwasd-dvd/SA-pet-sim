@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=36">
+    <link rel="stylesheet" href="/assets/app.css?v=37">
   </head>
   <body>
     <div class="app-shell">
@@ -126,6 +126,22 @@
                 </div>
                 <div id="clientWindowBody" class="client-window-body"></div>
               </section>
+              <section id="dialogPanel" class="dialog-panel" hidden>
+                <div class="dialog-head">
+                  <div>
+                    <p class="eyebrow">NPC 对话</p>
+                    <h2 id="dialogNpcName">--</h2>
+                    <p id="dialogSource" class="muted">--</p>
+                  </div>
+                  <button id="dialogCloseBtn" class="ghost-btn" type="button">关闭</button>
+                </div>
+                <div id="dialogMessages" class="dialog-messages"></div>
+                <div id="dialogSuggestions" class="dialog-suggestions"></div>
+                <form id="dialogForm" class="dialog-form">
+                  <input id="dialogInput" maxlength="160" autocomplete="off" placeholder="继续问任务、地图、交易、训练">
+                  <button type="submit">说话</button>
+                </form>
+              </section>
               <div class="client-bottom-line" aria-label="原版频道与聊天栏">
                 <span class="channel">一般频道</span>
                 <span id="fieldMessage" class="field-message">--</span>
@@ -143,23 +159,6 @@
                 <div id="exitList" class="stack"></div>
               </section>
             </aside>
-          </section>
-
-          <section id="dialogPanel" class="dialog-panel" hidden>
-            <div class="dialog-head">
-              <div>
-                <p class="eyebrow">NPC 对话</p>
-                <h2 id="dialogNpcName">--</h2>
-                <p id="dialogSource" class="muted">--</p>
-              </div>
-              <button id="dialogCloseBtn" class="ghost-btn" type="button">关闭</button>
-            </div>
-            <div id="dialogMessages" class="dialog-messages"></div>
-            <div id="dialogSuggestions" class="dialog-suggestions"></div>
-            <form id="dialogForm" class="dialog-form">
-              <input id="dialogInput" maxlength="160" autocomplete="off" placeholder="继续问任务、地图、交易、训练">
-              <button type="submit">说话</button>
-            </form>
           </section>
 
           <section id="encounterPanel" class="encounter-panel" hidden>
@@ -228,6 +227,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=46"></script>
+    <script type="module" src="/assets/app.js?v=47"></script>
   </body>
 </html>
