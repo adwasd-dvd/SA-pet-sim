@@ -186,15 +186,15 @@
               </div>
             </article>
 
-            <aside class="side-panel">
-              <section>
-                <h3>地图 NPC</h3>
-                <div id="npcList" class="stack"></div>
-              </section>
-              <section>
-                <h3>地图出口 / 状态</h3>
-                <div id="exitList" class="stack"></div>
-              </section>
+            <aside class="side-panel assist-panel" aria-label="底部辅助模块">
+              <div id="assistTabs" class="assist-tabs" role="tablist">
+                <button class="active" type="button" data-assist-tab="map" role="tab">地图</button>
+                <button type="button" data-assist-tab="pets" role="tab">宠物</button>
+                <button type="button" data-assist-tab="items" role="tab">道具</button>
+                <button type="button" data-assist-tab="character" role="tab">人物</button>
+                <button type="button" data-assist-tab="knowledge" role="tab">资料</button>
+              </div>
+              <div id="assistPanelBody" class="assist-panel-body"></div>
             </aside>
           </section>
 
@@ -215,15 +215,13 @@
 
           <section class="tabs" aria-label="游戏信息">
             <div class="tab-list" role="tablist">
-              <button class="tab active" type="button" data-tab="pets" role="tab">宠物</button>
+              <button class="tab active" type="button" data-tab="ai" role="tab">AI</button>
               <button class="tab" type="button" data-tab="quests" role="tab">任务</button>
               <button class="tab" type="button" data-tab="log" role="tab">日志</button>
               <button class="tab" type="button" data-tab="save" role="tab">存档</button>
-              <button class="tab" type="button" data-tab="data" role="tab">资料库</button>
-              <button class="tab" type="button" data-tab="ai" role="tab">AI</button>
             </div>
 
-            <section id="petsTab" class="tab-panel active">
+            <section id="petsTab" class="tab-panel" hidden>
               <div id="petList" class="pet-list"></div>
             </section>
 
@@ -245,7 +243,7 @@
               <textarea id="saveJsonText" class="save-text" rows="10" placeholder="这里可以粘贴 saac-pwa-v1 JSON 存档再导入"></textarea>
             </section>
 
-            <section id="dataTab" class="tab-panel">
+            <section id="dataTab" class="tab-panel" hidden>
               <div class="search-row">
                 <input id="dataQuery" type="search" placeholder="搜索地图、NPC、道具、宠物、遇敌数据">
                 <button id="dataSearchBtn" type="button">搜索</button>
@@ -253,10 +251,10 @@
               <div id="dataResults" class="result-list"></div>
             </section>
 
-            <section id="aiTab" class="tab-panel">
+            <section id="aiTab" class="tab-panel active">
               <div class="ai-panel">
-                <textarea id="aiPrompt" rows="4" placeholder="例如：我下一步该做什么？这只宠物值得练吗？"></textarea>
-                <button id="aiBtn" type="button">询问向导</button>
+                <textarea id="aiPrompt" rows="4" placeholder="例如：帮我回血、带我去村子、帮我练宠，或者问下一步怎么走"></textarea>
+                <button id="aiBtn" type="button">请求向导</button>
                 <div id="aiResult" class="ai-result"></div>
               </div>
             </section>
@@ -264,6 +262,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=69"></script>
+    <script type="module" src="/assets/app.js?v=70"></script>
   </body>
 </html>

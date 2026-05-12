@@ -124,7 +124,8 @@ let tileAtlasPromise = null;
 let loadedTileAtlas = null;
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
-let activeTab = "pets";
+let activeTab = "ai";
+let assistTab = "map";
 let clientWindowOpen = false;
 let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
@@ -193,8 +194,8 @@ const els = {
   clientWindowTitle: byId("clientWindowTitle"),
   clientWindowBody: byId("clientWindowBody"),
   clientWindowClose: byId("clientWindowClose"),
-  npcList: byId("npcList"),
-  exitList: byId("exitList"),
+  assistTabs: byId("assistTabs"),
+  assistPanelBody: byId("assistPanelBody"),
   encounterPanel: byId("encounterPanel"),
   encounterName: byId("encounterName"),
   encounterStats: byId("encounterStats"),
@@ -255,7 +256,7 @@ init();
 
 function init() {
   bindEvents();
-  showTab("pets");
+  showTab("ai");
   updateNetState();
   window.addEventListener("online", updateNetState);
   window.addEventListener("offline", updateNetState);
@@ -310,8 +311,8 @@ function bindEvents() {
   els.dialogScrollUpBtn.addEventListener("click", () => scrollDialogMessages(-DIALOG_SCROLL_STEP));
   els.dialogScrollDownBtn.addEventListener("click", () => scrollDialogMessages(DIALOG_SCROLL_STEP));
   els.battlePanel.addEventListener("click", onBattlePanelClick);
-  els.dataSearchBtn.addEventListener("click", searchData);
-  els.dataQuery.addEventListener("keydown", (event) => {
+  els.dataSearchBtn?.addEventListener("click", searchData);
+  els.dataQuery?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") searchData();
   });
   els.aiBtn.addEventListener("click", askGuide);
@@ -327,9 +328,10 @@ function bindEvents() {
   els.mapCanvas.addEventListener("pointerleave", onMapPointerLeave);
   els.mapCanvas.addEventListener("click", onMapCanvasClick);
   els.mapCanvas.addEventListener("dblclick", onMapCanvasDoubleClick);
-  els.npcList.addEventListener("click", onNpcListClick);
-  els.npcList.addEventListener("dblclick", onNpcListDoubleClick);
-  els.exitList.addEventListener("click", onExitListClick);
+  els.assistTabs.addEventListener("click", onAssistTabClick);
+  els.assistPanelBody.addEventListener("click", onAssistPanelClick);
+  els.assistPanelBody.addEventListener("dblclick", onAssistPanelDoubleClick);
+  els.assistPanelBody.addEventListener("keydown", onAssistPanelKeyDown);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
@@ -400,8 +402,7 @@ function render() {
     : "遇敌捕获界面已关闭";
   renderMap(map);
   syncWarpTransition();
-  renderNpc(map);
-  renderExits(map);
+  renderAssistPanel(map);
   renderDialog();
   renderBattlePanel();
   renderEncounter();
@@ -1938,36 +1939,133 @@ function worldPoint(map, x, y) {
   return mapWorldPoint(map, x, y);
 }
 
-function renderNpc(map) {
+function renderAssistPanel(map) {
+  if (!els.assistPanelBody) return;
+  document.querySelectorAll("[data-assist-tab]").forEach((btn) => {
+    const active = btn.dataset.assistTab === assistTab;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-selected", active ? "true" : "false");
+  });
+  const renderers = {
+    map: renderAssistMap,
+    pets: renderAssistPets,
+    items: renderAssistItems,
+    character: renderAssistCharacter,
+    knowledge: renderAssistKnowledge
+  };
+  const renderActive = renderers[assistTab] || renderAssistMap;
+  els.assistPanelBody.innerHTML = renderActive(map);
+}
+
+function renderAssistMap(map) {
+  return `
+    <section class="assist-grid two">
+      <div class="assist-pane">
+        <div class="assist-pane-head">
+          <h3>NPC</h3>
+          ${renderSortBar("npc", npcSortMode)}
+        </div>
+        <div class="stack" data-assist-list="npc">
+          ${renderNpcListHtml(map)}
+        </div>
+      </div>
+      <div class="assist-pane">
+        <div class="assist-pane-head">
+          <h3>地图位置</h3>
+          ${renderSortBar("exit", exitSortMode)}
+        </div>
+        <div class="stack" data-assist-list="exit">
+          ${renderMapStatusHtml()}
+          ${renderExitListHtml(map)}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderNpcListHtml(map) {
   const npcs = sortMapPoints(map.npcs, npcSortMode, (npc) => pointDistance(npc.x, npc.y));
-  els.npcList.innerHTML = `
-    ${renderSortBar("npc", npcSortMode)}
-    ${npcs.map((npc) => `
+  return npcs.map((npc) => `
     <button class="list-btn" type="button" data-npc="${npc.id}">
       <strong>${escapeHtml(npc.name)}</strong>
       <span>${escapeHtml(npc.type)}${npc.trade ? " | 可交易" : ""} | (${npc.x}, ${npc.y}) | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
     </button>
-  `).join("") || `<p class="empty">当前地图没有 NPC。</p>`}
-  `;
+  `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
 }
 
-function onNpcListClick(event) {
-  const sortBtn = event.target.closest("[data-npc-sort]");
-  if (sortBtn && els.npcList.contains(sortBtn)) {
-    npcSortMode = sortBtn.dataset.npcSort === "distance" ? "distance" : "source";
-    renderNpc(game.world.map);
+function onAssistTabClick(event) {
+  const btn = event.target.closest("[data-assist-tab]");
+  if (!btn) return;
+  assistTab = btn.dataset.assistTab || "map";
+  renderAssistPanel(game?.world?.map || currentClientMap());
+}
+
+function onAssistPanelClick(event) {
+  const sortNpc = event.target.closest("[data-npc-sort]");
+  if (sortNpc) {
+    npcSortMode = sortNpc.dataset.npcSort === "distance" ? "distance" : "source";
+    renderAssistPanel(game.world.map);
     return;
   }
-  const btn = event.target.closest("[data-npc]");
-  if (btn && els.npcList.contains(btn)) goToNpc(btn.dataset.npc, { openWhenNear: false });
+  const sortExit = event.target.closest("[data-exit-sort]");
+  if (sortExit) {
+    exitSortMode = sortExit.dataset.exitSort === "distance" ? "distance" : "source";
+    renderAssistPanel(game.world.map);
+    return;
+  }
+  const npcBtn = event.target.closest("[data-npc]");
+  if (npcBtn) {
+    goToNpc(npcBtn.dataset.npc, { openWhenNear: false });
+    return;
+  }
+  const exitBtn = event.target.closest("[data-exit]");
+  if (exitBtn) {
+    goToExit(exitBtn.dataset.exit);
+    return;
+  }
+  const trainBtn = event.target.closest("[data-assist-train]");
+  if (trainBtn) {
+    mutate("/api/game/train", { petIndex: Number(trainBtn.dataset.assistTrain) });
+    return;
+  }
+  const restBtn = event.target.closest("[data-assist-rest]");
+  if (restBtn) {
+    mutate("/api/game/rest", {});
+    return;
+  }
+  const encounterBtn = event.target.closest("[data-assist-encounter]");
+  if (encounterBtn) {
+    mutate("/api/game/encounter", {});
+    return;
+  }
+  const useBtn = event.target.closest("[data-assist-use-item]");
+  if (useBtn) {
+    useItem(Number(useBtn.dataset.assistUseItem));
+    return;
+  }
+  const clientBtn = event.target.closest("[data-assist-client-tab]");
+  if (clientBtn) {
+    showTab(clientBtn.dataset.assistClientTab, { openClientWindow: true });
+    return;
+  }
+  const searchBtn = event.target.closest("[data-assist-search]");
+  if (searchBtn) searchAssistData();
 }
 
-function onNpcListDoubleClick(event) {
-  if (event.target.closest("[data-npc-sort]")) return;
+function onAssistPanelDoubleClick(event) {
+  if (event.target.closest("[data-npc-sort], [data-exit-sort]")) return;
   const btn = event.target.closest("[data-npc]");
-  if (!btn || !els.npcList.contains(btn)) return;
+  if (!btn) return;
   event.preventDefault();
   goToNpc(btn.dataset.npc, { openWhenNear: true });
+}
+
+function onAssistPanelKeyDown(event) {
+  if (event.key === "Enter" && event.target?.id === "assistDataQuery") searchAssistData();
+}
+
+function currentClientMap() {
+  return game?.world?.map || { npcs: [], exits: [] };
 }
 
 async function openDialog(npcId) {
@@ -2354,44 +2452,14 @@ function dialogSpeaker(speaker, dialog) {
   return dialog.npcName || "NPC";
 }
 
-function renderExits(map) {
+function renderExitListHtml(map) {
   const exits = sortMapPoints(map.exits, exitSortMode, (exit) => distanceToExitClient(exit));
-  els.exitList.innerHTML = `
-    ${renderSortBar("exit", exitSortMode)}
-    ${renderFieldAssistInfo()}
-    <div class="field-section">
-      <h4>地图出口</h4>
-      <div class="field-stack">
-        ${exits.map((exit) => `
-          <button class="list-btn" type="button" data-exit="${exit.id}">
-            <strong>${escapeHtml(exit.label)}</strong>
-            <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
-          </button>
-        `).join("") || `<p class="empty">当前地图没有出口。</p>`}
-      </div>
-    </div>
-  `;
-}
-
-function onExitListClick(event) {
-  const sortBtn = event.target.closest("[data-exit-sort]");
-  if (sortBtn && els.exitList.contains(sortBtn)) {
-    exitSortMode = sortBtn.dataset.exitSort === "distance" ? "distance" : "source";
-    renderExits(game.world.map);
-    return;
-  }
-  const trainBtn = event.target.closest("[data-field-train]");
-  if (trainBtn && els.exitList.contains(trainBtn)) {
-    mutate("/api/game/train", { petIndex: Number(trainBtn.dataset.fieldTrain) });
-    return;
-  }
-  const useBtn = event.target.closest("[data-field-use-item]");
-  if (useBtn && els.exitList.contains(useBtn)) {
-    useItem(Number(useBtn.dataset.fieldUseItem));
-    return;
-  }
-  const btn = event.target.closest("[data-exit]");
-  if (btn && els.exitList.contains(btn)) goToExit(btn.dataset.exit);
+  return exits.map((exit) => `
+    <button class="list-btn" type="button" data-exit="${exit.id}">
+      <strong>${escapeHtml(exit.label)}</strong>
+      <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
+    </button>
+  `).join("") || `<p class="empty">当前地图没有出口。</p>`;
 }
 
 function renderSortBar(kind, mode) {
@@ -2437,36 +2505,205 @@ function formatExitDistance(exit) {
   return distance === 0 ? "脚下" : `${distance} 格`;
 }
 
-function renderFieldAssistInfo() {
+function renderMapStatusHtml() {
   const effect = noEncounterEffectText();
   const inventory = inventoryState();
   const pet = game.pets?.[0] || null;
   const firstItem = (game.inventory || []).find((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
   const battle = fieldBattleSummary();
   return `
-    <section class="field-assist-list" aria-label="底部辅助信息">
-      <h4>辅助信息</h4>
-      <div class="field-mini-row">
-        <strong>状态</strong>
-        <span>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
+    <section class="assist-status-strip" aria-label="当前状态">
+      <div>
+        <strong>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</strong>
+        <span>HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
       </div>
-      <div class="field-mini-row with-action">
-        <span>
-          <strong>宠物</strong>
-          <small>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | 攻 ${Number(pet.WorkFixStr || 0)}` : "没有宠物"}</small>
-        </span>
-        <button type="button" data-field-train="0" ${pet ? "" : "disabled"}>训</button>
+      <div>
+        <strong>宠物</strong>
+        <span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | 攻 ${Number(pet.WorkFixStr || 0)}` : "没有宠物"}</span>
       </div>
-      <div class="field-mini-row with-action">
-        <span>
-          <strong>道具</strong>
-          <small>${firstItem ? `${escapeHtml(firstItem.name)} x${Number(firstItem.qty || 0)} | ${escapeHtml(firstItem.description || firstItem.source || "")}` : "背包还没有道具"}</small>
-        </span>
-        <button type="button" data-field-use-item="${firstItem?.id || ""}" ${firstItem && inventoryItemUsable(firstItem) ? "" : "disabled"}>用</button>
+      <div>
+        <strong>道具</strong>
+        <span>${firstItem ? `${escapeHtml(firstItem.name)} x${Number(firstItem.qty || 0)}` : "背包还没有道具"}</span>
       </div>
-      <div class="field-mini-row">
+      <div>
         <strong>战斗</strong>
         <span>${battle}</span>
+      </div>
+    </section>
+  `;
+}
+
+function renderAssistPets() {
+  const pets = game.pets || [];
+  const canEncounter = Boolean(game.world.map.encounterPets?.length) && !game.encounter;
+  return `
+    <section class="assist-grid pets">
+      <div class="assist-pane">
+        <div class="assist-pane-head">
+          <h3>宠物状态</h3>
+          <button class="ghost-btn assist-small-btn" type="button" data-assist-client-tab="pets">主画面窗口</button>
+        </div>
+        <div class="assist-card-list">
+          ${pets.map((pet, index) => renderAssistPetCard(pet, index)).join("") || `<p class="empty">还没有宠物。</p>`}
+        </div>
+      </div>
+      <div class="assist-pane compact">
+        <h3>快速指令</h3>
+        <div class="assist-action-grid">
+          <button type="button" data-assist-train="0" ${pets[0] ? "" : "disabled"}>训练出战宠</button>
+          <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
+          <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"}>寻找野外敌人</button>
+          <button type="button" data-assist-client-tab="pets">打开 PET</button>
+        </div>
+        <div class="assist-log-mini">
+          ${(game.log || []).slice(-4).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderAssistPetCard(pet, index) {
+  const maxHp = Math.max(1, Number(pet.WorkMaxHp || pet.Hp || 1));
+  const hp = Math.max(0, Number(pet.Hp || 0));
+  return `
+    <article class="assist-card pet">
+      <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
+      <div>
+        <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
+        <span>No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
+        <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
+        <small>攻 ${Number(pet.WorkFixStr || 0)} | 防 ${Number(pet.WorkFixTough || 0)} | 敏 ${Number(pet.WorkFixDex || 0)} | 成长 ${fmt(pet.Growth)}</small>
+      </div>
+      <button type="button" data-assist-train="${index}">训</button>
+    </article>
+  `;
+}
+
+function renderAssistItems() {
+  const state = inventoryState();
+  const items = (game.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
+  return `
+    <section class="assist-grid two">
+      <div class="assist-pane">
+        <div class="assist-pane-head">
+          <h3>道具</h3>
+          <button class="ghost-btn assist-small-btn" type="button" data-assist-client-tab="items">主画面窗口</button>
+        </div>
+        <div class="assist-item-list">
+          ${items.map(renderAssistItem).join("") || `<p class="empty">背包还没有道具。</p>`}
+        </div>
+      </div>
+      <div class="assist-pane compact">
+        <h3>背包状态</h3>
+        <div class="assist-stat-grid">
+          <article><strong>${state.used}/${state.capacity}</strong><span>容量</span></article>
+          <article><strong>${Number(game.player.stone || 0)}</strong><span>石币</span></article>
+          <article><strong>${items.filter(inventoryItemUsable).length}</strong><span>可快速使用</span></article>
+        </div>
+        <button type="button" data-assist-client-tab="items">打开 ITEM</button>
+      </div>
+    </section>
+  `;
+}
+
+function renderAssistItem(item) {
+  return `
+    <article class="assist-card item">
+      <div>
+        <strong>${escapeHtml(item.name || `item ${item.id}`)}</strong>
+        <span>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))}</span>
+        <small>${escapeHtml(item.description || item.source || "")}</small>
+      </div>
+      <button type="button" data-assist-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>用</button>
+    </article>
+  `;
+}
+
+function renderAssistCharacter() {
+  const player = game.player;
+  const equipment = characterEquipmentSummary();
+  return `
+    <section class="assist-grid two">
+      <div class="assist-pane">
+        <div class="assist-pane-head">
+          <h3>人物</h3>
+          <button class="ghost-btn assist-small-btn" type="button" data-assist-client-tab="status">主画面窗口</button>
+        </div>
+        <div class="assist-stat-grid">
+          <article><strong>Lv.${Number(player.level || 1)}</strong><span>等级</span></article>
+          <article><strong>${Number(player.exp || 0)}</strong><span>经验</span></article>
+          <article><strong>${Number(player.hp || 0)}/${Number(player.maxHp || 0)}</strong><span>HP</span></article>
+          <article><strong>${Number(player.stone || 0)}</strong><span>石币</span></article>
+        </div>
+        <div class="assist-status-strip single">
+          <div>
+            <strong>位置</strong>
+            <span>${escapeHtml(game.world.map.name)} | floor ${escapeHtml(String(game.location.mapId))} | (${Number(game.location.x || 0)},${Number(game.location.y || 0)})</span>
+          </div>
+          <div>
+            <strong>状态</strong>
+            <span>${escapeHtml(noEncounterEffectText() || "普通")}</span>
+          </div>
+        </div>
+      </div>
+      <div class="assist-pane compact">
+        <h3>装备</h3>
+        <div class="assist-item-list">
+          ${equipment.map((item) => `
+            <article class="assist-card item">
+              <div>
+                <strong>${escapeHtml(item.name)}</strong>
+                <span>${escapeHtml(item.slot)}</span>
+                <small>${escapeHtml(item.description)}</small>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function characterEquipmentSummary() {
+  const equipped = game.character?.equipment || game.player?.equipment || {};
+  const rows = Object.entries(equipped).filter(([, item]) => item);
+  if (rows.length) {
+    return rows.map(([slot, item]) => ({
+      slot,
+      name: item.name || item.Name || `item ${item.id || ""}`,
+      description: item.description || item.source || ""
+    }));
+  }
+  const gearItems = (game.inventory || []).filter((item) => /武器|防具|斧|枪|弓|投石|爪|兜|服|铠|盾|刀/.test(`${item.name || ""} ${item.description || ""}`));
+  if (gearItems.length) {
+    return gearItems.slice(0, 5).map((item) => ({
+      slot: "背包候选",
+      name: item.name || `item ${item.id}`,
+      description: item.description || item.source || ""
+    }));
+  }
+  return [{ slot: "装备栏", name: "未装备", description: "等待接入原版装备字段" }];
+}
+
+function renderAssistKnowledge() {
+  return `
+    <section class="assist-grid two">
+      <div class="assist-pane">
+        <h3>资料库</h3>
+        <div class="search-row assist-search-row">
+          <input id="assistDataQuery" type="search" value="${escapeHtml(els.dataQuery?.value || "")}" placeholder="搜索地图、NPC、道具、宠物、遇敌数据">
+          <button type="button" data-assist-search>搜索</button>
+        </div>
+        <div id="assistDataResults" class="result-list compact-results">
+          ${els.dataResults?.innerHTML || `<p class="empty">输入两个字以上搜索 gmsv data。</p>`}
+        </div>
+      </div>
+      <div class="assist-pane compact">
+        <h3>当前线索</h3>
+        <div class="assist-log-mini">
+          ${(game.log || []).slice(-7).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
+        </div>
       </div>
     </section>
   `;
@@ -2561,12 +2798,29 @@ function clientWindowContent(name) {
   if (name === "joinBattle") return clientJoinBattleWindow();
   if (name === "duel") return clientDuelWindow();
   if (name === "actions") return clientActionWindow();
-  if (name === "save") return clientItemWindow();
+  if (name === "save" || name === "items") return clientItemWindow();
+  if (name === "status") return clientCharacterWindow();
   if (name === "quests") return clientQuestWindow();
   if (name === "log") return clientLogWindow();
   if (name === "data") return clientDataWindow();
   if (name === "ai") return clientAiWindow();
   return clientPetWindow();
+}
+
+function clientCharacterWindow() {
+  const player = game.player;
+  const equipment = characterEquipmentSummary();
+  return {
+    title: "STATUS",
+    html: `
+      <div class="client-list-window">
+        <article><strong>${escapeHtml(player.name)}</strong><span>Lv.${Number(player.level || 1)} | EXP ${Number(player.exp || 0)} | 石币 ${Number(player.stone || 0)}</span></article>
+        <article><strong>耐久力</strong><span>${Number(player.hp || 0)} / ${Number(player.maxHp || 0)}</span></article>
+        <article><strong>当前位置</strong><span>${escapeHtml(game.world.map.name)} (${Number(game.location.x || 0)},${Number(game.location.y || 0)})</span></article>
+        ${equipment.map((item) => `<article><strong>${escapeHtml(item.slot)}</strong><span>${escapeHtml(item.name)} | ${escapeHtml(item.description)}</span></article>`).join("")}
+      </div>
+    `
+  };
 }
 
 function clientSettingsWindow() {
@@ -2953,6 +3207,7 @@ function renderLog() {
 }
 
 async function searchData() {
+  if (!els.dataQuery || !els.dataResults) return;
   const q = els.dataQuery.value.trim();
   if (q.length < 2) {
     els.dataResults.innerHTML = `<p class="empty">至少输入两个字。</p>`;
@@ -2972,20 +3227,51 @@ async function searchData() {
   `).join("");
 }
 
+async function searchAssistData() {
+  const input = document.getElementById("assistDataQuery");
+  const results = document.getElementById("assistDataResults");
+  if (!input || !results) return;
+  const q = input.value.trim();
+  if (els.dataQuery) els.dataQuery.value = q;
+  if (q.length < 2) {
+    results.innerHTML = `<p class="empty">至少输入两个字。</p>`;
+    return;
+  }
+  results.innerHTML = `<p class="empty">搜索中...</p>`;
+  const data = await api("/api/data/search", { q });
+  const html = data.results.length
+    ? data.results.map((row) => `
+      <article class="result-item">
+        <div><strong>${escapeHtml(row.source)}</strong><span>${escapeHtml(row.file)}:${row.line}</span></div>
+        <p>${highlight(escapeHtml(row.text), q)}</p>
+      </article>
+    `).join("")
+    : `<p class="empty">没有找到相关资料。</p>`;
+  results.innerHTML = html;
+  if (els.dataResults) els.dataResults.innerHTML = html;
+}
+
 async function askGuide() {
   if (!game) return;
+  const beforeMap = game.location?.mapId;
   els.aiResult.textContent = "向导思考中...";
   renderClientWindow();
   const data = await api("/api/ai/guide", { game, prompt: els.aiPrompt.value });
+  if (data.game) {
+    game = data.game;
+    if (beforeMap !== game.location?.mapId) mapView.centerOnNextRender = true;
+    save();
+  }
   els.aiResult.textContent = data.text || "向导暂时没有建议。";
-  renderClientWindow();
+  render();
 }
 
 function showTab(name, options = {}) {
   activeTab = name || activeTab;
   if (options.openClientWindow) clientWindowOpen = true;
+  const rightPanelTab = ["ai", "quests", "log", "save"].includes(activeTab) ? activeTab : "ai";
   document.querySelectorAll(".tab").forEach((tab) => {
-    tab.classList.toggle("active", tab.dataset.tab === activeTab);
+    tab.classList.toggle("active", tab.dataset.tab === rightPanelTab);
   });
   document.querySelectorAll("[data-command-tab]").forEach((btn) => {
     const active = btn.dataset.commandTab === activeTab;
@@ -2994,7 +3280,7 @@ function showTab(name, options = {}) {
   });
   refreshAtlasButtonSprites();
   document.querySelectorAll(".tab-panel").forEach((panel) => {
-    panel.classList.toggle("active", panel.id === `${activeTab}Tab`);
+    panel.classList.toggle("active", panel.id === `${rightPanelTab}Tab`);
   });
   renderClientWindow();
 }

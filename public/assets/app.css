@@ -1403,28 +1403,241 @@ h3 {
 
 .side-panel {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-content: stretch;
+  grid-template-rows: auto minmax(0, 1fr);
   width: var(--game-view-width);
-  min-height: 220px;
-  max-height: 340px;
+  min-height: 260px;
+  max-height: 370px;
   overflow: auto;
-  gap: 12px;
+  gap: 10px;
   border-color: #0b4055;
-  background: #176a86;
-  padding: 16px;
+  background:
+    linear-gradient(180deg, #1f7a92 0%, #176075 100%);
+  padding: 10px;
   color: #fff;
   box-shadow: none;
+}
+
+.assist-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid rgb(255 255 255 / 26%);
+  border-radius: 6px;
+  background: rgb(6 36 48 / 28%);
+}
+
+.assist-tabs button {
+  min-width: 0;
+  min-height: 34px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 4px;
+  padding: 2px 6px;
+  background: rgb(255 255 255 / 12%);
+  color: #e8f5f7;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.assist-tabs button.active {
+  border-color: #fff4c8;
+  background: #eef5f6;
+  color: #203130;
+}
+
+.assist-panel-body {
+  min-height: 0;
+  overflow: auto;
+}
+
+.assist-grid {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+}
+
+.assist-grid.two,
+.assist-grid.pets {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.assist-pane {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 6px;
+  padding: 10px;
+  background: rgb(8 57 72 / 42%);
+}
+
+.assist-pane.compact {
+  align-content: start;
+}
+
+.assist-pane-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .side-panel h3 {
   margin-bottom: 8px;
   color: #fff;
   font-size: 20px;
+  line-height: 1.1;
 }
 
 .side-panel section {
   min-width: 0;
+}
+
+.assist-small-btn {
+  min-height: 30px;
+  padding: 2px 9px;
+  font-size: 12px;
+}
+
+.assist-card-list,
+.assist-item-list {
+  display: grid;
+  gap: 8px;
+}
+
+.assist-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  background: rgb(255 255 255 / 92%);
+  color: var(--ink);
+}
+
+.assist-card.pet {
+  grid-template-columns: 54px minmax(0, 1fr) 34px;
+}
+
+.assist-card img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.assist-card strong,
+.assist-card span,
+.assist-card small,
+.assist-status-strip strong,
+.assist-status-strip span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-card span,
+.assist-card small,
+.assist-status-strip span {
+  color: var(--muted);
+}
+
+.assist-card button {
+  width: 32px;
+  min-width: 0;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.assist-meter {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dfe6dd;
+}
+
+.assist-meter i {
+  display: block;
+  height: 100%;
+  background: #45a85c;
+}
+
+.assist-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.assist-action-grid button {
+  min-width: 0;
+  min-height: 38px;
+  padding: 4px 8px;
+}
+
+.assist-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.assist-stat-grid article,
+.assist-status-strip,
+.assist-log-mini {
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 6px;
+  padding: 8px;
+  background: rgb(255 255 255 / 92%);
+  color: var(--ink);
+}
+
+.assist-stat-grid article strong,
+.assist-stat-grid article span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-stat-grid article span {
+  color: var(--muted);
+}
+
+.assist-status-strip {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.assist-status-strip.single {
+  margin-top: 10px;
+}
+
+.assist-log-mini {
+  display: grid;
+  gap: 4px;
+  max-height: 152px;
+  margin-top: 10px;
+  overflow: auto;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.assist-log-mini p {
+  margin: 0;
+}
+
+.assist-search-row {
+  margin-bottom: 8px;
+}
+
+.compact-results {
+  max-height: 190px;
   overflow: auto;
 }
 
@@ -2802,11 +3015,21 @@ mark {
   }
 
   .side-panel {
-    grid-template-columns: 1fr;
     max-height: none;
   }
 
+  .assist-grid.two,
+  .assist-grid.pets,
   .field-assist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .assist-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .assist-stat-grid,
+  .assist-action-grid {
     grid-template-columns: 1fr;
   }
 

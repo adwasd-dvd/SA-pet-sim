@@ -364,7 +364,43 @@ assertEqual(aiWarpGame.location.mapId, warpNpc.npc.warp.target.mapId, "AI negoti
 assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.detail?.reason === "ai-action-proposal"), "AI warp negotiation records a guarded proposal");
 assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "ok"), "AI warp negotiation executes through source warp VM");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, and source WARP NPC actions mutate game/save state.");
+let assistGame = await api("/api/game/new", { name: "guide-assist-test" });
+assistGame.player.hp = 1;
+assistGame.pets[0].Hp = 1;
+assistGame = await api("/api/game/rest", { game: assistGame });
+assertEqual(assistGame.player.hp, assistGame.player.maxHp, "bottom rest helper restores player hp");
+assertEqual(assistGame.pets[0].Hp, assistGame.pets[0].WorkMaxHp, "bottom rest helper restores pet hp");
+assistGame.player.hp = 2;
+assistGame.pets[0].Hp = 2;
+let guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "求你帮我回血" });
+assistGame = guideRsp.game;
+assertEqual(guideRsp.action.type, "heal", "right AI guide can choose heal action");
+assertEqual(assistGame.player.hp, assistGame.player.maxHp, "right AI guide heal mutates player hp");
+assertEqual(assistGame.pets[0].Hp, assistGame.pets[0].WorkMaxHp, "right AI guide heal mutates pet hp");
+const beforeGuidePetLv = assistGame.pets[0].Lv;
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我练宠升级" });
+assistGame = guideRsp.game;
+assertEqual(guideRsp.action.type, "train", "right AI guide can choose train action");
+assert(assistGame.pets[0].Lv > beforeGuidePetLv, "right AI guide training mutates pet level");
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我一段时间不会遇到野外敌人" });
+assistGame = guideRsp.game;
+assertEqual(guideRsp.action.type, "noEncounter", "right AI guide can grant no-encounter effect");
+assert(Number(assistGame.effects?.noEncounterUntil || 0) > Date.now(), "right AI guide no-encounter mutates effects");
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "瞬移去萨姆吉尔的医院" });
+assistGame = guideRsp.game;
+assertEqual(guideRsp.action.type, "teleport", "right AI guide can choose mapwarp teleport action");
+assertEqual(assistGame.location.mapId, "1005", "right AI guide teleport uses current map source exit");
+assistGame.location = { mapId: "100", x: 637, y: 493 };
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我找野外敌人开战" });
+assistGame = guideRsp.game;
+assertEqual(guideRsp.action.type, "encounter", "right AI guide can spawn source encounter");
+assert(assistGame.encounter, "right AI guide encounter mutates battle target");
+assistGame.encounter.Hp = 1;
+assistGame.pets[0].WorkFixStr = 999;
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
+assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
+
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

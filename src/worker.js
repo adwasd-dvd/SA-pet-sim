@@ -151,9 +151,13 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(trainGame(body.game, Number(body.petIndex) || 0));
     }
+    if (url.pathname === "/api/game/rest" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(restGame(body.game));
+    }
     if (url.pathname === "/api/ai/guide" && request.method === "POST") {
       const body = await readJson(request);
-      return json(await guideGame(env, body.game, String(body.prompt || "")));
+      return json(await guideGame(env, request, body.game, String(body.prompt || "")));
     }
     return json({ error: "not found" }, 404);
   } catch (error) {
@@ -1550,6 +1554,11 @@ function maybeLevelPlayer(game) {
 
 function trainGame(game, petIndex) {
   game = normalizeGame(game);
+  trainPetInPlace(game, petIndex);
+  return withMap(game);
+}
+
+function trainPetInPlace(game, petIndex) {
   const pet = game.pets[petIndex];
   if (!pet) throw new Error("没有找到这只宠物");
   const before = pet.Lv;
@@ -1558,11 +1567,28 @@ function trainGame(game, petIndex) {
   game.player.exp += 10 * (pet.Lv - before);
   game.player.stone += 12;
   addLog(game, `${pet.Name} 完成训练，从 Lv.${before} 提升到 Lv.${pet.Lv}。`);
+  return { pet, before };
+}
+
+function restGame(game) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能休息");
+  healParty(game);
+  addLog(game, `${game.player.name} 和宠物休息了一会儿，耐久力恢复了。`);
   return withMap(game);
 }
 
-async function guideGame(env, game, prompt) {
+async function guideGame(env, request, game, prompt) {
   game = normalizeGame(game);
+  const action = await applyGuideRequest(env, request, game, prompt);
+  if (action) {
+    return {
+      text: action.text,
+      model: "local-action",
+      action: action.action,
+      game: withMap(game)
+    };
+  }
   const map = currentMap(game);
   const context = {
     player: game.player,
@@ -1581,6 +1607,115 @@ async function guideGame(env, game, prompt) {
     return { text: rsp.response || rsp.text || fallbackGuide(context), model };
   }
   return { text: fallbackGuide(context), model: "local-rule" };
+}
+
+async function applyGuideRequest(env, request, game, prompt) {
+  const text = String(prompt || "").trim();
+  const lower = text.toLowerCase();
+  if (!text) return null;
+
+  if (game.encounter && hasAny(lower, ["战斗", "戰鬥", "攻击", "攻擊", "帮打", "幫打", "打一下", "battle", "attack"])) {
+    const outcome = performBattleAction(game, "attack");
+    const lines = Array.isArray(outcome.log) ? outcome.log.join("\n") : "我帮你推进了一回合战斗。";
+    return {
+      text: `${lines}\n我只能按当前战斗规则帮忙出一手，后续还要看你的宠物状态。`,
+      action: { type: "battle", outcome: outcome.result }
+    };
+  }
+
+  if (hasAny(lower, ["避敌", "避敵", "不遇敌", "不遇敵", "不会遇到", "不會遇到"])) {
+    game.effects ||= {};
+    game.effects.noEncounterUntil = Date.now() + 10 * 60 * 1000;
+    addLog(game, "AI 向导暂时帮你避开野外敌人，持续 10 分钟。");
+    return {
+      text: "我先帮你把野外遇敌压住 10 分钟。这个帮助只影响随机遇敌，不会跳过 NPC 战斗或剧情判断。",
+      action: { type: "noEncounter", seconds: 600 }
+    };
+  }
+
+  if (hasAny(lower, ["回血", "治疗", "治療", "恢复", "恢復", "补血", "補血", "休息", "heal", "hp"])) {
+    healParty(game);
+    addLog(game, "AI 向导帮队伍恢复了耐久力。");
+    return {
+      text: "我帮你把人物和宠物的耐久力恢复了。真正的医院和治疗 NPC 以后仍会按原版脚本来收钱或判断条件。",
+      action: { type: "heal" }
+    };
+  }
+
+  if (hasAny(lower, ["瞬移", "传送", "傳送", "带我去", "帶我去", "送我去", "飛到", "飞到"])) {
+    const exit = chooseGuideExit(game, text);
+    if (!exit) {
+      const map = currentMap(game);
+      const labels = map.exits.map((item) => item.label).slice(0, 5).join("、") || "当前地图没有出口";
+      return {
+        text: `我没判断出你想去哪个出口。你可以直接说“带我去 ${labels}”。`,
+        action: { type: "teleport-refused" }
+      };
+    }
+    const targetMap = WORLD.maps[exit.to];
+    applyExit(game, exit);
+    return {
+      text: `我带你走「${exit.label}」，到了 ${targetMap?.name || exit.to}。这类帮忙只会使用当前地图已有的 mapwarp 出口。`,
+      action: { type: "teleport", exitId: exit.id, mapId: exit.to }
+    };
+  }
+
+  if (hasAny(lower, ["练级", "練級", "训练", "訓練", "练宠", "練寵", "升级", "升級", "level", "train"])) {
+    const { pet, before } = trainPetInPlace(game, 0);
+    return {
+      text: `我帮 ${pet.Name} 做了一轮训练，从 Lv.${before} 到 Lv.${pet.Lv}。这只是向导辅助，正式战斗经验后面会继续接 gmsv 的战斗结算。`,
+      action: { type: "train", petIndex: 0, level: pet.Lv }
+    };
+  }
+
+  if (!game.encounter && hasAny(lower, ["遇敌", "遇敵", "找敌人", "找敵人", "刷怪", "开战", "開戰"])) {
+    const map = currentMap(game);
+    if (!map.encounterPets?.length) {
+      return {
+        text: "这张地图没有 encount.txt 遇敌资料，我不能凭空造一组野外敌人。",
+        action: { type: "encounter-refused" }
+      };
+    }
+    const enemy = await spawnEncounter(env, request, game, map, "AI 向导");
+    return {
+      text: `我帮你找到了 ${enemy.Name} Lv.${enemy.Lv}。接下来可以在主画面的 BATTLE 里攻击、道具、捕获或放走。`,
+      action: { type: "encounter", enemy: enemy.Name }
+    };
+  }
+
+  return null;
+}
+
+function chooseGuideExit(game, prompt) {
+  const map = currentMap(game);
+  if (!map.exits?.length) return null;
+  const normalizedPrompt = guideSearchText(prompt);
+  const tokens = guideSearchTokens(prompt);
+  const scored = map.exits.map((exit, index) => {
+    const targetMap = WORLD.maps[exit.to];
+    const haystack = guideSearchText(`${exit.label} ${exit.detail || ""} ${targetMap?.name || ""} ${exit.to}`);
+    let score = 0;
+    for (const token of tokens) {
+      if (haystack.includes(token)) score += token.length;
+    }
+    const targetName = guideSearchText(targetMap?.name || "");
+    const exitLabel = guideSearchText(exit.label || "");
+    if (targetName && normalizedPrompt.includes(targetName)) score += 8;
+    if (exitLabel && normalizedPrompt.includes(exitLabel)) score += 6;
+    return { exit, index, score };
+  }).sort((a, b) => b.score - a.score || a.index - b.index);
+  return scored[0]?.score > 0 ? scored[0].exit : (map.exits.length === 1 ? map.exits[0] : null);
+}
+
+function guideSearchText(value) {
+  return String(value || "").toLowerCase().replace(/\s+/g, "");
+}
+
+function guideSearchTokens(value) {
+  const stop = new Set(["帮我", "帶我", "带我", "送我", "传送", "傳送", "瞬移", "到", "去", "一下", "可以", "能不能", "请", "請"]);
+  return (String(value || "").match(/[\u4e00-\u9fff]{2,}|[a-z0-9]+/gi) || [])
+    .map(guideSearchText)
+    .filter((token) => token.length >= 2 && !stop.has(token));
 }
 
 async function npcReply(env, request, game, npc, text) {
