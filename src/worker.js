@@ -38,6 +38,7 @@ const NPC_VM_ACTIONS = new Set([
   "take",
   "setFlag",
   "startBattle",
+  "battleAction",
   "quest",
   "debug"
 ]);
@@ -945,13 +946,29 @@ function captureGame(game) {
 
 function battleGame(game, action) {
   game = normalizeGame(game);
+  const outcome = performBattleAction(game, action);
+  return withMap(game, { battleOutcome: outcome });
+}
+
+function performBattleAction(game, action) {
   if (!game.encounter) throw new Error("当前没有战斗目标");
-  if (action !== "attack") throw new Error("这个战斗动作还没有实现");
+  const normalizedAction = String(action || "attack").toLowerCase();
+  if (["release", "run", "escape", "放走", "逃跑"].includes(normalizedAction)) {
+    const enemyName = game.encounter.Name || "野外宠物";
+    game.encounter = null;
+    game.battle = null;
+    const line = `你放走了 ${enemyName}，战斗结束。`;
+    addLog(game, line);
+    return { result: "released", enemyName, log: [line] };
+  }
+  if (!["attack", "攻击", "战斗", "打"].includes(normalizedAction)) throw new Error("这个战斗动作还没有实现");
   const activePet = game.pets[0];
   if (!activePet) throw new Error("你需要至少一只宠物才能战斗");
   ensureBattleState(game, activePet, game.encounter);
 
   const enemy = game.encounter;
+  const enemyName = enemy.Name;
+  const petName = activePet.Name;
   const battleLog = [];
   const petFirst = Number(activePet.WorkFixDex || 0) >= Number(enemy.WorkFixDex || 0);
   const petTurn = () => {
@@ -974,9 +991,13 @@ function battleGame(game, action) {
   }
 
   game.battle.turn = Number(game.battle.turn || 0) + 1;
+  let result = "turn";
+  let exp = 0;
+  let stone = 0;
   if (enemy.Hp <= 0) {
-    const exp = 10 + Number(enemy.Lv || 1) * 6;
-    const stone = 12 + Number(enemy.Lv || 1) * 4;
+    result = "victory";
+    exp = 10 + Number(enemy.Lv || 1) * 6;
+    stone = 12 + Number(enemy.Lv || 1) * 4;
     game.player.exp += exp;
     game.player.stone += stone;
     syncStoneItem(game);
@@ -990,6 +1011,7 @@ function battleGame(game, action) {
     game.encounter = null;
     game.battle = null;
   } else if (activePet.Hp <= 0) {
+    result = "defeat";
     const recovered = Math.max(1, Math.floor(Number(activePet.WorkMaxHp || 1) * 0.35));
     activePet.Hp = recovered;
     game.player.hp = Math.max(1, Math.floor(Number(game.player.maxHp || 1) * 0.5));
@@ -1000,7 +1022,7 @@ function battleGame(game, action) {
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   }
   battleLog.forEach((line) => addLog(game, line));
-  return withMap(game);
+  return { result, enemyName, petName, exp, stone, log: battleLog };
 }
 
 function ensureBattleState(game, pet, enemy) {
@@ -1072,6 +1094,8 @@ async function guideGame(env, game, prompt) {
 
 async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
+  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
+  if (game.encounter && hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return battleStatusReply(game, npc);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
@@ -1085,6 +1109,36 @@ async function npcReply(env, request, game, npc, text) {
   if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, game, npc, text);
   recordNpcVmEvent(game, npc, "unsupported", "unsupported", { text: text.slice(0, 80) });
   return fallbackNpcReply(npc);
+}
+
+function battleActionReply(game, npc, text) {
+  const move = hasAny(text, ["放走", "逃跑", "离开", "離開", "release", "run"]) ? "release" : "attack";
+  const event = runNpcVmAction(game, npc, {
+    type: "battleAction",
+    move,
+    reason: "dialog-battle"
+  });
+  if (!event.ok) return `${npc.name}：${event.error || "战斗动作失败"}。`;
+  const outcome = event.detail?.outcome || {};
+  const lines = Array.isArray(outcome.log) ? outcome.log : [];
+  const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
+  if (outcome.result === "turn") return `${summary}\n继续输入“攻击”推进战斗，或输入“放走”结束。`;
+  if (outcome.result === "victory") return `${summary}\n战斗结束。`;
+  if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
+  if (outcome.result === "released") return `${summary}\n战斗结束。`;
+  return summary;
+}
+
+function battleStatusReply(game, npc) {
+  const enemy = game.encounter;
+  recordNpcVmEvent(game, npc, "battleAction", "noop", {
+    query: true,
+    enemyName: enemy?.Name,
+    enemyLevel: enemy?.Lv,
+    enemyHp: enemy?.Hp ?? enemy?.WorkMaxHp,
+    reason: "dialog-battle-status"
+  });
+  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”推进战斗，或输入“放走”结束。捕获动作还没有接入原版战斗规则。`;
 }
 
 function isGreeting(text) {
@@ -1478,7 +1532,7 @@ function openDialog(game, npc, messages) {
     trade: npc.trade ? withTradeState(game, npc.trade) : null,
     warp: npc.warp || null,
     messages: messages.slice(-12),
-    suggestions: dialogSuggestions(npc),
+    suggestions: dialogSuggestions(npc, game),
     source: dialogSourceLine(debug),
     debug
   };
@@ -1567,6 +1621,7 @@ function applyNpcVmMutation(game, type, action) {
   if (type === "take") return applyNpcVmTake(game, action);
   if (type === "give") return applyNpcVmGive(game, action);
   if (type === "startBattle") return applyNpcVmStartBattle(game, action);
+  if (type === "battleAction") return applyNpcVmBattleAction(game, action);
   return { ok: true, mutated: false };
 }
 
@@ -1634,6 +1689,15 @@ function applyNpcVmStartBattle(game, action) {
   return { ok: true, mutated: true };
 }
 
+function applyNpcVmBattleAction(game, action) {
+  try {
+    const outcome = performBattleAction(game, action.move || action.battleAction || "attack");
+    return { ok: true, mutated: true, outcome };
+  } catch (error) {
+    return { ok: false, mutated: false, error: error.message || "战斗动作失败" };
+  }
+}
+
 function npcVmActionDetail(action, mutation) {
   const { type: _type, action: _action, status: _status, item, enemy, ...detail } = action;
   const out = {
@@ -1653,6 +1717,16 @@ function npcVmActionDetail(action, mutation) {
     out.enemyLevel = enemy.Lv;
     out.enemyImage = enemy.ImgNo;
     out.captureRate = enemy.CaptureRate;
+  }
+  if (mutation.outcome) {
+    out.outcome = {
+      result: mutation.outcome.result,
+      enemyName: mutation.outcome.enemyName,
+      petName: mutation.outcome.petName,
+      exp: mutation.outcome.exp,
+      stone: mutation.outcome.stone,
+      log: mutation.outcome.log
+    };
   }
   if (mutation.error) out.error = mutation.error;
   return out;
@@ -1711,7 +1785,8 @@ function withTradeState(game, trade) {
   };
 }
 
-function dialogSuggestions(npc) {
+function dialogSuggestions(npc, game = null) {
+  if (game?.encounter) return ["攻击", "放走", "战斗", "地图"];
   if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
   if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
   if (npc.warp || /warp/i.test(npc.type)) return ["hi", "传送", "出口"];
