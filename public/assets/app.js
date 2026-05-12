@@ -14,7 +14,51 @@ const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
-const DEFAULT_PLAYER_DIRECTION = 4;
+const SA_DIRECTION_DELTAS = Object.freeze([
+  [0, -1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+  [0, 1],
+  [-1, 1],
+  [-1, 0],
+  [-1, -1]
+]);
+const SCREEN_DIRECTION_KEYS = Object.freeze({
+  q: 0,
+  home: 0,
+  numpad7: 0,
+  "7": 0,
+  w: 1,
+  arrowup: 1,
+  numpad8: 1,
+  "8": 1,
+  e: 2,
+  pageup: 2,
+  numpad9: 2,
+  "9": 2,
+  d: 3,
+  arrowright: 3,
+  numpad6: 3,
+  "6": 3,
+  c: 4,
+  pagedown: 4,
+  numpad3: 4,
+  "3": 4,
+  s: 5,
+  arrowdown: 5,
+  numpad2: 5,
+  "2": 5,
+  z: 6,
+  end: 6,
+  numpad1: 6,
+  "1": 6,
+  a: 7,
+  arrowleft: 7,
+  numpad4: 7,
+  "4": 7
+});
+const DEFAULT_PLAYER_DIRECTION = 5;
 const PLAYER_WALK_FRAME_MS = 95;
 const PLAYER_WALK_ANIM_MS = 720;
 const PLAYER_STAND_FRAMES = Object.freeze({
@@ -438,29 +482,33 @@ function onGameKeyDown(event) {
   const tag = event.target?.tagName?.toLowerCase();
   if (tag === "input" || tag === "textarea" || tag === "select" || event.target?.isContentEditable) return;
   const key = event.key.toLowerCase();
-  const direction = screenDirectionForKey(key);
+  const direction = screenDirectionForKey(key, event.code);
   if (!direction) return;
   event.preventDefault();
   routeToken += 1;
   walkPlayer(direction[0], direction[1]);
 }
 
-function screenDirectionForKey(key) {
-  return {
-    w: [1, -1],
-    arrowup: [1, -1],
-    s: [-1, 1],
-    arrowdown: [-1, 1],
-    a: [-1, -1],
-    arrowleft: [-1, -1],
-    d: [1, 1],
-    arrowright: [1, 1]
-  }[key];
+function screenDirectionForKey(key, code = "") {
+  const dir = SCREEN_DIRECTION_KEYS[String(code || "").toLowerCase()] ?? SCREEN_DIRECTION_KEYS[key];
+  return directionDelta(dir);
+}
+
+function directionDelta(dir) {
+  const delta = SA_DIRECTION_DELTAS[normalizeDirection(dir)];
+  return delta ? [...delta] : null;
+}
+
+function normalizeDirection(dir) {
+  const value = Number(dir);
+  if (!Number.isFinite(value)) return DEFAULT_PLAYER_DIRECTION;
+  return ((Math.trunc(value) % 8) + 8) % 8;
 }
 
 async function walkPlayer(dx, dy) {
   if (walkInFlight) return false;
   walkInFlight = true;
+  const nextDir = directionForDelta(dx, dy);
   const before = {
     mapId: game.location.mapId,
     x: game.location.x,
@@ -469,7 +517,8 @@ async function walkPlayer(dx, dy) {
   try {
     game = await api("/api/game/walk", { game, dx, dy });
     const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
-    if (moved) startPlayerWalkAnimation(dx, dy);
+    if (moved) startPlayerWalkAnimation(nextDir);
+    else facePlayerDirection(nextDir);
     mapView.centerOnNextRender = true;
     save();
     render();
@@ -479,25 +528,30 @@ async function walkPlayer(dx, dy) {
   }
 }
 
-function startPlayerWalkAnimation(dx, dy) {
-  playerAnimState.dir = movementAnimDir(dx, dy);
+function startPlayerWalkAnimation(dir) {
+  setPlayerDirection(dir);
   playerAnimState.startedAt = performance.now();
   playerAnimState.walkUntil = playerAnimState.startedAt + PLAYER_WALK_ANIM_MS;
   invalidatePlayerSpriteRender();
   schedulePlayerAnimTick();
 }
 
-function movementAnimDir(dx, dy) {
-  return {
-    "1,-1": 0,
-    "1,0": 1,
-    "1,1": 2,
-    "0,1": 3,
-    "-1,1": 4,
-    "-1,0": 5,
-    "-1,-1": 6,
-    "0,-1": 7
-  }[`${Math.sign(dx)},${Math.sign(dy)}`] ?? playerAnimState.dir;
+function facePlayerDirection(dir) {
+  setPlayerDirection(dir);
+  playerAnimState.walkUntil = 0;
+  invalidatePlayerSpriteRender();
+}
+
+function setPlayerDirection(dir) {
+  playerAnimState.dir = normalizeDirection(dir);
+  if (game?.player) game.player.dir = playerAnimState.dir;
+}
+
+function directionForDelta(dx, dy) {
+  const sx = Math.sign(dx);
+  const sy = Math.sign(dy);
+  const index = SA_DIRECTION_DELTAS.findIndex(([dirX, dirY]) => dirX === sx && dirY === sy);
+  return index >= 0 ? index : playerAnimState.dir;
 }
 
 function invalidatePlayerSpriteRender() {
@@ -1691,6 +1745,10 @@ function renderClientWindow() {
 
 function clientWindowContent(name) {
   if (name === "settings") return clientSettingsWindow();
+  if (name === "trade") return clientTradeWindow();
+  if (name === "channel") return clientChannelWindow();
+  if (name === "joinBattle") return clientJoinBattleWindow();
+  if (name === "actions") return clientActionWindow();
   if (name === "save") return clientItemWindow();
   if (name === "quests") return clientQuestWindow();
   if (name === "log") return clientLogWindow();
@@ -1709,6 +1767,60 @@ function clientSettingsWindow() {
         <article><strong>交易</strong><span>玩家交易</span></article>
         <article><strong>频道</strong><span>家族与频道功能</span></article>
         <article><strong>Action</strong><span>人物动作</span></article>
+      </div>
+    `
+  };
+}
+
+function clientTradeWindow() {
+  const forward = directionDelta(playerAnimState.dir) || [0, 0];
+  const targetX = Number(game.location.x || 0) + forward[0];
+  const targetY = Number(game.location.y || 0) + forward[1];
+  return {
+    title: "TRADE",
+    html: `
+      <div class="client-list-window">
+        <article><strong>进行交易</strong><span>面前 (${targetX}, ${targetY})</span></article>
+        <article><strong>状态</strong><span>附近没有可交易玩家。</span></article>
+      </div>
+    `
+  };
+}
+
+function clientChannelWindow() {
+  return {
+    title: "CHANNEL",
+    html: `
+      <div class="client-list-window">
+        <article><strong>家族功能</strong><span>${escapeHtml(game.player.familyName || "尚未加入家族。")}</span></article>
+        <article><strong>频道</strong><span>${escapeHtml(game.player.channel ?? "一般频道")}</span></article>
+      </div>
+    `
+  };
+}
+
+function clientJoinBattleWindow() {
+  const forward = directionDelta(playerAnimState.dir) || [0, 0];
+  const targetX = Number(game.location.x || 0) + forward[0];
+  const targetY = Number(game.location.y || 0) + forward[1];
+  return {
+    title: "BATTLE",
+    html: `
+      <div class="client-list-window">
+        <article><strong>加入战斗</strong><span>面前 (${targetX}, ${targetY})</span></article>
+        <article><strong>状态</strong><span>面前没有可加入或观战的战斗。</span></article>
+      </div>
+    `
+  };
+}
+
+function clientActionWindow() {
+  return {
+    title: "ACTION",
+    html: `
+      <div class="client-list-window">
+        <article><strong>人物动作</strong><span>站立 / 点头 / 挥手</span></article>
+        <article><strong>当前方向</strong><span>${playerAnimState.dir}</span></article>
       </div>
     `
   };
@@ -1863,7 +1975,7 @@ function clientDataWindow() {
 function clientAiWindow() {
   const prompt = els.aiPrompt.value.trim();
   return {
-    title: "ACTION",
+    title: "AI",
     html: `
       <div class="client-list-window">
         <article>

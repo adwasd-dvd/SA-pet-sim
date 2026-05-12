@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=41">
+    <link rel="stylesheet" href="/assets/app.css?v=42">
   </head>
   <body>
     <div class="app-shell">
@@ -57,14 +57,14 @@
               <div class="client-field-menu client-field-menu-left" aria-label="原版左上指令">
                 <span class="client-field-panel client-atlas-sprite" data-atlas-sprite="26236" aria-hidden="true"></span>
                 <button class="client-field-sprite-btn menu" type="button" data-command-tab="settings" data-atlas-off="26101" data-atlas-on="26102" title="游戏设定"><span class="client-field-label">游戏设定</span></button>
-                <button class="client-field-sprite-btn trade" type="button" data-command-tab="log" data-atlas-off="26234" data-atlas-on="26235" title="进行交易"><span class="client-field-label">进行交易</span></button>
-                <button class="client-field-sprite-btn channel" type="button" data-command-tab="data" data-atlas-off="26237" data-atlas-on="26238" title="家族功能"><span class="client-field-label">家族功能</span></button>
+                <button class="client-field-sprite-btn trade" type="button" data-command-tab="trade" data-atlas-off="26234" data-atlas-on="26235" title="进行交易"><span class="client-field-label">进行交易</span></button>
+                <button class="client-field-sprite-btn channel" type="button" data-command-tab="channel" data-atlas-off="26237" data-atlas-on="26238" title="家族功能"><span class="client-field-label">家族功能</span></button>
               </div>
               <div class="client-field-menu client-field-menu-right" aria-label="原版右上动作">
                 <span class="client-field-panel client-atlas-sprite" data-atlas-sprite="26260" aria-hidden="true"></span>
                 <span class="client-field-right-back client-atlas-sprite" data-atlas-sprite="26121" aria-hidden="true"></span>
-                <button class="client-field-sprite-btn join" type="button" data-command-tab="log" data-atlas-off="26111" data-atlas-on="26112" title="加入战斗"><span class="client-field-label">加入战斗</span></button>
-                <button class="client-field-sprite-btn action" type="button" data-command-tab="ai" data-atlas-off="26115" data-atlas-on="26116" title="人物的各种动作"><span class="client-field-label">人物的各种动作</span></button>
+                <button class="client-field-sprite-btn join" type="button" data-command-tab="joinBattle" data-atlas-off="26111" data-atlas-on="26112" title="加入战斗"><span class="client-field-label">加入战斗</span></button>
+                <button class="client-field-sprite-btn action" type="button" data-command-tab="actions" data-atlas-off="26115" data-atlas-on="26116" title="人物的各种动作"><span class="client-field-label">人物的各种动作</span></button>
                 <button class="client-field-sprite-btn help" type="button" data-command-tab="quests" data-atlas-off="26249" data-atlas-on="26248" title="任务查询"><span class="client-field-label">任务查询</span></button>
               </div>
               <div class="map-head">
@@ -227,6 +227,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=51"></script>
+    <script type="module" src="/assets/app.js?v=52"></script>
   </body>
 </html>
