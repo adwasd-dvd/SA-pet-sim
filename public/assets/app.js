@@ -9,6 +9,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
+const ENCOUNTER_UI_ENABLED = false;
 
 let game = null;
 let installPrompt = null;
@@ -116,9 +117,11 @@ function bindEvents() {
     showGame();
     render();
   });
-  els.encounterBtn.addEventListener("click", () => mutate("/api/game/encounter", {}));
-  els.attackBtn.addEventListener("click", () => mutate("/api/game/battle", { action: "attack" }));
-  els.captureBtn.addEventListener("click", () => mutate("/api/game/capture", {}));
+  if (ENCOUNTER_UI_ENABLED) {
+    els.encounterBtn.addEventListener("click", () => mutate("/api/game/encounter", {}));
+    els.attackBtn.addEventListener("click", () => mutate("/api/game/battle", { action: "attack" }));
+    els.captureBtn.addEventListener("click", () => mutate("/api/game/capture", {}));
+  }
   els.skipEncounterBtn.addEventListener("click", () => {
     if (!game) return;
     game.encounter = null;
@@ -208,8 +211,11 @@ function render() {
   els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
   els.mapName.textContent = map.name;
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
-  els.encounterBtn.disabled = !map.encounterPets?.length;
-  els.encounterBtn.title = map.encounterPets?.length ? "主动触发一次野外遇敌" : "当前地图没有 encount.txt 遇敌资料";
+  els.encounterBtn.hidden = !ENCOUNTER_UI_ENABLED;
+  els.encounterBtn.disabled = !ENCOUNTER_UI_ENABLED || !map.encounterPets?.length;
+  els.encounterBtn.title = ENCOUNTER_UI_ENABLED
+    ? (map.encounterPets?.length ? "主动触发一次野外遇敌" : "当前地图没有 encount.txt 遇敌资料")
+    : "遇敌捕获界面已关闭";
   renderMap(map);
   renderNpc(map);
   renderExits(map);
@@ -223,6 +229,20 @@ function render() {
 }
 
 function renderMap(map) {
+  const content = els.mapCanvas.querySelector(".map-content");
+  const sameMap = mapView.mapId === map.id && content;
+  if (sameMap) {
+    if (largeMapRenderer) largeMapRenderer.map = map;
+    syncMapMarkers(map);
+    if (mapView.centerOnNextRender) {
+      centerMapOnPlayer();
+      mapView.centerOnNextRender = false;
+    } else {
+      clampMapPan();
+    }
+    applyMapView();
+    return;
+  }
   resetLargeMapRenderer();
   const renderVersion = ++mapRenderVersion;
   const layout = mapLayout(map);
@@ -234,7 +254,6 @@ function renderMap(map) {
   const markers = [
     `<canvas class="ls2-map" aria-hidden="true"></canvas>`,
     `<div class="map-region village"><strong>${escapeHtml(layout.primary)}</strong><span>${escapeHtml(layout.primaryHint)}</span></div>`,
-    `<div class="map-region wild"><strong>遇敌区</strong><span>数据来自 encount.txt</span></div>`,
     `<button class="map-marker player" style="${mapPos(layout.player)}" title="${escapeHtml(game.player.name)}"><b>你</b><span>${escapeHtml(game.player.name)}</span></button>`,
     ...map.npcs.map((npc, index) => {
       const point = layout.npcs[index] || [45, 50];
@@ -607,13 +626,19 @@ function mapClientPoint(map, x, y) {
 function syncMapMarkers(map) {
   const pairs = [
     [els.mapCanvas.querySelector(".map-marker.player"), mapClientPoint(map, game.location?.x, game.location?.y)],
-    ...map.npcs.map((npc) => [els.mapCanvas.querySelector(`[data-npc="${CSS.escape(npc.id)}"]`), mapClientPoint(map, npc.x, npc.y)]),
-    ...map.exits.map((exit) => [els.mapCanvas.querySelector(`[data-exit="${CSS.escape(exit.id)}"]`), mapClientPoint(map, exit.x, exit.y)])
+    ...map.npcs.map((npc) => [els.mapCanvas.querySelector(`[data-npc="${cssEscape(npc.id)}"]`), mapClientPoint(map, npc.x, npc.y)]),
+    ...map.exits.map((exit) => [els.mapCanvas.querySelector(`[data-exit="${cssEscape(exit.id)}"]`), mapClientPoint(map, exit.x, exit.y)])
   ];
   for (const [el, point] of pairs) {
     if (!el) continue;
     el.style.left = `${Math.round(point[0])}px`;
     el.style.top = `${Math.round(point[1])}px`;
+  }
+  const player = els.mapCanvas.querySelector(".map-marker.player");
+  if (player) {
+    player.title = game.player.name;
+    const label = player.querySelector("span");
+    if (label) label.textContent = game.player.name;
   }
 }
 
@@ -1026,7 +1051,7 @@ function renderDialog() {
     </p>
   `).join("");
   const shop = renderDialogShop(dialog);
-  els.dialogSuggestions.innerHTML = (dialog.suggestions || ["任务", "地图", "抓宠"]).map((item) => `
+  els.dialogSuggestions.innerHTML = (dialog.suggestions || ["任务", "地图", "交易"]).map((item) => `
     <button class="ghost-btn" type="button" data-say="${escapeHtml(item)}">${escapeHtml(item)}</button>
   `).join("") + shop;
   els.dialogSuggestions.querySelectorAll("[data-say]").forEach((btn) => {
@@ -1127,6 +1152,21 @@ function renderExits(map) {
 }
 
 function renderEncounter() {
+  if (!ENCOUNTER_UI_ENABLED) {
+    let cleared = false;
+    if (game.encounter) {
+      game.encounter = null;
+      cleared = true;
+    }
+    if (game.battle) {
+      game.battle = null;
+      cleared = true;
+    }
+    els.encounterPanel.hidden = true;
+    els.battleLog.innerHTML = "";
+    if (cleared) save();
+    return;
+  }
   const enemy = game.encounter;
   els.encounterPanel.hidden = !enemy;
   if (!enemy) return;
@@ -1355,6 +1395,11 @@ function escapeHtml(value) {
     "\"": "&quot;",
     "'": "&#39;"
   }[ch]));
+}
+
+function cssEscape(value) {
+  if (window.CSS?.escape) return CSS.escape(String(value));
+  return String(value).replace(/["\\\]]/g, "\\$&");
 }
 
 function fmt(value) {

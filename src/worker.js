@@ -170,11 +170,13 @@ async function walkGame(env, request, game, dx, dy) {
   const nextY = clampInt(Number(game.location.y || 0) + Math.sign(dy), 0, height - 1, game.location.y);
   game.location = { ...game.location, x: nextX, y: nextY };
   game.encounter = null;
+  game.battle = null;
   const exit = exitAt(map, nextX, nextY);
   if (exit) return applyExit(game, exit);
   noteNearby(game, map);
-  const encountered = await maybeStepEncounter(env, request, game, map);
-  if (encountered) return withMap(game);
+  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk.steps = Number(game.walk.steps || 0) + 1;
+  game.walk.encounterSteps = 0;
   return withMap(game);
 }
 
@@ -610,7 +612,7 @@ function completeQuest(game, questId) {
 }
 
 function questReply(game, npc) {
-  if (!npc.questId) return `${npc.name} 这里没有正式委托，但可以继续问地图、抓宠或训练。`;
+  if (!npc.questId) return `${npc.name} 这里没有正式委托，但可以继续问地图、交易或训练。`;
   const quest = game.quests[npc.questId];
   if (!quest) return `我这里有「${WORLD.quests[npc.questId].title}」。点选我时客户端会自动打招呼并触发任务。`;
   if (quest.status === "可回报") return `你已经可以回报「${quest.title}」了。再次点选我会自动送出 hi 并结算奖励。`;
@@ -618,7 +620,7 @@ function questReply(game, npc) {
 }
 
 function captureReply(game, npc) {
-  return `${npc.name} 使用原始脚本入口「${npc.script || npc.template || npc.type}」。抓宠遇敌来自 ref___data/encount.txt。`;
+  return `${npc.name} 使用原始脚本入口「${npc.script || npc.template || npc.type}」。自动遇敌与捕获界面目前已关闭，后续会按原版系统重新接入。`;
 }
 
 function trainReply(game, npc) {
@@ -752,7 +754,7 @@ function fallbackGuide(context) {
   if (quest) {
     return `你现在在${context.map.name}。建议继续任务「${quest.title}」：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。当前地图 NPC：${context.map.npcs.join("、") || "无"}。`;
   }
-  return `你现在在${context.map.name}。可以先和 NPC 交谈接任务，或者去野外遇敌抓宠。出口：${context.map.exits.join("、") || "暂无"}`;
+  return `你现在在${context.map.name}。可以先和 NPC 交谈接任务，或者查看地图出口继续探索。出口：${context.map.exits.join("、") || "暂无"}`;
 }
 
 function normalizeGame(game) {

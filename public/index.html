@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=31">
+    <link rel="stylesheet" href="/assets/app.css?v=32">
   </head>
   <body>
     <div class="app-shell">
@@ -28,7 +28,7 @@
           <div>
             <p class="eyebrow">单人冒险模式</p>
             <h1>创建人物，进入石器世界</h1>
-            <p class="muted">出生在萨姆吉尔村，和 NPC 对话，去野外遇敌，捕获宠物并训练队伍。</p>
+            <p class="muted">出生在萨姆吉尔村，和 NPC 对话，探索地图出口，逐步接入原版任务、商店和存档。</p>
           </div>
           <form id="createForm" class="create-form">
             <label>
@@ -66,7 +66,7 @@
                     <button id="mapZoomReset" type="button" title="重置缩放"><span id="mapZoomValue">100%</span></button>
                     <button id="mapZoomIn" type="button" title="放大地图">+</button>
                   </div>
-                  <button id="encounterBtn" type="button">野外遇敌</button>
+                  <button id="encounterBtn" type="button" hidden>野外遇敌</button>
                 </div>
               </div>
               <div id="mapCanvas" class="map-canvas" aria-label="地图"></div>
@@ -74,7 +74,6 @@
                 <span><b class="legend-dot player-dot"></b>你的位置</span>
                 <span><b class="legend-dot npc-dot"></b>可对话 NPC</span>
                 <span><b class="legend-dot exit-dot"></b>地图出口</span>
-                <span><b class="legend-dot wild-dot"></b>可遇敌区域</span>
                 <span>WASD / 方向键行走，走到出口自动跳转</span>
               </div>
             </article>
@@ -103,7 +102,7 @@
             <div id="dialogMessages" class="dialog-messages"></div>
             <div id="dialogSuggestions" class="dialog-suggestions"></div>
             <form id="dialogForm" class="dialog-form">
-              <input id="dialogInput" maxlength="160" autocomplete="off" placeholder="继续问任务、地图、抓宠、训练">
+              <input id="dialogInput" maxlength="160" autocomplete="off" placeholder="继续问任务、地图、交易、训练">
               <button type="submit">说话</button>
             </form>
           </section>
@@ -174,6 +173,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=32"></script>
+    <script type="module" src="/assets/app.js?v=33"></script>
   </body>
 </html>
