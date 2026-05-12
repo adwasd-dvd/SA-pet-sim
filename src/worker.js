@@ -82,6 +82,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await routeNpcGame(env, request, body.game, String(body.npcId || "")));
     }
+    if (url.pathname === "/api/game/route-exit" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await routeExitGame(env, request, body.game, String(body.exitId || "")));
+    }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
       return json(talkGame(body.game, String(body.npcId || "")));
@@ -306,6 +310,104 @@ function npcApproachTargets(map, collision, npc, from) {
 
 function routeNpcSummary(npc) {
   return { id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type };
+}
+
+async function routeExitGame(env, request, game, exitId) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const exit = findExit(map, exitId);
+  if (!exit) throw new Error("这个出口不在当前地图");
+  const collision = await loadCollisionMap(env, request, map);
+  const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
+  const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
+  const from = {
+    x: clampInt(game.location.x, 0, width - 1, 0),
+    y: clampInt(game.location.y, 0, height - 1, 0)
+  };
+  for (const target of exitRouteTargets(map, collision, exit, from)) {
+    if (from.x === target.x && from.y === target.y) {
+      return {
+        from,
+        target,
+        route: [{ dx: 0, dy: 0, x: target.x, y: target.y }],
+        blocked: false,
+        reason: "already-at-exit",
+        exit: routeExitSummary(exit, target)
+      };
+    }
+    const route = findRoute(map, collision, from, target);
+    if (route.length) {
+      return {
+        from,
+        target,
+        route,
+        blocked: false,
+        reason: "ok",
+        exit: routeExitSummary(exit, target)
+      };
+    }
+  }
+  return {
+    from,
+    target: null,
+    route: [],
+    blocked: true,
+    reason: "unreachable-exit",
+    exit: routeExitSummary(exit)
+  };
+}
+
+function exitRouteTargets(map, collision, exit, from) {
+  const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
+  const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
+  const rawTiles = Array.isArray(exit.tiles) && exit.tiles.length
+    ? exit.tiles
+    : exitBoundsTiles(exit);
+  const seen = new Set();
+  return rawTiles
+    .map((tile) => ({
+      x: Number(tile.x),
+      y: Number(tile.y),
+      target: tile.target || exit.target,
+      distance: distance(from.x, from.y, tile.x, tile.y)
+    }))
+    .filter((tile) => Number.isFinite(tile.x) && Number.isFinite(tile.y))
+    .filter((tile) => tile.x >= 0 && tile.y >= 0 && tile.x < width && tile.y < height)
+    .filter((tile) => {
+      const key = routeKey(tile.x, tile.y);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .filter((tile) => canStandAt(map, collision, tile.x, tile.y))
+    .sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x);
+}
+
+function exitBoundsTiles(exit) {
+  const bounds = Array.isArray(exit.bounds) ? exit.bounds : [exit.x, exit.y, exit.x, exit.y];
+  const minX = Math.min(Number(bounds[0]), Number(bounds[2]));
+  const maxX = Math.max(Number(bounds[0]), Number(bounds[2]));
+  const minY = Math.min(Number(bounds[1]), Number(bounds[3]));
+  const maxY = Math.max(Number(bounds[1]), Number(bounds[3]));
+  const tiles = [];
+  for (let y = minY; y <= maxY; y += 1) {
+    for (let x = minX; x <= maxX; x += 1) {
+      tiles.push({ x, y, target: exit.target });
+    }
+  }
+  return tiles;
+}
+
+function routeExitSummary(exit, target = null) {
+  return {
+    id: exit.id,
+    label: exit.label,
+    to: exit.to,
+    x: target?.x ?? exit.x,
+    y: target?.y ?? exit.y,
+    target: target?.target || exit.target,
+    source: exit.source
+  };
 }
 
 function assertNpcInteractionRange(game, npc, range = NPC_INTERACTION_RANGE, action = "和 NPC 对话") {

@@ -65,8 +65,20 @@ route = await api("/api/game/route", {
 assertEqual(route.blocked, false, "route can target exact warp tile");
 assertEqual(route.route.length, 1, "route reaches adjacent exact warp tile");
 
+route = await api("/api/game/route-exit", {
+  game: { ...game, location: { mapId: "1000", x: 48, y: 116 } },
+  exitId: exactExit.id
+});
+assertEqual(route.blocked, false, "route-exit finds reachable source mapwarp tile");
+assertEqual(route.target.x, 49, "route-exit selects nearest exact source tile x");
+assertEqual(route.target.y, 116, "route-exit selects nearest exact source tile y");
+assertEqual(route.route.length, 1, "route-exit returns route to exact warp tile");
+assertEqual(route.exit.to, "100", "route-exit keeps source mapwarp destination");
+
 game.location = { mapId: "1000", x: 48, y: 116 };
-game = await api("/api/game/walk", { game, dx: 1, dy: 0 });
+for (const step of route.route) {
+  game = await api("/api/game/walk", { game, dx: step.dx, dy: step.dy });
+}
 assertEqual(game.location.mapId, "100", "stepping onto mapwarp changes floor");
 assertEqual(game.location.x, 637, "mapwarp uses exact source tile target x");
 assertEqual(game.location.y, 491, "mapwarp uses exact source tile target y");
@@ -89,7 +101,7 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, NPC cells, exact mapwarp tiles, and NPC approach routes are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, NPC cells, Worker exit routes, exact mapwarp tiles, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

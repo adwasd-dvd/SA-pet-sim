@@ -487,28 +487,20 @@ async function goToNpc(npcId) {
   if (reached && stillNear) await openDialog(npc.id);
 }
 
-function goToExit(exitId) {
+async function goToExit(exitId) {
   const map = game?.world?.map;
   const exit = map?.exits?.find((item) => item.id === exitId);
   if (!exit) return;
-  const target = nearestExitTile(exit);
-  if (!target) return;
-  followRouteTo(target);
-}
-
-function nearestExitTile(exit) {
-  const tiles = Array.isArray(exit.tiles) && exit.tiles.length
-    ? exit.tiles
-    : [{ x: exit.x, y: exit.y }];
-  const origin = game?.location || { x: 0, y: 0 };
-  return tiles
-    .map((tile) => ({
-      x: Number(tile.x),
-      y: Number(tile.y),
-      distance: Math.max(Math.abs(Number(tile.x) - Number(origin.x || 0)), Math.abs(Number(tile.y) - Number(origin.y || 0)))
-    }))
-    .filter((tile) => Number.isFinite(tile.x) && Number.isFinite(tile.y))
-    .sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x)[0] || null;
+  try {
+    const approach = await api("/api/game/route-exit", { game, exitId: exit.id });
+    if (approach.blocked || !approach.target) {
+      addClientLog(`无法到达 ${exit.label}。`);
+      return;
+    }
+    followRouteTo(approach.target, approach);
+  } catch (error) {
+    addClientLog(error.message || `无法到达 ${exit.label}。`);
+  }
 }
 
 function cellDistance(ax, ay, bx, by) {
