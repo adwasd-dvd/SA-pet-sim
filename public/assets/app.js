@@ -61,6 +61,7 @@ const SCREEN_DIRECTION_KEYS = Object.freeze({
 const DEFAULT_PLAYER_DIRECTION = 5;
 const PLAYER_WALK_FRAME_MS = 95;
 const PLAYER_WALK_ANIM_MS = 720;
+const PLAYER_WALK_MOVE_MS = 190;
 const PLAYER_STAND_FRAMES = Object.freeze({
   0: [10201, 10202, 10203, 10202],
   1: [10244, 10245, 10246, 10245],
@@ -99,6 +100,12 @@ let playerAnimState = {
   dir: DEFAULT_PLAYER_DIRECTION,
   startedAt: 0,
   walkUntil: 0,
+  moveUntil: 0,
+  mapId: null,
+  fromX: 0,
+  fromY: 0,
+  toX: 0,
+  toY: 0,
   raf: 0
 };
 const mapView = {
@@ -532,8 +539,11 @@ async function walkPlayer(dx, dy) {
     game = await api("/api/game/walk", { game, dx, dy });
     const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
     const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
-    if (moved) startPlayerWalkAnimation(animDir);
-    else facePlayerDirection(animDir);
+    if (moved && before.mapId === game.location.mapId) {
+      startPlayerWalkAnimation(animDir, playerTilePoint(before), game.location);
+    } else {
+      facePlayerDirection(animDir);
+    }
     mapView.centerOnNextRender = before.mapId !== game.location.mapId || isPlayerNearViewportEdge();
     save();
     render();
@@ -543,10 +553,16 @@ async function walkPlayer(dx, dy) {
   }
 }
 
-function startPlayerWalkAnimation(dir) {
+function startPlayerWalkAnimation(dir, from = game?.location, to = game?.location) {
   setPlayerDirection(dir);
   playerAnimState.startedAt = performance.now();
   playerAnimState.walkUntil = playerAnimState.startedAt + PLAYER_WALK_ANIM_MS;
+  playerAnimState.moveUntil = playerAnimState.startedAt + PLAYER_WALK_MOVE_MS;
+  playerAnimState.mapId = to?.mapId || game?.location?.mapId || null;
+  playerAnimState.fromX = Number(from?.x ?? to?.x ?? 0);
+  playerAnimState.fromY = Number(from?.y ?? to?.y ?? 0);
+  playerAnimState.toX = Number(to?.x ?? from?.x ?? 0);
+  playerAnimState.toY = Number(to?.y ?? from?.y ?? 0);
   invalidatePlayerSpriteRender();
   schedulePlayerAnimTick();
 }
@@ -554,6 +570,8 @@ function startPlayerWalkAnimation(dir) {
 function facePlayerDirection(dir) {
   setPlayerDirection(dir);
   playerAnimState.walkUntil = 0;
+  playerAnimState.moveUntil = 0;
+  playerAnimState.mapId = null;
   invalidatePlayerSpriteRender();
 }
 
@@ -581,6 +599,29 @@ function syncPlayerAnimationDirectionFromGame(force = false) {
   if (!game) return;
   if (!force && performance.now() < playerAnimState.walkUntil) return;
   playerAnimState.dir = clientAnimDirectionFromServerDir(currentServerDirection());
+  playerAnimState.mapId = null;
+}
+
+function playerTilePoint(fallback = game?.location) {
+  const now = performance.now();
+  if (game?.location?.mapId && playerAnimState.mapId === game.location.mapId && now < playerAnimState.walkUntil) {
+    const span = Math.max(1, playerAnimState.moveUntil - playerAnimState.startedAt);
+    const progress = now < playerAnimState.moveUntil
+      ? Math.max(0, Math.min(1, (now - playerAnimState.startedAt) / span))
+      : 1;
+    return {
+      x: lerp(playerAnimState.fromX, playerAnimState.toX, progress),
+      y: lerp(playerAnimState.fromY, playerAnimState.toY, progress)
+    };
+  }
+  return {
+    x: Number(fallback?.x ?? 0),
+    y: Number(fallback?.y ?? 0)
+  };
+}
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
 }
 
 function invalidatePlayerSpriteRender() {
@@ -880,7 +921,8 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     );
   }));
   sprites.push(...collectPlayerSprites(map, atlas, (tileId) => {
-    const [mapX, mapY] = mapRenderPoint(game.location?.x, game.location?.y, width, height);
+    const playerPoint = playerTilePoint();
+    const [mapX, mapY] = mapRenderPoint(playerPoint.x, playerPoint.y, width, height);
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     return mapDepthSprite(
       atlas,
@@ -889,8 +931,8 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
       screenY - bounds.minY,
       screenX,
       screenY,
-      game.location?.x,
-      game.location?.y,
+      playerPoint.x,
+      playerPoint.y,
       "char",
       order + 10000
     );
@@ -1434,7 +1476,8 @@ function collectViewportCharSprites(renderer, order = 0) {
     );
   }));
   sprites.push(...collectPlayerSprites(renderer.map, renderer.atlas, (tileId) => {
-    const [x, y] = mapTileContentPoint(renderer, game.location?.x, game.location?.y);
+    const playerPoint = playerTilePoint();
+    const [x, y] = mapTileContentPoint(renderer, playerPoint.x, playerPoint.y);
     return mapDepthSprite(
       renderer.atlas,
       tileId,
@@ -1442,8 +1485,8 @@ function collectViewportCharSprites(renderer, order = 0) {
       y,
       x + renderer.minX,
       y + renderer.minY,
-      game.location?.x,
-      game.location?.y,
+      playerPoint.x,
+      playerPoint.y,
       "char",
       order + sprites.length + 10000
     );
