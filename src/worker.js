@@ -1052,6 +1052,7 @@ async function npcReply(env, game, npc, text) {
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
+  if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
   if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
@@ -1354,6 +1355,15 @@ function tradeReply(npc) {
     npc.trade.mainMessage || "欢迎光临！",
     `可购买：${items.map((item) => `${item.name}(${item.price}石币)`).join("、")}`,
     `商品来源：${npc.trade.source}`
+  ].join("\n");
+}
+
+function sourceReply(npc) {
+  const debug = npcDebugInfo(npc);
+  return [
+    `来源：${debug.source || "未配置"}`,
+    `脚本：${debug.script || "未配置"}；template：${debug.template || "未配置"}；type：${debug.type || "未配置"}`,
+    `动作：${debug.actions.length ? debug.actions.join("、") : "未归类"}`
   ].join("\n");
 }
 

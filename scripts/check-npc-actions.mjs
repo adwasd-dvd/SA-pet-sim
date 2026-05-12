@@ -41,6 +41,22 @@ await expectApiError(
   "dialog rejects remote NPC talk"
 );
 
+let teacherGame = await api("/api/game/new", { name: "npc-dialog-test" });
+teacherGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y };
+teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id });
+assertEqual(teacherGame.dialog.open, true, "dialog opens on default hi");
+assertEqual(teacherGame.dialog.messages.length, 3, "default hi creates one player line and one NPC line");
+assert(teacherGame.dialog.messages.some((message) => message.speaker === "player" && message.text === "hi"), "default hi sends player hi");
+assertEqual(teacherGame.dialog.messages.filter((message) => message.speaker === "npc").length, 1, "default hi does not dump all NPC lines");
+assert(!teacherGame.dialog.messages.some((message) => message.text.includes(teacher.dialogueLines[1])), "default hi only returns the next source dialogue line");
+assert(teacherGame.dialog.debug.actions.includes("quest"), "teacher debug profiles quest action");
+assert(teacherGame.dialog.debug.actions.includes("say"), "teacher debug profiles say action");
+assert(teacherGame.dialog.source.includes(teacher.source), "teacher dialog source line includes source path");
+teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "来源" });
+assert(teacherGame.dialog.messages.some((message) => message.speaker === "player" && message.text === "来源"), "custom dialog text is appended");
+assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.source)), "source query replies with source path");
+assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.script)), "source query replies with script path");
+
 const healer = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => /healer/i.test(`${npc.type} ${npc.template}`));
@@ -105,7 +121,7 @@ assert(game.dialog.source.includes(warpNpc.npc.source), "dialog source line incl
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
-console.log("NPC actions OK: distance-gated talk/window actions, healer, savepoint, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, distance-gated talk/window actions, healer, savepoint, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
