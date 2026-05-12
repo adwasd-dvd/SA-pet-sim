@@ -13,7 +13,31 @@ const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
-const DEFAULT_PLAYER_GRAPHIC = 16034;
+// SPR_001em (100000) stand/walk frames from the original client sprite tables.
+const DEFAULT_PLAYER_DIRECTION = 4;
+const PLAYER_WALK_FRAME_MS = 95;
+const PLAYER_WALK_ANIM_MS = 720;
+const PLAYER_STAND_FRAMES = Object.freeze({
+  0: [10201, 10202, 10203, 10202],
+  1: [10244, 10245, 10246, 10245],
+  2: [10287, 10288, 10289, 10288],
+  3: [10330, 10331, 10332, 10331],
+  4: [10373, 10374, 10375, 10374],
+  5: [10416, 10417, 10418, 10417],
+  6: [10459, 10460, 10461, 10460],
+  7: [10502, 10503, 10504, 10503]
+});
+const PLAYER_WALK_FRAMES = Object.freeze({
+  0: [10212, 10213, 10214, 10215, 10216, 10217],
+  1: [10255, 10256, 10257, 10258, 10259, 10260],
+  2: [10298, 10299, 10300, 10301, 10302, 10303],
+  3: [10341, 10342, 10343, 10344, 10345, 10346],
+  4: [10384, 10385, 10386, 10387, 10388, 10389],
+  5: [10427, 10428, 10429, 10430, 10431, 10432],
+  6: [10470, 10471, 10472, 10473, 10474, 10475],
+  7: [10513, 10514, 10515, 10516, 10517, 10518]
+});
+const DEFAULT_PLAYER_FRAME = PLAYER_STAND_FRAMES[DEFAULT_PLAYER_DIRECTION][0];
 
 let game = null;
 let installPrompt = null;
@@ -21,10 +45,17 @@ let walkInFlight = false;
 let routeInFlight = false;
 let routeToken = 0;
 let tileAtlasPromise = null;
+let loadedTileAtlas = null;
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
 let activeTab = "pets";
 let clientWindowOpen = false;
+let playerAnimState = {
+  dir: DEFAULT_PLAYER_DIRECTION,
+  startedAt: 0,
+  walkUntil: 0,
+  raf: 0
+};
 const mapView = {
   zoom: MAP_DEFAULT_ZOOM,
   panX: 0,
@@ -436,13 +467,51 @@ async function walkPlayer(dx, dy) {
   };
   try {
     game = await api("/api/game/walk", { game, dx, dy });
+    const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
+    if (moved) startPlayerWalkAnimation(dx, dy);
     mapView.centerOnNextRender = true;
     save();
     render();
-    return before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
+    return moved;
   } finally {
     walkInFlight = false;
   }
+}
+
+function startPlayerWalkAnimation(dx, dy) {
+  playerAnimState.dir = movementAnimDir(dx, dy);
+  playerAnimState.startedAt = performance.now();
+  playerAnimState.walkUntil = playerAnimState.startedAt + PLAYER_WALK_ANIM_MS;
+  invalidatePlayerSpriteRender();
+  schedulePlayerAnimTick();
+}
+
+function movementAnimDir(dx, dy) {
+  return {
+    "1,-1": 0,
+    "1,0": 1,
+    "1,1": 2,
+    "0,1": 3,
+    "-1,1": 4,
+    "-1,0": 5,
+    "-1,-1": 6,
+    "0,-1": 7
+  }[`${Math.sign(dx)},${Math.sign(dy)}`] ?? playerAnimState.dir;
+}
+
+function invalidatePlayerSpriteRender() {
+  if (!largeMapRenderer) return;
+  largeMapRenderer.lastKey = "";
+  scheduleLargeMapRender();
+}
+
+function schedulePlayerAnimTick() {
+  if (playerAnimState.raf) return;
+  playerAnimState.raf = requestAnimationFrame(() => {
+    playerAnimState.raf = 0;
+    invalidatePlayerSpriteRender();
+    if (performance.now() < playerAnimState.walkUntil) schedulePlayerAnimTick();
+  });
 }
 
 async function followRouteTo(target, routeData = null) {
@@ -604,16 +673,12 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
   };
   const atlas = await loadTileAtlas();
   if (renderVersion !== mapRenderVersion) return;
-  if (width * height > REAL_TILE_CELL_LIMIT) {
-    if (atlas) {
-      drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "client DAT viewport", renderVersion);
-      return;
-    }
-    drawLargeIsoPreview(canvas, width, height, tileAt, map, "client DAT overview");
+  if (atlas) {
+    drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "client DAT viewport", renderVersion);
     return;
   }
-  if (atlas) {
-    drawRealTileMap(canvas, width, height, tileAt, atlas, map);
+  if (width * height > REAL_TILE_CELL_LIMIT) {
+    drawLargeIsoPreview(canvas, width, height, tileAt, map, "client DAT overview");
     return;
   }
   drawTilePreview(canvas, width, height, tileAt);
@@ -629,10 +694,56 @@ async function loadTileAtlas() {
       image.decoding = "async";
       image.src = manifest.image;
       await image.decode();
-      return { ...manifest, image };
+      loadedTileAtlas = { ...manifest, image };
+      hydrateAtlasSprites(loadedTileAtlas);
+      return loadedTileAtlas;
     })().catch(() => null);
   }
   return tileAtlasPromise;
+}
+
+function hydrateAtlasSprites(atlas = loadedTileAtlas) {
+  if (!atlas) return;
+  document.querySelectorAll("[data-atlas-sprite]").forEach((el) => {
+    applyAtlasSprite(el, atlas, el.dataset.atlasSprite);
+  });
+  refreshAtlasButtonSprites(atlas);
+}
+
+function refreshAtlasButtonSprites(atlas = loadedTileAtlas) {
+  if (!atlas) return;
+  document.querySelectorAll("[data-atlas-off]").forEach((btn) => {
+    const tileId = btn.classList.contains("active") && btn.dataset.atlasOn
+      ? btn.dataset.atlasOn
+      : btn.dataset.atlasOff;
+    let sprite = [...btn.children].find((child) => child.classList.contains("client-atlas-sprite"));
+    if (!sprite) {
+      sprite = document.createElement("span");
+      sprite.className = "client-atlas-sprite";
+      sprite.setAttribute("aria-hidden", "true");
+      btn.prepend(sprite);
+    }
+    const frame = applyAtlasSprite(sprite, atlas, tileId);
+    if (frame) {
+      btn.style.width = `${frame.width}px`;
+      btn.style.height = `${frame.height}px`;
+    }
+  });
+}
+
+function applyAtlasSprite(el, atlas, tileId) {
+  const frame = atlas?.frames?.[tileId];
+  if (!frame) {
+    el.hidden = true;
+    return null;
+  }
+  el.hidden = false;
+  el.style.width = `${frame.width}px`;
+  el.style.height = `${frame.height}px`;
+  el.style.backgroundImage = `url("${atlas.image.src}")`;
+  el.style.backgroundSize = `${atlas.atlasWidth}px ${atlas.atlasHeight}px`;
+  el.style.backgroundPosition = `-${frame.x}px -${frame.y}px`;
+  return frame;
 }
 
 function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
@@ -719,9 +830,26 @@ function collectNpcSprites(map, atlas, locate) {
 
 function collectPlayerSprites(map, atlas, locate) {
   if (!map || !game?.location) return [];
-  const tileId = Number(game.player?.graphic || game.player?.graNo || game.player?.graphicId || DEFAULT_PLAYER_GRAPHIC);
+  const tileId = playerFrameTileId(atlas);
   if (tileId <= CG_INVISIBLE || !atlas.frames?.[tileId]) return [];
   return [locate(tileId)];
+}
+
+function playerFrameTileId(atlas = loadedTileAtlas) {
+  const now = performance.now();
+  const moving = now < playerAnimState.walkUntil;
+  const frames = (moving ? PLAYER_WALK_FRAMES : PLAYER_STAND_FRAMES)[playerAnimState.dir]
+    || PLAYER_STAND_FRAMES[DEFAULT_PLAYER_DIRECTION];
+  const frameIndex = moving ? Math.floor((now - playerAnimState.startedAt) / PLAYER_WALK_FRAME_MS) % frames.length : 0;
+  return firstAvailablePlayerFrame(frames.slice(frameIndex).concat(frames.slice(0, frameIndex)), atlas)
+    || firstAvailablePlayerFrame(PLAYER_STAND_FRAMES[DEFAULT_PLAYER_DIRECTION], atlas)
+    || DEFAULT_PLAYER_FRAME;
+}
+
+function firstAvailablePlayerFrame(frames, atlas) {
+  if (!Array.isArray(frames)) return null;
+  if (!atlas) return frames[0] || null;
+  return frames.find((id) => atlas.frames?.[id]) || null;
 }
 
 function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
@@ -948,16 +1076,12 @@ async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRe
   };
   const atlas = await loadTileAtlas();
   if (renderVersion !== mapRenderVersion) return;
-  if (width * height > REAL_TILE_CELL_LIMIT) {
-    if (atlas) {
-      drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "LS2MAP viewport", renderVersion);
-      return;
-    }
-    drawLargeIsoPreview(canvas, width, height, tileAt, map, "LS2MAP overview");
+  if (atlas) {
+    drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "LS2MAP viewport", renderVersion);
     return;
   }
-  if (atlas) {
-    drawRealTileMap(canvas, width, height, tileAt, atlas, map);
+  if (width * height > REAL_TILE_CELL_LIMIT) {
+    drawLargeIsoPreview(canvas, width, height, tileAt, map, "LS2MAP overview");
     return;
   }
   drawTilePreview(canvas, width, height, tileAt);
@@ -1559,12 +1683,28 @@ function renderClientWindow() {
 }
 
 function clientWindowContent(name) {
+  if (name === "settings") return clientSettingsWindow();
   if (name === "save") return clientItemWindow();
   if (name === "quests") return clientQuestWindow();
   if (name === "log") return clientLogWindow();
   if (name === "data") return clientDataWindow();
   if (name === "ai") return clientAiWindow();
   return clientPetWindow();
+}
+
+function clientSettingsWindow() {
+  return {
+    title: "OPTION",
+    html: `
+      <div class="client-list-window">
+        <article><strong>游戏设定</strong><span>音量 / 画面 / 操作</span></article>
+        <article><strong>名片</strong><span>人物资料与名片交换</span></article>
+        <article><strong>交易</strong><span>玩家交易</span></article>
+        <article><strong>频道</strong><span>家族与频道功能</span></article>
+        <article><strong>Action</strong><span>人物动作</span></article>
+      </div>
+    `
+  };
 }
 
 function clientPetWindow() {
@@ -1863,6 +2003,7 @@ function showTab(name, options = {}) {
     btn.classList.toggle("active", active);
     btn.setAttribute("aria-pressed", active ? "true" : "false");
   });
+  refreshAtlasButtonSprites();
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     panel.classList.toggle("active", panel.id === `${activeTab}Tab`);
   });

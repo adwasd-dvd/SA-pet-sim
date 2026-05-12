@@ -15,6 +15,25 @@ const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
 const RECORD_SIZE = 80;
 const ATLAS_W = 4096;
 const COLOR_KEY = 0;
+const FIELD_UI_GRAPHIC_IDS = [
+  // Original field menu resources from client-source/systeminc/anim_tbl.h
+  26100, 26101, 26102, 26103, 26104, 26105, 26106, 26107, 26111, 26112,
+  26113, 26114, 26115, 26116, 26117, 26118, 26119, 26120, 26121, 26233,
+  26234, 26235, 26236, 26237, 26238, 26248, 26249, 26260, 26294, 26295,
+  26358, 26452, 28553, 35271
+];
+const DEFAULT_PLAYER_SPRITE_FRAME_IDS = [
+  // SPR_001em / ANIM_STAND + ANIM_WALK frames parsed from data/spr_115.bin.
+  10201, 10202, 10203, 10212, 10213, 10214, 10215, 10216, 10217,
+  10244, 10245, 10246, 10255, 10256, 10257, 10258, 10259, 10260,
+  10287, 10288, 10289, 10298, 10299, 10300, 10301, 10302, 10303,
+  10330, 10331, 10332, 10341, 10342, 10343, 10344, 10345, 10346,
+  10373, 10374, 10375, 10384, 10385, 10386, 10387, 10388, 10389,
+  10416, 10417, 10418, 10427, 10428, 10429, 10430, 10431, 10432,
+  10459, 10460, 10461, 10470, 10471, 10472, 10473, 10474, 10475,
+  10502, 10503, 10504, 10513, 10514, 10515, 10516, 10517, 10518
+];
+const DEFAULT_PLAYER_SPRITE_BITMAP_IDS = new Set(DEFAULT_PLAYER_SPRITE_FRAME_IDS);
 
 function main() {
   if (!fs.existsSync(mapRoot) || !fs.existsSync(adrnPath) || !fs.existsSync(realPath) || !fs.existsSync(palettePath)) {
@@ -25,13 +44,15 @@ function main() {
   fs.mkdirSync(outputRoot, { recursive: true });
   const wanted = collectTileIds(mapRoot);
   const palette = readPalette(palettePath);
-  const recordsByTile = readAdrnRecords(adrnPath);
+  const records = readAdrnRecords(adrnPath);
   const realFd = fs.openSync(realPath, "r");
   const entries = [];
 
   try {
     for (const tileId of [...wanted].sort((a, b) => a - b)) {
-      const record = recordsByTile.get(tileId);
+      const record = DEFAULT_PLAYER_SPRITE_BITMAP_IDS.has(tileId)
+        ? records.byBitmap.get(tileId)
+        : records.byGraphic.get(tileId) || records.byBitmap.get(tileId);
       if (!record) continue;
       const decoded = decodeRecord(realFd, record);
       if (!decoded) continue;
@@ -89,6 +110,8 @@ function collectTileIds(dir) {
     }
   }
   collectNpcGraphicIds(ids);
+  FIELD_UI_GRAPHIC_IDS.forEach((id) => ids.add(id));
+  DEFAULT_PLAYER_SPRITE_FRAME_IDS.forEach((id) => ids.add(id));
   return ids;
 }
 
@@ -163,7 +186,8 @@ function readPalette(file) {
 
 function readAdrnRecords(file) {
   const data = fs.readFileSync(file);
-  const records = new Map();
+  const byGraphic = new Map();
+  const byBitmap = new Map();
   for (let offset = 0; offset + RECORD_SIZE <= data.length; offset += RECORD_SIZE) {
     const bitmapNo = data.readUInt32LE(offset);
     const graphicNo = data.readUInt32LE(offset + 76);
@@ -194,10 +218,10 @@ function readAdrnRecords(file) {
       prioType: Math.trunc(hitRaw / 100),
       heightFlag
     };
-    if (graphicNo) records.set(graphicNo, record);
-    else if (!records.has(bitmapNo)) records.set(bitmapNo, record);
+    if (!byBitmap.has(bitmapNo)) byBitmap.set(bitmapNo, record);
+    if (graphicNo) byGraphic.set(graphicNo, record);
   }
-  return records;
+  return { byGraphic, byBitmap };
 }
 
 function decodeRecord(fd, record) {

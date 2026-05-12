@@ -277,70 +277,109 @@ h3 {
 
 .client-field-menu {
   position: absolute;
-  top: 7px;
+  top: 0;
   z-index: 14;
-  display: flex;
-  align-items: start;
-  gap: 3px;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .client-field-menu-left {
-  left: 7px;
+  left: 0;
+  width: 172px;
+  height: 58px;
 }
 
 .client-field-menu-right {
-  right: 7px;
+  right: 0;
+  width: 164px;
+  height: 66px;
 }
 
-.client-field-menu button {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 31px;
-  height: 31px;
+.client-atlas-sprite {
+  position: absolute;
+  display: block;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  transform: translate(-50%, -50%) scaleY(-1);
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.client-field-sprite-btn {
+  position: absolute;
+  display: block;
   min-width: 0;
   min-height: 0;
-  border: 2px solid #1b2b14;
-  border-radius: 4px;
+  border: 0;
+  border-radius: 0;
   padding: 0;
-  background:
-    linear-gradient(145deg, rgb(103 232 71 / 92%), rgb(13 102 40 / 94%) 58%, rgb(8 51 25 / 96%));
-  color: #f6ffe6;
-  font-family: Arial, "Microsoft YaHei", sans-serif;
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow:
-    1px 1px 0 #03370e,
-    -1px 0 0 #03370e,
-    0 -1px 0 #03370e;
-  box-shadow:
-    inset 1px 1px 0 rgb(255 255 255 / 52%),
-    inset -2px -2px 0 rgb(0 0 0 / 44%),
-    0 1px 0 rgb(255 255 255 / 35%);
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  outline: none;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
 }
 
-.client-field-menu button:hover,
-.client-field-menu button:focus-visible,
-.client-field-menu button.active {
-  background:
-    linear-gradient(145deg, rgb(231 255 125 / 96%), rgb(59 160 48 / 94%) 55%, rgb(12 82 32 / 96%));
-  color: #fff;
+.client-field-sprite-btn:focus-visible {
+  filter: drop-shadow(0 0 2px #fff2a8) drop-shadow(0 0 5px #4dff45);
 }
 
-.client-field-menu small {
+.client-field-sprite-btn:active {
+  translate: 1px 1px;
+}
+
+.client-field-label {
   position: absolute;
-  left: 50%;
-  top: calc(100% - 1px);
-  translate: -50% 0;
-  color: #ffe65c;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0;
-  line-height: 1;
-  text-shadow: 1px 1px 0 #16310e, -1px -1px 0 #16310e;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+.client-field-menu-left .client-field-panel {
+  left: 84px;
+  top: 28px;
+}
+
+.client-field-menu-left .menu {
+  left: 52px;
+  top: 28px;
+}
+
+.client-field-menu-left .trade {
+  left: 114px;
+  top: 18px;
+}
+
+.client-field-menu-left .channel {
+  left: 115px;
+  top: 28px;
+}
+
+.client-field-menu-right .client-field-panel {
+  left: 82px;
+  top: 33px;
+}
+
+.client-field-menu-right .client-field-right-back {
+  left: 96px;
+  top: 32px;
+}
+
+.client-field-menu-right .join {
+  left: 66px;
+  top: 32px;
+}
+
+.client-field-menu-right .action {
+  left: 96px;
+  top: 32px;
+}
+
+.client-field-menu-right .help {
+  left: 143px;
+  top: 33px;
 }
 
 .client-bottom-line {
@@ -2025,14 +2064,12 @@ mark {
   }
 
   .client-field-menu {
-    top: 6px;
-    gap: 2px;
+    transform: scale(.88);
+    transform-origin: 0 0;
   }
 
-  .client-field-menu button {
-    width: 28px;
-    height: 28px;
-    font-size: 11px;
+  .client-field-menu-right {
+    transform-origin: 100% 0;
   }
 
   .client-window {
