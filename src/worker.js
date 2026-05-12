@@ -737,6 +737,9 @@ function buyGame(game, npcId, itemId) {
   game.player.stone -= price;
   addInventoryItem(game, item, 1);
   syncStoneItem(game);
+  recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price });
+  if (price > 0) recordNpcVmEvent(game, npc, "take", "ok", { item: "stone", qty: price, reason: "buy" });
+  recordNpcVmEvent(game, npc, "give", "ok", { itemId, itemName: item.name, qty: 1, reason: "buy" });
   addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币。`);
   openDialog(game, npc, [
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
@@ -1071,19 +1074,19 @@ function hasAny(text, tokens) {
 
 function applyNpcHi(game, npc) {
   ensureFlags(game);
-  setEventFlag(game, eventFlagForNpc(npc.id), "now");
+  setNpcVmFlag(game, npc, eventFlagForNpc(npc.id), "now", "talk-hi");
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
-      startQuest(game, npc.questId);
+      startQuest(game, npc.questId, npc);
       recordNpcVmEvent(game, npc, "quest", "ok", { questId: npc.questId, phase: "start" });
       recordNpcVmEvent(game, npc, "say", "ok", { line });
       return `${line} ${game.quests[npc.questId].steps[1]}`;
     } else if (game.quests[npc.questId].status === "可回报") {
-      completeQuest(game, npc.questId);
+      completeQuest(game, npc.questId, npc);
       recordNpcVmEvent(game, npc, "quest", "ok", { questId: npc.questId, phase: "complete" });
       recordNpcVmEvent(game, npc, "say", "ok", { line });
       return `${line} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
@@ -1120,15 +1123,22 @@ function runNpcTalk(game, npc, text) {
   return fallbackNpcReply(npc);
 }
 
-function completeQuest(game, questId) {
+function completeQuest(game, questId, npc = null) {
   const quest = game.quests[questId];
   if (!quest || quest.status === "完成") return;
   quest.status = "完成";
   quest.progress = quest.steps.length;
-  game.player.exp += Number(quest.expReward || 20);
-  game.player.stone += Number(quest.stoneReward || 80);
+  const expReward = Number(quest.expReward || 20);
+  const stoneReward = Number(quest.stoneReward || 80);
+  game.player.exp += expReward;
+  game.player.stone += stoneReward;
   syncStoneItem(game);
-  setEventFlag(game, eventFlagForQuest(questId), "end");
+  if (npc) {
+    setNpcVmFlag(game, npc, eventFlagForQuest(questId), "end", "quest-complete");
+    recordNpcVmEvent(game, npc, "give", "ok", { exp: expReward, stone: stoneReward, reason: "quest" });
+  } else {
+    setEventFlag(game, eventFlagForQuest(questId), "end");
+  }
   addLog(game, `完成任务「${quest.title}」，获得奖励。`);
 }
 
@@ -1159,7 +1169,7 @@ function healerReply(game, npc) {
   const cost = healerCost(game, npc);
   const needed = needsHealing(game);
   if (!needed) {
-    setEventFlag(game, eventFlagForNpcAction(npc.id, "healer-check"), "now");
+    setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "healer-check"), "now", "healer-check");
     recordNpcVmEvent(game, npc, "heal", "noop", { reason: "full-hp" });
     return `${npc.name} 查看了你的状态：人物和宠物都不需要治疗。`;
   }
@@ -1170,9 +1180,10 @@ function healerReply(game, npc) {
   if (cost > 0) {
     game.player.stone = Number(game.player.stone || 0) - cost;
     syncStoneItem(game);
+    recordNpcVmEvent(game, npc, "take", "ok", { item: "stone", qty: cost, reason: "heal" });
   }
   healParty(game);
-  setEventFlag(game, eventFlagForNpcAction(npc.id, "healer"), "now");
+  setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "healer"), "now", "healer");
   const restored = [
     Math.max(0, Number(game.player.hp || 0) - before.playerHp),
     ...game.pets.map((pet, index) => Math.max(0, Number(pet.Hp || 0) - Number(before.pets[index] || 0)))
@@ -1219,7 +1230,7 @@ function savePointReply(game, npc) {
     savedAt: now
   };
   game.character.updatedAt = now;
-  setEventFlag(game, eventFlagForNpcAction(npc.id, "savepoint"), "end");
+  setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "savepoint"), "end", "savepoint");
   addLog(game, `${npc.name} 已记录你的冒险进度。`);
   recordNpcVmEvent(game, npc, "save", "ok", { mapId: game.location.mapId, x: game.location.x, y: game.location.y });
   return `${npc.name} 已记录你的冒险进度。\n来源：gmsv npc_savepoint 会设置 LASTTALKELDER 并触发 SAAC 角色保存。`;
@@ -1269,10 +1280,14 @@ function warpNpcReply(game, npc) {
   if (permission.cost > 0) {
     game.player.stone = Number(game.player.stone || 0) - permission.cost;
     syncStoneItem(game);
+    recordNpcVmEvent(game, npc, "take", "ok", { item: "stone", qty: permission.cost, reason: "warp" });
   }
   const consumed = permission.free ? consumeWarpItems(game, npc.warp) : [];
+  for (const itemName of consumed) {
+    recordNpcVmEvent(game, npc, "take", "ok", { item: itemName, qty: 1, reason: "warp" });
+  }
   const arrived = applyWarpTarget(game, target, npc.name);
-  setEventFlag(game, eventFlagForNpcAction(npc.id, "warp"), "end");
+  setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "warp"), "end", "warp");
   const paid = permission.cost > 0 ? `花费 ${permission.cost} 石币，` : "";
   const ticket = consumed.length ? `消耗 ${consumed.join("、")}，` : "";
   recordNpcVmEvent(game, npc, "warp", "ok", { target, cost: permission.cost, consumed });
@@ -1824,7 +1839,7 @@ function addQuestProgress(game, questId, amount) {
   }
 }
 
-function startQuest(game, questId) {
+function startQuest(game, questId, npc = null) {
   const source = WORLD.quests[questId];
   if (!source) return null;
   game.quests[questId] = {
@@ -1833,7 +1848,8 @@ function startQuest(game, questId) {
     progress: Math.min(1, source.steps.length - 1),
     startedAt: new Date().toISOString()
   };
-  setEventFlag(game, eventFlagForQuest(questId), "now");
+  if (npc) setNpcVmFlag(game, npc, eventFlagForQuest(questId), "now", "quest-start");
+  else setEventFlag(game, eventFlagForQuest(questId), "now");
   addLog(game, `接到任务「${source.title}」。`);
   return game.quests[questId];
 }
@@ -1901,6 +1917,17 @@ function setEventFlag(game, shiftbit, kind = "end") {
   while (game.flags[field].length <= index) game.flags[field].push(0);
   game.flags[field][index] = (game.flags[field][index] | (1 << bit)) >>> 0;
   game.flags.bits[`${kind}:${shiftbit}`] = true;
+}
+
+function setNpcVmFlag(game, npc, shiftbit, kind = "end", reason = "") {
+  setEventFlag(game, shiftbit, kind);
+  if (!shiftbit) return;
+  recordNpcVmEvent(game, npc, "setFlag", "ok", {
+    kind,
+    shiftbit,
+    key: `${kind}:${shiftbit}`,
+    reason
+  });
 }
 
 function eventFlagForNpc(npcId) {
