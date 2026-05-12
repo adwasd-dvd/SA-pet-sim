@@ -296,7 +296,7 @@ function onMapCanvasClick(event) {
   if (mapView.moved) return;
   const npcBtn = event.target.closest("[data-npc]");
   if (npcBtn && els.mapCanvas.contains(npcBtn)) {
-    openDialog(npcBtn.dataset.npc);
+    goToNpc(npcBtn.dataset.npc);
     return;
   }
   const exitBtn = event.target.closest("[data-exit]");
@@ -430,7 +430,7 @@ async function walkPlayer(dx, dy) {
   }
 }
 
-async function followRouteTo(target) {
+async function followRouteTo(target, routeData = null) {
   if (!game) return;
   if (routeInFlight) {
     routeToken += 1;
@@ -440,24 +440,85 @@ async function followRouteTo(target) {
   const token = ++routeToken;
   routeInFlight = true;
   try {
-    const data = await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
+    const data = routeData || await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
     const route = Array.isArray(data.route) ? data.route : [];
     if (!route.length) {
       if (data.blocked) addClientLog("那里无法通行。");
-      return;
+      return !data.blocked;
     }
     for (const step of route) {
-      if (token !== routeToken) return;
+      if (token !== routeToken) return false;
       const beforeMap = game.location.mapId;
       const moved = await walkPlayer(step.dx, step.dy);
-      if (!moved || game.location.mapId !== beforeMap) return;
+      if (!moved || game.location.mapId !== beforeMap) return moved;
       await wait(85);
     }
+    return true;
   } catch (error) {
     addClientLog(error.message || "无法计算路线。");
+    return false;
   } finally {
     routeInFlight = false;
   }
+}
+
+async function goToNpc(npcId) {
+  const map = game?.world?.map;
+  const npc = map?.npcs?.find((item) => item.id === npcId);
+  if (!npc) return;
+  if (cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2) {
+    await openDialog(npc.id);
+    return;
+  }
+  const approach = await findNpcApproach(npc);
+  if (!approach) {
+    addClientLog(`无法靠近 ${npc.name}。`);
+    return;
+  }
+  const reached = await followRouteTo(approach.target, approach.routeData);
+  const currentMap = game?.world?.map;
+  const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
+  if (reached && stillNear) await openDialog(npc.id);
+}
+
+async function findNpcApproach(npc) {
+  const candidates = npcApproachTiles(npc);
+  for (const target of candidates) {
+    const routeData = await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
+    if (!routeData.blocked) return { target, routeData };
+  }
+  return null;
+}
+
+function npcApproachTiles(npc) {
+  const origin = game?.location || { x: 0, y: 0 };
+  const map = game?.world?.map || {};
+  const width = Number(map.size?.[0] || 0);
+  const height = Number(map.size?.[1] || 0);
+  const out = [];
+  for (let dy = -2; dy <= 2; dy += 1) {
+    for (let dx = -2; dx <= 2; dx += 1) {
+      if (dx === 0 && dy === 0) continue;
+      const npcDistance = Math.max(Math.abs(dx), Math.abs(dy));
+      if (npcDistance > 2) continue;
+      const x = Number(npc.x) + dx;
+      const y = Number(npc.y) + dy;
+      out.push({
+        x,
+        y,
+        npcDistance,
+        distance: cellDistance(origin.x, origin.y, x, y)
+      });
+    }
+  }
+  return out
+    .filter((tile) => (
+      Number.isFinite(tile.x)
+      && Number.isFinite(tile.y)
+      && (!width || (tile.x >= 0 && tile.x < width))
+      && (!height || (tile.y >= 0 && tile.y < height))
+    ))
+    .sort((a, b) => a.distance - b.distance || a.npcDistance - b.npcDistance || a.y - b.y || a.x - b.x);
 }
 
 function goToExit(exitId) {
@@ -482,6 +543,10 @@ function nearestExitTile(exit) {
     }))
     .filter((tile) => Number.isFinite(tile.x) && Number.isFinite(tile.y))
     .sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x)[0] || null;
+}
+
+function cellDistance(ax, ay, bx, by) {
+  return Math.max(Math.abs(Number(ax || 0) - Number(bx || 0)), Math.abs(Number(ay || 0) - Number(by || 0)));
 }
 
 function mapTileFromPointer(event) {
@@ -1216,7 +1281,7 @@ function renderNpc(map) {
 
 function onNpcListClick(event) {
   const btn = event.target.closest("[data-npc]");
-  if (btn && els.npcList.contains(btn)) openDialog(btn.dataset.npc);
+  if (btn && els.npcList.contains(btn)) goToNpc(btn.dataset.npc);
 }
 
 async function openDialog(npcId) {
