@@ -64,6 +64,15 @@ assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" &
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.script)), "source query replies with script path");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.status === "ok"), "source query records debug VM event");
 assert(teacherGame.save.json.npcVmEvents.some((event) => event.action === "debug" && event.npcId === teacher.id), "save json carries recent NPC VM events");
+teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "AI对话" });
+assertEqual(teacherGame.dialog.aiMode, true, "AI dialog toggle is reflected in dialog state");
+assert(teacherGame.dialog.suggestions.includes("请求避敌"), "AI mode exposes negotiated no-encounter suggestion");
+teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "能不能帮我一段时间不会遇到野外敌人" });
+assert(Number(teacherGame.effects?.noEncounterUntil || 0) > Date.now(), "AI negotiated no-encounter effect sets a future expiry");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "effect" && event.status === "ok" && event.detail?.effect === "noEncounter"), "AI no-encounter effect runs through NPC VM");
+assert(teacherGame.save.json.effects?.noEncounterUntil, "save json carries AI negotiated effects");
+teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "普通对话" });
+assertEqual(teacherGame.dialog.aiMode, false, "AI dialog toggle can return to source dialog mode");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "训练" });
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "unsupported" && event.detail?.originalAction === "fieldSkill"), "unsupported VM actions preserve original action");
 const questExpReward = Number(teacherGame.quests[teacher.questId].expReward || 20);
@@ -281,7 +290,17 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && even
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, NPCEnemy prompt/battle/defeat, battle start/attack/item/capture/release, and source WARP NPC actions mutate game/save state.");
+let aiWarpGame = await api("/api/game/new", { name: "ai-warp-test" });
+aiWarpGame.location = { mapId: warpNpc.map.id, x: warpNpc.npc.x + 1, y: warpNpc.npc.y };
+aiWarpGame.player.level = 1;
+aiWarpGame.player.stone = 100;
+aiWarpGame = await api("/api/game/dialog", { game: aiWarpGame, npcId: warpNpc.npc.id, message: "AI对话" });
+aiWarpGame = await api("/api/game/dialog", { game: aiWarpGame, npcId: warpNpc.npc.id, message: "商量坐车去别的地图" });
+assertEqual(aiWarpGame.location.mapId, warpNpc.npc.warp.target.mapId, "AI negotiated bus/warp still uses source warp target");
+assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.detail?.reason === "ai-action-proposal"), "AI warp negotiation records a guarded proposal");
+assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "ok"), "AI warp negotiation executes through source warp VM");
+
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, NPCEnemy prompt/battle/defeat, battle start/attack/item/capture/release, AI negotiated effects/warp, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

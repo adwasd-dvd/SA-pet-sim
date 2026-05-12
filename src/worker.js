@@ -50,6 +50,7 @@ const NPC_VM_ACTIONS = new Set([
   "give",
   "take",
   "setFlag",
+  "effect",
   "startBattle",
   "battleAction",
   "quest",
@@ -203,6 +204,8 @@ async function createPlayerGame(env, request, body) {
     inventory: [{ id: "stone", name: "石币", qty: 100 }],
     quests: {},
     flags: createFlags(),
+    effects: {},
+    dialogAi: {},
     encounter: null,
     dialog: null,
     log: [`${name} 来到了 ${WORLD.maps[WORLD.startMap].name}。`]
@@ -1062,6 +1065,10 @@ async function maybeStepEncounter(env, request, game, map) {
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.walk.steps = Number(game.walk.steps || 0) + 1;
   if (!map.encounterPets?.length || game.encounter) return false;
+  if (hasActiveNoEncounterEffect(game)) {
+    game.walk.encounterSteps = 0;
+    return false;
+  }
   game.walk.encounterSteps = Number(game.walk.encounterSteps || 0) + 1;
   const steps = game.walk.encounterSteps;
   if (steps < 5) return false;
@@ -1083,6 +1090,14 @@ async function spawnEncounter(env, request, game, map, source) {
   }
   addLog(game, `${source}遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
   return enemy;
+}
+
+function hasActiveNoEncounterEffect(game) {
+  const until = Number(game.effects?.noEncounterUntil || 0);
+  if (!Number.isFinite(until) || until <= 0) return false;
+  if (until > Date.now()) return true;
+  if (game.effects) delete game.effects.noEncounterUntil;
+  return false;
 }
 
 async function createEncounterEnemy(env, request, game, map) {
@@ -1571,9 +1586,12 @@ async function npcReply(env, request, game, npc, text) {
   if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["道具", "物品", "item"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
+  if (!game.encounter && isAiModeOn(lower)) return setNpcAiModeReply(game, npc, true);
+  if (!game.encounter && isAiModeOff(lower)) return setNpcAiModeReply(game, npc, false);
   if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
   if (isNpcEnemy(npc)) return npcEnemyReply(env, request, game, npc, lower);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
+  if (!game.encounter && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
@@ -1582,9 +1600,35 @@ async function npcReply(env, request, game, npc, text) {
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(env, request, game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
   if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
+  if (isNpcAiMode(game, npc) || isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
   if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, game, npc, text);
   recordNpcVmEvent(game, npc, "unsupported", "unsupported", { text: text.slice(0, 80) });
   return fallbackNpcReply(npc);
+}
+
+function isAiModeOn(text) {
+  return /(^|\s)ai(\s|$)/i.test(text) || hasAny(text, ["AI对话", "ai对话", "智能对话", "AI聊天", "ai聊天"]);
+}
+
+function isAiModeOff(text) {
+  return hasAny(text, ["普通对话", "退出AI", "关闭AI", "不用AI", "普通聊天"]);
+}
+
+function isAiRequest(text) {
+  return hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "bus", "ai:"]);
+}
+
+function isNpcAiMode(game, npc) {
+  return Boolean(game.dialogAi?.[npc.id]);
+}
+
+function setNpcAiModeReply(game, npc, enabled) {
+  game.dialogAi ||= {};
+  game.dialogAi[npc.id] = enabled;
+  recordNpcVmEvent(game, npc, "debug", "ok", { reason: enabled ? "ai-mode-on" : "ai-mode-off" });
+  return enabled
+    ? `${npc.name} 会用 AI 对话方式继续回应；可商量信息、优待或传送，但交易、传送、战斗和 flag 仍由 Worker 的 NPC VM 校验。`
+    : `${npc.name} 切回普通脚本对话。`;
 }
 
 function battleActionReply(game, npc, text) {
@@ -2027,10 +2071,13 @@ function sourceReply(game, npc) {
 }
 
 async function aiNpcReply(env, game, npc, text) {
+  const action = inferNpcAiAction(game, npc, text);
+  if (action) return applyNpcAiAction(game, npc, action);
+
   const map = currentMap(game);
   const debug = npcDebugInfo(npc, game);
   const messages = [
-    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句。你可以解释或建议 allowedActions，但不能直接执行状态变化；所有交易、传送、奖励、flag 和战斗都必须由 Worker 的确定性 NPC VM 校验执行。" },
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句。你可以和玩家商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。" },
     { role: "user", content: JSON.stringify({
       npc: { id: npc.id, name: npc.name, type: npc.type, dialogue: npc.dialogue, source: npc.source, script: npc.script },
       vm: { allowedActions: debug.allowedActions, recentTrace: debug.vmTrace },
@@ -2038,12 +2085,61 @@ async function aiNpcReply(env, game, npc, text) {
       map: { name: map.name, exits: map.exits.map((exit) => exit.label) },
       quests: game.quests,
       pets: game.pets.map(petSummary),
+      effects: game.effects || {},
       text
     }) }
   ];
-  const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
-  const rsp = await env.AI.run(model, { messages });
-  return rsp.response || rsp.text || fallbackNpcReply(npc);
+  if (env.AI && typeof env.AI.run === "function") {
+    const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
+    const rsp = await env.AI.run(model, { messages });
+    recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc", model });
+    return rsp.response || rsp.text || fallbackNpcReply(npc);
+  }
+  recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc-local" });
+  return `${npc.name} 想了想：可以继续问我地图、任务、交易，或用更具体的话商量“避敌”“传送”。当前本地没有 AI 绑定，所以我先按规则回应。`;
+}
+
+function inferNpcAiAction(game, npc, text) {
+  const lower = String(text || "").toLowerCase();
+  if (hasAny(lower, ["避敌", "不会遇到", "野外敌人", "不遇敌", "免遇敌", "安全通过", "护送"])) {
+    return { type: "noEncounter", seconds: aiNoEncounterSeconds(game, npc, lower) };
+  }
+  if (isWarpNpc(npc) && hasAny(lower, ["商量传送", "商量坐车", "去别的地图", "去其他地图", "出发", "前往", "bus", "巴士", "传送", "傳送"])) {
+    return { type: "warp" };
+  }
+  return null;
+}
+
+function aiNoEncounterSeconds(game, npc, text) {
+  const polite = hasAny(text, ["请", "拜托", "能不能", "可以吗", "商量", "帮"]);
+  const base = polite ? 240 : 150;
+  const levelBonus = Math.min(90, Math.max(0, Number(game.player.level || 1) - 1) * 5);
+  const serviceNpc = npc.trade || isHealerNpc(npc) || isSavePointNpc(npc) || isWarpNpc(npc);
+  return clampInt(base + levelBonus + (serviceNpc ? 60 : 0), 90, 420, 180);
+}
+
+function applyNpcAiAction(game, npc, action) {
+  recordNpcVmEvent(game, npc, "debug", "ok", { reason: "ai-action-proposal", action: action.type });
+  if (action.type === "warp") {
+    const reply = warpNpcReply(game, npc);
+    return `${npc.name} 听完你的请求，决定按原版传送脚本处理。\n${reply}`;
+  }
+  if (action.type === "noEncounter") {
+    const seconds = clampInt(action.seconds, 30, 600, 180);
+    const event = runNpcVmAction(game, npc, {
+      type: "effect",
+      effect: "noEncounter",
+      seconds,
+      reason: "ai-negotiation",
+      source: "npc-ai-worker-guard"
+    });
+    if (!event.ok) return `${npc.name} 没能给出这个优待：${event.error || "effect 被 VM 拒绝"}。`;
+    const minutes = Math.floor(seconds / 60);
+    const rest = seconds % 60;
+    const duration = rest ? `${minutes}分${rest}秒` : `${minutes}分钟`;
+    return `${npc.name} 接受了你的说法，暂时帮你避开野外敌人 ${duration}。这只是 AI 协商后的 Worker 效果，不会改动原版遇敌表。`;
+  }
+  return fallbackNpcReply(npc);
 }
 
 function openDialog(game, npc, messages) {
@@ -2055,6 +2151,7 @@ function openDialog(game, npc, messages) {
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade) : null,
     warp: npc.warp || null,
+    aiMode: isNpcAiMode(game, npc),
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc, game),
     source: dialogSourceLine(debug),
@@ -2096,6 +2193,7 @@ function npcActionProfile(npc) {
   if (isSavePointNpc(npc)) actions.push("save");
   if (npc.questId) actions.push("quest");
   if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
+  if (!isNpcEnemy(npc)) actions.push("effect");
   return [...new Set(actions)];
 }
 
@@ -2145,9 +2243,23 @@ function applyNpcVmMutation(game, type, action) {
   }
   if (type === "take") return applyNpcVmTake(game, action);
   if (type === "give") return applyNpcVmGive(game, action);
+  if (type === "effect") return applyNpcVmEffect(game, action);
   if (type === "startBattle") return applyNpcVmStartBattle(game, action);
   if (type === "battleAction") return applyNpcVmBattleAction(game, action);
   return { ok: true, mutated: false };
+}
+
+function applyNpcVmEffect(game, action) {
+  if (action.effect !== "noEncounter") return { ok: false, mutated: false, error: `unsupported effect: ${action.effect || "empty"}` };
+  game.effects ||= {};
+  const seconds = clampInt(action.seconds ?? action.durationSeconds, 30, 600, 180);
+  const until = Math.max(Number(game.effects.noEncounterUntil || 0), Date.now() + seconds * 1000);
+  game.effects.noEncounterUntil = until;
+  game.effects.noEncounterReason = action.reason || "npc-effect";
+  game.effects.noEncounterSource = action.source || "";
+  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk.encounterSteps = 0;
+  return { ok: true, mutated: true, effect: action.effect, seconds, until };
 }
 
 function applyNpcVmTake(game, action) {
@@ -2330,11 +2442,20 @@ function dialogSuggestions(npc, game = null) {
   if (game?.encounter && game?.battle?.npcEnemy) return ["攻击", "防御", "道具", "逃跑"];
   if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
   if (isNpcEnemy(npc)) return ["是", "否"];
-  if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
-  if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
-  if (npc.warp || /warp/i.test(npc.type)) return ["hi", "传送", "出口"];
-  if (/save/i.test(npc.type)) return ["hi", "记录", "地图"];
-  return ["hi", "任务", "地图"];
+  const aiToggle = isNpcAiMode(game, npc) ? "普通对话" : "AI对话";
+  const aiHints = isNpcAiMode(game, npc)
+    ? ["请求避敌", isWarpNpc(npc) ? "商量传送" : "请求信息"]
+    : [];
+  const base = npc.trade || /shop/i.test(npc.type)
+    ? ["hi", "买东西", "地图"]
+    : /healer/i.test(npc.type)
+      ? ["hi", "治疗", "地图"]
+      : npc.warp || /warp/i.test(npc.type)
+        ? ["hi", "传送", "出口"]
+        : /save/i.test(npc.type)
+          ? ["hi", "记录", "地图"]
+          : ["hi", "任务", "地图"];
+  return [...new Set([aiToggle, ...base, ...aiHints])];
 }
 
 function addInventoryItem(game, item, qty = 1) {
@@ -2403,6 +2524,8 @@ function normalizeGame(game) {
   game.inventory ||= [];
   game.quests ||= {};
   ensureFlags(game);
+  game.effects ||= {};
+  game.dialogAi ||= {};
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.savePoint ||= null;
   game.lastWarp ||= null;
@@ -2491,6 +2614,8 @@ function buildSaveJson(game) {
       bits: { ...(game.flags?.bits || {}) },
       npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) }
     },
+    effects: { ...(game.effects || {}) },
+    dialogAi: { ...(game.dialogAi || {}) },
     walk: {
       steps: Number(game.walk?.steps || 0),
       encounterSteps: Number(game.walk?.encounterSteps || 0)
@@ -2537,6 +2662,7 @@ function buildCharInfo(game) {
     `WALK_STEPS=${game.walk?.steps || 0}`,
     `ENCOUNTER_STEPS=${game.walk?.encounterSteps || 0}`,
     `QUESTS=${safeJson(activeQuests)}`,
+    `EFFECTS=${safeJson(game.effects || {})}`,
     `FLAGS_END=${(game.flags?.endEvents || []).join(",")}`,
     `FLAGS_NOW=${(game.flags?.nowEvents || []).join(",")}`,
     `FLAGS_BITS=${safeJson(game.flags?.bits || {})}`,

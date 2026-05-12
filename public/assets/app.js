@@ -129,6 +129,8 @@ let clientWindowOpen = false;
 let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
+let npcSortMode = "source";
+let exitSortMode = "source";
 let playerAnimState = {
   dir: DEFAULT_PLAYER_DIRECTION,
   startedAt: 0,
@@ -327,6 +329,7 @@ function bindEvents() {
   els.mapCanvas.addEventListener("dblclick", onMapCanvasDoubleClick);
   els.npcList.addEventListener("click", onNpcListClick);
   els.npcList.addEventListener("dblclick", onNpcListDoubleClick);
+  els.exitList.addEventListener("click", onExitListClick);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   els.guideBtn.addEventListener("click", () => {
@@ -1936,20 +1939,31 @@ function worldPoint(map, x, y) {
 }
 
 function renderNpc(map) {
-  els.npcList.innerHTML = map.npcs.map((npc) => `
+  const npcs = sortMapPoints(map.npcs, npcSortMode, (npc) => pointDistance(npc.x, npc.y));
+  els.npcList.innerHTML = `
+    ${renderSortBar("npc", npcSortMode)}
+    ${npcs.map((npc) => `
     <button class="list-btn" type="button" data-npc="${npc.id}">
       <strong>${escapeHtml(npc.name)}</strong>
-      <span>${escapeHtml(npc.type)}${npc.trade ? " | 可交易" : ""} | (${npc.x}, ${npc.y})</span>
+      <span>${escapeHtml(npc.type)}${npc.trade ? " | 可交易" : ""} | (${npc.x}, ${npc.y}) | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
     </button>
-  `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
+  `).join("") || `<p class="empty">当前地图没有 NPC。</p>`}
+  `;
 }
 
 function onNpcListClick(event) {
+  const sortBtn = event.target.closest("[data-npc-sort]");
+  if (sortBtn && els.npcList.contains(sortBtn)) {
+    npcSortMode = sortBtn.dataset.npcSort === "distance" ? "distance" : "source";
+    renderNpc(game.world.map);
+    return;
+  }
   const btn = event.target.closest("[data-npc]");
   if (btn && els.npcList.contains(btn)) goToNpc(btn.dataset.npc, { openWhenNear: false });
 }
 
 function onNpcListDoubleClick(event) {
+  if (event.target.closest("[data-npc-sort]")) return;
   const btn = event.target.closest("[data-npc]");
   if (!btn || !els.npcList.contains(btn)) return;
   event.preventDefault();
@@ -2319,15 +2333,141 @@ function dialogSpeaker(speaker, dialog) {
 }
 
 function renderExits(map) {
-  els.exitList.innerHTML = map.exits.map((exit) => `
-    <button class="list-btn" type="button" data-exit="${exit.id}">
-      <strong>${escapeHtml(exit.label)}</strong>
-      <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y})</span>
-    </button>
-  `).join("") || `<p class="empty">当前地图没有出口。</p>`;
-  els.exitList.querySelectorAll("[data-exit]").forEach((btn) => {
-    btn.addEventListener("click", () => goToExit(btn.dataset.exit));
-  });
+  const exits = sortMapPoints(map.exits, exitSortMode, (exit) => distanceToExitClient(exit));
+  els.exitList.innerHTML = `
+    ${renderSortBar("exit", exitSortMode)}
+    ${renderFieldAssistInfo()}
+    <div class="field-section">
+      <h4>地图出口</h4>
+      <div class="field-stack">
+        ${exits.map((exit) => `
+          <button class="list-btn" type="button" data-exit="${exit.id}">
+            <strong>${escapeHtml(exit.label)}</strong>
+            <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
+          </button>
+        `).join("") || `<p class="empty">当前地图没有出口。</p>`}
+      </div>
+    </div>
+  `;
+}
+
+function onExitListClick(event) {
+  const sortBtn = event.target.closest("[data-exit-sort]");
+  if (sortBtn && els.exitList.contains(sortBtn)) {
+    exitSortMode = sortBtn.dataset.exitSort === "distance" ? "distance" : "source";
+    renderExits(game.world.map);
+    return;
+  }
+  const trainBtn = event.target.closest("[data-field-train]");
+  if (trainBtn && els.exitList.contains(trainBtn)) {
+    mutate("/api/game/train", { petIndex: Number(trainBtn.dataset.fieldTrain) });
+    return;
+  }
+  const useBtn = event.target.closest("[data-field-use-item]");
+  if (useBtn && els.exitList.contains(useBtn)) {
+    useItem(Number(useBtn.dataset.fieldUseItem));
+    return;
+  }
+  const btn = event.target.closest("[data-exit]");
+  if (btn && els.exitList.contains(btn)) goToExit(btn.dataset.exit);
+}
+
+function renderSortBar(kind, mode) {
+  const attr = kind === "npc" ? "npc-sort" : "exit-sort";
+  return `
+    <div class="sort-bar" aria-label="${kind === "npc" ? "NPC 排序" : "出口排序"}">
+      <button type="button" data-${attr}="source" class="${mode === "source" ? "active" : ""}">原始</button>
+      <button type="button" data-${attr}="distance" class="${mode === "distance" ? "active" : ""}">距离</button>
+    </div>
+  `;
+}
+
+function sortMapPoints(items, mode, distanceFn) {
+  if (mode !== "distance") return [...items];
+  return [...items]
+    .map((item, index) => ({ item, index, distance: distanceFn(item) }))
+    .sort((a, b) => a.distance - b.distance || a.index - b.index)
+    .map(({ item }) => item);
+}
+
+function pointDistance(x, y) {
+  return cellDistance(game.location.x, game.location.y, x, y);
+}
+
+function formatCellDistance(x, y) {
+  const distance = pointDistance(x, y);
+  return distance === 0 ? "脚下" : `${distance} 格`;
+}
+
+function distanceToExitClient(exit) {
+  if (Array.isArray(exit.bounds) && exit.bounds.length >= 4) {
+    const x = Number(game.location.x || 0);
+    const y = Number(game.location.y || 0);
+    const dx = x < exit.bounds[0] ? exit.bounds[0] - x : x > exit.bounds[2] ? x - exit.bounds[2] : 0;
+    const dy = y < exit.bounds[1] ? exit.bounds[1] - y : y > exit.bounds[3] ? y - exit.bounds[3] : 0;
+    return Math.max(dx, dy);
+  }
+  return pointDistance(exit.x, exit.y);
+}
+
+function formatExitDistance(exit) {
+  const distance = distanceToExitClient(exit);
+  return distance === 0 ? "脚下" : `${distance} 格`;
+}
+
+function renderFieldAssistInfo() {
+  const effect = noEncounterEffectText();
+  const inventory = inventoryState();
+  const pet = game.pets?.[0] || null;
+  const firstItem = (game.inventory || []).find((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
+  const battle = fieldBattleSummary();
+  return `
+    <section class="field-assist-list" aria-label="底部辅助信息">
+      <h4>辅助信息</h4>
+      <div class="field-mini-row">
+        <strong>状态</strong>
+        <span>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
+      </div>
+      <div class="field-mini-row with-action">
+        <span>
+          <strong>宠物</strong>
+          <small>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | 攻 ${Number(pet.WorkFixStr || 0)}` : "没有宠物"}</small>
+        </span>
+        <button type="button" data-field-train="0" ${pet ? "" : "disabled"}>训</button>
+      </div>
+      <div class="field-mini-row with-action">
+        <span>
+          <strong>道具</strong>
+          <small>${firstItem ? `${escapeHtml(firstItem.name)} x${Number(firstItem.qty || 0)} | ${escapeHtml(firstItem.description || firstItem.source || "")}` : "背包还没有道具"}</small>
+        </span>
+        <button type="button" data-field-use-item="${firstItem?.id || ""}" ${firstItem && inventoryItemUsable(firstItem) ? "" : "disabled"}>用</button>
+      </div>
+      <div class="field-mini-row">
+        <strong>战斗</strong>
+        <span>${battle}</span>
+      </div>
+    </section>
+  `;
+}
+
+function fieldBattleSummary() {
+  const enemy = game.encounter;
+  if (!enemy) return "当前无战斗";
+  const activePet = game.pets?.[0];
+  const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
+  const enemyHp = Math.max(0, Number(enemy.Hp ?? enemyMax));
+  const petText = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || 0)}/${Number(activePet.WorkMaxHp || 0)}` : "无出战宠物";
+  const lastLine = (game.battle?.log || []).slice(-1)[0] || "战斗开始";
+  return `${escapeHtml(enemy.Name || "敌人")} Lv.${Number(enemy.Lv || 1)} HP ${enemyHp}/${enemyMax} | ${escapeHtml(petText)} | ${escapeHtml(lastLine)}`;
+}
+
+function noEncounterEffectText() {
+  const until = Number(game.effects?.noEncounterUntil || 0);
+  const remaining = Math.ceil((until - Date.now()) / 1000);
+  if (remaining <= 0) return "";
+  const minutes = Math.floor(remaining / 60);
+  const seconds = remaining % 60;
+  return `避敌 ${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 function renderEncounter() {
