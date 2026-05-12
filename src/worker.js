@@ -923,25 +923,11 @@ async function createEncounterEnemy(env, request, game, map) {
 
 function captureGame(game) {
   game = normalizeGame(game);
-  if (!game.encounter) throw new Error("当前没有可捕获目标");
-  const target = game.encounter;
-  const rate = Number(target.CaptureRate || 35);
-  const ok = Math.random() * 100 < rate;
-  if (ok) {
-    game.pets.push(target);
-    game.encounter = null;
-    game.player.exp += 12;
-    game.player.stone += 20;
-    addLog(game, `捕获成功！${target.Name} 加入了队伍。`);
-    updateQuestProgress(game, "fieldWin", {
-      mapId: game.location.mapId,
-      petName: target.Name,
-      result: "capture"
-    });
-  } else {
-    addLog(game, `${target.Name} 挣脱了绳索。`);
-  }
-  return withMap(game, { captured: ok });
+  const outcome = performBattleAction(game, "capture");
+  return withMap(game, {
+    captured: outcome.result === "captured",
+    battleOutcome: outcome
+  });
 }
 
 function battleGame(game, action) {
@@ -960,6 +946,9 @@ function performBattleAction(game, action) {
     const line = `你放走了 ${enemyName}，战斗结束。`;
     addLog(game, line);
     return { result: "released", enemyName, log: [line] };
+  }
+  if (["capture", "catch", "捕获", "抓宠", "抓"].includes(normalizedAction)) {
+    return performCaptureAction(game);
   }
   if (!["attack", "攻击", "战斗", "打"].includes(normalizedAction)) throw new Error("这个战斗动作还没有实现");
   const activePet = game.pets[0];
@@ -1023,6 +1012,36 @@ function performBattleAction(game, action) {
   }
   battleLog.forEach((line) => addLog(game, line));
   return { result, enemyName, petName, exp, stone, log: battleLog };
+}
+
+function performCaptureAction(game) {
+  if (!game.encounter) throw new Error("当前没有可捕获目标");
+  const target = game.encounter;
+  const enemyName = target.Name || "野外宠物";
+  const rate = Math.max(0, Math.min(100, Number(target.CaptureRate || 35)));
+  const ok = Math.random() * 100 < rate;
+  if (ok) {
+    game.pets.push({ ...target });
+    game.encounter = null;
+    game.battle = null;
+    const exp = 12;
+    const stone = 20;
+    game.player.exp += exp;
+    game.player.stone += stone;
+    syncStoneItem(game);
+    const line = `捕获成功！${enemyName} 加入了队伍，获得 ${exp} 经验和 ${stone} 石币。`;
+    addLog(game, line);
+    updateQuestProgress(game, "fieldWin", {
+      mapId: game.location.mapId,
+      petName: enemyName,
+      result: "capture"
+    });
+    return { result: "captured", enemyName, petName: enemyName, exp, stone, rate, log: [line] };
+  }
+  const line = `${enemyName} 挣脱了绳索。`;
+  addLog(game, line);
+  if (game.battle) game.battle.log = [...(game.battle.log || []), line].slice(-8);
+  return { result: "capture-missed", enemyName, rate, log: [line] };
 }
 
 function ensureBattleState(game, pet, enemy) {
@@ -1095,7 +1114,8 @@ async function guideGame(env, game, prompt) {
 async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
   if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
-  if (game.encounter && hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return battleStatusReply(game, npc);
+  if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
+  if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
@@ -1112,7 +1132,11 @@ async function npcReply(env, request, game, npc, text) {
 }
 
 function battleActionReply(game, npc, text) {
-  const move = hasAny(text, ["放走", "逃跑", "离开", "離開", "release", "run"]) ? "release" : "attack";
+  const move = hasAny(text, ["放走", "逃跑", "离开", "離開", "release", "run"])
+    ? "release"
+    : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
+      ? "capture"
+      : "attack";
   const event = runNpcVmAction(game, npc, {
     type: "battleAction",
     move,
@@ -1126,6 +1150,8 @@ function battleActionReply(game, npc, text) {
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
+  if (outcome.result === "captured") return `${summary}\n捕获成功，战斗结束。`;
+  if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“捕获”或“放走”。`;
   return summary;
 }
 
@@ -1138,7 +1164,7 @@ function battleStatusReply(game, npc) {
     enemyHp: enemy?.Hp ?? enemy?.WorkMaxHp,
     reason: "dialog-battle-status"
   });
-  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”推进战斗，或输入“放走”结束。捕获动作还没有接入原版战斗规则。`;
+  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”推进战斗，输入“捕获”尝试抓宠，或输入“放走”结束。`;
 }
 
 function isGreeting(text) {
@@ -1725,6 +1751,7 @@ function npcVmActionDetail(action, mutation) {
       petName: mutation.outcome.petName,
       exp: mutation.outcome.exp,
       stone: mutation.outcome.stone,
+      rate: mutation.outcome.rate,
       log: mutation.outcome.log
     };
   }
@@ -1786,7 +1813,7 @@ function withTradeState(game, trade) {
 }
 
 function dialogSuggestions(npc, game = null) {
-  if (game?.encounter) return ["攻击", "放走", "战斗", "地图"];
+  if (game?.encounter) return ["攻击", "捕获", "放走", "战斗"];
   if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
   if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
   if (npc.warp || /warp/i.test(npc.type)) return ["hi", "传送", "出口"];
