@@ -3,6 +3,8 @@ const MAP_ZOOM_MIN = 0.5;
 const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
 const MAP_DEFAULT_ZOOM = 1;
+const REAL_TILE_CELL_LIMIT = 90000;
+const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
 
 let game = null;
@@ -426,6 +428,10 @@ async function renderClientDatMap(canvas, buf, map) {
       view.getUint16(eventOffset, true)
     ];
   };
+  if (width * height > REAL_TILE_CELL_LIMIT) {
+    drawLargeIsoPreview(canvas, width, height, tileAt, map, "client DAT overview");
+    return;
+  }
   const atlas = await loadTileAtlas();
   if (atlas) {
     drawRealTileMap(canvas, width, height, tileAt, atlas, map);
@@ -662,12 +668,67 @@ async function renderLs2MapBuffer(canvas, buf, map = null) {
       0
     ];
   };
+  if (width * height > REAL_TILE_CELL_LIMIT) {
+    drawLargeIsoPreview(canvas, width, height, tileAt, map, "LS2MAP overview");
+    return;
+  }
   const atlas = await loadTileAtlas();
   if (atlas) {
     drawRealTileMap(canvas, width, height, tileAt, atlas, map);
     return;
   }
   drawTilePreview(canvas, width, height, tileAt);
+}
+
+function drawLargeIsoPreview(canvas, width, height, tileAt, map, sourceLabel) {
+  const metrics = mapMetrics(map || { size: [width, height] });
+  const fullWidth = Math.max(1, Math.ceil(metrics.width));
+  const fullHeight = Math.max(1, Math.ceil(metrics.height));
+  const scale = Math.min(1, LARGE_MAP_CANVAS_MAX_SIDE / Math.max(fullWidth, fullHeight));
+  canvas.width = Math.max(1, Math.ceil(fullWidth * scale));
+  canvas.height = Math.max(1, Math.ceil(fullHeight * scale));
+  canvas.dataset.minX = String(metrics.minX - metrics.margin);
+  canvas.dataset.minY = String(metrics.minY - metrics.margin);
+  canvas.style.width = `${fullWidth}px`;
+  canvas.style.height = `${fullHeight}px`;
+  const content = canvas.closest(".map-content");
+  if (content) {
+    content.style.width = `${fullWidth}px`;
+    content.style.height = `${fullHeight}px`;
+  }
+  const ctx = canvas.getContext("2d", { alpha: false });
+  ctx.imageSmoothingEnabled = false;
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.fillStyle = "#2a433d";
+  ctx.fillRect(0, 0, fullWidth, fullHeight);
+  const step = Math.max(1, Math.ceil(Math.max(width, height) / 280));
+  const minX = metrics.minX - metrics.margin;
+  const minY = metrics.minY - metrics.margin;
+  for (let y = 0; y < height; y += step) {
+    for (let x = 0; x < width; x += step) {
+      const [ground, object, overlay] = tileAt(y * width + x);
+      const [screenX, screenY] = isoPoint(x, y, 32, 24);
+      drawIsoSample(ctx, screenX - minX, screenY - minY, step, tileColor(ground, object, overlay));
+    }
+  }
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | ${sourceLabel} | sampled ${step}x`;
+  syncMapMarkers(game.world.map);
+  centerMapOnPlayer();
+  clampMapPan();
+  applyMapView();
+}
+
+function drawIsoSample(ctx, x, y, step, color) {
+  const halfW = Math.max(2, 32 * step);
+  const halfH = Math.max(2, 24 * step);
+  ctx.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+  ctx.beginPath();
+  ctx.moveTo(x, y - halfH);
+  ctx.lineTo(x + halfW, y);
+  ctx.lineTo(x, y + halfH);
+  ctx.lineTo(x - halfW, y);
+  ctx.closePath();
+  ctx.fill();
 }
 
 function drawTilePreview(canvas, width, height, tileAt) {
