@@ -402,6 +402,10 @@ h3 {
   will-change: transform;
 }
 
+.map-content.has-real-map {
+  background: #000;
+}
+
 .map-content::after {
   content: "";
   position: absolute;

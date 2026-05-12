@@ -12,6 +12,7 @@ const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json";
 const ENCOUNTER_UI_ENABLED = false;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
+const MAP_BACKDROP_COLOR = "#000000";
 
 let game = null;
 let installPrompt = null;
@@ -639,6 +640,8 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
   const ctx = canvas.getContext("2d", { alpha: true });
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = MAP_BACKDROP_COLOR;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   const sprites = [];
   let order = 0;
   for (const { x, y } of clientMapDisplayOrder(width, height)) {
@@ -1019,6 +1022,8 @@ function renderLargeMapViewport(renderer) {
   ctx.imageSmoothingEnabled = false;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, pixelW, pixelH);
+  ctx.fillStyle = MAP_BACKDROP_COLOR;
+  ctx.fillRect(0, 0, pixelW, pixelH);
   ctx.setTransform(pixelScale, 0, 0, pixelScale, -left * pixelScale, -top * pixelScale);
   drawViewportTiles(ctx, renderer, left, top, right, bottom);
 }
