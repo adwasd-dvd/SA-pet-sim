@@ -24,6 +24,7 @@ const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
 const EVENT_NPC = 1;
 const NPC_INTERACTION_RANGE = 2;
+const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
 const rankTab = [
@@ -305,6 +306,12 @@ function npcApproachTargets(map, collision, npc, from) {
 
 function routeNpcSummary(npc) {
   return { id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type };
+}
+
+function assertNpcInteractionRange(game, npc, range = NPC_INTERACTION_RANGE, action = "和 NPC 对话") {
+  const currentDistance = distance(game.location.x, game.location.y, npc.x, npc.y);
+  if (currentDistance <= range) return;
+  throw new Error(`请先走近 ${npc.name} 再${action}。当前位置距离 ${currentDistance} 格，原版 NPC 交互需要靠近。`);
 }
 
 function findExit(map, id) {
@@ -618,6 +625,7 @@ function buyGame(game, npcId, itemId) {
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作 NPC 窗口");
   if (!npc.trade?.items?.length) throw new Error("这个 NPC 没有商品资料");
   const item = npc.trade.items.find((entry) => entry.id === itemId);
   if (!item) throw new Error("商品不存在");
@@ -709,6 +717,7 @@ function talkGame(game, npcId) {
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc);
   const reply = runNpcTalk(game, npc, "hi");
   openDialog(game, npc, [
     npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
@@ -723,6 +732,7 @@ async function dialogGame(env, game, npcId, message) {
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc);
 
   const text = message.trim().slice(0, 160);
   if (!text) {

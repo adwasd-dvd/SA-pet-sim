@@ -470,9 +470,15 @@ async function goToNpc(npcId) {
     await openDialog(npc.id);
     return;
   }
-  const approach = await api("/api/game/route-npc", { game, npcId: npc.id });
-  if (approach.blocked || !approach.target) {
-    addClientLog(`无法靠近 ${npc.name}。`);
+  let approach;
+  try {
+    approach = await api("/api/game/route-npc", { game, npcId: npc.id });
+    if (approach.blocked || !approach.target) {
+      addClientLog(`无法靠近 ${npc.name}。`);
+      return;
+    }
+  } catch (error) {
+    addClientLog(error.message || `无法靠近 ${npc.name}。`);
     return;
   }
   const reached = await followRouteTo(approach.target, approach);
@@ -1246,20 +1252,29 @@ function onNpcListClick(event) {
 
 async function openDialog(npcId) {
   if (!game) return;
-  game = await api("/api/game/dialog", { game, npcId });
-  save();
-  render();
-  els.dialogInput.focus();
+  try {
+    game = await api("/api/game/dialog", { game, npcId });
+    save();
+    render();
+    els.dialogInput.focus();
+  } catch (error) {
+    addClientLog(error.message || "无法打开 NPC 对话。");
+  }
 }
 
 async function sendDialog(message) {
   if (!game?.dialog?.npcId) return;
   const npcId = game.dialog.npcId;
   els.dialogInput.value = "";
-  game = await api("/api/game/dialog", { game, npcId, message });
-  save();
-  render();
-  els.dialogInput.focus();
+  try {
+    game = await api("/api/game/dialog", { game, npcId, message });
+    save();
+    render();
+    els.dialogInput.focus();
+  } catch (error) {
+    appendDialogSystem(error.message || "NPC 没有回应。");
+    els.dialogInput.focus();
+  }
 }
 
 function renderDialog() {

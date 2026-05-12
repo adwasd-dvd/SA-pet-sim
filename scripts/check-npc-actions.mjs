@@ -32,6 +32,15 @@ const api = async (pathName, body) => {
 
 let game = await api("/api/game/new", { name: "npc-action-test" });
 
+const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
+if (!teacher) throw new Error("missing teacher NPC fixture");
+await expectApiError(
+  "/api/game/dialog",
+  { game, npcId: teacher.id },
+  "请先走近",
+  "dialog rejects remote NPC talk"
+);
+
 const healer = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => /healer/i.test(`${npc.type} ${npc.template}`));
@@ -60,6 +69,18 @@ assertEqual(game.save.json.savePoint.npcId, saveNpc.npc.id, "save json records s
 assert(game.save.info.includes("LAST_SAVEPOINT="), "saac-like save info includes last savepoint");
 assert(game.flags.bits[`end:${stableFlag(`${saveNpc.npc.id}:savepoint`)}`], "savepoint end flag set");
 
+const shopNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.trade?.items?.length);
+if (!shopNpc) throw new Error("missing shop NPC fixture");
+game.location = farLocation(shopNpc.map, shopNpc.npc);
+await expectApiError(
+  "/api/game/buy",
+  { game, npcId: shopNpc.npc.id, itemId: shopNpc.npc.trade.items[0].id },
+  "请先走近",
+  "shop purchase rejects remote NPC window action"
+);
+
 const warpNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && npc.warp.cost?.mode === "level-multiplier");
@@ -78,7 +99,7 @@ assert(game.dialog.messages.some((message) => message.speaker === "npc" && messa
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
-console.log("NPC actions OK: healer, savepoint, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: distance-gated talk/window actions, healer, savepoint, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -88,6 +109,34 @@ function assertEqual(actual, expected, label) {
   if (actual !== expected) {
     throw new Error(`${label}: expected ${expected}, got ${actual}`);
   }
+}
+
+async function expectApiError(pathName, body, text, label) {
+  try {
+    await api(pathName, body);
+  } catch (error) {
+    assert(String(error.message || "").includes(text), `${label}: expected error containing ${text}, got ${error.message}`);
+    return;
+  }
+  throw new Error(`${label}: expected API error`);
+}
+
+function farLocation(map, npc) {
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  const candidates = [
+    { mapId: map.id, x: 0, y: 0 },
+    { mapId: map.id, x: width - 1, y: height - 1 },
+    { mapId: map.id, x: 0, y: height - 1 },
+    { mapId: map.id, x: width - 1, y: 0 }
+  ];
+  const far = candidates.find((item) => distance(item.x, item.y, npc.x, npc.y) > 4);
+  if (!far) throw new Error(`cannot find far point for ${npc.name}`);
+  return far;
+}
+
+function distance(ax, ay, bx, by) {
+  return Math.max(Math.abs(Number(ax) - Number(bx)), Math.abs(Number(ay) - Number(by)));
 }
 
 function stableFlag(value) {
