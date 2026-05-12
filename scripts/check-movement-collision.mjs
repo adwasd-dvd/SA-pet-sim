@@ -32,6 +32,9 @@ const api = async (pathName, body) => {
 
 let game = await api("/api/game/new", { name: "collision-test" });
 const start = { ...game.location };
+assertEqual(game.player.dir, 5, "new character starts with source default direction");
+assertEqual(game.location.dir, 5, "new location carries source default direction");
+assert(game.save.option.includes("dir=5"), "saac-like option records initial direction");
 let route = await api("/api/game/route", { game, targetX: start.x + 3, targetY: start.y + 3 });
 assertEqual(route.blocked, false, "open route is reachable");
 assertEqual(route.route.length, 3, "open diagonal route length");
@@ -42,16 +45,23 @@ assertEqual(route.blocked, true, "blocked target route is rejected");
 game = await api("/api/game/walk", { game, dx: -1, dy: -1 });
 assertEqual(game.location.x, start.x, "blocked terrain keeps x");
 assertEqual(game.location.y, start.y, "blocked terrain keeps y");
+assertEqual(game.player.dir, 7, "blocked terrain still turns character toward attempted direction");
+assertEqual(game.location.dir, 7, "blocked terrain keeps attempted direction on location");
+assert(game.save.info.includes("DIR=7"), "saac-like save info records blocked facing direction");
 assertLog(game, "被地形或 NPC 挡住");
 
 game = await api("/api/game/walk", { game, dx: 1, dy: 1 });
 assertEqual(game.location.x, start.x + 1, "open terrain advances x");
 assertEqual(game.location.y, start.y + 1, "open terrain advances y");
+assertEqual(game.player.dir, 3, "open terrain records southeast source direction");
+assertEqual(game.location.dir, 3, "location records southeast source direction");
+assert(game.save.option.includes("dir=3"), "saac-like option records walking direction");
 
 game.location = { ...game.location, x: 41, y: 72 };
 game = await api("/api/game/walk", { game, dx: 1, dy: 0 });
 assertEqual(game.location.x, 41, "NPC collision keeps x");
 assertEqual(game.location.y, 72, "NPC collision keeps y");
+assertEqual(game.player.dir, 2, "NPC collision still turns character toward NPC");
 
 const exactExit = WORLD.maps["1000"].exits
   .find((exit) => exit.to === "100" && exit.tiles?.some((tile) => tile.x === 49 && tile.y === 116));
@@ -82,9 +92,12 @@ for (const step of route.route) {
 assertEqual(game.location.mapId, "100", "stepping onto mapwarp changes floor");
 assertEqual(game.location.x, 637, "mapwarp uses exact source tile target x");
 assertEqual(game.location.y, 491, "mapwarp uses exact source tile target y");
+assertEqual(game.player.dir, 2, "mapwarp preserves source direction");
+assertEqual(game.location.dir, 2, "mapwarp location preserves source direction");
 assertEqual(game.lastWarp.sourceTile.x, 49, "lastWarp records source tile x");
 assertEqual(game.lastWarp.sourceTile.y, 116, "lastWarp records source tile y");
 assert(game.save.info.includes("LAST_WARP=100,637,491"), "saac-like save info records last mapwarp");
+assert(game.save.info.includes("DIR=2"), "saac-like save info records mapwarp direction");
 
 let npcGame = await api("/api/game/new", { name: "npc-route-test" });
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));

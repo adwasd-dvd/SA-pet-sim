@@ -27,6 +27,17 @@ const NPC_INTERACTION_RANGE = 2;
 const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
+const DEFAULT_CHAR_DIR = 5;
+const SA_DIRECTION_DELTAS = Object.freeze([
+  [0, -1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+  [0, 1],
+  [-1, 1],
+  [-1, 0],
+  [-1, -1]
+]);
 const NPC_VM_ACTIONS = new Set([
   "say",
   "window",
@@ -173,12 +184,14 @@ async function createPlayerGame(env, request, body) {
       exp: 0,
       stone: 100,
       hp: 100,
-      maxHp: 100
+      maxHp: 100,
+      dir: DEFAULT_CHAR_DIR
     },
     location: {
       mapId: WORLD.startMap,
       x: WORLD.maps[WORLD.startMap].spawn[0],
-      y: WORLD.maps[WORLD.startMap].spawn[1]
+      y: WORLD.maps[WORLD.startMap].spawn[1],
+      dir: DEFAULT_CHAR_DIR
     },
     pets: [starter],
     inventory: [{ id: "stone", name: "石币", qty: 100 }],
@@ -198,20 +211,51 @@ function travelGame(game, to) {
   return applyExit(game, exit);
 }
 
+function normalizeDir(dir) {
+  const n = Number(dir);
+  if (!Number.isFinite(n)) return DEFAULT_CHAR_DIR;
+  const int = Math.trunc(n);
+  return int >= 0 && int < SA_DIRECTION_DELTAS.length ? int : DEFAULT_CHAR_DIR;
+}
+
+function dirFromDelta(dx, dy, fallback = DEFAULT_CHAR_DIR) {
+  const sx = Math.sign(Number(dx) || 0);
+  const sy = Math.sign(Number(dy) || 0);
+  const dir = SA_DIRECTION_DELTAS.findIndex(([x, y]) => x === sx && y === sy);
+  return dir >= 0 ? dir : normalizeDir(fallback);
+}
+
+function deltaForDir(dir) {
+  const [dx, dy] = SA_DIRECTION_DELTAS[normalizeDir(dir)];
+  return { dx, dy };
+}
+
+function setCharacterDir(game, dir) {
+  const next = normalizeDir(dir);
+  game.player ||= {};
+  game.location ||= {};
+  game.player.dir = next;
+  game.location.dir = next;
+  return next;
+}
+
 async function walkGame(env, request, game, dx, dy) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const width = Math.max(1, Number(map.size?.[0]) || 1);
   const height = Math.max(1, Number(map.size?.[1]) || 1);
-  const nextX = clampInt(Number(game.location.x || 0) + Math.sign(dx), 0, width - 1, game.location.x);
-  const nextY = clampInt(Number(game.location.y || 0) + Math.sign(dy), 0, height - 1, game.location.y);
+  const dir = dirFromDelta(dx, dy, game.player?.dir ?? game.location?.dir);
+  const delta = deltaForDir(dir);
+  setCharacterDir(game, dir);
+  const nextX = clampInt(Number(game.location.x || 0) + delta.dx, 0, width - 1, game.location.x);
+  const nextY = clampInt(Number(game.location.y || 0) + delta.dy, 0, height - 1, game.location.y);
   const exit = exitAt(map, nextX, nextY);
   if (!exit && (await blocksMove(env, request, map, nextX, nextY))) {
     noteBlockedMove(game, map, nextX, nextY);
     noteNearby(game, map);
     return withMap(game);
   }
-  game.location = { ...game.location, x: nextX, y: nextY };
+  game.location = { ...game.location, x: nextX, y: nextY, dir };
   game.encounter = null;
   game.battle = null;
   if (exit) return applyExit(game, exit);
@@ -649,16 +693,7 @@ function reconstructRoute(cameFrom, key) {
 }
 
 function routeMoves() {
-  return [
-    { dx: -1, dy: 1 },
-    { dx: -1, dy: 0 },
-    { dx: -1, dy: -1 },
-    { dx: 0, dy: -1 },
-    { dx: 1, dy: -1 },
-    { dx: 1, dy: 0 },
-    { dx: 1, dy: 1 },
-    { dx: 0, dy: 1 }
-  ];
+  return SA_DIRECTION_DELTAS.map(([dx, dy]) => ({ dx, dy }));
 }
 
 function routeHeuristic(x, y, targetX, targetY) {
@@ -688,8 +723,10 @@ function noteNearby(game, map) {
 
 function applyExit(game, exit) {
   const from = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
+  const dir = normalizeDir(game.player?.dir ?? game.location?.dir);
   const now = new Date().toISOString();
-  game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
+  game.location = { mapId: exit.to, x: exit.target[0], y: exit.target[1], dir };
+  setCharacterDir(game, dir);
   game.encounter = null;
   game.battle = null;
   game.walk = { steps: 0, encounterSteps: 0 };
@@ -714,12 +751,14 @@ function applyWarpTarget(game, target, label) {
   const targetMap = WORLD.maps[String(target.mapId)];
   if (!targetMap) throw new Error("目标地图尚未加载");
   const from = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
+  const dir = normalizeDir(game.player?.dir ?? game.location?.dir);
   const now = new Date().toISOString();
   const width = Math.max(1, Number(targetMap.size?.[0]) || 1);
   const height = Math.max(1, Number(targetMap.size?.[1]) || 1);
   const x = clampInt(target.x, 0, width - 1, 0);
   const y = clampInt(target.y, 0, height - 1, 0);
-  game.location = { mapId: targetMap.id, x, y };
+  game.location = { mapId: targetMap.id, x, y, dir };
+  setCharacterDir(game, dir);
   game.encounter = null;
   game.battle = null;
   game.walk = { steps: 0, encounterSteps: 0 };
@@ -1882,6 +1921,7 @@ function fallbackGuide(context) {
 function normalizeGame(game) {
   if (!game || !game.player || !game.location) throw new Error("需要先创建人物");
   ensureSaveIdentity(game);
+  setCharacterDir(game, game.player?.dir ?? game.location?.dir);
   game.pets ||= [];
   game.inventory ||= [];
   game.quests ||= {};
@@ -1989,6 +2029,7 @@ function buildCharOption(game) {
     `floor=${game.location.mapId}`,
     `x=${game.location.x}`,
     `y=${game.location.y}`,
+    `dir=${normalizeDir(game.player.dir)}`,
     `pet=${game.pets.length}`,
     `item=${game.inventory.length}`
   ].join(",");
@@ -2011,6 +2052,7 @@ function buildCharInfo(game) {
     `FLOOR=${game.location.mapId}`,
     `X=${game.location.x}`,
     `Y=${game.location.y}`,
+    `DIR=${normalizeDir(game.player.dir)}`,
     `LAST_WARP=${game.lastWarp?.to ? `${game.lastWarp.to.mapId},${game.lastWarp.to.x},${game.lastWarp.to.y}` : "NONE"}`,
     `PETCOUNT=${game.pets.length}`,
     `ITEMCOUNT=${game.inventory.length}`,
@@ -2078,6 +2120,7 @@ function withMap(game, extra = {}) {
   const map = currentMap(game);
   ensureSaveIdentity(game);
   ensureFlags(game);
+  setCharacterDir(game, game.player?.dir ?? game.location?.dir);
   game.save = buildSaacSave(game);
   return {
     ...game,
