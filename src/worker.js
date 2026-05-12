@@ -106,7 +106,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/dialog" && request.method === "POST") {
       const body = await readJson(request);
-      return json(await dialogGame(env, body.game, String(body.npcId || ""), String(body.message || "")));
+      return json(await dialogGame(env, request, body.game, String(body.npcId || ""), String(body.message || "")));
     }
     if (url.pathname === "/api/game/buy" && request.method === "POST") {
       const body = await readJson(request);
@@ -847,7 +847,7 @@ function talkGame(game, npcId) {
   return withMap(game, { npc });
 }
 
-async function dialogGame(env, game, npcId, message) {
+async function dialogGame(env, request, game, npcId, message) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
@@ -870,7 +870,7 @@ async function dialogGame(env, game, npcId, message) {
     npcMessage("player", "hi"),
     npcMessage("npc", runNpcTalk(game, npc, "hi"))
   ];
-  const reply = await npcReply(env, game, npc, text);
+  const reply = await npcReply(env, request, game, npc, text);
   openDialog(game, npc, [
     ...existing,
     npcMessage("player", text),
@@ -903,13 +903,21 @@ async function maybeStepEncounter(env, request, game, map) {
 }
 
 async function spawnEncounter(env, request, game, map, source) {
-  const data = await loadGameData(env, request);
-  const petNo = pick(map.encounterPets);
-  const enemy = createEnemy(data, petNo, Math.max(1, game.player.level + randInt(3) - 1));
+  const enemy = await createEncounterEnemy(env, request, game, map);
   if (!enemy) throw new Error("当前地图没有可遇敌宠物");
-  enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
   game.encounter = enemy;
   addLog(game, `${source}遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
+  return enemy;
+}
+
+async function createEncounterEnemy(env, request, game, map) {
+  const data = await loadGameData(env, request);
+  const petNo = pick(map.encounterPets || []);
+  const enemy = createEnemy(data, petNo, Math.max(1, game.player.level + randInt(3) - 1));
+  if (!enemy) return null;
+  enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
+  enemy.source = "ref___data/encount.txt + enemybase2.txt";
+  return enemy;
 }
 
 function captureGame(game) {
@@ -1062,7 +1070,7 @@ async function guideGame(env, game, prompt) {
   return { text: fallbackGuide(context), model: "local-rule" };
 }
 
-async function npcReply(env, game, npc, text) {
+async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
@@ -1071,7 +1079,7 @@ async function npcReply(env, game, npc, text) {
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
   if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
-  if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
+  if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(env, request, game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
   if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
   if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, game, npc, text);
@@ -1166,9 +1174,31 @@ function questReply(game, npc) {
   return `「${quest.title}」还在进行中。下一步是：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。`;
 }
 
-function captureReply(game, npc) {
-  recordNpcVmEvent(game, npc, "startBattle", "unsupported", { reason: "battle-002 pending" });
-  return `${npc.name} 使用原始脚本入口「${npc.script || npc.template || npc.type}」。自动遇敌与捕获界面目前已关闭，后续会按原版系统重新接入。`;
+async function captureReply(env, request, game, npc) {
+  const map = currentMap(game);
+  if (!map.encounterPets?.length) {
+    runNpcVmAction(game, npc, {
+      type: "startBattle",
+      reason: "no-encounter-data",
+      mapId: map.id,
+      mapName: map.name
+    });
+    return `${npc.name} 查看了当前地图资料：${map.name} 没有 encount.txt 遇敌表，不能在这里触发战斗。`;
+  }
+  const enemy = await createEncounterEnemy(env, request, game, map);
+  const event = runNpcVmAction(game, npc, {
+    type: "startBattle",
+    enemy,
+    reason: "npc-capture",
+    mapId: map.id,
+    mapName: map.name,
+    source: "ref___data/encount.txt"
+  });
+  if (!event.ok) {
+    return `${npc.name} 找不到可用的遇敌资料：${event.error || "startBattle 被 VM 拒绝"}。`;
+  }
+  addLog(game, `${npc.name} 引导出 ${enemy.Name} Lv.${enemy.Lv}。`);
+  return `${npc.name} 根据 ${map.name} 的 encount.txt 引导出 ${enemy.Name} Lv.${enemy.Lv}。\n战斗状态已由 NPC VM 建立；旧的自动抓宠弹窗仍保持关闭，后续会接入原版战斗窗口。`;
 }
 
 function trainReply(game, npc) {
@@ -1536,6 +1566,7 @@ function applyNpcVmMutation(game, type, action) {
   }
   if (type === "take") return applyNpcVmTake(game, action);
   if (type === "give") return applyNpcVmGive(game, action);
+  if (type === "startBattle") return applyNpcVmStartBattle(game, action);
   return { ok: true, mutated: false };
 }
 
@@ -1589,8 +1620,22 @@ function applyNpcVmGive(game, action) {
   return { ok: true, mutated };
 }
 
+function applyNpcVmStartBattle(game, action) {
+  if (!action.enemy) return { ok: false, mutated: false, error: "没有可用的遇敌资料" };
+  game.encounter = { ...action.enemy };
+  game.battle = null;
+  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk.encounterSteps = 0;
+  const activePet = game.pets?.[0];
+  if (activePet) {
+    ensureBattleState(game, activePet, game.encounter);
+    if (game.battle) game.battle.source = "npc-action-vm startBattle from ref___data/encount.txt";
+  }
+  return { ok: true, mutated: true };
+}
+
 function npcVmActionDetail(action, mutation) {
-  const { type: _type, action: _action, status: _status, item, ...detail } = action;
+  const { type: _type, action: _action, status: _status, item, enemy, ...detail } = action;
   const out = {
     executor: "npc-action-vm",
     ...detail,
@@ -1601,6 +1646,13 @@ function npcVmActionDetail(action, mutation) {
     if (out.itemName == null && item.name) out.itemName = item.name;
   } else if (item != null) {
     out.item = item;
+  }
+  if (enemy && typeof enemy === "object") {
+    out.enemyNo = enemy.No;
+    out.enemyName = enemy.Name;
+    out.enemyLevel = enemy.Lv;
+    out.enemyImage = enemy.ImgNo;
+    out.captureRate = enemy.CaptureRate;
   }
   if (mutation.error) out.error = mutation.error;
   return out;

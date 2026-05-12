@@ -140,6 +140,19 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && even
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop buy runs stone take through NPC VM executor");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop buy runs item give through NPC VM executor");
 
+const battleNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ map, npc }) => map.encounterPets?.length && npc.id);
+if (!battleNpc) throw new Error("missing NPC on encounter map fixture");
+let npcBattleGame = await api("/api/game/new", { name: "npc-start-battle-test" });
+npcBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+npcBattleGame = await api("/api/game/dialog", { game: npcBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
+assert(npcBattleGame.encounter?.Name, "NPC startBattle creates an encounter enemy");
+assert(npcBattleGame.battle?.source?.includes("npc-action-vm startBattle"), "NPC startBattle initializes battle through VM");
+assert(npcBattleGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("旧的自动抓宠弹窗仍保持关闭")), "NPC startBattle keeps old auto capture UI disabled");
+assert(npcBattleGame.dialog.debug.vmTrace.some((event) => event.action === "startBattle" && event.status === "ok" && event.detail?.executor === "npc-action-vm"), "NPC startBattle runs through VM executor");
+assert(npcBattleGame.dialog.debug.vmTrace.some((event) => event.action === "startBattle" && event.detail?.mutated === true && event.detail?.enemyName), "NPC startBattle trace records enemy summary and mutation");
+
 const warpNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && npc.warp.cost?.mode === "level-multiplier");
@@ -163,7 +176,7 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && even
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take traces, distance-gated talk/window actions, healer, savepoint, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/startBattle traces, distance-gated talk/window actions, healer, savepoint, battle start, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

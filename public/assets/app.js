@@ -1395,18 +1395,8 @@ function renderExits(map) {
 
 function renderEncounter() {
   if (!ENCOUNTER_UI_ENABLED) {
-    let cleared = false;
-    if (game.encounter) {
-      game.encounter = null;
-      cleared = true;
-    }
-    if (game.battle) {
-      game.battle = null;
-      cleared = true;
-    }
     els.encounterPanel.hidden = true;
     els.battleLog.innerHTML = "";
-    if (cleared) save();
     return;
   }
   const enemy = game.encounter;
