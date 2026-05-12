@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=32">
+    <link rel="stylesheet" href="/assets/app.css?v=33">
   </head>
   <body>
     <div class="app-shell">
@@ -70,6 +70,14 @@
                 </div>
               </div>
               <div id="mapCanvas" class="map-canvas" aria-label="地图"></div>
+              <div class="map-command-dock" aria-label="游戏指令">
+                <button type="button" data-command-tab="pets" title="宠物"><span>宠</span></button>
+                <button type="button" data-command-tab="quests" title="任务"><span>任</span></button>
+                <button type="button" data-command-tab="log" title="日志"><span>录</span></button>
+                <button type="button" data-command-tab="save" title="存档"><span>存</span></button>
+                <button type="button" data-command-tab="data" title="资料"><span>查</span></button>
+                <button type="button" data-command-tab="ai" title="AI 向导"><span>导</span></button>
+              </div>
               <div class="map-help">
                 <span><b class="legend-dot player-dot"></b>你的位置</span>
                 <span><b class="legend-dot npc-dot"></b>可对话 NPC</span>
@@ -173,6 +181,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=35"></script>
+    <script type="module" src="/assets/app.js?v=36"></script>
   </body>
 </html>

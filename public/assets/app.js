@@ -181,6 +181,9 @@ function bindEvents() {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => showTab(tab.dataset.tab));
   });
+  document.querySelectorAll("[data-command-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => showTab(btn.dataset.commandTab));
+  });
   els.encounterImg.addEventListener("error", () => {
     els.encounterImg.src = "/f/logo.gif";
   });
@@ -1381,6 +1384,11 @@ async function askGuide() {
 function showTab(name) {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.tab === name);
+  });
+  document.querySelectorAll("[data-command-tab]").forEach((btn) => {
+    const active = btn.dataset.commandTab === name;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", active ? "true" : "false");
   });
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     panel.classList.toggle("active", panel.id === `${name}Tab`);
