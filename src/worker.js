@@ -27,6 +27,20 @@ const NPC_INTERACTION_RANGE = 2;
 const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
+const NPC_VM_ACTIONS = new Set([
+  "say",
+  "window",
+  "shop",
+  "warp",
+  "heal",
+  "save",
+  "give",
+  "take",
+  "setFlag",
+  "startBattle",
+  "quest",
+  "debug"
+]);
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -1407,10 +1421,12 @@ function sourceReply(game, npc) {
 
 async function aiNpcReply(env, game, npc, text) {
   const map = currentMap(game);
+  const debug = npcDebugInfo(npc, game);
   const messages = [
-    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句，不替玩家操作。" },
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句。你可以解释或建议 allowedActions，但不能直接执行状态变化；所有交易、传送、奖励、flag 和战斗都必须由 Worker 的确定性 NPC VM 校验执行。" },
     { role: "user", content: JSON.stringify({
       npc: { id: npc.id, name: npc.name, type: npc.type, dialogue: npc.dialogue, source: npc.source, script: npc.script },
+      vm: { allowedActions: debug.allowedActions, recentTrace: debug.vmTrace },
       player: game.player,
       map: { name: map.name, exits: map.exits.map((exit) => exit.label) },
       quests: game.quests,
@@ -1440,13 +1456,16 @@ function openDialog(game, npc, messages) {
 }
 
 function npcDebugInfo(npc, game = null) {
+  const actions = npcActionProfile(npc);
   return {
     source: npc.source || "",
     script: npc.script || "",
     template: npc.template || "",
     type: npc.type || "",
     graphic: npc.graphic || "",
-    actions: npcActionProfile(npc),
+    actions,
+    allowedActions: actions.filter((action) => NPC_VM_ACTIONS.has(action)),
+    supportedActions: [...NPC_VM_ACTIONS],
     vmTrace: game ? recentNpcVmEvents(game, npc) : [],
     talkFlow: "gmsv CHAR_Talk -> NPC talkedfunc; browser click sends P|hi"
   };
@@ -1474,17 +1493,19 @@ function npcActionProfile(npc) {
 
 function recordNpcVmEvent(game, npc, action, status = "ok", detail = {}) {
   game.npcVmEvents ||= [];
+  const supported = NPC_VM_ACTIONS.has(action);
   const event = {
     at: new Date().toISOString(),
     npcId: npc.id,
     npcName: npc.name,
-    action,
-    status,
+    action: supported ? action : "unsupported",
+    status: supported ? status : "unsupported",
+    supported,
     source: npc.source || "",
     script: npc.script || "",
     template: npc.template || "",
     type: npc.type || "",
-    detail
+    detail: supported ? detail : { ...detail, originalAction: action }
   };
   game.npcVmEvents.push(event);
   game.npcVmEvents = game.npcVmEvents.slice(-40);

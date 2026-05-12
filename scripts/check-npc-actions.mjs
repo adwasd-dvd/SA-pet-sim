@@ -51,6 +51,8 @@ assertEqual(teacherGame.dialog.messages.filter((message) => message.speaker === 
 assert(!teacherGame.dialog.messages.some((message) => message.text.includes(teacher.dialogueLines[1])), "default hi only returns the next source dialogue line");
 assert(teacherGame.dialog.debug.actions.includes("quest"), "teacher debug profiles quest action");
 assert(teacherGame.dialog.debug.actions.includes("say"), "teacher debug profiles say action");
+assert(teacherGame.dialog.debug.allowedActions.includes("quest"), "teacher debug exposes VM allowed quest action");
+assert(teacherGame.dialog.debug.supportedActions.includes("setFlag"), "teacher debug exposes VM supported setFlag action");
 assert(teacherGame.dialog.source.includes(teacher.source), "teacher dialog source line includes source path");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.status === "ok"), "teacher dialog debug includes quest VM trace");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "say" && event.status === "ok"), "teacher dialog debug includes say VM trace");
@@ -61,6 +63,8 @@ assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" &
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.script)), "source query replies with script path");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.status === "ok"), "source query records debug VM event");
 assert(teacherGame.save.json.npcVmEvents.some((event) => event.action === "debug" && event.npcId === teacher.id), "save json carries recent NPC VM events");
+teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "训练" });
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "unsupported" && event.detail?.originalAction === "fieldSkill"), "unsupported VM actions preserve original action");
 teacherGame.quests[teacher.questId].status = "可回报";
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "hi" });
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "quest-complete"), "teacher quest complete records setFlag VM event");
@@ -138,7 +142,7 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && even
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
-console.log("NPC actions OK: source-debug dialogue, VM setFlag/give/take traces, distance-gated talk/window actions, healer, savepoint, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM allowed/unsupported actions, setFlag/give/take traces, distance-gated talk/window actions, healer, savepoint, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
