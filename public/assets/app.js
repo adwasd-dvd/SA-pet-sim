@@ -47,6 +47,15 @@ const els = {
   mapZoomReset: byId("mapZoomReset"),
   mapZoomIn: byId("mapZoomIn"),
   mapZoomValue: byId("mapZoomValue"),
+  mapHudName: byId("mapHudName"),
+  mapHudMeta: byId("mapHudMeta"),
+  mapHudHpBar: byId("mapHudHpBar"),
+  mapHudHpText: byId("mapHudHpText"),
+  mapHudPetName: byId("mapHudPetName"),
+  mapHudPetMeta: byId("mapHudPetMeta"),
+  mapHudPetHpBar: byId("mapHudPetHpBar"),
+  mapHudPetHpText: byId("mapHudPetHpText"),
+  mapHudInventory: byId("mapHudInventory"),
   npcList: byId("npcList"),
   exitList: byId("exitList"),
   encounterPanel: byId("encounterPanel"),
@@ -91,6 +100,7 @@ init();
 
 function init() {
   bindEvents();
+  showTab("pets");
   updateNetState();
   window.addEventListener("online", updateNetState);
   window.addEventListener("offline", updateNetState);
@@ -216,6 +226,7 @@ function render() {
   els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
   els.mapName.textContent = map.name;
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：ref___data/map + mapwarp.txt + encount.txt + npc scripts`;
+  renderMapHud();
   els.encounterBtn.hidden = !ENCOUNTER_UI_ENABLED;
   els.encounterBtn.disabled = !ENCOUNTER_UI_ENABLED || !map.encounterPets?.length;
   els.encounterBtn.title = ENCOUNTER_UI_ENABLED
@@ -1276,6 +1287,29 @@ function renderEncounter() {
   els.battleLog.innerHTML = (game.battle?.log || []).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
 }
 
+function renderMapHud() {
+  const playerHp = clampPercent(game.player.hp, game.player.maxHp);
+  const activePet = game.pets?.[0];
+  const inventory = inventoryState();
+  els.mapHudName.textContent = game.player.name;
+  els.mapHudMeta.textContent = `Lv.${game.player.level} | EXP ${Number(game.player.exp || 0)}`;
+  els.mapHudHpBar.style.width = `${playerHp}%`;
+  els.mapHudHpText.textContent = `HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}`;
+  if (activePet) {
+    const petHp = clampPercent(activePet.Hp, activePet.WorkMaxHp);
+    els.mapHudPetName.textContent = activePet.Name;
+    els.mapHudPetMeta.textContent = `Lv.${activePet.Lv} | No.${activePet.PetId}`;
+    els.mapHudPetHpBar.style.width = `${petHp}%`;
+    els.mapHudPetHpText.textContent = `HP ${Number(activePet.Hp || 0)}/${Number(activePet.WorkMaxHp || 0)}`;
+  } else {
+    els.mapHudPetName.textContent = "无出战宠物";
+    els.mapHudPetMeta.textContent = "宠物栏为空";
+    els.mapHudPetHpBar.style.width = "0%";
+    els.mapHudPetHpText.textContent = "--";
+  }
+  els.mapHudInventory.textContent = `石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity} | 宠物 ${game.pets.length}`;
+}
+
 function renderPets() {
   const pets = game.pets.map((pet, index) => `
     <article class="pet-card">
@@ -1501,6 +1535,12 @@ function escapeHtml(value) {
 function cssEscape(value) {
   if (window.CSS?.escape) return CSS.escape(String(value));
   return String(value).replace(/["\\\]]/g, "\\$&");
+}
+
+function clampPercent(value, max) {
+  const safeMax = Number(max) || 0;
+  if (safeMax <= 0) return 0;
+  return Math.max(0, Math.min(100, Math.round((Number(value || 0) / safeMax) * 100)));
 }
 
 function fmt(value) {

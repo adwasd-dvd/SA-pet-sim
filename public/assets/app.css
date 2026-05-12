@@ -555,6 +555,99 @@ h3 {
   gap: 6px;
 }
 
+.map-status-hud {
+  position: absolute;
+  left: 12px;
+  bottom: 36px;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 172px));
+  gap: 6px;
+  width: min(360px, calc(100% - 188px));
+  border: 1px solid rgb(255 255 255 / 34%);
+  border-radius: 8px;
+  padding: 6px;
+  background: rgb(37 34 27 / 76%);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 22%);
+  color: #fff7d0;
+  backdrop-filter: blur(2px);
+}
+
+.map-status-chip {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 6px;
+  padding: 7px;
+  background: rgb(255 253 247 / 11%);
+}
+
+.map-status-chip div:first-child {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.map-status-chip strong,
+.map-status-chip span,
+.map-status-hud p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.map-status-chip strong {
+  color: #fffdf7;
+  line-height: 1.1;
+}
+
+.map-status-chip span,
+.map-status-hud p {
+  color: #d7c79c;
+  font-size: 12px;
+}
+
+.status-bar {
+  position: relative;
+  overflow: hidden;
+  height: 16px;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 999px;
+  background: rgb(10 20 18 / 64%);
+}
+
+.status-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #b6433c, #e18b45);
+}
+
+.map-status-chip.pet .status-bar i {
+  background: linear-gradient(90deg, #3174a6, #77a75e);
+}
+
+.status-bar b {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 0 7px;
+  color: #fffdf7;
+  font-size: 11px;
+  line-height: 14px;
+  text-align: center;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 42%);
+}
+
+.map-status-hud p {
+  grid-column: 1 / -1;
+  margin: 0;
+  border-top: 1px solid rgb(255 255 255 / 16%);
+  padding: 5px 2px 0;
+}
+
 .map-command-dock {
   position: absolute;
   right: 12px;
@@ -1134,9 +1227,22 @@ mark {
     min-height: 0;
   }
 
+  .map-status-hud {
+    left: 8px;
+    right: 8px;
+    bottom: 118px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: auto;
+    padding: 4px;
+  }
+
+  .map-status-chip {
+    padding: 5px;
+  }
+
   .map-command-dock {
     right: 8px;
-    bottom: 34px;
+    bottom: 66px;
     grid-template-columns: repeat(6, 34px);
     gap: 4px;
     padding: 4px;

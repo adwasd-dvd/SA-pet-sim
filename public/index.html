@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=33">
+    <link rel="stylesheet" href="/assets/app.css?v=34">
   </head>
   <body>
     <div class="app-shell">
@@ -70,6 +70,29 @@
                 </div>
               </div>
               <div id="mapCanvas" class="map-canvas" aria-label="地图"></div>
+              <div class="map-status-hud" aria-label="人物状态">
+                <section class="map-status-chip">
+                  <div>
+                    <strong id="mapHudName">--</strong>
+                    <span id="mapHudMeta">--</span>
+                  </div>
+                  <div class="status-bar" aria-label="人物 HP">
+                    <i id="mapHudHpBar"></i>
+                    <b id="mapHudHpText">--</b>
+                  </div>
+                </section>
+                <section class="map-status-chip pet">
+                  <div>
+                    <strong id="mapHudPetName">--</strong>
+                    <span id="mapHudPetMeta">--</span>
+                  </div>
+                  <div class="status-bar" aria-label="宠物 HP">
+                    <i id="mapHudPetHpBar"></i>
+                    <b id="mapHudPetHpText">--</b>
+                  </div>
+                </section>
+                <p id="mapHudInventory">--</p>
+              </div>
               <div class="map-command-dock" aria-label="游戏指令">
                 <button type="button" data-command-tab="pets" title="宠物"><span>宠</span></button>
                 <button type="button" data-command-tab="quests" title="任务"><span>任</span></button>
@@ -181,6 +204,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=36"></script>
+    <script type="module" src="/assets/app.js?v=37"></script>
   </body>
 </html>
