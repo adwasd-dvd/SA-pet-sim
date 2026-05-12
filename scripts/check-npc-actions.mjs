@@ -52,10 +52,14 @@ assert(!teacherGame.dialog.messages.some((message) => message.text.includes(teac
 assert(teacherGame.dialog.debug.actions.includes("quest"), "teacher debug profiles quest action");
 assert(teacherGame.dialog.debug.actions.includes("say"), "teacher debug profiles say action");
 assert(teacherGame.dialog.source.includes(teacher.source), "teacher dialog source line includes source path");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.status === "ok"), "teacher dialog debug includes quest VM trace");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "say" && event.status === "ok"), "teacher dialog debug includes say VM trace");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "来源" });
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "player" && message.text === "来源"), "custom dialog text is appended");
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.source)), "source query replies with source path");
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.script)), "source query replies with script path");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.status === "ok"), "source query records debug VM event");
+assert(teacherGame.save.json.npcVmEvents.some((event) => event.action === "debug" && event.npcId === teacher.id), "save json carries recent NPC VM events");
 
 const healer = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
@@ -75,6 +79,7 @@ assertEqual(game.dialog.debug.source, healer.npc.source, "dialog debug records h
 assertEqual(game.dialog.debug.template, healer.npc.template, "dialog debug records healer template");
 assert(game.dialog.debug.actions.includes("heal"), "dialog debug profiles healer action");
 assert(game.dialog.source.includes(healer.npc.source), "dialog source line includes source path");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "heal" && event.status === "ok"), "healer dialog debug includes heal VM trace");
 assert(game.flags.bits[`now:${stableFlag(`${healer.npc.id}:healer`)}`], "healer action flag set");
 
 const saveNpc = Object.values(WORLD.maps)
@@ -118,6 +123,7 @@ assertEqual(game.player.stone, 100 - warpCost, "warp NPC charges level-based sto
 assert(game.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("启动传送")), "warp NPC replies with travel text");
 assert(game.dialog.debug.actions.includes("warp"), "dialog debug profiles warp action");
 assert(game.dialog.source.includes(warpNpc.npc.source), "dialog source line includes warp source path");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "ok"), "warp dialog debug includes warp VM trace");
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 

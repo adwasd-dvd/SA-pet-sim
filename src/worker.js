@@ -1049,14 +1049,15 @@ async function npcReply(env, game, npc, text) {
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
-  if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(npc);
+  if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
-  if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(npc);
+  if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
   if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
   if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, game, npc, text);
+  recordNpcVmEvent(game, npc, "unsupported", "unsupported", { text: text.slice(0, 80) });
   return fallbackNpcReply(npc);
 }
 
@@ -1078,12 +1079,17 @@ function applyNpcHi(game, npc) {
   if (npc.questId && WORLD.quests[npc.questId]) {
     if (!game.quests[npc.questId]) {
       startQuest(game, npc.questId);
+      recordNpcVmEvent(game, npc, "quest", "ok", { questId: npc.questId, phase: "start" });
+      recordNpcVmEvent(game, npc, "say", "ok", { line });
       return `${line} ${game.quests[npc.questId].steps[1]}`;
     } else if (game.quests[npc.questId].status === "可回报") {
       completeQuest(game, npc.questId);
+      recordNpcVmEvent(game, npc, "quest", "ok", { questId: npc.questId, phase: "complete" });
+      recordNpcVmEvent(game, npc, "say", "ok", { line });
       return `${line} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
     }
   }
+  recordNpcVmEvent(game, npc, "say", "ok", { line });
   return line;
 }
 
@@ -1127,6 +1133,7 @@ function completeQuest(game, questId) {
 }
 
 function questReply(game, npc) {
+  recordNpcVmEvent(game, npc, "quest", npc.questId ? "ok" : "unsupported", { questId: npc.questId || null, query: true });
   if (!npc.questId) return `${npc.name} 这里没有正式委托，但可以继续问地图、交易或训练。`;
   const quest = game.quests[npc.questId];
   if (!quest) return `我这里有「${WORLD.quests[npc.questId].title}」。点选我时客户端会自动打招呼并触发任务。`;
@@ -1135,10 +1142,12 @@ function questReply(game, npc) {
 }
 
 function captureReply(game, npc) {
+  recordNpcVmEvent(game, npc, "startBattle", "unsupported", { reason: "battle-002 pending" });
   return `${npc.name} 使用原始脚本入口「${npc.script || npc.template || npc.type}」。自动遇敌与捕获界面目前已关闭，后续会按原版系统重新接入。`;
 }
 
 function trainReply(game, npc) {
+  recordNpcVmEvent(game, npc, "fieldSkill", "unsupported", { reason: "training script not ported" });
   return `${npc.name} 当前没有可模拟的训练脚本，只保留原 NPC 数据入口：${npc.source || npc.script || npc.type}。`;
 }
 
@@ -1151,9 +1160,11 @@ function healerReply(game, npc) {
   const needed = needsHealing(game);
   if (!needed) {
     setEventFlag(game, eventFlagForNpcAction(npc.id, "healer-check"), "now");
+    recordNpcVmEvent(game, npc, "heal", "noop", { reason: "full-hp" });
     return `${npc.name} 查看了你的状态：人物和宠物都不需要治疗。`;
   }
   if (cost > 0 && Number(game.player.stone || 0) < cost) {
+    recordNpcVmEvent(game, npc, "heal", "blocked", { reason: "stone", cost });
     return `${npc.name}：治疗需要 ${cost} 石币，你现在的石币不够。`;
   }
   if (cost > 0) {
@@ -1170,6 +1181,7 @@ function healerReply(game, npc) {
     ? `${npc.name} 为人物和宠物恢复了耐久，花费 ${cost} 石币。`
     : `${npc.name} 为人物和宠物恢复了耐久。`;
   addLog(game, `${line} 合计恢复 ${restored}。`);
+  recordNpcVmEvent(game, npc, "heal", "ok", { cost, restored });
   return `${line}\n来源：gmsv npc_windowhealer / npc_healer 会恢复玩家与宠物 HP/MP。`;
 }
 
@@ -1209,6 +1221,7 @@ function savePointReply(game, npc) {
   game.character.updatedAt = now;
   setEventFlag(game, eventFlagForNpcAction(npc.id, "savepoint"), "end");
   addLog(game, `${npc.name} 已记录你的冒险进度。`);
+  recordNpcVmEvent(game, npc, "save", "ok", { mapId: game.location.mapId, x: game.location.x, y: game.location.y });
   return `${npc.name} 已记录你的冒险进度。\n来源：gmsv npc_savepoint 会设置 LASTTALKELDER 并触发 SAAC 角色保存。`;
 }
 
@@ -1219,16 +1232,19 @@ function warpPromptReply(game, npc) {
   const targetName = targetMap?.name || `floor ${target.mapId}`;
   const permission = warpPermission(game, npc.warp);
   if (!targetMap) {
+    recordNpcVmEvent(game, npc, "warp", "unsupported", { reason: "target-map-missing", target });
     return `${npc.name} 的原版脚本目标是 ${targetName} (${target.x},${target.y})，但这个 floor 尚未打包进当前 Worker 地图集。\n来源：${npc.warp.source}`;
   }
   if (!permission.ok) {
     const line = npc.warp.payMessage || npc.warp.moneyMessage || `${npc.name} 说：现在还不能传送。`;
+    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: permission.reason || "condition", target });
     return `${line}\n条件：${npc.warp.free || "未满足"}\n来源：${npc.warp.source}`;
   }
   const costLine = permission.cost > 0 ? `需要 ${permission.cost} 石币。` : "当前满足免费传送条件。";
   const intro = permission.free
     ? npc.warp.freeMessage || `${npc.name} 可以送你去 ${targetName}。`
     : npc.warp.payMessage || `${npc.name} 可以送你去 ${targetName}。`;
+  recordNpcVmEvent(game, npc, "window", "ok", { action: "warpPrompt", target, cost: permission.cost });
   return `${intro}\n目的地：${targetName} (${target.x},${target.y})。${costLine} 输入“传送”确认。`;
 }
 
@@ -1237,14 +1253,17 @@ function warpNpcReply(game, npc) {
   const target = npc.warp.target;
   const targetMap = WORLD.maps[target.mapId];
   if (!targetMap) {
+    recordNpcVmEvent(game, npc, "warp", "unsupported", { reason: "target-map-missing", target });
     return `${npc.name} 已解析到原版 WARP:${target.mapId},${target.x},${target.y}，但目标地图还没有打包进当前 Worker。`;
   }
   const permission = warpPermission(game, npc.warp);
   if (!permission.ok) {
     const line = npc.warp.payMessage || npc.warp.moneyMessage || `${npc.name}：现在还不能传送。`;
+    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: permission.reason || "condition", target });
     return `${line}\n条件：${npc.warp.free || "未满足"}`;
   }
   if (permission.cost > 0 && Number(game.player.stone || 0) < permission.cost) {
+    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: "stone", target, cost: permission.cost });
     return npc.warp.moneyMessage || `${npc.name}：传送需要 ${permission.cost} 石币，你现在的石币不够。`;
   }
   if (permission.cost > 0) {
@@ -1256,6 +1275,7 @@ function warpNpcReply(game, npc) {
   setEventFlag(game, eventFlagForNpcAction(npc.id, "warp"), "end");
   const paid = permission.cost > 0 ? `花费 ${permission.cost} 石币，` : "";
   const ticket = consumed.length ? `消耗 ${consumed.join("、")}，` : "";
+  recordNpcVmEvent(game, npc, "warp", "ok", { target, cost: permission.cost, consumed });
   return `${npc.name} 启动传送，${ticket}${paid}你来到 ${arrived.name} (${game.location.x},${game.location.y})。\n来源：gmsv npc_warpman WARP:${target.mapId},${target.x},${target.y}`;
 }
 
@@ -1325,6 +1345,7 @@ function inventoryQty(game, id) {
 function mapReply(game, npc) {
   const map = currentMap(game);
   const exits = map.exits.map((exit) => exit.label).join("、") || "暂无出口";
+  recordNpcVmEvent(game, npc, "say", "ok", { topic: "map", mapId: map.id });
   return `当前地图是${map.name}。出口：${exits}。`;
 }
 
@@ -1348,8 +1369,9 @@ function fallbackNpcReply(npc) {
   return npcDialogueLines(npc)[0] || `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
 }
 
-function tradeReply(npc) {
+function tradeReply(game, npc) {
   const items = (npc.trade?.items || []).slice(0, 8);
+  recordNpcVmEvent(game, npc, "shop", items.length ? "ok" : "unsupported", { items: items.length, source: npc.trade?.source || "" });
   if (!items.length) return `${npc.name} 没有可解析的商品清单。`;
   return [
     npc.trade.mainMessage || "欢迎光临！",
@@ -1358,8 +1380,9 @@ function tradeReply(npc) {
   ].join("\n");
 }
 
-function sourceReply(npc) {
+function sourceReply(game, npc) {
   const debug = npcDebugInfo(npc);
+  recordNpcVmEvent(game, npc, "debug", "ok", { actions: debug.actions });
   return [
     `来源：${debug.source || "未配置"}`,
     `脚本：${debug.script || "未配置"}；template：${debug.template || "未配置"}；type：${debug.type || "未配置"}`,
@@ -1386,7 +1409,7 @@ async function aiNpcReply(env, game, npc, text) {
 }
 
 function openDialog(game, npc, messages) {
-  const debug = npcDebugInfo(npc);
+  const debug = npcDebugInfo(npc, game);
   game.dialog = {
     open: true,
     npcId: npc.id,
@@ -1401,7 +1424,7 @@ function openDialog(game, npc, messages) {
   };
 }
 
-function npcDebugInfo(npc) {
+function npcDebugInfo(npc, game = null) {
   return {
     source: npc.source || "",
     script: npc.script || "",
@@ -1409,6 +1432,7 @@ function npcDebugInfo(npc) {
     type: npc.type || "",
     graphic: npc.graphic || "",
     actions: npcActionProfile(npc),
+    vmTrace: game ? recentNpcVmEvents(game, npc) : [],
     talkFlow: "gmsv CHAR_Talk -> NPC talkedfunc; browser click sends P|hi"
   };
 }
@@ -1431,6 +1455,31 @@ function npcActionProfile(npc) {
   if (npc.questId) actions.push("quest");
   if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
   return [...new Set(actions)];
+}
+
+function recordNpcVmEvent(game, npc, action, status = "ok", detail = {}) {
+  game.npcVmEvents ||= [];
+  const event = {
+    at: new Date().toISOString(),
+    npcId: npc.id,
+    npcName: npc.name,
+    action,
+    status,
+    source: npc.source || "",
+    script: npc.script || "",
+    template: npc.template || "",
+    type: npc.type || "",
+    detail
+  };
+  game.npcVmEvents.push(event);
+  game.npcVmEvents = game.npcVmEvents.slice(-40);
+  return event;
+}
+
+function recentNpcVmEvents(game, npc) {
+  return (game.npcVmEvents || [])
+    .filter((event) => event.npcId === npc.id)
+    .slice(-8);
 }
 
 function withTradeState(game, trade) {
@@ -1524,6 +1573,7 @@ function normalizeGame(game) {
   game.lastWarp ||= null;
   game.dialog ||= null;
   game.battle ||= null;
+  game.npcVmEvents ||= [];
   game.log ||= [];
   game.character.name = game.player.name;
   game.character.updatedAt = new Date().toISOString();
@@ -1610,6 +1660,7 @@ function buildSaveJson(game) {
       steps: Number(game.walk?.steps || 0),
       encounterSteps: Number(game.walk?.encounterSteps || 0)
     },
+    npcVmEvents: (game.npcVmEvents || []).slice(-20),
     log: (game.log || []).slice(-40)
   };
 }
