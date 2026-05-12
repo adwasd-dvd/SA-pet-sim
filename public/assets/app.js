@@ -25,9 +25,11 @@ const BATTLE_KEY_ACTIONS = Object.freeze({
   g: "guard",
   "3": "capture",
   t: "capture",
-  "4": "wait",
+  "4": "item",
+  i: "item",
+  "6": "wait",
   n: "wait",
-  "5": "escape",
+  "7": "escape",
   escape: "escape",
   e: "escape"
 });
@@ -35,7 +37,7 @@ const BATTLE_ACTIONS = Object.freeze([
   { action: "attack", label: "攻击", command: "H|0" },
   { action: "guard", label: "防御", command: "G" },
   { action: "capture", label: "捕获", command: "T|0" },
-  { action: "item", label: "道具", command: "I", disabled: true },
+  { action: "item", label: "道具", command: "I" },
   { action: "pet", label: "宠物", command: "S", disabled: true },
   { action: "wait", label: "待机", command: "N" },
   { action: "escape", label: "逃跑", command: "E" }
@@ -2087,8 +2089,11 @@ function renderBattlePanel() {
   }
   els.battlePlayerName.textContent = game.player.name;
   els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)}`;
+  const hasBattleItem = battleUsableItems().length > 0;
   els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
-    const disabled = entry.disabled || (!activePet && ["attack", "guard", "wait"].includes(entry.action));
+    const disabled = entry.disabled
+      || (!activePet && ["attack", "guard", "wait", "item"].includes(entry.action))
+      || (entry.action === "item" && !hasBattleItem);
     return `
       <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""}>
         <b>${escapeHtml(entry.label)}</b>
@@ -2642,6 +2647,21 @@ function inventoryState() {
 function inventoryItemUsable(item) {
   const text = `${item.name || ""} ${item.description || ""}`;
   return /耐久力|耐力|HP|小的肉|乾燥肉|大的肉|高级肉|复活|气绝/i.test(text);
+}
+
+function battleUsableItems() {
+  if (!battleHasRecoverableTarget()) return [];
+  return (game?.inventory || []).filter((item) => (
+    item.id !== "stone"
+    && Number(item.qty || 0) > 0
+    && inventoryItemUsable(item)
+  ));
+}
+
+function battleHasRecoverableTarget() {
+  const pet = game?.pets?.[0];
+  if (pet && Number(pet.Hp || 0) < Number(pet.WorkMaxHp || pet.Hp || 1)) return true;
+  return Number(game?.player?.hp || 0) < Number(game?.player?.maxHp || 1);
 }
 
 function renderQuests() {

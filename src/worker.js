@@ -896,31 +896,12 @@ function buyGame(game, npcId, itemId) {
 
 function useItemGame(game, itemId) {
   game = normalizeGame(game);
-  const item = game.inventory.find((entry) => Number(entry.id) === Number(itemId) && Number(entry.qty || 0) > 0);
+  const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
 
-  const effect = itemEffect(item);
-  if (!effect.usable) throw new Error(`${item.name} 还没有可模拟的使用效果`);
-
-  const activePet = game.pets[0] || null;
-  const target = selectItemTarget(game, activePet, effect);
-  if (!target) throw new Error("当前没有可以恢复的目标");
-
-  const before = Number(target.hpField.owner[target.hpField.key] || 0);
-  const max = Number(target.maxHp || 1);
-  const next = effect.revive
-    ? Math.min(max, Math.max(before, effect.amount))
-    : Math.min(max, before + effect.amount);
-  if (next <= before) throw new Error(`${target.name} 的耐久力已经不需要恢复`);
-
-  target.hpField.owner[target.hpField.key] = next;
-  item.qty = Number(item.qty || 0) - 1;
-  if (item.qty <= 0) {
-    game.inventory = game.inventory.filter((entry) => entry === item || Number(entry.qty || 0) > 0);
-    game.inventory = game.inventory.filter((entry) => entry !== item);
-  }
-  addLog(game, `使用 ${item.name}，${target.name} 的耐久力恢复 ${next - before}。`);
-  return withMap(game);
+  const itemUse = applyRecoveryItem(game, item);
+  addLog(game, `使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`);
+  return withMap(game, { itemUse });
 }
 
 function itemEffect(item) {
@@ -961,6 +942,58 @@ function selectItemTarget(game, activePet, effect) {
     };
   }
   return null;
+}
+
+function findInventoryItem(game, itemId) {
+  return (game.inventory || []).find((entry) => Number(entry.id) === Number(itemId) && Number(entry.qty || 0) > 0);
+}
+
+function firstUsableRecoveryItem(game) {
+  return (game.inventory || []).find((item) => {
+    if (item.id === "stone" || Number(item.qty || 0) <= 0) return false;
+    const preview = previewRecoveryItem(game, item);
+    return preview.usable && preview.next > preview.before;
+  }) || null;
+}
+
+function previewRecoveryItem(game, item) {
+  const effect = itemEffect(item);
+  if (!effect.usable) return { usable: false, reason: "unsupported" };
+  const activePet = game.pets[0] || null;
+  const target = selectItemTarget(game, activePet, effect);
+  if (!target) return { usable: false, effect, reason: "no-target" };
+  const before = Number(target.hpField.owner[target.hpField.key] || 0);
+  const max = Number(target.maxHp || 1);
+  const next = effect.revive
+    ? Math.min(max, Math.max(before, effect.amount))
+    : Math.min(max, before + effect.amount);
+  return {
+    usable: next > before,
+    effect,
+    target,
+    before,
+    next,
+    restored: Math.max(0, next - before)
+  };
+}
+
+function applyRecoveryItem(game, item) {
+  const preview = previewRecoveryItem(game, item);
+  if (!preview.effect?.usable) throw new Error(`${item.name} 还没有可模拟的使用效果`);
+  if (!preview.target) throw new Error("当前没有可以恢复的目标");
+  if (!preview.usable) throw new Error(`${preview.target.name} 的耐久力已经不需要恢复`);
+  preview.target.hpField.owner[preview.target.hpField.key] = preview.next;
+  item.qty = Number(item.qty || 0) - 1;
+  game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
+  return {
+    itemId: item.id,
+    itemName: item.name,
+    targetName: preview.target.name,
+    before: preview.before,
+    after: preview.next,
+    restored: preview.restored,
+    source: item.source || "ref___data/itemset6.txt"
+  };
 }
 
 function talkGame(game, npcId) {
@@ -1085,6 +1118,9 @@ function performBattleAction(game, action) {
   if (move.type === "capture") {
     return performCaptureAction(game);
   }
+  if (move.type === "item") {
+    return performBattleItemAction(game);
+  }
   if (!["attack", "guard", "wait"].includes(move.type)) throw new Error("这个战斗动作还没有实现");
   const activePet = game.pets[0];
   if (!activePet) throw new Error("你需要至少一只宠物才能战斗");
@@ -1134,10 +1170,39 @@ function normalizeBattleMove(action) {
   if (["release", "放走"].includes(value)) return { type: "escape", command: "E", release: true };
   if (["run", "escape", "逃跑", "离开", "離開", "e"].includes(value)) return { type: "escape", command: "E" };
   if (["capture", "catch", "捕获", "抓宠", "抓", "t", "t|0"].includes(value)) return { type: "capture", command: "T|0" };
+  if (["item", "道具", "物品", "i"].includes(value)) return { type: "item", command: "I" };
   if (["guard", "防御", "防守", "g"].includes(value)) return { type: "guard", command: "G" };
   if (["wait", "待机", "等待", "n"].includes(value)) return { type: "wait", command: "N" };
   if (["attack", "攻击", "战斗", "打", "h", "h|0"].includes(value)) return { type: "attack", command: "H|0" };
   return { type: value, command: value };
+}
+
+function performBattleItemAction(game) {
+  if (!game.encounter) throw new Error("当前没有战斗目标");
+  const activePet = game.pets[0];
+  if (!activePet) throw new Error("你需要至少一只宠物才能在战斗中使用道具");
+  ensureBattleState(game, activePet, game.encounter);
+
+  const item = firstUsableRecoveryItem(game);
+  if (!item) throw new Error("背包里没有可用于战斗恢复的道具");
+
+  const enemy = game.encounter;
+  game.battle.sourceCommand = "I";
+  game.battle.mode = "resolving";
+  const itemUse = applyRecoveryItem(game, item);
+  const battleLog = [`使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`];
+  if (enemy.Hp > 0) {
+    const damage = combatDamage(enemy, activePet);
+    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - damage);
+    battleLog.push(`${enemy.Name} 趁机反击 ${activePet.Name}，造成 ${damage} 伤害。`);
+  }
+
+  return settleBattleRound(game, activePet, enemy, {
+    battleLog,
+    result: "item",
+    sourceCommand: "I",
+    itemUse
+  });
 }
 
 function settleBattleRound(game, activePet, enemy, options = {}) {
@@ -1178,7 +1243,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   }
   battleLog.forEach((line) => addLog(game, line));
-  return { result, enemyName, petName, exp, stone, sourceCommand: options.sourceCommand, log: battleLog };
+  return { result, enemyName, petName, exp, stone, sourceCommand: options.sourceCommand, itemUse: options.itemUse || null, log: battleLog };
 }
 
 function performCaptureAction(game) {
@@ -1299,6 +1364,7 @@ async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
   if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
+  if (game.encounter && hasAny(lower, ["道具", "物品", "item"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
@@ -1320,7 +1386,9 @@ function battleActionReply(game, npc, text) {
     ? "release"
     : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
       ? "capture"
-      : "attack";
+      : hasAny(text, ["道具", "物品", "item"])
+        ? "item"
+        : "attack";
   const event = runNpcVmAction(game, npc, {
     type: "battleAction",
     move,
@@ -1330,7 +1398,7 @@ function battleActionReply(game, npc, text) {
   const outcome = event.detail?.outcome || {};
   const lines = Array.isArray(outcome.log) ? outcome.log : [];
   const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
-  if (outcome.result === "turn") return `${summary}\n继续输入“攻击”推进战斗，或输入“放走”结束。`;
+  if (outcome.result === "turn" || outcome.result === "item") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“放走”结束。`;
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
@@ -1936,6 +2004,7 @@ function npcVmActionDetail(action, mutation) {
       exp: mutation.outcome.exp,
       stone: mutation.outcome.stone,
       rate: mutation.outcome.rate,
+      itemUse: mutation.outcome.itemUse,
       log: mutation.outcome.log
     };
   }
@@ -1997,7 +2066,7 @@ function withTradeState(game, trade) {
 }
 
 function dialogSuggestions(npc, game = null) {
-  if (game?.encounter) return ["攻击", "捕获", "放走", "战斗"];
+  if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
   if (npc.trade || /shop/i.test(npc.type)) return ["hi", "买东西", "地图"];
   if (/healer/i.test(npc.type)) return ["hi", "治疗", "地图"];
   if (npc.warp || /warp/i.test(npc.type)) return ["hi", "传送", "出口"];
