@@ -19,6 +19,7 @@ This file is the durable memory for continuing development on another machine or
 - Generated world model: `src/world-data.js`.
 - Cloud/runtime strategy: `docs/planning/CLOUD_RUNTIME_STRATEGY.md`.
 - Worker-native port plan: `docs/planning/WORKER_NATIVE_GMSV_PORT.md`.
+- Original server entry point map: `docs/planning/GMSV_SAAC_WORKER_PORT_MAP.md`.
 - Runtime map assets:
   - `public/data/maps/*.ls2map`
   - `public/data/client-maps/*.dat`
@@ -76,12 +77,13 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - `item-use-001`
 - `cleanup-001`
 - `quest-001`
+- `worker-port-001`
 
 See `docs/planning/tasks.jsonl` for the full backlog.
 
 ## Likely Next Work
 
-1. `worker-port-001`: inventory `gmsv/saac` entry points and map them to Worker-native services.
+1. `worker-port-002`: define the JSON/WebSocket command protocol.
 2. `persistence-002`: D1/Durable Object cloud save plan.
 3. `realtime-001`: first map-room WebSocket architecture.
 4. `npc-002`: source-grounded NPC dialogue overlay.
