@@ -21,6 +21,7 @@ const CHAR_MAXUPLEVEL = 140;
 const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
+const PET_CAPACITY = 5;
 const CG_INVISIBLE = 99;
 const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
@@ -1622,6 +1623,12 @@ function performCaptureAction(game) {
     game.battle.mode = "resolving";
   }
   const rate = Math.max(0, Math.min(100, Number(target.CaptureRate ?? 35)));
+  if (rate > 0 && petState(game).used >= PET_CAPACITY) {
+    const line = `宠物栏已满（${PET_CAPACITY}/${PET_CAPACITY}），无法捕获 ${enemyName}。`;
+    if (game.battle) game.battle.log = [...(game.battle.log || []), line].slice(-8);
+    addLog(game, line);
+    return { result: "pet-full", enemyName, petName: enemyName, sourceCommand: "T|0", log: [line] };
+  }
   const ok = Math.random() * 100 < rate;
   if (ok) {
     game.pets.push({ ...target });
@@ -2004,6 +2011,7 @@ function battleActionReply(game, npc, text) {
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
   if (outcome.result === "captured") return `${summary}\n捕获成功，战斗结束。`;
+  if (outcome.result === "pet-full") return `${summary}\n先去宠物店或仓库整理宠物栏，再继续捕获。`;
   if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“捕获”或“放走”。`;
   return summary;
 }
@@ -3287,6 +3295,16 @@ function canCarryItem(game, item) {
   return inventoryState(game).used < INVENTORY_CAPACITY;
 }
 
+function petState(game) {
+  const used = (game.pets || []).length;
+  return {
+    used,
+    capacity: PET_CAPACITY,
+    remaining: Math.max(0, PET_CAPACITY - used),
+    source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE`
+  };
+}
+
 function inventoryState(game) {
   const used = (game.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0).length;
   return {
@@ -3368,6 +3386,7 @@ function buildGuideContext(game, map) {
     map: { exits, npcs, nearby: nearbyState(game, map) },
     world: guideWorldSummary(game, map),
     pets: game.pets.map(petSummary),
+    petState: petState(game),
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
     quests: Object.values(game.quests || {}),
@@ -3610,6 +3629,7 @@ function buildSaveJson(game) {
     player: { ...game.player },
     location: { ...game.location },
     pets: game.pets.map((pet) => ({ ...pet })),
+    petState: petState(game),
     inventory: game.inventory.map((item) => ({ ...item })),
     inventoryState: inventoryState(game),
     quests: game.quests || {},
@@ -3736,6 +3756,7 @@ function withMap(game, extra = {}) {
     ...game,
     nearby: nearbyState(game, map),
     inventoryState: inventoryState(game),
+    petState: petState(game),
     world: {
       map,
       quests: WORLD.quests,

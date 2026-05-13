@@ -11,6 +11,7 @@ const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=battle-sprites-v1";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
+const PET_CAPACITY_FALLBACK = 5;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
@@ -394,8 +395,10 @@ function render() {
   if (!game) return;
   syncPlayerAnimationDirectionFromGame();
   const map = game.world.map;
+  const petsUsed = petUsed();
+  const petsCapacity = petCapacity();
   els.playerTitle.textContent = game.player.name;
-  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${game.pets.length}`;
+  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${petsUsed}/${petsCapacity}`;
   els.mapName.textContent = map.name;
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：${GMSV_DATA_SOURCE}/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMapHud();
@@ -2282,6 +2285,7 @@ function renderDialogBattle() {
   const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
   const petMax = activePet ? Math.max(1, Number(activePet.WorkMaxHp || activePet.Hp || 1)) : 1;
   const petHp = activePet ? Math.max(0, Number(activePet.Hp || petMax)) : 0;
+  const petFull = petUsed() >= petCapacity();
   const battleLog = (game.battle?.log || []).slice(-4);
   return `
     <div class="battle-box">
@@ -2300,7 +2304,7 @@ function renderDialogBattle() {
       </div>
       <div class="battle-actions">
         <button class="ghost-btn" type="button" data-say="攻击" ${activePet ? "" : "disabled"}>攻击</button>
-        <button class="ghost-btn" type="button" data-say="捕获">捕获</button>
+        <button class="ghost-btn" type="button" data-say="捕获" ${petFull ? "disabled" : ""}>捕获</button>
         <button class="ghost-btn" type="button" data-say="放走">放走</button>
       </div>
       <div class="battle-box-log">
@@ -2359,11 +2363,12 @@ function renderBattlePanel() {
   els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)}`;
   const battleItems = battleUsableItems();
   const hasBattleItem = battleItems.length > 0;
+  const petFull = petUsed() >= petCapacity();
   if (!hasBattleItem) battleItemMenuOpen = false;
   els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
     const disabled = entry.disabled
       || (!activePet && ["attack", "guard", "wait", "item"].includes(entry.action))
-      || (entry.action === "capture" && Number(enemy.CaptureRate ?? 35) <= 0)
+      || (entry.action === "capture" && (Number(enemy.CaptureRate ?? 35) <= 0 || petFull))
       || (entry.action === "item" && !hasBattleItem);
     return `
       <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""}>
@@ -2447,6 +2452,10 @@ async function sendBattleAction(action) {
   if (!game?.encounter) return;
   if (action === "capture" && Number(game.encounter.CaptureRate ?? 35) <= 0) {
     addClientLog("这个目标不能捕获。");
+    return;
+  }
+  if (action === "capture" && petUsed() >= petCapacity()) {
+    addClientLog(`宠物栏已满（${petUsed()}/${petCapacity()}）。`);
     return;
   }
   try {
@@ -2721,12 +2730,13 @@ function renderMapQuestLeadHtml(map) {
 
 function renderAssistPets() {
   const pets = game.pets || [];
+  const petSlots = petState();
   const canEncounter = Boolean(game.world.map.canWildEncounter) && !game.encounter;
   return `
     <section class="assist-grid pets">
       <div class="assist-pane">
         <div class="assist-pane-head">
-          <h3>宠物状态</h3>
+          <h3>宠物状态 ${Number(petSlots.used || pets.length)}/${Number(petSlots.capacity || PET_CAPACITY_FALLBACK)}</h3>
           <button class="ghost-btn assist-small-btn" type="button" data-assist-client-tab="pets">主画面窗口</button>
         </div>
         <div class="assist-card-list">
@@ -3064,6 +3074,8 @@ function renderMapHud() {
   const playerHp = clampPercent(game.player.hp, game.player.maxHp);
   const activePet = game.pets?.[0];
   const inventory = inventoryState();
+  const petsUsed = petUsed();
+  const petsCapacity = petCapacity();
   els.mapHudName.textContent = game.player.name;
   els.mapHudMeta.textContent = `Lv.${game.player.level} | EXP ${Number(game.player.exp || 0)}`;
   els.mapHudHpBar.style.width = `${playerHp}%`;
@@ -3080,7 +3092,7 @@ function renderMapHud() {
     els.mapHudPetHpBar.style.width = "0%";
     els.mapHudPetHpText.textContent = "--";
   }
-  els.mapHudInventory.textContent = `石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity} | 宠物 ${game.pets.length}`;
+  els.mapHudInventory.textContent = `石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity} | 宠物 ${petsUsed}/${petsCapacity}`;
 }
 
 function renderFieldMessage() {
@@ -3426,6 +3438,7 @@ function bindClientWindowActions() {
 }
 
 function renderPets() {
+  const slots = petState();
   const pets = game.pets.map((pet, index) => `
     <article class="pet-card">
       <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
@@ -3439,7 +3452,15 @@ function renderPets() {
   `).join("");
   const inventory = (game.inventory || []).filter((item) => item.id !== "stone");
   const state = inventoryState();
-  els.petList.innerHTML = pets + `
+  els.petList.innerHTML = `
+    <article class="inventory-box">
+      <div class="inventory-head">
+        <h3>PET STATUS</h3>
+        <span>${Number(slots.used || game.pets.length)}/${Number(slots.capacity || PET_CAPACITY_FALLBACK)}</span>
+      </div>
+      <p class="muted">来源 ${escapeHtml(slots.source || "gmsv CHAR_MAXPETHAVE")}</p>
+    </article>
+  ` + pets + `
     <article class="inventory-box">
       <div class="inventory-head">
         <h3>背包</h3>
@@ -3469,6 +3490,21 @@ function inventoryState() {
   if (serverState?.capacity) return serverState;
   const used = (game?.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0).length;
   return { used, capacity: 15, remaining: Math.max(0, 15 - used) };
+}
+
+function petState() {
+  const serverState = game?.petState || game?.save?.json?.petState;
+  if (serverState?.capacity) return serverState;
+  const used = (game?.pets || []).length;
+  return { used, capacity: PET_CAPACITY_FALLBACK, remaining: Math.max(0, PET_CAPACITY_FALLBACK - used) };
+}
+
+function petUsed() {
+  return Number(petState().used || (game?.pets || []).length || 0);
+}
+
+function petCapacity() {
+  return Math.max(1, Number(petState().capacity || PET_CAPACITY_FALLBACK));
 }
 
 function inventoryItemUsable(item) {
