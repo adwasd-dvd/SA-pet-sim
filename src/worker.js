@@ -30,6 +30,7 @@ const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
 const DEFAULT_CHAR_DIR = 5;
+const SAFE_WILD_ENCOUNTER_MAP_RE = /村|庄园|店|医院|道场|柜台|商店|房屋|之家|的家|宠物店|肉店|武器店|防具店|便利/i;
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
   [1, -1],
@@ -1064,6 +1065,7 @@ async function dialogGame(env, request, game, npcId, message) {
 async function encounterGame(env, request, game) {
   game = normalizeGame(game);
   const map = currentMap(game);
+  assertWildEncounterAllowed(map);
   await spawnEncounter(env, request, game, map, "野外");
   return withMap(game);
 }
@@ -1071,7 +1073,7 @@ async function encounterGame(env, request, game) {
 async function maybeStepEncounter(env, request, game, map) {
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.walk.steps = Number(game.walk.steps || 0) + 1;
-  if (!map.encounterPets?.length || game.encounter) return false;
+  if (!wildEncounterAllowed(map) || game.encounter) return false;
   if (hasActiveNoEncounterEffect(game)) {
     game.walk.encounterSteps = 0;
     return false;
@@ -1087,6 +1089,7 @@ async function maybeStepEncounter(env, request, game, map) {
 }
 
 async function spawnEncounter(env, request, game, map, source) {
+  assertWildEncounterAllowed(map);
   const enemy = await createEncounterEnemy(env, request, game, map);
   if (!enemy) throw new Error("当前地图没有可遇敌宠物");
   game.encounter = enemy;
@@ -1681,11 +1684,11 @@ async function applyGuideRequest(env, request, game, prompt) {
     };
   }
 
-  if (!game.encounter && hasAny(lower, ["遇敌", "遇敵", "找敌人", "找敵人", "刷怪", "开战", "開戰"])) {
+  if (!game.encounter && hasAny(lower, ["遇敌", "遇敵", "野外敌人", "野外敵人", "找敌人", "找敵人", "敌人", "敵人", "刷怪", "开战", "開戰"])) {
     const map = currentMap(game);
-    if (!map.encounterPets?.length) {
+    if (!wildEncounterAllowed(map)) {
       return {
-        text: "这张地图没有 encount.txt 遇敌资料，我不能凭空造一组野外敌人。",
+        text: wildEncounterBlockedText(map),
         action: { type: "encounter-refused" }
       };
     }
@@ -1961,14 +1964,14 @@ function questReply(game, npc) {
 
 async function captureReply(env, request, game, npc) {
   const map = currentMap(game);
-  if (!map.encounterPets?.length) {
+  if (!wildEncounterAllowed(map)) {
     runNpcVmAction(game, npc, {
       type: "startBattle",
-      reason: "no-encounter-data",
+      reason: map.encounterPets?.length ? "safe-map" : "no-encounter-data",
       mapId: map.id,
       mapName: map.name
     });
-    return `${npc.name} 查看了当前地图资料：${map.name} 没有 encount.txt 遇敌表，不能在这里触发战斗。`;
+    return `${npc.name} 查看了当前地图资料：${wildEncounterBlockedText(map)}`;
   }
   const enemy = await createEncounterEnemy(env, request, game, map);
   const event = runNpcVmAction(game, npc, {
@@ -3325,9 +3328,45 @@ function currentMap(game) {
 }
 
 function visibleMapForGame(game, map) {
-  if (!map.npcs?.length) return map;
-  const npcs = map.npcs.filter((npc) => !isNpcEnemyDefeated(game, npc));
-  return npcs.length === map.npcs.length ? map : { ...map, npcs };
+  const visible = map.npcs?.length
+    ? (() => {
+        const npcs = map.npcs.filter((npc) => !isNpcEnemyDefeated(game, npc));
+        return npcs.length === map.npcs.length ? map : { ...map, npcs };
+      })()
+    : map;
+  return withWildEncounterPolicy(visible);
+}
+
+function withWildEncounterPolicy(map) {
+  const canWildEncounter = wildEncounterAllowed(map);
+  return {
+    ...map,
+    canWildEncounter,
+    wildEncounterReason: canWildEncounter
+      ? "encount.txt wild encounter enabled"
+      : wildEncounterBlockedText(map)
+  };
+}
+
+function wildEncounterAllowed(map) {
+  return Boolean(map?.encounterPets?.length) && !isSafeWildEncounterMap(map);
+}
+
+function isSafeWildEncounterMap(map) {
+  const name = String(map?.name || "").replace(/[|�]/g, "");
+  if (SAFE_WILD_ENCOUNTER_MAP_RE.test(name)) return true;
+  const summary = String(map?.summary || "");
+  return /\/samugiru\/|\/kuo\/kuomura|\/marinasu\/marinasu|\/family\//i.test(summary);
+}
+
+function assertWildEncounterAllowed(map) {
+  if (!wildEncounterAllowed(map)) throw new Error(wildEncounterBlockedText(map));
+}
+
+function wildEncounterBlockedText(map) {
+  if (!map?.encounterPets?.length) return `${map?.name || "当前地图"} 没有 encount.txt 遇敌表，不能在这里触发野外战斗。`;
+  if (isSafeWildEncounterMap(map)) return `${map.name} 是村镇或安全地图，虽然资料里有 encount.txt 记录，但随机野外遇敌已按安全区规则关闭。`;
+  return `${map?.name || "当前地图"} 当前不能触发野外遇敌。`;
 }
 
 function isNpcEnemyDefeated(game, npc) {

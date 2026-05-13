@@ -398,9 +398,9 @@ function render() {
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：${GMSV_DATA_SOURCE}/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMapHud();
   els.encounterBtn.hidden = !ENCOUNTER_UI_ENABLED;
-  els.encounterBtn.disabled = !ENCOUNTER_UI_ENABLED || !map.encounterPets?.length;
+  els.encounterBtn.disabled = !ENCOUNTER_UI_ENABLED || !map.canWildEncounter;
   els.encounterBtn.title = ENCOUNTER_UI_ENABLED
-    ? (map.encounterPets?.length ? "主动触发一次野外遇敌" : "当前地图没有 encount.txt 遇敌资料")
+    ? (map.canWildEncounter ? "主动触发一次野外遇敌" : (map.wildEncounterReason || "当前地图不能触发野外遇敌"))
     : "遇敌捕获界面已关闭";
   renderMap(map);
   syncWarpTransition();
@@ -2567,7 +2567,7 @@ function renderMapStatusHtml() {
 
 function renderAssistPets() {
   const pets = game.pets || [];
-  const canEncounter = Boolean(game.world.map.encounterPets?.length) && !game.encounter;
+  const canEncounter = Boolean(game.world.map.canWildEncounter) && !game.encounter;
   return `
     <section class="assist-grid pets">
       <div class="assist-pane">
@@ -2584,7 +2584,7 @@ function renderAssistPets() {
         <div class="assist-action-grid">
           <button type="button" data-assist-train="0" ${pets[0] ? "" : "disabled"}>训练出战宠</button>
           <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
-          <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"}>寻找野外敌人</button>
+          <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"} title="${escapeHtml(canEncounter ? "按当前地图 encount.txt 触发野外遇敌" : (game.world.map.wildEncounterReason || "当前地图不能触发野外遇敌"))}">寻找野外敌人</button>
           <button type="button" data-assist-client-tab="pets">打开 PET</button>
         </div>
         <div class="assist-log-mini">

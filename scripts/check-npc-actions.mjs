@@ -396,6 +396,17 @@ assistGame = guideRsp.game;
 assertEqual(guideRsp.action.type, "teleport", "right AI guide understands natural teleport wording");
 assertEqual(guideRsp.action.mode, "guide-warp", "right AI guide can teleport by target map name when no direct exit matches");
 assertEqual(assistGame.location.mapId, "2000", "right AI guide resolves 渔村 to 玛丽娜丝渔村");
+assistGame = await api("/api/game/sync", { game: assistGame });
+assertEqual(assistGame.world.map.canWildEncounter, false, "village maps with stray encount.txt rows are marked safe");
+await expectApiError(
+  "/api/game/encounter",
+  { game: assistGame },
+  "安全地图",
+  "manual wild encounter rejects safe village map"
+);
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我找野外敌人" });
+assertEqual(guideRsp.action.type, "encounter-refused", "right AI guide refuses wild encounter in safe village map");
+assert(!guideRsp.game.encounter, "safe village AI encounter refusal does not create a battle target");
 const villageGirl = WORLD.maps["1100"].npcs.find((npc) => npc.name === "村庄小姑娘" && npc.x === 68 && npc.y === 36);
 if (!villageGirl) throw new Error("missing Koao village girl fixture");
 let villageGirlGame = await api("/api/game/new", { name: "npc-ai-teleport-info-test" });
