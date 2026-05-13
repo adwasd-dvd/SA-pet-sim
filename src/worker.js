@@ -114,7 +114,8 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_GuardBreak2",
   "PETSKILL_ContinuationAttack",
   "PETSKILL_Mighty",
-  "PETSKILL_StatusChange"
+  "PETSKILL_StatusChange",
+  "PETSKILL_MagicStatusChange"
 ]);
 const BATTLE_STATUS_EFFECTS = {
   "毒": { id: 1, key: "poison", label: "中毒", sourceCommand: "BATTLE_ST_POISON" },
@@ -129,6 +130,10 @@ const BATTLE_STATUS_EFFECTS = {
 };
 const BATTLE_STATUS_BLOCKS_TURN = new Set(["paralysis", "sleep", "stone"]);
 const BATTLE_STATUS_POISON_KEYS = new Set(["poison", "deepPoison", "sars"]);
+const BATTLE_MAGIC_STATUS_EFFECTS = {
+  "铁壁": { id: 2, key: "superWall", label: "铁壁", sourceCommand: "CHAR_MAGICSUPERWALL", stat: "defence" },
+  "鐵壁": { id: 2, key: "superWall", label: "铁壁", sourceCommand: "CHAR_MAGICSUPERWALL", stat: "defence" }
+};
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -1719,6 +1724,8 @@ function performBattleAction(game, action) {
 
 function performReleaseBattleAction(game) {
   const enemyName = game.encounter.Name || "野外宠物";
+  const activePet = getActivePet(game);
+  if (activePet) clearBattleRuntimeEffects(activePet);
   game.encounter = null;
   game.battle = null;
   const line = `你放走了 ${enemyName}，战斗结束。`;
@@ -1739,6 +1746,7 @@ function performPlayerEscapeAction(game) {
     const turnCount = Number(game.battle.turn || 0) + 1;
     game.battle.turn = turnCount;
     const line = `你从 ${enemyName} 面前逃跑成功。`;
+    clearBattleRuntimeEffects(activePet);
     game.encounter = null;
     game.battle = null;
     addLog(game, line);
@@ -1861,7 +1869,13 @@ function performPetSkillAction(game, move) {
   game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
 
-  const petTurn = () => resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
+  const petTurn = () => {
+    if (profile.kind === "magic-status") {
+      resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return;
+    }
+    resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
+  };
   const enemyTurn = (guarded = false) => {
     const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded);
     enemyEscaped ||= ended;
@@ -1919,6 +1933,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       multiplier: Number(profile.multiplier || 0),
       missChance: Number(profile.missChance || 0),
       status: compactBattleStatusEffect(profile.status),
+      magicStatus: compactBattleMagicStatusEffect(profile.magicStatus),
       source: `${GMSV_DATA_SOURCE}/petskill2.txt`
     }
   };
@@ -1972,7 +1987,33 @@ function petSkillBattleProfile(skill = {}) {
       status: parsePetSkillStatusChange(option)
     };
   }
+  if (func === "PETSKILL_MagicStatusChange") {
+    const magicStatus = parsePetSkillMagicStatusChange(skill.Option || "");
+    return {
+      supported: Boolean(magicStatus),
+      kind: "magic-status",
+      sourceCommand: "BATTLE_COM_S_SUPERWALL",
+      targetKind: "ally",
+      hitCount: 0,
+      multiplier: 0,
+      magicStatus,
+      reason: magicStatus ? "" : `unsupported magic status ${skill.Option || ""}`
+    };
+  }
   return { supported: false, kind: "unsupported", sourceCommand: "", reason: `unsupported ${func || "unknown"}` };
+}
+
+function parsePetSkillMagicStatusChange(option = "") {
+  const parts = String(option || "").split("|").map((item) => cleanReferenceText(item));
+  const effect = BATTLE_MAGIC_STATUS_EFFECTS[parts[0]];
+  if (!effect) return null;
+  return {
+    ...effect,
+    turn: clampInt(parts[1], 1, 99, 3),
+    percent: clampInt(parts[2], 0, 300, 0),
+    scope: parts[3] || "单",
+    source: "gmsv battle_event.c PETSKILL_MagicStatusChange_Battle"
+  };
 }
 
 function parsePetSkillStatusChange(option = "") {
@@ -2001,6 +2042,35 @@ function sourcePercentValue(text = "", label = "攻") {
   const escaped = String(label || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = String(text || "").match(new RegExp(`${escaped}%\\s*([+-]?\\d+)`));
   return match ? clampInt(match[1], -95, 400, 0) : 0;
+}
+
+function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const magicStatus = profile.magicStatus;
+  if (!magicStatus) {
+    skillState.magicStatus = { success: false, reason: "missing-magic-status" };
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个辅助状态尚未接入。`);
+    return;
+  }
+  if (hasActiveBattleMagicStatus(activePet)) {
+    skillState.magicStatus = {
+      success: false,
+      reason: "already-magic-status",
+      status: compactBattleMagicStatusEffect(magicStatus),
+      source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
+    };
+    battleLog.push(`${activePet.Name} 已经处于辅助状态，${skill.Name} 没有叠加。`);
+    return;
+  }
+  const applied = applyBattleMagicStatus(activePet, magicStatus, skill);
+  skillState.magicStatus = {
+    success: true,
+    status: compactBattleMagicStatusEffect(magicStatus),
+    applied: compactBattleMagicStatusEffect(applied),
+    targetName: activePet.Name,
+    source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
+  };
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
 }
 
 function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
@@ -2172,6 +2242,10 @@ function hasActiveBattleStatus(char = {}) {
   return Object.values(char.BattleStatuses || {}).some((status) => Number(status?.turns || 0) > 0);
 }
 
+function hasActiveBattleMagicStatus(char = {}) {
+  return Object.values(char.BattleMagicStatuses || {}).some((status) => Number(status?.turns || 0) > 0);
+}
+
 function applyBattleStatus(target, status, roll = {}) {
   target.BattleStatuses ||= {};
   const turns = Math.max(1, Number(status.turn || 3) + 1);
@@ -2185,6 +2259,21 @@ function applyBattleStatus(target, status, roll = {}) {
   };
   target.BattleStatuses[status.key] = applied;
   syncBattlePrimaryStatus(target);
+  return applied;
+}
+
+function applyBattleMagicStatus(target, status, skill = {}) {
+  target.BattleMagicStatuses ||= {};
+  const applied = {
+    ...compactBattleMagicStatusEffect(status),
+    turns: Math.max(1, Number(status.turn || 3)),
+    baseTurn: Number(status.turn || 3),
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
+  };
+  target.BattleMagicStatuses[status.key] = applied;
+  syncBattlePrimaryMagicStatus(target);
   return applied;
 }
 
@@ -2219,10 +2308,39 @@ function consumeBattleStatusBeforeTurn(target, battleLog = []) {
   return { stopped: Boolean(blocked.length), source: "gmsv battle_event.c status pre-turn handling" };
 }
 
+function consumeBattleMagicStatusesAfterRound(target) {
+  const statuses = target?.BattleMagicStatuses || {};
+  for (const key of Object.keys(statuses)) {
+    const status = statuses[key];
+    let turns = Number(status?.turns || 0);
+    if (turns <= 0) {
+      delete statuses[key];
+      continue;
+    }
+    turns -= 1;
+    if (turns > 0) status.turns = turns;
+    else delete statuses[key];
+  }
+  syncBattlePrimaryMagicStatus(target);
+}
+
 function syncBattlePrimaryStatus(target = {}) {
   const active = Object.values(target.BattleStatuses || {}).find((status) => Number(status?.turns || 0) > 0);
   if (active) target.BattleStatus = compactBattleStatusEffect(active);
   else delete target.BattleStatus;
+}
+
+function syncBattlePrimaryMagicStatus(target = {}) {
+  const active = Object.values(target.BattleMagicStatuses || {}).find((status) => Number(status?.turns || 0) > 0);
+  if (active) target.BattleMagicStatus = compactBattleMagicStatusEffect(active);
+  else delete target.BattleMagicStatus;
+}
+
+function clearBattleRuntimeEffects(target = {}) {
+  delete target.BattleStatuses;
+  delete target.BattleStatus;
+  delete target.BattleMagicStatuses;
+  delete target.BattleMagicStatus;
 }
 
 function compactBattleStatusEffect(status) {
@@ -2242,10 +2360,33 @@ function compactBattleStatusEffect(status) {
   };
 }
 
+function compactBattleMagicStatusEffect(status) {
+  if (!status) return null;
+  return {
+    id: Number(status.id || 0),
+    key: status.key || "",
+    label: status.label || "",
+    sourceCommand: status.sourceCommand || "",
+    stat: status.stat || "",
+    turn: Number(status.turn || status.baseTurn || 0),
+    turns: Number(status.turns || 0),
+    percent: Number(status.percent || 0),
+    scope: status.scope || "",
+    skillId: Number(status.skillId || 0),
+    skillName: status.skillName || ""
+  };
+}
+
 function compactBattleStatuses(char = {}) {
   return Object.fromEntries(Object.entries(char.BattleStatuses || {})
     .filter(([, status]) => Number(status?.turns || 0) > 0)
     .map(([key, status]) => [key, compactBattleStatusEffect(status)]));
+}
+
+function compactBattleMagicStatuses(char = {}) {
+  return Object.fromEntries(Object.entries(char.BattleMagicStatuses || {})
+    .filter(([, status]) => Number(status?.turns || 0) > 0)
+    .map(([key, status]) => [key, compactBattleMagicStatusEffect(status)]));
 }
 
 function chooseEnemyBattleMove(game, enemy, activePet) {
@@ -2529,6 +2670,11 @@ function compactPetSkillTelemetry(skill) {
       status: compactBattleStatusEffect(skill.status.status),
       applied: compactBattleStatusEffect(skill.status.applied)
     } : null,
+    magicStatus: skill.magicStatus ? {
+      ...skill.magicStatus,
+      status: compactBattleMagicStatusEffect(skill.magicStatus.status),
+      applied: compactBattleMagicStatusEffect(skill.magicStatus.applied)
+    } : null,
     totalDamage: Number(skill.totalDamage || 0),
     hits: (skill.hits || []).slice(0, 9).map((hit) => ({
       damage: Number(hit.damage || 0),
@@ -2648,6 +2794,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     escapedEnemies = game.battle?.escapedEnemies?.length
       ? [...game.battle.escapedEnemies]
       : [enemyBattleSummary(enemy)];
+    clearBattleRuntimeEffects(activePet);
     game.encounter = null;
     game.battle = null;
     battleLog.push(`敌方逃离，战斗结束。`);
@@ -2704,6 +2851,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
       result: "battle"
     });
     settleNpcEnemyVictory(game, game.battle?.npcEnemy, battleLog);
+    clearBattleRuntimeEffects(activePet);
     game.encounter = null;
     game.battle = null;
   } else if (activePet.Hp <= 0) {
@@ -2712,10 +2860,12 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     const recovered = Math.max(1, Math.floor(Number(activePet.WorkMaxHp || 1) * 0.35));
     activePet.Hp = recovered;
     game.player.hp = Math.max(1, Math.floor(Number(game.player.maxHp || 1) * 0.5));
+    clearBattleRuntimeEffects(activePet);
     game.encounter = null;
     game.battle = null;
     battleLog.push(`${activePet.Name} 被击倒，你带着队伍撤退并恢复了少量体力。`);
   } else {
+    consumeBattleMagicStatusesAfterRound(activePet);
     game.battle.mode = "command";
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   }
@@ -2862,6 +3012,7 @@ function performCaptureAction(game) {
     const capturedPet = normalizeCapturedPet(target);
     const turnCount = Number(game.battle?.turn || 0) + 1;
     game.pets.push(capturedPet);
+    if (activePet) clearBattleRuntimeEffects(activePet);
     game.encounter = null;
     game.battle = null;
     const reward = activePet
@@ -2972,11 +3123,18 @@ function workAttackPower(char = {}) {
 }
 
 function workDefencePower(char = {}) {
-  return Math.max(0, firstFiniteNumber(0, char.WorkDefencePower, char.WorkFixTough));
+  const base = Math.max(0, firstFiniteNumber(0, char.WorkDefencePower, char.WorkFixTough));
+  return Math.max(0, Math.floor(base * battleMagicDefenceMultiplier(char)));
 }
 
 function workQuick(char = {}) {
   return Math.max(0, firstFiniteNumber(0, char.WorkQuick, char.WorkFixDex, Number(char.Dex) / 100));
+}
+
+function battleMagicDefenceMultiplier(char = {}) {
+  const status = char.BattleMagicStatuses?.superWall || char.BattleMagicStatus;
+  if (!status || Number(status.turns || 0) <= 0 || status.stat !== "defence") return 1;
+  return 1 + Math.max(0, Number(status.percent || 0)) / 100;
 }
 
 function firstFiniteNumber(fallback, ...values) {
@@ -7380,7 +7538,9 @@ function buildCharacterFields(game) {
           WorkAttackPower: Number(pet.WorkAttackPower || pet.WorkFixStr || 0),
           WorkDefencePower: Number(pet.WorkDefencePower || pet.WorkFixTough || 0),
           WorkQuick: Number(pet.WorkQuick || pet.WorkFixDex || 0)
-        }
+        },
+        statuses: compactBattleStatuses(pet),
+        magicStatuses: compactBattleMagicStatuses(pet)
       };
     }),
     battle: game.encounter ? {
@@ -7495,7 +7655,9 @@ function compactCharacterFields(game) {
       counters: pet.counters,
       growth: pet.growth,
       elements: pet.elements,
-      work: pet.work
+      work: pet.work,
+      statuses: pet.statuses,
+      magicStatuses: pet.magicStatuses
     })),
     battle: fields.battle
   };
@@ -8400,6 +8562,8 @@ function petSummary(pet) {
     growthTough: round2(pet.GrowthTough),
     growthDex: round2(pet.GrowthDex),
     attributes: { earth: pet.EarthAT, water: pet.WaterAT, fire: pet.FireAT, wind: pet.WindAT },
+    statuses: compactBattleStatuses(pet),
+    magicStatuses: compactBattleMagicStatuses(pet),
     skills: (pet.PetSkills || []).filter(Boolean).map((sk) => sk.Name)
   };
 }

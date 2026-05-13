@@ -2470,9 +2470,10 @@ function renderBattlePanel() {
   renderBattleEnemyParty(enemyParty, Number(battle.activeEnemyIndex || 0), activePet);
   if (activePet) {
     const petProgress = progressionForPet(activePetIndex(), activePet);
+    const petStatus = battleStatusText(activePet);
     setBattleSprite(els.battlePetImg, activePet.ImgNo);
     els.battlePetName.textContent = `${activePet.Name} Lv.${Number(activePet.Lv || 1)}`;
-    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | ${expLabel(petProgress)} | ${workStatsText(activePet, null, " ")} | ${elementText(activePet)}`;
+    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | ${expLabel(petProgress)} | ${workStatsText(activePet, null, " ")}${petStatus ? ` | 状态 ${petStatus}` : ""} | ${elementText(activePet)}`;
     els.battlePetHpBar.style.width = `${clampPercent(petHp, petMax)}%`;
   } else {
     setBattleSprite(els.battlePetImg, null);
@@ -2580,7 +2581,8 @@ function battleEnemyStatsText(enemy, field, hp, maxHp) {
 
 function battleStatusText(entity = {}) {
   const statuses = entity.statuses || entity.BattleStatuses || {};
-  return Object.values(statuses)
+  const magicStatuses = entity.magicStatuses || entity.BattleMagicStatuses || {};
+  return [...Object.values(statuses), ...Object.values(magicStatuses)]
     .filter((status) => Number(status?.turns || 0) > 0)
     .map((status) => `${status.label || status.key || "异常"}${Number(status.turns || 0)}`)
     .join("/");
@@ -4129,7 +4131,8 @@ function battleSkillSupported(skill = {}) {
     "PETSKILL_GuardBreak2",
     "PETSKILL_ContinuationAttack",
     "PETSKILL_Mighty",
-    "PETSKILL_StatusChange"
+    "PETSKILL_StatusChange",
+    "PETSKILL_MagicStatusChange"
   ].includes(skill.FuncName || "");
 }
 

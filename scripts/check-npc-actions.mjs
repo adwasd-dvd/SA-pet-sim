@@ -609,6 +609,37 @@ const poisonHpBefore = Number(petStatusSkillGame.encounter.Hp || 0);
 petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "wait" });
 assert(Number(petStatusSkillGame.encounter?.Hp || 0) < poisonHpBefore, "poison status ticks before the enemy turn");
 assert(petStatusSkillGame.battleOutcome.log.some((line) => line.includes("中毒")), "poison status writes battle log");
+let petMagicStatusGame = await api("/api/game/new", { name: "pet-magic-status-test" });
+petMagicStatusGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+petMagicStatusGame = await api("/api/game/dialog", { game: petMagicStatusGame, npcId: battleNpc.npc.id, message: "宠物" });
+petMagicStatusGame.pets[0].PetSkillIds = [552];
+petMagicStatusGame.pets[0].PetSkills = [{
+  Id: 552,
+  Name: "铁壁",
+  Des: "提高己方全体防御力30%3回合",
+  FuncName: "PETSKILL_MagicStatusChange",
+  Option: "铁壁|3|30|全",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+petMagicStatusGame.pets[0].WorkMaxHp = 999;
+petMagicStatusGame.pets[0].Hp = 999;
+petMagicStatusGame.pets[0].WorkFixDex = 999;
+petMagicStatusGame.pets[0].WorkQuick = 999;
+petMagicStatusGame.pets[0].WorkFixTough = 10;
+petMagicStatusGame.pets[0].WorkDefencePower = 10;
+petMagicStatusGame.encounter.WorkQuick = 0;
+petMagicStatusGame.encounter.WorkFixDex = 0;
+petMagicStatusGame.encounter.WorkAttackPower = 40;
+petMagicStatusGame = await api("/api/game/battle", { game: petMagicStatusGame, action: "skill:0" });
+const magicStatusTelemetry = petMagicStatusGame.battleOutcome.playerAction?.petSkill?.magicStatus;
+assertEqual(petMagicStatusGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SUPERWALL", "magic status pet skill maps to source superwall command");
+assertEqual(magicStatusTelemetry?.status?.key, "superWall", "magic status pet skill parses petskill2 option");
+assert(magicStatusTelemetry?.success, "magic status pet skill applies to active pet");
+assert(Number(petMagicStatusGame.pets[0].BattleMagicStatuses?.superWall?.turns || 0) > 0, "magic status pet skill persists active pet battle magic status");
+assert(petMagicStatusGame.battleOutcome.log.some((line) => line.includes("铁壁") && line.includes("防御")), "magic status battle log explains defense buff");
 let npcReleaseGame = await api("/api/game/new", { name: "npc-release-battle-test" });
 npcReleaseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 npcReleaseGame = await api("/api/game/dialog", { game: npcReleaseGame, npcId: battleNpc.npc.id, message: "宠物" });
