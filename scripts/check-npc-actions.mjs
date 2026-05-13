@@ -418,6 +418,17 @@ await expectApiError(
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我找野外敌人" });
 assertEqual(guideRsp.action.type, "encounter-refused", "right AI guide refuses wild encounter in safe village map");
 assert(!guideRsp.game.encounter, "safe village AI encounter refusal does not create a battle target");
+let sourceEncounterGame = await api("/api/game/new", { name: "source-encount-test" });
+sourceEncounterGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+const sainasuArea = WORLD.maps["100"].encounterAreas.find((area) => pointInBounds(637, 493, area.bounds));
+if (!sainasuArea) throw new Error("missing Sainasu source encounter area fixture");
+const allowedEnemyIds = sainasuArea.groups.flatMap((group) => group.enemies.map((enemy) => enemy.enemyId));
+sourceEncounterGame = await api("/api/game/encounter", { game: sourceEncounterGame });
+assert(allowedEnemyIds.includes(sourceEncounterGame.encounter.EnemyId), "wild encounter resolves encount group1 enemy id");
+assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounter.EnemyTempNo !== sourceEncounterGame.encounter.EnemyId, "wild encounter uses enemy1 -> enemybase tempNo instead of treating group id as pet no");
+assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
+assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");
+assert(sourceEncounterGame.battle?.enemyParty?.length <= sainasuArea.enemyMax, "wild encounter party respects encount enemymaxnum");
 const villageGirl = WORLD.maps["1100"].npcs.find((npc) => npc.name === "村庄小姑娘" && npc.x === 68 && npc.y === 36);
 if (!villageGirl) throw new Error("missing Koao village girl fixture");
 let villageGirlGame = await api("/api/game/new", { name: "npc-ai-teleport-info-test" });
@@ -474,6 +485,13 @@ function farLocation(map, npc) {
 
 function distance(ax, ay, bx, by) {
   return Math.max(Math.abs(Number(ax) - Number(bx)), Math.abs(Number(ay) - Number(by)));
+}
+
+function pointInBounds(x, y, bounds = []) {
+  return x >= Number(bounds[0] || 0)
+    && y >= Number(bounds[1] || 0)
+    && x <= Number(bounds[2] || 0)
+    && y <= Number(bounds[3] || 0);
 }
 
 function inventoryQty(game, id) {

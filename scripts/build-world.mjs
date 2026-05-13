@@ -53,7 +53,9 @@ const MAX_NPCS_PER_MAP = 120;
 
 const mapFiles = scanMapFiles();
 const warps = parseWarps(path.join(mapRoot, "mapwarp.txt"));
-const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"));
+const enemySpecs = parseEnemySpecs(path.join(refRoot, "enemy1.txt"));
+const enemyGroups = parseEnemyGroups(path.join(refRoot, "group1.txt"), enemySpecs);
+const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"), enemyGroups);
 const itemDb = parseItems(path.join(refRoot, "itemset6.txt"));
 const npcsByFloor = parseNpcs();
 const selectedFloors = selectFloors();
@@ -72,6 +74,7 @@ for (const floor of selectedFloors) {
   const clientMapInfo = clientMapFile(floor);
   cpSync(mapInfo.file, path.join(publicMapRoot, `${floor}.ls2map`));
   if (clientMapInfo) cpSync(clientMapInfo.file, path.join(publicClientMapRoot, `${floor}.dat`));
+  const encounterAreas = encounterByFloor.get(floor) || [];
   maps[id] = {
     id,
     floorId: floor,
@@ -81,7 +84,8 @@ for (const floor of selectedFloors) {
     summary: `${cleanName(mapInfo.name) || `floor ${floor}`} | floor=${floor} | ${mapInfo.width}x${mapInfo.height} | ${relativeRef(mapInfo.file)}`,
     size: [mapInfo.width, mapInfo.height],
     spawn: defaultSpawn(floor, mapInfo),
-    encounterPets: encounterByFloor.get(floor)?.slice(0, 8) || [],
+    encounterPets: encounterPetNos(encounterAreas).slice(0, 20),
+    encounterAreas,
     npcs: (npcsByFloor.get(floor) || []).slice(0, MAX_NPCS_PER_MAP),
     exits: []
   };
@@ -195,21 +199,113 @@ function parseWarps(file) {
   return out;
 }
 
-function parseEncounters(file) {
+function parseEnemySpecs(file) {
+  const out = new Map();
+  for (const line of readText(file).split(/\r?\n/)) {
+    const rows = line.trim().split(",");
+    if (rows.length < 10) continue;
+    const offset = Number.isFinite(Number.parseInt(rows[2], 10)) && Number.parseInt(rows[2], 10) > 0 ? 2 : 3;
+    const id = Number(rows[offset]);
+    const tempNo = Number(rows[offset + 1]);
+    if (!Number.isFinite(id) || !Number.isFinite(tempNo) || id <= 0 || tempNo <= 0) continue;
+    const rawMin = Number(rows[offset + 2]) || 1;
+    const rawMax = Number(rows[offset + 3]) || rawMin;
+    out.set(id, {
+      id,
+      tempNo,
+      lvMin: Math.max(1, Math.min(rawMin, rawMax)),
+      lvMax: Math.max(1, Math.max(rawMin, rawMax)),
+      createMax: Math.max(1, Number(rows[offset + 4]) || 1),
+      createMin: Math.max(1, Number(rows[offset + 5]) || 1)
+    });
+  }
+  return out;
+}
+
+function parseEnemyGroups(file, specs) {
   const out = new Map();
   for (const line of readText(file).split(/\r?\n/)) {
     const cols = line.trim().split(",");
-    const floor = Number(cols[1]);
-    if (!Number.isFinite(floor)) continue;
-    const pets = cols.slice(10, 20).map(Number).filter((value) => Number.isFinite(value) && value > 0);
-    if (!pets.length) continue;
-    const list = out.get(floor) || [];
-    for (const pet of pets) {
-      if (!list.includes(pet)) list.push(pet);
+    const groupId = Number(cols[1]);
+    if (!Number.isFinite(groupId) || groupId <= 0) continue;
+    const enemies = [];
+    for (let i = 0; i < 10; i += 1) {
+      const enemyId = Number(cols[4 + i]);
+      const weight = Number(cols[14 + i]) || 0;
+      const spec = specs.get(enemyId);
+      if (!Number.isFinite(enemyId) || enemyId <= 0 || weight <= 0 || !spec) continue;
+      enemies.push({
+        enemyId,
+        weight,
+        tempNo: spec.tempNo,
+        lvMin: spec.lvMin,
+        lvMax: spec.lvMax,
+        createMin: spec.createMin,
+        createMax: spec.createMax
+      });
     }
-    out.set(floor, list);
+    if (!enemies.length) continue;
+    out.set(groupId, {
+      groupId,
+      name: cleanName(cols[0]) || `group ${groupId}`,
+      enemies,
+      source: `${GMSV_DATA_SOURCE}/group1.txt`
+    });
   }
   return out;
+}
+
+function parseEncounters(file, groupsById) {
+  const out = new Map();
+  for (const line of readText(file).split(/\r?\n/)) {
+    const cols = line.trim().split(",");
+    const id = Number(cols[0]);
+    const floor = Number(cols[1]);
+    if (!Number.isFinite(id) || !Number.isFinite(floor)) continue;
+    const groups = [];
+    for (let i = 0; i < 10; i += 1) {
+      const groupId = Number(cols[10 + i]);
+      const group = groupsById.get(groupId);
+      if (!Number.isFinite(groupId) || groupId <= 0 || !group) continue;
+      groups.push({
+        groupId,
+        name: group.name,
+        weight: Math.max(1, Number(cols[20 + i]) || 1),
+        enemies: group.enemies,
+        source: group.source
+      });
+    }
+    if (!groups.length) continue;
+    push(out, floor, {
+      id,
+      floor,
+      bounds: normalizeBounds(cols.slice(2, 6).map(Number)),
+      encounterProbMin: Math.max(0, Number(cols[6]) || 0),
+      encounterProbMax: Math.max(0, Number(cols[7]) || 0),
+      enemyMax: Math.max(1, Number(cols[8]) || 1),
+      zorder: Number(cols[9]) || 0,
+      groups,
+      source: `${GMSV_DATA_SOURCE}/encount.txt`
+    });
+  }
+  return out;
+}
+
+function normalizeBounds([x1, y1, x2, y2]) {
+  return [
+    Math.min(Number(x1) || 0, Number(x2) || 0),
+    Math.min(Number(y1) || 0, Number(y2) || 0),
+    Math.max(Number(x1) || 0, Number(x2) || 0),
+    Math.max(Number(y1) || 0, Number(y2) || 0)
+  ];
+}
+
+function encounterPetNos(areas) {
+  return [...new Set((areas || [])
+    .flatMap((area) => area.groups || [])
+    .flatMap((group) => group.enemies || [])
+    .map((enemy) => Number(enemy.tempNo))
+    .filter((value) => Number.isFinite(value) && value > 0))];
 }
 
 function parseNpcs() {

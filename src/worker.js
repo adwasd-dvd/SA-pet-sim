@@ -1090,15 +1090,28 @@ async function maybeStepEncounter(env, request, game, map) {
 
 async function spawnEncounter(env, request, game, map, source) {
   assertWildEncounterAllowed(map);
-  const enemy = await createEncounterEnemy(env, request, game, map);
+  const encounter = await createEncounterParty(env, request, game, map);
+  const enemy = encounter.enemies[0];
   if (!enemy) throw new Error("当前地图没有可遇敌宠物");
   game.encounter = enemy;
   const activePet = game.pets?.[0];
   if (activePet) {
     ensureBattleState(game, activePet, enemy);
-    if (game.battle) game.battle.source = `${source} encounter from ${GMSV_DATA_SOURCE}/encount.txt + gmsv/char/encount.c`;
+    if (game.battle) {
+      game.battle.source = `${source} encounter from ${encounter.source}`;
+      game.battle.enemyParty = encounter.enemies;
+      game.battle.activeEnemyIndex = 0;
+      game.battle.defeatedEnemies = [];
+      game.battle.encounterArea = encounter.area ? {
+        id: encounter.area.id,
+        bounds: encounter.area.bounds,
+        zorder: encounter.area.zorder,
+        enemyMax: encounter.area.enemyMax
+      } : null;
+    }
   }
-  addLog(game, `${source}遇到了 ${enemy.Name} Lv.${enemy.Lv}。`);
+  const partyText = encounter.enemies.length > 1 ? `等 ${encounter.enemies.length} 个敌人` : "";
+  addLog(game, `${source}遇到了 ${enemy.Name} Lv.${enemy.Lv}${partyText}。`);
   return enemy;
 }
 
@@ -1110,14 +1123,91 @@ function hasActiveNoEncounterEffect(game) {
   return false;
 }
 
-async function createEncounterEnemy(env, request, game, map) {
+async function createEncounterParty(env, request, game, map) {
   const data = await loadGameData(env, request);
+  const area = chooseEncounterArea(map, game.location);
+  if (area?.groups?.length) {
+    const enemies = [];
+    const counts = new Map();
+    const enemyMax = Math.max(1, Number(area.enemyMax || 1));
+    const count = randRange(1, enemyMax);
+    const attempts = Math.max(10, count * 8);
+    for (let i = 0; enemies.length < count && i < attempts; i += 1) {
+      const group = pickWeighted(area.groups, (item) => item.weight);
+      const entry = group ? pickWeighted(group.enemies || [], (item) => item.weight) : null;
+      if (entry && Number(counts.get(entry.enemyId) || 0) >= Math.max(1, Number(entry.createMax || 1))) continue;
+      const enemy = entry ? createWildEnemyFromSpec(data, entry, game, area, group) : null;
+      if (enemy) {
+        counts.set(entry.enemyId, Number(counts.get(entry.enemyId) || 0) + 1);
+        enemies.push(enemy);
+      }
+    }
+    if (enemies.length) {
+      return {
+        enemies,
+        area,
+        source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} + ${GMSV_DATA_SOURCE}/group1.txt + ${GMSV_DATA_SOURCE}/enemy1.txt + ${GMSV_DATA_SOURCE}/enemybase2.txt`
+      };
+    }
+  }
   const petNo = pick(map.encounterPets || []);
   const enemy = createEnemy(data, petNo, Math.max(1, game.player.level + randInt(3) - 1));
+  if (!enemy) return { enemies: [], area: null, source: `${GMSV_DATA_SOURCE}/encount.txt` };
+  enemy.CaptureRate = wildCaptureRate(game, enemy);
+  enemy.source = `${GMSV_DATA_SOURCE}/encount.txt fallback tempNo ${petNo} + ${GMSV_DATA_SOURCE}/enemybase2.txt`;
+  return {
+    enemies: [enemy],
+    area: null,
+    source: `${GMSV_DATA_SOURCE}/encount.txt fallback tempNo + ${GMSV_DATA_SOURCE}/enemybase2.txt`
+  };
+}
+
+function chooseEncounterArea(map, location) {
+  const x = Number(location?.x || 0);
+  const y = Number(location?.y || 0);
+  const areas = (map.encounterAreas || []).filter((area) => area.groups?.length);
+  const inside = areas
+    .filter((area) => pointInBounds(x, y, area.bounds))
+    .sort((a, b) => Number(b.zorder || 0) - Number(a.zorder || 0));
+  return inside[0] || areas.slice().sort((a, b) => Number(b.zorder || 0) - Number(a.zorder || 0))[0] || null;
+}
+
+function pointInBounds(x, y, bounds = []) {
+  return x >= Number(bounds[0] || 0)
+    && y >= Number(bounds[1] || 0)
+    && x <= Number(bounds[2] || 0)
+    && y <= Number(bounds[3] || 0);
+}
+
+function createWildEnemyFromSpec(data, entry, game, area, group) {
+  const enemy = createEnemyFromEnemySpec(data, Number(entry.enemyId), null);
   if (!enemy) return null;
-  enemy.CaptureRate = Math.max(18, Math.min(75, 70 - enemy.Rare + game.player.level * 2));
-  enemy.source = `${GMSV_DATA_SOURCE}/encount.txt + ${GMSV_DATA_SOURCE}/enemybase2.txt`;
+  enemy.CaptureRate = wildCaptureRate(game, enemy);
+  enemy.source = [
+    `${GMSV_DATA_SOURCE}/encount.txt area ${area.id}`,
+    `${GMSV_DATA_SOURCE}/group1.txt group ${group.groupId}`,
+    `${GMSV_DATA_SOURCE}/enemy1.txt enemy ${entry.enemyId}`,
+    `${GMSV_DATA_SOURCE}/enemybase2.txt ${entry.tempNo}`
+  ].join(" + ");
   return enemy;
+}
+
+function wildCaptureRate(game, enemy) {
+  return Math.max(18, Math.min(75, 70 - Number(enemy.Rare || 0) + Number(game.player?.level || 1) * 2));
+}
+
+function pickWeighted(items, weightOf) {
+  const weighted = (items || [])
+    .map((item) => ({ item, weight: Math.max(0, Number(weightOf(item)) || 0) }))
+    .filter((entry) => entry.weight > 0);
+  if (!weighted.length) return null;
+  const total = weighted.reduce((sum, entry) => sum + entry.weight, 0);
+  let roll = Math.random() * total;
+  for (const entry of weighted) {
+    roll -= entry.weight;
+    if (roll <= 0) return entry.item;
+  }
+  return weighted[weighted.length - 1].item;
 }
 
 async function npcEnemyReply(env, request, game, npc, lower) {
@@ -1998,20 +2088,23 @@ async function captureReply(env, request, game, npc) {
   if (!wildEncounterAllowed(map)) {
     runNpcVmAction(game, npc, {
       type: "startBattle",
-      reason: map.encounterPets?.length ? "safe-map" : "no-encounter-data",
+      reason: encounterDataAvailable(map) ? "safe-map" : "no-encounter-data",
       mapId: map.id,
       mapName: map.name
     });
     return `${npc.name} 查看了当前地图资料：${wildEncounterBlockedText(map)}`;
   }
-  const enemy = await createEncounterEnemy(env, request, game, map);
+  const encounter = await createEncounterParty(env, request, game, map);
+  const enemy = encounter.enemies[0];
+  if (!enemy) return `${npc.name} 找不到可用的遇敌资料。`;
   const event = runNpcVmAction(game, npc, {
     type: "startBattle",
     enemy,
+    enemies: encounter.enemies,
     reason: "npc-capture",
     mapId: map.id,
     mapName: map.name,
-    source: `${GMSV_DATA_SOURCE}/encount.txt`
+    source: encounter.source
   });
   if (!event.ok) {
     return `${npc.name} 找不到可用的遇敌资料：${event.error || "startBattle 被 VM 拒绝"}。`;
@@ -3642,7 +3735,12 @@ function withWildEncounterPolicy(map) {
 }
 
 function wildEncounterAllowed(map) {
-  return Boolean(map?.encounterPets?.length) && !isSafeWildEncounterMap(map);
+  return encounterDataAvailable(map) && !isSafeWildEncounterMap(map);
+}
+
+function encounterDataAvailable(map) {
+  return Boolean(map?.encounterAreas?.some((area) => area.groups?.some((group) => group.enemies?.length)))
+    || Boolean(map?.encounterPets?.length);
 }
 
 function isSafeWildEncounterMap(map) {
@@ -3657,7 +3755,7 @@ function assertWildEncounterAllowed(map) {
 }
 
 function wildEncounterBlockedText(map) {
-  if (!map?.encounterPets?.length) return `${map?.name || "当前地图"} 没有 encount.txt 遇敌表，不能在这里触发野外战斗。`;
+  if (!encounterDataAvailable(map)) return `${map?.name || "当前地图"} 没有 encount.txt 遇敌表，不能在这里触发野外战斗。`;
   if (isSafeWildEncounterMap(map)) return `${map.name} 是村镇或安全地图，虽然资料里有 encount.txt 记录，但随机野外遇敌已按安全区规则关闭。`;
   return `${map?.name || "当前地图"} 当前不能触发野外遇敌。`;
 }
