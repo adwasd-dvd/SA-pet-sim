@@ -65,6 +65,7 @@ const PET_CAPACITY = 5;
 const BATTLE_ENTRY_MAX = 10;
 const BATTLE_PLAYER_MAX = 5;
 const BATTLE_SIDE_OFFSET = 10;
+const BATTLE_TURN_SECONDS = 30;
 const PLAYER_LEVEL_SKILL_POINTS = 3;
 const PLAYER_POINT_STEP = 100;
 const PLAYER_INITIAL_CHARM = 60;
@@ -3061,6 +3062,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
   } else {
     if (actorIsPet) consumeBattleMagicStatusesAfterRound(activeActor);
     game.battle.mode = "command";
+    advanceBattleCommandWindow(game);
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   }
   battleLog.forEach((line) => addLog(game, line));
@@ -3100,6 +3102,7 @@ function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
   battle.activeEnemyIndex = nextIndex;
   game.encounter = nextEnemy;
   battle.mode = "command";
+  advanceBattleCommandWindow(game);
   battleLog.push(`击倒 ${defeatedEnemy.Name}。`);
   battleLog.push(`敌方第 ${nextIndex + 1}/${battle.enemyParty.length} 个目标 ${nextEnemy.Name} Lv.${nextEnemy.Lv} 上前。`);
   battle.log = [...(battle.log || []), ...battleLog].slice(-8);
@@ -3119,6 +3122,7 @@ function advanceBattleEscapedEnemy(game, escapedEnemy, battleLog) {
   battle.activeEnemyIndex = nextIndex;
   game.encounter = nextEnemy;
   battle.mode = "command";
+  advanceBattleCommandWindow(game);
   battleLog.push(`敌方第 ${nextIndex + 1}/${battle.enemyParty.length} 个目标 ${nextEnemy.Name} Lv.${nextEnemy.Lv} 上前。`);
   battle.log = [...(battle.log || []), ...battleLog].slice(-8);
   return nextEnemy;
@@ -3263,8 +3267,27 @@ function ensureBattleState(game, activeActor, enemy) {
     startedAt: new Date().toISOString(),
     log: [`${battleActorName(game, activeActor)} 遭遇 ${enemy.Name}，战斗开始。`],
     sourceCommand: "",
-    source: `gmsv battle_command.c + battle.c command loop from ${GMSV_DATA_SOURCE} enemy parameters`
+    source: `gmsv battle_command.c + battle.c command loop from ${GMSV_DATA_SOURCE} enemy parameters`,
+    sourceLayout: sourceBattleLayoutState(activeActor),
+    turnSeconds: BATTLE_TURN_SECONDS
   };
+  markBattleCommandWindow(game);
+}
+
+function markBattleCommandWindow(game) {
+  if (!game.battle || game.battle.mode !== "command") return;
+  const now = Date.now();
+  game.battle.turnSeconds = BATTLE_TURN_SECONDS;
+  game.battle.roundStartedAt ||= new Date(now).toISOString();
+  game.battle.roundDeadlineAt ||= new Date(now + BATTLE_TURN_SECONDS * 1000).toISOString();
+}
+
+function advanceBattleCommandWindow(game) {
+  if (!game.battle) return;
+  const now = Date.now();
+  game.battle.roundStartedAt = new Date(now).toISOString();
+  game.battle.roundDeadlineAt = new Date(now + BATTLE_TURN_SECONDS * 1000).toISOString();
+  game.battle.turnSeconds = BATTLE_TURN_SECONDS;
 }
 
 function combatDamage(attacker, defender, multiplier = 1) {
@@ -7797,6 +7820,7 @@ function battleEnemyPartyForFields(game) {
 function battleFormationForFields(game) {
   const activeIndex = getActivePetIndex(game);
   const activePet = getActivePet(game);
+  const activeActor = activeBattleActor(game);
   const playerUnit = battleFormationUnit(game.player, {
     side: 0,
     slot: 0,
@@ -7826,23 +7850,40 @@ function battleFormationForFields(game) {
     active: index === Number(game.battle?.activeEnemyIndex || 0),
     commandable: false
   }));
+  const allySide = [playerUnit, petUnit].filter(Boolean);
   return {
     source: "gmsv include/battle.h BATTLE_ENTRY_MAX=10/BATTLE_PLAYER_MAX=5/SIDE_OFFSET=10 + battle.c BATTLE_NewEntry: players slots 0-4, default pets ownerSlot+5, enemy side offset +10",
     entryMax: BATTLE_ENTRY_MAX,
     playerMax: BATTLE_PLAYER_MAX,
     sideOffset: BATTLE_SIDE_OFFSET,
+    turnSeconds: BATTLE_TURN_SECONDS,
+    roundStartedAt: game.battle?.roundStartedAt || "",
+    roundDeadlineAt: game.battle?.roundDeadlineAt || "",
+    localPlayerNo: 0,
+    localPetNo: activePet ? BATTLE_PLAYER_MAX : -1,
+    activeActorNo: battleActorSlot(game, activeActor),
+    activeActorKind: battleActorKind(game, activeActor),
     mode: "source-formation-scaffold",
-    allySide: [playerUnit, petUnit].filter(Boolean),
+    allySide,
     enemySide: enemies,
+    allySlots: sourceBattleSlots(0, allySide),
+    enemySlots: sourceBattleSlots(1, enemies),
+    targetGroups: sourceBattleTargetGroups(),
+    commandMenu: sourceBattleCommandMenu(),
     pending: "current resolver is still one-command MVP; next step is full 5 players + 5 pets vs enemy-side formation UI and command queue"
   };
 }
 
 function battleFormationUnit(entity, options = {}) {
+  const side = Number(options.side || 0);
+  const slot = Number(options.slot || 0);
+  const battleNo = Number(options.battleNo ?? side * BATTLE_SIDE_OFFSET + slot);
   return {
-    side: Number(options.side || 0),
-    slot: Number(options.slot || 0),
-    battleNo: Number(options.battleNo || 0),
+    side,
+    slot,
+    battleNo,
+    targetNo: battleNo,
+    placeNo: battleNo,
     kind: options.kind || "",
     row: options.row || "",
     active: Boolean(options.active),
@@ -7862,6 +7903,62 @@ function battleFormationUnit(entity, options = {}) {
     elements: elementVector(entity),
     statuses: compactBattleStatuses(entity),
     magicStatuses: compactBattleMagicStatuses(entity)
+  };
+}
+
+function sourceBattleSlots(side, units) {
+  const unitBySlot = new Map(units.map((unit) => [Number(unit.slot || 0), unit]));
+  return Array.from({ length: BATTLE_ENTRY_MAX }, (_, slot) => {
+    const unit = unitBySlot.get(slot) || null;
+    return {
+      side,
+      slot,
+      battleNo: side * BATTLE_SIDE_OFFSET + slot,
+      row: slot < BATTLE_PLAYER_MAX ? "back" : "front",
+      role: side === 0
+        ? (slot < BATTLE_PLAYER_MAX ? "player" : "pet")
+        : "enemy",
+      occupied: Boolean(unit),
+      unit
+    };
+  });
+}
+
+function sourceBattleTargetGroups() {
+  return {
+    side0: 20,
+    side1: 21,
+    all: 22,
+    side1BackRow: 23,
+    side1FrontRow: 24,
+    side0FrontRow: 25,
+    side0BackRow: 26,
+    source: "client battlemenu.cpp target translation + gmsv include/battle.h TARGET_SIDE_*"
+  };
+}
+
+function sourceBattleCommandMenu() {
+  return [
+    { index: 0, action: "attack", label: "攻击", command: "H|target", sourceCommand: "BATTLE_COM_ATTACK" },
+    { index: 1, action: "magic", label: "咒术", command: "J|magic|target", sourceCommand: "BATTLE_COM_JYUJYUTU" },
+    { index: 2, action: "capture", label: "捕获", command: "T|target", sourceCommand: "BATTLE_COM_CAPTURE" },
+    { index: 3, action: "help", label: "Help", command: "join/help", sourceCommand: "BATTLE_HELP" },
+    { index: 4, action: "guard", label: "防御", command: "G", sourceCommand: "BATTLE_COM_GUARD" },
+    { index: 5, action: "item", label: "道具", command: "I|item|target", sourceCommand: "BATTLE_COM_ITEM" },
+    { index: 6, action: "pet", label: "宠物", command: "S|pet", sourceCommand: "BATTLE_COM_PETIN/BATTLE_COM_PETOUT" },
+    { index: 7, action: "escape", label: "逃跑", command: "E", sourceCommand: "BATTLE_COM_ESCAPE" },
+    { index: 8, action: "pet-skill", label: "宠技", command: "W|skill|target", sourceCommand: "PETSKILL_Use" }
+  ];
+}
+
+function sourceBattleLayoutState(activeActor) {
+  return {
+    entryMax: BATTLE_ENTRY_MAX,
+    playerMax: BATTLE_PLAYER_MAX,
+    sideOffset: BATTLE_SIDE_OFFSET,
+    turnSeconds: BATTLE_TURN_SECONDS,
+    activeActorKind: activeActor?.PetId ? "pet" : "player",
+    source: "gmsv include/battle.h + battle.c BATTLE_NewEntry + client battlemenu.cpp"
   };
 }
 

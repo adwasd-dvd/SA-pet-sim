@@ -188,7 +188,7 @@ AI NPC 的边界必须写死：
 
 - 遇敌进入 source battle room/state。
 - 战斗必须按 `BATTLE_ENTRY_MAX=10` / `BATTLE_PLAYER_MAX=5` / `SIDE_OFFSET=10` 建模：玩家侧最多 5 人，默认宠在主人槽位 +5，敌方占另一侧 10 个 slot。
-- 攻击、技能、捕获、逃跑、PETIN/PETOUT、结算都要围绕 side/slot/target no 运行，UI 也要重做成原版 battle menu/target prompt，而不是单宠物面板。
+- 攻击、技能、捕获、逃跑、PETIN/PETOUT、结算都要围绕 side/slot/target no 运行；side target 常量按源码保留为 `20/21/22/23/24/25/26`。UI 也要重做成原版 battle menu/target prompt，而不是单宠物面板。
 - 玩家交易、组队、队伍聊天。
 
 ### Phase 5: AI NPC Layer

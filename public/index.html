@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=56">
+    <link rel="stylesheet" href="/assets/app.css?v=58">
   </head>
   <body>
     <div class="app-shell">
@@ -155,6 +155,11 @@
               <section id="battlePanel" class="source-battle-panel" hidden>
                 <div class="source-battle-stage">
                   <div id="battleFormationLayer" class="battle-formation-layer" aria-label="战斗阵型"></div>
+                  <div id="battleTargetPrompt" class="battle-target-prompt" aria-label="选择目标" hidden>
+                    <span>请选择</span>
+                    <span>您的目标</span>
+                  </div>
+                  <div id="battleCountdown" class="battle-countdown" aria-label="回合倒计时" hidden>30</div>
                   <button id="battleEnemyTarget" class="battle-combatant enemy" type="button" data-battle-action="attack" aria-label="攻击目标">
                     <span id="battleEnemyImg" class="battle-sprite client-atlas-sprite" data-atlas-sprite="" aria-hidden="true"></span>
                     <strong id="battleEnemyName">--</strong>
@@ -267,6 +272,6 @@
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=82"></script>
+    <script type="module" src="/assets/app.js?v=84"></script>
   </body>
 </html>

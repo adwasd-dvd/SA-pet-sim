@@ -23,31 +23,32 @@ const DIALOG_SCROLL_STEP = 56;
 const BATTLE_KEY_ACTIONS = Object.freeze({
   "1": "attack",
   h: "attack",
-  "2": "guard",
+  "2": "",
   g: "guard",
   "3": "capture",
   t: "capture",
-  "4": "item",
+  "4": "",
   i: "item",
-  "5": "skill",
+  "5": "guard",
+  "6": "item",
+  "7": "pet",
+  "8": "escape",
+  "9": "skill",
   w: "skill",
-  "6": "pet",
   s: "pet",
   p: "pet",
-  "7": "wait",
   n: "wait",
-  "8": "escape",
   escape: "escape",
   e: "escape"
 });
 const BATTLE_ACTIONS = Object.freeze([
   { action: "attack", label: "攻击", command: "H|0" },
-  { action: "guard", label: "防御", command: "G" },
+  { action: "magic", label: "咒术", command: "J", disabled: true },
   { action: "capture", label: "捕获", command: "T|0" },
+  { action: "help", label: "Help", command: "Help", disabled: true },
+  { action: "guard", label: "防御", command: "G" },
   { action: "item", label: "道具", command: "I" },
-  { action: "skill", label: "技能", command: "W" },
-  { action: "pet", label: "换宠", command: "S" },
-  { action: "wait", label: "待机", command: "N" },
+  { action: "pet", label: "宠物", command: "S" },
   { action: "escape", label: "逃跑", command: "E" }
 ]);
 // SPR_001em (100000) stand/walk frames from the original client sprite tables.
@@ -232,6 +233,8 @@ const els = {
   battleTitle: byId("battleTitle"),
   battleSource: byId("battleSource"),
   battleFormationLayer: byId("battleFormationLayer"),
+  battleTargetPrompt: byId("battleTargetPrompt"),
+  battleCountdown: byId("battleCountdown"),
   battleEnemyTarget: byId("battleEnemyTarget"),
   battleEnemyImg: byId("battleEnemyImg"),
   battleEnemyName: byId("battleEnemyName"),
@@ -283,6 +286,7 @@ function init() {
   });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
   loadAiRuntimeStatus();
+  window.setInterval(updateBattleCountdownDisplay, 250);
   const saved = localStorage.getItem(SAVE_KEY);
   if (saved) {
     game = JSON.parse(saved);
@@ -1196,7 +1200,14 @@ async function loadTileAtlas() {
       const image = new Image();
       image.decoding = "async";
       image.src = manifest.image;
-      await image.decode();
+      await image.decode().catch(() => new Promise((resolve, reject) => {
+        if (image.complete && image.naturalWidth > 0) {
+          resolve();
+          return;
+        }
+        image.addEventListener("load", resolve, { once: true });
+        image.addEventListener("error", reject, { once: true });
+      }));
       loadedTileAtlas = { ...manifest, image };
       hydrateAtlasSprites(loadedTileAtlas);
       return loadedTileAtlas;
@@ -2464,12 +2475,16 @@ function renderBattlePanel() {
   const partyCount = enemyParty.length;
   const activeEnemyNo = Math.min(partyCount, Number(battle.activeEnemyIndex || 0) + 1);
   const activeEnemyField = battleEnemyField(Number(battle.activeEnemyIndex || 0), enemy);
+  const formation = battleFormationState();
   els.battleTitle.textContent = partyCount > 1
     ? `BATTLE ${Number(battle.turn || 0) + 1} | 敌 ${activeEnemyNo}/${partyCount}`
     : `BATTLE ${Number(battle.turn || 0) + 1}`;
   els.battleSource.textContent = battle.sourceCommand
-    ? `${battle.sourceCommand} | ${battle.source || "gmsv battle_command.c"}`
-    : (battle.source || enemy.source || "gmsv battle_command.c");
+    ? `PLAYER ${battle.sourceCommand}`
+    : "PLAYER";
+  els.battleSource.title = battle.source || enemy.source || "gmsv battle_command.c";
+  if (els.battleTargetPrompt) els.battleTargetPrompt.hidden = !formation;
+  updateBattleCountdownDisplay();
   setBattleSprite(els.battleEnemyImg, enemy.ImgNo);
   els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
   els.battleEnemyStats.textContent = battleEnemyStatsText(enemy, activeEnemyField, enemyHp, enemyMax);
@@ -2508,7 +2523,7 @@ function renderBattlePanel() {
       || (entry.action === "skill" && !hasBattleSkill)
       || (entry.action === "pet" && !hasBattlePet);
     return `
-      <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""}>
+      <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""} title="${escapeHtml(battleActionHint(entry))}">
         <b>${escapeHtml(entry.label)}</b>
         <span>${escapeHtml(entry.command)}</span>
         <small>${index + 1}</small>
@@ -2528,6 +2543,31 @@ function battleEnemyParty(battle, enemy) {
 
 function battleFormationState() {
   return game?.characterFields?.battle?.formation || game?.save?.json?.characterFields?.battle?.formation || null;
+}
+
+function updateBattleCountdownDisplay() {
+  if (!els.battleCountdown) return;
+  const battle = battleFieldState();
+  if (!game?.encounter || !battle?.active) {
+    els.battleCountdown.hidden = true;
+    return;
+  }
+  const fallback = Math.max(1, Number(battle.formation?.turnSeconds || game?.battle?.turnSeconds || 30));
+  const deadline = Date.parse(battle.formation?.roundDeadlineAt || game?.battle?.roundDeadlineAt || "");
+  const rest = Number.isFinite(deadline)
+    ? Math.max(0, Math.ceil((deadline - Date.now()) / 1000))
+    : fallback;
+  els.battleCountdown.hidden = false;
+  els.battleCountdown.textContent = String(Math.min(fallback, rest)).padStart(2, " ");
+  els.battleCountdown.classList.toggle("urgent", rest <= 5);
+}
+
+function battleActionHint(entry) {
+  if (entry.action === "magic") return "咒术 J：按原版菜单保留，魔法/精灵技能表正在接入";
+  if (entry.action === "help") return "Help：原版加入/求援入口，等待多人战斗房间接入";
+  if (entry.action === "skill") return "宠技 W：选择出战宠物技能后点目标";
+  if (entry.action === "pet") return "宠物 S：出战、换宠或收回出战宠";
+  return `${entry.label} ${entry.command}`;
 }
 
 function renderBattleFormation() {
@@ -2550,7 +2590,7 @@ function renderBattleFormation() {
     const typeAttr = unit.kind === "enemy" ? `type="button"` : "";
     const spriteId = unit.kind === "player" ? playerFrameTileId(loadedTileAtlas) : Number(unit.imgNo || 0);
     return `
-      <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} style="--battle-x:${pos.x}%; --battle-y:${pos.y}%;" title="${escapeHtml(battleFormationUnitTitle(unit))}">
+      <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${Number(unit.battleNo || 0)}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
         <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
         ${unit.kind === "player" ? `<em class="battle-role-label">PLAYER</em>` : unit.kind === "pet" ? `<em class="battle-role-label">PET</em>` : ""}
         <span class="battle-unit-sprite client-atlas-sprite" data-atlas-sprite="${Number(spriteId || 0)}" aria-hidden="true"></span>
@@ -2561,22 +2601,27 @@ function renderBattleFormation() {
   els.battleFormationLayer.querySelectorAll("[data-atlas-sprite]").forEach((node) => {
     if (loadedTileAtlas) applyAtlasSprite(node, loadedTileAtlas, node.dataset.atlasSprite);
   });
+  if (!loadedTileAtlas) {
+    loadTileAtlas().then((atlas) => {
+      if (atlas && isBattleOpen()) renderBattlePanel();
+    });
+  }
 }
 
 function battleFormationUnitPosition(unit) {
   const slot = Math.max(0, Number(unit.slot || 0));
   if (unit.side === 1 || unit.kind === "enemy") {
     const enemy = [
-      [18, 24], [25, 18], [32, 31], [21, 43], [36, 15],
-      [37, 45], [45, 34], [52, 23], [58, 42], [64, 30]
-    ][slot] || [30 + (slot % 5) * 7, 20 + Math.floor(slot / 5) * 18];
-    return { x: enemy[0], y: enemy[1] };
+      [11, 39], [17, 30], [23, 21], [29, 45], [35, 34],
+      [28, 58], [35, 49], [42, 40], [49, 31], [56, 52]
+    ][slot] || [22 + (slot % 5) * 7, 28 + Math.floor(slot / 5) * 18];
+    return { x: enemy[0], y: enemy[1], z: 20 + Math.round(enemy[1]) };
   }
   const ally = [
-    [78, 72], [84, 66], [88, 58], [92, 50], [86, 78],
-    [66, 66], [72, 58], [78, 50], [84, 42], [90, 34]
+    [82, 84], [86, 78], [90, 72], [94, 66], [90, 90],
+    [68, 78], [74, 70], [80, 62], [86, 54], [92, 46]
   ][slot] || [78, 66];
-  return { x: ally[0], y: ally[1] };
+  return { x: ally[0], y: ally[1], z: 60 + Math.round(ally[1]) };
 }
 
 function battleFormationUnitTitle(unit) {
