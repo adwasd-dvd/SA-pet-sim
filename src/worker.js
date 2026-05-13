@@ -1638,7 +1638,7 @@ function performBattleAction(game, action) {
   const enemyName = enemy.Name;
   const petName = activePet.Name;
   const battleLog = [];
-  const petFirst = Number(activePet.WorkFixDex || 0) >= Number(enemy.WorkFixDex || 0);
+  const petFirst = workQuick(activePet) >= workQuick(enemy);
   game.battle.sourceCommand = move.command;
   game.battle.mode = "resolving";
   const petTurn = () => {
@@ -1881,6 +1881,10 @@ function enemyBattleSummary(enemy) {
     WorkFixStr: enemy.WorkFixStr,
     WorkFixTough: enemy.WorkFixTough,
     WorkFixDex: enemy.WorkFixDex,
+    WorkFixCharm: enemy.WorkFixCharm,
+    WorkAttackPower: enemy.WorkAttackPower,
+    WorkDefencePower: enemy.WorkDefencePower,
+    WorkQuick: enemy.WorkQuick,
     EarthAT: enemy.EarthAT,
     WaterAT: enemy.WaterAT,
     FireAT: enemy.FireAT,
@@ -2007,8 +2011,8 @@ function combatDamage(attacker, defender, multiplier = 1) {
 }
 
 function combatDamageDetail(attacker, defender, multiplier = 1) {
-  const attack = Math.max(1, Number(attacker.WorkFixStr || attacker.level || attacker.Lv || 1));
-  const defense = Math.max(0, Number(defender.WorkFixTough || 0));
+  const attack = workAttackPower(attacker);
+  const defense = workDefencePower(defender);
   const variance = 0.85 + Math.random() * 0.3;
   const elementMultiplier = elementalDamageMultiplier(attacker, defender);
   const raw = attack * variance - defense * 0.42;
@@ -2018,6 +2022,26 @@ function combatDamageDetail(attacker, defender, multiplier = 1) {
     critical,
     elementMultiplier
   };
+}
+
+function workAttackPower(char = {}) {
+  return Math.max(1, firstFiniteNumber(1, char.WorkAttackPower, char.WorkFixStr, char.level, char.Lv));
+}
+
+function workDefencePower(char = {}) {
+  return Math.max(0, firstFiniteNumber(0, char.WorkDefencePower, char.WorkFixTough));
+}
+
+function workQuick(char = {}) {
+  return Math.max(0, firstFiniteNumber(0, char.WorkQuick, char.WorkFixDex, Number(char.Dex) / 100));
+}
+
+function firstFiniteNumber(fallback, ...values) {
+  for (const value of values) {
+    const number = Number(value);
+    if (Number.isFinite(number)) return number;
+  }
+  return fallback;
 }
 
 function battleDetailSuffix(detail) {

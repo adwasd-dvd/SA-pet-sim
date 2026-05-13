@@ -345,8 +345,11 @@ assert(!ganzoBattleGame.dialog.suggestions.includes("捕获"), "Ganzo NPCEnemy b
 let ganzoTargetGame = JSON.parse(JSON.stringify(ganzoBattleGame));
 ganzoTargetGame.battle.enemyParty[1].Hp = 1;
 ganzoTargetGame.battle.enemyParty[1].WorkFixDex = 0;
+ganzoTargetGame.battle.enemyParty[1].WorkQuick = 0;
 ganzoTargetGame.pets[0].WorkFixStr = 999;
 ganzoTargetGame.pets[0].WorkFixDex = 999;
+ganzoTargetGame.pets[0].WorkAttackPower = 999;
+ganzoTargetGame.pets[0].WorkQuick = 999;
 ganzoTargetGame = await api("/api/game/battle", { game: ganzoTargetGame, action: "attack:1" });
 assertEqual(ganzoTargetGame.battleOutcome.result, "next-enemy", "targeted battle command can defeat a selected non-leading enemy");
 assertEqual(ganzoTargetGame.encounter.EnemyId, 253, "targeted battle returns to the remaining live enemy");
@@ -355,19 +358,24 @@ assert(ganzoTargetGame.battle.defeatedEnemies.some((enemy) => enemy.EnemyId === 
 let ganzoCaptureGame = JSON.parse(JSON.stringify(ganzoBattleGame));
 const ganzoPetsBeforeCapture = ganzoCaptureGame.pets.length;
 ganzoCaptureGame.encounter.WorkFixStr = 1;
+ganzoCaptureGame.encounter.WorkAttackPower = 1;
 ganzoCaptureGame = await api("/api/game/battle", { game: ganzoCaptureGame, action: "捕获" });
 assertEqual(ganzoCaptureGame.battleOutcome.result, "capture-missed", "Ganzo NPCEnemy capture always misses");
 assertEqual(ganzoCaptureGame.pets.length, ganzoPetsBeforeCapture, "Ganzo NPCEnemy capture does not add a pet");
 ganzoBattleGame.encounter.Hp = 1;
 ganzoBattleGame.encounter.WorkFixDex = 0;
+ganzoBattleGame.encounter.WorkQuick = 0;
 ganzoBattleGame.pets[0].WorkFixStr = 999;
 ganzoBattleGame.pets[0].WorkFixDex = 999;
+ganzoBattleGame.pets[0].WorkAttackPower = 999;
+ganzoBattleGame.pets[0].WorkQuick = 999;
 ganzoBattleGame = await api("/api/game/battle", { game: ganzoBattleGame, action: "攻击" });
 assertEqual(ganzoBattleGame.battleOutcome.result, "next-enemy", "Ganzo first defeated target advances to next source enemy");
 assertEqual(ganzoBattleGame.encounter.EnemyId, 254, "Ganzo advances to source enemy1 id 254");
 assert(!ganzoBattleGame.flags.npcEnemyDefeats[ganzo.id]?.until, "Ganzo blocker does not clear before all source enemies are defeated");
 ganzoBattleGame.encounter.Hp = 1;
 ganzoBattleGame.encounter.WorkFixDex = 0;
+ganzoBattleGame.encounter.WorkQuick = 0;
 ganzoBattleGame = await api("/api/game/battle", { game: ganzoBattleGame, action: "攻击" });
 assertEqual(ganzoBattleGame.battleOutcome.result, "victory", "Ganzo NPCEnemy can be defeated through battle API");
 assertEqual(ganzoBattleGame.battleOutcome.defeatedEnemies.length, 2, "Ganzo final victory reports both source enemies defeated");
@@ -765,6 +773,35 @@ assertEqual(
   sourceEncounterGame.battle.enemyParty.length,
   "battle character fields mirror source enemy party size"
 );
+
+let workAliasBattleGame = await api("/api/game/new", { name: "source-work-alias-battle-test" });
+workAliasBattleGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+workAliasBattleGame = await api("/api/game/encounter", { game: workAliasBattleGame });
+Object.assign(workAliasBattleGame.pets[0], {
+  WorkAttackPower: 320,
+  WorkFixStr: 1,
+  WorkQuick: 900,
+  WorkFixDex: 1,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(workAliasBattleGame.encounter, {
+  Hp: 30,
+  WorkMaxHp: 30,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkDefencePower: 0,
+  WorkFixTough: 999,
+  WorkQuick: 1,
+  WorkFixDex: 999,
+  SourceExp: 1,
+  Exp: 1
+});
+workAliasBattleGame.battle.enemyParty = [workAliasBattleGame.encounter];
+workAliasBattleGame.battle.activeEnemyIndex = 0;
+workAliasBattleGame = await api("/api/game/battle", { game: workAliasBattleGame, action: "攻击" });
+assertEqual(workAliasBattleGame.battleOutcome.result, "victory", "battle damage reads source WorkAttackPower/WorkDefencePower aliases");
+assert(!workAliasBattleGame.battleOutcome.log.some((line) => line.includes("反击")), "battle turn order reads source WorkQuick alias");
 
 let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
