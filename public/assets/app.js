@@ -225,6 +225,7 @@ const els = {
   battleEnemyName: byId("battleEnemyName"),
   battleEnemyStats: byId("battleEnemyStats"),
   battleEnemyHpBar: byId("battleEnemyHpBar"),
+  battleEnemyParty: byId("battleEnemyParty"),
   battlePetImg: byId("battlePetImg"),
   battlePetName: byId("battlePetName"),
   battlePetStats: byId("battlePetStats"),
@@ -2329,7 +2330,8 @@ function renderBattlePanel() {
   const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
   const petMax = activePet ? Math.max(1, Number(activePet.WorkMaxHp || activePet.Hp || 1)) : 1;
   const petHp = activePet ? Math.max(0, Number(activePet.Hp || petMax)) : 0;
-  const partyCount = Array.isArray(battle.enemyParty) ? battle.enemyParty.length : 1;
+  const enemyParty = battleEnemyParty(battle, enemy);
+  const partyCount = enemyParty.length;
   const activeEnemyNo = Math.min(partyCount, Number(battle.activeEnemyIndex || 0) + 1);
   els.battleTitle.textContent = partyCount > 1
     ? `BATTLE ${Number(battle.turn || 0) + 1} | 敌 ${activeEnemyNo}/${partyCount}`
@@ -2341,6 +2343,7 @@ function renderBattlePanel() {
   els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
   els.battleEnemyStats.textContent = `HP ${enemyHp}/${enemyMax} | 攻 ${Number(enemy.WorkFixStr || 0)} 防 ${Number(enemy.WorkFixTough || 0)} 敏 ${Number(enemy.WorkFixDex || 0)}`;
   els.battleEnemyHpBar.style.width = `${clampPercent(enemyHp, enemyMax)}%`;
+  renderBattleEnemyParty(enemyParty, Number(battle.activeEnemyIndex || 0), activePet);
   if (activePet) {
     setBattleSprite(els.battlePetImg, activePet.ImgNo);
     els.battlePetName.textContent = `${activePet.Name} Lv.${Number(activePet.Lv || 1)}`;
@@ -2376,6 +2379,37 @@ function renderBattlePanel() {
     : `<p>战斗开始。</p>`;
 }
 
+function battleEnemyParty(battle, enemy) {
+  const party = Array.isArray(battle?.enemyParty) && battle.enemyParty.length ? battle.enemyParty : [enemy];
+  return party.filter(Boolean);
+}
+
+function renderBattleEnemyParty(party, activeIndex, activePet) {
+  if (!els.battleEnemyParty) return;
+  els.battleEnemyParty.hidden = party.length <= 1;
+  if (party.length <= 1) {
+    els.battleEnemyParty.innerHTML = "";
+    return;
+  }
+  els.battleEnemyParty.innerHTML = party.map((enemy, index) => {
+    const maxHp = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
+    const hp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : maxHp);
+    const defeated = hp <= 0;
+    const active = index === activeIndex;
+    return `
+      <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !activePet ? "disabled" : ""} title="攻击 ${escapeHtml(enemy.Name || "敌人")}">
+        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${Number(enemy.ImgNo || 0)}" aria-hidden="true"></span></span>
+        <b>${index + 1}</b>
+        <em>${escapeHtml(enemy.Name || "敌人")}</em>
+        <i><strong style="width:${clampPercent(hp, maxHp)}%"></strong></i>
+      </button>
+    `;
+  }).join("");
+  els.battleEnemyParty.querySelectorAll("[data-atlas-sprite]").forEach((node) => {
+    if (loadedTileAtlas) applyAtlasSprite(node, loadedTileAtlas, node.dataset.atlasSprite);
+  });
+}
+
 function setBattleSprite(el, tileId) {
   const id = Number(tileId || 0);
   el.dataset.atlasSprite = id > 0 ? String(id) : "";
@@ -2384,6 +2418,11 @@ function setBattleSprite(el, tileId) {
 }
 
 function onBattlePanelClick(event) {
+  const targetBtn = event.target.closest("[data-battle-target]");
+  if (targetBtn && els.battlePanel.contains(targetBtn) && !targetBtn.disabled) {
+    sendBattleAction(`attack:${targetBtn.dataset.battleTarget}`);
+    return;
+  }
   const itemBtn = event.target.closest("[data-battle-item]");
   if (itemBtn && els.battlePanel.contains(itemBtn)) {
     sendBattleAction(`item:${itemBtn.dataset.battleItem}`);

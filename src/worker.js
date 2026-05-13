@@ -1350,6 +1350,7 @@ function performBattleAction(game, action) {
     addLog(game, line);
     return { result: move.release ? "released" : "escaped", enemyName, sourceCommand: move.command, log: [line] };
   }
+  if (move.targetIndex != null) selectBattleTarget(game, move.targetIndex);
   if (move.type === "capture") {
     return performCaptureAction(game);
   }
@@ -1404,6 +1405,16 @@ function normalizeBattleMove(action) {
   const value = String(action || "attack").toLowerCase();
   const itemMatch = value.match(/^item[:|](\d+)$/);
   if (itemMatch) return { type: "item", command: "I", itemId: Number(itemMatch[1]) };
+  const targetMatch = value.match(/^(attack|h|攻击|打|capture|catch|捕获|抓宠|抓)[:|](\d+)$/);
+  if (targetMatch) {
+    const targetIndex = Math.max(0, Number(targetMatch[2]) || 0);
+    const isCapture = ["capture", "catch", "捕获", "抓宠", "抓"].includes(targetMatch[1]);
+    return {
+      type: isCapture ? "capture" : "attack",
+      command: `${isCapture ? "T" : "H"}|${targetIndex}`,
+      targetIndex
+    };
+  }
   if (["release", "放走"].includes(value)) return { type: "escape", command: "E", release: true };
   if (["run", "escape", "逃跑", "离开", "離開", "e"].includes(value)) return { type: "escape", command: "E" };
   if (["capture", "catch", "捕获", "抓宠", "抓", "t", "t|0"].includes(value)) return { type: "capture", command: "T|0" };
@@ -1412,6 +1423,20 @@ function normalizeBattleMove(action) {
   if (["wait", "待机", "等待", "n"].includes(value)) return { type: "wait", command: "N" };
   if (["attack", "攻击", "战斗", "打", "h", "h|0"].includes(value)) return { type: "attack", command: "H|0" };
   return { type: value, command: value };
+}
+
+function selectBattleTarget(game, targetIndex) {
+  const battle = game.battle;
+  const party = Array.isArray(battle?.enemyParty) ? battle.enemyParty : [];
+  if (!party.length) {
+    if (targetIndex === 0) return;
+    throw new Error("当前战斗没有这个目标");
+  }
+  const target = party[targetIndex];
+  if (!target) throw new Error("当前战斗没有这个目标");
+  if (Number(target.Hp || 0) <= 0) throw new Error("这个目标已经倒下");
+  battle.activeEnemyIndex = targetIndex;
+  game.encounter = target;
 }
 
 function performBattleItemAction(game, itemId = null) {
@@ -1511,7 +1536,7 @@ function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
   if (!battle || !Array.isArray(battle.enemyParty) || battle.enemyParty.length <= 1) return null;
   const activeIndex = Math.max(0, Number(battle.activeEnemyIndex || 0));
   battle.enemyParty[activeIndex] = { ...battle.enemyParty[activeIndex], ...defeatedEnemy, Hp: 0 };
-  const nextIndex = battle.enemyParty.findIndex((item, index) => index > activeIndex && Number(item.Hp || 0) > 0);
+  const nextIndex = battle.enemyParty.findIndex((item) => Number(item.Hp || 0) > 0);
   if (nextIndex < 0) return null;
   battle.defeatedEnemies ||= [];
   battle.defeatedEnemies.push(enemyBattleSummary(defeatedEnemy));

@@ -2160,6 +2160,107 @@ h3 {
   bottom: 20%;
 }
 
+.battle-enemy-party {
+  position: absolute;
+  top: 170px;
+  right: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 88px));
+  gap: 4px;
+  max-width: 184px;
+}
+
+.battle-enemy-party[hidden] {
+  display: none;
+}
+
+.battle-enemy-party button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px 14px minmax(0, 1fr);
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: 34px;
+  border: 1px solid #1d140c;
+  border-radius: 0;
+  padding: 2px 4px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 18%), rgb(0 0 0 / 18%)),
+    #38463f;
+  color: #fffdf3;
+  box-shadow:
+    inset 1px 1px 0 rgb(255 245 197 / 30%),
+    inset -1px -1px 0 rgb(0 0 0 / 58%);
+  text-align: left;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 82%);
+}
+
+.battle-enemy-party button.active {
+  border-color: #ffef7c;
+  background:
+    linear-gradient(180deg, rgb(255 243 168 / 36%), rgb(0 0 0 / 14%)),
+    #536b58;
+}
+
+.battle-enemy-party button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(.9);
+  opacity: .52;
+}
+
+.battle-enemy-thumb {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+}
+
+.battle-enemy-thumb .client-atlas-sprite {
+  position: relative;
+  left: auto;
+  top: auto;
+  image-rendering: pixelated;
+  transform: scale(.34) scaleY(-1);
+  transform-origin: center;
+}
+
+.battle-enemy-party b,
+.battle-enemy-party em {
+  overflow: hidden;
+  font-size: 9px;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.battle-enemy-party b {
+  color: #ffef7c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.battle-enemy-party em {
+  font-style: normal;
+}
+
+.battle-enemy-party i {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  left: 31px;
+  height: 4px;
+  overflow: hidden;
+  border: 1px solid #1c1208;
+  background: #080a0a;
+}
+
+.battle-enemy-party i strong {
+  display: block;
+  height: 100%;
+  background: #b84b37;
+}
+
 .battle-player-card {
   left: 13%;
   bottom: 31%;
@@ -3101,6 +3202,29 @@ mark {
   .battle-combatant.enemy {
     right: 12%;
     top: 29%;
+  }
+
+  .battle-enemy-party {
+    top: auto;
+    right: 6px;
+    bottom: 8px;
+    grid-template-columns: repeat(2, minmax(0, 74px));
+    max-width: 154px;
+  }
+
+  .battle-enemy-party button {
+    min-height: 30px;
+    grid-template-columns: 24px 12px minmax(0, 1fr);
+    padding: 2px 3px;
+  }
+
+  .battle-enemy-thumb {
+    width: 22px;
+    height: 22px;
+  }
+
+  .battle-enemy-thumb .client-atlas-sprite {
+    transform: scale(.3) scaleY(-1);
   }
 
   .battle-combatant.party {

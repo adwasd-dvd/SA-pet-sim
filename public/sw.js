@@ -1,10 +1,10 @@
-const CACHE = "stoneage-web-v81";
+const CACHE = "stoneage-web-v82";
 const SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/assets/app.css?v=51",
-  "/assets/app.js?v=74",
+  "/assets/app.css?v=52",
+  "/assets/app.js?v=75",
   "/data/client-tiles/tiles.json?v=battle-sprites-v1",
   "/data/client-tiles/tiles-atlas.png?v=battle-sprites-v1",
   "/f/logo.gif",

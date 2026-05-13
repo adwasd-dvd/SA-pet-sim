@@ -161,6 +161,16 @@ assertEqual(ganzoBattleGame.battle?.npcEnemy?.npcId, ganzo.id, "Ganzo battle kee
 assert(ganzoBattleGame.battle.log.some((line) => line.includes("呼拔吉，去吧")), "Ganzo battle logs source startmsg");
 assert(ganzoBattleGame.dialog.suggestions.includes("攻击") && ganzoBattleGame.dialog.suggestions.includes("防御"), "Ganzo battle exposes battle commands");
 assert(!ganzoBattleGame.dialog.suggestions.includes("捕获"), "Ganzo NPCEnemy battle does not suggest capture");
+let ganzoTargetGame = JSON.parse(JSON.stringify(ganzoBattleGame));
+ganzoTargetGame.battle.enemyParty[1].Hp = 1;
+ganzoTargetGame.battle.enemyParty[1].WorkFixDex = 0;
+ganzoTargetGame.pets[0].WorkFixStr = 999;
+ganzoTargetGame.pets[0].WorkFixDex = 999;
+ganzoTargetGame = await api("/api/game/battle", { game: ganzoTargetGame, action: "attack:1" });
+assertEqual(ganzoTargetGame.battleOutcome.result, "next-enemy", "targeted battle command can defeat a selected non-leading enemy");
+assertEqual(ganzoTargetGame.encounter.EnemyId, 253, "targeted battle returns to the remaining live enemy");
+assertEqual(ganzoTargetGame.battle.activeEnemyIndex, 0, "targeted battle tracks active enemy index after selection");
+assert(ganzoTargetGame.battle.defeatedEnemies.some((enemy) => enemy.EnemyId === 254), "targeted battle records defeated selected enemy");
 let ganzoCaptureGame = JSON.parse(JSON.stringify(ganzoBattleGame));
 const ganzoPetsBeforeCapture = ganzoCaptureGame.pets.length;
 ganzoCaptureGame.encounter.WorkFixStr = 1;
