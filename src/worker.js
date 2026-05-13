@@ -6231,29 +6231,52 @@ function buildCharacterFields(game) {
           type: item.type || ""
         }))
     },
-    pets: game.pets.slice(0, PET_CAPACITY).map((pet, index) => ({
-      index,
-      active: index === activeIndex,
-      name: pet.Name,
-      petId: pet.PetId,
-      level: Number(pet.Lv || 1),
-      exp: Number(pet.Exp || 0),
-      nextExp: Number(pet.NextExp ?? -1),
-      hp: Number(pet.Hp || 0),
-      maxHp: Number(pet.WorkMaxHp || 0),
-      loyalty: Number(pet.Loyal || 0),
-      elements: {
-        EarthAT: Number(pet.EarthAT || 0),
-        WaterAT: Number(pet.WaterAT || 0),
-        FireAT: Number(pet.FireAT || 0),
-        WindAT: Number(pet.WindAT || 0)
-      },
-      work: {
-        WorkFixStr: Number(pet.WorkFixStr || 0),
-        WorkFixTough: Number(pet.WorkFixTough || 0),
-        WorkFixDex: Number(pet.WorkFixDex || 0)
-      }
-    })),
+    pets: game.pets.slice(0, PET_CAPACITY).map((pet, index) => {
+      const progress = progressionSummary(pet.Lv, pet.Exp);
+      return {
+        index,
+        active: index === activeIndex,
+        name: pet.Name,
+        petId: pet.PetId,
+        level: Number(pet.Lv || 1),
+        exp: Number(pet.Exp || 0),
+        currentLevelExp: progress.currentLevelExp,
+        nextExp: Number(pet.NextExp ?? progress.nextExp),
+        expToNext: Number(pet.ExpToNext ?? progress.expToNext),
+        expProgressPct: Number(pet.ExpProgressPct ?? progress.progressPct),
+        limitLevel: petLimitLevel(pet),
+        hp: Number(pet.Hp || 0),
+        maxHp: Number(pet.WorkMaxHp || 0),
+        loyalty: Number(pet.Loyal || 0),
+        counters: {
+          killPetCount: Number(pet.KillPetCount || 0),
+          deadCount: Number(pet.DeadCount || 0),
+          battleCount: Number(pet.BattleCount || 0),
+          winCount: Number(pet.WinCount || 0),
+          loseCount: Number(pet.LoseCount || 0)
+        },
+        growth: {
+          total: round2(pet.Growth),
+          hp: round2(pet.GrowthHp),
+          str: round2(pet.GrowthStr),
+          tough: round2(pet.GrowthTough),
+          dex: round2(pet.GrowthDex)
+        },
+        elements: {
+          EarthAT: Number(pet.EarthAT || 0),
+          WaterAT: Number(pet.WaterAT || 0),
+          FireAT: Number(pet.FireAT || 0),
+          WindAT: Number(pet.WindAT || 0)
+        },
+        work: {
+          WorkFixVital: Number(pet.WorkFixVital || 0),
+          WorkMaxHp: Number(pet.WorkMaxHp || 0),
+          WorkFixStr: Number(pet.WorkFixStr || 0),
+          WorkFixTough: Number(pet.WorkFixTough || 0),
+          WorkFixDex: Number(pet.WorkFixDex || 0)
+        }
+      };
+    }),
     battle: game.encounter ? {
       active: true,
       enemyName: game.encounter.Name || "",
@@ -6300,7 +6323,14 @@ function compactCharacterFields(game) {
       active: pet.active,
       name: pet.name,
       level: pet.level,
+      exp: pet.exp,
+      nextExp: pet.nextExp,
+      expToNext: pet.expToNext,
+      expProgressPct: pet.expProgressPct,
+      limitLevel: pet.limitLevel,
       hp: `${pet.hp}/${pet.maxHp}`,
+      counters: pet.counters,
+      growth: pet.growth,
       elements: pet.elements,
       work: pet.work
     })),

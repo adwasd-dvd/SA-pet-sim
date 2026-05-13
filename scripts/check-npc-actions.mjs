@@ -48,8 +48,15 @@ assertEqual(playerPointGame.characterFields?.elements?.EarthAT, 50, "character f
 assertEqual(playerPointGame.characterFields?.work?.WorkFixStr, playerPointGame.player.WorkFixStr, "character fields expose derived WorkFixStr");
 assertEqual(playerPointGame.characterFields?.inventory?.capacity, 15, "character fields expose source inventory capacity");
 assert(playerPointGame.characterFields?.pets?.some((pet) => pet.active), "character fields expose active pet summary");
+const activeFieldPet = playerPointGame.characterFields?.pets?.find((pet) => pet.active);
+assertEqual(activeFieldPet?.exp, playerPointGame.pets[0].Exp, "character fields expose pet EXP");
+assertEqual(activeFieldPet?.expToNext, playerPointGame.pets[0].ExpToNext, "character fields expose pet EXP to next level");
+assertEqual(activeFieldPet?.work?.WorkMaxHp, playerPointGame.pets[0].WorkMaxHp, "character fields expose pet derived WorkMaxHp");
+assert(typeof activeFieldPet?.growth?.total === "number", "character fields expose pet growth summary");
+assertEqual(activeFieldPet?.counters?.battleCount, Number(playerPointGame.pets[0].BattleCount || 0), "character fields expose pet battle counters");
 assert(playerPointGame.save.info.includes("CHARACTER_FIELDS="), "saac-like save info includes compact character fields");
 assertEqual(playerPointGame.save.json.characterFields.schema, "gmsv-character-fields-v1", "save json carries compact character fields");
+assertEqual(playerPointGame.save.json.characterFields.pets[0].expToNext, playerPointGame.pets[0].ExpToNext, "save json carries pet EXP to next level");
 
 let petModeGame = await api("/api/game/new", { name: "pet-mode-test" });
 petModeGame.pets.push({
@@ -73,6 +80,9 @@ const petGuideRsp = await api("/api/ai/guide", { game: petModeGame, prompt: "帮
 assertEqual(petGuideRsp.action.type, "ai-training-battle", "AI guide trains through battle settlement");
 assertEqual(petGuideRsp.action.petIndex, 1, "AI guide trains the selected active pet");
 assert(petGuideRsp.game.pets[1].Lv > activePetLevelBefore, "selected active pet gains levels through battle experience");
+const trainedFieldPet = petGuideRsp.game.characterFields.pets.find((pet) => pet.active);
+assertEqual(trainedFieldPet?.level, petGuideRsp.game.pets[1].Lv, "AI training syncs active pet level into character fields");
+assertEqual(trainedFieldPet?.counters?.winCount, petGuideRsp.game.pets[1].WinCount, "AI training syncs active pet counters into character fields");
 assertEqual(petGuideRsp.game.petState.activeIndex, 1, "selected active pet survives save/map wrapping");
 await expectApiError(
   "/api/game/train",
