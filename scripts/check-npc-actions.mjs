@@ -214,16 +214,24 @@ teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "unsupported" && event.detail?.originalAction === "fieldSkill"), "unsupported VM actions preserve original action");
 const questExpReward = Number(teacherGame.quests[teacher.questId].expReward || 20);
 const questStoneReward = Number(teacherGame.quests[teacher.questId].stoneReward || 80);
+teacherGame.player.exp = Math.max(0, Number(teacherGame.player.nextExp || 1) - questExpReward + 1);
 const expBeforeQuest = teacherGame.player.exp;
+const levelBeforeQuest = Number(teacherGame.player.level || 1);
+const skillPointsBeforeQuest = Number(teacherGame.player.skillUpPoint || 0);
 const stoneBeforeQuest = teacherGame.player.stone;
 teacherGame.quests[teacher.questId].status = "可回报";
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "hi" });
 assertEqual(teacherGame.player.exp, expBeforeQuest + questExpReward, "teacher quest reward adds player exp through VM");
+assert(teacherGame.player.level > levelBeforeQuest, "teacher quest EXP reward can trigger source level-up");
+assert(Number(teacherGame.player.skillUpPoint || 0) >= skillPointsBeforeQuest + 3, "teacher quest level-up grants source ability points");
 assertEqual(teacherGame.player.stone, stoneBeforeQuest + questStoneReward, "teacher quest reward adds stone through VM");
+assertEqual(teacherGame.characterFields?.base?.level, teacherGame.player.level, "quest EXP reward syncs character field level");
+assertEqual(teacherGame.save.json.characterFields.base.level, teacherGame.player.level, "quest EXP reward syncs save character field level");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "quest-complete"), "teacher quest complete records setFlag VM event");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "quest"), "teacher quest complete records give VM event");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.executor === "npc-action-vm"), "teacher give runs through NPC VM executor");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.mutated === true), "teacher give mutates state through NPC VM executor");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.levelUps?.length), "teacher give VM trace records source level-up lines");
 
 const healer = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))

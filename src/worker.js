@@ -4694,9 +4694,10 @@ function applyNpcVmTake(game, action) {
 function applyNpcVmGive(game, action) {
   let mutated = false;
   const exp = npcVmAmount(action.exp, 0);
+  let levelUps = [];
   if (exp > 0) {
     addPlayerExp(game, exp);
-    maybeLevelPlayer(game);
+    levelUps = maybeLevelPlayer(game);
     mutated = true;
   }
   const stone = npcVmAmount(action.stone, 0);
@@ -4718,7 +4719,17 @@ function applyNpcVmGive(game, action) {
       mutated = true;
     }
   }
-  return { ok: true, mutated };
+  if (mutated) syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated,
+    exp,
+    stone,
+    levelUps,
+    playerLevel: Number(game.player?.level || 1),
+    playerExp: Number(game.player?.exp || 0),
+    skillUpPoint: Number(game.player?.skillUpPoint || 0)
+  };
 }
 
 function applyNpcVmStartBattle(game, action) {
@@ -4790,6 +4801,10 @@ function npcVmActionDetail(action, mutation) {
       log: mutation.outcome.log
     };
   }
+  if (mutation.levelUps?.length) out.levelUps = mutation.levelUps;
+  if (mutation.playerLevel != null) out.playerLevel = mutation.playerLevel;
+  if (mutation.playerExp != null) out.playerExp = mutation.playerExp;
+  if (mutation.skillUpPoint != null) out.skillUpPoint = mutation.skillUpPoint;
   if (mutation.error) out.error = mutation.error;
   return out;
 }
