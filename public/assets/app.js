@@ -1256,7 +1256,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     const px = screenX - bounds.minX;
     const py = screenY - bounds.minY;
     if (ground > CG_INVISIBLE) drawAtlasTile(ctx, atlas, ground, px, py);
-    if (object > CG_INVISIBLE && atlas.frames?.[object]) {
+    if (isStaticMapObjectTile(object) && atlas.frames?.[object]) {
       sprites.push(mapDepthSprite(atlas, object, px, py, screenX, screenY, x, y, "part", order++));
     }
   }
@@ -1343,6 +1343,11 @@ function isUsablePlayerFrame(tileId, frame) {
   if (!frame || !PLAYER_FRAME_IDS.has(Number(tileId))) return false;
   if (Number(frame.bitmapNo) !== Number(tileId) || Number(frame.graphicNo || 0) !== 0) return false;
   return frame.width >= 24 && frame.width <= 96 && frame.height >= 45 && frame.height <= 96;
+}
+
+function isStaticMapObjectTile(tileId) {
+  const id = Number(tileId || 0);
+  return id > CG_INVISIBLE && !PLAYER_FRAME_IDS.has(id);
 }
 
 function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
@@ -1524,7 +1529,7 @@ function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
       const [mapX, mapY] = mapRenderPoint(x, y, width, height);
       const [px, py] = isoPoint(mapX, mapY, halfW, halfH);
       if (ground > CG_INVISIBLE) includeTileBounds(bounds, atlas.frames?.[ground], px, py);
-      if (object > CG_INVISIBLE) includeTileBounds(bounds, atlas.frames?.[object], px, py);
+      if (isStaticMapObjectTile(object)) includeTileBounds(bounds, atlas.frames?.[object], px, py);
     }
   }
   if (!Number.isFinite(bounds.minX)) return { minX: 0, minY: 0, maxX: width * 64, maxY: height * 48 };
@@ -1771,7 +1776,7 @@ function drawViewportBaseTiles(ctx, renderer, state) {
     const [ground, object] = renderer.tileAt(y * renderer.width + x);
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
     if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
-    if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
+    if (isStaticMapObjectTile(object) && renderer.atlas.frames?.[object]) {
       drawAtlasTile(ctx, renderer.atlas, object, screenX, screenY);
     }
   });
@@ -1802,7 +1807,7 @@ function drawViewportDynamicSprites(ctx, renderer, state) {
   forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
     const [, object] = renderer.tileAt(y * renderer.width + x);
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
-    if (object > CG_INVISIBLE && renderer.atlas.frames?.[object]) {
+    if (isStaticMapObjectTile(object) && renderer.atlas.frames?.[object]) {
       const part = mapDepthSprite(
         renderer.atlas,
         object,
@@ -1940,7 +1945,7 @@ function drawLargeIsoPreview(canvas, width, height, tileAt, map, sourceLabel) {
         screenX - minX,
         screenY - minY,
         step,
-        tileColor(ground > CG_INVISIBLE ? ground : 0, object > CG_INVISIBLE ? object : 0, overlay)
+        tileColor(ground > CG_INVISIBLE ? ground : 0, isStaticMapObjectTile(object) ? object : 0, overlay)
       );
     }
   }
@@ -1979,7 +1984,7 @@ function drawTilePreview(canvas, width, height, tileAt) {
       const sy = Math.min(height - 1, y * scale);
       const index = sy * width + sx;
       const [ground, object, overlay] = tileAt(index);
-      const color = tileColor(ground > CG_INVISIBLE ? ground : 0, object > CG_INVISIBLE ? object : 0, overlay);
+      const color = tileColor(ground > CG_INVISIBLE ? ground : 0, isStaticMapObjectTile(object) ? object : 0, overlay);
       const i = (y * outW + x) * 4;
       img.data[i] = color[0];
       img.data[i + 1] = color[1];
