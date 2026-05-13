@@ -31,9 +31,12 @@ const BATTLE_KEY_ACTIONS = Object.freeze({
   i: "item",
   "5": "skill",
   w: "skill",
-  "6": "wait",
+  "6": "pet",
+  s: "pet",
+  p: "pet",
+  "7": "wait",
   n: "wait",
-  "7": "escape",
+  "8": "escape",
   escape: "escape",
   e: "escape"
 });
@@ -43,6 +46,7 @@ const BATTLE_ACTIONS = Object.freeze([
   { action: "capture", label: "捕获", command: "T|0" },
   { action: "item", label: "道具", command: "I" },
   { action: "skill", label: "技能", command: "W" },
+  { action: "pet", label: "换宠", command: "S" },
   { action: "wait", label: "待机", command: "N" },
   { action: "escape", label: "逃跑", command: "E" }
 ]);
@@ -134,6 +138,7 @@ let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
 let battleSkillMenuOpen = false;
+let battlePetMenuOpen = false;
 let aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
 let npcSortMode = "source";
 let exitSortMode = "source";
@@ -2444,6 +2449,7 @@ function renderBattlePanel() {
   if (!enemy) {
     battleItemMenuOpen = false;
     battleSkillMenuOpen = false;
+    battlePetMenuOpen = false;
     return;
   }
   clientWindowOpen = false;
@@ -2487,15 +2493,19 @@ function renderBattlePanel() {
   const hasBattleItem = battleItems.length > 0;
   const battleSkills = battleUsableSkills(activePet);
   const hasBattleSkill = battleSkills.length > 0;
+  const battlePets = battleSwitchablePets();
+  const hasBattlePet = battlePets.length > 0;
   const petFull = petUsed() >= petCapacity();
   if (!hasBattleItem) battleItemMenuOpen = false;
   if (!hasBattleSkill) battleSkillMenuOpen = false;
+  if (!hasBattlePet) battlePetMenuOpen = false;
   els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
     const disabled = entry.disabled
-      || (!activePet && ["attack", "guard", "wait", "item", "skill"].includes(entry.action))
+      || (!activePet && ["attack", "guard", "wait", "item", "skill", "pet"].includes(entry.action))
       || (entry.action === "capture" && (Number(enemy.CaptureRate ?? 35) <= 0 || petFull))
       || (entry.action === "item" && !hasBattleItem)
-      || (entry.action === "skill" && !hasBattleSkill);
+      || (entry.action === "skill" && !hasBattleSkill)
+      || (entry.action === "pet" && !hasBattlePet);
     return `
       <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""}>
         <b>${escapeHtml(entry.label)}</b>
@@ -2503,7 +2513,7 @@ function renderBattlePanel() {
         <small>${index + 1}</small>
       </button>
     `;
-  }).join("") + renderBattleItemPicker(battleItems) + renderBattleSkillPicker(battleSkills);
+  }).join("") + renderBattleItemPicker(battleItems) + renderBattleSkillPicker(battleSkills) + renderBattlePetPicker(battlePets);
   const log = (battle.log || game.log || []).slice(-6);
   els.sourceBattleLog.innerHTML = log.length
     ? log.map((line) => `<p>${escapeHtml(line)}</p>`).join("")
@@ -2605,6 +2615,11 @@ function onBattlePanelClick(event) {
     sendBattleAction(`skill:${skillBtn.dataset.battleSkill}:${target}`);
     return;
   }
+  const petBtn = event.target.closest("[data-battle-pet]");
+  if (petBtn && els.battlePanel.contains(petBtn)) {
+    sendBattleAction(`pet:${petBtn.dataset.battlePet}`);
+    return;
+  }
   const closeBtn = event.target.closest("[data-battle-items-close]");
   if (closeBtn && els.battlePanel.contains(closeBtn)) {
     battleItemMenuOpen = false;
@@ -2617,6 +2632,12 @@ function onBattlePanelClick(event) {
     renderBattlePanel();
     return;
   }
+  const closePetsBtn = event.target.closest("[data-battle-pets-close]");
+  if (closePetsBtn && els.battlePanel.contains(closePetsBtn)) {
+    battlePetMenuOpen = false;
+    renderBattlePanel();
+    return;
+  }
   const btn = event.target.closest("[data-battle-action]");
   if (!btn || !els.battlePanel.contains(btn) || btn.disabled) return;
   if (btn.dataset.battleAction === "item") {
@@ -2625,6 +2646,10 @@ function onBattlePanelClick(event) {
   }
   if (btn.dataset.battleAction === "skill") {
     toggleBattleSkillMenu();
+    return;
+  }
+  if (btn.dataset.battleAction === "pet") {
+    toggleBattlePetMenu();
     return;
   }
   sendBattleAction(btn.dataset.battleAction);
@@ -2644,6 +2669,7 @@ async function sendBattleAction(action) {
     game = await api("/api/game/battle", { game, action });
     battleItemMenuOpen = false;
     battleSkillMenuOpen = false;
+    battlePetMenuOpen = false;
     save();
     render();
   } catch (error) {
@@ -2654,7 +2680,10 @@ async function sendBattleAction(action) {
 function toggleBattleItemMenu() {
   if (!game?.encounter || !battleUsableItems().length) return;
   battleItemMenuOpen = !battleItemMenuOpen;
-  if (battleItemMenuOpen) battleSkillMenuOpen = false;
+  if (battleItemMenuOpen) {
+    battleSkillMenuOpen = false;
+    battlePetMenuOpen = false;
+  }
   renderBattlePanel();
 }
 
@@ -2680,7 +2709,10 @@ function renderBattleItemPicker(items) {
 function toggleBattleSkillMenu() {
   if (!game?.encounter || !battleUsableSkills(getActivePet()).length) return;
   battleSkillMenuOpen = !battleSkillMenuOpen;
-  if (battleSkillMenuOpen) battleItemMenuOpen = false;
+  if (battleSkillMenuOpen) {
+    battleItemMenuOpen = false;
+    battlePetMenuOpen = false;
+  }
   renderBattlePanel();
 }
 
@@ -2699,6 +2731,46 @@ function renderBattleSkillPicker(skills) {
           <small>${index + 1}</small>
         </button>
       `).join("")}
+    </div>
+  `;
+}
+
+function toggleBattlePetMenu() {
+  if (!game?.encounter || !battleSwitchablePets().length) return;
+  battlePetMenuOpen = !battlePetMenuOpen;
+  if (battlePetMenuOpen) {
+    battleItemMenuOpen = false;
+    battleSkillMenuOpen = false;
+  }
+  renderBattlePanel();
+}
+
+function battleSwitchablePets() {
+  const activeIndex = activePetIndex();
+  return (game?.pets || [])
+    .map((pet, index) => ({ pet, index }))
+    .filter(({ pet, index }) => index !== activeIndex && Number(pet?.Hp ?? pet?.WorkMaxHp ?? 0) > 0);
+}
+
+function renderBattlePetPicker(entries) {
+  if (!battlePetMenuOpen) return "";
+  return `
+    <div class="battle-item-picker battle-pet-picker" aria-label="切换出战宠物">
+      <div>
+        <strong>PET S</strong>
+        <button type="button" data-battle-pets-close title="关闭">×</button>
+      </div>
+      ${entries.map(({ pet, index }) => {
+        const hp = Math.max(0, Number(pet.Hp || 0));
+        const maxHp = Math.max(1, Number(pet.WorkMaxHp || pet.Hp || 1));
+        return `
+          <button type="button" data-battle-pet="${index}" title="${escapeHtml(elementText(pet))}">
+            <b>${escapeHtml(pet.Name || `pet ${index + 1}`)}</b>
+            <span>HP ${hp}/${maxHp}</span>
+            <small>S|${index}</small>
+          </button>
+        `;
+      }).join("")}
     </div>
   `;
 }

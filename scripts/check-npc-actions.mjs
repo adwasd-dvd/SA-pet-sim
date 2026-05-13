@@ -640,6 +640,41 @@ assertEqual(magicStatusTelemetry?.status?.key, "superWall", "magic status pet sk
 assert(magicStatusTelemetry?.success, "magic status pet skill applies to active pet");
 assert(Number(petMagicStatusGame.pets[0].BattleMagicStatuses?.superWall?.turns || 0) > 0, "magic status pet skill persists active pet battle magic status");
 assert(petMagicStatusGame.battleOutcome.log.some((line) => line.includes("铁壁") && line.includes("防御")), "magic status battle log explains defense buff");
+let battlePetSwitchGame = await api("/api/game/new", { name: "battle-pet-switch-test" });
+battlePetSwitchGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "宠物" });
+battlePetSwitchGame.pets[0].BattleMagicStatuses = {
+  superWall: { key: "superWall", label: "铁壁", turns: 2, percent: 30 }
+};
+battlePetSwitchGame.pets.push({
+  ...battlePetSwitchGame.pets[0],
+  Name: "后备出战奥卡洛斯",
+  PetId: Number(battlePetSwitchGame.pets[0].PetId || 100) + 30,
+  Lv: 4,
+  Hp: 400,
+  WorkMaxHp: 400,
+  WorkFixTough: 500,
+  WorkDefencePower: 500
+});
+battlePetSwitchGame.encounter.WorkTactics = 1;
+battlePetSwitchGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0";
+battlePetSwitchGame.encounter.WorkAttackPower = 1;
+battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|1" });
+assertEqual(battlePetSwitchGame.petState.activeIndex, 1, "source S pet command switches active battle pet");
+assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "battle pet switch maps to source PETOUT command");
+assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.command, "S|1", "battle pet switch records source S slot command");
+assert(!battlePetSwitchGame.pets[0].BattleMagicStatuses?.superWall, "switching out clears old active pet battle-only magic status");
+assert(battlePetSwitchGame.encounter, "battle pet switch keeps battle active after the enemy response");
+assert(battlePetSwitchGame.battleOutcome.log.some((line) => line.includes("后备出战奥卡洛斯") && line.includes("出战")), "battle pet switch writes source-style battle log");
+battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "换宠" });
+assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "NPC dialog battleAction can switch to the next available pet");
+assert(battlePetSwitchGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "pet-switch"), "NPC dialog pet switch records battleAction VM trace");
+await expectApiError(
+  "/api/game/battle",
+  { game: battlePetSwitchGame, action: "pet:0" },
+  "已经在战斗",
+  "battle pet switch refuses the already active pet"
+);
 let npcReleaseGame = await api("/api/game/new", { name: "npc-release-battle-test" });
 npcReleaseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 npcReleaseGame = await api("/api/game/dialog", { game: npcReleaseGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -1240,7 +1275,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

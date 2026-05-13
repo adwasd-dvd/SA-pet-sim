@@ -1656,6 +1656,9 @@ function performBattleAction(game, action) {
   if (move.type === "item") {
     return performBattleItemAction(game, move.itemId);
   }
+  if (move.type === "pet-switch") {
+    return performPetSwitchBattleAction(game, move);
+  }
   if (move.type === "pet-skill") {
     return performPetSkillAction(game, move);
   }
@@ -1781,10 +1784,75 @@ function performPlayerEscapeAction(game) {
   });
 }
 
+function performPetSwitchBattleAction(game, move) {
+  if (!game.encounter) throw new Error("当前没有战斗目标");
+  const currentPet = getActivePet(game);
+  if (!currentPet) throw new Error("你需要至少一只宠物才能战斗");
+  ensureBattleState(game, currentPet, game.encounter);
+
+  const currentIndex = getActivePetIndex(game);
+  const targetIndex = chooseBattleSwitchPetIndex(game, move.petIndex, currentIndex);
+  if (targetIndex === currentIndex) throw new Error("这只宠物已经在战斗中");
+  const nextPet = game.pets[targetIndex];
+  if (!nextPet) throw new Error("没有找到要出战的宠物");
+  if (Number(nextPet.Hp ?? nextPet.WorkMaxHp ?? 0) <= 0) {
+    throw new Error(`${nextPet.Name || "这只宠物"} 已经倒下，不能在战斗中出战`);
+  }
+
+  clearBattleRuntimeEffects(currentPet);
+  ensurePetFormation(game).activeIndex = targetIndex;
+  ensureBattleState(game, nextPet, game.encounter);
+
+  const enemy = game.encounter;
+  const sourceCommand = sourcePetSwitchCommand(targetIndex);
+  const enemyAi = chooseEnemyBattleMove(game, enemy, nextPet);
+  const playerAction = sourcePlayerPetSwitchAction(sourceCommand, currentPet, nextPet, currentIndex, targetIndex);
+  const battleLog = [`${currentPet.Name} 退下，${nextPet.Name} 出战。`];
+  let enemyEscaped = false;
+  game.battle.sourceCommand = sourceCommand;
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
+  game.battle.mode = "resolving";
+  if (enemy.Hp > 0) {
+    enemyEscaped = resolveEnemyBattleTurn(game, enemy, nextPet, enemyAi, playerAction, battleLog, false);
+  }
+
+  return settleBattleRound(game, nextPet, enemy, {
+    battleLog,
+    result: "pet-switch",
+    sourceCommand,
+    playerAction,
+    enemyAi,
+    enemyEscaped
+  });
+}
+
+function chooseBattleSwitchPetIndex(game, requestedIndex, currentIndex) {
+  const pets = game.pets || [];
+  if (requestedIndex != null && Number.isFinite(Number(requestedIndex))) {
+    const index = Math.trunc(Number(requestedIndex));
+    if (index < 0) throw new Error("收回出战宠后由人物单独战斗的流程还没有接入");
+    if (index >= pets.length) throw new Error("没有找到要出战的宠物");
+    return index;
+  }
+  const next = pets.findIndex((pet, index) => index !== currentIndex && Number(pet?.Hp ?? pet?.WorkMaxHp ?? 0) > 0);
+  if (next < 0) throw new Error("没有可切换的后备宠物");
+  return next;
+}
+
 function normalizeBattleMove(action) {
   const value = String(action || "attack").toLowerCase();
   const itemMatch = value.match(/^item[:|](\d+)$/);
   if (itemMatch) return { type: "item", command: "I", itemId: Number(itemMatch[1]) };
+  const petMatch = value.match(/^(pet|宠物|寵物|换宠|換寵|出战|出戰|s)[:|](-?\d+)$/);
+  if (petMatch) {
+    const petIndex = Math.trunc(Number(petMatch[2]));
+    return {
+      type: "pet-switch",
+      command: sourcePetSwitchCommand(petIndex),
+      petIndex
+    };
+  }
   const skillMatch = value.match(/^(skill|pet-skill|petskill|技能|宠技|寵技|w)[:|](\d+)(?:[:|](\d+))?$/);
   if (skillMatch) {
     const skillSlot = Math.max(0, Number(skillMatch[2]) || 0);
@@ -1810,6 +1878,9 @@ function normalizeBattleMove(action) {
   if (["run", "escape", "逃跑", "离开", "離開", "e"].includes(value)) return { type: "escape", command: "E" };
   if (["capture", "catch", "捕获", "抓宠", "抓", "t", "t|0"].includes(value)) return { type: "capture", command: "T|0" };
   if (["item", "道具", "物品", "i"].includes(value)) return { type: "item", command: "I" };
+  if (["pet", "宠物", "寵物", "换宠", "換寵", "出战", "出戰", "s"].includes(value)) {
+    return { type: "pet-switch", command: "S", petIndex: null };
+  }
   if (["skill", "pet-skill", "petskill", "技能", "宠技", "寵技", "w"].includes(value)) {
     return { type: "pet-skill", command: sourcePetSkillCommand(0, 0), skillSlot: 0, targetIndex: 0 };
   }
@@ -1823,6 +1894,11 @@ function sourcePetSkillCommand(skillSlot, targetIndex) {
   const slot = Math.max(0, Math.trunc(Number(skillSlot) || 0));
   const target = Math.max(0, Math.trunc(Number(targetIndex) || 0));
   return `W|${slot.toString(16).toUpperCase()}|${target.toString(16).toUpperCase()}`;
+}
+
+function sourcePetSwitchCommand(petIndex) {
+  const index = Math.trunc(Number(petIndex));
+  return `S|${Number.isFinite(index) ? index : -1}`;
 }
 
 function sourcePlayerBattleAction(move, game, activePet, enemy) {
@@ -1844,6 +1920,23 @@ function sourcePlayerBattleAction(move, game, activePet, enemy) {
     targetKind: "enemy",
     targetSlot: targetIndex,
     targetName: enemy?.Name || "enemy"
+  };
+}
+
+function sourcePlayerPetSwitchAction(command, oldPet, nextPet, oldIndex, nextIndex) {
+  return {
+    type: "pet-switch",
+    sourceCommand: "BATTLE_COM_PETOUT",
+    command,
+    source: "gmsv battle_command.c S| + battle.c BATTLE_COM_PETOUT",
+    actorKind: "player",
+    actorSlot: 0,
+    actorName: "player",
+    targetKind: "pet",
+    targetSlot: nextIndex,
+    targetName: nextPet?.Name || "pet",
+    oldPetSlot: oldIndex,
+    oldPetName: oldPet?.Name || ""
   };
 }
 
@@ -2643,6 +2736,8 @@ function compactBattleActionTelemetry(action) {
     targetKind: action.targetKind || "",
     targetSlot: Number(action.targetSlot || 0),
     targetName: action.targetName || "",
+    oldPetSlot: Number(action.oldPetSlot ?? -1),
+    oldPetName: action.oldPetName || "",
     petSkill: compactPetSkillTelemetry(action.petSkill),
     guardAdjust: compactGuardAdjust(action.guardAdjust),
     source: action.source || ""
@@ -3676,6 +3771,24 @@ async function applyGuideRequest(env, request, game, prompt) {
   const lower = text.toLowerCase();
   if (!text) return null;
 
+  if (game.encounter && isPetSwitchRequest(lower) && !isPetTrainingRequest(lower)) {
+    const choice = chooseGuidePet(game, text);
+    const move = choice?.pet ? `pet:${choice.index}` : "pet";
+    try {
+      const outcome = performBattleAction(game, move);
+      const lines = Array.isArray(outcome.log) ? outcome.log.join("\n") : "我帮你切换了一只出战宠。";
+      return {
+        text: `${lines}\n换宠也会消耗一回合，后续还是按战斗结算走。`,
+        action: { type: "battle-pet-switch", outcome: outcome.result, petIndex: choice?.index ?? null }
+      };
+    } catch (error) {
+      return {
+        text: error.message || "现在没有可切换的后备宠物。",
+        action: { type: "battle-pet-switch-refused", reason: "invalid-pet" }
+      };
+    }
+  }
+
   if (game.encounter && hasAny(lower, ["战斗", "戰鬥", "攻击", "攻擊", "帮打", "幫打", "打一下", "battle", "attack"])) {
     const outcome = performBattleAction(game, "attack");
     const lines = Array.isArray(outcome.log) ? outcome.log.join("\n") : "我帮你推进了一回合战斗。";
@@ -4018,7 +4131,7 @@ function guideSearchTokens(value) {
 
 async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
-  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "防御", "防守", "guard", "等待", "待机", "wait", "技能", "宠技", "寵技", "连续", "連續", "必杀", "必殺", "skill", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
+  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "防御", "防守", "guard", "等待", "待机", "wait", "技能", "宠技", "寵技", "连续", "連續", "必杀", "必殺", "skill", "换宠", "換寵", "出战", "出戰", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["道具", "物品", "item"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
@@ -4082,13 +4195,15 @@ function battleActionReply(game, npc, text) {
         ? "guard"
         : hasAny(text, ["等待", "待机", "wait"])
           ? "wait"
-          : hasAny(text, ["技能", "宠技", "寵技", "连续", "連續", "必杀", "必殺", "skill"])
-            ? "skill"
-          : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
-            ? "capture"
-            : hasAny(text, ["道具", "物品", "item"])
-              ? "item"
-              : "attack";
+          : hasAny(text, ["换宠", "換寵", "出战", "出戰"])
+            ? "pet"
+            : hasAny(text, ["技能", "宠技", "寵技", "连续", "連續", "必杀", "必殺", "skill"])
+              ? "skill"
+              : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
+                ? "capture"
+                : hasAny(text, ["道具", "物品", "item"])
+                  ? "item"
+                  : "attack";
   const event = runNpcVmAction(game, npc, {
     type: "battleAction",
     move,
@@ -4098,7 +4213,7 @@ function battleActionReply(game, npc, text) {
   const outcome = event.detail?.outcome || {};
   const lines = Array.isArray(outcome.log) ? outcome.log : [];
   const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
-  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”“防御”“待机”，或输入“道具”“逃跑”。`;
+  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "pet-switch" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”“防御”“待机”，或输入“道具”“换宠”“逃跑”。`;
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "escaped") return `${summary}\n你逃离了战斗。`;
@@ -4120,7 +4235,7 @@ function battleStatusReply(game, npc) {
     enemyHp: enemy?.Hp ?? enemy?.WorkMaxHp,
     reason: "dialog-battle-status"
   });
-  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”“防御”“待机”推进战斗，输入“捕获”尝试抓宠，或输入“逃跑”尝试脱离。`;
+  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”“防御”“待机”推进战斗，输入“捕获”尝试抓宠，输入“换宠”切换后备宠物，或输入“逃跑”尝试脱离。`;
 }
 
 function isGreeting(text) {

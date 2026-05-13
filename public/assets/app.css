@@ -2580,6 +2580,11 @@ h3 {
   left: 0;
 }
 
+.battle-pet-picker {
+  right: auto;
+  left: 0;
+}
+
 .battle-item-picker > div {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 20px;
