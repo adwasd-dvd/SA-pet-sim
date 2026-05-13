@@ -30,7 +30,7 @@ const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
 const DEFAULT_CHAR_DIR = 5;
-const SAFE_WILD_ENCOUNTER_MAP_RE = /村|庄园|店|医院|道场|柜台|商店|房屋|之家|的家|宠物店|肉店|武器店|防具店|便利/i;
+const SAFE_WILD_ENCOUNTER_MAP_RE = /村|庄园|店|医院|道场|柜台|商店|房屋|之家|的家|宠物店|肉店|武器店|防具店|便利|竞技场|競技場|斗技场|鬥技場|PK竞技|武斗场/i;
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
   [1, -1],
@@ -3233,6 +3233,7 @@ function buildGuideContext(game, map) {
       wildEncounterReason: map.wildEncounterReason
     },
     map: { exits, npcs, nearby: nearbyState(game, map) },
+    world: guideWorldSummary(game, map),
     pets: game.pets.map(petSummary),
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
@@ -3259,6 +3260,52 @@ function buildGuideContext(game, map) {
     recentNpcVmEvents: (game.npcVmEvents || []).slice(-8),
     recentLog: game.log.slice(-8)
   };
+}
+
+function guideWorldSummary(game, currentMapValue) {
+  const currentId = String(currentMapValue?.id || game.location?.mapId || "");
+  const maps = Object.values(WORLD.maps || {});
+  const notable = maps
+    .filter((map) => map.id === currentId || guideNotableMap(map))
+    .map((map) => ({
+      id: map.id,
+      floorId: map.floorId,
+      name: map.name,
+      kind: guideMapKind(map),
+      canWildEncounter: wildEncounterAllowed(map),
+      source: map.summary
+    }))
+    .sort((a, b) => (
+      Number(b.id === currentId) - Number(a.id === currentId)
+      || guideMapKindRank(a.kind) - guideMapKindRank(b.kind)
+      || String(a.name).localeCompare(String(b.name), "zh-Hans")
+    ))
+    .slice(0, 24);
+  return {
+    mapCount: maps.length,
+    questLeadCount: maps.reduce((sum, map) => sum + (map.npcs || []).filter((npc) => npc.questLead).length, 0),
+    safePolicy: "村镇、店铺、医院、庄园和竞技场按安全区处理；野外、大陆、洞窟按 encount.txt 触发随机遇敌。",
+    notableMaps: notable
+  };
+}
+
+function guideNotableMap(map) {
+  const text = `${map?.name || ""} ${map?.summary || ""}`;
+  return /村|医院|庄园|竞技场|競技場|斗技场|鬥技場|PK|洞窟|通路|萨姆吉尔|玛丽娜丝|柯奥|加加|卡鲁它那/i.test(text);
+}
+
+function guideMapKind(map) {
+  const text = `${map?.name || ""} ${map?.summary || ""}`;
+  if (/竞技场|競技場|斗技场|鬥技場|PK/i.test(text)) return "arena";
+  if (/医院|店|商店|肉店|宠物店|武器店|防具店|便利/i.test(text)) return "service";
+  if (/村|庄园/i.test(text)) return "village";
+  if (/洞窟|通路|坑道|海底/i.test(text)) return "dungeon";
+  if (wildEncounterAllowed(map)) return "field";
+  return "map";
+}
+
+function guideMapKindRank(kind) {
+  return { village: 0, service: 1, arena: 2, dungeon: 3, field: 4, map: 5 }[kind] ?? 9;
 }
 
 function guideEffectSummary(game) {
@@ -3324,7 +3371,12 @@ function fallbackGuide(context, prompt = "", error = null) {
     return `${aiNote}你现在在${context.location.name}。当前可接任务有：${context.availableQuests.map((quest) => quest.title).join("、")}。先找带 quest 动作的 NPC，通常是老师或剧情 NPC。`;
   }
   if (hasAny(lower, ["地图", "出口", "去哪", "去哪里", "传送", "瞬移"])) {
-    return `${aiNote}你在${context.location.name} (${context.location.position.join(",")})。可走出口：${exits}。需要瞬移时可以说“带我去 地图名/floor”，我会优先匹配已经打包进 Worker 的地图。`;
+    const notable = (context.world?.notableMaps || [])
+      .filter((map) => map.id !== context.location.mapId)
+      .slice(0, 8)
+      .map((map) => `${map.name}(floor ${map.floorId})`)
+      .join("、");
+    return `${aiNote}你在${context.location.name} (${context.location.position.join(",")})。可走出口：${exits}。Worker 已打包 ${context.world?.mapCount || "多张"} 张地图；可尝试的目标有：${notable || "当前出口目标"}。需要瞬移时可以说“带我去 地图名/floor”。`;
   }
   if (hasAny(lower, ["npc", "对话", "聊天", "任务线索"])) {
     const list = context.map.npcs.slice(0, 6).map((npc) => `${npc.name}[${npc.actions.join("/") || "say"}] 距离${npc.distance}`).join("；");

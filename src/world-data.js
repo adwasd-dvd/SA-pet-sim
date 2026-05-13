@@ -9,6 +9,255 @@ export const WORLD = {
   },
   "startMap": "1000",
   "maps": {
+    "40": {
+      "id": "40",
+      "floorId": 40,
+      "name": "奇努伊关卡 100",
+      "mapFile": "/data/maps/40.ls2map",
+      "clientMapFile": "/data/client-maps/40.dat",
+      "clientMapSource": "公益石器时代/map/40.dat",
+      "summary": "奇努伊关卡 100 | floor=40 | 20x20 | gmsv-data/map/seimu/dungeon/dun_4-00-01",
+      "size": [
+        20,
+        20
+      ],
+      "spawn": [
+        6,
+        3
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "40-13-1-2003",
+          "name": "海底通路的通关处",
+          "x": 13,
+          "y": 1,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_40_13_1",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/40npc.create",
+          "script": "file:genout/wpm_40_13_1",
+          "template": "npcgen_warpman",
+          "graphic": "16204",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "31301",
+              "floor": 31301,
+              "x": 10,
+              "y": 104
+            },
+            "free": "",
+            "money": "300",
+            "cost": {
+              "mode": "fixed",
+              "amount": 300
+            },
+            "deleteItems": [],
+            "freeMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 你持有通行证，请通关。 请多加小心！",
+            "payMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 这里是通往吉鲁岛的海底通路。 要有这个s才可以通过这里。",
+            "normalMessage": "",
+            "moneyMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 你钱不够哦。",
+            "partyMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 无法以团队进入。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_40_13_1"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:31301,10,104",
+              "FREE:",
+              "MONEY:300"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_40_13_1"
+          },
+          "questLead": {
+            "title": "海底通路的通关处 的原脚本线索",
+            "summary": "WARP:31301,10,104",
+            "source": "gmsv-data/npc/genout/wpm_40_13_1",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "40-1-8-2002",
+          "name": "海底通路的通关处",
+          "x": 1,
+          "y": 8,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_40_1_8",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/40npc.create",
+          "script": "file:genout/wpm_40_1_8",
+          "template": "npcgen_warpman",
+          "graphic": "16204",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "31401",
+              "floor": 31401,
+              "x": 92,
+              "y": 27
+            },
+            "free": "",
+            "money": "300",
+            "cost": {
+              "mode": "fixed",
+              "amount": 300
+            },
+            "deleteItems": [],
+            "freeMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 你持有通行证，请通关。 请多加小心！",
+            "payMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 这里是通往萨伊那斯岛的海底通路。 要有这个s才可以通过这里。",
+            "normalMessage": "",
+            "moneyMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 你钱不够哦。",
+            "partyMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 无法以团队进入。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_40_1_8"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:31401,92,27",
+              "FREE:",
+              "MONEY:300"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_40_1_8"
+          },
+          "questLead": {
+            "title": "海底通路的通关处 的原脚本线索",
+            "summary": "WARP:31401,92,27",
+            "source": "gmsv-data/npc/genout/wpm_40_1_8",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "40-10-9-7042",
+          "name": "WarpMan",
+          "x": 10,
+          "y": 9,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/king/event69_9",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/king/event69_alpha.create",
+          "script": "file:king/event69_9",
+          "template": "npcgen_warpman",
+          "graphic": "10143",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "30621",
+              "floor": 30621,
+              "x": 25,
+              "y": 22
+            },
+            "free": "ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&NOWEV=72,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV=72",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "轰隆隆…OVER",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "淅浬浬…",
+            "warpMessage": "地为界水为凭火为引风为信",
+            "source": "gmsv-data/npc/king/event69_9"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "FREE:LV>0",
+              "WARP:30621,25,22",
+              "FREE:ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71,ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&NOWEV=72",
+              "CHECKPARTY:TRUE",
+              "FREE:ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&NOWEV=72,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV=72"
+            ],
+            "source": "gmsv-data/npc/king/event69_9"
+          },
+          "questLead": {
+            "title": "WarpMan 的原脚本线索",
+            "summary": "FREE:LV>0",
+            "source": "gmsv-data/npc/king/event69_9",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "40-12-18-2004",
+          "name": "海底通路的通关处",
+          "x": 12,
+          "y": 18,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_40_12_18",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/40npc.create",
+          "script": "file:genout/wpm_40_12_18",
+          "template": "npcgen_warpman",
+          "graphic": "16207",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "31501",
+              "floor": 31501,
+              "x": 32,
+              "y": 2
+            },
+            "free": "",
+            "money": "300",
+            "cost": {
+              "mode": "fixed",
+              "amount": 300
+            },
+            "deleteItems": [],
+            "freeMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 你持有通行证，请通关。 请多加小心！",
+            "payMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 这里是通往加鲁卡岛的海底通路。 要有这个s才可以通过这里。",
+            "normalMessage": "",
+            "moneyMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 你钱不够哦。",
+            "partyMessage": "＝＝＝＝＝＝ 通关处看守者 ＝＝＝＝＝＝ 无法以团队进入。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_40_12_18"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:31501,32,2",
+              "FREE:",
+              "MONEY:300"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_40_12_18"
+          },
+          "questLead": {
+            "title": "海底通路的通关处 的原脚本线索",
+            "summary": "WARP:31501,32,2",
+            "source": "gmsv-data/npc/genout/wpm_40_12_18",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "40-6-3-2875",
+          "name": "Warp",
+          "x": 6,
+          "y": 3,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/dungeon03.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": []
+    },
     "100": {
       "id": "100",
       "floorId": 100,
@@ -3580,6 +3829,199 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "119-1",
+          "label": "去 迷宫",
+          "detail": "迷宫 | floor 119 | 目标 (96,4) | 入口 (13,8)",
+          "to": "119",
+          "x": 13,
+          "y": 8,
+          "bounds": [
+            13,
+            8,
+            13,
+            8
+          ],
+          "target": [
+            96,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 13,
+              "y": 8,
+              "target": [
+                96,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "119": {
+      "id": "119",
+      "floorId": 119,
+      "name": "迷宫",
+      "mapFile": "/data/maps/119.ls2map",
+      "clientMapFile": "/data/client-maps/119.dat",
+      "clientMapSource": "公益石器时代/map/119.dat",
+      "summary": "迷宫 | floor=119 | 200x200 | gmsv-data/map/extra/119",
+      "size": [
+        200,
+        200
+      ],
+      "spawn": [
+        96,
+        4
+      ],
+      "encounterPets": [
+        565,
+        566,
+        567,
+        568,
+        569,
+        570,
+        606
+      ],
+      "npcs": [
+        {
+          "id": "119-97-88-1290",
+          "name": "卡伊特",
+          "x": 97,
+          "y": 88,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/extra/event/marju01",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/extra/event/marju.create",
+          "script": "file:extra/event/marju01",
+          "template": "changeevent",
+          "graphic": "16000",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:NOWEV=37&LV>49&ITEM=2687&ITEM!=2697",
+              "DelItem:2687",
+              "EVENT:ENDEV=37&ENDEV=38&LV>49&ITEM!=2697,ENDEV=37&LV>49&ITEM!=2697",
+              "EVENT:NOWEV!=37&ENDEV!=37&LV>39&ITEM!=2697",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/extra/event/marju01"
+          },
+          "questLead": {
+            "title": "卡伊特 的原脚本线索",
+            "summary": "EVENT:NOWEV=37&LV>49&ITEM=2687&ITEM!=2697",
+            "source": "gmsv-data/npc/extra/event/marju01",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "119-99-92-5002",
+          "name": "看板",
+          "x": 99,
+          "y": 92,
+          "type": "SignBoard",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_119_99_92",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/meiro.create",
+          "script": "file:genout/signb_119_99_92",
+          "template": "npcgen_signboard",
+          "graphic": "10062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_119_99_92"
+          }
+        },
+        {
+          "id": "119-96-4-4996",
+          "name": "Warp",
+          "x": 96,
+          "y": 4,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/meiro.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "119-103-93-4997",
+          "name": "Warp",
+          "x": 103,
+          "y": 93,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/meiro.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "118-0",
+          "label": "去 迷宫",
+          "detail": "迷宫 | floor 118 | 目标 (13,8) | 入口 (96,4)",
+          "to": "118",
+          "x": 96,
+          "y": 4,
+          "bounds": [
+            96,
+            4,
+            96,
+            4
+          ],
+          "target": [
+            13,
+            8
+          ],
+          "tiles": [
+            {
+              "x": 96,
+              "y": 4,
+              "target": [
+                13,
+                8
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "121-1",
+          "label": "去 岬之家",
+          "detail": "岬之家 | floor 121 | 目标 (17,15) | 入口 (103,93)",
+          "to": "121",
+          "x": 103,
+          "y": 93,
+          "bounds": [
+            103,
+            93,
+            103,
+            93
+          ],
+          "target": [
+            17,
+            15
+          ],
+          "tiles": [
+            {
+              "x": 103,
+              "y": 93,
+              "target": [
+                17,
+                15
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -4416,6 +4858,3450 @@ export const WORLD = {
           "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
+    },
+    "130": {
+      "id": "130",
+      "floorId": 130,
+      "name": "竞技场",
+      "mapFile": "/data/maps/130.ls2map",
+      "clientMapFile": "/data/client-maps/130.dat",
+      "clientMapSource": "公益石器时代/map/130.dat",
+      "summary": "竞技场 | floor=130 | 60x60 | gmsv-data/map/family/130",
+      "size": [
+        60,
+        60
+      ],
+      "spawn": [
+        29,
+        59
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "130-3-3-2274",
+          "name": "斗技场的防具屋",
+          "x": 3,
+          "y": 3,
+          "type": "ItemShop",
+          "dialogue": "你好！",
+          "dialogueLines": [
+            "你好！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_3_3",
+          "template": "npcgen_shop",
+          "graphic": "16200",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_3_3",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "你好！",
+            "items": [
+              {
+                "id": 840,
+                "name": "耐用的兜",
+                "secretName": "耐用的兜",
+                "description": "防 +10 敏 -2",
+                "image": 21543,
+                "cost": 5000,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5000
+              },
+              {
+                "id": 855,
+                "name": "米鲁菲Lv1兜6",
+                "secretName": "米鲁菲Lv1兜6",
+                "description": "防 +10 敏 -3 净化精灵(昏睡) Lv1",
+                "image": 21519,
+                "cost": 9580,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 9580
+              },
+              {
+                "id": 860,
+                "name": "挺棒的兜",
+                "secretName": "挺棒的兜",
+                "description": "防 +14 敏 -3",
+                "image": 21544,
+                "cost": 13000,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 13000
+              },
+              {
+                "id": 940,
+                "name": "厚的帽子",
+                "secretName": "厚的帽子",
+                "description": "防 +5",
+                "image": 21531,
+                "cost": 4000,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 4000
+              },
+              {
+                "id": 960,
+                "name": "挺棒的帽子",
+                "secretName": "挺棒的帽子",
+                "description": "防 +7",
+                "image": 21532,
+                "cost": 10400,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 10400
+              },
+              {
+                "id": 965,
+                "name": "米鲁菲Lv2帽子7",
+                "secretName": "米鲁菲Lv2帽子7",
+                "description": "防 +6 净化精灵(昏睡) Lv2",
+                "image": 21536,
+                "cost": 12164,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 12164
+              },
+              {
+                "id": 990,
+                "name": "卡鲁它那的帽子",
+                "secretName": "卡鲁它那的帽子",
+                "description": "防 +10",
+                "image": 21503,
+                "cost": 40000,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 40000
+              },
+              {
+                "id": 1040,
+                "name": "耐用的铠",
+                "secretName": "耐用的铠",
+                "description": "防 +20 敏 -5",
+                "image": 21025,
+                "cost": 7500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 7500
+              },
+              {
+                "id": 1051,
+                "name": "哈鲁Lv1铠6",
+                "secretName": "哈鲁Lv1铠6",
+                "description": "防 +21 敏 -6 治愈的精灵 Lv1",
+                "image": 21025,
+                "cost": 13050,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 13050
+              },
+              {
+                "id": 1060,
+                "name": "挺棒的铠",
+                "secretName": "挺棒的铠",
+                "description": "防 +28 敏 -7",
+                "image": 21016,
+                "cost": 19500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 19500
+              },
+              {
+                "id": 1064,
+                "name": "哈鲁Lv2铠7",
+                "secretName": "哈鲁Lv2铠7",
+                "description": "防 +26 敏 -7 治愈的精灵 Lv2",
+                "image": 21018,
+                "cost": 20200,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 20200
+              },
+              {
+                "id": 1140,
+                "name": "厚的服",
+                "secretName": "厚的服",
+                "description": "防 +13 敏 -1",
+                "image": 21004,
+                "cost": 6000,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6000
+              },
+              {
+                "id": 1155,
+                "name": "芙雷雅Lv2服6",
+                "secretName": "芙雷雅Lv2服6",
+                "description": "防 +13 滋润的精灵 Lv2",
+                "image": 21005,
+                "cost": 12540,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 12540
+              },
+              {
+                "id": 1160,
+                "name": "挺棒的服",
+                "secretName": "挺棒的服",
+                "description": "防 +17",
+                "image": 21038,
+                "cost": 15600,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 15600
+              },
+              {
+                "id": 1164,
+                "name": "哈鲁Lv2服7",
+                "secretName": "哈鲁Lv2服7",
+                "description": "防 +15 治愈的精灵 Lv2",
+                "image": 21011,
+                "cost": 16300,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 16300
+              },
+              {
+                "id": 1165,
+                "name": "芙雷雅Lv2服7",
+                "secretName": "芙雷雅Lv2服7",
+                "description": "防 +15 滋润的精灵 Lv2",
+                "image": 21011,
+                "cost": 18700,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 18700
+              },
+              {
+                "id": 1180,
+                "name": "卡鲁它那的服",
+                "secretName": "卡鲁它那的服",
+                "description": "防 +22",
+                "image": 21042,
+                "cost": 38400,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 50,
+                "price": 38400
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_3_3"
+          }
+        },
+        {
+          "id": "130-9-3-2275",
+          "name": "斗技场的防具屋",
+          "x": 9,
+          "y": 3,
+          "type": "ItemShop",
+          "dialogue": "有什么事吗？",
+          "dialogueLines": [
+            "有什么事吗？"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_9_3",
+          "template": "npcgen_shop",
+          "graphic": "16201",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_9_3",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "有什么事吗？",
+            "items": [
+              {
+                "id": 844,
+                "name": "渥鲁菲Lv1兜5",
+                "secretName": "渥鲁菲Lv1兜5",
+                "description": "防 +8 敏 -3 净化精灵(酒醉) Lv1",
+                "image": 21518,
+                "cost": 5500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5500
+              },
+              {
+                "id": 850,
+                "name": "硬的兜",
+                "secretName": "硬的兜",
+                "description": "防 +12 敏 -2",
+                "image": 21545,
+                "cost": 8500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 8500
+              },
+              {
+                "id": 890,
+                "name": "加加的兜",
+                "secretName": "加加的兜",
+                "description": "防 +20 敏 -4",
+                "image": 21516,
+                "cost": 50000,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 50000
+              },
+              {
+                "id": 950,
+                "name": "耐用的帽子",
+                "secretName": "耐用的帽子",
+                "description": "防 +6",
+                "image": 21501,
+                "cost": 6800,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 6800
+              },
+              {
+                "id": 962,
+                "name": "爱鲁菲Lv2帽子7",
+                "secretName": "爱鲁菲Lv2帽子7",
+                "description": "防 +6 净化精灵(石化) Lv2",
+                "image": 21536,
+                "cost": 11870,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 11870
+              },
+              {
+                "id": 980,
+                "name": "加加的帽子",
+                "secretName": "加加的帽子",
+                "description": "防 +9",
+                "image": 21533,
+                "cost": 25600,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 50,
+                "price": 25600
+              },
+              {
+                "id": 1050,
+                "name": "硬的铠",
+                "secretName": "硬的铠",
+                "description": "防 +24 敏 -6",
+                "image": 21023,
+                "cost": 12750,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 12750
+              },
+              {
+                "id": 1061,
+                "name": "哈鲁Lv1铠7",
+                "secretName": "哈鲁Lv1铠7",
+                "description": "防 +25 敏 -7 治愈的精灵 Lv1",
+                "image": 21017,
+                "cost": 19850,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 19850
+              },
+              {
+                "id": 1062,
+                "name": "芙雷雅Lv1铠7",
+                "secretName": "芙雷雅Lv1铠7",
+                "description": "防 +24 敏 -7 滋润的精灵 Lv1",
+                "image": 21017,
+                "cost": 22220,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 22220
+              },
+              {
+                "id": 1063,
+                "name": "提欧Lv1铠7",
+                "secretName": "提欧Lv1铠7",
+                "description": "防 +24 敏 -7 恩惠的精灵 Lv1",
+                "image": 21017,
+                "cost": 22374,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 22374
+              },
+              {
+                "id": 1150,
+                "name": "耐用的服",
+                "secretName": "耐用的服",
+                "description": "防 +15",
+                "image": 21004,
+                "cost": 10200,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 10200
+              },
+              {
+                "id": 1152,
+                "name": "芙雷雅Lv1服6",
+                "secretName": "芙雷雅Lv1服6",
+                "description": "防 +12 滋润的精灵 Lv1",
+                "image": 21006,
+                "cost": 11880,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 11880
+              },
+              {
+                "id": 1161,
+                "name": "哈鲁Lv1服7",
+                "secretName": "哈鲁Lv1服7",
+                "description": "防 +14 治愈的精灵 Lv1",
+                "image": 21037,
+                "cost": 15950,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 15950
+              },
+              {
+                "id": 1162,
+                "name": "芙雷雅Lv1服7",
+                "secretName": "芙雷雅Lv1服7",
+                "description": "防 +14 滋润的精灵 Lv1",
+                "image": 21037,
+                "cost": 17930,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 17930
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_9_3"
+          }
+        },
+        {
+          "id": "130-16-3-2276",
+          "name": "斗技场的道具屋",
+          "x": 16,
+          "y": 3,
+          "type": "ItemShop",
+          "dialogue": "你好！",
+          "dialogueLines": [
+            "你好！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_16_3",
+          "template": "npcgen_shop",
+          "graphic": "16068",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_16_3",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "你好！",
+            "items": [
+              {
+                "id": 1212,
+                "name": "牙的手环(红)",
+                "secretName": "牙的手环(红)",
+                "description": "攻 +5 防 +5 敏 -5 魅 +3",
+                "image": 22074,
+                "cost": 30000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 30000
+              },
+              {
+                "id": 1214,
+                "name": "牙的手环(青)",
+                "secretName": "牙的手环(青)",
+                "description": "攻 -5 防 +5 敏 +5 魅 +3",
+                "image": 22072,
+                "cost": 30000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 30000
+              },
+              {
+                "id": 1271,
+                "name": "阿萨Lv4竖琴",
+                "secretName": "阿萨Lv4竖琴",
+                "description": "魅 +4 大地的精灵 Lv4",
+                "image": 24215,
+                "cost": 3000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 45,
+                "price": 3000
+              },
+              {
+                "id": 1272,
+                "name": "阿昆尼斯Lv4竖琴",
+                "secretName": "阿昆尼斯Lv4竖琴",
+                "description": "魅 +4 水之精灵 Lv4",
+                "image": 24212,
+                "cost": 3000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 45,
+                "price": 3000
+              },
+              {
+                "id": 1278,
+                "name": "阿萨Lv5金币",
+                "secretName": "阿萨Lv5金币",
+                "description": "魅 +5 大地的精灵 Lv5",
+                "image": 24218,
+                "cost": 5000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 5000
+              },
+              {
+                "id": 1279,
+                "name": "阿昆尼斯Lv5金币",
+                "secretName": "阿昆尼斯Lv5金币",
+                "description": "魅 +5 水的精灵 Lv5",
+                "image": 24217,
+                "cost": 5000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 5000
+              },
+              {
+                "id": 1310,
+                "name": "蔓的戒指",
+                "secretName": "蔓的戒指",
+                "description": "魅 +1 会心一击率上升 +3",
+                "image": 22053,
+                "cost": 4000,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4000
+              },
+              {
+                "id": 1360,
+                "name": "漂亮的黑色首饰",
+                "secretName": "漂亮的黑色首饰",
+                "description": "魅 +2 毒耐性 +60",
+                "image": 22042,
+                "cost": 11900,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11900
+              },
+              {
+                "id": 1361,
+                "name": "红色美丽首饰",
+                "secretName": "红色美丽首饰",
+                "description": "魅 +2 石化耐性 +60",
+                "image": 22038,
+                "cost": 10500,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10500
+              },
+              {
+                "id": 1362,
+                "name": "黄色美丽首饰",
+                "secretName": "黄色美丽首饰",
+                "description": "魅 +2 睡眠耐性 +60",
+                "image": 22041,
+                "cost": 9100,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 9100
+              },
+              {
+                "id": 1363,
+                "name": "绿色美丽首饰",
+                "secretName": "绿色美丽首饰",
+                "description": "魅 +2 混乱耐性 +60",
+                "image": 22040,
+                "cost": 14000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 14000
+              },
+              {
+                "id": 1364,
+                "name": "青色美丽首饰",
+                "secretName": "青色美丽首饰",
+                "description": "魅 +2 酒醉耐性 +60",
+                "image": 22039,
+                "cost": 7000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7000
+              },
+              {
+                "id": 1410,
+                "name": "蔓的双重耳环",
+                "secretName": "蔓的双重耳环",
+                "description": "魅 +1 回避率上升 +3",
+                "image": 22056,
+                "cost": 4000,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4000
+              },
+              {
+                "id": 1412,
+                "name": "木筒耳环",
+                "secretName": "木筒耳环",
+                "description": "魅 +3 回避率上升 +3",
+                "image": 22052,
+                "cost": 5000,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5000
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_16_3"
+          }
+        },
+        {
+          "id": "130-23-3-2273",
+          "name": "斗技场的武器屋",
+          "x": 23,
+          "y": 3,
+          "type": "ItemShop",
+          "dialogue": "欢迎！",
+          "dialogueLines": [
+            "欢迎！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_23_3",
+          "template": "npcgen_shop",
+          "graphic": "16201",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_23_3",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "欢迎！",
+            "items": [
+              {
+                "id": 54,
+                "name": "莱伊萨Lv3斧头",
+                "secretName": "莱伊萨Lv3斧头",
+                "description": "攻 +35 防 -12 敏 -12 酩酊的精灵 Lv3",
+                "image": 20014,
+                "cost": 13450,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 13450
+              },
+              {
+                "id": 60,
+                "name": "强的斧头",
+                "secretName": "强的斧头",
+                "description": "攻 +43 防 -14 敏 -14",
+                "image": 20023,
+                "cost": 16900,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 16900
+              },
+              {
+                "id": 62,
+                "name": "威金尼尔Lv4斧头",
+                "secretName": "威金尼尔Lv4斧头",
+                "description": "攻 +41 防 -13 敏 -13 硬化的精灵 Lv4",
+                "image": 20019,
+                "cost": 19000,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 19000
+              },
+              {
+                "id": 70,
+                "name": "厉害的斧头",
+                "secretName": "厉害的斧头",
+                "description": "攻 +49 防 -16 敏 -16",
+                "image": 20041,
+                "cost": 26000,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 40,
+                "price": 26000
+              },
+              {
+                "id": 80,
+                "name": "加加的斧头",
+                "secretName": "加加的斧头",
+                "description": "攻 +54 防 -18 敏 -18",
+                "image": 20040,
+                "cost": 41600,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 50,
+                "price": 41600
+              },
+              {
+                "id": 152,
+                "name": "威金娜斯Lv3棍棒",
+                "secretName": "威金娜斯Lv3棍棒",
+                "description": "攻 +23 石化的精灵 Lv3",
+                "image": 20109,
+                "cost": 11500,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 11500
+              },
+              {
+                "id": 160,
+                "name": "强的棍棒",
+                "secretName": "强的棍棒",
+                "description": "攻 +28",
+                "image": 20116,
+                "cost": 13000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 13000
+              },
+              {
+                "id": 164,
+                "name": "莱伊卡Lv4棍棒",
+                "secretName": "莱伊卡Lv4棍棒",
+                "description": "攻 +27 酒的精灵 Lv4",
+                "image": 20105,
+                "cost": 14680,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 14680
+              },
+              {
+                "id": 170,
+                "name": "厉害的棍棒",
+                "secretName": "厉害的棍棒",
+                "description": "攻 +32",
+                "image": 20108,
+                "cost": 20000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 40,
+                "price": 20000
+              },
+              {
+                "id": 180,
+                "name": "加加的棍棒",
+                "secretName": "加加的棍棒",
+                "description": "攻 +36",
+                "image": 20143,
+                "cost": 32000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 50,
+                "price": 32000
+              },
+              {
+                "id": 241,
+                "name": "贝诺美斯Lv3枪",
+                "secretName": "贝诺美斯Lv3枪",
+                "description": "攻 +23 敏 -5 魅 +3 猛毒的精灵 Lv3",
+                "image": 20510,
+                "cost": 7200,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 7200
+              },
+              {
+                "id": 260,
+                "name": "强的枪",
+                "secretName": "强的枪",
+                "description": "攻 +35 敏 -7 魅 +4",
+                "image": 20426,
+                "cost": 15600,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 15600
+              },
+              {
+                "id": 270,
+                "name": "厉害的枪",
+                "secretName": "厉害的枪",
+                "description": "攻 +40 敏 -8 魅 +4",
+                "image": 20441,
+                "cost": 24000,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 40,
+                "price": 24000
+              },
+              {
+                "id": 335,
+                "name": "特洛西Lv2爪",
+                "secretName": "特洛金Lv2爪",
+                "description": "攻 +11 (x3) 昏睡的精灵 Lv2",
+                "image": 20206,
+                "cost": 3730,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3730
+              },
+              {
+                "id": 360,
+                "name": "强的爪",
+                "secretName": "强的爪",
+                "description": "攻 +21 (x3)",
+                "image": 20225,
+                "cost": 14300,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 14300
+              },
+              {
+                "id": 380,
+                "name": "加加的爪",
+                "secretName": "加加的爪",
+                "description": "攻 +27 (x3)",
+                "image": 20227,
+                "cost": 35200,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 50,
+                "price": 35200
+              },
+              {
+                "id": 640,
+                "name": "大的投掷斧头",
+                "secretName": "大的投掷斧头",
+                "description": "攻 +20",
+                "image": 20532,
+                "cost": 5000,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5000
+              },
+              {
+                "id": 650,
+                "name": "硬的投掷斧头",
+                "secretName": "硬的投掷斧头",
+                "description": "攻 +24",
+                "image": 20530,
+                "cost": 8500,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 8500
+              },
+              {
+                "id": 660,
+                "name": "强的投掷斧头",
+                "secretName": "强的投掷斧头",
+                "description": "攻 +28",
+                "image": 20532,
+                "cost": 13000,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 13000
+              },
+              {
+                "id": 700,
+                "name": "小的石",
+                "secretName": "小的石",
+                "description": "攻 +3 防 -1",
+                "image": 20503,
+                "cost": 55,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 55
+              },
+              {
+                "id": 710,
+                "name": "普通普通的石",
+                "secretName": "普通普通的石",
+                "description": "攻 +6 防 -1",
+                "image": 20501,
+                "cost": 220,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 220
+              },
+              {
+                "id": 720,
+                "name": "轻的石",
+                "secretName": "轻的石",
+                "description": "攻 +8 防 -2 敏 +1",
+                "image": 20503,
+                "cost": 880,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 880
+              },
+              {
+                "id": 730,
+                "name": "重的石",
+                "secretName": "重的石",
+                "description": "攻 +13 防 -2 敏 -1",
+                "image": 20527,
+                "cost": 2530,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2530
+              },
+              {
+                "id": 740,
+                "name": "大的石",
+                "secretName": "大的石",
+                "description": "攻 +15 防 -3",
+                "image": 20500,
+                "cost": 5500,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5500
+              },
+              {
+                "id": 750,
+                "name": "硬的石",
+                "secretName": "硬的石",
+                "description": "攻 +18 防 -3",
+                "image": 20526,
+                "cost": 9350,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 9350
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_23_3"
+          }
+        },
+        {
+          "id": "130-28-3-2279",
+          "name": "斗技场的药剂师",
+          "x": 28,
+          "y": 3,
+          "type": "ItemShop",
+          "dialogue": "欢迎！",
+          "dialogueLines": [
+            "欢迎！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_28_3",
+          "template": "npcgen_shop",
+          "graphic": "16023",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_28_3",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "欢迎！",
+            "items": [
+              {
+                "id": 1974,
+                "name": "天使之光",
+                "secretName": "天使之光",
+                "description": "体3000 回复(全体)",
+                "image": 22306,
+                "cost": 0,
+                "type": 20,
+                "useField": 0,
+                "target": 2,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 2400,
+                "name": "阿布的水",
+                "secretName": "阿布的水",
+                "description": "气力100前後回复",
+                "image": 23012,
+                "cost": 100,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1973,
+                "name": "幸福汤",
+                "secretName": "幸福汤",
+                "description": "气100 回复(全体)",
+                "image": 22390,
+                "cost": 0,
+                "type": 20,
+                "useField": 1,
+                "target": 2,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 20666,
+                "name": "南瓜汤",
+                "secretName": "南瓜汤",
+                "description": "气1000回复(单体) 甜美可口的南瓜汤",
+                "image": 24415,
+                "cost": 0,
+                "type": 20,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_28_3"
+          }
+        },
+        {
+          "id": "130-43-3-2277",
+          "name": "斗技场的道具屋",
+          "x": 43,
+          "y": 3,
+          "type": "ItemShop",
+          "dialogue": "欢迎！",
+          "dialogueLines": [
+            "欢迎！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_43_3",
+          "template": "npcgen_shop",
+          "graphic": "16066",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_43_3",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "欢迎！",
+            "items": [
+              {
+                "id": 1211,
+                "name": "苍玉的石手环",
+                "secretName": "苍玉的石手环",
+                "description": "攻 -4 防 +4 敏 +4 魅 +2",
+                "image": 22084,
+                "cost": 18000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 18000
+              },
+              {
+                "id": 1213,
+                "name": "牙的手环(绿)",
+                "secretName": "牙的手环(绿)",
+                "description": "攻 +5 防 -5 敏 +5 魅 +3",
+                "image": 22073,
+                "cost": 30000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 30000
+              },
+              {
+                "id": 1273,
+                "name": "芙雷美雅Lv4竖琴",
+                "secretName": "芙雷美雅Lv4竖琴",
+                "description": "魅 +4 火炎的精灵 Lv4",
+                "image": 24211,
+                "cost": 3000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 45,
+                "price": 3000
+              },
+              {
+                "id": 1274,
+                "name": "温蒂妮Lv4竖琴",
+                "secretName": "温蒂妮Lv4竖琴",
+                "description": "魅 +4 疾风的精灵 Lv4",
+                "image": 24213,
+                "cost": 3000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 45,
+                "price": 3000
+              },
+              {
+                "id": 1280,
+                "name": "芙雷美雅Lv5金币",
+                "secretName": "芙雷美雅Lv5金币",
+                "description": "魅 +5 火炎的精灵 Lv5",
+                "image": 24216,
+                "cost": 5000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 5000
+              },
+              {
+                "id": 1281,
+                "name": "温蒂妮Lv5的金币",
+                "secretName": "温蒂妮Lv5的金币",
+                "description": "魅力 +5 疾风的精灵 Lv5",
+                "image": 24220,
+                "cost": 5000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 60,
+                "price": 5000
+              },
+              {
+                "id": 1311,
+                "name": "小石细工戒指",
+                "secretName": "小石细工戒指",
+                "description": "魅 +2 会心一击率上升 +3",
+                "image": 22102,
+                "cost": 4500,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4500
+              },
+              {
+                "id": 1312,
+                "name": "青玉的戒指",
+                "secretName": "青玉的戒指",
+                "description": "魅 +3 会心一击率上升 +3",
+                "image": 22109,
+                "cost": 5000,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5000
+              },
+              {
+                "id": 1360,
+                "name": "漂亮的黑色首饰",
+                "secretName": "漂亮的黑色首饰",
+                "description": "魅 +2 毒耐性 +60",
+                "image": 22042,
+                "cost": 11900,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11900
+              },
+              {
+                "id": 1361,
+                "name": "红色美丽首饰",
+                "secretName": "红色美丽首饰",
+                "description": "魅 +2 石化耐性 +60",
+                "image": 22038,
+                "cost": 10500,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10500
+              },
+              {
+                "id": 1362,
+                "name": "黄色美丽首饰",
+                "secretName": "黄色美丽首饰",
+                "description": "魅 +2 睡眠耐性 +60",
+                "image": 22041,
+                "cost": 9100,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 9100
+              },
+              {
+                "id": 1363,
+                "name": "绿色美丽首饰",
+                "secretName": "绿色美丽首饰",
+                "description": "魅 +2 混乱耐性 +60",
+                "image": 22040,
+                "cost": 14000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 14000
+              },
+              {
+                "id": 1364,
+                "name": "青色美丽首饰",
+                "secretName": "青色美丽首饰",
+                "description": "魅 +2 酒醉耐性 +60",
+                "image": 22039,
+                "cost": 7000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 7000
+              },
+              {
+                "id": 1407,
+                "name": "绿色小耳环",
+                "secretName": "绿色小耳环",
+                "description": "魅 +3 回避率上升 +2",
+                "image": 22104,
+                "cost": 2000,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              },
+              {
+                "id": 1411,
+                "name": "青色小耳环",
+                "secretName": "青色小耳环",
+                "description": "魅 +2 回避率上升 +3",
+                "image": 22105,
+                "cost": 4500,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4500
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_43_3"
+          }
+        },
+        {
+          "id": "130-49-3-2284",
+          "name": "宠物店",
+          "x": 49,
+          "y": 3,
+          "type": "PetShop",
+          "dialogue": "欢迎光临宠物店。你要卖宠物",
+          "dialogueLines": [
+            "欢迎光临宠物店。你要卖宠物",
+            "或者是寄放呢。"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ps_130_49_3",
+          "template": "npcgen_petshop",
+          "graphic": "16038",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ps_130_49_3"
+          }
+        },
+        {
+          "id": "130-1-14-2272",
+          "name": "斗技场的武器屋",
+          "x": 1,
+          "y": 14,
+          "type": "ItemShop",
+          "dialogue": "有什么需要吗？",
+          "dialogueLines": [
+            "有什么需要吗？"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_3_14",
+          "template": "npcgen_shop",
+          "graphic": "16203",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_3_14",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "有什么需要吗？",
+            "items": [
+              {
+                "id": 60,
+                "name": "强的斧头",
+                "secretName": "强的斧头",
+                "description": "攻 +43 防 -14 敏 -14",
+                "image": 20023,
+                "cost": 16900,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 16900
+              },
+              {
+                "id": 160,
+                "name": "强的棍棒",
+                "secretName": "强的棍棒",
+                "description": "攻 +28",
+                "image": 20116,
+                "cost": 13000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 13000
+              },
+              {
+                "id": 161,
+                "name": "贝诺美斯Lv4棍棒",
+                "secretName": "贝诺美斯Lv4棍棒",
+                "description": "攻 +27 猛毒的精灵 Lv4",
+                "image": 20105,
+                "cost": 15520,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 15520
+              },
+              {
+                "id": 260,
+                "name": "强的枪",
+                "secretName": "强的枪",
+                "description": "攻 +35 敏 -7 魅 +4",
+                "image": 20426,
+                "cost": 15600,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 15600
+              },
+              {
+                "id": 330,
+                "name": "重的爪",
+                "secretName": "重的爪",
+                "description": "攻 +13 敏 -1 (x3)",
+                "image": 20217,
+                "cost": 2530,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2530
+              },
+              {
+                "id": 340,
+                "name": "大的爪",
+                "secretName": "大的爪",
+                "description": "攻 +15 (x3)",
+                "image": 20226,
+                "cost": 5500,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5500
+              },
+              {
+                "id": 344,
+                "name": "莱伊卡Lv3爪",
+                "secretName": "莱伊卡Lv3爪",
+                "description": "攻 +14 (x3) 酒的精灵 Lv3",
+                "image": 20220,
+                "cost": 6300,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6300
+              },
+              {
+                "id": 350,
+                "name": "硬的爪",
+                "secretName": "硬的爪",
+                "description": "攻 +18 (x3)",
+                "image": 20213,
+                "cost": 9350,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 9350
+              },
+              {
+                "id": 360,
+                "name": "强的爪",
+                "secretName": "强的爪",
+                "description": "攻 +21 (x3)",
+                "image": 20225,
+                "cost": 14300,
+                "type": 0,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 14300
+              },
+              {
+                "id": 660,
+                "name": "强的投掷斧头",
+                "secretName": "强的投掷斧头",
+                "description": "攻 +28",
+                "image": 20532,
+                "cost": 13000,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 13000
+              },
+              {
+                "id": 661,
+                "name": "贝诺美斯Lv4投掷斧头",
+                "secretName": "贝诺美斯Lv4投掷斧头",
+                "description": "攻 +27 猛毒的精灵 Lv4",
+                "image": 20508,
+                "cost": 15520,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 15520
+              },
+              {
+                "id": 710,
+                "name": "普通普通的石",
+                "secretName": "普通普通的石",
+                "description": "攻 +6 防 -1",
+                "image": 20501,
+                "cost": 220,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 220
+              },
+              {
+                "id": 720,
+                "name": "轻的石",
+                "secretName": "轻的石",
+                "description": "攻 +8 防 -2 敏 +1",
+                "image": 20503,
+                "cost": 880,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 880
+              },
+              {
+                "id": 730,
+                "name": "重的石",
+                "secretName": "重的石",
+                "description": "攻 +13 防 -2 敏 -1",
+                "image": 20527,
+                "cost": 2530,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2530
+              },
+              {
+                "id": 740,
+                "name": "大的石",
+                "secretName": "大的石",
+                "description": "攻 +15 防 -3",
+                "image": 20500,
+                "cost": 5500,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5500
+              },
+              {
+                "id": 750,
+                "name": "硬的石",
+                "secretName": "硬的石",
+                "description": "攻 +18 防 -3",
+                "image": 20526,
+                "cost": 9350,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 9350
+              },
+              {
+                "id": 760,
+                "name": "强的石",
+                "secretName": "强的石",
+                "description": "攻 +21 防 -4",
+                "image": 20548,
+                "cost": 14300,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 14300
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_3_14"
+          }
+        },
+        {
+          "id": "130-4-14-2296",
+          "name": "斗技场的寄放店",
+          "x": 4,
+          "y": 14,
+          "type": "PoolItemShop",
+          "dialogue": "欢迎！",
+          "dialogueLines": [
+            "欢迎！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/pis_1009_14_13",
+          "template": "npcgen_poolitemshop",
+          "graphic": "16027",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/pis_1009_14_13"
+          }
+        },
+        {
+          "id": "130-1-26-2281",
+          "name": "斗技场的药剂师",
+          "x": 1,
+          "y": 26,
+          "type": "ItemShop",
+          "dialogue": "欢迎！",
+          "dialogueLines": [
+            "欢迎！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_1_26",
+          "template": "npcgen_shop",
+          "graphic": "16023",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_1_26",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "欢迎！",
+            "items": [
+              {
+                "id": 1974,
+                "name": "天使之光",
+                "secretName": "天使之光",
+                "description": "体3000 回复(全体)",
+                "image": 22306,
+                "cost": 0,
+                "type": 20,
+                "useField": 0,
+                "target": 2,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 2400,
+                "name": "阿布的水",
+                "secretName": "阿布的水",
+                "description": "气力100前後回复",
+                "image": 23012,
+                "cost": 100,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1973,
+                "name": "幸福汤",
+                "secretName": "幸福汤",
+                "description": "气100 回复(全体)",
+                "image": 22390,
+                "cost": 0,
+                "type": 20,
+                "useField": 1,
+                "target": 2,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 20666,
+                "name": "南瓜汤",
+                "secretName": "南瓜汤",
+                "description": "气1000回复(单体) 甜美可口的南瓜汤",
+                "image": 24415,
+                "cost": 0,
+                "type": 20,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 0
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_1_26"
+          }
+        },
+        {
+          "id": "130-1-38-2283",
+          "name": "赌徒",
+          "x": 1,
+          "y": 38,
+          "type": "ItemShop",
+          "dialogue": "喔！",
+          "dialogueLines": [
+            "喔！"
+          ],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/ss_130_1_38",
+          "template": "npcgen_shop",
+          "graphic": "16049",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_130_1_38",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "你好",
+              "欢迎",
+              "买",
+              "ㄇㄞˇ",
+              "buy"
+            ],
+            "sellWords": [
+              "卖",
+              "sell",
+              "ㄇㄞˋ"
+            ],
+            "mainMessage": "喔！",
+            "items": [
+              {
+                "id": 2612,
+                "name": "骰子",
+                "secretName": "骰子",
+                "description": "每次丢出来的数字都不一样",
+                "image": 24298,
+                "cost": 200,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 200
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_130_1_38"
+          }
+        },
+        {
+          "id": "130-31-3-2278",
+          "name": "斗技场护士",
+          "x": 31,
+          "y": 3,
+          "type": "Healer",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_healer",
+          "template": "npcgen_healer",
+          "graphic": "16012"
+        },
+        {
+          "id": "130-4-26-2280",
+          "name": "斗技场护士",
+          "x": 4,
+          "y": 26,
+          "type": "Healer",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_healer",
+          "template": "npcgen_healer",
+          "graphic": "16012"
+        },
+        {
+          "id": "130-54-53-110",
+          "name": "门票贩卖员",
+          "x": 54,
+          "y": 53,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/chatroom/ticket130",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/chatroom/chatroom.create",
+          "script": "file:chatroom/ticket130",
+          "template": "changeevent",
+          "graphic": "16067",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0",
+              "EVENT:ITEM=2054"
+            ],
+            "source": "gmsv-data/npc/chatroom/ticket130"
+          },
+          "questLead": {
+            "title": "门票贩卖员 的原脚本线索",
+            "summary": "EVENT:LV>0",
+            "source": "gmsv-data/npc/chatroom/ticket130",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "130-48-3-2285",
+          "name": "乌力",
+          "x": 48,
+          "y": 3,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100250"
+        },
+        {
+          "id": "130-17-13-2286",
+          "name": "比武规定",
+          "x": 17,
+          "y": 13,
+          "type": "SignBoard",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_130_17_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/signb_130_17_13",
+          "template": "npcgen_signboard",
+          "graphic": "10096",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_130_17_13"
+          }
+        },
+        {
+          "id": "130-18-13-2287",
+          "name": "比武规定",
+          "x": 18,
+          "y": 13,
+          "type": "SignBoard",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_130_18_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/signb_130_18_13",
+          "template": "npcgen_signboard",
+          "graphic": "10096",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_130_18_13"
+          }
+        },
+        {
+          "id": "130-19-13-2288",
+          "name": "比武规定",
+          "x": 19,
+          "y": 13,
+          "type": "SignBoard",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_130_19_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/signb_130_19_13",
+          "template": "npcgen_signboard",
+          "graphic": "10096",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_130_19_13"
+          }
+        },
+        {
+          "id": "130-20-13-2289",
+          "name": "比武规定",
+          "x": 20,
+          "y": 13,
+          "type": "SignBoard",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_130_20_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/signb_130_20_13",
+          "template": "npcgen_signboard",
+          "graphic": "10096",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_130_20_13"
+          }
+        },
+        {
+          "id": "130-21-13-2290",
+          "name": "比武规定",
+          "x": 21,
+          "y": 13,
+          "type": "SignBoard",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_130_21_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/signb_130_21_13",
+          "template": "npcgen_signboard",
+          "graphic": "10096",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_130_21_13"
+          }
+        },
+        {
+          "id": "130-37-13-2291",
+          "name": "斗技场留言板",
+          "x": 37,
+          "y": 13,
+          "type": "Dengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_dengon",
+          "template": "npcgen_dengon",
+          "graphic": "10063"
+        },
+        {
+          "id": "130-40-13-116",
+          "name": "强者表",
+          "x": 40,
+          "y": 13,
+          "type": "Duelranking",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/chatroom/duelranking.create",
+          "script": "duelranking",
+          "template": "duelranking",
+          "graphic": "10070"
+        },
+        {
+          "id": "130-22-18-2292",
+          "name": "第1留言版",
+          "x": 22,
+          "y": 18,
+          "type": "Dengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_dengon",
+          "template": "npcgen_dengon",
+          "graphic": "10063"
+        },
+        {
+          "id": "130-35-18-2293",
+          "name": "第2留言版",
+          "x": 35,
+          "y": 18,
+          "type": "Dengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_dengon",
+          "template": "npcgen_dengon",
+          "graphic": "10063"
+        },
+        {
+          "id": "130-22-31-2294",
+          "name": "第3留言版",
+          "x": 22,
+          "y": 31,
+          "type": "Dengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_dengon",
+          "template": "npcgen_dengon",
+          "graphic": "10063"
+        },
+        {
+          "id": "130-35-31-2295",
+          "name": "第4留言版",
+          "x": 35,
+          "y": 31,
+          "type": "Dengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "npcgen_dengon",
+          "template": "npcgen_dengon",
+          "graphic": "10063"
+        },
+        {
+          "id": "130-4-38-2282",
+          "name": "斗技场向导",
+          "x": 4,
+          "y": 38,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_130_4_38",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/msg_130_4_38",
+          "template": "npcgen_man",
+          "graphic": "16035",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_130_4_38"
+          }
+        },
+        {
+          "id": "130-22-58-117",
+          "name": "强者表",
+          "x": 22,
+          "y": 58,
+          "type": "Duelranking",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/chatroom/duelranking.create",
+          "script": "duelranking",
+          "template": "duelranking",
+          "graphic": "10069"
+        },
+        {
+          "id": "130-57-12-2268",
+          "name": "萨姆吉尔向导",
+          "x": 57,
+          "y": 12,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_130_57_12",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/wpm_130_57_12",
+          "template": "npcgen_warpman",
+          "graphic": "16065",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "1000",
+              "floor": 1000,
+              "x": 55,
+              "y": 59
+            },
+            "free": "ITEM=2597*1",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2521,
+              2522,
+              2523,
+              2524,
+              2597,
+              2598,
+              2599,
+              2600,
+              2601,
+              2602
+            ],
+            "freeMessage": "期待您的再度光临。",
+            "payMessage": "从这里到萨姆吉尔需要斗技场门票A。",
+            "normalMessage": "",
+            "moneyMessage": "能从这里退出的人仅限于能够来到 萨姆吉尔的人。 一张门票都没有的人请登出。",
+            "partyMessage": "以团队无法退场。 请把团队解散之后再个别 退场。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_130_57_12"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:1000,55,59",
+              "FREE:ITEM=2597*1",
+              "DelItem:2521,2522,2523,2524,2597,2598,2599,2600,2601,2602",
+              "MONEY:-1"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_130_57_12"
+          },
+          "questLead": {
+            "title": "萨姆吉尔向导 的原脚本线索",
+            "summary": "WARP:1000,55,59",
+            "source": "gmsv-data/npc/genout/wpm_130_57_12",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "130-57-21-2269",
+          "name": "玛丽那丝向导",
+          "x": 57,
+          "y": 21,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_130_57_21",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/wpm_130_57_21",
+          "template": "npcgen_warpman",
+          "graphic": "16067",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "2000",
+              "floor": 2000,
+              "x": 84,
+              "y": 79
+            },
+            "free": "ITEM=2598*1",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2521,
+              2522,
+              2523,
+              2524,
+              2597,
+              2598,
+              2599,
+              2600,
+              2601,
+              2602
+            ],
+            "freeMessage": "期待您的再度光临。",
+            "payMessage": "从这里到玛丽那丝需要斗技场门票B。",
+            "normalMessage": "",
+            "moneyMessage": "能从这里退出的人仅限于能够来到 玛丽那丝的人。 一张门票都没有的人请登出。",
+            "partyMessage": "以团队无法退场。 请把团队解散之后再个别 退场。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_130_57_21"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:2000,84,79",
+              "FREE:ITEM=2598*1",
+              "DelItem:2521,2522,2523,2524,2597,2598,2599,2600,2601,2602",
+              "MONEY:-1"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_130_57_21"
+          },
+          "questLead": {
+            "title": "玛丽那丝向导 的原脚本线索",
+            "summary": "WARP:2000,84,79",
+            "source": "gmsv-data/npc/genout/wpm_130_57_21",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "130-57-30-2270",
+          "name": "加加向导",
+          "x": 57,
+          "y": 30,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_130_57_30",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/wpm_130_57_30",
+          "template": "npcgen_warpman",
+          "graphic": "16030",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "3000",
+              "floor": 3000,
+              "x": 92,
+              "y": 86
+            },
+            "free": "ITEM=2599*1",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2521,
+              2522,
+              2523,
+              2524,
+              2597,
+              2598,
+              2599,
+              2600,
+              2601,
+              2602
+            ],
+            "freeMessage": "期待您的再度光临。",
+            "payMessage": "从这里到加加需要斗技场门票C。",
+            "normalMessage": "",
+            "moneyMessage": "能从这里退出的人仅限于能够来到 加加的人。 一张门票都没有的人请登出。",
+            "partyMessage": "以团队无法退场。 请把团队解散之后再个别 退场。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_130_57_30"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:3000,92,86",
+              "FREE:ITEM=2599*1",
+              "DelItem:2521,2522,2523,2524,2597,2598,2599,2600,2601,2602",
+              "MONEY:-1"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_130_57_30"
+          },
+          "questLead": {
+            "title": "加加向导 的原脚本线索",
+            "summary": "WARP:3000,92,86",
+            "source": "gmsv-data/npc/genout/wpm_130_57_30",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "130-57-39-2271",
+          "name": "卡鲁它那向导",
+          "x": 57,
+          "y": 39,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_130_57_39",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/duelroom.create",
+          "script": "file:genout/wpm_130_57_39",
+          "template": "npcgen_warpman",
+          "graphic": "16033",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "4000",
+              "floor": 4000,
+              "x": 87,
+              "y": 61
+            },
+            "free": "ITEM=2600*1",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2521,
+              2522,
+              2523,
+              2524,
+              2597,
+              2598,
+              2599,
+              2600,
+              2601,
+              2602
+            ],
+            "freeMessage": "期待您的再度光临。",
+            "payMessage": "从这里到卡鲁它那需要斗技场门票D。",
+            "normalMessage": "",
+            "moneyMessage": "能从这里退出的人仅限于能够来到 卡鲁它那的人。 一张门票都没有的人请登出。",
+            "partyMessage": "以团队无法退场。 请把团队解散之后再个别 退场。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_130_57_39"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:4000,87,61",
+              "FREE:ITEM=2600*1",
+              "DelItem:2521,2522,2523,2524,2597,2598,2599,2600,2601,2602",
+              "MONEY:-1"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_130_57_39"
+          },
+          "questLead": {
+            "title": "卡鲁它那向导 的原脚本线索",
+            "summary": "WARP:4000,87,61",
+            "source": "gmsv-data/npc/genout/wpm_130_57_39",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "130-57-48-2192",
+          "name": "聊天室向导",
+          "x": 57,
+          "y": 48,
+          "type": "WarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_130_57_48",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/chatroom.create",
+          "script": "file:genout/wpm_130_57_48",
+          "template": "npcgen_warpman",
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "110",
+              "floor": 110,
+              "x": 37,
+              "y": 37
+            },
+            "free": "ITEM=2521,ITEM=2522,ITEM=2523,ITEM=2524,ITEM=2602,ITEM=2597,ITEM=2598,ITEM=2599,ITEM=2600,ITEM=2601",
+            "money": "-1",
+            "cost": {
+              "mode": "unavailable"
+            },
+            "deleteItems": [
+              2602,
+              2609
+            ],
+            "freeMessage": "欢迎来到聊天室 现在聊天室里有人的 出席者。 请您慢慢享用。",
+            "payMessage": "从这里到聊天室 需要各斗技场的门票或是、聊天室 的门票。请到隔壁购买门票。",
+            "normalMessage": "",
+            "moneyMessage": "没有门票的人请到隔壁拿。",
+            "partyMessage": "以团队无法退场。 请把团队解散之后再个别 退场。",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_130_57_48"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp",
+              "questLead"
+            ],
+            "hints": [
+              "WARP:110,37,37",
+              "FREE:ITEM=2521,ITEM=2522,ITEM=2523,ITEM=2524,ITEM=2602,ITEM=2597,ITEM=2598,ITEM=2599,ITEM=2600,ITEM=2601",
+              "DelItem:2602,2609",
+              "MONEY:-1"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_130_57_48"
+          },
+          "questLead": {
+            "title": "聊天室向导 的原脚本线索",
+            "summary": "WARP:110,37,37",
+            "source": "gmsv-data/npc/genout/wpm_130_57_48",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "130-29-59-4199",
+          "name": "Warp",
+          "x": 29,
+          "y": 59,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "130-30-59-4201",
+          "name": "Warp",
+          "x": 30,
+          "y": 59,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "141-0",
+          "label": "去 PK竞技聚会场",
+          "detail": "PK竞技聚会场 | floor 141 | 目标 (28,1) | 入口 2 格 (29,59)-(30,59)",
+          "to": "141",
+          "x": 30,
+          "y": 59,
+          "bounds": [
+            29,
+            59,
+            30,
+            59
+          ],
+          "target": [
+            28,
+            1
+          ],
+          "tiles": [
+            {
+              "x": 29,
+              "y": 59,
+              "target": [
+                27,
+                1
+              ]
+            },
+            {
+              "x": 30,
+              "y": 59,
+              "target": [
+                28,
+                1
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "141": {
+      "id": "141",
+      "floorId": 141,
+      "name": "PK竞技聚会场",
+      "mapFile": "/data/maps/141.ls2map",
+      "clientMapFile": "/data/client-maps/141.dat",
+      "clientMapSource": "公益石器时代/map/141.dat",
+      "summary": "PK竞技聚会场 | floor=141 | 50x50 | gmsv-data/map/family/141",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        27,
+        1
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "141-3-15-1480",
+          "name": "场地预约人",
+          "x": 3,
+          "y": 15,
+          "type": "Scheduleman",
+          "dialogue": "脚本入口：gmsv-data/npc/family/scheduleman.arg5",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/scheduleman.create",
+          "script": "file:family/scheduleman.arg5",
+          "template": "scheduleman",
+          "graphic": "16062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/scheduleman.arg5"
+          }
+        },
+        {
+          "id": "141-26-16-4203",
+          "name": "家族召唤员",
+          "x": 26,
+          "y": 16,
+          "type": "FMPKCallMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_141_26_16",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_141_26_16",
+          "template": "npcgen_fmpkcallman",
+          "graphic": "16203",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "141",
+              "floor": 141,
+              "x": 26,
+              "y": 19
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_141_26_16"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:141,26,19"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_141_26_16"
+          }
+        },
+        {
+          "id": "141-46-17-1476",
+          "name": "场地预约人",
+          "x": 46,
+          "y": 17,
+          "type": "Scheduleman",
+          "dialogue": "脚本入口：gmsv-data/npc/family/scheduleman.arg1",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/scheduleman.create",
+          "script": "file:family/scheduleman.arg1",
+          "template": "scheduleman",
+          "graphic": "16063",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/scheduleman.arg1"
+          }
+        },
+        {
+          "id": "141-3-31-1479",
+          "name": "场地预约人",
+          "x": 3,
+          "y": 31,
+          "type": "Scheduleman",
+          "dialogue": "脚本入口：gmsv-data/npc/family/scheduleman.arg4",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/scheduleman.create",
+          "script": "file:family/scheduleman.arg4",
+          "template": "scheduleman",
+          "graphic": "16062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/scheduleman.arg4"
+          }
+        },
+        {
+          "id": "141-46-34-1477",
+          "name": "场地预约人",
+          "x": 46,
+          "y": 34,
+          "type": "Scheduleman",
+          "dialogue": "脚本入口：gmsv-data/npc/family/scheduleman.arg2",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/scheduleman.create",
+          "script": "file:family/scheduleman.arg2",
+          "template": "scheduleman",
+          "graphic": "16063",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/scheduleman.arg2"
+          }
+        },
+        {
+          "id": "141-29-46-1478",
+          "name": "场地预约人",
+          "x": 29,
+          "y": 46,
+          "type": "Scheduleman",
+          "dialogue": "脚本入口：gmsv-data/npc/family/scheduleman.arg3",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/scheduleman.create",
+          "script": "file:family/scheduleman.arg3",
+          "template": "scheduleman",
+          "graphic": "16063",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/scheduleman.arg3"
+          }
+        },
+        {
+          "id": "141-2-15-4212",
+          "name": "家族对战向导",
+          "x": 2,
+          "y": 15,
+          "type": "FMWarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_141_2_15",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_141_2_15",
+          "template": "npcgen_fmwarpman",
+          "graphic": "16201",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/wpm_141_2_15"
+          }
+        },
+        {
+          "id": "141-46-16-4204",
+          "name": "家族对战向导",
+          "x": 46,
+          "y": 16,
+          "type": "FMWarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_141_46_16",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_141_46_16",
+          "template": "npcgen_fmwarpman",
+          "graphic": "16206",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/wpm_141_46_16"
+          }
+        },
+        {
+          "id": "141-2-31-4210",
+          "name": "家族对战向导",
+          "x": 2,
+          "y": 31,
+          "type": "FMWarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_141_2_31",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_141_2_31",
+          "template": "npcgen_fmwarpman",
+          "graphic": "16200",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/wpm_141_2_31"
+          }
+        },
+        {
+          "id": "141-46-33-4206",
+          "name": "家族对战向导",
+          "x": 46,
+          "y": 33,
+          "type": "FMWarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_141_46_33",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_141_46_33",
+          "template": "npcgen_fmwarpman",
+          "graphic": "16205",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/wpm_141_46_33"
+          }
+        },
+        {
+          "id": "141-29-47-4208",
+          "name": "家族对战向导",
+          "x": 29,
+          "y": 47,
+          "type": "FMWarpMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_141_29_47",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_141_29_47",
+          "template": "npcgen_fmwarpman",
+          "graphic": "16208",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/wpm_141_29_47"
+          }
+        },
+        {
+          "id": "141-27-1-4200",
+          "name": "Warp",
+          "x": 27,
+          "y": 1,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "141-28-1-4202",
+          "name": "Warp",
+          "x": 28,
+          "y": 1,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "130-0",
+          "label": "去 竞技场",
+          "detail": "竞技场 | floor 130 | 目标 (30,59) | 入口 2 格 (27,1)-(28,1)",
+          "to": "130",
+          "x": 28,
+          "y": 1,
+          "bounds": [
+            27,
+            1,
+            28,
+            1
+          ],
+          "target": [
+            30,
+            59
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 1,
+              "target": [
+                29,
+                59
+              ]
+            },
+            {
+              "x": 28,
+              "y": 1,
+              "target": [
+                30,
+                59
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "142": {
+      "id": "142",
+      "floorId": 142,
+      "name": "草原PK竞技场",
+      "mapFile": "/data/maps/142.ls2map",
+      "clientMapFile": "/data/client-maps/142.dat",
+      "clientMapSource": "公益石器时代/map/142.dat",
+      "summary": "草原PK竞技场 | floor=142 | 30x30 | gmsv-data/map/family/142",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "142-3-15-4205",
+          "name": "家族对战服务员",
+          "x": 3,
+          "y": 15,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_142_3_15",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_142_3_15",
+          "template": "npcgen_fmpkman",
+          "graphic": "16055",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "141",
+              "floor": 141,
+              "x": 45,
+              "y": 16
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_142_3_15"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:141,45,16"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_142_3_15"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "143": {
+      "id": "143",
+      "floorId": 143,
+      "name": "丛林PK竞技场",
+      "mapFile": "/data/maps/143.ls2map",
+      "clientMapFile": "/data/client-maps/143.dat",
+      "clientMapSource": "公益石器时代/map/143.dat",
+      "summary": "丛林PK竞技场 | floor=143 | 30x30 | gmsv-data/map/family/143",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "143-1-11-4207",
+          "name": "家族对战服务员",
+          "x": 1,
+          "y": 11,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_143_1_11",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_143_1_11",
+          "template": "npcgen_fmpkman",
+          "graphic": "16055",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "141",
+              "floor": 141,
+              "x": 45,
+              "y": 33
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_143_1_11"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:141,45,33"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_143_1_11"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "144": {
+      "id": "144",
+      "floorId": 144,
+      "name": "武斗场PK竞技场",
+      "mapFile": "/data/maps/144.ls2map",
+      "clientMapFile": "/data/client-maps/144.dat",
+      "clientMapSource": "公益石器时代/map/144.dat",
+      "summary": "武斗场PK竞技场 | floor=144 | 30x30 | gmsv-data/map/family/144",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "144-1-11-4209",
+          "name": "家族对战服务员",
+          "x": 1,
+          "y": 11,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_144_1_11",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_144_1_11",
+          "template": "npcgen_fmpkman",
+          "graphic": "16055",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "141",
+              "floor": 141,
+              "x": 28,
+              "y": 47
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_144_1_11"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:141,28,47"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_144_1_11"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "145": {
+      "id": "145",
+      "floorId": 145,
+      "name": "水池PK竞技场",
+      "mapFile": "/data/maps/145.ls2map",
+      "clientMapFile": "/data/client-maps/145.dat",
+      "clientMapSource": "公益石器时代/map/145.dat",
+      "summary": "水池PK竞技场 | floor=145 | 30x30 | gmsv-data/map/family/145",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "145-27-14-4211",
+          "name": "家族对战服务员",
+          "x": 27,
+          "y": 14,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_145_27_14",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_145_27_14",
+          "template": "npcgen_fmpkman",
+          "graphic": "16056",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "141",
+              "floor": 141,
+              "x": 2,
+              "y": 33
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_145_27_14"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:141,2,33"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_145_27_14"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "146": {
+      "id": "146",
+      "floorId": 146,
+      "name": "树洞PK竞技场",
+      "mapFile": "/data/maps/146.ls2map",
+      "clientMapFile": "/data/client-maps/146.dat",
+      "clientMapSource": "公益石器时代/map/146.dat",
+      "summary": "树洞PK竞技场 | floor=146 | 30x30 | gmsv-data/map/family/146",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "146-27-13-4213",
+          "name": "家族对战服务员",
+          "x": 27,
+          "y": 13,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_146_27_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_146_27_13",
+          "template": "npcgen_fmpkman",
+          "graphic": "16055",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "141",
+              "floor": 141,
+              "x": 2,
+              "y": 17
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_146_27_13"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:141,2,17"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_146_27_13"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "147": {
+      "id": "147",
+      "floorId": 147,
+      "name": "瑞尔亚斯大陆",
+      "mapFile": "/data/maps/147.ls2map",
+      "clientMapFile": "/data/client-maps/147.dat",
+      "clientMapSource": "公益石器时代/map/147.dat",
+      "summary": "瑞尔亚斯大陆 | floor=147 | 180x180 | gmsv-data/map/family/147",
+      "size": [
+        180,
+        180
+      ],
+      "spawn": [
+        90,
+        90
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
+    },
+    "154": {
+      "id": "154",
+      "floorId": 154,
+      "name": "魔王竞技场1F",
+      "mapFile": "/data/maps/154.ls2map",
+      "clientMapFile": "/data/client-maps/154.dat",
+      "clientMapSource": "公益石器时代/map/154.dat",
+      "summary": "魔王竞技场1F | floor=154 | 30x30 | gmsv-data/map/extra/154",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
+    },
+    "155": {
+      "id": "155",
+      "floorId": 155,
+      "name": "魔王竞技场2F",
+      "mapFile": "/data/maps/155.ls2map",
+      "clientMapFile": "/data/client-maps/155.dat",
+      "clientMapSource": "公益石器时代/map/155.dat",
+      "summary": "魔王竞技场2F | floor=155 | 30x30 | gmsv-data/map/extra/155",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
+    },
+    "156": {
+      "id": "156",
+      "floorId": 156,
+      "name": "魔王竞技场3F",
+      "mapFile": "/data/maps/156.ls2map",
+      "clientMapFile": "/data/client-maps/156.dat",
+      "clientMapSource": "公益石器时代/map/156.dat",
+      "summary": "魔王竞技场3F | floor=156 | 30x30 | gmsv-data/map/extra/156",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
+    },
+    "157": {
+      "id": "157",
+      "floorId": 157,
+      "name": "魔王竞技场4F",
+      "mapFile": "/data/maps/157.ls2map",
+      "clientMapFile": "/data/client-maps/157.dat",
+      "clientMapSource": "公益石器时代/map/157.dat",
+      "summary": "魔王竞技场4F | floor=157 | 30x30 | gmsv-data/map/extra/157",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
     },
     "200": {
       "id": "200",
@@ -77937,6 +81823,2203 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3103-2",
+          "label": "去 塔姆塔姆的宠物店",
+          "detail": "塔姆塔姆的宠物店 | floor 3103 | 目标 (15,21) | 入口 (44,69)",
+          "to": "3103",
+          "x": 44,
+          "y": 69,
+          "bounds": [
+            44,
+            69,
+            44,
+            69
+          ],
+          "target": [
+            15,
+            21
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 69,
+              "target": [
+                15,
+                21
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3105-3",
+          "label": "去 塔姆塔姆的医院",
+          "detail": "塔姆塔姆的医院 | floor 3105 | 目标 (10,15) | 入口 (61,72)",
+          "to": "3105",
+          "x": 61,
+          "y": 72,
+          "bounds": [
+            61,
+            72,
+            61,
+            72
+          ],
+          "target": [
+            10,
+            15
+          ],
+          "tiles": [
+            {
+              "x": 61,
+              "y": 72,
+              "target": [
+                10,
+                15
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3109-4",
+          "label": "去 塔姆塔姆的便利商店",
+          "detail": "塔姆塔姆的便利商店 | floor 3109 | 目标 (10,26) | 入口 2 格 (41,78)-(41,79)",
+          "to": "3109",
+          "x": 41,
+          "y": 79,
+          "bounds": [
+            41,
+            78,
+            41,
+            79
+          ],
+          "target": [
+            10,
+            26
+          ],
+          "tiles": [
+            {
+              "x": 41,
+              "y": 78,
+              "target": [
+                10,
+                25
+              ]
+            },
+            {
+              "x": 41,
+              "y": 79,
+              "target": [
+                10,
+                26
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3106-5",
+          "label": "去 塔姆塔姆的村长家",
+          "detail": "塔姆塔姆的村长家 | floor 3106 | 目标 (10,21) | 入口 2 格 (59,62)-(59,63)",
+          "to": "3106",
+          "x": 59,
+          "y": 63,
+          "bounds": [
+            59,
+            62,
+            59,
+            63
+          ],
+          "target": [
+            10,
+            21
+          ],
+          "tiles": [
+            {
+              "x": 59,
+              "y": 62,
+              "target": [
+                10,
+                20
+              ]
+            },
+            {
+              "x": 59,
+              "y": 63,
+              "target": [
+                10,
+                21
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3104-6",
+          "label": "去 塔姆塔姆的肉店",
+          "detail": "塔姆塔姆的肉店 | floor 3104 | 目标 (10,16) | 入口 2 格 (52,84)-(52,85)",
+          "to": "3104",
+          "x": 52,
+          "y": 85,
+          "bounds": [
+            52,
+            84,
+            52,
+            85
+          ],
+          "target": [
+            10,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 52,
+              "y": 84,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 52,
+              "y": 85,
+              "target": [
+                10,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3110-7",
+          "label": "去 塔姆塔姆的民家",
+          "detail": "塔姆塔姆的民家 | floor 3110 | 目标 (15,21) | 入口 (44,55)",
+          "to": "3110",
+          "x": 44,
+          "y": 55,
+          "bounds": [
+            44,
+            55,
+            44,
+            55
+          ],
+          "target": [
+            15,
+            21
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 55,
+              "target": [
+                15,
+                21
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3103": {
+      "id": "3103",
+      "floorId": 3103,
+      "name": "塔姆塔姆的宠物店",
+      "mapFile": "/data/maps/3103.ls2map",
+      "clientMapFile": "/data/client-maps/3103.dat",
+      "clientMapSource": "公益石器时代/map/3103.dat",
+      "summary": "塔姆塔姆的宠物店 | floor=3103 | 30x30 | gmsv-data/map/jyaruga/tamtam/3103",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        21
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3103-16-13-5842",
+          "name": "塔姆塔姆的宠物店",
+          "x": 16,
+          "y": 13,
+          "type": "PetShop",
+          "dialogue": "欢迎来到宠物店！",
+          "dialogueLines": [
+            "欢迎来到宠物店！",
+            "我们买收您的宠物。"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ps_3103_16_13",
+          "template": "npcgen_petshop",
+          "graphic": "16035",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ps_3103_16_13"
+          }
+        },
+        {
+          "id": "3103-18-17-5845",
+          "name": "饲育员",
+          "x": 18,
+          "y": 17,
+          "type": "PetSkillShop",
+          "dialogue": "我是这个村庄顶级的饲育员。",
+          "dialogueLines": [
+            "我是这个村庄顶级的饲育员。",
+            "你要叫我教它什么技能？"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/psks_3103_18_17",
+          "template": "npcgen_petskillshop",
+          "graphic": "16017",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/psks_3103_18_17"
+          }
+        },
+        {
+          "id": "3103-11-13-5844",
+          "name": "多利诺布斯",
+          "x": 11,
+          "y": 13,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100335"
+        },
+        {
+          "id": "3103-13-13-5843",
+          "name": "布伊比",
+          "x": 13,
+          "y": 13,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100257"
+        },
+        {
+          "id": "3103-15-21-6627",
+          "name": "Warp",
+          "x": 15,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3103-16-21-6628",
+          "name": "Warp",
+          "x": 16,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3100-0",
+          "label": "去 塔姆塔姆村",
+          "detail": "塔姆塔姆村 | floor 3100 | 目标 (44,69) | 入口 2 格 (15,21)-(16,21)",
+          "to": "3100",
+          "x": 16,
+          "y": 21,
+          "bounds": [
+            15,
+            21,
+            16,
+            21
+          ],
+          "target": [
+            44,
+            69
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                44,
+                69
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                44,
+                69
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3104": {
+      "id": "3104",
+      "floorId": 3104,
+      "name": "塔姆塔姆的肉店",
+      "mapFile": "/data/maps/3104.ls2map",
+      "clientMapFile": "/data/client-maps/3104.dat",
+      "clientMapSource": "公益石器时代/map/3104.dat",
+      "summary": "塔姆塔姆的肉店 | floor=3104 | 30x30 | gmsv-data/map/jyaruga/tamtam/3104",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        10,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3104-18-15-5846",
+          "name": "塔姆塔姆的肉店",
+          "x": 18,
+          "y": 15,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3104_18_15",
+          "template": "npcgen_shop",
+          "graphic": "16053",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3104_18_15",
+            "buyRate": 1,
+            "sellRate": 1,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 2344,
+                "name": "小的肉",
+                "secretName": "小的肉",
+                "description": "耐久力20前後回复",
+                "image": 24008,
+                "cost": 12,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 12
+              },
+              {
+                "id": 2345,
+                "name": "乾燥肉",
+                "secretName": "乾燥肉",
+                "description": "耐久力35前後回复",
+                "image": 24035,
+                "cost": 18,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 18
+              },
+              {
+                "id": 2346,
+                "name": "大的肉",
+                "secretName": "大的肉",
+                "description": "耐久力65前後回复",
+                "image": 24017,
+                "cost": 30,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 2347,
+                "name": "高级肉",
+                "secretName": "高级肉",
+                "description": "耐久力80前後回复",
+                "image": 24026,
+                "cost": 48,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 48
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3104_18_15"
+          }
+        },
+        {
+          "id": "3104-10-15-6641",
+          "name": "Warp",
+          "x": 10,
+          "y": 15,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3104-10-16-6643",
+          "name": "Warp",
+          "x": 10,
+          "y": 16,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3100-0",
+          "label": "去 塔姆塔姆村",
+          "detail": "塔姆塔姆村 | floor 3100 | 目标 (52,85) | 入口 2 格 (10,15)-(10,16)",
+          "to": "3100",
+          "x": 10,
+          "y": 16,
+          "bounds": [
+            10,
+            15,
+            10,
+            16
+          ],
+          "target": [
+            52,
+            85
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                52,
+                84
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                52,
+                85
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3105": {
+      "id": "3105",
+      "floorId": 3105,
+      "name": "塔姆塔姆的医院",
+      "mapFile": "/data/maps/3105.ls2map",
+      "clientMapFile": "/data/client-maps/3105.dat",
+      "clientMapSource": "公益石器时代/map/3105.dat",
+      "summary": "塔姆塔姆的医院 | floor=3105 | 30x30 | gmsv-data/map/jyaruga/tamtam/3105",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        10,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3105-17-17-5848",
+          "name": "塔姆塔姆的药师",
+          "x": 17,
+          "y": 17,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3105_17_17",
+          "template": "npcgen_shop",
+          "graphic": "16059",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3105_17_17",
+            "buyRate": 1.1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1500,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力100前後回复",
+                "image": 23013,
+                "cost": 25,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 28
+              },
+              {
+                "id": 1501,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力200前後回复",
+                "image": 23014,
+                "cost": 50,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 55
+              },
+              {
+                "id": 1510,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力20前後回复",
+                "image": 23005,
+                "cost": 80,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 88
+              },
+              {
+                "id": 1511,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力40前後回复",
+                "image": 23006,
+                "cost": 160,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 176
+              },
+              {
+                "id": 1512,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力60前後回复",
+                "image": 23007,
+                "cost": 250,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 275
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 110
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 330
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 33
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 28
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 22
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 22
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 33
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3105_17_17"
+          }
+        },
+        {
+          "id": "3105-12-13-5847",
+          "name": "塔姆塔姆的护士",
+          "x": 12,
+          "y": 13,
+          "type": "WindowHealer",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_winhealer",
+          "template": "npcgen_winhealer",
+          "graphic": "16023"
+        },
+        {
+          "id": "3105-14-15-7669",
+          "name": "塔姆塔姆的药剂师",
+          "x": 14,
+          "y": 15,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/nevent02_2",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/nevent02.create",
+          "script": "file:sainasu/event/nevent02_2",
+          "template": "changeevent",
+          "graphic": "16057",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2446*10",
+              "DelItem:2446",
+              "EVENT:LV>0&ITEM=2446",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/nevent02_2"
+          },
+          "questLead": {
+            "title": "塔姆塔姆的药剂师 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2446*10",
+            "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "3105-12-18-7668",
+          "name": "小孩的父亲",
+          "x": 12,
+          "y": 18,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/nevent02_3",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/nevent02.create",
+          "script": "file:sainasu/event/nevent02_3",
+          "template": "changeevent",
+          "graphic": "16017",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2449",
+              "DelItem:2449*1",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/nevent02_3"
+          },
+          "questLead": {
+            "title": "小孩的父亲 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2449",
+            "source": "gmsv-data/npc/sainasu/event/nevent02_3",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "3105-18-12-5849",
+          "name": "塔姆塔姆的医生",
+          "x": 18,
+          "y": 12,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3105_18_12",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/msg_3105_18_12",
+          "template": "npcgen_man",
+          "graphic": "16024",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3105_18_12"
+          }
+        },
+        {
+          "id": "3105-13-19-5179",
+          "name": "小孩",
+          "x": 13,
+          "y": 19,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3105_13_19",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/nevent02.create",
+          "script": "file:genout/msg_3105_13_19",
+          "template": "npcgen_man",
+          "graphic": "16011",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3105_13_19"
+          }
+        },
+        {
+          "id": "3105-17-20-5180",
+          "name": "村庄的年轻人",
+          "x": 17,
+          "y": 20,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3105_17_20",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/nevent02.create",
+          "script": "file:genout/msg_3105_17_20",
+          "template": "npcgen_man",
+          "graphic": "16046",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3105_17_20"
+          }
+        },
+        {
+          "id": "3105-10-15-6630",
+          "name": "Warp",
+          "x": 10,
+          "y": 15,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3105-10-16-6631",
+          "name": "Warp",
+          "x": 10,
+          "y": 16,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3100-0",
+          "label": "去 塔姆塔姆村",
+          "detail": "塔姆塔姆村 | floor 3100 | 目标 (61,72) | 入口 2 格 (10,15)-(10,16)",
+          "to": "3100",
+          "x": 10,
+          "y": 16,
+          "bounds": [
+            10,
+            15,
+            10,
+            16
+          ],
+          "target": [
+            61,
+            72
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                61,
+                72
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                61,
+                72
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3106": {
+      "id": "3106",
+      "floorId": 3106,
+      "name": "塔姆塔姆的村长家",
+      "mapFile": "/data/maps/3106.ls2map",
+      "clientMapFile": "/data/client-maps/3106.dat",
+      "clientMapSource": "公益石器时代/map/3106.dat",
+      "summary": "塔姆塔姆的村长家 | floor=3106 | 30x40 | gmsv-data/map/jyaruga/tamtam/3106",
+      "size": [
+        30,
+        40
+      ],
+      "spawn": [
+        10,
+        20
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3106-18-20-5850",
+          "name": "塔姆塔姆的村长",
+          "x": 18,
+          "y": 20,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3106_18_20",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/msg_3106_18_20",
+          "template": "npcgen_man",
+          "graphic": "16000",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3106_18_20"
+          }
+        },
+        {
+          "id": "3106-10-20-6637",
+          "name": "Warp",
+          "x": 10,
+          "y": 20,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3106-10-21-6639",
+          "name": "Warp",
+          "x": 10,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3100-0",
+          "label": "去 塔姆塔姆村",
+          "detail": "塔姆塔姆村 | floor 3100 | 目标 (59,63) | 入口 2 格 (10,20)-(10,21)",
+          "to": "3100",
+          "x": 10,
+          "y": 21,
+          "bounds": [
+            10,
+            20,
+            10,
+            21
+          ],
+          "target": [
+            59,
+            63
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 20,
+              "target": [
+                59,
+                62
+              ]
+            },
+            {
+              "x": 10,
+              "y": 21,
+              "target": [
+                59,
+                63
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3109": {
+      "id": "3109",
+      "floorId": 3109,
+      "name": "塔姆塔姆的便利商店",
+      "mapFile": "/data/maps/3109.ls2map",
+      "clientMapFile": "/data/client-maps/3109.dat",
+      "clientMapSource": "公益石器时代/map/3109.dat",
+      "summary": "塔姆塔姆的便利商店 | floor=3109 | 40x60 | gmsv-data/map/jyaruga/tamtam/3109",
+      "size": [
+        40,
+        60
+      ],
+      "spawn": [
+        10,
+        25
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3109-19-13-5920",
+          "name": "特产贩卖员",
+          "x": 19,
+          "y": 13,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3109_19_13",
+          "template": "npcgen_shop",
+          "graphic": "16066",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3109_19_13",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 12177,
+                "name": "塔姆塔姆产的胡椒",
+                "secretName": "塔姆塔姆产的胡椒",
+                "description": "胡椒4",
+                "image": 24249,
+                "cost": 40,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 12189,
+                "name": "塔姆塔姆产的油",
+                "secretName": "塔姆塔姆产的油",
+                "description": "油4",
+                "image": 24080,
+                "cost": 40,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 12193,
+                "name": "塔姆塔姆产的生姜",
+                "secretName": "塔姆塔姆产的生姜",
+                "description": "生姜4",
+                "image": 24161,
+                "cost": 40,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 40
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3109_19_13"
+          }
+        },
+        {
+          "id": "3109-27-14-5841",
+          "name": "塔姆塔姆的道具店",
+          "x": 27,
+          "y": 14,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3109_27_14",
+          "template": "npcgen_shop",
+          "graphic": "16030",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3109_27_14",
+            "buyRate": 1,
+            "sellRate": 0.19,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1206,
+                "name": "红玉的手环",
+                "secretName": "红玉的手环",
+                "description": "攻 +2 防 +2 敏 -2 魅 +1",
+                "image": 22068,
+                "cost": 10000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10000
+              },
+              {
+                "id": 1255,
+                "name": "阿鲁帖拉石笛",
+                "secretName": "阿鲁帖拉石笛",
+                "description": "魅 +1 彩虹的精灵",
+                "image": 24205,
+                "cost": 2500,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 5,
+                "price": 2500
+              },
+              {
+                "id": 1305,
+                "name": "木的戒指",
+                "secretName": "木的戒指",
+                "description": "魅 +1 会心一击率上升 +2",
+                "image": 22052,
+                "cost": 1600,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1600
+              },
+              {
+                "id": 1355,
+                "name": "白色大首饰",
+                "secretName": "白色大首饰",
+                "description": "魅 +5 毒耐性 +30",
+                "image": 22025,
+                "cost": 6800,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 6800
+              },
+              {
+                "id": 1359,
+                "name": "青色大首饰",
+                "secretName": "青色大首饰",
+                "description": "魅 +5 酒醉耐性 +30",
+                "image": 22028,
+                "cost": 4000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4000
+              },
+              {
+                "id": 1402,
+                "name": "红色小耳环",
+                "secretName": "红色小耳环",
+                "description": "魅 +3 回避率上升 +1",
+                "image": 22103,
+                "cost": 500,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 500
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3109_27_14"
+          }
+        },
+        {
+          "id": "3109-27-15-5929",
+          "name": "素材店",
+          "x": 27,
+          "y": 15,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3109_27_15",
+          "template": "npcgen_shop",
+          "graphic": "16206",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3109_27_15",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 11960,
+                "name": "微醉草",
+                "secretName": "微醉草",
+                "description": "酒醉的成分 1",
+                "image": 23025,
+                "cost": 11,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 11
+              },
+              {
+                "id": 11961,
+                "name": "蹒跚草",
+                "secretName": "蹒跚草",
+                "description": "酒醉的成分 2",
+                "image": 23025,
+                "cost": 45,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 45
+              },
+              {
+                "id": 11962,
+                "name": "微笑草",
+                "secretName": "微笑草",
+                "description": "酒醉的成分 3",
+                "image": 23025,
+                "cost": 101,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 101
+              },
+              {
+                "id": 11963,
+                "name": "酒醉草",
+                "secretName": "酒醉草",
+                "description": "酒醉的成分 4",
+                "image": 23025,
+                "cost": 180,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 180
+              },
+              {
+                "id": 11964,
+                "name": "宴会草",
+                "secretName": "宴会草",
+                "description": "酒醉的成分 5",
+                "image": 23025,
+                "cost": 338,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 338
+              },
+              {
+                "id": 11965,
+                "name": "月醉草",
+                "secretName": "月醉草",
+                "description": "酒醉的成分 6",
+                "image": 23025,
+                "cost": 540,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 540
+              },
+              {
+                "id": 11966,
+                "name": "大虎草",
+                "secretName": "大虎草",
+                "description": "酒醉的成分 7",
+                "image": 23025,
+                "cost": 788,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 788
+              },
+              {
+                "id": 11967,
+                "name": "泥醉草",
+                "secretName": "泥醉草",
+                "description": "酒醉的成分 8",
+                "image": 23025,
+                "cost": 1080,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1080
+              },
+              {
+                "id": 11970,
+                "name": "微香草",
+                "secretName": "微香草",
+                "description": "睡眠的成分 1",
+                "image": 23024,
+                "cost": 15,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 15
+              },
+              {
+                "id": 11971,
+                "name": "小憩草",
+                "secretName": "小憩草",
+                "description": "睡眠的成分 2",
+                "image": 23024,
+                "cost": 60,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 11972,
+                "name": "夜夜草",
+                "secretName": "夜夜草",
+                "description": "睡眠的成分 3",
+                "image": 23024,
+                "cost": 135,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 135
+              },
+              {
+                "id": 11973,
+                "name": "春眠草",
+                "secretName": "春眠草",
+                "description": "睡眠的成分 4",
+                "image": 23024,
+                "cost": 240,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 240
+              },
+              {
+                "id": 11974,
+                "name": "追暗草",
+                "secretName": "追暗草",
+                "description": "睡眠的成分 5",
+                "image": 23024,
+                "cost": 450,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 450
+              },
+              {
+                "id": 11975,
+                "name": "越冬草",
+                "secretName": "越冬草",
+                "description": "睡眠的成分 6",
+                "image": 23024,
+                "cost": 720,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 720
+              },
+              {
+                "id": 11976,
+                "name": "打盹草",
+                "secretName": "打盹草",
+                "description": "睡眠的成分 7",
+                "image": 23024,
+                "cost": 1050,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1050
+              },
+              {
+                "id": 11977,
+                "name": "作梦草",
+                "secretName": "作梦草",
+                "description": "睡眠的成分 8",
+                "image": 23024,
+                "cost": 1440,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1440
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3109_27_15"
+          }
+        },
+        {
+          "id": "3109-27-26-5839",
+          "name": "塔姆塔姆的武器店",
+          "x": 27,
+          "y": 26,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3109_27_26",
+          "template": "npcgen_shop",
+          "graphic": "16056",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3109_27_26",
+            "buyRate": 1,
+            "sellRate": 0.19,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 11,
+                "name": "贝洛萨Lv1斧头",
+                "secretName": "贝洛萨Lv1斧头",
+                "description": "攻 +12 防 -4 敏 -4 毒雾的精灵 Lv1",
+                "image": 20012,
+                "cost": 560,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 560
+              },
+              {
+                "id": 25,
+                "name": "特洛西Lv2斧头",
+                "secretName": "特洛西Lv2斧头",
+                "description": "攻 +18 防 -6 敏 -6 睡眠的精灵 Lv2",
+                "image": 20002,
+                "cost": 1400,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1400
+              },
+              {
+                "id": 30,
+                "name": "重的斧头",
+                "secretName": "重的斧头",
+                "description": "攻 +27 防 -9 敏 -10",
+                "image": 20016,
+                "cost": 2990,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2990
+              },
+              {
+                "id": 105,
+                "name": "特洛西Lv1棍棒",
+                "secretName": "特洛西Lv1棍棒",
+                "description": "攻 +3 睡眠的精灵 Lv1",
+                "image": 20115,
+                "cost": 110,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 110
+              },
+              {
+                "id": 112,
+                "name": "威金娜斯Lv1棍棒",
+                "secretName": "威金娜斯Lv1棍棒",
+                "description": "攻 +7 石化的精灵 Lv1",
+                "image": 20114,
+                "cost": 450,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 450
+              },
+              {
+                "id": 140,
+                "name": "大的棍棒",
+                "secretName": "大的棍棒",
+                "description": "攻 +20",
+                "image": 20112,
+                "cost": 5000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5000
+              },
+              {
+                "id": 202,
+                "name": "威金娜斯Lv1枪",
+                "secretName": "威金娜斯Lv1枪",
+                "description": "攻 +4 敏 -1 魅 +1 硬化的精灵 Lv1",
+                "image": 20403,
+                "cost": 110,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 110
+              },
+              {
+                "id": 215,
+                "name": "特洛金Lv1枪",
+                "secretName": "特洛金Lv1枪",
+                "description": "攻 +8 敏 -2 魅 +1 昏睡的精灵 Lv1",
+                "image": 20423,
+                "cost": 540,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 540
+              },
+              {
+                "id": 220,
+                "name": "轻的枪",
+                "secretName": "轻的枪",
+                "description": "攻 +14 敏 -2 魅 +2",
+                "image": 20411,
+                "cost": 960,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 960
+              },
+              {
+                "id": 234,
+                "name": "莱伊萨Lv2枪",
+                "secretName": "莱伊萨Lv2枪",
+                "description": "攻 +18 敏 -4 魅 +2 酩酊的精灵 Lv2",
+                "image": 20427,
+                "cost": 3560,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3560
+              },
+              {
+                "id": 604,
+                "name": "莱伊卡Lv1投掷斧头",
+                "secretName": "莱伊卡Lv1投掷斧头",
+                "description": "攻 +3 酒的精灵 Lv1",
+                "image": 20506,
+                "cost": 90,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 90
+              },
+              {
+                "id": 615,
+                "name": "特洛金Lv1投掷斧头",
+                "secretName": "特洛金Lv1投掷斧头",
+                "description": "攻 +7 昏睡的精灵 Lv1",
+                "image": 20508,
+                "cost": 500,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 500
+              },
+              {
+                "id": 632,
+                "name": "威金娜斯Lv2投掷斧头",
+                "secretName": "威金娜斯Lv2投掷斧头",
+                "description": "攻 +15 石化的精灵 Lv2",
+                "image": 20533,
+                "cost": 3300,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3300
+              },
+              {
+                "id": 704,
+                "name": "莱伊卡Lv1石",
+                "secretName": "莱伊卡Lv1石",
+                "description": "攻 +2 防 -1 酒的精灵 Lv1",
+                "image": 20529,
+                "cost": 95,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 95
+              },
+              {
+                "id": 722,
+                "name": "威金尼尔Lv2石",
+                "secretName": "威金尼尔Lv2石",
+                "description": "攻 +8 防 -2 硬化的精灵 Lv2",
+                "image": 20526,
+                "cost": 1180,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1180
+              },
+              {
+                "id": 735,
+                "name": "特洛金Lv2石",
+                "secretName": "特洛金Lv2石",
+                "description": "攻 +11 防 -2 昏睡的精灵 Lv2",
+                "image": 20528,
+                "cost": 3730,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3730
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3109_27_26"
+          }
+        },
+        {
+          "id": "3109-27-35-5840",
+          "name": "塔姆塔姆的防具店",
+          "x": 27,
+          "y": 35,
+          "type": "ItemShop",
+          "dialogue": "你好你好！",
+          "dialogueLines": [
+            "你好你好！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3109_27_35",
+          "template": "npcgen_shop",
+          "graphic": "16018",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3109_27_35",
+            "buyRate": 1,
+            "sellRate": 0.19,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "你好你好！",
+            "items": [
+              {
+                "id": 805,
+                "name": "米鲁菲Lv1兜1",
+                "secretName": "米鲁菲Lv1兜1",
+                "description": "防 +2 敏 -1 净化精灵(昏睡) Lv1",
+                "image": 21514,
+                "cost": 80,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 815,
+                "name": "米鲁菲Lv1兜2",
+                "secretName": "米鲁菲Lv1兜2",
+                "description": "防 +3 敏 -1 净化精灵(昏睡) Lv1",
+                "image": 21507,
+                "cost": 320,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 320
+              },
+              {
+                "id": 825,
+                "name": "米鲁菲Lv1兜3",
+                "secretName": "米鲁菲Lv1兜3",
+                "description": "防 +4 敏 -2 净化精灵(昏睡) Lv1",
+                "image": 21509,
+                "cost": 1070,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1070
+              },
+              {
+                "id": 905,
+                "name": "米鲁菲Lv2帽子1",
+                "secretName": "米鲁菲Lv2帽子1",
+                "description": "防 +0 净化精灵(昏睡) Lv2",
+                "image": 21511,
+                "cost": 76,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 76
+              },
+              {
+                "id": 915,
+                "name": "米鲁菲Lv2帽子2",
+                "secretName": "米鲁菲Lv2帽子2",
+                "description": "防 +1 净化精灵(昏睡) Lv2",
+                "image": 21503,
+                "cost": 304,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 304
+              },
+              {
+                "id": 935,
+                "name": "米鲁菲Lv2帽子4",
+                "secretName": "米鲁菲Lv2帽子4",
+                "description": "防 +3 净化精灵(昏睡) Lv2",
+                "image": 21538,
+                "cost": 2416,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2416
+              },
+              {
+                "id": 1005,
+                "name": "提欧Lv1铠1",
+                "secretName": "提欧Lv1铠1",
+                "description": "防 +2 敏 -1 恩惠的精灵 Lv1",
+                "image": 21015,
+                "cost": 215,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 215
+              },
+              {
+                "id": 1025,
+                "name": "芙雷雅Lv2铠3",
+                "secretName": "芙雷雅Lv2铠3",
+                "description": "防 +10 敏 -3 滋润的精灵 Lv2",
+                "image": 21047,
+                "cost": 1980,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1980
+              },
+              {
+                "id": 1035,
+                "name": "芙雷雅Lv2铠4",
+                "secretName": "芙雷雅Lv2铠4",
+                "description": "防 +14 敏 -4 滋润的精灵 Lv2",
+                "image": 21047,
+                "cost": 4675,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 4675
+              },
+              {
+                "id": 1105,
+                "name": "提欧Lv1服1",
+                "secretName": "提欧Lv1服1",
+                "description": "防 +1 恩惠的精灵 Lv1",
+                "image": 21039,
+                "cost": 198,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 198
+              },
+              {
+                "id": 1125,
+                "name": "芙雷雅Lv2服3",
+                "secretName": "芙雷雅Lv2服3",
+                "description": "防 +6 滋润的精灵 Lv2",
+                "image": 21035,
+                "cost": 1716,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1716
+              },
+              {
+                "id": 1135,
+                "name": "芙雷雅Lv2服4",
+                "secretName": "芙雷雅Lv2服4",
+                "description": "防 +9 滋润的精灵 Lv2",
+                "image": 21035,
+                "cost": 3916,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3916
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3109_27_35"
+          }
+        },
+        {
+          "id": "3109-10-25-6633",
+          "name": "Warp",
+          "x": 10,
+          "y": 25,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3109-10-26-6635",
+          "name": "Warp",
+          "x": 10,
+          "y": 26,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3100-0",
+          "label": "去 塔姆塔姆村",
+          "detail": "塔姆塔姆村 | floor 3100 | 目标 (41,79) | 入口 2 格 (10,25)-(10,26)",
+          "to": "3100",
+          "x": 10,
+          "y": 26,
+          "bounds": [
+            10,
+            25,
+            10,
+            26
+          ],
+          "target": [
+            41,
+            79
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 25,
+              "target": [
+                41,
+                78
+              ]
+            },
+            {
+              "x": 10,
+              "y": 26,
+              "target": [
+                41,
+                79
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3110": {
+      "id": "3110",
+      "floorId": 3110,
+      "name": "塔姆塔姆的民家",
+      "mapFile": "/data/maps/3110.ls2map",
+      "clientMapFile": "/data/client-maps/3110.dat",
+      "clientMapSource": "公益石器时代/map/3110.dat",
+      "summary": "塔姆塔姆的民家 | floor=3110 | 30x30 | gmsv-data/map/jyaruga/tamtam/3110",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        21
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3110-16-15-6963",
+          "name": "村庄小姑娘",
+          "x": 16,
+          "y": 15,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/jaruga/event/event01_1",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/jaruga/event/event.create",
+          "script": "file:jaruga/event/event01_1",
+          "template": "changeevent",
+          "graphic": "16065",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:NOWEV=1&ITEM=2401",
+              "DelItem:2401",
+              "EVENT:LV>0",
+              "EVENT:ENDEV=1"
+            ],
+            "source": "gmsv-data/npc/jaruga/event/event01_1"
+          },
+          "questLead": {
+            "title": "村庄小姑娘 的原脚本线索",
+            "summary": "EVENT:NOWEV=1&ITEM=2401",
+            "source": "gmsv-data/npc/jaruga/event/event01_1",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "3110-14-13-1888",
+          "name": "躺在地上的老人",
+          "x": 14,
+          "y": 13,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3110_14_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/3100.create",
+          "script": "file:genout/msg_3110_14_13",
+          "template": "npcgen_man",
+          "graphic": "1440",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3110_14_13"
+          }
+        },
+        {
+          "id": "3110-15-21-6645",
+          "name": "Warp",
+          "x": 15,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3110-16-21-6646",
+          "name": "Warp",
+          "x": 16,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3100-0",
+          "label": "去 塔姆塔姆村",
+          "detail": "塔姆塔姆村 | floor 3100 | 目标 (44,55) | 入口 2 格 (15,21)-(16,21)",
+          "to": "3100",
+          "x": 16,
+          "y": 21,
+          "bounds": [
+            15,
+            21,
+            16,
+            21
+          ],
+          "target": [
+            44,
+            55
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                44,
+                55
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                44,
+                55
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -78594,6 +84677,1957 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3203-2",
+          "label": "去 多多的宠物店",
+          "detail": "多多的宠物店 | floor 3203 | 目标 (16,21) | 入口 2 格 (48,43)-(49,43)",
+          "to": "3203",
+          "x": 49,
+          "y": 43,
+          "bounds": [
+            48,
+            43,
+            49,
+            43
+          ],
+          "target": [
+            16,
+            21
+          ],
+          "tiles": [
+            {
+              "x": 48,
+              "y": 43,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 49,
+              "y": 43,
+              "target": [
+                16,
+                21
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3204-3",
+          "label": "去 多多的肉店",
+          "detail": "多多的肉店 | floor 3204 | 目标 (10,16) | 入口 2 格 (58,73)-(58,74)",
+          "to": "3204",
+          "x": 58,
+          "y": 74,
+          "bounds": [
+            58,
+            73,
+            58,
+            74
+          ],
+          "target": [
+            10,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 58,
+              "y": 73,
+              "target": [
+                10,
+                15
+              ]
+            },
+            {
+              "x": 58,
+              "y": 74,
+              "target": [
+                10,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3205-4",
+          "label": "去 多多的医院",
+          "detail": "多多的医院 | floor 3205 | 目标 (16,21) | 入口 2 格 (38,43)-(39,43)",
+          "to": "3205",
+          "x": 39,
+          "y": 43,
+          "bounds": [
+            38,
+            43,
+            39,
+            43
+          ],
+          "target": [
+            16,
+            21
+          ],
+          "tiles": [
+            {
+              "x": 38,
+              "y": 43,
+              "target": [
+                15,
+                21
+              ]
+            },
+            {
+              "x": 39,
+              "y": 43,
+              "target": [
+                16,
+                21
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3209-5",
+          "label": "去 多多的便利商店",
+          "detail": "多多的便利商店 | floor 3209 | 目标 (10,26) | 入口 2 格 (61,46)-(61,47)",
+          "to": "3209",
+          "x": 61,
+          "y": 47,
+          "bounds": [
+            61,
+            46,
+            61,
+            47
+          ],
+          "target": [
+            10,
+            26
+          ],
+          "tiles": [
+            {
+              "x": 61,
+              "y": 46,
+              "target": [
+                10,
+                25
+              ]
+            },
+            {
+              "x": 61,
+              "y": 47,
+              "target": [
+                10,
+                26
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3206-6",
+          "label": "去 多多的村长家",
+          "detail": "多多的村长家 | floor 3206 | 目标 (10,20) | 入口 (53,64)",
+          "to": "3206",
+          "x": 53,
+          "y": 64,
+          "bounds": [
+            53,
+            64,
+            53,
+            64
+          ],
+          "target": [
+            10,
+            20
+          ],
+          "tiles": [
+            {
+              "x": 53,
+              "y": 64,
+              "target": [
+                10,
+                20
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3203": {
+      "id": "3203",
+      "floorId": 3203,
+      "name": "多多的宠物店",
+      "mapFile": "/data/maps/3203.ls2map",
+      "clientMapFile": "/data/client-maps/3203.dat",
+      "clientMapSource": "公益石器时代/map/3203.dat",
+      "summary": "多多的宠物店 | floor=3203 | 30x30 | gmsv-data/map/jyaruga/toto/3203",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        21
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3203-13-13-5858",
+          "name": "饲育员",
+          "x": 13,
+          "y": 13,
+          "type": "PetSkillShop",
+          "dialogue": "我是这个村庄顶级的饲育员。",
+          "dialogueLines": [
+            "我是这个村庄顶级的饲育员。",
+            "你要叫我教它什么技能？"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/psks_3203_13_13",
+          "template": "npcgen_petskillshop",
+          "graphic": "16019",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/psks_3203_13_13"
+          }
+        },
+        {
+          "id": "3203-18-18-5855",
+          "name": "多多的宠物店",
+          "x": 18,
+          "y": 18,
+          "type": "PetShop",
+          "dialogue": "欢迎来到宠物店！",
+          "dialogueLines": [
+            "欢迎来到宠物店！",
+            "我们买收您的宠物。"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ps_3203_18_18",
+          "template": "npcgen_petshop",
+          "graphic": "16033",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ps_3203_18_18"
+          }
+        },
+        {
+          "id": "3203-17-13-5856",
+          "name": "克邦凯斯",
+          "x": 17,
+          "y": 13,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100339"
+        },
+        {
+          "id": "3203-18-14-5857",
+          "name": "贝恩达斯",
+          "x": 18,
+          "y": 14,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100336"
+        },
+        {
+          "id": "3203-15-21-6648",
+          "name": "Warp",
+          "x": 15,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3203-16-21-6650",
+          "name": "Warp",
+          "x": 16,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3200-0",
+          "label": "去 多多村",
+          "detail": "多多村 | floor 3200 | 目标 (49,43) | 入口 2 格 (15,21)-(16,21)",
+          "to": "3200",
+          "x": 16,
+          "y": 21,
+          "bounds": [
+            15,
+            21,
+            16,
+            21
+          ],
+          "target": [
+            49,
+            43
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                48,
+                43
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                49,
+                43
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3204": {
+      "id": "3204",
+      "floorId": 3204,
+      "name": "多多的肉店",
+      "mapFile": "/data/maps/3204.ls2map",
+      "clientMapFile": "/data/client-maps/3204.dat",
+      "clientMapSource": "公益石器时代/map/3204.dat",
+      "summary": "多多的肉店 | floor=3204 | 30x30 | gmsv-data/map/jyaruga/toto/3204",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        10,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3204-18-16-5859",
+          "name": "多多的肉店",
+          "x": 18,
+          "y": 16,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临多多的肉店！",
+          "dialogueLines": [
+            "欢迎光临多多的肉店！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/lbis_3204_18_16",
+          "template": "npcgen_limitshop",
+          "graphic": "16053",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/lbis_3204_18_16",
+            "buyRate": 1,
+            "sellRate": 1,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临多多的肉店！",
+            "items": [
+              {
+                "id": 1234,
+                "name": "小块肉",
+                "secretName": "小块肉",
+                "description": "耐久力20前後回复",
+                "image": 24008,
+                "cost": 20,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1235,
+                "name": "普通的肉",
+                "secretName": "普通的肉",
+                "description": "耐久力40前後回复",
+                "image": 24035,
+                "cost": 40,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 1236,
+                "name": "带骨的肉",
+                "secretName": "带骨的肉",
+                "description": "耐久力65前後回复",
+                "image": 24017,
+                "cost": 65,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 65
+              },
+              {
+                "id": 1237,
+                "name": "大片的肉",
+                "secretName": "大片的肉",
+                "description": "耐久力90前後回复",
+                "image": 24026,
+                "cost": 90,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 90
+              },
+              {
+                "id": 1238,
+                "name": "大块肉",
+                "secretName": "大块肉",
+                "description": "耐久力125前後回复",
+                "image": 24044,
+                "cost": 125,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 125
+              },
+              {
+                "id": 1239,
+                "name": "最棒的肉",
+                "secretName": "最棒的肉",
+                "description": "耐久力165前後回复",
+                "image": 24044,
+                "cost": 165,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 165
+              },
+              {
+                "id": 1240,
+                "name": "小块气力肉",
+                "secretName": "小块气力肉",
+                "description": "气力5前後回复",
+                "image": 24001,
+                "cost": 20,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1241,
+                "name": "普通的气力肉",
+                "secretName": "普通的气力肉",
+                "description": "气力10前後回复",
+                "image": 24028,
+                "cost": 40,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 1242,
+                "name": "带骨的气力肉",
+                "secretName": "带骨的气力肉",
+                "description": "气力15前後回复",
+                "image": 24010,
+                "cost": 60,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 1243,
+                "name": "大片的气力肉",
+                "secretName": "大片的气力肉",
+                "description": "气力25前後回复",
+                "image": 24019,
+                "cost": 100,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1244,
+                "name": "大块气力肉",
+                "secretName": "大块气力肉",
+                "description": "气力40前後回复",
+                "image": 24037,
+                "cost": 160,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 160
+              },
+              {
+                "id": 1245,
+                "name": "最棒的气力肉",
+                "secretName": "最棒的气力肉",
+                "description": "气力65前後回复",
+                "image": 24037,
+                "cost": 260,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 260
+              },
+              {
+                "id": 1246,
+                "name": "治疗混乱的肉",
+                "secretName": "治疗混乱的肉",
+                "description": "混乱状态回复",
+                "image": 24042,
+                "cost": 80,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1247,
+                "name": "治疗中毒的肉",
+                "secretName": "治疗中毒的肉",
+                "description": "毒状态回复",
+                "image": 24043,
+                "cost": 120,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 120
+              },
+              {
+                "id": 1248,
+                "name": "治疗酒醉的肉",
+                "secretName": "治疗酒醉的肉",
+                "description": "酒醉状态回复",
+                "image": 24042,
+                "cost": 80,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1249,
+                "name": "治疗石化肉",
+                "secretName": "治疗石化肉",
+                "description": "石化状态回复",
+                "image": 24038,
+                "cost": 100,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/lbis_3204_18_16"
+          }
+        },
+        {
+          "id": "3204-10-15-6652",
+          "name": "Warp",
+          "x": 10,
+          "y": 15,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3204-10-16-6654",
+          "name": "Warp",
+          "x": 10,
+          "y": 16,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3200-0",
+          "label": "去 多多村",
+          "detail": "多多村 | floor 3200 | 目标 (58,74) | 入口 2 格 (10,15)-(10,16)",
+          "to": "3200",
+          "x": 10,
+          "y": 16,
+          "bounds": [
+            10,
+            15,
+            10,
+            16
+          ],
+          "target": [
+            58,
+            74
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                58,
+                73
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                58,
+                74
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3205": {
+      "id": "3205",
+      "floorId": 3205,
+      "name": "多多的医院",
+      "mapFile": "/data/maps/3205.ls2map",
+      "clientMapFile": "/data/client-maps/3205.dat",
+      "clientMapSource": "公益石器时代/map/3205.dat",
+      "summary": "多多的医院 | floor=3205 | 30x30 | gmsv-data/map/jyaruga/toto/3205",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        21
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3205-19-13-5861",
+          "name": "多多的药师",
+          "x": 19,
+          "y": 13,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3205_19_13",
+          "template": "npcgen_shop",
+          "graphic": "16023",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3205_19_13",
+            "buyRate": 1.2,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1500,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力100前後回复",
+                "image": 23013,
+                "cost": 25,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 1501,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力200前後回复",
+                "image": 23014,
+                "cost": 50,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 1510,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力20前後回复",
+                "image": 23005,
+                "cost": 80,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 96
+              },
+              {
+                "id": 1511,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力40前後回复",
+                "image": 23006,
+                "cost": 160,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 192
+              },
+              {
+                "id": 1512,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力60前後回复",
+                "image": 23007,
+                "cost": 250,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 300
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 120
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 360
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 36
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 24
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 24
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 36
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3205_19_13"
+          }
+        },
+        {
+          "id": "3205-16-13-5860",
+          "name": "多多的护士",
+          "x": 16,
+          "y": 13,
+          "type": "WindowHealer",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_winhealer",
+          "template": "npcgen_winhealer",
+          "graphic": "16012"
+        },
+        {
+          "id": "3205-13-14-5862",
+          "name": "患者",
+          "x": 13,
+          "y": 14,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3205_13_14",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/msg_3205_13_14",
+          "template": "npcgen_man",
+          "graphic": "16048",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3205_13_14"
+          }
+        },
+        {
+          "id": "3205-15-21-6656",
+          "name": "Warp",
+          "x": 15,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3205-16-21-6658",
+          "name": "Warp",
+          "x": 16,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3200-0",
+          "label": "去 多多村",
+          "detail": "多多村 | floor 3200 | 目标 (39,43) | 入口 2 格 (15,21)-(16,21)",
+          "to": "3200",
+          "x": 16,
+          "y": 21,
+          "bounds": [
+            15,
+            21,
+            16,
+            21
+          ],
+          "target": [
+            39,
+            43
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                38,
+                43
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                39,
+                43
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3206": {
+      "id": "3206",
+      "floorId": 3206,
+      "name": "多多的村长家",
+      "mapFile": "/data/maps/3206.ls2map",
+      "clientMapFile": "/data/client-maps/3206.dat",
+      "clientMapSource": "公益石器时代/map/3206.dat",
+      "summary": "多多的村长家 | floor=3206 | 30x40 | gmsv-data/map/jyaruga/toto/3206",
+      "size": [
+        30,
+        40
+      ],
+      "spawn": [
+        10,
+        20
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3206-19-24-1329",
+          "name": "家族管理员",
+          "x": 19,
+          "y": 24,
+          "type": "Familyman",
+          "dialogue": "2",
+          "dialogueLines": [
+            "2",
+            "我是这个村子里的家族管理员！",
+            "有什么我可以为你服务的吗？",
+            "介绍家族功能",
+            "申请成立新的家族",
+            "申请加入现有家族",
+            "退出或者解散家族",
+            "想离开你的族人们了吗？"
+          ],
+          "source": "gmsv-data/npc/family/familyman.create",
+          "script": "conff:family/familyman.conf",
+          "template": "familyman",
+          "graphic": "16067",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/familyman.conf"
+          }
+        },
+        {
+          "id": "3206-15-19-7314",
+          "name": "妮可",
+          "x": 15,
+          "y": 19,
+          "type": "Raceman",
+          "dialogue": "脚本入口：gmsv-data/npc/race2/second.arg",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/race2/second.create",
+          "script": "file:race2/second.arg",
+          "template": "npc_raceman",
+          "graphic": "16171",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/race2/second.arg"
+          }
+        },
+        {
+          "id": "3206-19-19-1350",
+          "name": "家族留言版",
+          "x": 19,
+          "y": 19,
+          "type": "FmDengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/fmdengon.create",
+          "script": "npcgen_fmdengon",
+          "template": "npcgen_fmdengon",
+          "graphic": "10062"
+        },
+        {
+          "id": "3206-19-22-5863",
+          "name": "多多的村长",
+          "x": 19,
+          "y": 22,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3206_19_22",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/msg_3206_19_22",
+          "template": "npcgen_man",
+          "graphic": "16000",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3206_19_22"
+          }
+        },
+        {
+          "id": "3206-10-20-6664",
+          "name": "Warp",
+          "x": 10,
+          "y": 20,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3206-10-21-6665",
+          "name": "Warp",
+          "x": 10,
+          "y": 21,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3200-0",
+          "label": "去 多多村",
+          "detail": "多多村 | floor 3200 | 目标 (53,64) | 入口 2 格 (10,20)-(10,21)",
+          "to": "3200",
+          "x": 10,
+          "y": 21,
+          "bounds": [
+            10,
+            20,
+            10,
+            21
+          ],
+          "target": [
+            53,
+            64
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 20,
+              "target": [
+                53,
+                64
+              ]
+            },
+            {
+              "x": 10,
+              "y": 21,
+              "target": [
+                53,
+                64
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3209": {
+      "id": "3209",
+      "floorId": 3209,
+      "name": "多多的便利商店",
+      "mapFile": "/data/maps/3209.ls2map",
+      "clientMapFile": "/data/client-maps/3209.dat",
+      "clientMapSource": "公益石器时代/map/3209.dat",
+      "summary": "多多的便利商店 | floor=3209 | 40x60 | gmsv-data/map/jyaruga/toto/3209",
+      "size": [
+        40,
+        60
+      ],
+      "spawn": [
+        10,
+        25
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3209-14-14-5921",
+          "name": "特产品贩卖员",
+          "x": 14,
+          "y": 14,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临",
+          "dialogueLines": [
+            "欢迎光临"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3209_14_14",
+          "template": "npcgen_shop",
+          "graphic": "16066",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3209_14_14",
+            "buyRate": 1,
+            "sellRate": 0.5,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临",
+            "items": [
+              {
+                "id": 12141,
+                "name": "多多产的小黄瓜",
+                "secretName": "多多产的小黄瓜",
+                "description": "小黄瓜4",
+                "image": 24193,
+                "cost": 25,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 25
+              },
+              {
+                "id": 12209,
+                "name": "多多的好喝的水",
+                "secretName": "多多的好喝的水",
+                "description": "水4",
+                "image": 24144,
+                "cost": 30,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 30
+              },
+              {
+                "id": 12229,
+                "name": "多多产的笋子",
+                "secretName": "多多产的笋子",
+                "description": "竹笋4",
+                "image": 24552,
+                "cost": 120,
+                "type": 20,
+                "useField": 1,
+                "target": 0,
+                "level": 0,
+                "price": 120
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3209_14_14"
+          }
+        },
+        {
+          "id": "3209-16-14-5985",
+          "name": "巫女",
+          "x": 16,
+          "y": 14,
+          "type": "ItemShop",
+          "dialogue": "我有卖很神奇的东西喔！",
+          "dialogueLines": [
+            "我有卖很神奇的东西喔！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_nuke1.create",
+          "script": "file:genout/ss_3209_16_14",
+          "template": "npcgen_shop",
+          "graphic": "16300",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3209_16_14",
+            "buyRate": 1,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "我有卖很神奇的东西喔！",
+            "items": [
+              {
+                "id": 13073,
+                "name": "精灵的羽毛",
+                "secretName": "精灵的羽毛",
+                "description": "可单人瞬间飞行至多多村",
+                "image": 24076,
+                "cost": 2000,
+                "type": 16,
+                "useField": 2,
+                "target": 0,
+                "level": 0,
+                "price": 2000
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3209_16_14"
+          }
+        },
+        {
+          "id": "3209-27-16-5854",
+          "name": "多多的道具店",
+          "x": 27,
+          "y": 16,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3209_27_16",
+          "template": "npcgen_shop",
+          "graphic": "16030",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3209_27_16",
+            "buyRate": 1,
+            "sellRate": 0.19,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1207,
+                "name": "碧玉的手环",
+                "secretName": "碧玉的手环",
+                "description": "攻 +3 防 -3 敏+3 魅 +2",
+                "image": 22067,
+                "cost": 10000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 10000
+              },
+              {
+                "id": 1256,
+                "name": "缪雷石笛",
+                "secretName": "缪雷石笛",
+                "description": "魅 +1 奥萝拉的精灵",
+                "image": 24205,
+                "cost": 5000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 5000
+              },
+              {
+                "id": 1301,
+                "name": "小骨细工戒指",
+                "secretName": "小骨细工戒指",
+                "description": "魅 +2 会心一击率上升 +1",
+                "image": 22100,
+                "cost": 450,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 450
+              },
+              {
+                "id": 1356,
+                "name": "红色大首饰",
+                "secretName": "红色大首饰",
+                "description": "魅 +5 石化耐性 +30",
+                "image": 22027,
+                "cost": 6000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 6000
+              },
+              {
+                "id": 1358,
+                "name": "黑色大首饰",
+                "secretName": "黑色大首饰",
+                "description": "魅 +5 混乱耐性 +30",
+                "image": 22026,
+                "cost": 8000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 8000
+              },
+              {
+                "id": 1401,
+                "name": "大耳环",
+                "secretName": "大耳环",
+                "description": "魅 +2 回避率上升 +1",
+                "image": 22050,
+                "cost": 450,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 450
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3209_27_16"
+          }
+        },
+        {
+          "id": "3209-27-25-5852",
+          "name": "多多的武器店",
+          "x": 27,
+          "y": 25,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3209_27_25",
+          "template": "npcgen_shop",
+          "graphic": "16056",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3209_27_25",
+            "buyRate": 1,
+            "sellRate": 0.19,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 12,
+                "name": "威金娜斯Lv1斧头",
+                "secretName": "威金娜斯Lv1斧头",
+                "description": "攻 +12 防 -4 敏 -4 石化的精灵 Lv1",
+                "image": 20012,
+                "cost": 510,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 510
+              },
+              {
+                "id": 25,
+                "name": "特洛西Lv2斧头",
+                "secretName": "特洛西Lv2斧头",
+                "description": "攻 +18 防 -6 敏 -6 睡眠的精灵 Lv2",
+                "image": 20002,
+                "cost": 1400,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1400
+              },
+              {
+                "id": 40,
+                "name": "大的斧头",
+                "secretName": "大的斧头",
+                "description": "攻 +32 防 -11 敏 -11",
+                "image": 20015,
+                "cost": 6500,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6500
+              },
+              {
+                "id": 112,
+                "name": "威金娜斯Lv1棍棒",
+                "secretName": "威金娜斯Lv1棍棒",
+                "description": "攻 +7 石化的精灵 Lv1",
+                "image": 20114,
+                "cost": 450,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 450
+              },
+              {
+                "id": 122,
+                "name": "威金尼尔Lv2棍棒",
+                "secretName": "威金棍棒Lv2棍棒",
+                "description": "攻 +11 硬化的精灵 Lv2",
+                "image": 20113,
+                "cost": 1100,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1100
+              },
+              {
+                "id": 140,
+                "name": "大的棍棒",
+                "secretName": "大的棍棒",
+                "description": "攻 +20",
+                "image": 20112,
+                "cost": 5000,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5000
+              },
+              {
+                "id": 615,
+                "name": "特洛金Lv1投掷斧头",
+                "secretName": "特洛金Lv1投掷斧头",
+                "description": "攻 +7 昏睡的精灵 Lv1",
+                "image": 20508,
+                "cost": 500,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 500
+              },
+              {
+                "id": 630,
+                "name": "重的投掷斧头",
+                "secretName": "重的投掷斧头",
+                "description": "攻 +17 敏 -1",
+                "image": 20534,
+                "cost": 2300,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 2300
+              },
+              {
+                "id": 645,
+                "name": "特洛西Lv3投掷斧头",
+                "secretName": "特洛西Lv3投掷斧头",
+                "description": "攻 +19 睡眠的精灵 Lv3",
+                "image": 20506,
+                "cost": 6200,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6200
+              },
+              {
+                "id": 712,
+                "name": "威金娜斯Lv1石",
+                "secretName": "威金娜斯Lv1石",
+                "description": "攻 +5 防 -1 石化的精灵 Lv1",
+                "image": 20502,
+                "cost": 470,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 470
+              },
+              {
+                "id": 725,
+                "name": "特洛西Lv2石",
+                "secretName": "特洛西Lv2石",
+                "description": "攻 +8 防 -2 睡眠的精灵 Lv2",
+                "image": 20526,
+                "cost": 1240,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1240
+              },
+              {
+                "id": 745,
+                "name": "特洛西Lv3石",
+                "secretName": "特洛西Lv3石",
+                "description": "攻 +14 防 -3 睡眠的精灵 Lv3",
+                "image": 20502,
+                "cost": 6700,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6700
+              },
+              {
+                "id": 500,
+                "name": "小的回旋标",
+                "secretName": "小的回旋标?",
+                "description": "攻 +3 魅 +3",
+                "image": 20514,
+                "cost": 60,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 60
+              },
+              {
+                "id": 515,
+                "name": "特洛金Lv1回旋标",
+                "secretName": "特洛金Lv1回旋标",
+                "description": "攻 +5 魅 +1 昏睡的精灵 Lv1",
+                "image": 20522,
+                "cost": 540,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 540
+              },
+              {
+                "id": 524,
+                "name": "莱伊卡Lv2回旋标",
+                "secretName": "莱伊卡Lv2回旋标",
+                "description": "攻 +8 魅 +1 酒的精灵 Lv2",
+                "image": 20517,
+                "cost": 1200,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 1200
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3209_27_25"
+          }
+        },
+        {
+          "id": "3209-27-36-5853",
+          "name": "多多的防具店",
+          "x": 27,
+          "y": 36,
+          "type": "ItemShop",
+          "dialogue": "你好你好！",
+          "dialogueLines": [
+            "你好你好！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3209_27_36",
+          "template": "npcgen_shop",
+          "graphic": "16018",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3209_27_36",
+            "buyRate": 1,
+            "sellRate": 0.19,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "你好你好！",
+            "items": [
+              {
+                "id": 811,
+                "name": "美鲁菲Lv1兜2",
+                "secretName": "美鲁菲Lv1兜2",
+                "description": "防 +3 敏 -1 净化精灵(毒) Lv1",
+                "image": 21507,
+                "cost": 320,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 320
+              },
+              {
+                "id": 822,
+                "name": "爱鲁菲Lv1兜3",
+                "secretName": "爱鲁菲Lv1兜3",
+                "description": "防 +4 敏 -2 净化精灵(石化) Lv1",
+                "image": 21509,
+                "cost": 1025,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1025
+              },
+              {
+                "id": 841,
+                "name": "美鲁菲Lv1兜5",
+                "secretName": "美鲁菲Lv1兜5",
+                "description": "防 +8 敏 -3 净化精灵(毒) Lv1",
+                "image": 21518,
+                "cost": 5750,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5750
+              },
+              {
+                "id": 911,
+                "name": "美鲁菲Lv2帽子2",
+                "secretName": "美鲁菲Lv2帽子2",
+                "description": "防 +1 净化精灵(毒) Lv2",
+                "image": 21503,
+                "cost": 304,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 304
+              },
+              {
+                "id": 922,
+                "name": "爱鲁菲Lv2帽子3",
+                "secretName": "爱鲁菲Lv2帽子3",
+                "description": "防 +2 净化精灵(石化) Lv2",
+                "image": 21537,
+                "cost": 910,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 910
+              },
+              {
+                "id": 944,
+                "name": "渥鲁菲Lv2帽子5",
+                "secretName": "渥鲁菲Lv2帽子5",
+                "description": "防 +4 净化精灵(酒醉) Lv2",
+                "image": 21539,
+                "cost": 4600,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 4600
+              },
+              {
+                "id": 1011,
+                "name": "哈鲁Lv1铠2",
+                "secretName": "哈鲁Lv1铠2",
+                "description": "防 +6 敏 -2 治愈的精灵 Lv1",
+                "image": 21027,
+                "cost": 400,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 400
+              },
+              {
+                "id": 1022,
+                "name": "芙雷雅Lv1铠3",
+                "secretName": "芙雷雅Lv1铠3",
+                "description": "防 +9 敏 -3 滋润的精灵 Lv1",
+                "image": 21048,
+                "cost": 1650,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1650
+              },
+              {
+                "id": 1041,
+                "name": "哈鲁Lv1铠5",
+                "secretName": "哈鲁Lv1铠5",
+                "description": "防 +18 敏 -5 治愈的精灵 Lv1",
+                "image": 21024,
+                "cost": 7750,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 7750
+              },
+              {
+                "id": 1111,
+                "name": "哈鲁Lv1服2",
+                "secretName": "哈鲁Lv1服2",
+                "description": "防 +3 治愈的精灵 Lv1",
+                "image": 21009,
+                "cost": 340,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 340
+              },
+              {
+                "id": 1122,
+                "name": "芙雷雅Lv1服3",
+                "secretName": "芙雷雅Lv1服3",
+                "description": "防 +5 滋润的精灵 Lv1",
+                "image": 21034,
+                "cost": 1386,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1386
+              },
+              {
+                "id": 1141,
+                "name": "哈鲁Lv1服5",
+                "secretName": "哈鲁Lv1服5",
+                "description": "防 +10 治愈的精灵 Lv1",
+                "image": 21006,
+                "cost": 6250,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6250
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3209_27_36"
+          }
+        },
+        {
+          "id": "3209-10-25-6660",
+          "name": "Warp",
+          "x": 10,
+          "y": 25,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3209-10-26-6662",
+          "name": "Warp",
+          "x": 10,
+          "y": 26,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3200-0",
+          "label": "去 多多村",
+          "detail": "多多村 | floor 3200 | 目标 (61,47) | 入口 2 格 (10,25)-(10,26)",
+          "to": "3200",
+          "x": 10,
+          "y": 26,
+          "bounds": [
+            10,
+            25,
+            10,
+            26
+          ],
+          "target": [
+            61,
+            47
+          ],
+          "tiles": [
+            {
+              "x": 10,
+              "y": 25,
+              "target": [
+                61,
+                46
+              ]
+            },
+            {
+              "x": 10,
+              "y": 26,
+              "target": [
+                61,
+                47
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -79214,6 +87248,1887 @@ export const WORLD = {
               "target": [
                 549,
                 746
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3303-2",
+          "label": "去 乌鲁力的宠物店",
+          "detail": "乌鲁力的宠物店 | floor 3303 | 目标 (15,20) | 入口 (51,60)",
+          "to": "3303",
+          "x": 51,
+          "y": 60,
+          "bounds": [
+            51,
+            60,
+            51,
+            60
+          ],
+          "target": [
+            15,
+            20
+          ],
+          "tiles": [
+            {
+              "x": 51,
+              "y": 60,
+              "target": [
+                15,
+                20
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3304-3",
+          "label": "去 乌鲁力的肉店",
+          "detail": "乌鲁力的肉店 | floor 3304 | 目标 (11,16) | 入口 2 格 (48,64)-(48,65)",
+          "to": "3304",
+          "x": 48,
+          "y": 65,
+          "bounds": [
+            48,
+            64,
+            48,
+            65
+          ],
+          "target": [
+            11,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 48,
+              "y": 64,
+              "target": [
+                11,
+                15
+              ]
+            },
+            {
+              "x": 48,
+              "y": 65,
+              "target": [
+                11,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3305-4",
+          "label": "去 乌鲁力的医院",
+          "detail": "乌鲁力的医院 | floor 3305 | 目标 (11,15) | 入口 (59,45)",
+          "to": "3305",
+          "x": 59,
+          "y": 45,
+          "bounds": [
+            59,
+            45,
+            59,
+            45
+          ],
+          "target": [
+            11,
+            15
+          ],
+          "tiles": [
+            {
+              "x": 59,
+              "y": 45,
+              "target": [
+                11,
+                15
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3306-5",
+          "label": "去 乌鲁力的村长家",
+          "detail": "乌鲁力的村长家 | floor 3306 | 目标 (15,20) | 入口 (54,43)",
+          "to": "3306",
+          "x": 54,
+          "y": 43,
+          "bounds": [
+            54,
+            43,
+            54,
+            43
+          ],
+          "target": [
+            15,
+            20
+          ],
+          "tiles": [
+            {
+              "x": 54,
+              "y": 43,
+              "target": [
+                15,
+                20
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3309-6",
+          "label": "去 乌鲁力的便利商店",
+          "detail": "乌鲁力的便利商店 | floor 3309 | 目标 (11,16) | 入口 2 格 (54,70)-(54,71)",
+          "to": "3309",
+          "x": 54,
+          "y": 71,
+          "bounds": [
+            54,
+            70,
+            54,
+            71
+          ],
+          "target": [
+            11,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 54,
+              "y": 70,
+              "target": [
+                11,
+                15
+              ]
+            },
+            {
+              "x": 54,
+              "y": 71,
+              "target": [
+                11,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3303": {
+      "id": "3303",
+      "floorId": 3303,
+      "name": "乌鲁力的宠物店",
+      "mapFile": "/data/maps/3303.ls2map",
+      "clientMapFile": "/data/client-maps/3303.dat",
+      "clientMapSource": "公益石器时代/map/3303.dat",
+      "summary": "乌鲁力的宠物店 | floor=3303 | 30x30 | gmsv-data/map/jyaruga/ururi/3303",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        20
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3303-13-14-5871",
+          "name": "饲育员",
+          "x": 13,
+          "y": 14,
+          "type": "PetSkillShop",
+          "dialogue": "没有比我优秀的饲育员。",
+          "dialogueLines": [
+            "没有比我优秀的饲育员。",
+            "要我教哪项技能呢？"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/psks_3303_13_14",
+          "template": "npcgen_petskillshop",
+          "graphic": "16212",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/psks_3303_13_14"
+          }
+        },
+        {
+          "id": "3303-16-14-5868",
+          "name": "乌鲁力的宠物店",
+          "x": 16,
+          "y": 14,
+          "type": "PetShop",
+          "dialogue": "欢迎来到宠物店！",
+          "dialogueLines": [
+            "欢迎来到宠物店！",
+            "我们买收您的宠物。"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ps_3303_16_14",
+          "template": "npcgen_petshop",
+          "graphic": "16218",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ps_3303_16_14"
+          }
+        },
+        {
+          "id": "3303-18-16-5869",
+          "name": "克雷尔",
+          "x": 18,
+          "y": 16,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100291"
+        },
+        {
+          "id": "3303-18-18-5870",
+          "name": "凯比",
+          "x": 18,
+          "y": 18,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100296"
+        },
+        {
+          "id": "3303-15-20-6667",
+          "name": "Warp",
+          "x": 15,
+          "y": 20,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3303-16-20-6668",
+          "name": "Warp",
+          "x": 16,
+          "y": 20,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3300-0",
+          "label": "去 乌鲁力村",
+          "detail": "乌鲁力村 | floor 3300 | 目标 (51,60) | 入口 2 格 (15,20)-(16,20)",
+          "to": "3300",
+          "x": 16,
+          "y": 20,
+          "bounds": [
+            15,
+            20,
+            16,
+            20
+          ],
+          "target": [
+            51,
+            60
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 20,
+              "target": [
+                51,
+                60
+              ]
+            },
+            {
+              "x": 16,
+              "y": 20,
+              "target": [
+                51,
+                60
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3304": {
+      "id": "3304",
+      "floorId": 3304,
+      "name": "乌鲁力的肉店",
+      "mapFile": "/data/maps/3304.ls2map",
+      "clientMapFile": "/data/client-maps/3304.dat",
+      "clientMapSource": "公益石器时代/map/3304.dat",
+      "summary": "乌鲁力的肉店 | floor=3304 | 30x30 | gmsv-data/map/jyaruga/ururi/3304",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        11,
+        15
+      ],
+      "encounterPets": [
+        1016
+      ],
+      "npcs": [
+        {
+          "id": "3304-17-16-5872",
+          "name": "乌鲁力的肉店",
+          "x": 17,
+          "y": 16,
+          "type": "ItemShop",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/lbis_3304_17_16",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/lbis_3304_17_16",
+          "template": "npcgen_limitshop",
+          "graphic": "16220",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/lbis_3304_17_16",
+            "buyRate": 1,
+            "sellRate": 1,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "",
+            "items": [
+              {
+                "id": 1234,
+                "name": "小块肉",
+                "secretName": "小块肉",
+                "description": "耐久力20前後回复",
+                "image": 24008,
+                "cost": 20,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1235,
+                "name": "普通的肉",
+                "secretName": "普通的肉",
+                "description": "耐久力40前後回复",
+                "image": 24035,
+                "cost": 40,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 1236,
+                "name": "带骨的肉",
+                "secretName": "带骨的肉",
+                "description": "耐久力65前後回复",
+                "image": 24017,
+                "cost": 65,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 65
+              },
+              {
+                "id": 1237,
+                "name": "大片的肉",
+                "secretName": "大片的肉",
+                "description": "耐久力90前後回复",
+                "image": 24026,
+                "cost": 90,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 90
+              },
+              {
+                "id": 1238,
+                "name": "大块肉",
+                "secretName": "大块肉",
+                "description": "耐久力125前後回复",
+                "image": 24044,
+                "cost": 125,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 125
+              },
+              {
+                "id": 1239,
+                "name": "最棒的肉",
+                "secretName": "最棒的肉",
+                "description": "耐久力165前後回复",
+                "image": 24044,
+                "cost": 165,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 165
+              },
+              {
+                "id": 1240,
+                "name": "小块气力肉",
+                "secretName": "小块气力肉",
+                "description": "气力5前後回复",
+                "image": 24001,
+                "cost": 20,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1241,
+                "name": "普通的气力肉",
+                "secretName": "普通的气力肉",
+                "description": "气力10前後回复",
+                "image": 24028,
+                "cost": 40,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 1242,
+                "name": "带骨的气力肉",
+                "secretName": "带骨的气力肉",
+                "description": "气力15前後回复",
+                "image": 24010,
+                "cost": 60,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 1243,
+                "name": "大片的气力肉",
+                "secretName": "大片的气力肉",
+                "description": "气力25前後回复",
+                "image": 24019,
+                "cost": 100,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1244,
+                "name": "大块气力肉",
+                "secretName": "大块气力肉",
+                "description": "气力40前後回复",
+                "image": 24037,
+                "cost": 160,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 160
+              },
+              {
+                "id": 1245,
+                "name": "最棒的气力肉",
+                "secretName": "最棒的气力肉",
+                "description": "气力65前後回复",
+                "image": 24037,
+                "cost": 260,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 260
+              },
+              {
+                "id": 1246,
+                "name": "治疗混乱的肉",
+                "secretName": "治疗混乱的肉",
+                "description": "混乱状态回复",
+                "image": 24042,
+                "cost": 80,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1247,
+                "name": "治疗中毒的肉",
+                "secretName": "治疗中毒的肉",
+                "description": "毒状态回复",
+                "image": 24043,
+                "cost": 120,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 120
+              },
+              {
+                "id": 1248,
+                "name": "治疗酒醉的肉",
+                "secretName": "治疗酒醉的肉",
+                "description": "酒醉状态回复",
+                "image": 24042,
+                "cost": 80,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1249,
+                "name": "治疗石化肉",
+                "secretName": "治疗石化肉",
+                "description": "石化状态回复",
+                "image": 24038,
+                "cost": 100,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/lbis_3304_17_16"
+          }
+        },
+        {
+          "id": "3304-11-15-6670",
+          "name": "Warp",
+          "x": 11,
+          "y": 15,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3304-11-16-6672",
+          "name": "Warp",
+          "x": 11,
+          "y": 16,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3300-0",
+          "label": "去 乌鲁力村",
+          "detail": "乌鲁力村 | floor 3300 | 目标 (48,65) | 入口 2 格 (11,15)-(11,16)",
+          "to": "3300",
+          "x": 11,
+          "y": 16,
+          "bounds": [
+            11,
+            15,
+            11,
+            16
+          ],
+          "target": [
+            48,
+            65
+          ],
+          "tiles": [
+            {
+              "x": 11,
+              "y": 15,
+              "target": [
+                48,
+                64
+              ]
+            },
+            {
+              "x": 11,
+              "y": 16,
+              "target": [
+                48,
+                65
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3305": {
+      "id": "3305",
+      "floorId": 3305,
+      "name": "乌鲁力的医院",
+      "mapFile": "/data/maps/3305.ls2map",
+      "clientMapFile": "/data/client-maps/3305.dat",
+      "clientMapSource": "公益石器时代/map/3305.dat",
+      "summary": "乌鲁力的医院 | floor=3305 | 30x30 | gmsv-data/map/jyaruga/ururi/3305",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        11,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3305-21-19-5874",
+          "name": "乌鲁力的药师",
+          "x": 21,
+          "y": 19,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3305_21_19",
+          "template": "npcgen_shop",
+          "graphic": "16214",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3305_21_19",
+            "buyRate": 1.3,
+            "sellRate": 0.2,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1500,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力100前後回复",
+                "image": 23013,
+                "cost": 25,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 33
+              },
+              {
+                "id": 1501,
+                "name": "耐久力回复药",
+                "secretName": "耐久力回复药",
+                "description": "耐久力200前後回复",
+                "image": 23014,
+                "cost": 50,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 65
+              },
+              {
+                "id": 1510,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力20前後回复",
+                "image": 23005,
+                "cost": 80,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 104
+              },
+              {
+                "id": 1511,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力40前後回复",
+                "image": 23006,
+                "cost": 160,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 208
+              },
+              {
+                "id": 1512,
+                "name": "气力回复药",
+                "secretName": "气力回复药",
+                "description": "气力60前後回复",
+                "image": 23007,
+                "cost": 250,
+                "type": 16,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 325
+              },
+              {
+                "id": 1530,
+                "name": "复活药(100)",
+                "secretName": "复活药(100)",
+                "description": "气绝回复成耐力100",
+                "image": 23021,
+                "cost": 100,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 130
+              },
+              {
+                "id": 1531,
+                "name": "复活药(300)",
+                "secretName": "复活药(300)",
+                "description": "气绝回复成耐力300",
+                "image": 23021,
+                "cost": 300,
+                "type": 16,
+                "useField": 1,
+                "target": 101,
+                "level": 0,
+                "price": 390
+              },
+              {
+                "id": 1540,
+                "name": "乌西摩尼叶",
+                "secretName": "乌西摩尼叶",
+                "description": "解毒的热带性植物",
+                "image": 23026,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 39
+              },
+              {
+                "id": 1541,
+                "name": "伊西娃丽索叶",
+                "secretName": "伊西娃丽索叶",
+                "description": "解除石化的潮湿地带植物",
+                "image": 23027,
+                "cost": 25,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 33
+              },
+              {
+                "id": 1542,
+                "name": "摩浦叶",
+                "secretName": "摩浦叶",
+                "description": "解除混乱的平原植物",
+                "image": 23024,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 1543,
+                "name": "西伦恩根",
+                "secretName": "西伦恩根",
+                "description": "解除酒醉的乾燥地带植物",
+                "image": 23028,
+                "cost": 20,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 1545,
+                "name": "菲恩叶",
+                "secretName": "菲恩叶",
+                "description": "解除睡眠的海边植物",
+                "image": 23025,
+                "cost": 30,
+                "type": 16,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 39
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3305_21_19"
+          }
+        },
+        {
+          "id": "3305-12-14-7667",
+          "name": "乌鲁力的药剂师",
+          "x": 12,
+          "y": 14,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/nevent02_2",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/nevent02.create",
+          "script": "file:sainasu/event/nevent02_2",
+          "template": "changeevent",
+          "graphic": "16215",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2446*10",
+              "DelItem:2446",
+              "EVENT:LV>0&ITEM=2446",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/nevent02_2"
+          },
+          "questLead": {
+            "title": "乌鲁力的药剂师 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2446*10",
+            "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "3305-15-14-7666",
+          "name": "小孩的父亲",
+          "x": 15,
+          "y": 14,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/nevent02_3",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/nevent02.create",
+          "script": "file:sainasu/event/nevent02_3",
+          "template": "changeevent",
+          "graphic": "16016",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2449",
+              "DelItem:2449*1",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/nevent02_3"
+          },
+          "questLead": {
+            "title": "小孩的父亲 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2449",
+            "source": "gmsv-data/npc/sainasu/event/nevent02_3",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "3305-21-16-5873",
+          "name": "乌鲁力的护士",
+          "x": 21,
+          "y": 16,
+          "type": "WindowHealer",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "npcgen_winhealer",
+          "template": "npcgen_winhealer",
+          "graphic": "16214"
+        },
+        {
+          "id": "3305-16-12-5176",
+          "name": "小孩",
+          "x": 16,
+          "y": 12,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3305_16_12",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/nevent02.create",
+          "script": "file:genout/msg_3305_16_12",
+          "template": "npcgen_man",
+          "graphic": "16011",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3305_16_12"
+          }
+        },
+        {
+          "id": "3305-13-13-5875",
+          "name": "乌鲁力的医生",
+          "x": 13,
+          "y": 13,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3305_13_13",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/msg_3305_13_13",
+          "template": "npcgen_man",
+          "graphic": "16213",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3305_13_13"
+          }
+        },
+        {
+          "id": "3305-18-14-5177",
+          "name": "村庄的年轻人",
+          "x": 18,
+          "y": 14,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3305_18_14",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/nevent02.create",
+          "script": "file:genout/msg_3305_18_14",
+          "template": "npcgen_man",
+          "graphic": "16220",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3305_18_14"
+          }
+        },
+        {
+          "id": "3305-11-15-6674",
+          "name": "Warp",
+          "x": 11,
+          "y": 15,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3305-11-16-6675",
+          "name": "Warp",
+          "x": 11,
+          "y": 16,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3300-0",
+          "label": "去 乌鲁力村",
+          "detail": "乌鲁力村 | floor 3300 | 目标 (59,45) | 入口 2 格 (11,15)-(11,16)",
+          "to": "3300",
+          "x": 11,
+          "y": 16,
+          "bounds": [
+            11,
+            15,
+            11,
+            16
+          ],
+          "target": [
+            59,
+            45
+          ],
+          "tiles": [
+            {
+              "x": 11,
+              "y": 15,
+              "target": [
+                59,
+                45
+              ]
+            },
+            {
+              "x": 11,
+              "y": 16,
+              "target": [
+                59,
+                45
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3306": {
+      "id": "3306",
+      "floorId": 3306,
+      "name": "乌鲁力的村长家",
+      "mapFile": "/data/maps/3306.ls2map",
+      "clientMapFile": "/data/client-maps/3306.dat",
+      "clientMapSource": "公益石器时代/map/3306.dat",
+      "summary": "乌鲁力的村长家 | floor=3306 | 30x30 | gmsv-data/map/jyaruga/ururi/3306",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        15,
+        20
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3306-19-15-1330",
+          "name": "家族管理员",
+          "x": 19,
+          "y": 15,
+          "type": "Familyman",
+          "dialogue": "2",
+          "dialogueLines": [
+            "2",
+            "我是这个村子里的家族管理员！",
+            "有什么我可以为你服务的吗？",
+            "介绍家族功能",
+            "申请成立新的家族",
+            "申请加入现有家族",
+            "退出或者解散家族",
+            "想离开你的族人们了吗？"
+          ],
+          "source": "gmsv-data/npc/family/familyman.create",
+          "script": "conff:family/familyman.conf",
+          "template": "familyman",
+          "graphic": "16222",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/family/familyman.conf"
+          }
+        },
+        {
+          "id": "3306-19-16-5876",
+          "name": "乌鲁力的村长",
+          "x": 19,
+          "y": 16,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_3306_19_16",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/msg_3306_19_16",
+          "template": "npcgen_man",
+          "graphic": "16211",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_3306_19_16"
+          }
+        },
+        {
+          "id": "3306-19-18-1351",
+          "name": "家族留言版",
+          "x": 19,
+          "y": 18,
+          "type": "FmDengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/fmdengon.create",
+          "script": "npcgen_fmdengon",
+          "template": "npcgen_fmdengon",
+          "graphic": "10062"
+        },
+        {
+          "id": "3306-15-20-6677",
+          "name": "Warp",
+          "x": 15,
+          "y": 20,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3306-16-20-6678",
+          "name": "Warp",
+          "x": 16,
+          "y": 20,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3300-0",
+          "label": "去 乌鲁力村",
+          "detail": "乌鲁力村 | floor 3300 | 目标 (54,43) | 入口 2 格 (15,20)-(16,20)",
+          "to": "3300",
+          "x": 16,
+          "y": 20,
+          "bounds": [
+            15,
+            20,
+            16,
+            20
+          ],
+          "target": [
+            54,
+            43
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 20,
+              "target": [
+                54,
+                43
+              ]
+            },
+            {
+              "x": 16,
+              "y": 20,
+              "target": [
+                54,
+                43
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "3309": {
+      "id": "3309",
+      "floorId": 3309,
+      "name": "乌鲁力的便利商店",
+      "mapFile": "/data/maps/3309.ls2map",
+      "clientMapFile": "/data/client-maps/3309.dat",
+      "clientMapSource": "公益石器时代/map/3309.dat",
+      "summary": "乌鲁力的便利商店 | floor=3309 | 30x30 | gmsv-data/map/jyaruga/ururi/3309",
+      "size": [
+        30,
+        30
+      ],
+      "spawn": [
+        11,
+        15
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "3309-20-12-5867",
+          "name": "乌鲁力的道具店",
+          "x": 20,
+          "y": 12,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3309_20_12",
+          "template": "npcgen_shop",
+          "graphic": "16217",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3309_20_12",
+            "buyRate": 1,
+            "sellRate": 0.18,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 1209,
+                "name": "红玉的石手环",
+                "secretName": "红玉的石手环",
+                "description": "攻 +4 防 +4 敏 -4 魅 +2",
+                "image": 22080,
+                "cost": 18000,
+                "type": 8,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 18000
+              },
+              {
+                "id": 1263,
+                "name": "缪雷木笛",
+                "secretName": "缪雷木笛",
+                "description": "魅 +2 奥萝拉的精灵",
+                "image": 24200,
+                "cost": 7000,
+                "type": 9,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 7000
+              },
+              {
+                "id": 1305,
+                "name": "木的戒指",
+                "secretName": "木的戒指",
+                "description": "魅 +1 会心一击率上升 +2",
+                "image": 22052,
+                "cost": 1600,
+                "type": 11,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1600
+              },
+              {
+                "id": 1357,
+                "name": "黄色大首饰",
+                "secretName": "黄色大首饰",
+                "description": "魅 +5 睡眠耐性 +30",
+                "image": 22024,
+                "cost": 5200,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 5200
+              },
+              {
+                "id": 1359,
+                "name": "青色大首饰",
+                "secretName": "青色大首饰",
+                "description": "魅 +5 酒醉耐性 +30",
+                "image": 22028,
+                "cost": 4000,
+                "type": 10,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 4000
+              },
+              {
+                "id": 1402,
+                "name": "红色小耳环",
+                "secretName": "红色小耳环",
+                "description": "魅 +3 回避率上升 +1",
+                "image": 22103,
+                "cost": 500,
+                "type": 13,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 500
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3309_20_12"
+          }
+        },
+        {
+          "id": "3309-20-16-5865",
+          "name": "乌鲁力的武器店",
+          "x": 20,
+          "y": 16,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3309_20_16",
+          "template": "npcgen_shop",
+          "graphic": "16220",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3309_20_16",
+            "buyRate": 1,
+            "sellRate": 0.18,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "items": [
+              {
+                "id": 221,
+                "name": "贝诺美斯Lv2枪",
+                "secretName": "贝诺美斯Lv2枪",
+                "description": "攻 +13 敏 -3 魅 +2 猛毒的精灵 Lv2",
+                "image": 20424,
+                "cost": 1320,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1320
+              },
+              {
+                "id": 231,
+                "name": "贝洛萨Lv2枪",
+                "secretName": "贝洛萨Lv2枪",
+                "description": "攻 +18 敏 -4 魅 +2 毒雾的精灵 Lv2",
+                "image": 20427,
+                "cost": 3960,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3960
+              },
+              {
+                "id": 251,
+                "name": "贝洛萨Lv3枪",
+                "secretName": "贝洛萨Lv3枪",
+                "description": "攻 +28 敏 -6 魅 +3 毒雾的精灵 Lv3",
+                "image": 20415,
+                "cost": 13800,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 13800
+              },
+              {
+                "id": 621,
+                "name": "贝诺美斯Lv2投掷斧头",
+                "secretName": "贝诺美斯Lv2投掷斧头",
+                "description": "攻 +11 猛毒的精灵 Lv2",
+                "image": 20505,
+                "cost": 1160,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1160
+              },
+              {
+                "id": 641,
+                "name": "贝诺美斯Lv3投掷斧头",
+                "secretName": "贝诺美斯Lv3投掷斧头",
+                "description": "攻 +19 猛毒的精灵 Lv3",
+                "image": 20506,
+                "cost": 6200,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6200
+              },
+              {
+                "id": 651,
+                "name": "贝洛萨Lv3投掷斧头",
+                "secretName": "贝洛萨Lv3投掷斧头",
+                "description": "攻 +23 毒雾的精灵 Lv3",
+                "image": 20531,
+                "cost": 12100,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 12100
+              },
+              {
+                "id": 721,
+                "name": "贝诺美斯Lv2石",
+                "secretName": "贝诺美斯Lv2石",
+                "description": "攻 +8 防 -2 猛毒的精灵 Lv2",
+                "image": 20526,
+                "cost": 1240,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 1240
+              },
+              {
+                "id": 731,
+                "name": "贝洛萨Lv2石",
+                "secretName": "贝洛萨Lv2石",
+                "description": "攻 +11 防 -2 毒雾的精灵 Lv2",
+                "image": 20528,
+                "cost": 3730,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 3730
+              },
+              {
+                "id": 751,
+                "name": "贝洛萨Lv3石",
+                "secretName": "贝洛萨Lv3石",
+                "description": "攻 +17 防 -3 毒雾的精灵 Lv3",
+                "image": 20549,
+                "cost": 12950,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 12950
+              },
+              {
+                "id": 400,
+                "name": "小的弓箭",
+                "secretName": "小的弓箭",
+                "description": "攻 +2 防 -1 (1-3)",
+                "image": 20303,
+                "cost": 65,
+                "type": 4,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 65
+              },
+              {
+                "id": 401,
+                "name": "贝诺美斯Lv1弓箭",
+                "secretName": "贝诺美斯Lv1弓箭",
+                "description": "攻 +2 防 -2 (1-3) 猛毒的精灵 Lv1",
+                "image": 20316,
+                "cost": 125,
+                "type": 4,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 125
+              },
+              {
+                "id": 411,
+                "name": "贝洛萨Lv1弓箭",
+                "secretName": "贝洛萨Lv1弓箭",
+                "description": "攻 +4 防 -4 (2-3) 毒雾的精灵 Lv1",
+                "image": 20329,
+                "cost": 560,
+                "type": 4,
+                "useField": 0,
+                "target": 0,
+                "level": 15,
+                "price": 560
+              },
+              {
+                "id": 421,
+                "name": "贝诺美斯Lv2弓箭",
+                "secretName": "贝诺美斯Lv2弓箭",
+                "description": "攻 +6 防 -6 (1-4) 猛毒的精灵 Lv2",
+                "image": 20330,
+                "cost": 1400,
+                "type": 4,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 1400
+              },
+              {
+                "id": 521,
+                "name": "贝诺美斯Lv2回旋标",
+                "secretName": "贝诺美斯Lv2回旋标",
+                "description": "攻 +8 魅 +1 猛毒的精灵 Lv2",
+                "image": 20517,
+                "cost": 1320,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 20,
+                "price": 1320
+              },
+              {
+                "id": 530,
+                "name": "重的回旋标",
+                "secretName": "重的回旋标",
+                "description": "攻 +13 敏 -1 魅 +3",
+                "image": 20520,
+                "cost": 2760,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 2760
+              },
+              {
+                "id": 541,
+                "name": "贝诺美斯Lv3回旋标",
+                "secretName": "贝诺美斯Lv3回旋标",
+                "description": "攻 +14 魅 +2 猛毒的精灵 Lv3",
+                "image": 20544,
+                "cost": 7200,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 7200
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3309_20_16"
+          }
+        },
+        {
+          "id": "3309-20-20-5866",
+          "name": "乌鲁力的防具店",
+          "x": 20,
+          "y": 20,
+          "type": "ItemShop",
+          "dialogue": "你好你好！",
+          "dialogueLines": [
+            "你好你好！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_m2.create",
+          "script": "file:genout/ss_3309_20_20",
+          "template": "npcgen_shop",
+          "graphic": "16217",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_3309_20_20",
+            "buyRate": 1,
+            "sellRate": 0.18,
+            "buyWords": [
+              "买",
+              "购买",
+              "感谢您",
+              "kau",
+              "buy",
+              "menu",
+              "谢谢",
+              "买东西"
+            ],
+            "sellWords": [
+              "卖东西",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "你好你好！",
+            "items": [
+              {
+                "id": 803,
+                "name": "所鲁菲Lv1兜1",
+                "secretName": "所鲁菲Lv1兜1",
+                "description": "防 +2 敏 -1 净化精灵(混乱) Lv1",
+                "image": 21514,
+                "cost": 70,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 70
+              },
+              {
+                "id": 814,
+                "name": "渥鲁菲Lv1兜2",
+                "secretName": "渥鲁菲Lv1兜2",
+                "description": "防 +3 敏 -1 净化精灵(酒醉) Lv1",
+                "image": 21507,
+                "cost": 280,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 280
+              },
+              {
+                "id": 844,
+                "name": "渥鲁菲Lv1兜5",
+                "secretName": "渥鲁菲Lv1兜5",
+                "description": "防 +8 敏 -3 净化精灵(酒醉) Lv1",
+                "image": 21518,
+                "cost": 5500,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5500
+              },
+              {
+                "id": 906,
+                "name": "米鲁菲Lv2帽子1",
+                "secretName": "米鲁菲Lv2帽子1",
+                "description": "防 +0 净化精灵(昏睡) Lv2",
+                "image": 21511,
+                "cost": 76,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 76
+              },
+              {
+                "id": 914,
+                "name": "渥鲁菲Lv2帽子2",
+                "secretName": "渥鲁菲Lv2帽子2",
+                "description": "防 +1 净化精灵(酒醉) Lv2",
+                "image": 21503,
+                "cost": 256,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 256
+              },
+              {
+                "id": 944,
+                "name": "渥鲁菲Lv2帽子5",
+                "secretName": "渥鲁菲Lv2帽子5",
+                "description": "防 +4 净化精灵(酒醉) Lv2",
+                "image": 21539,
+                "cost": 4600,
+                "type": 6,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 4600
+              },
+              {
+                "id": 1003,
+                "name": "提欧Lv1铠1",
+                "secretName": "提欧Lv1铠1",
+                "description": "防 +2 敏 -1 恩惠的精灵 Lv1",
+                "image": 21015,
+                "cost": 215,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 215
+              },
+              {
+                "id": 1014,
+                "name": "哈鲁Lv2铠2",
+                "secretName": "哈鲁Lv2铠2",
+                "description": "防 +7 敏 -2 治愈的精灵 Lv2",
+                "image": 21057,
+                "cost": 500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 500
+              },
+              {
+                "id": 1044,
+                "name": "哈鲁Lv2铠5",
+                "secretName": "哈鲁Lv2铠5",
+                "description": "防 +19 敏 -5 治愈的精灵 Lv2",
+                "image": 21023,
+                "cost": 8000,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 8000
+              },
+              {
+                "id": 1103,
+                "name": "提欧Lv1服1",
+                "secretName": "提欧Lv1服1",
+                "description": "防 +1 恩惠的精灵 Lv1",
+                "image": 21039,
+                "cost": 198,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 198
+              },
+              {
+                "id": 1114,
+                "name": "哈鲁Lv2服2",
+                "secretName": "哈鲁Lv2服2",
+                "description": "防 +4 治愈的精灵 Lv2",
+                "image": 21010,
+                "cost": 440,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 10,
+                "price": 440
+              },
+              {
+                "id": 1144,
+                "name": "哈鲁Lv2服5",
+                "secretName": "哈鲁Lv2服5",
+                "description": "防 +11 治愈的精灵 Lv2",
+                "image": 21005,
+                "cost": 6500,
+                "type": 7,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6500
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/ss_3309_20_20"
+          }
+        },
+        {
+          "id": "3309-11-15-6680",
+          "name": "Warp",
+          "x": 11,
+          "y": 15,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        },
+        {
+          "id": "3309-11-16-6682",
+          "name": "Warp",
+          "x": 11,
+          "y": 16,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/warp_y2.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "3300-0",
+          "label": "去 乌鲁力村",
+          "detail": "乌鲁力村 | floor 3300 | 目标 (54,71) | 入口 2 格 (11,15)-(11,16)",
+          "to": "3300",
+          "x": 11,
+          "y": 16,
+          "bounds": [
+            11,
+            15,
+            11,
+            16
+          ],
+          "target": [
+            54,
+            71
+          ],
+          "tiles": [
+            {
+              "x": 11,
+              "y": 15,
+              "target": [
+                54,
+                70
+              ]
+            },
+            {
+              "x": 11,
+              "y": 16,
+              "target": [
+                54,
+                71
               ]
             }
           ],
@@ -89027,6 +98942,361 @@ export const WORLD = {
           "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
+    },
+    "5032": {
+      "id": "5032",
+      "floorId": 5032,
+      "name": "伊甸庄园竞技场",
+      "mapFile": "/data/maps/5032.ls2map",
+      "clientMapFile": "/data/client-maps/5032.dat",
+      "clientMapSource": "公益石器时代/map/5032.dat",
+      "summary": "伊甸庄园竞技场 | floor=5032 | 40x40 | gmsv-data/map/family/500/5032",
+      "size": [
+        40,
+        40
+      ],
+      "spawn": [
+        20,
+        20
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "5032-5-21-4172",
+          "name": "家族对战服务员",
+          "x": 5,
+          "y": 21,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_5032_5_21",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_5032_5_21",
+          "template": "npcgen_fmpkman",
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "5030",
+              "floor": 5030,
+              "x": 58,
+              "y": 28
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_5032_5_21"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:5030,58,28"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_5032_5_21"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "6032": {
+      "id": "6032",
+      "floorId": 6032,
+      "name": "塔耳塔庄园竞技场",
+      "mapFile": "/data/maps/6032.ls2map",
+      "clientMapFile": "/data/client-maps/6032.dat",
+      "clientMapSource": "公益石器时代/map/6032.dat",
+      "summary": "塔耳塔庄园竞技场 | floor=6032 | 32x32 | gmsv-data/map/family/600/6032",
+      "size": [
+        32,
+        32
+      ],
+      "spawn": [
+        16,
+        16
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "6032-9-17-4178",
+          "name": "家族对战服务员",
+          "x": 9,
+          "y": 17,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_6032_9_17",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_6032_9_17",
+          "template": "npcgen_fmpkman",
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "6030",
+              "floor": 6030,
+              "x": 54,
+              "y": 10
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_6032_9_17"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:6030,54,10"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_6032_9_17"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "7006": {
+      "id": "7006",
+      "floorId": 7006,
+      "name": "宠物竞技场",
+      "mapFile": "/data/maps/7006.ls2map",
+      "clientMapFile": "/data/client-maps/7006.dat",
+      "clientMapSource": "公益石器时代/map/7006.dat",
+      "summary": "宠物竞技场 | floor=7006 | 40x40 | gmsv-data/map/EDEN/edenpark/7006",
+      "size": [
+        40,
+        40
+      ],
+      "spawn": [
+        20,
+        20
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
+    },
+    "7007": {
+      "id": "7007",
+      "floorId": 7007,
+      "name": "格斗竞技场",
+      "mapFile": "/data/maps/7007.ls2map",
+      "clientMapFile": "/data/client-maps/7007.dat",
+      "clientMapSource": "公益石器时代/map/7007.dat",
+      "summary": "格斗竞技场 | floor=7007 | 50x50 | gmsv-data/map/EDEN/edenpark/7007",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        25,
+        25
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
+    },
+    "7032": {
+      "id": "7032",
+      "floorId": 7032,
+      "name": "尼克斯庄园竞技场",
+      "mapFile": "/data/maps/7032.ls2map",
+      "clientMapFile": "/data/client-maps/7032.dat",
+      "clientMapSource": "公益石器时代/map/7032.dat",
+      "summary": "尼克斯庄园竞技场 | floor=7032 | 32x32 | gmsv-data/map/family/700/7032",
+      "size": [
+        32,
+        32
+      ],
+      "spawn": [
+        16,
+        16
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "7032-19-25-4184",
+          "name": "家族对战服务员",
+          "x": 19,
+          "y": 25,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_7032_19_25",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_7032_19_25",
+          "template": "npcgen_fmpkman",
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "7030",
+              "floor": 7030,
+              "x": 34,
+              "y": 33
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_7032_19_25"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:7030,34,33"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_7032_19_25"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "7532": {
+      "id": "7532",
+      "floorId": 7532,
+      "name": "瑞尔亚斯庄园竞技场",
+      "mapFile": "/data/maps/7532.ls2map",
+      "clientMapFile": "/data/client-maps/7532.dat",
+      "clientMapSource": "公益石器时代/map/7532.dat",
+      "summary": "瑞尔亚斯庄园竞技场 | floor=7532 | 32x32 | gmsv-data/map/ruieryashi/7532",
+      "size": [
+        32,
+        32
+      ],
+      "spawn": [
+        16,
+        16
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "7532-18-23-1380",
+          "name": "家族对战服务员",
+          "x": 18,
+          "y": 23,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/family/fmpoint10/wpm_7532_18_23",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/family/fmpoint10/scheduleman.create",
+          "script": "file:family/fmpoint10/wpm_7532_18_23",
+          "template": "npcgen_fmpkman",
+          "graphic": "16989",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "7530",
+              "floor": 7530,
+              "x": 53,
+              "y": 52
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/family/fmpoint10/wpm_7532_18_23"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:7530,53,52"
+            ],
+            "source": "gmsv-data/npc/family/fmpoint10/wpm_7532_18_23"
+          }
+        }
+      ],
+      "exits": []
+    },
+    "8032": {
+      "id": "8032",
+      "floorId": 8032,
+      "name": "弗烈顿庄园竞技场",
+      "mapFile": "/data/maps/8032.ls2map",
+      "clientMapFile": "/data/client-maps/8032.dat",
+      "clientMapSource": "公益石器时代/map/8032.dat",
+      "summary": "弗烈顿庄园竞技场 | floor=8032 | 60x60 | gmsv-data/map/family/800/8032",
+      "size": [
+        60,
+        60
+      ],
+      "spawn": [
+        30,
+        30
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "8032-35-45-4190",
+          "name": "家族对战服务员",
+          "x": 35,
+          "y": 45,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_8032_35_45",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_8032_35_45",
+          "template": "npcgen_fmpkman",
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "8030",
+              "floor": 8030,
+              "x": 14,
+              "y": 53
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_8032_35_45"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:8030,14,53"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_8032_35_45"
+          }
+        }
+      ],
+      "exits": []
     },
     "8200": {
       "id": "8200",
@@ -104601,6 +114871,69 @@ export const WORLD = {
         }
       ]
     },
+    "9032": {
+      "id": "9032",
+      "floorId": 9032,
+      "name": "亚伊欧庄园竞技场",
+      "mapFile": "/data/maps/9032.ls2map",
+      "clientMapFile": "/data/client-maps/9032.dat",
+      "clientMapSource": "公益石器时代/map/9032.dat",
+      "summary": "亚伊欧庄园竞技场 | floor=9032 | 60x60 | gmsv-data/map/family/900/9032",
+      "size": [
+        60,
+        60
+      ],
+      "spawn": [
+        30,
+        30
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "9032-11-31-4196",
+          "name": "家族对战服务员",
+          "x": 11,
+          "y": 31,
+          "type": "FMPKMan",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/wpm_9032_11_31",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/family.create",
+          "script": "file:genout/wpm_9032_11_31",
+          "template": "npcgen_fmpkman",
+          "graphic": "16206",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "9030",
+              "floor": 9030,
+              "x": 60,
+              "y": 49
+            },
+            "free": "",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/genout/wpm_9032_11_31"
+          },
+          "scriptHints": {
+            "actions": [
+              "warp"
+            ],
+            "hints": [
+              "WARP:9030,60,49"
+            ],
+            "source": "gmsv-data/npc/genout/wpm_9032_11_31"
+          }
+        }
+      ],
+      "exits": []
+    },
     "10001": {
       "id": "10001",
       "floorId": 10001,
@@ -109870,8 +120203,247 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "11006-1",
+          "label": "去 博士的研究所",
+          "detail": "博士的研究所 | floor 11006 | 目标 (43,3) | 入口 (7,27)",
+          "to": "11006",
+          "x": 7,
+          "y": 27,
+          "bounds": [
+            7,
+            27,
+            7,
+            27
+          ],
+          "target": [
+            43,
+            3
+          ],
+          "tiles": [
+            {
+              "x": 7,
+              "y": 27,
+              "target": [
+                43,
+                3
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
+    },
+    "11006": {
+      "id": "11006",
+      "floorId": 11006,
+      "name": "博士的研究所",
+      "mapFile": "/data/maps/11006.ls2map",
+      "clientMapFile": "/data/client-maps/11006.dat",
+      "clientMapSource": "公益石器时代/map/11006.dat",
+      "summary": "博士的研究所 | floor=11006 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-10-06",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        43,
+        3
+      ],
+      "encounterPets": [],
+      "npcs": [
+        {
+          "id": "11006-11-7-7656",
+          "name": "助手吉鲁",
+          "x": 11,
+          "y": 7,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event15_2",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/event15.create",
+          "script": "file:sainasu/event/event15_2",
+          "template": "changeevent",
+          "graphic": "16046",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:NOWEV=15"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/event15_2"
+          },
+          "questLead": {
+            "title": "助手吉鲁 的原脚本线索",
+            "summary": "EVENT:NOWEV=15",
+            "source": "gmsv-data/npc/sainasu/event/event15_2",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "11006-11-11-7655",
+          "name": "恐龙博士哈鲁",
+          "x": 11,
+          "y": 11,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/event15_1",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/event15.create",
+          "script": "file:sainasu/event/event15_1",
+          "template": "changeevent",
+          "graphic": "16024",
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:NOWEV=15&PET>14-74",
+              "EVENT:ENDEV=15&NOWEV=16&PET>29-191",
+              "EVENT:LV>9",
+              "EVENT:LV>15&ENDEV=15",
+              "EVENT:ENDEV=15&PET>0-74",
+              "EVENT:ENDEV=15&ENDEV=16"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/event15_1"
+          },
+          "questLead": {
+            "title": "恐龙博士哈鲁 的原脚本线索",
+            "summary": "EVENT:NOWEV=15&PET>14-74",
+            "source": "gmsv-data/npc/sainasu/event/event15_1",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "11006-29-4-1656",
+          "name": "乌力助",
+          "x": 29,
+          "y": 4,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/11000npc.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100250"
+        },
+        {
+          "id": "11006-28-8-1657",
+          "name": "类洛坊",
+          "x": 28,
+          "y": 8,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/11000npc.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100267"
+        },
+        {
+          "id": "11006-31-9-1658",
+          "name": "克邦斯凯君",
+          "x": 31,
+          "y": 9,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/11000npc.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100339"
+        },
+        {
+          "id": "11006-7-35-1660",
+          "name": "火鸡君",
+          "x": 7,
+          "y": 35,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/11000npc.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100357"
+        },
+        {
+          "id": "11006-4-36-1659",
+          "name": "玛恩摩助",
+          "x": 4,
+          "y": 36,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/11000npc.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100355"
+        },
+        {
+          "id": "11006-43-3-2443",
+          "name": "Warp",
+          "x": 43,
+          "y": 3,
+          "type": "Warp",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/dungeon00.create",
+          "script": "npcgen_warp",
+          "template": "npcgen_warp",
+          "graphic": ""
+        }
+      ],
+      "exits": [
+        {
+          "id": "11005-0",
+          "label": "去 柯奥山的小洞窟５楼",
+          "detail": "柯奥山的小洞窟５楼 | floor 11005 | 目标 (7,27) | 入口 (43,3)",
+          "to": "11005",
+          "x": 43,
+          "y": 3,
+          "bounds": [
+            43,
+            3,
+            43,
+            3
+          ],
+          "target": [
+            7,
+            27
+          ],
+          "tiles": [
+            {
+              "x": 43,
+              "y": 3,
+              "target": [
+                7,
+                27
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "20000": {
+      "id": "20000",
+      "floorId": 20000,
+      "name": "格斗竞技场",
+      "mapFile": "/data/maps/20000.ls2map",
+      "clientMapFile": "/data/client-maps/20000.dat",
+      "clientMapSource": "公益石器时代/map/20000.dat",
+      "summary": "格斗竞技场 | floor=20000 | 50x50 | gmsv-data/map/longzoro/20000",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        25,
+        25
+      ],
+      "encounterPets": [],
+      "npcs": [],
+      "exits": []
     },
     "20101": {
       "id": "20101",
@@ -111338,6 +121910,35 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "40-1",
+          "label": "去 奇努伊关卡 100",
+          "detail": "奇努伊关卡 100 | floor 40 | 目标 (1,9) | 入口 (94,27)",
+          "to": "40",
+          "x": 94,
+          "y": 27,
+          "bounds": [
+            94,
+            27,
+            94,
+            27
+          ],
+          "target": [
+            1,
+            9
+          ],
+          "tiles": [
+            {
+              "x": 94,
+              "y": 27,
+              "target": [
+                1,
+                9
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
@@ -111417,6 +122018,35 @@ export const WORLD = {
               "target": [
                 470,
                 127
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "40-1",
+          "label": "去 奇努伊关卡 100",
+          "detail": "奇努伊关卡 100 | floor 40 | 目标 (11,18) | 入口 (34,2)",
+          "to": "40",
+          "x": 34,
+          "y": 2,
+          "bounds": [
+            34,
+            2,
+            34,
+            2
+          ],
+          "target": [
+            11,
+            18
+          ],
+          "tiles": [
+            {
+              "x": 34,
+              "y": 2,
+              "target": [
+                11,
+                18
               ]
             }
           ],

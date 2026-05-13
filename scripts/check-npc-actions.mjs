@@ -396,8 +396,19 @@ assistGame = guideRsp.game;
 assertEqual(guideRsp.action.type, "teleport", "right AI guide understands natural teleport wording");
 assertEqual(guideRsp.action.mode, "guide-warp", "right AI guide can teleport by target map name when no direct exit matches");
 assertEqual(assistGame.location.mapId, "2000", "right AI guide resolves 渔村 to 玛丽娜丝渔村");
+assert(WORLD.maps["7006"] && WORLD.maps["20000"], "arena and duel maps are included in the playable world bundle");
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "带我去萨姆吉尔竞技场" });
+assistGame = guideRsp.game;
+assertEqual(guideRsp.action.type, "teleport", "right AI guide can teleport to bundled arena maps by name");
+assertEqual(assistGame.location.mapId, "1007", "right AI guide resolves 萨姆吉尔竞技场 to floor 1007");
+assistGame = await api("/api/game/sync", { game: assistGame });
+assertEqual(assistGame.world.map.canWildEncounter, false, "arena maps are marked safe even if source tables later add encounter rows");
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我瞬移到渔村" });
+assistGame = guideRsp.game;
 assistGame = await api("/api/game/sync", { game: assistGame });
 assertEqual(assistGame.world.map.canWildEncounter, false, "village maps with stray encount.txt rows are marked safe");
+guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "有哪些地图可以探索" });
+assert(guideRsp.text.includes("260"), "right AI guide includes bundled world map count in local context replies");
 await expectApiError(
   "/api/game/encounter",
   { game: assistGame },

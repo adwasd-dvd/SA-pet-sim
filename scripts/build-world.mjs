@@ -15,9 +15,17 @@ const GMSV_DATA_SOURCE = "gmsv-data";
 const CLIENT_ASSET_SOURCE = "client-assets";
 
 const START_FLOOR = 1000;
-const MAX_MAPS = 220;
+const MAX_MAPS = 260;
+const ARENA_FLOORS = [
+  130, 141, 142, 143, 144, 145, 146, 147,
+  154, 155, 156, 157,
+  1007, 1042, 2007, 3007, 4007,
+  5032, 6032, 7006, 7007, 7032, 7532, 8032, 9032,
+  20000
+];
 const FORCED_FLOORS = [
   100, 101, 120, 121, 122, 200, 601,
+  ...ARENA_FLOORS,
   ...range(1000, 1022),
   ...range(1040, 1048),
   ...range(1100, 1112),
