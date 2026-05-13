@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const appRoot = path.resolve(import.meta.dirname, "..");
@@ -15,8 +15,32 @@ const GMSV_DATA_SOURCE = "gmsv-data";
 const CLIENT_ASSET_SOURCE = "client-assets";
 
 const START_FLOOR = 1000;
-const MAX_MAPS = 44;
-const FORCED_FLOORS = [122, 1021];
+const MAX_MAPS = 220;
+const FORCED_FLOORS = [
+  100, 101, 120, 121, 122, 200, 601,
+  ...range(1000, 1022),
+  ...range(1040, 1048),
+  ...range(1100, 1112),
+  ...range(1200, 1215),
+  ...range(1300, 1310),
+  ...range(1400, 1408),
+  ...range(2000, 2020),
+  ...range(2030, 2038),
+  ...range(3000, 3022),
+  ...range(3030, 3038),
+  ...range(4000, 4020),
+  ...range(4030, 4038),
+  ...range(8200, 8213),
+  ...range(8216, 8221),
+  ...range(8230, 8233),
+  ...range(10001, 10007),
+  10101,
+  ...range(10201, 10204),
+  ...range(10701, 10705),
+  ...range(10901, 10903),
+  ...range(11001, 11005),
+  31401
+];
 const MAX_NPCS_PER_MAP = 120;
 
 const mapFiles = scanMapFiles();
@@ -27,6 +51,8 @@ const npcsByFloor = parseNpcs();
 const selectedFloors = selectFloors();
 const maps = {};
 
+rmSync(publicMapRoot, { recursive: true, force: true });
+rmSync(publicClientMapRoot, { recursive: true, force: true });
 mkdirSync(publicMapRoot, { recursive: true });
 mkdirSync(publicClientMapRoot, { recursive: true });
 
@@ -91,7 +117,7 @@ for (const floor of selectedFloors) {
   }
 }
 
-const quests = firstPlayableQuests();
+const quests = firstPlayableQuests(maps);
 applyFirstPlayableQuestHooks(maps, quests);
 
 const world = {
@@ -199,9 +225,9 @@ function parseNpcs() {
       const functionset = template.functionset || enemy.template || "NPC";
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      idCounter += 1;
-      push(out, floor, {
-        id: `${floor}-${pos[0]}-${pos[1]}-${idCounter}`,
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp);
+      const npc = {
+        id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
         x: pos[0],
         y: pos[1],
@@ -214,8 +240,13 @@ function parseNpcs() {
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
         ...(warp ? { warp } : {}),
-        ...(npcEnemy ? { npcEnemy } : {})
-      });
+        ...(npcEnemy ? { npcEnemy } : {}),
+        ...(scriptHints ? { scriptHints } : {})
+      };
+      const questLead = questLeadForNpc(npc, scriptHints);
+      idCounter += 1;
+      if (questLead) npc.questLead = questLead;
+      push(out, floor, npc);
     }
   }
   for (const [floor, list] of out) {
@@ -263,30 +294,31 @@ function parseTemplates() {
 
 function selectFloors() {
   const selected = [];
-  const queued = [START_FLOOR];
-  const seen = new Set();
-  const bfsLimit = Math.max(1, MAX_MAPS - FORCED_FLOORS.length);
-  while (queued.length && selected.length < bfsLimit) {
-    const floor = queued.shift();
-    if (seen.has(floor) || !mapFiles.has(floor)) continue;
-    seen.add(floor);
+  const addFloor = (floor) => {
+    if (selected.length >= MAX_MAPS) return false;
+    if (!mapFiles.has(floor) || selected.includes(floor)) return false;
     selected.push(floor);
+    return true;
+  };
+  for (const floor of FORCED_FLOORS) addFloor(floor);
+  const queued = [START_FLOOR, ...selected];
+  const explored = new Set();
+  while (queued.length && selected.length < MAX_MAPS) {
+    const floor = queued.shift();
+    if (explored.has(floor) || !mapFiles.has(floor)) continue;
+    explored.add(floor);
+    addFloor(floor);
     const next = (warps.get(floor) || []).map((warp) => warp.toFloor).filter((item) => mapFiles.has(item));
     for (const item of next) {
-      if (!seen.has(item) && !queued.includes(item)) queued.push(item);
+      if (!explored.has(item) && !queued.includes(item)) queued.push(item);
     }
-  }
-  for (const floor of FORCED_FLOORS) {
-    if (mapFiles.has(floor) && !selected.includes(floor)) selected.push(floor);
-  }
-  for (const floor of [1006, 100, 101, 2000, 2006, 3000, 3006, 4000, 4006]) {
-    if (selected.length >= MAX_MAPS) break;
-    if (mapFiles.has(floor) && !selected.includes(floor)) selected.push(floor);
   }
   return selected;
 }
 
-function firstPlayableQuests() {
+function firstPlayableQuests(maps) {
+  const teacherId = "1000-42-72-1505";
+  const ganzo = findNpc(maps, "100", (npc) => /愿藏|願藏/.test(npc.name || "") && npc.npcEnemy);
   return {
     "samugiru-field-practice": {
       id: "samugiru-field-practice",
@@ -301,29 +333,142 @@ function firstPlayableQuests() {
       reward: "经验 40 / 石币 120",
       expReward: 40,
       stoneReward: 120,
-      startNpcId: "1000-42-72-1505",
-      returnNpcId: "1000-42-72-1505",
+      startNpcId: teacherId,
+      returnNpcId: teacherId,
       objectives: {
         visitEncounterMap: true,
         fieldWin: true
       },
       source: `${GMSV_DATA_SOURCE}/npc/genout/1000npc_m.create + ${GMSV_DATA_SOURCE}/encount.txt`
-    }
+    },
+    "samugiru-four-village-route": {
+      id: "samugiru-four-village-route",
+      title: "萨伊那斯四村巡礼",
+      description: "从萨姆吉尔出发，按原 mapwarp 资料走访萨伊那斯、玛丽娜丝渔村和柯奥村，确认村镇与出口已经在 Worker 世界里可玩。",
+      steps: [
+        "向萨姆吉尔的老师询问四村路线。",
+        "离开萨姆吉尔村，抵达萨伊那斯。",
+        "前往玛丽娜丝渔村。",
+        "前往柯奥村。",
+        "回到萨姆吉尔的老师身边报告。"
+      ],
+      reward: "经验 60 / 石币 180",
+      expReward: 60,
+      stoneReward: 180,
+      startNpcId: teacherId,
+      returnNpcId: teacherId,
+      objectives: {
+        enterMaps: ["100", "2000", "1100"]
+      },
+      source: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`
+    },
+    "samugiru-arena-tour": {
+      id: "samugiru-arena-tour",
+      title: "竞技场与英雄战场见学",
+      description: "确认村内竞技场、道场和英雄战场地图已经加载，并记录这些地图的原始入口资料。",
+      steps: [
+        "向萨姆吉尔的老师询问竞技场。",
+        "进入萨姆吉尔竞技场或道场柜台。",
+        "前往英雄战场。",
+        "回到萨姆吉尔的老师身边报告。"
+      ],
+      reward: "经验 50 / 石币 150",
+      expReward: 50,
+      stoneReward: 150,
+      startNpcId: teacherId,
+      returnNpcId: teacherId,
+      objectives: {
+        enterMaps: ["1007", "8200"]
+      },
+      source: `${GMSV_DATA_SOURCE}/map/sainasu/samugiru/1007 + ${GMSV_DATA_SOURCE}/map/hero/8200`
+    },
+    ...(ganzo ? {
+      "ganzo-roadblock": {
+        id: "ganzo-roadblock",
+        title: "坏心眼的愿藏",
+        description: "萨伊那斯路上的愿藏会按 NPCEnemy 脚本拦住玩家。战胜他后道路会暂时打开。",
+        steps: [
+          "向萨姆吉尔的老师打听愿藏。",
+          "在萨伊那斯找到坏心眼的愿藏。",
+          "按原 NPCEnemy 对话确认战斗并击败愿藏。",
+          "回到萨姆吉尔的老师身边报告。"
+        ],
+        reward: "经验 70 / 石币 220",
+        expReward: 70,
+        stoneReward: 220,
+        startNpcId: teacherId,
+        returnNpcId: teacherId,
+        objectives: {
+          npcEnemyIds: [ganzo.id]
+        },
+        source: ganzo.npcEnemy?.source || ganzo.script || ganzo.source
+      }
+    } : {})
   };
 }
 
 function applyFirstPlayableQuestHooks(maps, quests) {
+  const map = maps[String(START_FLOOR)];
   for (const quest of Object.values(quests)) {
-    const map = maps[String(START_FLOOR)];
     const npc = map?.npcs?.find((item) => item.id === quest.startNpcId || item.id === quest.returnNpcId);
     if (!npc) continue;
-    npc.questId = quest.id;
-    npc.dialogueLines = [
+    pushNpcQuestId(npc, quest.id);
+    const lines = [
       ...(npc.dialogueLines || []),
-      "成人练习不只是听课。到村外确认一次野外宠物资料，再回来向我报告。",
+      questHookLine(quest)
+    ];
+    npc.dialogueLines = [...new Set(lines.filter(Boolean))];
+  }
+  const teacher = map?.npcs?.find((item) => item.id === "1000-42-72-1505");
+  if (teacher) {
+    teacher.dialogueLines = [
+      ...(teacher.dialogueLines || []),
       "如果遇到危险，记得先让宠物出战；击败或捕获一只野外宠物就足够了。"
     ];
+    teacher.dialogueLines = [...new Set(teacher.dialogueLines.filter(Boolean))];
   }
+}
+
+function findNpc(maps, mapId, predicate) {
+  const map = maps[String(mapId)];
+  if (!map?.npcs?.length) return null;
+  return map.npcs.find(predicate) || null;
+}
+
+function range(from, to) {
+  const out = [];
+  for (let value = from; value <= to; value += 1) out.push(value);
+  return out;
+}
+
+function npcQuestIds(npc) {
+  return [...new Set([
+    npc.questId,
+    ...(Array.isArray(npc.questIds) ? npc.questIds : [])
+  ].filter(Boolean))];
+}
+
+function pushNpcQuestId(npc, questId) {
+  const ids = npcQuestIds(npc);
+  if (!ids.includes(questId)) ids.push(questId);
+  npc.questIds = ids;
+  npc.questId ||= ids[0];
+}
+
+function questHookLine(quest) {
+  if (quest.id === "samugiru-field-practice") {
+    return "成人练习不只是听课。到村外确认一次野外宠物资料，再回来向我报告。";
+  }
+  if (quest.id === "samugiru-four-village-route") {
+    return "萨伊那斯四村之间的路要自己走一遍，地图、出口和村镇服务才算真正认得。";
+  }
+  if (quest.id === "samugiru-arena-tour") {
+    return "竞技场、道场和英雄战场也在地图资料里。进去看看，再回来告诉我入口是否顺畅。";
+  }
+  if (quest.id === "ganzo-roadblock") {
+    return "如果遇到坏心眼的愿藏，别光听他说狠话；那是 NPCEnemy 拦路脚本，确认以后要真打赢。";
+  }
+  return quest.description;
 }
 
 function defaultSpawn(floor, mapInfo) {
@@ -472,6 +617,45 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp) {
+  const file = resolveNpcArg(argPath, createFile);
+  const actions = [];
+  if (trade) actions.push("shop");
+  if (warp) actions.push("warp");
+  if (npcEnemy) actions.push("battle");
+  if (!file) return actions.length ? { actions } : null;
+  const text = readText(file);
+  const hints = [];
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const match = line.match(/^(EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY)\s*[:=]\s*(.*)$/i);
+    if (!match) continue;
+    const value = cleanScriptText(`${match[1]}:${match[2]}`).replace(/\s+/g, " ");
+    if (value && !hints.includes(value)) hints.push(value);
+    if (hints.length >= 8) break;
+  }
+  if (hints.some((item) => /EVENT|FREE|CHECKPARTY|CHANGEITEM|GIVEITEM|DELITEM|GOLD|MONEY/i.test(item))) {
+    actions.push("questLead");
+  }
+  return {
+    actions: [...new Set(actions)],
+    hints,
+    source: relativeRef(file)
+  };
+}
+
+function questLeadForNpc(npc, scriptHints) {
+  if (!scriptHints?.actions?.includes("questLead")) return null;
+  const firstHint = scriptHints.hints?.find(Boolean) || "原脚本有事件条件，后续需要按 gmsv 规则接入。";
+  return {
+    title: `${npc.name} 的原脚本线索`,
+    summary: firstHint,
+    source: scriptHints.source || npc.script || npc.source || "",
+    status: "source-lead"
+  };
+}
+
 function parseNpcEnemyFile(text) {
   const kv = {};
   for (const raw of text.split(/\r?\n/)) {
@@ -615,7 +799,14 @@ function npcPriority(npc) {
 }
 
 function cleanName(value = "") {
-  return value.replace(/\|0$/, "").replace(/\s+/g, " ").trim();
+  return value
+    .replace(/\0/g, "")
+    .replace(/[�\uE000-\uF8FF]/g, "")
+    .replace(/\|0+.*$/g, "")
+    .replace(/\|([1-9]\d*).*$/g, " $1")
+    .replace(/\|.*$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function readText(file) {

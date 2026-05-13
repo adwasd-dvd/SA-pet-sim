@@ -1454,6 +1454,11 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
   if (!npcEnemy?.npcId) return;
   ensureFlags(game);
   setEventFlag(game, stableFlag(`${npcEnemy.npcId}:npcenemy-win`), "end");
+  updateQuestProgress(game, "npcEnemyWin", {
+    npcId: npcEnemy.npcId,
+    npcName: npcEnemy.npcName || "",
+    mapId: game.location.mapId
+  });
   if (npcEnemy.endMessage) battleLog.push(npcEnemy.endMessage);
   if (Number(npcEnemy.dieAct || 0) === 1 && npcEnemy.warp?.mapId && WORLD.maps[npcEnemy.warp.mapId]) {
     game.location = {
@@ -1593,23 +1598,33 @@ async function guideGame(env, request, game, prompt) {
     };
   }
   const map = currentMap(game);
-  const context = {
-    player: game.player,
-    map: { name: map.name, summary: map.summary, exits: map.exits.map((e) => e.label), npcs: map.npcs.map((n) => n.name) },
-    pets: game.pets.map(petSummary),
-    quests: Object.values(game.quests),
-    recentLog: game.log.slice(-6)
-  };
+  const context = buildGuideContext(game, map);
   if (env.AI && typeof env.AI.run === "function") {
     const messages = [
-      { role: "system", content: "你是单人版石器时代游戏里的向导。只根据给你的当前游戏状态回答，给玩家下一步建议。简洁中文，最多三段。" },
-      { role: "user", content: `${prompt || "我下一步该做什么？"}\n\n当前状态：${JSON.stringify(context)}` }
+      {
+        role: "system",
+        content: [
+          "你是单人版石器时代网页运行时的向导，不是万能 GM。",
+          "必须只根据给定 JSON 回答；把“当前能做的事”和“需要找对应 NPC/脚本的事”说清楚。",
+          "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、原 gmsv 脚本线索。",
+          "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
+        ].join("\n")
+      },
+      { role: "user", content: `${prompt || "我下一步该做什么？"}\n\n当前状态 JSON：${JSON.stringify(context)}` }
     ];
     const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
-    const rsp = await env.AI.run(model, { messages });
-    return { text: rsp.response || rsp.text || fallbackGuide(context), model };
+    try {
+      const rsp = await env.AI.run(model, { messages });
+      return { text: rsp.response || rsp.text || fallbackGuide(context, prompt), model };
+    } catch (error) {
+      return {
+        text: fallbackGuide(context, prompt, error),
+        model: "local-rule",
+        warning: error?.message || "AI binding failed"
+      };
+    }
   }
-  return { text: fallbackGuide(context), model: "local-rule" };
+  return { text: fallbackGuide(context, prompt), model: "local-rule" };
 }
 
 async function applyGuideRequest(env, request, game, prompt) {
@@ -1883,6 +1898,13 @@ function hasAny(text, tokens) {
   return tokens.some((token) => text.includes(token));
 }
 
+function npcQuestIds(npc) {
+  return [...new Set([
+    npc?.questId,
+    ...(Array.isArray(npc?.questIds) ? npc.questIds : [])
+  ].filter((id) => id && WORLD.quests[id]))];
+}
+
 function applyNpcHi(game, npc) {
   ensureFlags(game);
   setNpcVmFlag(game, npc, eventFlagForNpc(npc.id), "now", "talk-hi");
@@ -1890,18 +1912,21 @@ function applyNpcHi(game, npc) {
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
-  if (npc.questId && WORLD.quests[npc.questId]) {
-    if (!game.quests[npc.questId]) {
-      startQuest(game, npc.questId, npc);
-      recordNpcVmEvent(game, npc, "quest", "ok", { questId: npc.questId, phase: "start" });
-      recordNpcVmEvent(game, npc, "say", "ok", { line });
-      return `${line} ${game.quests[npc.questId].steps[1]}`;
-    } else if (game.quests[npc.questId].status === "可回报") {
-      completeQuest(game, npc.questId, npc);
-      recordNpcVmEvent(game, npc, "quest", "ok", { questId: npc.questId, phase: "complete" });
-      recordNpcVmEvent(game, npc, "say", "ok", { line });
-      return `${line} 你已经完成了「${WORLD.quests[npc.questId].title}」，奖励已经给你。`;
-    }
+  const questIds = npcQuestIds(npc);
+  const reportableId = questIds.find((questId) => game.quests[questId]?.status === "可回报");
+  if (reportableId) {
+    completeQuest(game, reportableId, npc);
+    recordNpcVmEvent(game, npc, "quest", "ok", { questId: reportableId, phase: "complete" });
+    recordNpcVmEvent(game, npc, "say", "ok", { line });
+    return `${line} 你已经完成了「${WORLD.quests[reportableId].title}」，奖励已经给你。`;
+  }
+  const activeId = questIds.find((questId) => game.quests[questId]?.status === "进行中");
+  const newQuestId = questIds.find((questId) => !game.quests[questId]);
+  if (newQuestId && !activeId) {
+    startQuest(game, newQuestId, npc);
+    recordNpcVmEvent(game, npc, "quest", "ok", { questId: newQuestId, phase: "start" });
+    recordNpcVmEvent(game, npc, "say", "ok", { line });
+    return `${line} ${game.quests[newQuestId].steps[1]}`;
   }
   recordNpcVmEvent(game, npc, "say", "ok", { line });
   return line;
@@ -1954,12 +1979,18 @@ function completeQuest(game, questId, npc = null) {
 }
 
 function questReply(game, npc) {
-  recordNpcVmEvent(game, npc, "quest", npc.questId ? "ok" : "unsupported", { questId: npc.questId || null, query: true });
-  if (!npc.questId) return `${npc.name} 这里没有正式委托，但可以继续问地图、交易或训练。`;
-  const quest = game.quests[npc.questId];
-  if (!quest) return `我这里有「${WORLD.quests[npc.questId].title}」。点选我时客户端会自动打招呼并触发任务。`;
-  if (quest.status === "可回报") return `你已经可以回报「${quest.title}」了。再次点选我会自动送出 hi 并结算奖励。`;
-  return `「${quest.title}」还在进行中。下一步是：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。`;
+  const questIds = npcQuestIds(npc);
+  recordNpcVmEvent(game, npc, "quest", questIds.length ? "ok" : "unsupported", { questIds, query: true });
+  if (!questIds.length) {
+    if (npc.questLead) return `${npc.name} 有原脚本线索：「${npc.questLead.title}」。${npc.questLead.summary}\n来源：${npc.questLead.source}`;
+    return `${npc.name} 这里没有正式委托，但可以继续问地图、交易或训练。`;
+  }
+  const reportable = questIds.map((id) => game.quests[id]).find((quest) => quest?.status === "可回报");
+  if (reportable) return `你已经可以回报「${reportable.title}」了。再次点选我会自动送出 hi 并结算奖励。`;
+  const active = questIds.map((id) => game.quests[id]).find((quest) => quest?.status === "进行中");
+  if (active) return `「${active.title}」还在进行中。下一步是：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。`;
+  const titles = questIds.map((id) => `「${WORLD.quests[id].title}」`).join("、");
+  return `我这里有 ${titles}。点选我时客户端会自动打招呼并触发一个可接任务。`;
 }
 
 async function captureReply(env, request, game, npc) {
@@ -2313,26 +2344,74 @@ async function aiNpcReply(env, game, npc, text) {
   const map = currentMap(game);
   const debug = npcDebugInfo(npc, game);
   const messages = [
-    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 NPC 身份，只根据当前地图、任务、宠物和玩家发言回应。中文，1-2 句。你可以和玩家商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。" },
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
     { role: "user", content: JSON.stringify({
-      npc: { id: npc.id, name: npc.name, type: npc.type, dialogue: npc.dialogue, source: npc.source, script: npc.script },
+      npc: {
+        id: npc.id,
+        name: npc.name,
+        type: npc.type,
+        dialogue: npc.dialogue,
+        source: npc.source,
+        script: npc.script,
+        actions: debug.actions,
+        questIds: npcQuestIds(npc),
+        questLead: npc.questLead || null,
+        scriptHints: npc.scriptHints || null,
+        trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
+        warp: npc.warp || null
+      },
       vm: { allowedActions: debug.allowedActions, recentTrace: debug.vmTrace },
       player: game.player,
-      map: { name: map.name, exits: map.exits.map((exit) => exit.label) },
+      map: {
+        id: map.id,
+        name: map.name,
+        position: [game.location.x, game.location.y],
+        exits: map.exits.map((exit) => ({ label: exit.label, to: exit.to, targetMapName: WORLD.maps[exit.to]?.name || "", distance: distanceToExit(exit, game.location.x, game.location.y) })).slice(0, 12),
+        nearbyNpcs: nearbyState(game, map).npcs
+      },
       quests: game.quests,
       pets: game.pets.map(petSummary),
+      inventory: inventoryState(game),
       effects: game.effects || {},
       text
     }) }
   ];
   if (env.AI && typeof env.AI.run === "function") {
     const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
-    const rsp = await env.AI.run(model, { messages });
-    recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc", model });
-    return rsp.response || rsp.text || fallbackNpcReply(npc);
+    try {
+      const rsp = await env.AI.run(model, { messages });
+      recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc", model });
+      return rsp.response || rsp.text || localNpcAiFallback(game, npc, text);
+    } catch (error) {
+      recordNpcVmEvent(game, npc, "say", "blocked", { reason: "ai-npc-error", error: error?.message || "AI binding failed" });
+      return localNpcAiFallback(game, npc, text, error);
+    }
   }
   recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc-local" });
-  return `${npc.name} 想了想：可以继续问我地图、任务、交易，或用更具体的话商量“避敌”“传送”。当前本地没有 AI 绑定，所以我先按规则回应。`;
+  return localNpcAiFallback(game, npc, text);
+}
+
+function localNpcAiFallback(game, npc, text, error = null) {
+  const intro = error ? `${npc.name} 低声说：我现在只能按本地规则回答。` : `${npc.name} 想了想：`;
+  const role = npcActionProfile(npc);
+  if (isNpcEnemy(npc)) {
+    return `${intro}我是守路的 NPCEnemy。你可以按原版方式选“是”开战；也可以试着贿赂或威胁，但是否让路会看你的等级、石币和临时状态。`;
+  }
+  if (npc.trade?.items?.length) {
+    const samples = npc.trade.items.slice(0, 5).map((item) => item.name).join("、");
+    return `${intro}我这里能谈交易，货架上有 ${samples || "商品"}。想要折扣、柜台后面的东西可以直接说，但物品必须符合我的店铺身份。`;
+  }
+  if (isWarpNpc(npc)) {
+    const target = npc.warp?.target;
+    const targetName = target ? WORLD.maps[target.mapId]?.name || `floor ${target.mapId}` : "目标地图";
+    return `${intro}我有传送脚本，能按条件送你去 ${targetName}。输入“传送”会走原版 WARP 条件；想商量也可以先说原因。`;
+  }
+  if (npc.questLead) {
+    return `${intro}${npc.questLead.title}：${npc.questLead.summary}\n来源：${npc.questLead.source}`;
+  }
+  if (role.includes("heal")) return `${intro}我主要负责治疗。你可以说“治疗”，费用和效果会由 Worker 的 NPC VM 校验。`;
+  if (role.includes("save")) return `${intro}我主要负责记录进度。你可以说“记录”或“存档”。`;
+  return `${intro}我能聊地图、任务线索和附近 NPC。更具体地说“出口”“任务”“能不能帮我避敌”，我会按当前脚本身份回答。`;
 }
 
 function inferNpcAiAction(game, npc, text) {
@@ -2516,7 +2595,7 @@ function npcActionProfile(npc) {
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
   if (isSavePointNpc(npc)) actions.push("save");
-  if (npc.questId) actions.push("quest");
+  if (npcQuestIds(npc).length || npc.questLead) actions.push("quest");
   if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
   if (!isNpcEnemy(npc)) actions.push("effect");
   return [...new Set(actions)];
@@ -2859,6 +2938,9 @@ function chooseRoleFitOffMenuItem(game, npc, text) {
   const role = npcShopRole(npc);
   const sold = new Set((npc.trade?.items || []).map((item) => Number(item.id)));
   const queryTags = requestedItemTags(text);
+  if (role.includes("meat") && queryTags.includes("knife")) {
+    return { item: null, role, reason: "working-tool", queryTags };
+  }
   const candidates = worldTradeItems()
     .filter((item) => !sold.has(Number(item.id)))
     .map((item) => ({ item, score: roleItemScore(role, item, queryTags, text) }))
@@ -3092,12 +3174,168 @@ function npcMessage(speaker, text) {
   return { speaker, text, at: Date.now() };
 }
 
-function fallbackGuide(context) {
-  const quest = context.quests.find((item) => item.status === "进行中");
-  if (quest) {
-    return `你现在在${context.map.name}。建议继续任务「${quest.title}」：${quest.steps[Math.min(quest.progress || 0, quest.steps.length - 1)]}。当前地图 NPC：${context.map.npcs.join("、") || "无"}。`;
+function buildGuideContext(game, map) {
+  const x = Number(game.location.x || 0);
+  const y = Number(game.location.y || 0);
+  const npcs = (map.npcs || [])
+    .map((npc) => ({
+      id: npc.id,
+      name: npc.name,
+      type: npc.type,
+      distance: distance(npc.x, npc.y, x, y),
+      position: [npc.x, npc.y],
+      actions: npcActionProfile(npc),
+      questIds: npcQuestIds(npc),
+      questLead: npc.questLead || null,
+      trade: npc.trade ? {
+        itemCount: npc.trade.items?.length || 0,
+        sampleItems: (npc.trade.items || []).slice(0, 4).map((item) => item.name)
+      } : null,
+      warp: npc.warp?.target ? {
+        target: npc.warp.target,
+        targetMapName: WORLD.maps[npc.warp.target.mapId]?.name || ""
+      } : null,
+      source: npc.source,
+      script: npc.script,
+      scriptHints: npc.scriptHints || null
+    }))
+    .sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name, "zh-Hans"))
+    .slice(0, 16);
+  const exits = (map.exits || [])
+    .map((exit) => ({
+      id: exit.id,
+      label: exit.label,
+      detail: exit.detail,
+      distance: distanceToExit(exit, x, y),
+      to: exit.to,
+      targetMapName: WORLD.maps[exit.to]?.name || "",
+      source: exit.source
+    }))
+    .sort((a, b) => a.distance - b.distance || a.label.localeCompare(b.label, "zh-Hans"))
+    .slice(0, 16);
+  return {
+    player: {
+      name: game.player.name,
+      level: game.player.level,
+      exp: game.player.exp,
+      hp: game.player.hp,
+      maxHp: game.player.maxHp,
+      stone: game.player.stone,
+      dir: game.player.dir
+    },
+    location: {
+      mapId: map.id,
+      floorId: map.floorId,
+      name: map.name,
+      position: [x, y],
+      summary: map.summary,
+      canWildEncounter: map.canWildEncounter,
+      wildEncounterReason: map.wildEncounterReason
+    },
+    map: { exits, npcs, nearby: nearbyState(game, map) },
+    pets: game.pets.map(petSummary),
+    inventory: inventoryState(game),
+    effects: guideEffectSummary(game),
+    quests: Object.values(game.quests || {}),
+    availableQuests: Object.values(WORLD.quests || {}).map((quest) => ({
+      id: quest.id,
+      title: quest.title,
+      steps: quest.steps,
+      source: quest.source
+    })),
+    dialog: game.dialog?.open ? {
+      npcId: game.dialog.npcId,
+      npcName: game.dialog.npcName,
+      aiMode: game.dialog.aiMode,
+      source: game.dialog.source,
+      recentMessages: (game.dialog.messages || []).slice(-4)
+    } : null,
+    battle: game.encounter ? {
+      enemy: game.encounter.Name,
+      level: game.encounter.Lv,
+      hp: game.encounter.Hp,
+      source: game.battle?.source || game.encounter.source || ""
+    } : null,
+    recentNpcVmEvents: (game.npcVmEvents || []).slice(-8),
+    recentLog: game.log.slice(-8)
+  };
+}
+
+function guideEffectSummary(game) {
+  const now = Date.now();
+  const effects = [];
+  const noEncounterUntil = Number(game.effects?.noEncounterUntil || 0);
+  if (noEncounterUntil > now) {
+    effects.push({
+      type: "noEncounter",
+      secondsLeft: Math.ceil((noEncounterUntil - now) / 1000),
+      reason: game.effects?.noEncounterReason || "",
+      source: game.effects?.noEncounterSource || ""
+    });
   }
-  return `你现在在${context.map.name}。可以先和 NPC 交谈接任务，或者查看地图出口继续探索。出口：${context.map.exits.join("、") || "暂无"}`;
+  for (const [npcId, discount] of Object.entries(game.effects?.shopDiscounts || {})) {
+    if (Number(discount.until || 0) > now) effects.push({
+      type: "shopDiscount",
+      npcId,
+      percent: discount.percent,
+      secondsLeft: Math.ceil((discount.until - now) / 1000),
+      source: discount.source || ""
+    });
+  }
+  for (const [npcId, entry] of Object.entries(game.effects?.offMenuShop || {})) {
+    if (Number(entry.until || 0) > now) effects.push({
+      type: "offMenuShop",
+      npcId,
+      items: (entry.items || []).map((item) => item.name),
+      secondsLeft: Math.ceil((entry.until - now) / 1000),
+      source: entry.source || ""
+    });
+  }
+  for (const [npcId, entry] of Object.entries(game.flags?.npcEnemyDefeats || {})) {
+    const until = Date.parse(entry.until || "");
+    if (Number.isFinite(until) && until > now) effects.push({
+      type: "npcBypass",
+      npcId,
+      npcName: entry.npcName || "",
+      secondsLeft: Math.ceil((until - now) / 1000),
+      source: entry.source || ""
+    });
+  }
+  return effects;
+}
+
+function fallbackGuide(context, prompt = "", error = null) {
+  const lower = String(prompt || "").toLowerCase();
+  const active = context.quests.find((item) => item.status === "进行中");
+  const reportable = context.quests.find((item) => item.status === "可回报");
+  const nearbyNpc = context.map.nearby.npcs.map((npc) => npc.name).join("、");
+  const exits = context.map.exits.slice(0, 5).map((exit) => `${exit.label}${exit.distance <= 2 ? "(附近)" : ""}`).join("、") || "暂无出口";
+  const effects = context.effects.map((item) => {
+    if (item.type === "noEncounter") return `避敌剩余 ${item.secondsLeft}s`;
+    if (item.type === "shopDiscount") return `NPC ${item.npcId} 折扣 ${item.percent}%`;
+    if (item.type === "offMenuShop") return `临时商品 ${item.items.join("、")}`;
+    if (item.type === "npcBypass") return `${item.npcName || item.npcId} 暂时让路`;
+    return item.type;
+  }).join("；");
+  const aiNote = error ? "远程 AI 暂时不可用，我先按本地规则判断。 " : "";
+  if (hasAny(lower, ["任务", "quest"])) {
+    if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」可以回报了，回到对应 NPC 双击/hi 结算。附近 NPC：${nearbyNpc || "无"}。`;
+    if (active) return `${aiNote}你现在在${context.location.name}。继续「${active.title}」：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。出口：${exits}。`;
+    return `${aiNote}你现在在${context.location.name}。当前可接任务有：${context.availableQuests.map((quest) => quest.title).join("、")}。先找带 quest 动作的 NPC，通常是老师或剧情 NPC。`;
+  }
+  if (hasAny(lower, ["地图", "出口", "去哪", "去哪里", "传送", "瞬移"])) {
+    return `${aiNote}你在${context.location.name} (${context.location.position.join(",")})。可走出口：${exits}。需要瞬移时可以说“带我去 地图名/floor”，我会优先匹配已经打包进 Worker 的地图。`;
+  }
+  if (hasAny(lower, ["npc", "对话", "聊天", "任务线索"])) {
+    const list = context.map.npcs.slice(0, 6).map((npc) => `${npc.name}[${npc.actions.join("/") || "say"}] 距离${npc.distance}`).join("；");
+    return `${aiNote}当前地图 NPC 按距离看：${list || "无"}。距离 2 格内可以双击，AI 对话会参考 NPC 的职业、商品、传送和 gmsv 脚本线索。`;
+  }
+  if (hasAny(lower, ["遇敌", "野外", "刷怪", "敌人"])) {
+    return `${aiNote}${context.location.canWildEncounter ? "这里可以按 encount.txt 触发野外遇敌。" : context.location.wildEncounterReason} ${effects ? `当前状态：${effects}。` : ""}`;
+  }
+  if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」已经可回报。附近 NPC：${nearbyNpc || "无"}。`;
+  if (active) return `${aiNote}你现在在${context.location.name}。建议继续「${active.title}」：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。出口：${exits}。`;
+  return `${aiNote}你现在在${context.location.name}。附近 NPC：${nearbyNpc || "无"}；出口：${exits}。${effects ? `当前状态：${effects}。` : ""}`;
 }
 
 function normalizeGame(game) {
@@ -3454,13 +3692,27 @@ function updateQuestProgress(game, event, payload = {}) {
 
 function questProgressTarget(quest, event, payload) {
   const objectives = quest.objectives || {};
+  if (event === "enterMap" && Array.isArray(objectives.enterMaps)) {
+    const mapId = String(payload.mapId || "");
+    const targetMaps = objectives.enterMaps.map(String);
+    if (targetMaps.includes(mapId)) {
+      quest.visitedMaps ||= [];
+      if (!quest.visitedMaps.includes(mapId)) quest.visitedMaps.push(mapId);
+      return Math.max(1 + quest.visitedMaps.length, Number(quest.progress || 0));
+    }
+  }
   if (event === "enterMap" && objectives.visitEncounterMap) {
     const map = WORLD.maps[String(payload.mapId || "")];
-    if (map?.encounterPets?.length) return Math.max(2, Number(quest.progress || 0));
+    if (wildEncounterAllowed(map)) return Math.max(2, Number(quest.progress || 0));
   }
   if (event === "fieldWin" && objectives.fieldWin) {
     const map = WORLD.maps[String(payload.mapId || "")];
-    if (map?.encounterPets?.length) return Math.max(quest.steps.length - 1, Number(quest.progress || 0));
+    if (wildEncounterAllowed(map)) return Math.max(quest.steps.length - 1, Number(quest.progress || 0));
+  }
+  if (event === "npcEnemyWin" && Array.isArray(objectives.npcEnemyIds)) {
+    if (objectives.npcEnemyIds.includes(String(payload.npcId || ""))) {
+      return Math.max(quest.steps.length - 1, Number(quest.progress || 0));
+    }
   }
   return 0;
 }
