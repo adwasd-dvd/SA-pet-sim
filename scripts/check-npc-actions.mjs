@@ -104,7 +104,8 @@ petSwitchGame.pets.push({
   Lv: 2,
   Hp: 70,
   WorkMaxHp: 70,
-  WorkFixStr: 300
+  WorkFixStr: 1,
+  WorkAttackPower: 300
 });
 let petSwitchRsp = await api("/api/ai/guide", { game: petSwitchGame, prompt: "让高攻备用奥卡洛斯出战" });
 assertEqual(petSwitchRsp.action.type, "pet-switch", "AI guide can switch active pet by name");

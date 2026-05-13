@@ -2466,7 +2466,7 @@ function renderBattlePanel() {
     const petProgress = progressionForPet(activePetIndex(), activePet);
     setBattleSprite(els.battlePetImg, activePet.ImgNo);
     els.battlePetName.textContent = `${activePet.Name} Lv.${Number(activePet.Lv || 1)}`;
-    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | ${expLabel(petProgress)} | 攻 ${Number(activePet.WorkFixStr || 0)} 防 ${Number(activePet.WorkFixTough || 0)} 敏 ${Number(activePet.WorkFixDex || 0)} | ${elementText(activePet)}`;
+    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | ${expLabel(petProgress)} | ${workStatsText(activePet, null, " ")} | ${elementText(activePet)}`;
     els.battlePetHpBar.style.width = `${clampPercent(petHp, petMax)}%`;
   } else {
     setBattleSprite(els.battlePetImg, null);
@@ -2553,15 +2553,11 @@ function battleEnemyField(index = 0, enemy = null) {
 }
 
 function battleEnemyStatsText(enemy, field, hp, maxHp) {
-  const work = field?.work || {};
   const sourceExp = Number(field?.sourceExp ?? enemy.SourceExp ?? enemy.EnemyExp ?? enemy.Exp ?? 0);
   const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
-  const attack = Number(work.WorkFixStr ?? enemy.WorkFixStr ?? 0);
-  const defense = Number(work.WorkFixTough ?? enemy.WorkFixTough ?? 0);
-  const dex = Number(work.WorkFixDex ?? enemy.WorkFixDex ?? 0);
   const parts = [
     `HP ${hp}/${maxHp}`,
-    `攻 ${attack} 防 ${defense} 敏 ${dex}`,
+    workStatsText(field || {}, enemy, " "),
     `EXP ${sourceExp || 0}`
   ];
   if (captureRate > 0) parts.push(`捕 ${captureRate}%`);
@@ -2905,7 +2901,7 @@ function renderMapStatusHtml() {
       </div>
       <div>
         <strong>宠物</strong>
-        <span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | 攻 ${Number(pet.WorkFixStr || 0)} | ${escapeHtml(elementText(pet))}` : "没有宠物"}</span>
+        <span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | ${escapeHtml(workStatsText(pet))} | ${escapeHtml(elementText(pet))}` : "没有宠物"}</span>
       </div>
       <div>
         <strong>道具</strong>
@@ -3000,7 +2996,7 @@ function renderAssistPetCard(pet, index) {
         <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
         <span>${active ? "出战" : "待命"} | No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
         <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
-        <small>攻 ${Number(pet.WorkFixStr || 0)} | 防 ${Number(pet.WorkFixTough || 0)} | 敏 ${Number(pet.WorkFixDex || 0)} | ${escapeHtml(expLabel(progress))}</small>
+        <small>${escapeHtml(workStatsText(pet))} | ${escapeHtml(expLabel(progress))}</small>
         <small>${escapeHtml(petGrowthLabel(fieldPet, pet))} | ${escapeHtml(petCounterLabel(fieldPet, pet))}</small>
         <div class="assist-meter exp"><i style="width:${Number(progress.progressPct || 0)}%"></i></div>
       </div>
@@ -3060,6 +3056,7 @@ function renderAssistCharacter() {
   const progress = progressionForPlayer();
   const equipment = characterEquipmentSummary();
   const canSpendPoints = Number(player.skillUpPoint || 0) > 0 && !game.encounter;
+  const work = workStatsText(player);
   return `
     <section class="assist-grid two">
       <div class="assist-pane">
@@ -3075,6 +3072,7 @@ function renderAssistCharacter() {
           <article><strong>${playerCharmValue(player)}</strong><span>魅力</span></article>
           <article><strong>${Number(player.skillUpPoint || 0)}</strong><span>可分配能力点</span></article>
           <article><strong>${escapeHtml(elementText(player))}</strong><span>地水火风</span></article>
+          <article><strong>${escapeHtml(work)}</strong><span>攻防敏</span></article>
         </div>
         <div class="assist-status-strip single">
           <div>
@@ -3280,6 +3278,8 @@ function renderAiStatusPanel() {
   const pet = getActivePet();
   const rows = aiStatusRows();
   const runtime = aiRuntimeLabel();
+  const playerWork = workStatsText(game.player);
+  const petWork = pet ? workStatsText(pet) : "";
   els.aiStatusPanel.innerHTML = `
     <section class="ai-status-card">
       <div class="ai-status-head">
@@ -3291,7 +3291,8 @@ function renderAiStatusPanel() {
         <article><b>EXP</b><span>${escapeHtml(expLabel(progressionForPlayer()))}</span></article>
         <article><b>石币</b><span>${Number(game.player.stone || 0)}</span></article>
         <article><b>魅力</b><span>${playerCharmValue()}</span></article>
-        <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}` : "无"}</span></article>
+        <article><b>战力</b><span>${escapeHtml(playerWork)}</span></article>
+        <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | ${escapeHtml(petWork)}` : "无"}</span></article>
         <article><b>AI</b><span>${escapeHtml(runtime)}</span></article>
       </div>
       <div class="ai-effect-list">
@@ -3437,7 +3438,7 @@ function renderEncounter() {
   const activePet = getActivePet();
   const enemyHp = Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : Number(enemy.WorkMaxHp || 0);
   const petHp = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || activePet.WorkMaxHp || 0)}/${activePet.WorkMaxHp}` : "无出战宠物";
-  els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | 敌 HP ${enemyHp}/${enemy.WorkMaxHp} | 攻 ${enemy.WorkFixStr} | 防 ${enemy.WorkFixTough} | 敏 ${enemy.WorkFixDex} | ${elementText(enemy)} | ${petHp}`;
+  els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | 敌 HP ${enemyHp}/${enemy.WorkMaxHp} | ${workStatsText(enemy)} | ${elementText(enemy)} | ${petHp}`;
   els.encounterImg.src = `/f/pet/${enemy.ImgNo}.gif`;
   els.attackBtn.disabled = !activePet;
   els.battleLog.innerHTML = (game.battle?.log || []).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
@@ -3509,13 +3510,14 @@ function clientCharacterWindow() {
   const progress = progressionForPlayer();
   const equipment = characterEquipmentSummary();
   const canSpendPoints = Number(player.skillUpPoint || 0) > 0 && !game.encounter;
+  const work = workStatsText(player);
   return {
     title: "STATUS",
     html: `
       <div class="client-list-window">
         <article><strong>${escapeHtml(player.name)}</strong><span>Lv.${Number(player.level || 1)} | ${escapeHtml(expLabel(progress))} | 石币 ${Number(player.stone || 0)}</span></article>
         <article><strong>耐久力</strong><span>${Number(player.hp || 0)} / ${Number(player.maxHp || 0)}</span></article>
-        <article><strong>能力</strong><span>攻 ${Number(player.WorkFixStr || 0)} | 防 ${Number(player.WorkFixTough || 0)} | 敏 ${Number(player.WorkFixDex || 0)}</span></article>
+        <article><strong>能力</strong><span>${escapeHtml(work)}</span></article>
         <article><strong>魅力</strong><span>${playerCharmValue(player)} / 100 | 决斗点 ${Number(player.duelPoint || 0)}</span></article>
         <article><strong>基础点</strong><span>${escapeHtml(basePointText(player))}</span></article>
         <article><strong>属性</strong><span>${escapeHtml(elementText(player))}</span></article>
@@ -3659,6 +3661,7 @@ function clientPetWindow() {
   const progress = progressionForPet(activeIndex, pet);
   const fieldPet = characterPetField(activeIndex) || {};
   const pets = game.pets || [];
+  const work = workStats(pet);
   return {
     title: "PET STATUS",
     html: `
@@ -3672,9 +3675,9 @@ function clientPetWindow() {
           ${clientStatRow("经验值", Number(progress.exp || 0))}
           ${clientStatRow("NEXT", Number(progress.nextExp) < 0 ? "MAX" : Number(progress.expToNext || 0))}
           ${clientStatRow("耐久力", `${hp}/${maxHp}`)}
-          ${clientStatRow("攻击力", pet.WorkFixStr)}
-          ${clientStatRow("防御力", pet.WorkFixTough)}
-          ${clientStatRow("敏捷力", pet.WorkFixDex)}
+          ${clientStatRow("攻击力", work.attack)}
+          ${clientStatRow("防御力", work.defense)}
+          ${clientStatRow("敏捷力", work.quick)}
           ${clientStatRow("忠诚度", pet.Loyal || 100)}
           ${clientStatRow("成长", petGrowthLabel(fieldPet, pet))}
           ${clientStatRow("战绩", petCounterLabel(fieldPet, pet))}
@@ -3848,6 +3851,32 @@ function playerCharmValue(player = game?.player) {
   const raw = player?.charm ?? player?.Charm ?? game?.characterFields?.base?.charm;
   const value = raw === undefined || raw === null || raw === "" ? 60 : raw;
   return Math.max(0, Math.min(100, Math.trunc(Number(value || 0))));
+}
+
+function workStats(entity = {}, fallback = null) {
+  const current = entity || {};
+  const currentWork = current.work || {};
+  const backup = fallback || {};
+  const backupWork = backup.work || {};
+  return {
+    attack: firstDisplayNumber(currentWork.WorkAttackPower, current.WorkAttackPower, backupWork.WorkAttackPower, backup.WorkAttackPower, currentWork.WorkFixStr, current.WorkFixStr, backupWork.WorkFixStr, backup.WorkFixStr),
+    defense: firstDisplayNumber(currentWork.WorkDefencePower, current.WorkDefencePower, backupWork.WorkDefencePower, backup.WorkDefencePower, currentWork.WorkFixTough, current.WorkFixTough, backupWork.WorkFixTough, backup.WorkFixTough),
+    quick: firstDisplayNumber(currentWork.WorkQuick, current.WorkQuick, backupWork.WorkQuick, backup.WorkQuick, currentWork.WorkFixDex, current.WorkFixDex, backupWork.WorkFixDex, backup.WorkFixDex)
+  };
+}
+
+function workStatsText(entity = {}, fallback = null, separator = " | ") {
+  const stats = workStats(entity, fallback);
+  return [`攻 ${stats.attack}`, `防 ${stats.defense}`, `敏 ${stats.quick}`].join(separator);
+}
+
+function firstDisplayNumber(...values) {
+  for (const value of values) {
+    if (value === undefined || value === null || value === "") continue;
+    const number = Number(value);
+    if (Number.isFinite(number)) return Math.trunc(number);
+  }
+  return 0;
 }
 
 function elementText(entity = {}) {

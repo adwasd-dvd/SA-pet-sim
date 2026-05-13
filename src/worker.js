@@ -5400,7 +5400,7 @@ function chooseGuidePet(game, prompt) {
 
   const lower = String(prompt || "").toLowerCase();
   if (hasAny(lower, ["最强", "最強", "攻击最高", "攻擊最高", "攻击力最高", "攻擊力最高"])) {
-    return bestGuidePet(pets, (pet) => Number(pet.WorkFixStr || 0), "highest-attack");
+    return bestGuidePet(pets, (pet) => workAttackPower(pet), "highest-attack");
   }
   if (hasAny(lower, ["等级最高", "等級最高", "最高等级", "最高等級", "level"])) {
     return bestGuidePet(pets, (pet) => Number(pet.Lv || 0), "highest-level");
@@ -5434,7 +5434,7 @@ function bestGuidePet(pets, scoreOf, reason) {
 }
 
 function guidePetChoiceHelp(game) {
-  const pets = (game.pets || []).map((pet, index) => `${index + 1}. ${pet.Name} Lv.${Number(pet.Lv || 1)} 攻${Number(pet.WorkFixStr || 0)}`).join("；");
+  const pets = (game.pets || []).map((pet, index) => `${index + 1}. ${pet.Name} Lv.${Number(pet.Lv || 1)} 攻${workAttackPower(pet)}`).join("；");
   if (!pets) return "你现在没有宠物，先通过剧情、捕获或宠物店取得宠物后才能设置出战宠。";
   return `我没判断出要让哪只宠物出战。可以说“让第 2 只出战”“让${game.pets[0]?.Name || "这只宠物"}出战”，也可以说“让攻击最高的宠物出战”。当前宠物：${pets}。`;
 }
