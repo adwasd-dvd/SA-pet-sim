@@ -45,6 +45,44 @@ The browser save format keeps the original SAAC mental model but stores it as re
   "pets": [],
   "inventory": [],
   "quests": {},
+  "characterFields": {
+    "schema": "gmsv-character-fields-v1",
+    "base": {
+      "level": 1,
+      "exp": 0,
+      "nextExp": 2,
+      "expToNext": 2,
+      "hp": 100,
+      "maxHp": 100,
+      "stone": 100,
+      "mapId": "1000",
+      "x": 50,
+      "y": 116,
+      "dir": 5
+    },
+    "attributes": {
+      "Vital": 1600,
+      "Str": 1200,
+      "Tough": 1200,
+      "Dex": 1000,
+      "EarthAT": 50,
+      "WaterAT": 50,
+      "FireAT": 0,
+      "WindAT": 0
+    },
+    "counters": {
+      "battleCount": 0,
+      "winCount": 0,
+      "loseCount": 0,
+      "skillUpPoint": 0
+    },
+    "events": {
+      "endEvents": [0, 0, 0, 0, 0, 0, 0, 0],
+      "nowEvents": [0, 0, 0, 0, 0, 0, 0, 0],
+      "bitsCount": 0,
+      "recentBits": []
+    }
+  },
   "flags": {
     "endEvents": [0, 0, 0, 0, 0, 0, 0, 0],
     "nowEvents": [0, 0, 0, 0, 0, 0, 0, 0],
@@ -75,6 +113,7 @@ This mirrors SAAC `makeSaveCharString` enough for inspection while keeping the a
 - `flags.nowEvents`: temporary/current-event bit arrays.
 - `flags.bits`: readable debug index by `kind:shiftbit`.
 - `flags.npcTalkCounts`: per-NPC talk count used by first-pass dialogue and quest triggers.
+- `characterFields`: compact SAAC/gmsv-facing field summary for deterministic NPC checks and AI context. It mirrors stable gameplay state: base stats, `CHAR_SKILLUPPOINT`, Earth/Water/Fire/Wind, WorkFix battle stats, event bits, inventory capacity, pet summaries, and active battle summary. This avoids sending full raw saves to AI and gives NPC logic one field API to read from.
 
 ## Import/Export
 

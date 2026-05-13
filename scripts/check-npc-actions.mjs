@@ -43,6 +43,13 @@ playerPointGame = await api("/api/game/allocate-point", { game: playerPointGame,
 assertEqual(playerPointGame.player.skillUpPoint, 1, "player point allocation consumes one CHAR_SKILLUPPOINT");
 assertEqual(playerPointGame.player.Str, playerPointStrBefore + 100, "player point allocation adds source CHAR_SkillUp +100 raw stat");
 assertEqual(playerPointGame.characterFields?.attributes?.Str, playerPointGame.player.Str, "player point allocation syncs SA character fields");
+assertEqual(playerPointGame.characterFields?.schema, "gmsv-character-fields-v1", "character fields expose a stable schema");
+assertEqual(playerPointGame.characterFields?.elements?.EarthAT, 50, "character fields expose Earth attribute");
+assertEqual(playerPointGame.characterFields?.work?.WorkFixStr, playerPointGame.player.WorkFixStr, "character fields expose derived WorkFixStr");
+assertEqual(playerPointGame.characterFields?.inventory?.capacity, 15, "character fields expose source inventory capacity");
+assert(playerPointGame.characterFields?.pets?.some((pet) => pet.active), "character fields expose active pet summary");
+assert(playerPointGame.save.info.includes("CHARACTER_FIELDS="), "saac-like save info includes compact character fields");
+assertEqual(playerPointGame.save.json.characterFields.schema, "gmsv-character-fields-v1", "save json carries compact character fields");
 
 let petModeGame = await api("/api/game/new", { name: "pet-mode-test" });
 petModeGame.pets.push({
@@ -241,6 +248,8 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && e
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "heal"), "healer dialog debug includes stone take VM trace");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.executor === "npc-action-vm"), "healer take runs through NPC VM executor");
 assert(game.flags.bits[`now:${stableFlag(`${healer.npc.id}:healer`)}`], "healer action flag set");
+assert(game.characterFields.events.recentBits.includes(`now:${stableFlag(`${healer.npc.id}:healer`)}`), "character fields summarize recent event bits after NPC VM mutation");
+assert(game.save.json.characterFields.events.recentBits.includes(`now:${stableFlag(`${healer.npc.id}:healer`)}`), "save json character fields keep event bits for AI/NPC context");
 
 const caveNurse = WORLD.maps["100"].npcs.find((npc) => npc.name === "洞窟前的护士");
 if (!caveNurse) throw new Error("missing cave nurse fixture");

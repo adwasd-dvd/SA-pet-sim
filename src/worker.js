@@ -3395,7 +3395,8 @@ async function aiNpcReply(env, request, game, npc, text) {
         warp: npc.warp || null
       },
       vm: { allowedActions: debug.allowedActions, recentTrace: compactNpcVmTrace(debug) },
-      player: game.player,
+      player: compactPlayerContext(game),
+      characterFields: compactCharacterFields(game),
       map: {
         id: map.id,
         name: map.name,
@@ -3458,7 +3459,8 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
       roleProfile: role,
       canDirectlyMutate: false
     },
-    player: game.player,
+    player: compactPlayerContext(game),
+    characterFields: compactCharacterFields(game),
     location: {
       mapId: map.id,
       floorId: map.floorId,
@@ -5080,6 +5082,7 @@ function npcMessage(speaker, text) {
 function buildGuideContext(game, map, prompt = "") {
   const x = Number(game.location.x || 0);
   const y = Number(game.location.y || 0);
+  const characterFields = compactCharacterFields(game);
   const npcs = (map.npcs || [])
     .map((npc) => ({
       id: npc.id,
@@ -5118,18 +5121,11 @@ function buildGuideContext(game, map, prompt = "") {
     .slice(0, 16);
   return {
     player: {
-      name: game.player.name,
-      level: game.player.level,
-      exp: game.player.exp,
-      nextExp: game.player.nextExp,
-      expToNext: game.player.expToNext,
-      hp: game.player.hp,
-      maxHp: game.player.maxHp,
-      stone: game.player.stone,
-      dir: game.player.dir,
-      counters: game.characterFields?.counters || {},
-      attributes: game.characterFields?.attributes || {}
+      ...compactPlayerContext(game),
+      counters: characterFields.counters,
+      attributes: characterFields.attributes
     },
+    characterFields,
     location: {
       mapId: map.id,
       floorId: map.floorId,
@@ -5565,6 +5561,7 @@ function writeAiWorkspaceNote(game, note = {}) {
 function buildAiWorkspace(env, game, prompt = "") {
   const map = currentMap(game);
   const nearby = nearbyState(game, map);
+  const characterFields = compactCharacterFields(game);
   return {
     schema: AI_WORKSPACE_SCHEMA,
     scope: "per-save workspace; 可迁移到 D1/KV/R2，但当前先随存档走",
@@ -5578,11 +5575,10 @@ function buildAiWorkspace(env, game, prompt = "") {
     },
     current: {
       player: {
-        name: game.player.name,
-        level: game.player.level,
-        hp: `${game.player.hp}/${game.player.maxHp}`,
-        stone: game.player.stone
+        ...compactPlayerContext(game),
+        hp: `${game.player.hp}/${game.player.maxHp}`
       },
+      characterFields,
       location: {
         mapId: map.id,
         floorId: map.floorId,
@@ -5817,9 +5813,52 @@ function normalizeProgressionRuntime(game) {
 }
 
 function syncCharacterFields(game) {
-  game.characterFields ||= {};
-  game.characterFields.source = "gmsv CHAR_* counters/field-style runtime subset; CHAR_SkillUp consumes CHAR_SKILLUPPOINT and adds 100 to VITAL/STR/TOUGH/DEX";
-  game.characterFields.counters = {
+  game.characterFields = buildCharacterFields(game);
+}
+
+function buildCharacterFields(game) {
+  game.inventory ||= [];
+  game.pets ||= [];
+  ensureFlags(game);
+  const inventory = inventoryState(game);
+  const activeIndex = getActivePetIndex(game);
+  const activePet = game.pets[activeIndex] || null;
+  const trueBits = Object.entries(game.flags.bits || {})
+    .filter(([, value]) => Boolean(value))
+    .map(([key]) => key)
+    .sort();
+  const fields = {
+    schema: "gmsv-character-fields-v1",
+    source: "gmsv CHAR_* runtime subset + SAAC save charinfo; CHAR_SkillUp consumes CHAR_SKILLUPPOINT and adds 100 to VITAL/STR/TOUGH/DEX",
+    aliases: {
+      vi: "Vital",
+      str: "Str",
+      tou: "Tough",
+      dx: "Dex",
+      skup: "skillUpPoint",
+      evt: "flags.endEvents",
+      nev: "flags.nowEvents"
+    },
+    identity: {
+      accountId: game.account?.id || "",
+      characterId: game.character?.id || "",
+      slot: Number(game.character?.slot ?? game.account?.activeSlot ?? 0),
+      name: game.player?.name || ""
+    },
+    base: {
+      level: Number(game.player?.level || 1),
+      exp: Number(game.player?.exp || 0),
+      nextExp: Number(game.player?.nextExp ?? -1),
+      expToNext: Number(game.player?.expToNext || 0),
+      hp: Number(game.player?.hp || 0),
+      maxHp: Number(game.player?.maxHp || 0),
+      stone: Number(game.player?.stone || 0),
+      mapId: String(game.location?.mapId || ""),
+      x: Number(game.location?.x || 0),
+      y: Number(game.location?.y || 0),
+      dir: normalizeDir(game.player?.dir ?? game.location?.dir)
+    },
+    counters: {
     killPetCount: Number(game.player?.killPetCount || 0),
     deadCount: Number(game.player?.deadCount || 0),
     battleCount: Number(game.player?.battleCount || 0),
@@ -5827,8 +5866,8 @@ function syncCharacterFields(game) {
     loseCount: Number(game.player?.loseCount || 0),
     duelPoint: Number(game.player?.duelPoint || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0)
-  };
-  game.characterFields.attributes = {
+    },
+    attributes: {
     Vital: Number(game.player?.Vital || 0),
     Str: Number(game.player?.Str || 0),
     Tough: Number(game.player?.Tough || 0),
@@ -5837,9 +5876,141 @@ function syncCharacterFields(game) {
     WaterAT: Number(game.player?.WaterAT || 0),
     FireAT: Number(game.player?.FireAT || 0),
     WindAT: Number(game.player?.WindAT || 0),
+    },
+    work: {
+      WorkFixVital: Number(game.player?.WorkFixVital || 0),
+      WorkMaxHp: Number(game.player?.WorkMaxHp || game.player?.maxHp || 0),
     WorkFixStr: Number(game.player?.WorkFixStr || 0),
     WorkFixTough: Number(game.player?.WorkFixTough || 0),
     WorkFixDex: Number(game.player?.WorkFixDex || 0)
+    },
+    elements: {
+      EarthAT: Number(game.player?.EarthAT || 0),
+      WaterAT: Number(game.player?.WaterAT || 0),
+      FireAT: Number(game.player?.FireAT || 0),
+      WindAT: Number(game.player?.WindAT || 0)
+    },
+    events: {
+      endEvents: [...(game.flags.endEvents || [])],
+      nowEvents: [...(game.flags.nowEvents || [])],
+      bitsCount: trueBits.length,
+      recentBits: trueBits.slice(-20),
+      npcTalkCounts: Object.fromEntries(Object.entries(game.flags.npcTalkCounts || {}).slice(-20)),
+      npcEnemyDefeats: Object.fromEntries(Object.entries(game.flags.npcEnemyDefeats || {}).slice(-12))
+    },
+    inventory: {
+      used: inventory.used,
+      capacity: inventory.capacity,
+      remaining: inventory.remaining,
+      items: game.inventory
+        .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
+        .slice(0, 12)
+        .map((item) => ({
+          id: item.id,
+          name: item.name,
+          qty: Number(item.qty || 0),
+          type: item.type || ""
+        }))
+    },
+    pets: game.pets.slice(0, PET_CAPACITY).map((pet, index) => ({
+      index,
+      active: index === activeIndex,
+      name: pet.Name,
+      petId: pet.PetId,
+      level: Number(pet.Lv || 1),
+      exp: Number(pet.Exp || 0),
+      nextExp: Number(pet.NextExp ?? -1),
+      hp: Number(pet.Hp || 0),
+      maxHp: Number(pet.WorkMaxHp || 0),
+      loyalty: Number(pet.Loyal || 0),
+      elements: {
+        EarthAT: Number(pet.EarthAT || 0),
+        WaterAT: Number(pet.WaterAT || 0),
+        FireAT: Number(pet.FireAT || 0),
+        WindAT: Number(pet.WindAT || 0)
+      },
+      work: {
+        WorkFixStr: Number(pet.WorkFixStr || 0),
+        WorkFixTough: Number(pet.WorkFixTough || 0),
+        WorkFixDex: Number(pet.WorkFixDex || 0)
+      }
+    })),
+    battle: game.encounter ? {
+      active: true,
+      enemyName: game.encounter.Name || "",
+      enemyId: game.encounter.EnemyId || game.encounter.PetId || "",
+      enemyLevel: Number(game.encounter.Lv || 1),
+      enemyHp: Number(game.encounter.Hp || 0),
+      source: game.battle?.source || game.encounter.source || "",
+      activePetIndex: activeIndex,
+      activePetName: activePet?.Name || ""
+    } : {
+      active: false,
+      activePetIndex: activeIndex,
+      activePetName: activePet?.Name || ""
+    }
+  };
+  return fields;
+}
+
+function compactCharacterFields(game) {
+  const fields = buildCharacterFields(game);
+  game.characterFields = fields;
+  return {
+    schema: fields.schema,
+    source: fields.source,
+    base: fields.base,
+    counters: fields.counters,
+    attributes: fields.attributes,
+    work: fields.work,
+    elements: fields.elements,
+    events: {
+      endEvents: fields.events?.endEvents || [],
+      nowEvents: fields.events?.nowEvents || [],
+      bitsCount: Number(fields.events?.bitsCount || 0),
+      recentBits: (fields.events?.recentBits || []).slice(-8),
+      npcTalkCounts: Object.fromEntries(Object.entries(fields.events?.npcTalkCounts || {}).slice(-8))
+    },
+    inventory: {
+      used: fields.inventory?.used || 0,
+      capacity: fields.inventory?.capacity || INVENTORY_CAPACITY,
+      remaining: fields.inventory?.remaining || 0
+    },
+    pets: (fields.pets || []).map((pet) => ({
+      index: pet.index,
+      active: pet.active,
+      name: pet.name,
+      level: pet.level,
+      hp: `${pet.hp}/${pet.maxHp}`,
+      elements: pet.elements,
+      work: pet.work
+    })),
+    battle: fields.battle
+  };
+}
+
+function compactPlayerContext(game) {
+  const fields = buildCharacterFields(game);
+  game.characterFields = fields;
+  return {
+    name: game.player?.name || "",
+    level: Number(game.player?.level || 1),
+    exp: Number(game.player?.exp || 0),
+    nextExp: Number(game.player?.nextExp ?? -1),
+    expToNext: Number(game.player?.expToNext || 0),
+    hp: Number(game.player?.hp || 0),
+    maxHp: Number(game.player?.maxHp || 0),
+    stone: Number(game.player?.stone || 0),
+    dir: normalizeDir(game.player?.dir ?? game.location?.dir),
+    skillUpPoint: Number(game.player?.skillUpPoint || 0),
+    baseStats: {
+      Vital: fields.attributes?.Vital || 0,
+      Str: fields.attributes?.Str || 0,
+      Tough: fields.attributes?.Tough || 0,
+      Dex: fields.attributes?.Dex || 0
+    },
+    work: fields.work || {},
+    elements: fields.elements || {}
   };
 }
 
@@ -5911,6 +6082,7 @@ function ensureSaveIdentity(game) {
 }
 
 function buildSaacSave(game) {
+  syncCharacterFields(game);
   const option = buildCharOption(game);
   const info = buildCharInfo(game);
   const json = buildSaveJson(game);
@@ -5969,7 +6141,8 @@ function buildSaveJson(game) {
       endEvents: [...(game.flags?.endEvents || [])],
       nowEvents: [...(game.flags?.nowEvents || [])],
       bits: { ...(game.flags?.bits || {}) },
-      npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) }
+      npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) },
+      npcEnemyDefeats: { ...(game.flags?.npcEnemyDefeats || {}) }
     },
     effects: { ...(game.effects || {}) },
     aiWorkspace: normalizeAiWorkspace(game.aiWorkspace),
@@ -6044,6 +6217,7 @@ function buildCharInfo(game) {
     `FLAGS_NOW=${(game.flags?.nowEvents || []).join(",")}`,
     `FLAGS_BITS=${safeJson(game.flags?.bits || {})}`,
     `NPC_TALK=${safeJson(game.flags?.npcTalkCounts || {})}`,
+    `CHARACTER_FIELDS=${safeJson(compactCharacterFields(game))}`,
     `AI_WORKSPACE=${safeJson(compactAiWorkspaceMemory(game))}`,
     `PETS=${safeJson(game.pets.map(petSaveSummary))}`,
     `ITEMS=${safeJson(game.inventory.map(itemSaveSummary))}`,
