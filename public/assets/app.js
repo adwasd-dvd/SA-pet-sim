@@ -2849,9 +2849,10 @@ async function sendBattleAction(action) {
 function flashBattleElement(el, className) {
   if (!el) return;
   el.classList.remove(className);
-  void el.offsetWidth;
-  el.classList.add(className);
-  window.setTimeout(() => el.classList.remove(className), 240);
+  window.requestAnimationFrame(() => {
+    el.classList.add(className);
+    window.setTimeout(() => el.classList.remove(className), 240);
+  });
 }
 
 function buildBattleFxActions(previousGame, outcome) {
@@ -2919,14 +2920,15 @@ function playBattleLunge(action) {
   source.style.setProperty("--battle-lunge-y", `${Math.round(dy)}px`);
   source.classList.remove("is-attacking");
   target.classList.remove("is-hit");
-  void source.offsetWidth;
-  source.classList.add("is-attacking");
-  target.classList.add("is-hit");
-  spawnBattleImpact(target);
-  window.setTimeout(() => {
-    source.classList.remove("is-attacking");
-    target.classList.remove("is-hit");
-  }, 420);
+  window.requestAnimationFrame(() => {
+    source.classList.add("is-attacking");
+    target.classList.add("is-hit");
+    spawnBattleImpact(target);
+    window.setTimeout(() => {
+      source.classList.remove("is-attacking");
+      target.classList.remove("is-hit");
+    }, 420);
+  });
 }
 
 function spawnBattleImpact(target) {

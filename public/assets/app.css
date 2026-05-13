@@ -2283,16 +2283,13 @@ h3 {
   position: absolute;
   inset: -5px;
   z-index: 2;
-  border-color: #ffdf53;
   background:
     linear-gradient(90deg, #ff7a1c 0 16px, transparent 16px calc(100% - 16px), #ff7a1c calc(100% - 16px)) top / 100% 4px no-repeat,
     linear-gradient(90deg, #ff7a1c 0 16px, transparent 16px calc(100% - 16px), #ff7a1c calc(100% - 16px)) bottom / 100% 4px no-repeat;
   border: 2px solid #ffdf53;
   content: "";
-  box-shadow:
-    0 0 0 1px rgb(31 16 0 / 82%),
-    0 0 12px rgb(255 184 38 / 50%);
-  opacity: .72;
+  outline: 1px solid rgb(31 16 0 / 82%);
+  opacity: .82;
   pointer-events: none;
 }
 
@@ -2300,9 +2297,8 @@ h3 {
 .battle-formation-unit.enemy.targetable:focus-visible .battle-unit-sprite::before,
 .battle-formation-unit.enemy.active .battle-unit-sprite::before {
   opacity: 1;
-  box-shadow:
-    0 0 0 1px rgb(31 16 0 / 92%),
-    0 0 18px rgb(255 231 83 / 80%);
+  border-color: #fff27a;
+  outline-color: rgb(31 16 0 / 92%);
 }
 
 .battle-formation-unit.battle-click-confirm .battle-unit-sprite::before {
@@ -2311,14 +2307,13 @@ h3 {
 
 .battle-formation-unit.is-attacking {
   animation: battle-unit-lunge 420ms cubic-bezier(.2, .85, .2, 1);
+  will-change: transform;
 }
 
 .battle-formation-unit.is-hit .battle-unit-sprite {
   animation: battle-unit-hit 260ms steps(2, end);
-  filter:
-    brightness(1.55)
-    drop-shadow(0 0 6px rgb(255 245 162 / 92%))
-    drop-shadow(5px 9px 0 rgb(0 0 0 / 58%));
+  opacity: .78;
+  will-change: transform, opacity;
 }
 
 .battle-impact {
@@ -2329,7 +2324,6 @@ h3 {
   border: 3px solid #fff27a;
   border-radius: 50%;
   background: rgb(255 128 32 / 28%);
-  box-shadow: 0 0 10px rgb(255 235 111 / 90%);
   transform: translate(-50%, -50%) rotate(-18deg);
   animation: battle-impact-pop 360ms ease-out forwards;
   pointer-events: none;
@@ -2399,9 +2393,8 @@ h3 {
 }
 
 .battle-formation-unit.enemy.active .battle-unit-sprite {
-  filter:
-    drop-shadow(0 0 5px rgb(255 238 112 / 86%))
-    drop-shadow(5px 9px 0 rgb(0 0 0 / 58%));
+  outline: 1px solid rgb(255 238 112 / 62%);
+  outline-offset: 1px;
 }
 
 .battle-unit-sprite {
@@ -2411,7 +2404,6 @@ h3 {
   min-width: 34px;
   min-height: 42px;
   image-rendering: pixelated;
-  filter: drop-shadow(5px 9px 0 rgb(0 0 0 / 58%));
   transform: scaleY(-1);
   transform-origin: center bottom;
 }
