@@ -1642,6 +1642,7 @@ function performBattleAction(game, action) {
   const battleLog = [];
   const petFirst = workQuick(activePet) >= workQuick(enemy);
   const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  let enemyEscaped = false;
   game.battle.sourceCommand = move.command;
   game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
@@ -1653,15 +1654,29 @@ function performBattleAction(game, action) {
   const enemyTurn = (guarded = false) => {
     if (enemyAi.type === "guard") {
       battleLog.push(`${enemy.Name} 采取防御姿势。`);
-      return;
+      return false;
     }
     if (enemyAi.type === "wait") {
       battleLog.push(`${enemy.Name} 观察战况，暂不行动。`);
-      return;
+      return false;
+    }
+    if (enemyAi.type === "escape") {
+      const escape = resolveEnemyEscapeAttempt(game, enemy, activePet, enemyAi);
+      enemyAi.escapeChance = escape.chance;
+      enemyAi.escapeRoll = escape.roll;
+      enemyAi.escapeSucceeded = escape.succeeded;
+      if (escape.succeeded) {
+        battleLog.push(`${enemy.Name} 逃跑成功。`);
+        enemyEscaped = true;
+        return true;
+      }
+      battleLog.push(`${enemy.Name} 试图逃跑，但是失败了。`);
+      return false;
     }
     const hit = combatDamageDetail(enemy, activePet, guarded ? 0.45 : 1);
     activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
     battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    return false;
   };
 
   if (move.type === "guard") {
@@ -1674,15 +1689,16 @@ function performBattleAction(game, action) {
     petTurn();
     if (enemy.Hp > 0) enemyTurn();
   } else {
-    enemyTurn();
-    if (activePet.Hp > 0) petTurn();
+    const endedEnemyTurn = enemyTurn();
+    if (!endedEnemyTurn && activePet.Hp > 0) petTurn();
   }
 
   return settleBattleRound(game, activePet, enemy, {
     battleLog,
     result: "turn",
     sourceCommand: move.command,
-    enemyAi
+    enemyAi,
+    enemyEscaped
   });
 }
 
@@ -1716,6 +1732,7 @@ function chooseEnemyBattleMove(game, enemy, activePet) {
   const choices = [];
   if (tactics.attack.weight > 0) choices.push({ type: "attack", weight: tactics.attack.weight });
   if (tactics.guard.weight > 0) choices.push({ type: "guard", weight: tactics.guard.weight });
+  if (tactics.escape.weight > 0) choices.push({ type: "escape", weight: tactics.escape.weight });
   if (tactics.wait.weight > 0) choices.push({ type: "wait", weight: tactics.wait.weight });
   if (!choices.length) choices.push({ type: "attack", weight: 1 });
   const selected = weightedDeterministicChoice(choices, [
@@ -1733,6 +1750,7 @@ function chooseEnemyBattleMove(game, enemy, activePet) {
     selectRule: tactics.attack.select
   };
   if (selected.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD", command: "G" };
+  if (selected.type === "escape") return { ...base, sourceCommand: "BATTLE_COM_ESCAPE", command: "E" };
   if (selected.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT", command: "N" };
   return {
     ...base,
@@ -1755,6 +1773,7 @@ function parseSourceBattleAiTactics(value) {
     }));
   const attack = parseSourceBattleAiInts(sections.at, [1, 3, 1]);
   const guard = parseSourceBattleAiInts(sections.gu, [0]);
+  const escape = parseSourceBattleAiInts(sections.es, [0]);
   return {
     attack: {
       weight: Math.max(0, attack[0] || 0),
@@ -1764,10 +1783,57 @@ function parseSourceBattleAiTactics(value) {
     guard: {
       weight: Math.max(0, guard[0] || 0)
     },
+    escape: {
+      weight: Math.max(0, escape[0] || 0)
+    },
     wait: {
       weight: Math.max(0, parseSourceBattleAiInts(sections.n, [0])[0] || 0)
     }
   };
+}
+
+function resolveEnemyEscapeAttempt(game, enemy, activePet, enemyAi) {
+  const battle = game.battle || {};
+  const activeIndex = Math.max(0, Number(battle.activeEnemyIndex || 0));
+  battle.enemyEscapeAttempts ||= {};
+  const attempt = Math.max(1, Number(battle.enemyEscapeAttempts[activeIndex] || 0) + 1);
+  battle.enemyEscapeAttempts[activeIndex] = attempt;
+  const chance = sourceEscapeChance(enemy, [game.player, activePet], attempt);
+  const roll = (stableHashInt([
+    enemy.EnemyId || enemy.PetId || enemy.Name,
+    enemy.Hp,
+    activePet?.Hp,
+    game.battle?.turn || 0,
+    attempt,
+    enemyAi?.tacticsOption || ""
+  ].join("|")) % 100) + 1;
+  return {
+    attempt,
+    chance,
+    roll,
+    succeeded: roll < chance
+  };
+}
+
+function sourceEscapeChance(actor, opponents, attempt = 1) {
+  const rare = Number(actor.Rare ?? actor.rare ?? 0);
+  const luck = rare <= 0 ? 1 : rare === 1 ? 3 : 5;
+  const myLevel = Math.max(1, Number(actor.Lv || actor.level || 1));
+  const opponentLevels = (opponents || [])
+    .filter(Boolean)
+    .map((item) => Number(item.Lv || item.level || 0))
+    .filter((level) => level > 0);
+  const enemyLevel = opponentLevels.length
+    ? Math.round(opponentLevels.reduce((sum, level) => sum + level, 0) / opponentLevels.length)
+    : 0;
+  const count = Math.max(1, Number(attempt || 1));
+  let chance;
+  if (luck >= 5) chance = 95 * count;
+  else if (luck >= 4) chance = (60 * count) - 2 * (enemyLevel - myLevel);
+  else if (luck >= 3) chance = (50 * count) - 2 * (enemyLevel - myLevel);
+  else if (luck >= 2) chance = (40 * count) - 2 * (enemyLevel - myLevel);
+  else chance = (30 * count) - 2 * (enemyLevel - myLevel);
+  return Math.max(1, Math.trunc(chance));
 }
 
 function parseSourceBattleAiInts(value, fallback) {
@@ -1820,6 +1886,9 @@ function recordBattleOutcome(game, outcome = null) {
       targetName: outcome.enemyAi.targetName || "",
       targetRule: Number(outcome.enemyAi.targetRule || 0),
       selectRule: Number(outcome.enemyAi.selectRule || 0),
+      escapeChance: Number(outcome.enemyAi.escapeChance || 0),
+      escapeRoll: Number(outcome.enemyAi.escapeRoll || 0),
+      escapeSucceeded: Boolean(outcome.enemyAi.escapeSucceeded),
       source: outcome.enemyAi.source || ""
     } : null,
     sourceResults: (outcome.sourceResults || []).slice(0, 6).map((item) => ({
@@ -1831,6 +1900,13 @@ function recordBattleOutcome(game, outcome = null) {
       level: Number(item.level || 0)
     })),
     defeatedEnemies: (outcome.defeatedEnemies || []).slice(0, 8).map((enemy) => ({
+      EnemyId: enemy.EnemyId,
+      PetId: enemy.PetId,
+      Name: enemy.Name,
+      Lv: Number(enemy.Lv || 0),
+      SourceExp: Number(enemy.SourceExp ?? enemy.Exp ?? 0)
+    })),
+    escapedEnemies: (outcome.escapedEnemies || []).slice(0, 8).map((enemy) => ({
       EnemyId: enemy.EnemyId,
       PetId: enemy.PetId,
       Name: enemy.Name,
@@ -1912,8 +1988,43 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
   let exp = 0;
   let stone = 0;
   let defeatedEnemies = [];
+  let escapedEnemies = [];
   let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [], sourceResults: [] };
-  if (enemy.Hp <= 0) {
+  if (options.enemyEscaped && enemy.Hp > 0 && activePet.Hp > 0) {
+    escapedEnemies = [...(game.battle?.escapedEnemies || [])];
+    const nextEnemy = advanceBattleEscapedEnemy(game, enemy, battleLog);
+    if (nextEnemy) {
+      result = "enemy-escaped-next";
+      battleLog.forEach((line) => addLog(game, line));
+      return {
+        result,
+        enemyName,
+        nextEnemyName: nextEnemy.Name,
+        petName,
+        exp,
+        playerExp: 0,
+        petExp: 0,
+        levelUps: [],
+        stone,
+        sourceCommand: options.sourceCommand,
+        enemyAi: options.enemyAi || null,
+        itemUse: options.itemUse || null,
+        defeatedEnemies: game.battle?.defeatedEnemies || [],
+        escapedEnemies: game.battle?.escapedEnemies || escapedEnemies,
+        sourceResults: [],
+        lootItems: [],
+        turns: turnCount,
+        log: battleLog
+      };
+    }
+    result = "enemy-escaped";
+    escapedEnemies = game.battle?.escapedEnemies?.length
+      ? [...game.battle.escapedEnemies]
+      : [enemyBattleSummary(enemy)];
+    game.encounter = null;
+    game.battle = null;
+    battleLog.push(`敌方逃离，战斗结束。`);
+  } else if (enemy.Hp <= 0) {
     const nextEnemy = advanceBattleEnemy(game, enemy, battleLog);
     if (nextEnemy) {
       result = "next-enemy";
@@ -1932,6 +2043,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         enemyAi: options.enemyAi || null,
         itemUse: options.itemUse || null,
         defeatedEnemies: game.battle?.defeatedEnemies || [],
+        escapedEnemies: game.battle?.escapedEnemies || [],
         sourceResults: [],
         lootItems: [],
         turns: turnCount,
@@ -1992,6 +2104,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     enemyAi: options.enemyAi || null,
     itemUse: options.itemUse || null,
     defeatedEnemies,
+    escapedEnemies,
     sourceResults: rewardSummary.sourceResults,
     lootItems: [],
     turns: turnCount,
@@ -2013,6 +2126,24 @@ function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
   game.encounter = nextEnemy;
   battle.mode = "command";
   battleLog.push(`击倒 ${defeatedEnemy.Name}。`);
+  battleLog.push(`敌方第 ${nextIndex + 1}/${battle.enemyParty.length} 个目标 ${nextEnemy.Name} Lv.${nextEnemy.Lv} 上前。`);
+  battle.log = [...(battle.log || []), ...battleLog].slice(-8);
+  return nextEnemy;
+}
+
+function advanceBattleEscapedEnemy(game, escapedEnemy, battleLog) {
+  const battle = game.battle;
+  if (!battle || !Array.isArray(battle.enemyParty) || battle.enemyParty.length <= 1) return null;
+  const activeIndex = Math.max(0, Number(battle.activeEnemyIndex || 0));
+  battle.enemyParty[activeIndex] = { ...battle.enemyParty[activeIndex], ...escapedEnemy, Hp: 0, BattleEscaped: true };
+  battle.escapedEnemies ||= [];
+  battle.escapedEnemies.push(enemyBattleSummary(escapedEnemy));
+  const nextIndex = battle.enemyParty.findIndex((item) => Number(item.Hp || 0) > 0 && !item.BattleEscaped);
+  if (nextIndex < 0) return null;
+  const nextEnemy = battle.enemyParty[nextIndex];
+  battle.activeEnemyIndex = nextIndex;
+  game.encounter = nextEnemy;
+  battle.mode = "command";
   battleLog.push(`敌方第 ${nextIndex + 1}/${battle.enemyParty.length} 个目标 ${nextEnemy.Name} Lv.${nextEnemy.Lv} 上前。`);
   battle.log = [...(battle.log || []), ...battleLog].slice(-8);
   return nextEnemy;
@@ -2938,7 +3069,7 @@ async function runGuideTrainingBattle(env, request, game, prompt) {
     lastOutcome = performBattleAction(game, "attack");
     recordBattleOutcome(game, lastOutcome);
     logs.push(...(lastOutcome.log || []));
-    if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured"].includes(lastOutcome.result)) break;
+    if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured", "enemy-escaped"].includes(lastOutcome.result)) break;
   }
   const petAfter = game.pets[activeIndex] || getActivePet(game);
   const after = {
@@ -3129,10 +3260,11 @@ function battleActionReply(game, npc, text) {
   const outcome = event.detail?.outcome || {};
   const lines = Array.isArray(outcome.log) ? outcome.log : [];
   const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
-  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“放走”结束。`;
+  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“放走”结束。`;
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
+  if (outcome.result === "enemy-escaped") return `${summary}\n敌方逃走，战斗结束。`;
   if (outcome.result === "captured") return `${summary}\n捕获成功，战斗结束。`;
   if (outcome.result === "pet-full") return `${summary}\n先去宠物店或仓库整理宠物栏，再继续捕获。`;
   if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“捕获”或“放走”。`;
@@ -5067,7 +5199,9 @@ function npcVmActionDetail(action, mutation) {
       stone: mutation.outcome.stone,
       rate: mutation.outcome.rate,
       itemUse: mutation.outcome.itemUse,
+      enemyAi: mutation.outcome.enemyAi,
       defeatedEnemies: mutation.outcome.defeatedEnemies,
+      escapedEnemies: mutation.outcome.escapedEnemies,
       nextEnemyName: mutation.outcome.nextEnemyName,
       log: mutation.outcome.log
     };

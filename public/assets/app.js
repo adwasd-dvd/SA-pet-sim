@@ -3248,6 +3248,8 @@ function battleOutcomeSummary(outcome = {}) {
     defeat: "撤退",
     escaped: "逃跑",
     released: "放走",
+    "enemy-escaped": "敌逃",
+    "enemy-escaped-next": "敌逃",
     "capture-missed": "捕获失败",
     "pet-full": "宠物栏满"
   }[outcome.result] || outcome.result || "战斗";

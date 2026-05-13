@@ -837,6 +837,85 @@ assertEqual(enemyGuardAiGame.battleOutcome.result, "turn", "enemy guard AI keeps
 assertEqual(enemyGuardAiGame.battleOutcome.enemyAi?.type, "guard", "enemy AI can choose source guard command without OpenAI");
 assert(enemyGuardAiGame.battleOutcome.log.some((line) => line.includes("采取防御姿势")), "enemy guard AI logs deterministic guard action");
 
+let enemyEscapeAiGame = await api("/api/game/new", { name: "enemy-ai-escape-test" });
+enemyEscapeAiGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyEscapeAiGame = await api("/api/game/encounter", { game: enemyEscapeAiGame });
+enemyEscapeAiGame.player.level = 1;
+Object.assign(enemyEscapeAiGame.pets[0], {
+  Lv: 1,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(enemyEscapeAiGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  Lv: 140,
+  Rare: 0,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:100|wa:0;0;0;0;0;0;0",
+  SourceExp: 999,
+  Exp: 999
+});
+enemyEscapeAiGame.battle.enemyParty = [enemyEscapeAiGame.encounter];
+enemyEscapeAiGame.battle.activeEnemyIndex = 0;
+enemyEscapeAiGame = await api("/api/game/battle", { game: enemyEscapeAiGame, action: "攻击" });
+assertEqual(enemyEscapeAiGame.battleOutcome.result, "enemy-escaped", "enemy escape AI can end battle without EXP");
+assertEqual(enemyEscapeAiGame.battleOutcome.enemyAi?.type, "escape", "enemy AI can choose source escape command without OpenAI");
+assertEqual(enemyEscapeAiGame.battleOutcome.enemyAi?.sourceCommand, "BATTLE_COM_ESCAPE", "enemy escape records source command");
+assert(enemyEscapeAiGame.battleOutcome.enemyAi.escapeChance >= 100, "enemy escape chance follows source-style level formula");
+assertEqual(enemyEscapeAiGame.battleOutcome.playerExp, 0, "enemy escape gives no player EXP");
+assert(!enemyEscapeAiGame.encounter && !enemyEscapeAiGame.battle, "single enemy escape clears battle state");
+assertEqual(enemyEscapeAiGame.lastBattleOutcome.escapedEnemies.length, 1, "last battle outcome persists escaped enemy telemetry");
+
+let enemyEscapeNextGame = await api("/api/game/new", { name: "enemy-ai-escape-next-test" });
+enemyEscapeNextGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyEscapeNextGame = await api("/api/game/encounter", { game: enemyEscapeNextGame });
+enemyEscapeNextGame.player.level = 1;
+Object.assign(enemyEscapeNextGame.pets[0], {
+  Lv: 1,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(enemyEscapeNextGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  Lv: 140,
+  Rare: 0,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:100|wa:0;0;0;0;0;0;0"
+});
+const nextEnemyAfterEscape = {
+  ...enemyEscapeNextGame.encounter,
+  EnemyId: 999901,
+  Name: "留下的敌人",
+  Hp: 500,
+  WorkMaxHp: 500,
+  Lv: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+};
+enemyEscapeNextGame.battle.enemyParty = [enemyEscapeNextGame.encounter, nextEnemyAfterEscape];
+enemyEscapeNextGame.battle.activeEnemyIndex = 0;
+enemyEscapeNextGame = await api("/api/game/battle", { game: enemyEscapeNextGame, action: "攻击" });
+assertEqual(enemyEscapeNextGame.battleOutcome.result, "enemy-escaped-next", "enemy escape advances to next live source enemy");
+assertEqual(enemyEscapeNextGame.encounter.EnemyId, 999901, "enemy escape selects next live enemy");
+assertEqual(enemyEscapeNextGame.battle.activeEnemyIndex, 1, "enemy escape tracks next active enemy index");
+assertEqual(enemyEscapeNextGame.battle.escapedEnemies.length, 1, "enemy escape keeps escaped telemetry separate from defeated enemies");
+assertEqual(enemyEscapeNextGame.battle.defeatedEnemies.length, 0, "enemy escape does not count as defeated enemy");
+
 let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerLevelPointGame.player.exp = Math.max(0, Number(playerLevelPointGame.player.nextExp || 1) - 1);
@@ -961,7 +1040,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, deterministic enemy AI guard/escape, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
