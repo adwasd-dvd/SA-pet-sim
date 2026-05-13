@@ -44,3 +44,4 @@ npx wrangler secret put OPENAI_API_KEY
 - `POST /api/game/train`：宠物训练流程。
 - `POST /api/data/search`：搜索从 `gmsv-data` 同步来的宠物、地图、NPC、道具、遇敌资料。
 - `POST /api/ai/guide`：用当前地图、NPC、任务、背包、宠物和日志生成游戏内向导建议。
+- `GET /api/ai/status`：返回当前 AI 运行时，区分 OpenAI、Workers AI 和本地规则回退。

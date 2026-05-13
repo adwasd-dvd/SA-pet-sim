@@ -131,6 +131,7 @@ let clientWindowOpen = false;
 let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
+let aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
 let npcSortMode = "source";
 let exitSortMode = "source";
 let lastNpcMapClick = { id: "", at: 0 };
@@ -271,6 +272,7 @@ function init() {
     els.installBtn.hidden = false;
   });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+  loadAiRuntimeStatus();
   const saved = localStorage.getItem(SAVE_KEY);
   if (saved) {
     game = JSON.parse(saved);
@@ -2985,6 +2987,7 @@ function renderAiStatusPanel() {
   if (!els.aiStatusPanel || !game) return;
   const pet = getActivePet();
   const rows = aiStatusRows();
+  const runtime = aiRuntimeLabel();
   els.aiStatusPanel.innerHTML = `
     <section class="ai-status-card">
       <div class="ai-status-head">
@@ -2996,6 +2999,7 @@ function renderAiStatusPanel() {
         <article><b>EXP</b><span>${Number(game.player.exp || 0)}</span></article>
         <article><b>石币</b><span>${Number(game.player.stone || 0)}</span></article>
         <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}` : "无"}</span></article>
+        <article><b>AI</b><span>${escapeHtml(runtime)}</span></article>
       </div>
       <div class="ai-effect-list">
         ${rows.map((row) => `
@@ -3007,6 +3011,18 @@ function renderAiStatusPanel() {
       </div>
     </section>
   `;
+}
+
+function aiRuntimeLabel() {
+  const provider = {
+    openai: "OpenAI",
+    "workers-ai": "Workers AI",
+    "local-rule": "本地规则",
+    "local-action": "本地动作",
+    unknown: "检测中"
+  }[aiRuntime.provider] || aiRuntime.provider || "检测中";
+  const model = aiRuntime.model && aiRuntime.model !== aiRuntime.provider ? ` ${aiRuntime.model}` : "";
+  return `${provider}${model}`.trim();
 }
 
 function aiStatusRows() {
@@ -3475,6 +3491,10 @@ function clientAiWindow() {
           <strong>回答</strong>
           <span>${escapeHtml(els.aiResult.textContent || "点击外层 AI 按钮后会显示结果。")}</span>
         </article>
+        <article>
+          <strong>运行时</strong>
+          <span>${escapeHtml(aiRuntimeLabel())} | 状态执行：Worker NPC VM</span>
+        </article>
       </div>
     `
   };
@@ -3690,6 +3710,13 @@ async function askGuide() {
   els.aiResult.textContent = "向导思考中...";
   renderClientWindow();
   const data = await api("/api/ai/guide", { game, prompt: els.aiPrompt.value });
+  if (data.provider || data.model) {
+    aiRuntime = {
+      ...aiRuntime,
+      provider: data.provider || aiRuntime.provider,
+      model: data.model || aiRuntime.model
+    };
+  }
   if (data.game) {
     game = data.game;
     if (beforeMap !== game.location?.mapId) mapView.centerOnNextRender = true;
@@ -3697,6 +3724,18 @@ async function askGuide() {
   }
   els.aiResult.textContent = data.text || "向导暂时没有建议。";
   render();
+}
+
+async function loadAiRuntimeStatus() {
+  try {
+    const rsp = await fetch("/api/ai/status");
+    if (!rsp.ok) return;
+    aiRuntime = await rsp.json();
+    renderAiStatusPanel();
+    renderClientWindow();
+  } catch (_error) {
+    aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
+  }
 }
 
 function showTab(name, options = {}) {

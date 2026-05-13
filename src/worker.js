@@ -217,6 +217,9 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await guideGame(env, request, body.game, String(body.prompt || "")));
     }
+    if (url.pathname === "/api/ai/status" && request.method === "GET") {
+      return json(aiRuntimeStatus(env));
+    }
     return json({ error: "not found" }, 404);
   } catch (error) {
     return json({ error: error.message || "server error" }, 500);
@@ -1869,6 +1872,7 @@ async function guideGame(env, request, game, prompt) {
     return {
       text: action.text,
       model: "local-action",
+      provider: "local-action",
       action: action.action,
       game: withMap(game)
     };
@@ -1878,12 +1882,13 @@ async function guideGame(env, request, game, prompt) {
   if (hasOpenAi(env)) {
     try {
       const rsp = await callOpenAiGuide(env, context, prompt);
-      return { text: rsp.reply || fallbackGuide(context, prompt), model: rsp.model };
+      return { text: rsp.reply || fallbackGuide(context, prompt), model: rsp.model, provider: "openai" };
     } catch (error) {
       if (!env.AI || typeof env.AI.run !== "function") {
         return {
           text: fallbackGuide(context, prompt, error),
           model: "local-rule",
+          provider: "local-rule",
           warning: error?.message || "OpenAI failed"
         };
       }
@@ -1905,16 +1910,17 @@ async function guideGame(env, request, game, prompt) {
     const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
     try {
       const rsp = await env.AI.run(model, { messages });
-      return { text: rsp.response || rsp.text || fallbackGuide(context, prompt), model };
+      return { text: rsp.response || rsp.text || fallbackGuide(context, prompt), model, provider: "workers-ai" };
     } catch (error) {
       return {
         text: fallbackGuide(context, prompt, error),
         model: "local-rule",
+        provider: "local-rule",
         warning: error?.message || "AI binding failed"
       };
     }
   }
-  return { text: fallbackGuide(context, prompt), model: "local-rule" };
+  return { text: fallbackGuide(context, prompt), model: "local-rule", provider: "local-rule" };
 }
 
 async function callOpenAiGuide(env, context, prompt) {
@@ -1948,6 +1954,34 @@ function hasOpenAi(env) {
 
 function openAiModel(env) {
   return String(env?.OPENAI_MODEL || DEFAULT_OPENAI_MODEL).trim() || DEFAULT_OPENAI_MODEL;
+}
+
+function aiRuntimeStatus(env) {
+  if (hasOpenAi(env)) {
+    return {
+      provider: "openai",
+      model: openAiModel(env),
+      actionAuthority: "worker-npc-vm",
+      structured: true,
+      fallback: env?.AI && typeof env.AI.run === "function" ? "workers-ai" : "local-rule"
+    };
+  }
+  if (env?.AI && typeof env.AI.run === "function") {
+    return {
+      provider: "workers-ai",
+      model: env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct",
+      actionAuthority: "worker-npc-vm",
+      structured: false,
+      fallback: "local-rule"
+    };
+  }
+  return {
+    provider: "local-rule",
+    model: "local-rule",
+    actionAuthority: "worker-npc-vm",
+    structured: false,
+    fallback: "none"
+  };
 }
 
 async function callOpenAiStructured(env, { name, schema, system, user, maxOutputTokens = 600 }) {
