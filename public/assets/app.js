@@ -417,7 +417,7 @@ function render() {
   const petsCapacity = petCapacity();
   const playerProgress = progressionForPlayer();
   els.playerTitle.textContent = game.player.name;
-  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | ${expLabel(playerProgress)} | 石币 ${game.player.stone} | 宠物 ${petsUsed}/${petsCapacity}`;
+  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | ${expLabel(playerProgress)} | 魅 ${playerCharmValue()} | 石币 ${game.player.stone} | 宠物 ${petsUsed}/${petsCapacity}`;
   els.mapName.textContent = map.name;
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：${GMSV_DATA_SOURCE}/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMapHud();
@@ -2475,7 +2475,7 @@ function renderBattlePanel() {
     els.battlePetHpBar.style.width = "0%";
   }
   els.battlePlayerName.textContent = game.player.name;
-  els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | ${expLabel(progressionForPlayer())} | 点 ${Number(game.player.skillUpPoint || 0)} | ${elementText(game.player)}`;
+  els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | ${expLabel(progressionForPlayer())} | 点 ${Number(game.player.skillUpPoint || 0)} | 魅 ${playerCharmValue()} | ${elementText(game.player)}`;
   const battleItems = battleUsableItems();
   const hasBattleItem = battleItems.length > 0;
   const petFull = petUsed() >= petCapacity();
@@ -2901,7 +2901,7 @@ function renderMapStatusHtml() {
       </div>
       <div>
         <strong>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</strong>
-        <span>HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 点 ${Number(game.player.skillUpPoint || 0)} | ${escapeHtml(elementText(game.player))} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
+        <span>HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 点 ${Number(game.player.skillUpPoint || 0)} | 魅 ${playerCharmValue()} | ${escapeHtml(elementText(game.player))} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
       </div>
       <div>
         <strong>宠物</strong>
@@ -3072,6 +3072,7 @@ function renderAssistCharacter() {
           <article><strong>${Number(progress.exp || 0)}</strong><span>NEXT ${Number(progress.expToNext || 0)}</span></article>
           <article><strong>${Number(player.hp || 0)}/${Number(player.maxHp || 0)}</strong><span>HP</span></article>
           <article><strong>${Number(player.stone || 0)}</strong><span>石币</span></article>
+          <article><strong>${playerCharmValue(player)}</strong><span>魅力</span></article>
           <article><strong>${Number(player.skillUpPoint || 0)}</strong><span>可分配能力点</span></article>
           <article><strong>${escapeHtml(elementText(player))}</strong><span>地水火风</span></article>
         </div>
@@ -3086,7 +3087,7 @@ function renderAssistCharacter() {
           </div>
           <div>
             <strong>状态</strong>
-            <span>${escapeHtml(noEncounterEffectText() || "普通")} | 战 ${Number(player.battleCount || 0)} 胜 ${Number(player.winCount || 0)}</span>
+            <span>${escapeHtml(noEncounterEffectText() || "普通")} | 魅 ${playerCharmValue(player)} | 战 ${Number(player.battleCount || 0)} 胜 ${Number(player.winCount || 0)}</span>
           </div>
         </div>
         <div class="assist-point-actions">
@@ -3289,6 +3290,7 @@ function renderAiStatusPanel() {
         <article><b>HP</b><span>${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}</span></article>
         <article><b>EXP</b><span>${escapeHtml(expLabel(progressionForPlayer()))}</span></article>
         <article><b>石币</b><span>${Number(game.player.stone || 0)}</span></article>
+        <article><b>魅力</b><span>${playerCharmValue()}</span></article>
         <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}` : "无"}</span></article>
         <article><b>AI</b><span>${escapeHtml(runtime)}</span></article>
       </div>
@@ -3448,7 +3450,7 @@ function renderMapHud() {
   const petsUsed = petUsed();
   const petsCapacity = petCapacity();
   els.mapHudName.textContent = game.player.name;
-  els.mapHudMeta.textContent = `Lv.${game.player.level} | ${expLabel(progressionForPlayer())} | 点 ${Number(game.player.skillUpPoint || 0)}`;
+  els.mapHudMeta.textContent = `Lv.${game.player.level} | ${expLabel(progressionForPlayer())} | 点 ${Number(game.player.skillUpPoint || 0)} | 魅 ${playerCharmValue()}`;
   els.mapHudHpBar.style.width = `${playerHp}%`;
   els.mapHudHpText.textContent = `HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}`;
   if (activePet) {
@@ -3514,6 +3516,7 @@ function clientCharacterWindow() {
         <article><strong>${escapeHtml(player.name)}</strong><span>Lv.${Number(player.level || 1)} | ${escapeHtml(expLabel(progress))} | 石币 ${Number(player.stone || 0)}</span></article>
         <article><strong>耐久力</strong><span>${Number(player.hp || 0)} / ${Number(player.maxHp || 0)}</span></article>
         <article><strong>能力</strong><span>攻 ${Number(player.WorkFixStr || 0)} | 防 ${Number(player.WorkFixTough || 0)} | 敏 ${Number(player.WorkFixDex || 0)}</span></article>
+        <article><strong>魅力</strong><span>${playerCharmValue(player)} / 100 | 决斗点 ${Number(player.duelPoint || 0)}</span></article>
         <article><strong>基础点</strong><span>${escapeHtml(basePointText(player))}</span></article>
         <article><strong>属性</strong><span>${escapeHtml(elementText(player))}</span></article>
         <article>
@@ -3839,6 +3842,12 @@ function basePointText(entity = {}) {
 
 function basePointValue(value) {
   return Math.trunc(Math.max(0, Number(value || 0)) / 100);
+}
+
+function playerCharmValue(player = game?.player) {
+  const raw = player?.charm ?? player?.Charm ?? game?.characterFields?.base?.charm;
+  const value = raw === undefined || raw === null || raw === "" ? 60 : raw;
+  return Math.max(0, Math.min(100, Math.trunc(Number(value || 0))));
 }
 
 function elementText(entity = {}) {
