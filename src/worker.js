@@ -6285,7 +6285,14 @@ function buildCharacterFields(game) {
       enemyHp: Number(game.encounter.Hp || 0),
       source: game.battle?.source || game.encounter.source || "",
       activePetIndex: activeIndex,
-      activePetName: activePet?.Name || ""
+      activePetName: activePet?.Name || "",
+      activeEnemyIndex: Number(game.battle?.activeEnemyIndex || 0),
+      activeEnemy: battleCharacterFieldSummary(game.encounter, Number(game.battle?.activeEnemyIndex || 0), true),
+      enemyParty: battleEnemyPartyForFields(game).map((enemy, index) => battleCharacterFieldSummary(
+        enemy,
+        index,
+        index === Number(game.battle?.activeEnemyIndex || 0)
+      ))
     } : {
       active: false,
       activePetIndex: activeIndex,
@@ -6293,6 +6300,42 @@ function buildCharacterFields(game) {
     }
   };
   return fields;
+}
+
+function battleEnemyPartyForFields(game) {
+  const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+    ? game.battle.enemyParty
+    : [game.encounter].filter(Boolean);
+  return party.filter(Boolean).slice(0, 10);
+}
+
+function battleCharacterFieldSummary(enemy, index = 0, active = false) {
+  return {
+    index,
+    active,
+    enemyId: enemy.EnemyId || "",
+    petId: enemy.PetId || "",
+    tempNo: enemy.EnemyTempNo || enemy.PetId || "",
+    name: enemy.Name || "",
+    level: Number(enemy.Lv || 1),
+    hp: Number(enemy.Hp || 0),
+    maxHp: Number(enemy.WorkMaxHp || enemy.Hp || 0),
+    captureRate: Number(enemy.CaptureRate || 0),
+    sourceExp: sourceEnemyExp(enemy),
+    elements: {
+      EarthAT: Number(enemy.EarthAT || 0),
+      WaterAT: Number(enemy.WaterAT || 0),
+      FireAT: Number(enemy.FireAT || 0),
+      WindAT: Number(enemy.WindAT || 0)
+    },
+    work: {
+      WorkMaxHp: Number(enemy.WorkMaxHp || enemy.Hp || 0),
+      WorkFixStr: Number(enemy.WorkFixStr || 0),
+      WorkFixTough: Number(enemy.WorkFixTough || 0),
+      WorkFixDex: Number(enemy.WorkFixDex || 0)
+    },
+    source: enemy.source || ""
+  };
 }
 
 function compactCharacterFields(game) {

@@ -750,6 +750,15 @@ assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounte
 assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
 assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");
 assert(sourceEncounterGame.battle?.enemyParty?.length <= sainasuArea.enemyMax, "wild encounter party respects encount enemymaxnum");
+assertEqual(sourceEncounterGame.characterFields?.battle?.active, true, "battle character fields mark active encounter");
+assert(sourceEncounterGame.characterFields.battle.activeEnemy?.elements, "battle character fields expose active enemy elements");
+assert(sourceEncounterGame.characterFields.battle.activeEnemy?.work?.WorkFixStr >= 0, "battle character fields expose active enemy work stats");
+assert(sourceEncounterGame.characterFields.battle.activeEnemy?.sourceExp > 0, "battle character fields expose source enemy EXP");
+assertEqual(
+  sourceEncounterGame.characterFields.battle.enemyParty.length,
+  sourceEncounterGame.battle.enemyParty.length,
+  "battle character fields mirror source enemy party size"
+);
 
 let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
