@@ -669,6 +669,25 @@ assert(battlePetSwitchGame.battleOutcome.log.some((line) => line.includes("后�
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "换宠" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "NPC dialog battleAction can switch to the next available pet");
 assert(battlePetSwitchGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "pet-switch"), "NPC dialog pet switch records battleAction VM trace");
+battlePetSwitchGame.player.hp = 999;
+battlePetSwitchGame.player.maxHp = 999;
+battlePetSwitchGame.player.WorkMaxHp = 999;
+battlePetSwitchGame.player.WorkAttackPower = 250;
+battlePetSwitchGame.player.WorkDefencePower = 250;
+battlePetSwitchGame.player.WorkQuick = 250;
+battlePetSwitchGame.encounter.WorkAttackPower = 1;
+battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|-1" });
+assertEqual(battlePetSwitchGame.petState.activeIndex, -1, "source S|-1 pet command withdraws active pet");
+assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETIN", "source S|-1 maps to PETIN");
+assertEqual(battlePetSwitchGame.battleOutcome.result, "pet-in", "pet-in keeps the battle resolving as a distinct source outcome");
+assertEqual(battlePetSwitchGame.characterFields.battle.activePetIndex, -1, "character fields expose no default pet after PETIN");
+assert(battlePetSwitchGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "player" && unit.slot === 0), "battle formation exposes player slot 0");
+assert(!battlePetSwitchGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "pet"), "battle formation omits pet slot after PETIN");
+assert(battlePetSwitchGame.battleOutcome.log.some((line) => line.includes("独自应战")), "S|-1 log explains player-alone battle state");
+battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "pet:0" });
+assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "PETOUT can send a pet back out from player-alone state");
+assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "player-alone pet out maps back to PETOUT");
+assert(battlePetSwitchGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "pet" && unit.slot === 5), "battle formation exposes default pet as owner slot + 5");
 await expectApiError(
   "/api/game/battle",
   { game: battlePetSwitchGame, action: "pet:0" },

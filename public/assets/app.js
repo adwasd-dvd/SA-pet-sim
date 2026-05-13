@@ -231,6 +231,7 @@ const els = {
   battlePanel: byId("battlePanel"),
   battleTitle: byId("battleTitle"),
   battleSource: byId("battleSource"),
+  battleFormationLayer: byId("battleFormationLayer"),
   battleEnemyTarget: byId("battleEnemyTarget"),
   battleEnemyImg: byId("battleEnemyImg"),
   battleEnemyName: byId("battleEnemyName"),
@@ -2473,7 +2474,8 @@ function renderBattlePanel() {
   els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
   els.battleEnemyStats.textContent = battleEnemyStatsText(enemy, activeEnemyField, enemyHp, enemyMax);
   els.battleEnemyHpBar.style.width = `${clampPercent(enemyHp, enemyMax)}%`;
-  renderBattleEnemyParty(enemyParty, Number(battle.activeEnemyIndex || 0), activePet);
+  renderBattleEnemyParty(enemyParty, Number(battle.activeEnemyIndex || 0), true);
+  renderBattleFormation();
   if (activePet) {
     const petProgress = progressionForPet(activePetIndex(), activePet);
     const petStatus = battleStatusText(activePet);
@@ -2483,8 +2485,8 @@ function renderBattlePanel() {
     els.battlePetHpBar.style.width = `${clampPercent(petHp, petMax)}%`;
   } else {
     setBattleSprite(els.battlePetImg, null);
-    els.battlePetName.textContent = "无出战宠物";
-    els.battlePetStats.textContent = "无法攻击或防御";
+    els.battlePetName.textContent = "人物单独应战";
+    els.battlePetStats.textContent = "PETIN 后状态 | 可攻击、防御、道具，S 可叫出宠物";
     els.battlePetHpBar.style.width = "0%";
   }
   els.battlePlayerName.textContent = game.player.name;
@@ -2494,14 +2496,13 @@ function renderBattlePanel() {
   const battleSkills = battleUsableSkills(activePet);
   const hasBattleSkill = battleSkills.length > 0;
   const battlePets = battleSwitchablePets();
-  const hasBattlePet = battlePets.length > 0;
+  const hasBattlePet = Boolean(activePet) || battlePets.length > 0;
   const petFull = petUsed() >= petCapacity();
   if (!hasBattleItem) battleItemMenuOpen = false;
   if (!hasBattleSkill) battleSkillMenuOpen = false;
   if (!hasBattlePet) battlePetMenuOpen = false;
   els.battleCommandGrid.innerHTML = BATTLE_ACTIONS.map((entry, index) => {
     const disabled = entry.disabled
-      || (!activePet && ["attack", "guard", "wait", "item", "skill", "pet"].includes(entry.action))
       || (entry.action === "capture" && (Number(enemy.CaptureRate ?? 35) <= 0 || petFull))
       || (entry.action === "item" && !hasBattleItem)
       || (entry.action === "skill" && !hasBattleSkill)
@@ -2525,7 +2526,71 @@ function battleEnemyParty(battle, enemy) {
   return party.filter(Boolean);
 }
 
-function renderBattleEnemyParty(party, activeIndex, activePet) {
+function battleFormationState() {
+  return game?.characterFields?.battle?.formation || game?.save?.json?.characterFields?.battle?.formation || null;
+}
+
+function renderBattleFormation() {
+  if (!els.battleFormationLayer) return;
+  const formation = battleFormationState();
+  if (!formation?.allySide?.length && !formation?.enemySide?.length) {
+    els.battleFormationLayer.innerHTML = "";
+    return;
+  }
+  const units = [
+    ...(formation.enemySide || []).map((unit) => ({ ...unit, sideClass: "enemy-side" })),
+    ...(formation.allySide || []).map((unit) => ({ ...unit, sideClass: "ally-side" }))
+  ].filter((unit) => Number(unit.hp ?? 1) > 0 || unit.kind === "player");
+  els.battleFormationLayer.innerHTML = units.map((unit) => {
+    const pos = battleFormationUnitPosition(unit);
+    const maxHp = Math.max(1, Number(unit.maxHp || unit.hp || 1));
+    const hp = Math.max(0, Number(unit.hp || 0));
+    const targetAttr = unit.kind === "enemy" ? `data-battle-target="${Math.max(0, Number(unit.slot || 0))}"` : "";
+    const buttonTag = unit.kind === "enemy" ? "button" : "div";
+    const typeAttr = unit.kind === "enemy" ? `type="button"` : "";
+    const spriteId = unit.kind === "player" ? playerFrameTileId(loadedTileAtlas) : Number(unit.imgNo || 0);
+    return `
+      <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} style="--battle-x:${pos.x}%; --battle-y:${pos.y}%;" title="${escapeHtml(battleFormationUnitTitle(unit))}">
+        <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
+        ${unit.kind === "player" ? `<em class="battle-role-label">PLAYER</em>` : unit.kind === "pet" ? `<em class="battle-role-label">PET</em>` : ""}
+        <span class="battle-unit-sprite client-atlas-sprite" data-atlas-sprite="${Number(spriteId || 0)}" aria-hidden="true"></span>
+        <strong>${escapeHtml(unit.name || unit.kind || "unit")}</strong>
+      </${buttonTag}>
+    `;
+  }).join("");
+  els.battleFormationLayer.querySelectorAll("[data-atlas-sprite]").forEach((node) => {
+    if (loadedTileAtlas) applyAtlasSprite(node, loadedTileAtlas, node.dataset.atlasSprite);
+  });
+}
+
+function battleFormationUnitPosition(unit) {
+  const slot = Math.max(0, Number(unit.slot || 0));
+  if (unit.side === 1 || unit.kind === "enemy") {
+    const enemy = [
+      [18, 24], [25, 18], [32, 31], [21, 43], [36, 15],
+      [37, 45], [45, 34], [52, 23], [58, 42], [64, 30]
+    ][slot] || [30 + (slot % 5) * 7, 20 + Math.floor(slot / 5) * 18];
+    return { x: enemy[0], y: enemy[1] };
+  }
+  const ally = [
+    [78, 72], [84, 66], [88, 58], [92, 50], [86, 78],
+    [66, 66], [72, 58], [78, 50], [84, 42], [90, 34]
+  ][slot] || [78, 66];
+  return { x: ally[0], y: ally[1] };
+}
+
+function battleFormationUnitTitle(unit) {
+  const work = unit.work || {};
+  const parts = [
+    `${unit.name || "unit"} Lv.${Number(unit.level || 1)}`,
+    `side ${Number(unit.side || 0)} slot ${Number(unit.slot || 0)} no ${Number(unit.battleNo || 0)}`,
+    `HP ${Number(unit.hp || 0)}/${Number(unit.maxHp || 0)}`,
+    `攻 ${Number(work.attack || 0)} 防 ${Number(work.defence || 0)} 敏 ${Number(work.quick || 0)}`
+  ];
+  return parts.join(" | ");
+}
+
+function renderBattleEnemyParty(party, activeIndex, canTarget) {
   if (!els.battleEnemyParty) return;
   els.battleEnemyParty.hidden = party.length <= 1;
   if (party.length <= 1) {
@@ -2543,7 +2608,7 @@ function renderBattleEnemyParty(party, activeIndex, activePet) {
     const status = battleStatusText(field || enemy);
     const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}%${status ? ` | 状态 ${status}` : ""} | ${elementText(field || enemy)}`;
     return `
-      <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !activePet ? "disabled" : ""} title="${escapeHtml(title)}">
+      <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !canTarget ? "disabled" : ""} title="${escapeHtml(title)}">
         <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${Number(enemy.ImgNo || 0)}" aria-hidden="true"></span></span>
         <b>${index + 1}</b>
         <em>${escapeHtml(enemy.Name || "敌人")}</em>
@@ -2736,7 +2801,7 @@ function renderBattleSkillPicker(skills) {
 }
 
 function toggleBattlePetMenu() {
-  if (!game?.encounter || !battleSwitchablePets().length) return;
+  if (!game?.encounter || (!getActivePet() && !battleSwitchablePets().length)) return;
   battlePetMenuOpen = !battlePetMenuOpen;
   if (battlePetMenuOpen) {
     battleItemMenuOpen = false;
@@ -2754,12 +2819,21 @@ function battleSwitchablePets() {
 
 function renderBattlePetPicker(entries) {
   if (!battlePetMenuOpen) return "";
+  const activePet = getActivePet();
+  const withdraw = activePet ? `
+        <button type="button" data-battle-pet="-1" title="收回出战宠，让人物单独应战">
+          <b>收回 ${escapeHtml(activePet.Name || "出战宠")}</b>
+          <span>人物单独应战</span>
+          <small>S|-1</small>
+        </button>
+  ` : "";
   return `
     <div class="battle-item-picker battle-pet-picker" aria-label="切换出战宠物">
       <div>
         <strong>PET S</strong>
         <button type="button" data-battle-pets-close title="关闭">×</button>
       </div>
+      ${withdraw}
       ${entries.map(({ pet, index }) => {
         const hp = Math.max(0, Number(pet.Hp || 0));
         const maxHp = Math.max(1, Number(pet.WorkMaxHp || pet.Hp || 1));
@@ -3600,7 +3674,7 @@ function renderEncounter() {
   const petHp = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || activePet.WorkMaxHp || 0)}/${activePet.WorkMaxHp}` : "无出战宠物";
   els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | 敌 HP ${enemyHp}/${enemy.WorkMaxHp} | ${workStatsText(enemy)} | ${elementText(enemy)} | ${petHp}`;
   els.encounterImg.src = `/f/pet/${enemy.ImgNo}.gif`;
-  els.attackBtn.disabled = !activePet;
+  els.attackBtn.disabled = false;
   els.battleLog.innerHTML = (game.battle?.log || []).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
 }
 

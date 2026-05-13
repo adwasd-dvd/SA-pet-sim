@@ -186,8 +186,9 @@ AI NPC 的边界必须写死：
 
 目标：补回主要 RPG 循环。
 
-- 遇敌进入 battle room。
-- 攻击、技能、捕获、逃跑、结算。
+- 遇敌进入 source battle room/state。
+- 战斗必须按 `BATTLE_ENTRY_MAX=10` / `BATTLE_PLAYER_MAX=5` / `SIDE_OFFSET=10` 建模：玩家侧最多 5 人，默认宠在主人槽位 +5，敌方占另一侧 10 个 slot。
+- 攻击、技能、捕获、逃跑、PETIN/PETOUT、结算都要围绕 side/slot/target no 运行，UI 也要重做成原版 battle menu/target prompt，而不是单宠物面板。
 - 玩家交易、组队、队伍聊天。
 
 ### Phase 5: AI NPC Layer
@@ -220,3 +221,4 @@ AI NPC 的边界必须写死：
 6. `persistence-002`: 设计 D1/DO 云端存档 schema。
 7. `realtime-001`: 设计并实现第一版 map room WebSocket。
 8. `ai-002`: 给 NPC AI 增加 action proposal 和 deterministic guardrails。
+9. `battle-formation-001`: 把当前临时战斗面板迁移到原版 5 玩家 + 5 宠 + 敌方 side/slot 阵型。

@@ -2249,6 +2249,111 @@ h3 {
     linear-gradient(180deg, rgb(0 0 0 / 8%), rgb(0 0 0 / 34%));
 }
 
+.battle-formation-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.battle-formation-layer:not(:empty) ~ .battle-combatant {
+  display: none;
+}
+
+.battle-formation-unit {
+  position: absolute;
+  left: var(--battle-x);
+  top: var(--battle-y);
+  display: grid;
+  justify-items: center;
+  min-width: 84px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #fffdf3;
+  font: inherit;
+  text-align: center;
+  text-shadow:
+    1px 1px 0 rgb(0 0 0 / 95%),
+    -1px 1px 0 rgb(0 0 0 / 72%);
+  transform: translate(-50%, -72%);
+}
+
+.battle-formation-unit.enemy {
+  cursor: pointer;
+}
+
+.battle-formation-unit.enemy.active .battle-unit-sprite {
+  filter:
+    drop-shadow(0 0 5px rgb(255 238 112 / 86%))
+    drop-shadow(5px 9px 0 rgb(0 0 0 / 58%));
+}
+
+.battle-unit-sprite {
+  position: relative;
+  left: auto;
+  top: auto;
+  min-width: 34px;
+  min-height: 42px;
+  image-rendering: pixelated;
+  filter: drop-shadow(5px 9px 0 rgb(0 0 0 / 58%));
+  transform: scaleY(-1);
+  transform-origin: center bottom;
+}
+
+.battle-formation-unit.enemy .battle-unit-sprite {
+  transform: scale(.82) scaleY(-1);
+}
+
+.battle-formation-unit.pet .battle-unit-sprite {
+  transform: scale(.95) scaleY(-1);
+}
+
+.battle-formation-unit.player .battle-unit-sprite {
+  transform: scale(.92) scaleY(-1);
+}
+
+.battle-formation-unit strong {
+  max-width: 112px;
+  overflow: hidden;
+  margin-top: -2px;
+  font-size: 11px;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.battle-unit-hp {
+  order: -2;
+  display: block;
+  width: 76px;
+  height: 7px;
+  margin-bottom: 2px;
+  border: 1px solid #111;
+  background: #080a0a;
+  box-shadow:
+    1px 1px 0 rgb(255 255 255 / 36%),
+    -1px -1px 0 rgb(0 0 0 / 72%);
+}
+
+.battle-unit-hp b {
+  display: block;
+  height: 100%;
+  background: #f3f7ee;
+  box-shadow: inset 0 -2px 0 #2b9e47;
+}
+
+.battle-role-label {
+  order: -1;
+  align-self: end;
+  margin-bottom: -3px;
+  padding: 0 2px;
+  background: rgb(95 21 21 / 82%);
+  color: #ffef7c;
+  font-size: 8px;
+  font-style: normal;
+  line-height: 1;
+}
+
 .battle-combatant,
 .battle-player-card {
   position: absolute;
