@@ -2529,7 +2529,8 @@ function renderBattleEnemyParty(party, activeIndex, activePet) {
     const active = index === activeIndex;
     const sourceExp = Number(field?.sourceExp ?? enemy.SourceExp ?? enemy.EnemyExp ?? enemy.Exp ?? 0);
     const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
-    const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}% | ${elementText(field || enemy)}`;
+    const status = battleStatusText(field || enemy);
+    const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}%${status ? ` | 状态 ${status}` : ""} | ${elementText(field || enemy)}`;
     return `
       <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !activePet ? "disabled" : ""} title="${escapeHtml(title)}">
         <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${Number(enemy.ImgNo || 0)}" aria-hidden="true"></span></span>
@@ -2565,14 +2566,24 @@ function battleEnemyField(index = 0, enemy = null) {
 function battleEnemyStatsText(enemy, field, hp, maxHp) {
   const sourceExp = Number(field?.sourceExp ?? enemy.SourceExp ?? enemy.EnemyExp ?? enemy.Exp ?? 0);
   const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
+  const status = battleStatusText(field || enemy);
   const parts = [
     `HP ${hp}/${maxHp}`,
     workStatsText(field || {}, enemy, " "),
     `EXP ${sourceExp || 0}`
   ];
   if (captureRate > 0) parts.push(`捕 ${captureRate}%`);
+  if (status) parts.push(`状态 ${status}`);
   parts.push(elementText(field || enemy));
   return parts.join(" | ");
+}
+
+function battleStatusText(entity = {}) {
+  const statuses = entity.statuses || entity.BattleStatuses || {};
+  return Object.values(statuses)
+    .filter((status) => Number(status?.turns || 0) > 0)
+    .map((status) => `${status.label || status.key || "异常"}${Number(status.turns || 0)}`)
+    .join("/");
 }
 
 function onBattlePanelClick(event) {
@@ -4117,7 +4128,8 @@ function battleSkillSupported(skill = {}) {
     "PETSKILL_GuardBreak",
     "PETSKILL_GuardBreak2",
     "PETSKILL_ContinuationAttack",
-    "PETSKILL_Mighty"
+    "PETSKILL_Mighty",
+    "PETSKILL_StatusChange"
   ].includes(skill.FuncName || "");
 }
 

@@ -113,8 +113,22 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_GuardBreak",
   "PETSKILL_GuardBreak2",
   "PETSKILL_ContinuationAttack",
-  "PETSKILL_Mighty"
+  "PETSKILL_Mighty",
+  "PETSKILL_StatusChange"
 ]);
+const BATTLE_STATUS_EFFECTS = {
+  "毒": { id: 1, key: "poison", label: "中毒", sourceCommand: "BATTLE_ST_POISON" },
+  "麻": { id: 2, key: "paralysis", label: "麻痹", sourceCommand: "BATTLE_ST_PARALYSIS" },
+  "眠": { id: 3, key: "sleep", label: "睡眠", sourceCommand: "BATTLE_ST_SLEEP" },
+  "石": { id: 4, key: "stone", label: "石化", sourceCommand: "BATTLE_ST_STONE" },
+  "醉": { id: 5, key: "drunk", label: "酒醉", sourceCommand: "BATTLE_ST_DRUNK" },
+  "乱": { id: 6, key: "confusion", label: "混乱", sourceCommand: "BATTLE_ST_CONFUSION" },
+  "虚": { id: 7, key: "weaken", label: "虚弱", sourceCommand: "BATTLE_ST_WEAKEN" },
+  "剧": { id: 8, key: "deepPoison", label: "剧毒", sourceCommand: "BATTLE_ST_DEEPPOISON" },
+  "煞": { id: 11, key: "sars", label: "煞毒", sourceCommand: "BATTLE_ST_SARS" }
+};
+const BATTLE_STATUS_BLOCKS_TURN = new Set(["paralysis", "sleep", "stone"]);
+const BATTLE_STATUS_POISON_KEYS = new Set(["poison", "deepPoison", "sars"]);
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -1674,42 +1688,9 @@ function performBattleAction(game, action) {
     battleLog.push(`${activePet.Name} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
   const enemyTurn = (guarded = false) => {
-    if (enemyAi.type === "guard") {
-      battleLog.push(`${enemy.Name} 采取防御姿势。`);
-      return false;
-    }
-    if (enemyAi.type === "wait") {
-      battleLog.push(`${enemy.Name} 观察战况，暂不行动。`);
-      return false;
-    }
-    if (enemyAi.type === "escape") {
-      const escape = resolveEnemyEscapeAttempt(game, enemy, activePet, enemyAi);
-      enemyAi.escapeChance = escape.chance;
-      enemyAi.escapeRoll = escape.roll;
-      enemyAi.escapeSucceeded = escape.succeeded;
-      if (escape.succeeded) {
-        battleLog.push(`${enemy.Name} 逃跑成功。`);
-        enemyEscaped = true;
-        return true;
-      }
-      battleLog.push(`${enemy.Name} 试图逃跑，但是失败了。`);
-      return false;
-    }
-    let hit = combatDamageDetail(enemy, activePet);
-    if (guarded) {
-      hit = applySourceGuardAdjust(hit, [
-        "player-guard",
-        activePet.PetId || activePet.Name,
-        enemy.EnemyId || enemy.PetId || enemy.Name,
-        game.battle?.turn || 0,
-        activePet.Hp,
-        enemy.Hp
-      ]);
-      playerAction.guardAdjust = hit.guardAdjust;
-    }
-    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
-    battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
-    return false;
+    const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded);
+    enemyEscaped ||= ended;
+    return ended;
   };
 
   if (move.type === "guard") {
@@ -1937,6 +1918,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       hitCount: Number(profile.hitCount || 0),
       multiplier: Number(profile.multiplier || 0),
       missChance: Number(profile.missChance || 0),
+      status: compactBattleStatusEffect(profile.status),
       source: `${GMSV_DATA_SOURCE}/petskill2.txt`
     }
   };
@@ -1979,7 +1961,46 @@ function petSkillBattleProfile(skill = {}) {
       missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 30)
     };
   }
+  if (func === "PETSKILL_StatusChange") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_STATUSCHANGE",
+      hitCount: 1,
+      multiplier: sourcePercentMultiplier(option, "攻"),
+      status: parsePetSkillStatusChange(option)
+    };
+  }
   return { supported: false, kind: "unsupported", sourceCommand: "", reason: `unsupported ${func || "unknown"}` };
+}
+
+function parsePetSkillStatusChange(option = "") {
+  const text = String(option || "");
+  const statusGlyph = Object.keys(BATTLE_STATUS_EFFECTS).find((glyph) => text.includes(glyph));
+  if (!statusGlyph) return null;
+  const effect = BATTLE_STATUS_EFFECTS[statusGlyph];
+  const turn = clampInt(text.match(/turn\s*(\d+)/i)?.[1], 1, 99, 3);
+  return {
+    ...effect,
+    turn,
+    blocksTurn: BATTLE_STATUS_BLOCKS_TURN.has(effect.key),
+    poisonTick: BATTLE_STATUS_POISON_KEYS.has(effect.key),
+    attackPercent: sourcePercentValue(text, "攻"),
+    defencePercent: sourcePercentValue(text, "防"),
+    quickPercent: sourcePercentValue(text, "敏")
+  };
+}
+
+function sourcePercentMultiplier(text = "", label = "攻") {
+  const percent = sourcePercentValue(text, label);
+  return Math.max(0.05, 1 + percent / 100);
+}
+
+function sourcePercentValue(text = "", label = "攻") {
+  const escaped = String(label || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = String(text || "").match(new RegExp(`${escaped}%\\s*([+-]?\\d+)`));
+  return match ? clampInt(match[1], -95, 400, 0) : 0;
 }
 
 function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
@@ -2029,9 +2050,24 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   const hitText = hits.length > 1 ? `连续 ${hits.length} 次命中，共` : "";
   const detailText = hits.length === 1 ? battleDetailSuffix(hits[0]) : `（${hits.map((hit) => hit.damage).join("/")}）`;
   battleLog.push(`${activePet.Name} 使用 ${skill.Name} 攻击 ${enemy.Name}，${hitText}造成 ${totalDamage} 伤害${detailText}。`);
+  if (profile.status && totalDamage > 0 && enemy.Hp > 0) {
+    const statusRoll = resolveBattleStatusAttack(game, activePet, enemy, profile.status, skill);
+    skillState.status = statusRoll;
+    if (statusRoll.success) {
+      const applied = applyBattleStatus(enemy, profile.status, statusRoll);
+      skillState.status.applied = compactBattleStatusEffect(applied);
+      battleLog.push(`${enemy.Name} 陷入${applied.label}状态，持续 ${applied.turns} 回合。`);
+    } else if (statusRoll.reason === "already-status") {
+      battleLog.push(`${enemy.Name} 已经处于异常状态，${skill.Name} 的状态效果没有叠加。`);
+    } else {
+      battleLog.push(`${skill.Name} 的状态效果没有成功。`);
+    }
+  }
 }
 
 function resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded = false) {
+  const statusTurn = consumeBattleStatusBeforeTurn(enemy, battleLog);
+  if (statusTurn.stopped || Number(enemy.Hp || 0) <= 0) return false;
   if (enemyAi.type === "guard") {
     battleLog.push(`${enemy.Name} 采取防御姿势。`);
     return false;
@@ -2067,6 +2103,149 @@ function resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, b
   activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
   battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   return false;
+}
+
+function resolveBattleStatusAttack(game, attacker, defender, status, skill = {}) {
+  const compactStatus = compactBattleStatusEffect(status);
+  if (!status?.key) {
+    return { success: false, reason: "missing-status", status: compactStatus };
+  }
+  if (hasActiveBattleStatus(defender)) {
+    return {
+      success: false,
+      reason: "already-status",
+      chance: 0,
+      roll: 0,
+      status: compactStatus,
+      source: "gmsv battle_event.c BATTLE_StatusAttackCheck"
+    };
+  }
+  const resistance = battleStatusResistance(defender, status);
+  let chance;
+  if (status.key === "paralysis") {
+    chance = 20 - resistance;
+  } else {
+    const vital = firstFiniteNumber(0, defender.Vital, defender.WorkMaxHp);
+    const str = firstFiniteNumber(0, defender.Str, defender.WorkAttackPower, defender.WorkFixStr);
+    const tough = firstFiniteNumber(0, defender.Tough, defender.WorkDefencePower, defender.WorkFixTough);
+    const dex = firstFiniteNumber(0, defender.Dex, defender.WorkQuick, defender.WorkFixDex);
+    const total = Math.max(1, vital + str + tough + dex);
+    const vitalRatio = total > 0 ? vital / total : 0.25;
+    const vitalPenalty = (vitalRatio / 0.25) * 10;
+    const levelSwing = Math.max(-40, Math.min(40, (Number(attacker?.Lv || attacker?.level || 1) - Number(defender?.Lv || defender?.level || 1)) * 2));
+    const luck = firstFiniteNumber(0, attacker?.WorkFixLuck, attacker?.Luck, attacker?.luck);
+    chance = levelSwing + luck - resistance - vitalPenalty;
+  }
+  chance = Math.max(0, Math.min(80, Math.trunc(chance)));
+  const roll = (stableHashInt([
+    status.key,
+    skill.Id || skill.Name || "",
+    attacker?.PetId || attacker?.Name || attacker?.name || "",
+    defender?.EnemyId || defender?.PetId || defender?.Name || "",
+    Number(game.battle?.turn || 0),
+    Number(defender?.Hp || 0),
+    status.turn
+  ].join("|")) % 100) + 1;
+  return {
+    success: roll < chance,
+    chance,
+    roll,
+    resistance,
+    status: compactStatus,
+    source: "gmsv battle_event.c BATTLE_StatusAttackCheck"
+  };
+}
+
+function battleStatusResistance(char = {}, status = {}) {
+  const key = status.key || "";
+  const statusName = String(key).replace(/^[a-z]/, (letter) => letter.toUpperCase());
+  return Math.max(0, firstFiniteNumber(
+    0,
+    char[`Resist${statusName}`],
+    char[`${statusName}Resistance`],
+    char.StatusResistance,
+    char.BattleStatusResistance
+  ));
+}
+
+function hasActiveBattleStatus(char = {}) {
+  return Object.values(char.BattleStatuses || {}).some((status) => Number(status?.turns || 0) > 0);
+}
+
+function applyBattleStatus(target, status, roll = {}) {
+  target.BattleStatuses ||= {};
+  const turns = Math.max(1, Number(status.turn || 3) + 1);
+  const applied = {
+    ...compactBattleStatusEffect(status),
+    turns,
+    baseTurn: Number(status.turn || 3),
+    chance: Number(roll.chance || 0),
+    roll: Number(roll.roll || 0),
+    source: "gmsv battle_event.c status turn is PETSKILL option turn + 1"
+  };
+  target.BattleStatuses[status.key] = applied;
+  syncBattlePrimaryStatus(target);
+  return applied;
+}
+
+function consumeBattleStatusBeforeTurn(target, battleLog = []) {
+  const statuses = target?.BattleStatuses || {};
+  const blocked = [];
+  for (const key of Object.keys(statuses)) {
+    const status = statuses[key];
+    let turns = Number(status?.turns || 0);
+    if (turns <= 0) {
+      delete statuses[key];
+      continue;
+    }
+    if (BATTLE_STATUS_POISON_KEYS.has(key) && Number(target.Hp || 0) > 0) {
+      const maxHp = Math.max(1, Number(target.WorkMaxHp || target.Hp || 1));
+      const ratio = key === "poison" ? 0.05 : 0.08;
+      const damage = Math.max(1, Math.floor(maxHp * ratio));
+      target.Hp = Math.max(0, Number(target.Hp || 0) - damage);
+      battleLog.push(`${target.Name} 受到${status.label || "异常"}影响，损失 ${damage} 耐久。`);
+    }
+    if (BATTLE_STATUS_BLOCKS_TURN.has(key) && Number(target.Hp || 0) > 0) {
+      blocked.push(status.label || key);
+    }
+    turns -= 1;
+    if (turns > 0) status.turns = turns;
+    else delete statuses[key];
+  }
+  if (blocked.length && Number(target.Hp || 0) > 0) {
+    battleLog.push(`${target.Name} 因${blocked.join("/")}无法行动。`);
+  }
+  syncBattlePrimaryStatus(target);
+  return { stopped: Boolean(blocked.length), source: "gmsv battle_event.c status pre-turn handling" };
+}
+
+function syncBattlePrimaryStatus(target = {}) {
+  const active = Object.values(target.BattleStatuses || {}).find((status) => Number(status?.turns || 0) > 0);
+  if (active) target.BattleStatus = compactBattleStatusEffect(active);
+  else delete target.BattleStatus;
+}
+
+function compactBattleStatusEffect(status) {
+  if (!status) return null;
+  return {
+    id: Number(status.id || 0),
+    key: status.key || "",
+    label: status.label || "",
+    sourceCommand: status.sourceCommand || "",
+    turn: Number(status.turn || status.baseTurn || 0),
+    turns: Number(status.turns || 0),
+    blocksTurn: Boolean(status.blocksTurn ?? BATTLE_STATUS_BLOCKS_TURN.has(status.key)),
+    poisonTick: Boolean(status.poisonTick ?? BATTLE_STATUS_POISON_KEYS.has(status.key)),
+    attackPercent: Number(status.attackPercent || 0),
+    defencePercent: Number(status.defencePercent || 0),
+    quickPercent: Number(status.quickPercent || 0)
+  };
+}
+
+function compactBattleStatuses(char = {}) {
+  return Object.fromEntries(Object.entries(char.BattleStatuses || {})
+    .filter(([, status]) => Number(status?.turns || 0) > 0)
+    .map(([key, status]) => [key, compactBattleStatusEffect(status)]));
 }
 
 function chooseEnemyBattleMove(game, enemy, activePet) {
@@ -2345,6 +2524,11 @@ function compactPetSkillTelemetry(skill) {
     missChance: Number(skill.missChance || 0),
     missRoll: Number(skill.missRoll || 0),
     missed: Boolean(skill.missed),
+    status: skill.status ? {
+      ...skill.status,
+      status: compactBattleStatusEffect(skill.status.status),
+      applied: compactBattleStatusEffect(skill.status.applied)
+    } : null,
     totalDamage: Number(skill.totalDamage || 0),
     hits: (skill.hits || []).slice(0, 9).map((hit) => ({
       damage: Number(hit.damage || 0),
@@ -2620,7 +2804,8 @@ function enemyBattleSummary(enemy) {
     EarthAT: enemy.EarthAT,
     WaterAT: enemy.WaterAT,
     FireAT: enemy.FireAT,
-    WindAT: enemy.WindAT
+    WindAT: enemy.WindAT,
+    BattleStatuses: compactBattleStatuses(enemy)
   };
 }
 
@@ -7268,6 +7453,7 @@ function battleCharacterFieldSummary(enemy, index = 0, active = false) {
       WorkDefencePower: Number(enemy.WorkDefencePower || enemy.WorkFixTough || 0),
       WorkQuick: Number(enemy.WorkQuick || enemy.WorkFixDex || 0)
     },
+    statuses: compactBattleStatuses(enemy),
     source: enemy.source || ""
   };
 }

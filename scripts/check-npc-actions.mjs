@@ -565,6 +565,50 @@ assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.id, 10, "pe
 assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.hitCount, 2, "pet skill telemetry records option-derived hit count");
 assert(Number(petSkillBattleGame.encounter?.Hp || 0) < skillTargetHpBefore, "pet skill damages the active battle target");
 assert(petSkillBattleGame.battleOutcome.log.some((line) => line.includes("连续攻击")), "pet skill battle log names the source skill");
+let petStatusSkillGame = await api("/api/game/new", { name: "pet-status-skill-test" });
+petStatusSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+petStatusSkillGame = await api("/api/game/dialog", { game: petStatusSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+petStatusSkillGame.pets[0].PetSkillIds = [60];
+petStatusSkillGame.pets[0].PetSkills = [{
+  Id: 60,
+  Name: "毒攻击",
+  Des: "攻击力减30%三回合前后让敌人中毒",
+  FuncName: "PETSKILL_StatusChange",
+  Option: "毒 turn 3  攻%-30",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+petStatusSkillGame.pets[0].Lv = 80;
+petStatusSkillGame.pets[0].WorkFixLuck = 80;
+petStatusSkillGame.pets[0].Luck = 80;
+petStatusSkillGame.pets[0].WorkFixStr = 25;
+petStatusSkillGame.pets[0].WorkAttackPower = 25;
+petStatusSkillGame.pets[0].WorkQuick = 999;
+petStatusSkillGame.pets[0].WorkFixDex = 999;
+petStatusSkillGame.encounter.Lv = 1;
+petStatusSkillGame.encounter.WorkMaxHp = 999;
+petStatusSkillGame.encounter.Hp = 999;
+petStatusSkillGame.encounter.Vital = 100;
+petStatusSkillGame.encounter.Str = 100;
+petStatusSkillGame.encounter.Tough = 100;
+petStatusSkillGame.encounter.Dex = 100;
+petStatusSkillGame.encounter.WorkFixTough = 1;
+petStatusSkillGame.encounter.WorkDefencePower = 1;
+petStatusSkillGame.encounter.WorkQuick = 0;
+petStatusSkillGame.encounter.WorkFixDex = 0;
+petStatusSkillGame.encounter.WorkAttackPower = 1;
+petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "skill:0" });
+const statusSkillTelemetry = petStatusSkillGame.battleOutcome.playerAction?.petSkill?.status;
+assertEqual(petStatusSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STATUSCHANGE", "status pet skill maps to source battle command");
+assertEqual(statusSkillTelemetry?.status?.key, "poison", "status pet skill parses petskill2 status token");
+assert(statusSkillTelemetry?.success, "status pet skill applies source status chance");
+assert(Number(petStatusSkillGame.encounter?.BattleStatuses?.poison?.turns || 0) > 0, "status pet skill persists enemy BattleStatuses");
+const poisonHpBefore = Number(petStatusSkillGame.encounter.Hp || 0);
+petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "wait" });
+assert(Number(petStatusSkillGame.encounter?.Hp || 0) < poisonHpBefore, "poison status ticks before the enemy turn");
+assert(petStatusSkillGame.battleOutcome.log.some((line) => line.includes("中毒")), "poison status writes battle log");
 let npcReleaseGame = await api("/api/game/new", { name: "npc-release-battle-test" });
 npcReleaseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 npcReleaseGame = await api("/api/game/dialog", { game: npcReleaseGame, npcId: battleNpc.npc.id, message: "宠物" });
