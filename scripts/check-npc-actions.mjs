@@ -31,6 +31,18 @@ const api = async (pathName, body) => {
 };
 
 let game = await api("/api/game/new", { name: "npc-action-test" });
+assertEqual(game.player.EarthAT, 50, "new player keeps source-style Earth attribute default");
+assertEqual(game.player.WaterAT, 50, "new player keeps source-style Water attribute default");
+assertEqual(game.player.FireAT, 0, "new player starts without opposite Fire attribute");
+assertEqual(game.player.WindAT, 0, "new player starts without opposite Wind attribute");
+
+let playerPointGame = await api("/api/game/new", { name: "player-point-test" });
+playerPointGame.player.skillUpPoint = 2;
+const playerPointStrBefore = Number(playerPointGame.player.Str || 0);
+playerPointGame = await api("/api/game/allocate-point", { game: playerPointGame, stat: "腕力" });
+assertEqual(playerPointGame.player.skillUpPoint, 1, "player point allocation consumes one CHAR_SKILLUPPOINT");
+assertEqual(playerPointGame.player.Str, playerPointStrBefore + 100, "player point allocation adds source CHAR_SkillUp +100 raw stat");
+assertEqual(playerPointGame.characterFields?.attributes?.Str, playerPointGame.player.Str, "player point allocation syncs SA character fields");
 
 let petModeGame = await api("/api/game/new", { name: "pet-mode-test" });
 petModeGame.pets.push({
@@ -616,6 +628,28 @@ assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounte
 assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
 assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");
 assert(sourceEncounterGame.battle?.enemyParty?.length <= sainasuArea.enemyMax, "wild encounter party respects encount enemymaxnum");
+
+let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
+playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerLevelPointGame.player.exp = Math.max(0, Number(playerLevelPointGame.player.nextExp || 1) - 1);
+const playerLevelVitalBefore = Number(playerLevelPointGame.player.Vital || 0);
+playerLevelPointGame.pets[0].WorkFixStr = 9999;
+playerLevelPointGame.pets[0].WorkFixDex = 9999;
+playerLevelPointGame.pets[0].Hp = 999;
+playerLevelPointGame.pets[0].WorkMaxHp = 999;
+playerLevelPointGame = await api("/api/game/encounter", { game: playerLevelPointGame });
+playerLevelPointGame.encounter.Hp = 1;
+playerLevelPointGame.encounter.WorkFixDex = 0;
+playerLevelPointGame.encounter.SourceExp = 100;
+playerLevelPointGame.encounter.Exp = 100;
+playerLevelPointGame.battle.enemyParty = [playerLevelPointGame.encounter];
+playerLevelPointGame.battle.activeEnemyIndex = 0;
+playerLevelPointGame = await api("/api/game/battle", { game: playerLevelPointGame, action: "攻击" });
+assertEqual(playerLevelPointGame.battleOutcome.result, "victory", "battle can settle player level-up fixture");
+assert(playerLevelPointGame.player.level >= 2, "player levels through accumulated battle EXP");
+assert(Number(playerLevelPointGame.player.skillUpPoint || 0) >= 3, "player level-up grants source 3 unspent ability points");
+assertEqual(playerLevelPointGame.player.Vital, playerLevelVitalBefore, "player level-up does not auto-spend Vital");
+
 let sourceNoAreaGame = await api("/api/game/new", { name: "source-encount-no-area-test" });
 sourceNoAreaGame.location = { mapId: "100", x: 5, y: 5, dir: 2 };
 sourceNoAreaGame = await api("/api/game/sync", { game: sourceNoAreaGame });

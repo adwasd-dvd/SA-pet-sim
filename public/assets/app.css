@@ -585,6 +585,27 @@ h3 {
   white-space: nowrap;
 }
 
+.client-point-actions,
+.assist-point-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.client-point-actions button,
+.assist-point-actions button {
+  min-width: 0;
+  min-height: 30px;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+}
+
+.client-point-actions button:disabled,
+.assist-point-actions button:disabled {
+  opacity: 0.48;
+}
+
 .client-meter-row {
   position: relative;
   display: grid;

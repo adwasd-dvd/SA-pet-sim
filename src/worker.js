@@ -62,6 +62,8 @@ const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
 const PET_CAPACITY = 5;
+const PLAYER_LEVEL_SKILL_POINTS = 3;
+const PLAYER_POINT_STEP = 100;
 const CG_INVISIBLE = 99;
 const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
@@ -251,6 +253,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(trainGame(body.game, Number(body.petIndex) || 0));
     }
+    if (url.pathname === "/api/game/allocate-point" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(allocatePlayerPointGame(body.game, String(body.stat || ""), Number(body.qty) || 1));
+    }
     if (url.pathname === "/api/game/rest" && request.method === "POST") {
       const body = await readJson(request);
       return json(restGame(body.game));
@@ -331,8 +337,8 @@ async function createPlayerGame(env, request, body) {
       Str: 1200,
       Tough: 1200,
       Dex: 1000,
-      EarthAT: 0,
-      WaterAT: 0,
+      EarthAT: 50,
+      WaterAT: 50,
       FireAT: 0,
       WindAT: 0,
       WorkFixVital: 16,
@@ -1965,10 +1971,14 @@ function battleDetailSuffix(detail) {
 function elementalDamageMultiplier(attacker, defender) {
   const a = elementVector(attacker);
   const d = elementVector(defender);
-  const advantage = a.earth * d.water + a.water * d.fire + a.fire * d.wind + a.wind * d.earth;
-  const disadvantage = a.earth * d.wind + a.water * d.earth + a.fire * d.water + a.wind * d.fire;
-  const score = (advantage - disadvantage) / 10000;
-  return Math.max(0.7, Math.min(1.35, 1 + score * 0.45));
+  const aNone = Math.max(0, 100 - a.earth - a.water - a.fire - a.wind);
+  const dNone = Math.max(0, 100 - d.earth - d.water - d.fire - d.wind);
+  const fire = a.fire * dNone * 1.5 + a.fire * d.fire + a.fire * d.water * 0.6 + a.fire * d.earth + a.fire * d.wind * 1.5;
+  const water = a.water * dNone * 1.5 + a.water * d.fire * 1.5 + a.water * d.water + a.water * d.earth * 0.6 + a.water * d.wind;
+  const earth = a.earth * dNone * 1.5 + a.earth * d.fire + a.earth * d.water * 1.5 + a.earth * d.earth + a.earth * d.wind * 0.6;
+  const wind = a.wind * dNone * 1.5 + a.wind * d.fire * 0.6 + a.wind * d.water + a.wind * d.earth * 1.5 + a.wind * d.wind;
+  const none = aNone * dNone + aNone * d.fire * 0.6 + aNone * d.water * 0.6 + aNone * d.earth * 0.6 + aNone * d.wind * 0.6;
+  return Math.max(0.1, (fire + water + earth + wind + none) / 10000);
 }
 
 function elementVector(char = {}) {
@@ -2025,13 +2035,9 @@ function maybeLevelPlayer(game) {
   while (game.player.level < CHAR_MAXUPLEVEL && game.player.exp >= levelExp(game.player.level + 1)) {
     game.player.level += 1;
     game.player.duelPoint = Number(game.player.duelPoint || 0) + game.player.level * 10;
-    game.player.skillUpPoint = Number(game.player.skillUpPoint || 0) + 3;
-    game.player.Vital = Number(game.player.Vital || 0) + 38 + randInt(7);
-    game.player.Str = Number(game.player.Str || 0) + 28 + randInt(7);
-    game.player.Tough = Number(game.player.Tough || 0) + 28 + randInt(7);
-    game.player.Dex = Number(game.player.Dex || 0) + 22 + randInt(7);
-    compliancePlayerParameter(game.player, { preserveHp: false });
-    levelUps.push(`${game.player.name} 提升到 Lv.${game.player.level}`);
+    game.player.skillUpPoint = Number(game.player.skillUpPoint || 0) + PLAYER_LEVEL_SKILL_POINTS;
+    compliancePlayerParameter(game.player, { preserveHp: true });
+    levelUps.push(`${game.player.name} 提升到 Lv.${game.player.level}，获得 ${PLAYER_LEVEL_SKILL_POINTS} 点能力点`);
   }
   normalizePlayerRuntime(game.player);
   levelUps.forEach((line) => addLog(game, `${line}。`));
@@ -2153,6 +2159,63 @@ function trainGame(game, petIndex) {
   game = normalizeGame(game);
   if (petIndex < 0 || petIndex >= game.pets.length) throw new Error("没有找到这只宠物");
   throw new Error("升级需要通过战斗经验累计；请去野外战斗，或和 AI 协商代练。");
+}
+
+function allocatePlayerPointGame(game, stat, qty = 1) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能分配能力点");
+  const key = playerPointStatKey(stat);
+  if (!key) throw new Error("能力点只能加到体力、腕力、耐力或速度");
+  const amount = clampInt(qty, 1, Math.max(1, Number(game.player.skillUpPoint || 0)), 1);
+  if (Number(game.player.skillUpPoint || 0) < amount) throw new Error("没有可分配能力点");
+  game.player.skillUpPoint -= amount;
+  game.player[key] = Number(game.player[key] || 0) + amount * PLAYER_POINT_STEP;
+  compliancePlayerParameter(game.player, { preserveHp: true });
+  normalizePlayerRuntime(game.player);
+  syncCharacterFields(game);
+  addLog(game, `${game.player.name} 将 ${amount} 点能力点加到${playerPointStatLabel(key)}。`);
+  return withMap(game, {
+    allocation: {
+      stat: key,
+      label: playerPointStatLabel(key),
+      amount,
+      rawIncrease: amount * PLAYER_POINT_STEP,
+      remaining: game.player.skillUpPoint,
+      source: "gmsv char.c CHAR_SkillUp: CHAR_SKILLUPPOINT -1, selected base stat +100"
+    }
+  });
+}
+
+function playerPointStatKey(stat) {
+  const value = guideSearchText(stat);
+  const map = {
+    vital: "Vital",
+    hp: "Vital",
+    endurance: "Vital",
+    体力: "Vital",
+    耐久: "Vital",
+    str: "Str",
+    strength: "Str",
+    attack: "Str",
+    腕力: "Str",
+    攻击: "Str",
+    攻擊: "Str",
+    tough: "Tough",
+    defense: "Tough",
+    耐力: "Tough",
+    防御: "Tough",
+    防禦: "Tough",
+    dex: "Dex",
+    speed: "Dex",
+    quick: "Dex",
+    速度: "Dex",
+    敏捷: "Dex"
+  };
+  return map[value] || null;
+}
+
+function playerPointStatLabel(key) {
+  return { Vital: "体力", Str: "腕力", Tough: "耐力", Dex: "速度" }[key] || key;
 }
 
 function restGame(game) {
@@ -5677,10 +5740,7 @@ function normalizePlayerRuntime(player) {
   player.Str = clampInt(player.Str, 1, 999999, 1200);
   player.Tough = clampInt(player.Tough, 1, 999999, 1200);
   player.Dex = clampInt(player.Dex, 1, 999999, 1000);
-  player.EarthAT = clampInt(player.EarthAT, 0, 100, 0);
-  player.WaterAT = clampInt(player.WaterAT, 0, 100, 0);
-  player.FireAT = clampInt(player.FireAT, 0, 100, 0);
-  player.WindAT = clampInt(player.WindAT, 0, 100, 0);
+  normalizePlayerElementAttributes(player);
   player.duelPoint = clampInt(player.duelPoint ?? player.DuelPoint, 0, 999999999, 0);
   player.skillUpPoint = clampInt(player.skillUpPoint ?? player.SkillUpPoint, 0, 999999999, 0);
   player.killPetCount = clampInt(player.killPetCount ?? player.KillPetCount, 0, 999999999, 0);
@@ -5694,6 +5754,19 @@ function normalizePlayerRuntime(player) {
   player.nextExp = progress.nextExp;
   player.expToNext = progress.expToNext;
   player.expProgressPct = progress.progressPct;
+}
+
+function normalizePlayerElementAttributes(player) {
+  player.EarthAT = clampInt(player.EarthAT, 0, 100, 0);
+  player.WaterAT = clampInt(player.WaterAT, 0, 100, 0);
+  player.FireAT = clampInt(player.FireAT, 0, 100, 0);
+  player.WindAT = clampInt(player.WindAT, 0, 100, 0);
+  if (player.EarthAT + player.WaterAT + player.FireAT + player.WindAT <= 0) {
+    player.EarthAT = 50;
+    player.WaterAT = 50;
+    player.FireAT = 0;
+    player.WindAT = 0;
+  }
 }
 
 function compliancePlayerParameter(player, options = {}) {
@@ -5745,7 +5818,7 @@ function normalizeProgressionRuntime(game) {
 
 function syncCharacterFields(game) {
   game.characterFields ||= {};
-  game.characterFields.source = "gmsv CHAR_* counters/field-style runtime subset";
+  game.characterFields.source = "gmsv CHAR_* counters/field-style runtime subset; CHAR_SkillUp consumes CHAR_SKILLUPPOINT and adds 100 to VITAL/STR/TOUGH/DEX";
   game.characterFields.counters = {
     killPetCount: Number(game.player?.killPetCount || 0),
     deadCount: Number(game.player?.deadCount || 0),
