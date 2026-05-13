@@ -6151,7 +6151,11 @@ function compliancePlayerParameter(player, options = {}) {
   player.WorkFixVital = Math.max(1, Math.trunc(Number(player.Vital || 0) / 100));
   player.WorkFixStr = Math.max(1, Math.trunc((Number(player.Str || 0) + Number(player.Tough || 0) * 0.1 + Number(player.Vital || 0) * 0.1 + Number(player.Dex || 0) * 0.05) / 100));
   player.WorkFixTough = Math.max(1, Math.trunc((Number(player.Tough || 0) + Number(player.Str || 0) * 0.1 + Number(player.Vital || 0) * 0.1 + Number(player.Dex || 0) * 0.05) / 100));
+  player.WorkFixCharm = clampInt(player.charm ?? player.Charm ?? player.CHARM, 0, 100, PLAYER_INITIAL_CHARM);
   player.WorkMaxHp = Math.max(1, Math.trunc((Number(player.Vital || 0) * 4 + Number(player.Str || 0) + Number(player.Tough || 0) + Number(player.Dex || 0)) / 100));
+  player.WorkAttackPower = player.WorkFixStr;
+  player.WorkDefencePower = player.WorkFixTough;
+  player.WorkQuick = player.WorkFixDex;
   player.maxHp = player.WorkMaxHp;
   player.hp = options.preserveHp
     ? clampInt(previousHp, 0, player.maxHp, player.maxHp)
@@ -6261,9 +6265,13 @@ function buildCharacterFields(game) {
     work: {
       WorkFixVital: Number(game.player?.WorkFixVital || 0),
       WorkMaxHp: Number(game.player?.WorkMaxHp || game.player?.maxHp || 0),
-    WorkFixStr: Number(game.player?.WorkFixStr || 0),
-    WorkFixTough: Number(game.player?.WorkFixTough || 0),
-    WorkFixDex: Number(game.player?.WorkFixDex || 0)
+      WorkFixStr: Number(game.player?.WorkFixStr || 0),
+      WorkFixTough: Number(game.player?.WorkFixTough || 0),
+      WorkFixDex: Number(game.player?.WorkFixDex || 0),
+      WorkFixCharm: Number(game.player?.WorkFixCharm || game.player?.charm || 0),
+      WorkAttackPower: Number(game.player?.WorkAttackPower || game.player?.WorkFixStr || 0),
+      WorkDefencePower: Number(game.player?.WorkDefencePower || game.player?.WorkFixTough || 0),
+      WorkQuick: Number(game.player?.WorkQuick || game.player?.WorkFixDex || 0)
     },
     elements: {
       EarthAT: Number(game.player?.EarthAT || 0),
@@ -6335,7 +6343,11 @@ function buildCharacterFields(game) {
           WorkMaxHp: Number(pet.WorkMaxHp || 0),
           WorkFixStr: Number(pet.WorkFixStr || 0),
           WorkFixTough: Number(pet.WorkFixTough || 0),
-          WorkFixDex: Number(pet.WorkFixDex || 0)
+          WorkFixDex: Number(pet.WorkFixDex || 0),
+          WorkFixCharm: Number(pet.WorkFixCharm || pet.Charm || 0),
+          WorkAttackPower: Number(pet.WorkAttackPower || pet.WorkFixStr || 0),
+          WorkDefencePower: Number(pet.WorkDefencePower || pet.WorkFixTough || 0),
+          WorkQuick: Number(pet.WorkQuick || pet.WorkFixDex || 0)
         }
       };
     }),
@@ -6394,7 +6406,11 @@ function battleCharacterFieldSummary(enemy, index = 0, active = false) {
       WorkMaxHp: Number(enemy.WorkMaxHp || enemy.Hp || 0),
       WorkFixStr: Number(enemy.WorkFixStr || 0),
       WorkFixTough: Number(enemy.WorkFixTough || 0),
-      WorkFixDex: Number(enemy.WorkFixDex || 0)
+      WorkFixDex: Number(enemy.WorkFixDex || 0),
+      WorkFixCharm: Number(enemy.WorkFixCharm || enemy.Charm || 0),
+      WorkAttackPower: Number(enemy.WorkAttackPower || enemy.WorkFixStr || 0),
+      WorkDefencePower: Number(enemy.WorkDefencePower || enemy.WorkFixTough || 0),
+      WorkQuick: Number(enemy.WorkQuick || enemy.WorkFixDex || 0)
     },
     source: enemy.source || ""
   };
@@ -6653,6 +6669,10 @@ function buildCharInfo(game) {
     `WORKFIXSTR=${game.player.WorkFixStr}`,
     `WORKFIXTOUGH=${game.player.WorkFixTough}`,
     `WORKFIXDEX=${game.player.WorkFixDex}`,
+    `WORKFIXCHARM=${game.player.WorkFixCharm}`,
+    `WORKATTACKPOWER=${game.player.WorkAttackPower}`,
+    `WORKDEFENCEPOWER=${game.player.WorkDefencePower}`,
+    `WORKQUICK=${game.player.WorkQuick}`,
     `DUELPOINT=${game.player.duelPoint}`,
     `SKILLUPPOINT=${game.player.skillUpPoint}`,
     `KILLPETCOUNT=${game.player.killPetCount}`,
@@ -7264,7 +7284,11 @@ function complianceParameter(char, options = {}) {
   char.WorkFixVital = Math.trunc(char.Vital / 100);
   char.WorkFixStr = Math.trunc((char.Str * 1 + char.Tough * 0.1 + char.Vital * 0.1 + char.Dex * 0.05) / 100);
   char.WorkFixTough = Math.trunc((char.Tough * 1 + char.Str * 0.1 + char.Vital * 0.1 + char.Dex * 0.05) / 100);
+  char.WorkFixCharm = clampInt(char.Charm ?? char.charm, 0, 100, 0);
   char.WorkMaxHp = Math.trunc((char.Vital * 4 + char.Str + char.Tough + char.Dex) / 100);
+  char.WorkAttackPower = char.WorkFixStr;
+  char.WorkDefencePower = char.WorkFixTough;
+  char.WorkQuick = char.WorkFixDex;
   char.Hp = options.preserveHp
     ? clampInt(previousHp, 0, Math.max(1, char.WorkMaxHp), Math.max(1, char.WorkMaxHp))
     : char.WorkMaxHp;

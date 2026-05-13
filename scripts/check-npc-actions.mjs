@@ -47,12 +47,17 @@ assertEqual(playerPointGame.characterFields?.attributes?.Str, playerPointGame.pl
 assertEqual(playerPointGame.characterFields?.schema, "gmsv-character-fields-v1", "character fields expose a stable schema");
 assertEqual(playerPointGame.characterFields?.elements?.EarthAT, 50, "character fields expose Earth attribute");
 assertEqual(playerPointGame.characterFields?.work?.WorkFixStr, playerPointGame.player.WorkFixStr, "character fields expose derived WorkFixStr");
+assertEqual(playerPointGame.characterFields?.work?.WorkAttackPower, playerPointGame.player.WorkFixStr, "character fields expose source WorkAttackPower alias");
+assertEqual(playerPointGame.characterFields?.work?.WorkDefencePower, playerPointGame.player.WorkFixTough, "character fields expose source WorkDefencePower alias");
+assertEqual(playerPointGame.characterFields?.work?.WorkQuick, playerPointGame.player.WorkFixDex, "character fields expose source WorkQuick alias");
+assertEqual(playerPointGame.characterFields?.work?.WorkFixCharm, playerPointGame.player.charm, "character fields expose source WorkFixCharm");
 assertEqual(playerPointGame.characterFields?.inventory?.capacity, 15, "character fields expose source inventory capacity");
 assert(playerPointGame.characterFields?.pets?.some((pet) => pet.active), "character fields expose active pet summary");
 const activeFieldPet = playerPointGame.characterFields?.pets?.find((pet) => pet.active);
 assertEqual(activeFieldPet?.exp, playerPointGame.pets[0].Exp, "character fields expose pet EXP");
 assertEqual(activeFieldPet?.expToNext, playerPointGame.pets[0].ExpToNext, "character fields expose pet EXP to next level");
 assertEqual(activeFieldPet?.work?.WorkMaxHp, playerPointGame.pets[0].WorkMaxHp, "character fields expose pet derived WorkMaxHp");
+assertEqual(activeFieldPet?.work?.WorkAttackPower, playerPointGame.pets[0].WorkFixStr, "character fields expose pet WorkAttackPower alias");
 assert(typeof activeFieldPet?.growth?.total === "number", "character fields expose pet growth summary");
 assertEqual(activeFieldPet?.counters?.battleCount, Number(playerPointGame.pets[0].BattleCount || 0), "character fields expose pet battle counters");
 assert(playerPointGame.save.info.includes("CHARACTER_FIELDS="), "saac-like save info includes compact character fields");
@@ -793,6 +798,8 @@ assert(Number(playerLevelPointGame.player.skillUpPoint || 0) >= 3, "player level
 assert(playerLevelPointGame.player.charm > playerCharmBefore, "player level-up applies source CHAR_CHARM gain");
 assertEqual(playerLevelPointGame.characterFields.base.charm, playerLevelPointGame.player.charm, "character fields expose player charm");
 assert(playerLevelPointGame.save.info.includes(`CHARM=${playerLevelPointGame.player.charm}`), "saac-like save info carries player charm");
+assert(playerLevelPointGame.save.info.includes(`WORKFIXCHARM=${playerLevelPointGame.player.WorkFixCharm}`), "saac-like save info carries source WorkFixCharm");
+assert(playerLevelPointGame.save.info.includes(`WORKATTACKPOWER=${playerLevelPointGame.player.WorkAttackPower}`), "saac-like save info carries source WorkAttackPower");
 assertEqual(playerLevelPointGame.player.Vital, playerLevelVitalBefore, "player level-up does not auto-spend Vital");
 assert(playerLevelPointGame.pets[0].Lv > petLevelBeforeSourceGrowth, "pet levels through accumulated battle EXP");
 assert(

@@ -35,7 +35,17 @@ The browser save format keeps the original SAAC mental model but stores it as re
     "exp": 0,
     "stone": 100,
     "hp": 100,
-    "maxHp": 100
+    "maxHp": 100,
+    "Vital": 1600,
+    "Str": 1200,
+    "Tough": 1200,
+    "Dex": 1000,
+    "EarthAT": 50,
+    "WaterAT": 50,
+    "FireAT": 0,
+    "WindAT": 0,
+    "charm": 60,
+    "skillUpPoint": 0
   },
   "location": {
     "mapId": "1000",
@@ -76,6 +86,17 @@ The browser save format keeps the original SAAC mental model but stores it as re
       "loseCount": 0,
       "skillUpPoint": 0
     },
+    "work": {
+      "WorkFixVital": 16,
+      "WorkMaxHp": 98,
+      "WorkFixStr": 14,
+      "WorkFixTough": 14,
+      "WorkFixDex": 10,
+      "WorkFixCharm": 60,
+      "WorkAttackPower": 14,
+      "WorkDefencePower": 14,
+      "WorkQuick": 10
+    },
     "events": {
       "endEvents": [0, 0, 0, 0, 0, 0, 0, 0],
       "nowEvents": [0, 0, 0, 0, 0, 0, 0, 0],
@@ -113,7 +134,7 @@ This mirrors SAAC `makeSaveCharString` enough for inspection while keeping the a
 - `flags.nowEvents`: temporary/current-event bit arrays.
 - `flags.bits`: readable debug index by `kind:shiftbit`.
 - `flags.npcTalkCounts`: per-NPC talk count used by first-pass dialogue and quest triggers.
-- `characterFields`: compact SAAC/gmsv-facing field summary for deterministic NPC checks and AI context. It mirrors stable gameplay state: base stats, `CHAR_SKILLUPPOINT`, Earth/Water/Fire/Wind, WorkFix battle stats, event bits, inventory capacity, pet summaries, and active battle summary. This avoids sending full raw saves to AI and gives NPC logic one field API to read from.
+- `characterFields`: compact SAAC/gmsv-facing field summary for deterministic NPC checks and AI context. It mirrors stable gameplay state: base stats, `CHAR_SKILLUPPOINT`, Earth/Water/Fire/Wind, source WorkFix and battle aliases such as `WORKATTACKPOWER`/`WORKDEFENCEPOWER`/`WORKQUICK`, event bits, inventory capacity, pet summaries, and active battle summary. This avoids sending full raw saves to AI and gives NPC logic one field API to read from.
 
 ## Import/Export
 
