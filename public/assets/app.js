@@ -2450,6 +2450,7 @@ function renderBattlePanel() {
   const enemyParty = battleEnemyParty(battle, enemy);
   const partyCount = enemyParty.length;
   const activeEnemyNo = Math.min(partyCount, Number(battle.activeEnemyIndex || 0) + 1);
+  const activeEnemyField = battleEnemyField(Number(battle.activeEnemyIndex || 0), enemy);
   els.battleTitle.textContent = partyCount > 1
     ? `BATTLE ${Number(battle.turn || 0) + 1} | 敌 ${activeEnemyNo}/${partyCount}`
     : `BATTLE ${Number(battle.turn || 0) + 1}`;
@@ -2458,7 +2459,7 @@ function renderBattlePanel() {
     : (battle.source || enemy.source || "gmsv battle_command.c");
   setBattleSprite(els.battleEnemyImg, enemy.ImgNo);
   els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
-  els.battleEnemyStats.textContent = `HP ${enemyHp}/${enemyMax} | 攻 ${Number(enemy.WorkFixStr || 0)} 防 ${Number(enemy.WorkFixTough || 0)} 敏 ${Number(enemy.WorkFixDex || 0)} | ${elementText(enemy)}`;
+  els.battleEnemyStats.textContent = battleEnemyStatsText(enemy, activeEnemyField, enemyHp, enemyMax);
   els.battleEnemyHpBar.style.width = `${clampPercent(enemyHp, enemyMax)}%`;
   renderBattleEnemyParty(enemyParty, Number(battle.activeEnemyIndex || 0), activePet);
   if (activePet) {
@@ -2511,12 +2512,16 @@ function renderBattleEnemyParty(party, activeIndex, activePet) {
     return;
   }
   els.battleEnemyParty.innerHTML = party.map((enemy, index) => {
+    const field = battleEnemyField(index, enemy);
     const maxHp = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
     const hp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : maxHp);
     const defeated = hp <= 0;
     const active = index === activeIndex;
+    const sourceExp = Number(field?.sourceExp ?? enemy.SourceExp ?? enemy.EnemyExp ?? enemy.Exp ?? 0);
+    const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
+    const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}% | ${elementText(field || enemy)}`;
     return `
-      <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !activePet ? "disabled" : ""} title="攻击 ${escapeHtml(enemy.Name || "敌人")}">
+      <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !activePet ? "disabled" : ""} title="${escapeHtml(title)}">
         <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${Number(enemy.ImgNo || 0)}" aria-hidden="true"></span></span>
         <b>${index + 1}</b>
         <em>${escapeHtml(enemy.Name || "敌人")}</em>
@@ -2534,6 +2539,34 @@ function setBattleSprite(el, tileId) {
   el.dataset.atlasSprite = id > 0 ? String(id) : "";
   if (loadedTileAtlas) applyAtlasSprite(el, loadedTileAtlas, el.dataset.atlasSprite);
   else el.hidden = id <= 0;
+}
+
+function battleFieldState() {
+  return game?.characterFields?.battle || game?.save?.json?.characterFields?.battle || null;
+}
+
+function battleEnemyField(index = 0, enemy = null) {
+  const battle = battleFieldState();
+  if (!battle?.active) return null;
+  const party = Array.isArray(battle.enemyParty) ? battle.enemyParty : [];
+  return party[index] || (Number(battle.activeEnemyIndex || 0) === index ? battle.activeEnemy : null) || enemy;
+}
+
+function battleEnemyStatsText(enemy, field, hp, maxHp) {
+  const work = field?.work || {};
+  const sourceExp = Number(field?.sourceExp ?? enemy.SourceExp ?? enemy.EnemyExp ?? enemy.Exp ?? 0);
+  const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
+  const attack = Number(work.WorkFixStr ?? enemy.WorkFixStr ?? 0);
+  const defense = Number(work.WorkFixTough ?? enemy.WorkFixTough ?? 0);
+  const dex = Number(work.WorkFixDex ?? enemy.WorkFixDex ?? 0);
+  const parts = [
+    `HP ${hp}/${maxHp}`,
+    `攻 ${attack} 防 ${defense} 敏 ${dex}`,
+    `EXP ${sourceExp || 0}`
+  ];
+  if (captureRate > 0) parts.push(`捕 ${captureRate}%`);
+  parts.push(elementText(field || enemy));
+  return parts.join(" | ");
 }
 
 function onBattlePanelClick(event) {
@@ -3776,11 +3809,12 @@ function elementText(entity = {}) {
 }
 
 function elementVector(entity = {}) {
+  const nested = entity.elements || {};
   return {
-    earth: clampElement(entity.EarthAT ?? entity.Earth ?? entity.earth),
-    water: clampElement(entity.WaterAT ?? entity.Water ?? entity.water),
-    fire: clampElement(entity.FireAT ?? entity.Fire ?? entity.fire),
-    wind: clampElement(entity.WindAT ?? entity.WindAt ?? entity.Wind ?? entity.wind)
+    earth: clampElement(entity.EarthAT ?? entity.Earth ?? entity.earth ?? nested.EarthAT ?? nested.earth),
+    water: clampElement(entity.WaterAT ?? entity.Water ?? entity.water ?? nested.WaterAT ?? nested.water),
+    fire: clampElement(entity.FireAT ?? entity.Fire ?? entity.fire ?? nested.FireAT ?? nested.fire),
+    wind: clampElement(entity.WindAT ?? entity.WindAt ?? entity.Wind ?? entity.wind ?? nested.WindAT ?? nested.WindAt ?? nested.wind)
   };
 }
 
