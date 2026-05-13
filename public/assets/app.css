@@ -2802,6 +2802,81 @@ h3 {
   gap: 12px;
 }
 
+.ai-status-card {
+  display: grid;
+  gap: 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+  background: rgb(255 255 255 / 90%);
+}
+
+.ai-status-head {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ai-status-head strong,
+.ai-status-head span,
+.ai-status-grid article span,
+.ai-effect-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-status-head span,
+.ai-status-grid article span,
+.ai-effect-row span {
+  color: var(--muted);
+}
+
+.ai-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.ai-status-grid article {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  border: 1px solid #e4dac6;
+  border-radius: 5px;
+  padding: 6px 7px;
+  background: #fffaf0;
+}
+
+.ai-status-grid b,
+.ai-effect-row b {
+  font-size: 12px;
+}
+
+.ai-effect-list {
+  display: grid;
+  gap: 6px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.ai-effect-row {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  border: 1px solid #e1d8c5;
+  border-radius: 5px;
+  padding: 6px 7px;
+  background: #f7f4ec;
+}
+
+.ai-effect-row.strong {
+  border-color: #cfa65b;
+  background: #fff3c8;
+}
+
 .ai-result {
   min-height: 72px;
   color: var(--muted);

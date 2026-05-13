@@ -241,6 +241,7 @@ const els = {
   aiPrompt: byId("aiPrompt"),
   aiBtn: byId("aiBtn"),
   aiResult: byId("aiResult"),
+  aiStatusPanel: byId("aiStatusPanel"),
   saveInfo: byId("saveInfo"),
   saveText: byId("saveText"),
   saveJsonText: byId("saveJsonText"),
@@ -413,6 +414,7 @@ function render() {
   renderSavePanel();
   renderSaveState();
   renderFieldMessage();
+  renderAiStatusPanel();
   renderClientWindow();
 }
 
@@ -2757,6 +2759,132 @@ function noEncounterEffectText() {
   const minutes = Math.floor(remaining / 60);
   const seconds = remaining % 60;
   return `避敌 ${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
+function renderAiStatusPanel() {
+  if (!els.aiStatusPanel || !game) return;
+  const pet = game.pets?.[0] || null;
+  const rows = aiStatusRows();
+  els.aiStatusPanel.innerHTML = `
+    <section class="ai-status-card">
+      <div class="ai-status-head">
+        <strong>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</strong>
+        <span>${escapeHtml(game.world.map.name)} (${Number(game.location.x || 0)},${Number(game.location.y || 0)})</span>
+      </div>
+      <div class="ai-status-grid">
+        <article><b>HP</b><span>${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}</span></article>
+        <article><b>EXP</b><span>${Number(game.player.exp || 0)}</span></article>
+        <article><b>石币</b><span>${Number(game.player.stone || 0)}</span></article>
+        <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}` : "无"}</span></article>
+      </div>
+      <div class="ai-effect-list">
+        ${rows.map((row) => `
+          <article class="ai-effect-row ${row.strong ? "strong" : ""}">
+            <b>${escapeHtml(row.label)}</b>
+            <span>${escapeHtml(row.text)}</span>
+          </article>
+        `).join("") || `<article class="ai-effect-row"><b>临时状态</b><span>暂无 AI 或 NPC 协商效果</span></article>`}
+      </div>
+    </section>
+  `;
+}
+
+function aiStatusRows() {
+  const rows = [];
+  const now = Date.now();
+  const noEncounterUntil = Number(game.effects?.noEncounterUntil || 0);
+  if (noEncounterUntil > now) {
+    rows.push({
+      label: "AI 避敌",
+      text: `${effectRemainingLabel(noEncounterUntil)} | ${effectSourceText(game.effects?.noEncounterReason, game.effects?.noEncounterSource)}`,
+      strong: true
+    });
+  }
+  for (const [npcId, entry] of Object.entries(game.effects?.shopDiscounts || {})) {
+    const until = Number(entry?.until || 0);
+    if (until <= now) continue;
+    rows.push({
+      label: "商店优待",
+      text: `${knownNpcName(npcId)} ${Number(entry.percent || 0)}% 折扣 | ${effectRemainingLabel(until)}`,
+      strong: true
+    });
+  }
+  for (const [npcId, entry] of Object.entries(game.effects?.offMenuShop || {})) {
+    const until = Number(entry?.until || 0);
+    if (until <= now) continue;
+    const items = (entry.items || []).map((item) => item.name || `item ${item.id}`).filter(Boolean).slice(0, 2).join("、");
+    rows.push({
+      label: "临时商品",
+      text: `${knownNpcName(npcId)} ${items || "隐藏商品"} | ${effectRemainingLabel(until)}`,
+      strong: true
+    });
+  }
+  for (const [npcId, entry] of Object.entries(game.flags?.npcEnemyDefeats || {})) {
+    const until = Date.parse(entry?.until || "");
+    if (!Number.isFinite(until) || until <= now) continue;
+    rows.push({
+      label: "通行状态",
+      text: `${knownNpcName(npcId)} ${npcBypassMode(entry.mode)} | ${effectRemainingLabel(until)}`,
+      strong: true
+    });
+  }
+  for (const [key, value] of Object.entries(game.effects?.npcGifts || {})) {
+    if (!value) continue;
+    rows.push({
+      label: "额外收获",
+      text: `${knownNpcName(key.split(":")[0])} 给过特殊物品`,
+      strong: false
+    });
+  }
+  for (const row of genericAiBoostRows()) rows.push(row);
+  return rows.slice(0, 7);
+}
+
+function genericAiBoostRows() {
+  const sources = [
+    ["属性加成", game.effects?.statBoosts],
+    ["属性加成", game.effects?.attributeBoosts],
+    ["AI 状态", game.effects?.aiBoosts]
+  ];
+  const rows = [];
+  const now = Date.now();
+  for (const [label, value] of sources) {
+    if (!value || typeof value !== "object") continue;
+    for (const [key, entry] of Object.entries(value)) {
+      const until = Number(entry?.until || 0);
+      if (until && until <= now) continue;
+      const amount = entry?.amount ?? entry?.value ?? entry?.percent ?? "";
+      const unit = entry?.percent ? "%" : "";
+      rows.push({
+        label,
+        text: `${key}${amount !== "" ? ` +${amount}${unit}` : ""}${until ? ` | ${effectRemainingLabel(until)}` : ""}`,
+        strong: true
+      });
+    }
+  }
+  return rows;
+}
+
+function effectSourceText(reason, source) {
+  if (source) return source;
+  if (reason === "ai-negotiation") return "NPC 协商";
+  if (reason) return reason;
+  return "AI 向导";
+}
+
+function knownNpcName(npcId) {
+  const id = String(npcId || "");
+  const current = game.world?.map?.npcs?.find((npc) => npc.id === id);
+  if (current?.name) return current.name;
+  const event = (game.npcVmEvents || []).slice().reverse().find((item) => item.npcId === id);
+  return event?.npcName || "NPC";
+}
+
+function npcBypassMode(mode) {
+  if (mode === "bribe") return "买路放行";
+  if (mode === "threat") return "威慑放行";
+  if (mode === "negotiation") return "交涉放行";
+  return "暂时放行";
 }
 
 function renderEncounter() {
