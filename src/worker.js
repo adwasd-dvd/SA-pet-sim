@@ -350,8 +350,10 @@ async function createPlayerGame(env, request, body) {
       WorkFixStr: 14,
       WorkFixTough: 14,
       WorkFixDex: 10,
+      WorkFixLuck: 1,
       WorkMaxHp: 98,
       duelPoint: 0,
+      Luck: 1,
       charm: PLAYER_INITIAL_CHARM,
       skillUpPoint: 0,
       killPetCount: 0,
@@ -1617,12 +1619,7 @@ function performBattleAction(game, action) {
   if (!game.encounter) throw new Error("当前没有战斗目标");
   const move = normalizeBattleMove(action);
   if (move.type === "escape") {
-    const enemyName = game.encounter.Name || "野外宠物";
-    game.encounter = null;
-    game.battle = null;
-    const line = move.release ? `你放走了 ${enemyName}，战斗结束。` : `你从 ${enemyName} 面前逃跑了，战斗结束。`;
-    addLog(game, line);
-    return { result: move.release ? "released" : "escaped", enemyName, sourceCommand: move.command, log: [line] };
+    return move.release ? performReleaseBattleAction(game) : performPlayerEscapeAction(game);
   }
   if (move.targetIndex != null) selectBattleTarget(game, move.targetIndex);
   if (move.type === "capture") {
@@ -1699,6 +1696,62 @@ function performBattleAction(game, action) {
     sourceCommand: move.command,
     enemyAi,
     enemyEscaped
+  });
+}
+
+function performReleaseBattleAction(game) {
+  const enemyName = game.encounter.Name || "野外宠物";
+  game.encounter = null;
+  game.battle = null;
+  const line = `你放走了 ${enemyName}，战斗结束。`;
+  addLog(game, line);
+  return { result: "released", enemyName, sourceCommand: "E", log: [line] };
+}
+
+function performPlayerEscapeAction(game) {
+  const activePet = getActivePet(game);
+  if (!activePet) throw new Error("你需要至少一只宠物才能尝试逃跑");
+  const enemy = game.encounter;
+  ensureBattleState(game, activePet, enemy);
+  game.battle.sourceCommand = "E";
+  game.battle.mode = "resolving";
+  const playerEscape = resolvePlayerEscapeAttempt(game, enemy);
+  const enemyName = enemy.Name || "野外宠物";
+  if (playerEscape.succeeded) {
+    const turnCount = Number(game.battle.turn || 0) + 1;
+    game.battle.turn = turnCount;
+    const line = `你从 ${enemyName} 面前逃跑成功。`;
+    game.encounter = null;
+    game.battle = null;
+    addLog(game, line);
+    return {
+      result: "escaped",
+      enemyName,
+      petName: activePet.Name,
+      sourceCommand: "E",
+      playerEscape,
+      playerExp: 0,
+      petExp: 0,
+      stone: 0,
+      defeatedEnemies: [],
+      escapedEnemies: [],
+      sourceResults: [],
+      lootItems: [],
+      turns: turnCount,
+      log: [line]
+    };
+  }
+  const battleLog = [`你试图从 ${enemyName} 面前逃跑，但是失败了。`];
+  if (enemy.Hp > 0) {
+    const hit = combatDamageDetail(enemy, activePet);
+    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
+    battleLog.push(`${enemy.Name} 趁机攻击 ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  }
+  return settleBattleRound(game, activePet, enemy, {
+    battleLog,
+    result: "escape-failed",
+    sourceCommand: "E",
+    playerEscape
   });
 }
 
@@ -1815,10 +1868,43 @@ function resolveEnemyEscapeAttempt(game, enemy, activePet, enemyAi) {
   };
 }
 
+function resolvePlayerEscapeAttempt(game, enemy) {
+  const battle = game.battle || {};
+  battle.playerEscapeAttempts = Math.max(0, Number(battle.playerEscapeAttempts || 0)) + 1;
+  const attempt = battle.playerEscapeAttempts;
+  const opponents = liveBattleEnemies(game, enemy);
+  const chance = sourceEscapeChance(game.player, opponents, attempt);
+  const roll = (stableHashInt([
+    game.player?.name || "",
+    game.player?.level || 1,
+    opponents.map((item) => `${item.EnemyId || item.PetId || item.Name}:${item.Lv || 1}:${item.Hp || 0}`).join(","),
+    Number(battle.turn || 0) + 1,
+    attempt
+  ].join("|")) % 100) + 1;
+  return {
+    attempt,
+    chance,
+    roll,
+    succeeded: roll < chance,
+    source: "gmsv battle_event.c BATTLE_EscapeCheck",
+    sourceCommand: "BATTLE_COM_ESCAPE"
+  };
+}
+
+function liveBattleEnemies(game, fallbackEnemy = null) {
+  const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+    ? game.battle.enemyParty
+    : [fallbackEnemy].filter(Boolean);
+  return party.filter((enemy) => enemy && Number(enemy.Hp || 0) > 0 && !enemy.BattleEscaped);
+}
+
 function sourceEscapeChance(actor, opponents, attempt = 1) {
-  const rare = Number(actor.Rare ?? actor.rare ?? 0);
-  const luck = rare <= 0 ? 1 : rare === 1 ? 3 : 5;
-  const myLevel = Math.max(1, Number(actor.Lv || actor.level || 1));
+  const isEnemy = Number(actor?.WhichType || 0) === 2 || actor?.EnemyId != null;
+  const rare = Number(actor?.Rare ?? actor?.rare ?? 0);
+  const luck = isEnemy
+    ? (rare <= 0 ? 1 : rare === 1 ? 3 : 5)
+    : clampInt(actor?.WorkFixLuck ?? actor?.Luck ?? actor?.luck, 1, 5, 1);
+  const myLevel = Math.max(1, Number(actor?.Lv || actor?.level || 1));
   const opponentLevels = (opponents || [])
     .filter(Boolean)
     .map((item) => Number(item.Lv || item.level || 0))
@@ -1890,6 +1976,14 @@ function recordBattleOutcome(game, outcome = null) {
       escapeRoll: Number(outcome.enemyAi.escapeRoll || 0),
       escapeSucceeded: Boolean(outcome.enemyAi.escapeSucceeded),
       source: outcome.enemyAi.source || ""
+    } : null,
+    playerEscape: outcome.playerEscape ? {
+      sourceCommand: outcome.playerEscape.sourceCommand || "",
+      attempt: Number(outcome.playerEscape.attempt || 0),
+      chance: Number(outcome.playerEscape.chance || 0),
+      roll: Number(outcome.playerEscape.roll || 0),
+      succeeded: Boolean(outcome.playerEscape.succeeded),
+      source: outcome.playerEscape.source || ""
     } : null,
     sourceResults: (outcome.sourceResults || []).slice(0, 6).map((item) => ({
       type: item.type || "",
@@ -2008,6 +2102,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         stone,
         sourceCommand: options.sourceCommand,
         enemyAi: options.enemyAi || null,
+        playerEscape: options.playerEscape || null,
         itemUse: options.itemUse || null,
         defeatedEnemies: game.battle?.defeatedEnemies || [],
         escapedEnemies: game.battle?.escapedEnemies || escapedEnemies,
@@ -2102,6 +2197,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     stone,
     sourceCommand: options.sourceCommand,
     enemyAi: options.enemyAi || null,
+    playerEscape: options.playerEscape || null,
     itemUse: options.itemUse || null,
     defeatedEnemies,
     escapedEnemies,
@@ -3244,13 +3340,15 @@ function setNpcAiModeReply(game, npc, enabled) {
 }
 
 function battleActionReply(game, npc, text) {
-  const move = hasAny(text, ["放走", "逃跑", "离开", "離開", "release", "run"])
+  const move = hasAny(text, ["放走", "release"])
     ? "release"
-    : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
-      ? "capture"
-      : hasAny(text, ["道具", "物品", "item"])
-        ? "item"
-        : "attack";
+    : hasAny(text, ["逃跑", "离开", "離開", "run", "escape"])
+      ? "escape"
+      : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
+        ? "capture"
+        : hasAny(text, ["道具", "物品", "item"])
+          ? "item"
+          : "attack";
   const event = runNpcVmAction(game, npc, {
     type: "battleAction",
     move,
@@ -3260,14 +3358,16 @@ function battleActionReply(game, npc, text) {
   const outcome = event.detail?.outcome || {};
   const lines = Array.isArray(outcome.log) ? outcome.log : [];
   const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
-  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“放走”结束。`;
+  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“逃跑”。`;
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
+  if (outcome.result === "escaped") return `${summary}\n你逃离了战斗。`;
+  if (outcome.result === "escape-failed") return `${summary}\n继续输入“攻击”“道具”或再次“逃跑”。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
   if (outcome.result === "enemy-escaped") return `${summary}\n敌方逃走，战斗结束。`;
   if (outcome.result === "captured") return `${summary}\n捕获成功，战斗结束。`;
   if (outcome.result === "pet-full") return `${summary}\n先去宠物店或仓库整理宠物栏，再继续捕获。`;
-  if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“捕获”或“放走”。`;
+  if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“捕获”或“逃跑”。`;
   return summary;
 }
 
@@ -3280,7 +3380,7 @@ function battleStatusReply(game, npc) {
     enemyHp: enemy?.Hp ?? enemy?.WorkMaxHp,
     reason: "dialog-battle-status"
   });
-  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”推进战斗，输入“捕获”尝试抓宠，或输入“放走”结束。`;
+  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”推进战斗，输入“捕获”尝试抓宠，或输入“逃跑”尝试脱离。`;
 }
 
 function isGreeting(text) {
@@ -5200,6 +5300,7 @@ function npcVmActionDetail(action, mutation) {
       rate: mutation.outcome.rate,
       itemUse: mutation.outcome.itemUse,
       enemyAi: mutation.outcome.enemyAi,
+      playerEscape: mutation.outcome.playerEscape,
       defeatedEnemies: mutation.outcome.defeatedEnemies,
       escapedEnemies: mutation.outcome.escapedEnemies,
       nextEnemyName: mutation.outcome.nextEnemyName,
@@ -6460,6 +6561,8 @@ function normalizePlayerRuntime(player) {
   player.Dex = clampInt(player.Dex, 1, 999999, 1000);
   normalizePlayerElementAttributes(player);
   player.duelPoint = clampInt(player.duelPoint ?? player.DuelPoint, 0, 999999999, 0);
+  player.Luck = clampInt(player.Luck ?? player.luck, 1, 5, 1);
+  player.WorkFixLuck = clampInt(player.WorkFixLuck ?? player.Luck, 1, 5, player.Luck);
   player.charm = clampInt(player.charm ?? player.Charm ?? player.CHARM, 0, 100, PLAYER_INITIAL_CHARM);
   player.skillUpPoint = clampInt(player.skillUpPoint ?? player.SkillUpPoint, 0, 999999999, 0);
   player.killPetCount = clampInt(player.killPetCount ?? player.KillPetCount, 0, 999999999, 0);
@@ -6494,6 +6597,8 @@ function compliancePlayerParameter(player, options = {}) {
   player.WorkFixVital = Math.max(1, Math.trunc(Number(player.Vital || 0) / 100));
   player.WorkFixStr = Math.max(1, Math.trunc((Number(player.Str || 0) + Number(player.Tough || 0) * 0.1 + Number(player.Vital || 0) * 0.1 + Number(player.Dex || 0) * 0.05) / 100));
   player.WorkFixTough = Math.max(1, Math.trunc((Number(player.Tough || 0) + Number(player.Str || 0) * 0.1 + Number(player.Vital || 0) * 0.1 + Number(player.Dex || 0) * 0.05) / 100));
+  player.WorkFixLuck = clampInt(player.WorkFixLuck ?? player.Luck ?? player.luck, 1, 5, 1);
+  player.Luck = player.WorkFixLuck;
   player.WorkFixCharm = clampInt(player.charm ?? player.Charm ?? player.CHARM, 0, 100, PLAYER_INITIAL_CHARM);
   player.WorkMaxHp = Math.max(1, Math.trunc((Number(player.Vital || 0) * 4 + Number(player.Str || 0) + Number(player.Tough || 0) + Number(player.Dex || 0)) / 100));
   player.WorkAttackPower = player.WorkFixStr;
@@ -6611,6 +6716,7 @@ function buildCharacterFields(game) {
       WorkFixStr: Number(game.player?.WorkFixStr || 0),
       WorkFixTough: Number(game.player?.WorkFixTough || 0),
       WorkFixDex: Number(game.player?.WorkFixDex || 0),
+      WorkFixLuck: Number(game.player?.WorkFixLuck || game.player?.Luck || 1),
       WorkFixCharm: Number(game.player?.WorkFixCharm || game.player?.charm || 0),
       WorkAttackPower: Number(game.player?.WorkAttackPower || game.player?.WorkFixStr || 0),
       WorkDefencePower: Number(game.player?.WorkDefencePower || game.player?.WorkFixTough || 0),
@@ -7012,6 +7118,7 @@ function buildCharInfo(game) {
     `WORKFIXSTR=${game.player.WorkFixStr}`,
     `WORKFIXTOUGH=${game.player.WorkFixTough}`,
     `WORKFIXDEX=${game.player.WorkFixDex}`,
+    `WORKFIXLUCK=${game.player.WorkFixLuck}`,
     `WORKFIXCHARM=${game.player.WorkFixCharm}`,
     `WORKATTACKPOWER=${game.player.WorkAttackPower}`,
     `WORKDEFENCEPOWER=${game.player.WorkDefencePower}`,

@@ -3247,6 +3247,7 @@ function battleOutcomeSummary(outcome = {}) {
     captured: "捕获",
     defeat: "撤退",
     escaped: "逃跑",
+    "escape-failed": "逃跑失败",
     released: "放走",
     "enemy-escaped": "敌逃",
     "enemy-escaped-next": "敌逃",

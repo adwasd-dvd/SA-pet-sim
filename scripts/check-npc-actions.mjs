@@ -916,6 +916,49 @@ assertEqual(enemyEscapeNextGame.battle.activeEnemyIndex, 1, "enemy escape tracks
 assertEqual(enemyEscapeNextGame.battle.escapedEnemies.length, 1, "enemy escape keeps escaped telemetry separate from defeated enemies");
 assertEqual(enemyEscapeNextGame.battle.defeatedEnemies.length, 0, "enemy escape does not count as defeated enemy");
 
+let playerEscapeFailGame = await api("/api/game/new", { name: "player-escape-fail-test" });
+playerEscapeFailGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerEscapeFailGame = await api("/api/game/encounter", { game: playerEscapeFailGame });
+Object.assign(playerEscapeFailGame.player, { level: 1, Luck: 1, WorkFixLuck: 1 });
+Object.assign(playerEscapeFailGame.pets[0], { Lv: 1, Hp: 999, WorkMaxHp: 999 });
+Object.assign(playerEscapeFailGame.encounter, {
+  Lv: 140,
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+playerEscapeFailGame.battle.enemyParty = [playerEscapeFailGame.encounter];
+playerEscapeFailGame = await api("/api/game/battle", { game: playerEscapeFailGame, action: "逃跑" });
+assertEqual(playerEscapeFailGame.battleOutcome.result, "escape-failed", "player escape can fail through source escape formula");
+assertEqual(playerEscapeFailGame.battleOutcome.playerEscape?.sourceCommand, "BATTLE_COM_ESCAPE", "player escape records source command");
+assertEqual(playerEscapeFailGame.battleOutcome.playerEscape?.chance, 1, "player escape low-level chance bottoms at source minimum");
+assert(playerEscapeFailGame.encounter && playerEscapeFailGame.battle, "failed player escape keeps battle active");
+assert(playerEscapeFailGame.battleOutcome.log.some((line) => line.includes("逃跑") && line.includes("失败")), "failed player escape logs failed attempt");
+
+let playerEscapeSuccessGame = await api("/api/game/new", { name: "player-escape-success-test" });
+playerEscapeSuccessGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerEscapeSuccessGame = await api("/api/game/encounter", { game: playerEscapeSuccessGame });
+Object.assign(playerEscapeSuccessGame.player, { level: 140, Luck: 5, WorkFixLuck: 5 });
+Object.assign(playerEscapeSuccessGame.pets[0], { Lv: 140, Hp: 999, WorkMaxHp: 999 });
+Object.assign(playerEscapeSuccessGame.encounter, {
+  Lv: 1,
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+playerEscapeSuccessGame.battle.enemyParty = [playerEscapeSuccessGame.encounter];
+playerEscapeSuccessGame.battle.playerEscapeAttempts = 1;
+playerEscapeSuccessGame = await api("/api/game/battle", { game: playerEscapeSuccessGame, action: "逃跑" });
+assertEqual(playerEscapeSuccessGame.battleOutcome.result, "escaped", "player escape succeeds through source escape formula");
+assert(playerEscapeSuccessGame.battleOutcome.playerEscape?.chance > 100, "player escape repeated attempt is not capped, matching source");
+assertEqual(playerEscapeSuccessGame.battleOutcome.playerExp, 0, "successful player escape gives no EXP");
+assert(!playerEscapeSuccessGame.encounter && !playerEscapeSuccessGame.battle, "successful player escape clears battle state");
+assertEqual(playerEscapeSuccessGame.lastBattleOutcome.playerEscape.succeeded, true, "last battle outcome persists player escape telemetry");
+
 let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerLevelPointGame.player.exp = Math.max(0, Number(playerLevelPointGame.player.nextExp || 1) - 1);
@@ -1040,7 +1083,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, deterministic enemy AI guard/escape, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
