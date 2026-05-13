@@ -1,5 +1,5 @@
 {
-  "name": "stoneage-web-rebuild",
+  "name": "sa-pet-sim",
   "main": "src/worker.js",
   "compatibility_date": "2026-05-10",
   "assets": {
