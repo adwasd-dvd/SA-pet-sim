@@ -1709,10 +1709,41 @@ function recordBattleOutcome(game, outcome = null) {
     stone: Number(outcome.stone || 0),
     levelUps: [...(outcome.levelUps || [])].slice(0, 6),
     sourceCommand: outcome.sourceCommand || "",
+    sourceResults: (outcome.sourceResults || []).slice(0, 6).map((item) => ({
+      type: item.type || "",
+      num: Number(item.num || 0),
+      name: item.name || "",
+      exp: Number(item.exp || 0),
+      levelup: Number(item.levelup || 0),
+      level: Number(item.level || 0)
+    })),
+    defeatedEnemies: (outcome.defeatedEnemies || []).slice(0, 8).map((enemy) => ({
+      EnemyId: enemy.EnemyId,
+      PetId: enemy.PetId,
+      Name: enemy.Name,
+      Lv: Number(enemy.Lv || 0),
+      SourceExp: Number(enemy.SourceExp ?? enemy.Exp ?? 0)
+    })),
+    lootItems: (outcome.lootItems || []).slice(0, 8).map((item) => ({
+      id: item.id,
+      name: item.name || "",
+      qty: Number(item.qty || 1)
+    })),
+    turns: Number(outcome.turns || 0),
     log: (outcome.log || []).slice(-4)
   };
   game.lastBattleOutcome = summary;
   return summary;
+}
+
+function battlePetSlot(game, pet) {
+  const pets = game.pets || [];
+  const index = pets.findIndex((item) => item === pet || (
+    item && pet
+    && String(item.Name || item.name || "") === String(pet.Name || pet.name || "")
+    && Number(item.PetId ?? item.id ?? -1) === Number(pet.PetId ?? pet.id ?? -2)
+  ));
+  return index >= 0 ? index : 0;
 }
 
 function selectBattleTarget(game, targetIndex) {
@@ -1762,12 +1793,13 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
   const enemyName = enemy.Name;
   const petName = activePet.Name;
   game.battle.turn = Number(game.battle.turn || 0) + 1;
+  const turnCount = Number(game.battle.turn || 0);
   game.battle.sourceCommand = options.sourceCommand || game.battle.sourceCommand || "H|0";
   let result = options.result || "turn";
   let exp = 0;
   let stone = 0;
   let defeatedEnemies = [];
-  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [] };
+  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [], sourceResults: [] };
   if (enemy.Hp <= 0) {
     const nextEnemy = advanceBattleEnemy(game, enemy, battleLog);
     if (nextEnemy) {
@@ -1786,6 +1818,9 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         sourceCommand: options.sourceCommand,
         itemUse: options.itemUse || null,
         defeatedEnemies: game.battle?.defeatedEnemies || [],
+        sourceResults: [],
+        lootItems: [],
+        turns: turnCount,
         log: battleLog
       };
     }
@@ -1795,7 +1830,8 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     rewardSummary = {
       playerExp: Number(reward.playerExp || 0),
       petExp: Number(reward.petExp || 0),
-      levelUps: [...(reward.levelUps || [])]
+      levelUps: [...(reward.levelUps || [])],
+      sourceResults: [...(reward.sourceResults || [])]
     };
     exp = reward.playerExp;
     stone = defeatedEnemies.reduce((sum, item) => sum + 12 + Number(item.Lv || 1) * 4, 0);
@@ -1841,6 +1877,9 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     sourceCommand: options.sourceCommand,
     itemUse: options.itemUse || null,
     defeatedEnemies,
+    sourceResults: rewardSummary.sourceResults,
+    lootItems: [],
+    turns: turnCount,
     log: battleLog
   };
 }
@@ -1943,6 +1982,7 @@ function performCaptureAction(game) {
   const ok = Math.random() * 100 < rate;
   if (ok) {
     const capturedPet = normalizeCapturedPet(target);
+    const turnCount = Number(game.battle?.turn || 0) + 1;
     game.pets.push(capturedPet);
     game.encounter = null;
     game.battle = null;
@@ -1973,6 +2013,10 @@ function performCaptureAction(game) {
       stone,
       rate,
       sourceCommand: "T|0",
+      sourceResults: [...(reward.sourceResults || [])],
+      defeatedEnemies: [],
+      lootItems: [],
+      turns: turnCount,
       log: [line]
     };
   }
@@ -2202,12 +2246,33 @@ function grantBattleExperience(game, activePet, defeatedEnemies, options = {}) {
   recordBattleVictory(game, activePet, enemies, options.reason || "battle");
   const playerLevelUps = maybeLevelPlayer(game);
   const petLevelUps = activePet ? maybeLevelPet(game, activePet) : [];
+  const sourceResults = [
+    {
+      type: "player",
+      num: -2,
+      name: game.player?.name || "player",
+      exp: playerExpAdded,
+      levelup: playerLevelUps.length ? 1 : 0,
+      level: Number(game.player?.level || 1)
+    }
+  ];
+  if (activePet && (petExpAdded > 0 || petLevelUps.length > 0)) {
+    sourceResults.push({
+      type: "pet",
+      num: battlePetSlot(game, activePet),
+      name: activePet.Name || activePet.name || "pet",
+      exp: petExpAdded,
+      levelup: petLevelUps.length ? 1 : 0,
+      level: Number(activePet.Lv || activePet.level || 1)
+    });
+  }
   syncCharacterFields(game);
   return {
     playerExp: playerExpAdded,
     petExp: petExpAdded,
     petName: activePet?.Name || "",
     levelUps: [...playerLevelUps, ...petLevelUps],
+    sourceResults,
     source: "gmsv battle.c BATTLE_AddExpItem/BATTLE_GetExpGold"
   };
 }

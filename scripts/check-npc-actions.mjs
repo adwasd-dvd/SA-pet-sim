@@ -380,6 +380,7 @@ ganzoBattleGame.encounter.WorkQuick = 0;
 ganzoBattleGame = await api("/api/game/battle", { game: ganzoBattleGame, action: "攻击" });
 assertEqual(ganzoBattleGame.battleOutcome.result, "victory", "Ganzo NPCEnemy can be defeated through battle API");
 assertEqual(ganzoBattleGame.battleOutcome.defeatedEnemies.length, 2, "Ganzo final victory reports both source enemies defeated");
+assertEqual(ganzoBattleGame.lastBattleOutcome.defeatedEnemies.length, 2, "last battle outcome persists defeated enemy telemetry");
 assert(ganzoBattleGame.flags.npcEnemyDefeats[ganzo.id]?.until, "Ganzo victory records source dieact=0 respawn timer");
 assert(!ganzoBattleGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "Ganzo victory hides the blocker NPC from the active map");
 
@@ -829,9 +830,12 @@ playerLevelPointGame = await api("/api/game/battle", { game: playerLevelPointGam
 assertEqual(playerLevelPointGame.battleOutcome.result, "victory", "battle can settle player level-up fixture");
 assert(playerLevelPointGame.battleOutcome.playerExp >= 100, "battle outcome exposes structured player EXP gain");
 assert(playerLevelPointGame.battleOutcome.petExp >= 100, "battle outcome exposes structured active pet EXP gain");
+assert(playerLevelPointGame.battleOutcome.sourceResults.some((item) => item.type === "player" && item.num === -2 && item.exp >= 100), "battle outcome carries source RS_LIST-style player result");
+assert(playerLevelPointGame.battleOutcome.sourceResults.some((item) => item.type === "pet" && item.num === 0 && item.exp >= 100), "battle outcome carries source RS_LIST-style pet slot result");
 assert(playerLevelPointGame.battleOutcome.levelUps.length >= 1, "battle outcome exposes level-up lines");
 assertEqual(playerLevelPointGame.lastBattleOutcome.result, "victory", "game keeps a compact last battle outcome");
 assertEqual(playerLevelPointGame.save.json.lastBattleOutcome.result, "victory", "save json carries last battle outcome summary");
+assertEqual(playerLevelPointGame.save.json.lastBattleOutcome.sourceResults[0].num, -2, "save json carries source RS_LIST-style battle result telemetry");
 assert(playerLevelPointGame.player.level >= 2, "player levels through accumulated battle EXP");
 const playerLevelGain = Number(playerLevelPointGame.player.level || 1) - playerLevelBeforeSourceGrowth;
 assertEqual(Number(playerLevelPointGame.player.skillUpPoint || 0), playerLevelGain * 3, "player level-up grants source 3 unspent ability points per gained level");
@@ -878,6 +882,8 @@ maxLevelExpGame = await api("/api/game/battle", { game: maxLevelExpGame, action:
 assertEqual(maxLevelExpGame.battleOutcome.result, "victory", "battle can settle max-level EXP fixture");
 assertEqual(maxLevelExpGame.battleOutcome.playerExp, 0, "max-level player receives no battle EXP");
 assertEqual(maxLevelExpGame.battleOutcome.petExp, 0, "max-level active pet receives no battle EXP");
+assert(maxLevelExpGame.battleOutcome.sourceResults.some((item) => item.type === "player" && item.num === -2 && item.exp === 0), "max-level player still emits source result entry with zero EXP");
+assert(!maxLevelExpGame.battleOutcome.sourceResults.some((item) => item.type === "pet"), "max-level pet with zero WORKGETEXP is skipped in source-style result list");
 assertEqual(maxLevelExpGame.player.exp, maxLevelPlayerExpBefore, "max-level player EXP total is unchanged after battle");
 assertEqual(maxLevelExpGame.pets[0].Exp, maxLevelPetExpBefore, "max-level pet EXP total is unchanged after battle");
 
