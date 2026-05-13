@@ -223,6 +223,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(buyGame(body.game, String(body.npcId || ""), Number(body.itemId)));
     }
+    if (url.pathname === "/api/game/sell" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(sellGame(body.game, String(body.npcId || ""), Number(body.itemId), Number(body.qty) || 1));
+    }
     if (url.pathname === "/api/game/use-item" && request.method === "POST") {
       const body = await readJson(request);
       return json(useItemGame(body.game, Number(body.itemId)));
@@ -1049,6 +1053,53 @@ function buyGame(game, npcId, itemId) {
   openDialog(game, npc, [
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
     npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币${discountText}。`)
+  ]);
+  return withMap(game, { npc });
+}
+
+function sellGame(game, npcId, itemId, qty = 1) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作 NPC 窗口");
+  if (!npc.trade?.items?.length) throw new Error("这个 NPC 没有商品资料");
+  const item = findInventoryItem(game, itemId);
+  if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
+  const count = Math.max(1, Math.trunc(Number(qty) || 1));
+  const sellQty = Math.min(count, Number(item.qty || 0));
+  const unitPrice = sellItemPrice(npc, item);
+  if (unitPrice <= 0) throw new Error("这个道具不能出售");
+  const totalPrice = unitPrice * sellQty;
+  recordNpcVmEvent(game, npc, "shop", "ok", {
+    action: "sell",
+    itemId,
+    itemName: item.name,
+    qty: sellQty,
+    unitPrice,
+    price: totalPrice,
+    sourcePrice: sourceItemPrice(item),
+    sellRate: tradeSellRate(npc)
+  });
+  const taken = runNpcVmAction(game, npc, {
+    type: "take",
+    item,
+    itemId,
+    itemName: item.name,
+    qty: sellQty,
+    reason: "sell"
+  });
+  if (!taken.ok) throw new Error(taken.error || "出售失败");
+  const paid = runNpcVmAction(game, npc, {
+    type: "give",
+    stone: totalPrice,
+    reason: "sell"
+  });
+  if (!paid.ok) throw new Error(paid.error || "出售失败");
+  addLog(game, `卖给 ${npc.name} ${item.name} x${sellQty}，获得 ${totalPrice} 石币。`);
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
+    npcMessage("system", `出售成功：${item.name} x${sellQty}，获得 ${totalPrice} 石币。`)
   ]);
   return withMap(game, { npc });
 }
@@ -3207,8 +3258,9 @@ function fallbackNpcReply(npc) {
 
 function tradeReply(game, npc) {
   const items = availableTradeItems(game, npc).slice(0, 8);
+  const sellItems = sellableInventoryItems(game, npc).filter((item) => item.sellable).slice(0, 4);
   const discount = shopDiscountForNpc(game, npc);
-  recordNpcVmEvent(game, npc, "shop", items.length ? "ok" : "unsupported", { items: items.length, source: npc.trade?.source || "", discountPercent: discount?.percent || 0 });
+  recordNpcVmEvent(game, npc, "shop", items.length ? "ok" : "unsupported", { items: items.length, sellItems: sellItems.length, source: npc.trade?.source || "", discountPercent: discount?.percent || 0, sellRate: tradeSellRate(npc) });
   if (!items.length) return `${npc.name} 没有可解析的商品清单。`;
   const priceText = (item) => {
     const price = discountedShopPrice(game, npc, item);
@@ -3218,6 +3270,7 @@ function tradeReply(game, npc) {
   return [
     npc.trade.mainMessage || "欢迎光临！",
     `可购买：${items.map((item) => `${item.name}(${priceText(item)})`).join("、")}`,
+    sellItems.length ? `可卖出：${sellItems.map((item) => `${item.name}(${item.sellPrice}石币)`).join("、")}` : "背包里暂时没有可出售道具。",
     discount ? `这次 AI 协商优待：${discount.percent}% 折扣，临时有效。` : "",
     `商品来源：${npc.trade.source}`
   ].filter(Boolean).join("\n");
@@ -4441,10 +4494,13 @@ function withTradeState(game, trade, npc = null) {
   const state = inventoryState(game);
   const discount = npc ? shopDiscountForNpc(game, npc) : null;
   const items = npc ? availableTradeItems(game, npc) : (trade.items || []);
+  const sellItems = npc ? sellableInventoryItems(game, npc) : [];
   return {
     ...trade,
     discount,
     inventory: state,
+    sellRate: npc ? tradeSellRate(npc) : Number(trade.sellRate || 0),
+    sellItems,
     items: items.map((item) => ({
       ...item,
       sourcePrice: Number(item.price || item.cost || 0),
@@ -4455,6 +4511,45 @@ function withTradeState(game, trade, npc = null) {
       canCarry: canCarryItem(game, item)
     }))
   };
+}
+
+function sellableInventoryItems(game, npc) {
+  return (game.inventory || [])
+    .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
+    .map((item) => {
+      const sourcePrice = sourceItemPrice(item);
+      const sellPrice = sellItemPrice(npc, item);
+      return {
+        ...item,
+        sourcePrice,
+        sellPrice,
+        sellRate: tradeSellRate(npc),
+        sellable: sellPrice > 0,
+        reason: sellPrice > 0 ? "" : "没有原始价格"
+      };
+    });
+}
+
+function sellItemPrice(npc, item) {
+  const sourcePrice = sourceItemPrice(item);
+  if (sourcePrice <= 0) return 0;
+  const rate = tradeSellRate(npc);
+  if (rate <= 0) return 0;
+  return Math.max(1, Math.floor(sourcePrice * rate));
+}
+
+function sourceItemPrice(item) {
+  const ownPrice = Number(item?.price || item?.cost || 0);
+  if (Number.isFinite(ownPrice) && ownPrice > 0) return ownPrice;
+  const worldItem = worldTradeItems().find((entry) => Number(entry.id) === Number(item?.id));
+  const worldPrice = Number(worldItem?.price || worldItem?.cost || 0);
+  return Number.isFinite(worldPrice) && worldPrice > 0 ? worldPrice : 0;
+}
+
+function tradeSellRate(npc) {
+  const raw = Number(npc?.trade?.sellRate);
+  if (!Number.isFinite(raw)) return 0.2;
+  return Math.max(0, Math.min(1, raw));
 }
 
 function shopDiscountForNpc(game, npc) {

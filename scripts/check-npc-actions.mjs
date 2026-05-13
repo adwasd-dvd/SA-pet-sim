@@ -332,6 +332,12 @@ await expectApiError(
   "请先走近",
   "shop purchase rejects remote NPC window action"
 );
+await expectApiError(
+  "/api/game/sell",
+  { game, npcId: shopNpc.npc.id, itemId: shopNpc.npc.trade.items[0].id },
+  "请先走近",
+  "shop sell rejects remote NPC window action"
+);
 game.location = { mapId: shopNpc.map.id, x: shopNpc.npc.x + 1, y: shopNpc.npc.y };
 game.player.stone = 10000;
 const shopItem = shopNpc.npc.trade.items[0];
@@ -343,6 +349,16 @@ assertEqual(inventoryQty(game, shopItem.id), shopQtyBefore + 1, "shop buy gives 
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "buy"), "shop buy records shop VM event");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop buy runs stone take through NPC VM executor");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop buy runs item give through NPC VM executor");
+assert(game.dialog.trade.sellItems.some((item) => Number(item.id) === Number(shopItem.id) && item.sellable), "shop dialog exposes inventory sell list");
+const sellRate = Number(shopNpc.npc.trade.sellRate ?? 0.2);
+const sellPrice = Math.max(1, Math.floor(shopPrice * sellRate));
+const stoneBeforeSell = game.player.stone;
+game = await api("/api/game/sell", { game, npcId: shopNpc.npc.id, itemId: shopItem.id });
+assertEqual(game.player.stone, stoneBeforeSell + sellPrice, "shop sell adds stone through VM");
+assertEqual(inventoryQty(game, shopItem.id), shopQtyBefore, "shop sell removes one inventory item through VM");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "sell"), "shop sell records shop VM event");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "sell" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs item take through NPC VM executor");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "sell" && event.detail?.stone === sellPrice && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs stone give through NPC VM executor");
 
 const discountItem = shopNpc.npc.trade.items.find((item) => Number(item.price || item.cost || 0) > 1);
 if (!discountItem) throw new Error("missing priced shop item fixture");
@@ -634,7 +650,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

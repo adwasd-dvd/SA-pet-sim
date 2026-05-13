@@ -2297,6 +2297,9 @@ function renderDialog() {
   els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
   });
+  els.dialogSuggestions.querySelectorAll("[data-sell]").forEach((btn) => {
+    btn.addEventListener("click", () => sellItem(Number(btn.dataset.sell)));
+  });
   els.dialogSuggestions.querySelectorAll("[data-battle-img]").forEach((img) => {
     const fallback = () => {
       if (img.dataset.fallback === "1") return;
@@ -2549,23 +2552,43 @@ function dialogDebugLine(dialog) {
 
 function renderDialogShop(dialog) {
   const items = dialog.trade?.items || [];
-  if (!items.length) return "";
+  const sellItems = dialog.trade?.sellItems || [];
+  if (!items.length && !sellItems.length) return "";
   const state = dialog.trade.inventory || inventoryState();
+  const buyList = items.slice(0, 8).map((item) => `
+    <button class="shop-item" type="button" data-buy="${item.id}" ${shopDisabled(item) ? "disabled" : ""}>
+      <span>
+        <strong>${escapeHtml(item.name)}</strong>
+        <small>${escapeHtml(shopItemHint(item))}</small>
+      </span>
+      <b>${shopPriceLabel(item)}</b>
+    </button>
+  `).join("");
+  const sellList = sellItems.length
+    ? sellItems.slice(0, 8).map((item) => `
+      <button class="shop-item shop-item-sell" type="button" data-sell="${item.id}" ${sellDisabled(item) ? "disabled" : ""}>
+        <span>
+          <strong>${escapeHtml(item.name)} x${Number(item.qty || 0)}</strong>
+          <small>${escapeHtml(sellItemHint(item, dialog.trade))}</small>
+        </span>
+        <b>${sellPriceLabel(item)}</b>
+      </button>
+    `).join("")
+    : `<p class="shop-empty">背包里没有可卖给店家的道具。</p>`;
   return `
     <div class="shop-box">
-      <div>
-        <strong>商品</strong>
+      <div class="shop-summary">
+        <strong>交易</strong>
         <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)}</span>
       </div>
-      ${items.slice(0, 8).map((item) => `
-        <button class="shop-item" type="button" data-buy="${item.id}" ${shopDisabled(item) ? "disabled" : ""}>
-          <span>
-            <strong>${escapeHtml(item.name)}</strong>
-            <small>${escapeHtml(shopItemHint(item))}</small>
-          </span>
-          <b>${shopPriceLabel(item)}</b>
-        </button>
-      `).join("")}
+      <section class="shop-section">
+        <header><strong>买入</strong><small>店铺商品</small></header>
+        <div class="shop-list">${buyList || `<p class="shop-empty">没有可购买商品。</p>`}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>卖出</strong><small>按原脚本 sellRate ${Number(dialog.trade?.sellRate || 0)}</small></header>
+        <div class="shop-list">${sellList}</div>
+      </section>
     </div>
   `;
 }
@@ -2597,6 +2620,23 @@ function shopPriceLabel(item) {
   return `${price} 石币`;
 }
 
+function sellDisabled(item) {
+  return item.sellable === false || Number(item.sellPrice || 0) <= 0;
+}
+
+function sellItemHint(item, trade) {
+  if (item.sellable === false) return item.reason || "不能出售";
+  const details = [];
+  if (Number(item.sourcePrice || 0) > 0) details.push(`原价 ${Number(item.sourcePrice)}`);
+  if (Number(trade?.sellRate || item.sellRate || 0) > 0) details.push(`卖出率 ${Number(trade?.sellRate || item.sellRate)}`);
+  if (item.description) details.push(item.description);
+  return details.join(" | ") || `item ${item.id}`;
+}
+
+function sellPriceLabel(item) {
+  return `${Number(item.sellPrice || 0)} 石币`;
+}
+
 function effectRemainingLabel(until) {
   const remaining = Math.ceil((Number(until || 0) - Date.now()) / 1000);
   if (!Number.isFinite(remaining) || remaining <= 0) return "";
@@ -2613,6 +2653,17 @@ async function buyItem(itemId) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "购买失败");
+  }
+}
+
+async function sellItem(itemId) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/sell", { game, npcId: game.dialog.npcId, itemId, qty: 1 });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "出售失败");
   }
 }
 

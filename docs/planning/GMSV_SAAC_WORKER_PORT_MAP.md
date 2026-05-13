@@ -100,6 +100,7 @@ The current Worker already exposes a thin command facade:
 | `POST /api/game/talk` | `talkToNpc(hi)` | Default click-to-talk. |
 | `POST /api/game/dialog` | `talkToNpc(message)` | Source-grounded first pass, optional AI wording. |
 | `POST /api/game/buy` | `buyItem` | Real parsed shop item purchase. |
+| `POST /api/game/sell` | `sellItem` | Sell one inventory item back to an item shop using parsed `trade.sellRate`, with item removal and stone payment routed through the NPC VM. |
 | `POST /api/game/use-item` | `inventoryAction(use)` | HP recovery first pass. |
 | `POST /api/game/encounter` | `startEncounter` | Manual/debug encounter. |
 | `POST /api/game/capture` | `battleAction(capture)` | Capture first pass. |
