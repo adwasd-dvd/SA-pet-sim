@@ -2012,13 +2012,14 @@ h3 {
 
 .dialog-messages {
   display: grid;
-  gap: 5px;
+  align-content: start;
+  gap: 2px;
   max-height: none;
   min-height: 0;
   overflow: auto;
   border: 1px solid rgb(220 180 91 / 55%);
   border-radius: 0;
-  padding: 7px;
+  padding: 5px 7px;
   background:
     linear-gradient(135deg, rgb(255 255 255 / 8%) 0 25%, transparent 25% 50%, rgb(255 255 255 / 6%) 50% 75%, transparent 75%) 0 0 / 18px 18px,
     rgb(9 11 12 / 80%);
@@ -2060,9 +2061,10 @@ h3 {
   margin: 0;
   border: 0;
   border-radius: 0;
-  padding: 2px 4px 3px;
+  padding: 1px 4px 2px;
   background: transparent;
   color: #fffdf3;
+  line-height: 1.25;
   white-space: pre-wrap;
   word-break: break-word;
 }
