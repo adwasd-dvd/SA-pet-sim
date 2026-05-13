@@ -26,6 +26,8 @@ const CG_INVISIBLE = 99;
 const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
 const EVENT_NPC = 1;
+const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
+const DEFAULT_OPENAI_MODEL = "gpt-5.4-mini";
 const NPC_INTERACTION_RANGE = 2;
 const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
@@ -66,6 +68,48 @@ const rankTab = [
   [530, 580],
   [550, 600]
 ];
+const OPENAI_GUIDE_SCHEMA = {
+  type: "object",
+  properties: {
+    reply: { type: "string" },
+    intent: {
+      type: "string",
+      enum: ["status", "map", "npc", "quest", "battle", "inventory", "pet", "refuse", "other"]
+    },
+    nextStep: { type: "string" },
+    confidence: { type: "number" }
+  },
+  required: ["reply", "intent", "nextStep", "confidence"],
+  additionalProperties: false
+};
+const OPENAI_NPC_SCHEMA = {
+  type: "object",
+  properties: {
+    reply: { type: "string" },
+    intent: {
+      type: "string",
+      enum: ["chat", "quest", "trade", "heal", "save", "warp", "battle", "discount", "gift", "noEncounter", "negotiatePass", "mapInfo", "refuse"]
+    },
+    action: {
+      type: "object",
+      properties: {
+        type: {
+          type: "string",
+          enum: ["none", "warp", "teleportInfo", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass"]
+        },
+        text: { type: "string" },
+        seconds: { type: "integer" },
+        percent: { type: "integer" },
+        reason: { type: "string" }
+      },
+      required: ["type", "text", "seconds", "percent", "reason"],
+      additionalProperties: false
+    },
+    confidence: { type: "number" }
+  },
+  required: ["reply", "intent", "action", "confidence"],
+  additionalProperties: false
+};
 
 let cache;
 let charId = 0;
@@ -1831,6 +1875,20 @@ async function guideGame(env, request, game, prompt) {
   }
   const map = currentMap(game);
   const context = buildGuideContext(game, map);
+  if (hasOpenAi(env)) {
+    try {
+      const rsp = await callOpenAiGuide(env, context, prompt);
+      return { text: rsp.reply || fallbackGuide(context, prompt), model: rsp.model };
+    } catch (error) {
+      if (!env.AI || typeof env.AI.run !== "function") {
+        return {
+          text: fallbackGuide(context, prompt, error),
+          model: "local-rule",
+          warning: error?.message || "OpenAI failed"
+        };
+      }
+    }
+  }
   if (env.AI && typeof env.AI.run === "function") {
     const messages = [
       {
@@ -1857,6 +1915,91 @@ async function guideGame(env, request, game, prompt) {
     }
   }
   return { text: fallbackGuide(context, prompt), model: "local-rule" };
+}
+
+async function callOpenAiGuide(env, context, prompt) {
+  const system = [
+    "你是单人版石器时代网页运行时的向导，不是万能 GM。",
+    "只根据当前 JSON 状态回答；不要编不存在的地点、NPC、道具、任务或奖励。",
+    "如果请求会改变游戏状态，说明应由 Worker 的确定性逻辑执行；你只负责解释和提出下一步。",
+    "优先引用当前地图、附近 NPC、出口、任务进度、背包、宠物、战斗和临时状态。",
+    "中文，最多三段，口吻清楚但保持游戏沉浸感。"
+  ].join("\n");
+  const user = JSON.stringify({
+    prompt: prompt || "我下一步该做什么？",
+    context
+  });
+  const { json: decision, model } = await callOpenAiStructured(env, {
+    name: "stoneage_guide_reply",
+    schema: OPENAI_GUIDE_SCHEMA,
+    system,
+    user,
+    maxOutputTokens: 700
+  });
+  return {
+    model,
+    reply: String(decision?.reply || "").trim()
+  };
+}
+
+function hasOpenAi(env) {
+  return typeof env?.OPENAI_API_KEY === "string" && env.OPENAI_API_KEY.trim().length > 0;
+}
+
+function openAiModel(env) {
+  return String(env?.OPENAI_MODEL || DEFAULT_OPENAI_MODEL).trim() || DEFAULT_OPENAI_MODEL;
+}
+
+async function callOpenAiStructured(env, { name, schema, system, user, maxOutputTokens = 600 }) {
+  const model = openAiModel(env);
+  const response = await fetch(OPENAI_RESPONSES_URL, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model,
+      input: [
+        { role: "system", content: system },
+        { role: "user", content: user }
+      ],
+      text: {
+        format: {
+          type: "json_schema",
+          name,
+          strict: true,
+          schema
+        }
+      },
+      max_output_tokens: maxOutputTokens
+    })
+  });
+  if (!response.ok) {
+    const message = await response.text().catch(() => "");
+    throw new Error(`OpenAI ${response.status}: ${message.slice(0, 240)}`);
+  }
+  const payload = await response.json();
+  const outputText = extractOpenAiOutputText(payload);
+  if (!outputText) throw new Error("OpenAI returned empty structured output");
+  try {
+    return { json: JSON.parse(outputText), model };
+  } catch (error) {
+    throw new Error(`OpenAI structured JSON parse failed: ${error.message || "invalid JSON"}`);
+  }
+}
+
+function extractOpenAiOutputText(payload) {
+  if (typeof payload?.output_text === "string") return payload.output_text.trim();
+  const parts = [];
+  for (const item of payload?.output || []) {
+    if (typeof item?.text === "string") parts.push(item.text);
+    for (const content of item?.content || []) {
+      if (typeof content?.text === "string") parts.push(content.text);
+      if (typeof content?.content === "string") parts.push(content.content);
+    }
+  }
+  return parts.join("\n").trim();
 }
 
 async function applyGuideRequest(env, request, game, prompt) {
@@ -2673,6 +2816,19 @@ async function aiNpcReply(env, game, npc, text) {
 
   const map = currentMap(game);
   const debug = npcDebugInfo(npc, game);
+  if (hasOpenAi(env)) {
+    try {
+      const rsp = await callOpenAiNpc(env, game, npc, text, map, debug);
+      const proposed = openAiNpcAction(game, npc, rsp.decision, text);
+      if (proposed) return openAiNpcActionReply(game, npc, proposed, rsp.decision);
+      if (rsp.decision?.reply) {
+        recordNpcVmEvent(game, npc, "say", "ok", { reason: "openai-npc", model: rsp.model, intent: rsp.decision.intent });
+        return rsp.decision.reply;
+      }
+    } catch (error) {
+      recordNpcVmEvent(game, npc, "say", "blocked", { reason: "openai-npc-error", error: error?.message || "OpenAI failed" });
+    }
+  }
   const messages = [
     { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
     { role: "user", content: JSON.stringify({
@@ -2719,6 +2875,145 @@ async function aiNpcReply(env, game, npc, text) {
   }
   recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc-local" });
   return localNpcAiFallback(game, npc, text);
+}
+
+async function callOpenAiNpc(env, game, npc, text, map, debug) {
+  const role = npcActionProfile(npc);
+  const context = {
+    npc: {
+      id: npc.id,
+      name: npc.name,
+      type: npc.type,
+      dialogue: npc.dialogue,
+      source: npc.source,
+      script: npc.script,
+      template: npc.template,
+      actions: debug.actions,
+      allowedActions: debug.allowedActions,
+      questIds: npcQuestIds(npc),
+      questLead: npc.questLead || null,
+      scriptHints: npc.scriptHints || null,
+      trade: npc.trade ? {
+        items: npc.trade.items?.slice(0, 12).map((item) => ({
+          id: item.id,
+          name: item.name,
+          type: item.type,
+          price: item.price || item.cost || 0,
+          source: item.source
+        })) || [],
+        source: npc.trade.source
+      } : null,
+      warp: npc.warp || null,
+      roleProfile: role,
+      canDirectlyMutate: false
+    },
+    player: game.player,
+    location: {
+      mapId: map.id,
+      floorId: map.floorId,
+      name: map.name,
+      position: [game.location.x, game.location.y],
+      canWildEncounter: map.canWildEncounter,
+      wildEncounterReason: map.wildEncounterReason
+    },
+    map: {
+      exits: map.exits.map((exit) => ({
+        label: exit.label,
+        to: exit.to,
+        targetMapName: WORLD.maps[exit.to]?.name || "",
+        distance: distanceToExit(exit, game.location.x, game.location.y)
+      })).slice(0, 12),
+      nearbyNpcs: nearbyState(game, map).npcs
+    },
+    quests: game.quests,
+    pets: game.pets.map(petSummary),
+    inventory: inventoryState(game),
+    effects: guideEffectSummary(game),
+    recentConversation: npcOpenAiHistory(game, npc),
+    vmTrace: debug.vmTrace,
+    userText: text
+  };
+  const system = [
+    "你正在扮演石器时代单人网页版里的当前 NPC，不是旁白，也不是万能 GM。",
+    "必须保持 NPC 的姓名、职业、地图、脚本来源和行为范围；只能根据 JSON 上下文说话。",
+    "NPC 可以解释任务、地图、交易、传送和战斗线索；可以提出优待或交涉意图，但不能直接改状态。",
+    "所有交易、传送、奖励、flag、避敌、开战、折扣和赠品都必须交给 Worker 的 NPC VM 校验执行。",
+    "只允许提出 action.type 中列出的动作；如果动作不符合 NPC 身份，type 必须是 none 或 teleportInfo，并在 reply 里自然拒绝。",
+    "商店只能围绕自己的商品类别和 gmsv/itemset 资料谈额外物品；守门/敌人 NPC 可被贿赂、威胁或说服，但是否通过由 VM 决定。",
+    "中文，1-3 句，像 NPC 在游戏里说话；不要输出调试字段。"
+  ].join("\n");
+  const { json: decision, model } = await callOpenAiStructured(env, {
+    name: "stoneage_npc_reply",
+    schema: OPENAI_NPC_SCHEMA,
+    system,
+    user: JSON.stringify(context),
+    maxOutputTokens: 650
+  });
+  return { decision, model };
+}
+
+function npcOpenAiHistory(game, npc) {
+  if (game.dialog?.npcId !== npc.id) return [];
+  return (game.dialog.messages || [])
+    .slice(-8)
+    .map((message) => ({
+      speaker: message.speaker,
+      text: String(message.text || "").slice(0, 220)
+    }));
+}
+
+function openAiNpcAction(game, npc, decision, fallbackText) {
+  const action = decision?.action;
+  const type = String(action?.type || "none");
+  if (type === "none") return null;
+  const text = String(action?.text || fallbackText || "");
+  if (type === "warp") {
+    if (isWarpNpc(npc) || isTransportNpc(npc)) return { type: "warp", text };
+    return { type: "teleportInfo", text };
+  }
+  if (type === "teleportInfo") return { type: "teleportInfo", text };
+  if (type === "noEncounter") {
+    if (isNpcEnemy(npc)) return { type: "negotiatePass", text };
+    if (!npcCanOfferAiFavor(npc)) return null;
+    return { type: "noEncounter", seconds: clampInt(action.seconds, 60, 420, aiNoEncounterSeconds(game, npc, text)) };
+  }
+  if (type === "shopDiscount") {
+    if (!npc.trade?.items?.length) return null;
+    return {
+      type: "shopDiscount",
+      percent: clampInt(action.percent, 5, 25, aiShopDiscountPercent(game, npc, text)),
+      seconds: 600
+    };
+  }
+  if (type === "offMenuItem") {
+    if (!npc.trade?.items?.length) return null;
+    return { type: "offMenuItem", text };
+  }
+  if (type === "negotiatePass") {
+    if (!isNpcEnemy(npc)) return null;
+    return { type: "negotiatePass", text };
+  }
+  return null;
+}
+
+function openAiNpcActionReply(game, npc, action, decision) {
+  const reply = String(decision?.reply || "").trim();
+  const applied = applyNpcAiAction(game, npc, action);
+  recordNpcVmEvent(game, npc, "say", "ok", { reason: "openai-npc-action", intent: decision?.intent || "", proposedAction: action.type });
+  if (!reply || applied.includes(reply)) return applied;
+  return `${reply}\n${applied}`;
+}
+
+function npcCanOfferAiFavor(npc) {
+  return Boolean(
+    npc.trade?.items?.length ||
+    isHealerNpc(npc) ||
+    isSavePointNpc(npc) ||
+    isWarpNpc(npc) ||
+    isTransportNpc(npc) ||
+    npc.questLead ||
+    /elder|guard|gate|town|timeman|村|庄|守|长老|少女|姑娘|男人|女人/i.test(`${npc.name} ${npc.type} ${npc.template} ${npc.script}`)
+  );
 }
 
 function localNpcAiFallback(game, npc, text, error = null) {

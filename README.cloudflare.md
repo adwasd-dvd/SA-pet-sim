@@ -25,6 +25,14 @@ npm run deploy
 
 如果要启用 Cloudflare Workers AI，确保账号已开通 Workers AI。`wrangler.jsonc` 已经配置 `AI` binding；也可以在 Cloudflare 环境变量里设置 `AI_MODEL` 覆盖默认模型。
 
+如果要让游戏 NPC/向导使用 OpenAI 模型，把 API key 作为 Worker secret 配置，不能放进前端或提交到 git：
+
+```bash
+npx wrangler secret put OPENAI_API_KEY
+```
+
+可选设置普通环境变量 `OPENAI_MODEL` 覆盖默认 `gpt-5.4-mini`。有 `OPENAI_API_KEY` 时，Worker 会优先用 OpenAI Responses API 生成结构化 NPC/向导回复；没有 key 时继续回退到 Workers AI 或本地规则。AI 只能提出对话和 action proposal，交易、传送、折扣、赠品、flag、避敌和战斗仍由 `src/worker.js` 里的确定性 NPC VM 校验执行。
+
 ## API
 
 - `POST /api/game/new`：创建网页游戏人物和初始状态。
