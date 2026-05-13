@@ -1594,6 +1594,7 @@ function createEnemyFromEnemySpec(data, enemyId, npcEnemy = null) {
 function captureGame(game) {
   game = normalizeGame(game);
   const outcome = performBattleAction(game, "capture");
+  recordBattleOutcome(game, outcome);
   return withMap(game, {
     captured: outcome.result === "captured",
     battleOutcome: outcome
@@ -1603,6 +1604,7 @@ function captureGame(game) {
 function battleGame(game, action) {
   game = normalizeGame(game);
   const outcome = performBattleAction(game, action);
+  recordBattleOutcome(game, outcome);
   return withMap(game, { battleOutcome: outcome });
 }
 
@@ -1692,6 +1694,24 @@ function normalizeBattleMove(action) {
   return { type: value, command: value };
 }
 
+function recordBattleOutcome(game, outcome = null) {
+  if (!outcome) return null;
+  const summary = {
+    at: new Date().toISOString(),
+    result: outcome.result || "",
+    enemyName: outcome.enemyName || "",
+    petName: outcome.petName || "",
+    playerExp: Number(outcome.playerExp ?? outcome.exp ?? 0),
+    petExp: Number(outcome.petExp || 0),
+    stone: Number(outcome.stone || 0),
+    levelUps: [...(outcome.levelUps || [])].slice(0, 6),
+    sourceCommand: outcome.sourceCommand || "",
+    log: (outcome.log || []).slice(-4)
+  };
+  game.lastBattleOutcome = summary;
+  return summary;
+}
+
 function selectBattleTarget(game, targetIndex) {
   const battle = game.battle;
   const party = Array.isArray(battle?.enemyParty) ? battle.enemyParty : [];
@@ -1744,6 +1764,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
   let exp = 0;
   let stone = 0;
   let defeatedEnemies = [];
+  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [] };
   if (enemy.Hp <= 0) {
     const nextEnemy = advanceBattleEnemy(game, enemy, battleLog);
     if (nextEnemy) {
@@ -1755,6 +1776,9 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         nextEnemyName: nextEnemy.Name,
         petName,
         exp,
+        playerExp: 0,
+        petExp: 0,
+        levelUps: [],
         stone,
         sourceCommand: options.sourceCommand,
         itemUse: options.itemUse || null,
@@ -1765,6 +1789,11 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     result = "victory";
     defeatedEnemies = completedBattleEnemies(game, enemy);
     const reward = grantBattleExperience(game, activePet, defeatedEnemies, { reason: "victory" });
+    rewardSummary = {
+      playerExp: Number(reward.playerExp || 0),
+      petExp: Number(reward.petExp || 0),
+      levelUps: [...(reward.levelUps || [])]
+    };
     exp = reward.playerExp;
     stone = defeatedEnemies.reduce((sum, item) => sum + 12 + Number(item.Lv || 1) * 4, 0);
     game.player.stone += stone;
@@ -1797,7 +1826,20 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   }
   battleLog.forEach((line) => addLog(game, line));
-  return { result, enemyName, petName, exp, stone, sourceCommand: options.sourceCommand, itemUse: options.itemUse || null, defeatedEnemies, log: battleLog };
+  return {
+    result,
+    enemyName,
+    petName,
+    exp,
+    playerExp: rewardSummary.playerExp,
+    petExp: rewardSummary.petExp,
+    levelUps: rewardSummary.levelUps,
+    stone,
+    sourceCommand: options.sourceCommand,
+    itemUse: options.itemUse || null,
+    defeatedEnemies,
+    log: battleLog
+  };
 }
 
 function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
@@ -1913,7 +1955,19 @@ function performCaptureAction(game) {
       petName: enemyName,
       result: "capture"
     });
-    return { result: "captured", enemyName, petName: enemyName, exp, stone, rate, sourceCommand: "T|0", log: [line] };
+    return {
+      result: "captured",
+      enemyName,
+      petName: enemyName,
+      exp,
+      playerExp: Number(reward.playerExp || 0),
+      petExp: Number(reward.petExp || 0),
+      levelUps: [...(reward.levelUps || [])],
+      stone,
+      rate,
+      sourceCommand: "T|0",
+      log: [line]
+    };
   }
   const battleLog = [`${enemyName} 挣脱了绳索。`];
   if (activePet) {
@@ -2667,6 +2721,7 @@ async function runGuideTrainingBattle(env, request, game, prompt) {
   let lastOutcome = null;
   for (let i = 0; i < 12 && game.encounter; i += 1) {
     lastOutcome = performBattleAction(game, "attack");
+    recordBattleOutcome(game, lastOutcome);
     logs.push(...(lastOutcome.log || []));
     if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured"].includes(lastOutcome.result)) break;
   }
@@ -4759,6 +4814,7 @@ function applyNpcVmStartBattle(game, action) {
 function applyNpcVmBattleAction(game, action) {
   try {
     const outcome = performBattleAction(game, action.move || action.battleAction || "attack");
+    recordBattleOutcome(game, outcome);
     return { ok: true, mutated: true, outcome };
   } catch (error) {
     return { ok: false, mutated: false, error: error.message || "战斗动作失败" };
@@ -6524,6 +6580,7 @@ function buildSaveJson(game) {
     petState: petState(game),
     progression: progressionState(game),
     characterFields: { ...(game.characterFields || {}) },
+    lastBattleOutcome: game.lastBattleOutcome ? { ...game.lastBattleOutcome } : null,
     inventory: game.inventory.map((item) => ({ ...item })),
     inventoryState: inventoryState(game),
     quests: game.quests || {},

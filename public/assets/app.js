@@ -3226,13 +3226,43 @@ function renderAssistDebug() {
 
 function fieldBattleSummary() {
   const enemy = game.encounter;
-  if (!enemy) return "当前无战斗";
+  if (!enemy) {
+    const outcome = recentBattleOutcome();
+    return outcome ? battleOutcomeSummary(outcome) : "当前无战斗";
+  }
   const activePet = getActivePet();
   const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
   const enemyHp = Math.max(0, Number(enemy.Hp ?? enemyMax));
   const petText = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || 0)}/${Number(activePet.WorkMaxHp || 0)}` : "无出战宠物";
   const lastLine = (game.battle?.log || []).slice(-1)[0] || "战斗开始";
   return `${escapeHtml(enemy.Name || "敌人")} Lv.${Number(enemy.Lv || 1)} HP ${enemyHp}/${enemyMax} | ${escapeHtml(petText)} | ${escapeHtml(lastLine)}`;
+}
+
+function recentBattleOutcome() {
+  return game?.battleOutcome || game?.lastBattleOutcome || game?.save?.json?.lastBattleOutcome || null;
+}
+
+function battleOutcomeSummary(outcome = {}) {
+  const resultLabel = {
+    victory: "胜利",
+    captured: "捕获",
+    defeat: "撤退",
+    escaped: "逃跑",
+    released: "放走",
+    "capture-missed": "捕获失败",
+    "pet-full": "宠物栏满"
+  }[outcome.result] || outcome.result || "战斗";
+  const exp = Number(outcome.playerExp ?? outcome.exp ?? 0);
+  const petExp = Number(outcome.petExp || 0);
+  const stone = Number(outcome.stone || 0);
+  const petName = outcome.petName || "出战宠";
+  const levelUps = (outcome.levelUps || []).slice(0, 2).join("；");
+  const parts = [`${resultLabel}${outcome.enemyName ? ` ${outcome.enemyName}` : ""}`];
+  if (exp > 0) parts.push(`人物 +${exp}EXP`);
+  if (petExp > 0) parts.push(`${petName} +${petExp}EXP`);
+  if (stone > 0) parts.push(`石币 +${stone}`);
+  if (levelUps) parts.push(levelUps);
+  return parts.join(" | ");
 }
 
 function noEncounterEffectText() {
@@ -3289,6 +3319,14 @@ function aiRuntimeLabel() {
 function aiStatusRows() {
   const rows = [];
   const now = Date.now();
+  const outcome = recentBattleOutcome();
+  if (outcome && !game.encounter) {
+    rows.push({
+      label: "战斗结算",
+      text: battleOutcomeSummary(outcome),
+      strong: Number(outcome.playerExp ?? outcome.exp ?? 0) > 0 || Number(outcome.petExp || 0) > 0
+    });
+  }
   const noEncounterUntil = Number(game.effects?.noEncounterUntil || 0);
   if (noEncounterUntil > now) {
     rows.push({
