@@ -12,6 +12,8 @@ const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=battle-sprites-v1";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
 const PET_CAPACITY_FALLBACK = 5;
+const BATTLE_PLAYER_MAX = 5;
+const BATTLE_SIDE_OFFSET = 10;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
@@ -140,6 +142,9 @@ let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
 let battleSkillMenuOpen = false;
 let battlePetMenuOpen = false;
+let battleSelectedAction = "attack";
+let battlePendingAction = "";
+let battleFxTimer = 0;
 let aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
 let npcSortMode = "source";
 let exitSortMode = "source";
@@ -2462,6 +2467,8 @@ function renderBattlePanel() {
     battleItemMenuOpen = false;
     battleSkillMenuOpen = false;
     battlePetMenuOpen = false;
+    battleSelectedAction = "attack";
+    battlePendingAction = "";
     return;
   }
   clientWindowOpen = false;
@@ -2483,7 +2490,8 @@ function renderBattlePanel() {
     ? `PLAYER ${battle.sourceCommand}`
     : "PLAYER";
   els.battleSource.title = battle.source || enemy.source || "gmsv battle_command.c";
-  if (els.battleTargetPrompt) els.battleTargetPrompt.hidden = !formation;
+  els.battlePanel.classList.toggle("battle-busy", Boolean(battlePendingAction));
+  updateBattleTargetPrompt(formation);
   updateBattleCountdownDisplay();
   setBattleSprite(els.battleEnemyImg, enemy.ImgNo);
   els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
@@ -2522,8 +2530,10 @@ function renderBattlePanel() {
       || (entry.action === "item" && !hasBattleItem)
       || (entry.action === "skill" && !hasBattleSkill)
       || (entry.action === "pet" && !hasBattlePet);
+    const active = isTargetedBattleAction(entry.action) && battleSelectedAction === entry.action;
+    const pending = battlePendingAction === entry.action || battlePendingAction.startsWith(`${entry.action}:`);
     return `
-      <button type="button" data-battle-action="${entry.action}" ${disabled ? "disabled" : ""} title="${escapeHtml(battleActionHint(entry))}">
+      <button type="button" data-battle-action="${entry.action}" class="${active ? "active" : ""} ${pending ? "pending" : ""}" aria-pressed="${active ? "true" : "false"}" ${disabled ? "disabled" : ""} title="${escapeHtml(battleActionHint(entry))}">
         <b>${escapeHtml(entry.label)}</b>
         <span>${escapeHtml(entry.command)}</span>
         <small>${index + 1}</small>
@@ -2543,6 +2553,22 @@ function battleEnemyParty(battle, enemy) {
 
 function battleFormationState() {
   return game?.characterFields?.battle?.formation || game?.save?.json?.characterFields?.battle?.formation || null;
+}
+
+function updateBattleTargetPrompt(formation) {
+  if (!els.battleTargetPrompt) return;
+  els.battleTargetPrompt.hidden = !formation;
+  if (!formation) return;
+  const spans = els.battleTargetPrompt.querySelectorAll("span");
+  const [line1, line2] = battleTargetPromptLines();
+  if (spans[0]) spans[0].textContent = line1;
+  if (spans[1]) spans[1].textContent = line2;
+}
+
+function battleTargetPromptLines() {
+  if (battlePendingAction) return ["指令已送出", "等待回合结算"];
+  if (battleSelectedAction === "capture") return ["请选择", "捕获目标"];
+  return ["请选择", "攻击目标"];
 }
 
 function updateBattleCountdownDisplay() {
@@ -2567,7 +2593,13 @@ function battleActionHint(entry) {
   if (entry.action === "help") return "Help：原版加入/求援入口，等待多人战斗房间接入";
   if (entry.action === "skill") return "宠技 W：选择出战宠物技能后点目标";
   if (entry.action === "pet") return "宠物 S：出战、换宠或收回出战宠";
+  if (entry.action === "attack") return "攻击 H：先选择攻击，再点左上敌方单位";
+  if (entry.action === "capture") return "捕获 T：先选择捕获，再点左上敌方单位";
   return `${entry.label} ${entry.command}`;
+}
+
+function isTargetedBattleAction(action) {
+  return action === "attack" || action === "capture";
 }
 
 function renderBattleFormation() {
@@ -2581,6 +2613,7 @@ function renderBattleFormation() {
     ...(formation.enemySide || []).map((unit) => ({ ...unit, sideClass: "enemy-side" })),
     ...(formation.allySide || []).map((unit) => ({ ...unit, sideClass: "ally-side" }))
   ].filter((unit) => Number(unit.hp ?? 1) > 0 || unit.kind === "player");
+  const targetMode = isTargetedBattleAction(battleSelectedAction);
   els.battleFormationLayer.innerHTML = units.map((unit) => {
     const pos = battleFormationUnitPosition(unit);
     const maxHp = Math.max(1, Number(unit.maxHp || unit.hp || 1));
@@ -2598,6 +2631,10 @@ function renderBattleFormation() {
       </${buttonTag}>
     `;
   }).join("");
+  els.battleFormationLayer.querySelectorAll("[data-battle-target]").forEach((node) => {
+    node.classList.toggle("targetable", targetMode && !battlePendingAction);
+    node.dataset.targetMode = targetMode ? battleSelectedAction : "";
+  });
   els.battleFormationLayer.querySelectorAll("[data-atlas-sprite]").forEach((node) => {
     if (loadedTileAtlas) applyAtlasSprite(node, loadedTileAtlas, node.dataset.atlasSprite);
   });
@@ -2711,7 +2748,9 @@ function battleStatusText(entity = {}) {
 function onBattlePanelClick(event) {
   const targetBtn = event.target.closest("[data-battle-target]");
   if (targetBtn && els.battlePanel.contains(targetBtn) && !targetBtn.disabled) {
-    sendBattleAction(`attack:${targetBtn.dataset.battleTarget}`);
+    const action = isTargetedBattleAction(battleSelectedAction) ? battleSelectedAction : "attack";
+    flashBattleElement(targetBtn, "battle-click-confirm");
+    sendBattleAction(`${action}:${targetBtn.dataset.battleTarget}`);
     return;
   }
   const itemBtn = event.target.closest("[data-battle-item]");
@@ -2750,6 +2789,15 @@ function onBattlePanelClick(event) {
   }
   const btn = event.target.closest("[data-battle-action]");
   if (!btn || !els.battlePanel.contains(btn) || btn.disabled) return;
+  flashBattleElement(btn, "battle-click-confirm");
+  if (isTargetedBattleAction(btn.dataset.battleAction)) {
+    battleSelectedAction = btn.dataset.battleAction;
+    battleItemMenuOpen = false;
+    battleSkillMenuOpen = false;
+    battlePetMenuOpen = false;
+    renderBattlePanel();
+    return;
+  }
   if (btn.dataset.battleAction === "item") {
     toggleBattleItemMenu();
     return;
@@ -2767,6 +2815,7 @@ function onBattlePanelClick(event) {
 
 async function sendBattleAction(action) {
   if (!game?.encounter) return;
+  if (battlePendingAction) return;
   if (action === "capture" && Number(game.encounter.CaptureRate ?? 35) <= 0) {
     addClientLog("这个目标不能捕获。");
     return;
@@ -2775,16 +2824,122 @@ async function sendBattleAction(action) {
     addClientLog(`宠物栏已满（${petUsed()}/${petCapacity()}）。`);
     return;
   }
+  const previousGame = game;
+  battlePendingAction = action;
+  renderBattlePanel();
   try {
-    game = await api("/api/game/battle", { game, action });
+    const nextGame = await api("/api/game/battle", { game, action });
+    const outcome = nextGame.battleOutcome || nextGame.lastBattleOutcome || null;
+    const fxActions = buildBattleFxActions(previousGame, outcome);
+    game = nextGame;
     battleItemMenuOpen = false;
     battleSkillMenuOpen = false;
     battlePetMenuOpen = false;
+    battlePendingAction = "";
     save();
     render();
+    playBattleFxActions(fxActions);
   } catch (error) {
+    battlePendingAction = "";
+    renderBattlePanel();
     addClientLog(error.message || "战斗指令失败。");
   }
+}
+
+function flashBattleElement(el, className) {
+  if (!el) return;
+  el.classList.remove(className);
+  void el.offsetWidth;
+  el.classList.add(className);
+  window.setTimeout(() => el.classList.remove(className), 240);
+}
+
+function buildBattleFxActions(previousGame, outcome) {
+  if (!previousGame?.encounter || !outcome) return [];
+  const actions = [];
+  const activeEnemyIndex = Math.max(0, Number(previousGame.battle?.activeEnemyIndex || 0));
+  const playerAction = outcome.playerAction;
+  if (battleActionHasStrikeMotion(playerAction)) {
+    actions.push({
+      actorNo: battleActionActorNo(playerAction),
+      targetNo: BATTLE_SIDE_OFFSET + Number(playerAction.targetSlot || activeEnemyIndex),
+      kind: "player"
+    });
+  }
+  const enemyAi = outcome.enemyAi;
+  if (battleActionHasStrikeMotion(enemyAi)) {
+    actions.push({
+      actorNo: BATTLE_SIDE_OFFSET + activeEnemyIndex,
+      targetNo: battleActionActorNo(playerAction) || Number(enemyAi.targetSlot ?? 0),
+      kind: "enemy"
+    });
+  }
+  if (outcome.result === "escape-failed" && !enemyAi) {
+    actions.push({
+      actorNo: BATTLE_SIDE_OFFSET + activeEnemyIndex,
+      targetNo: Number(playerAction?.actorSlot ?? battleFieldState()?.formation?.activeActorNo ?? BATTLE_PLAYER_MAX),
+      kind: "enemy"
+    });
+  }
+  return actions;
+}
+
+function battleActionActorNo(action) {
+  if (!action) return 0;
+  if (action.actorKind === "pet") {
+    return BATTLE_PLAYER_MAX + Math.max(0, Number(action.actorSlot || 0));
+  }
+  return Math.max(0, Number(action.actorSlot || 0));
+}
+
+function battleActionHasStrikeMotion(action) {
+  if (!action) return false;
+  if (action.sourceCommand === "BATTLE_COM_ATTACK") return true;
+  if (action.type !== "pet-skill") return false;
+  return !["BATTLE_COM_GUARD", "BATTLE_COM_WAIT", "BATTLE_COM_S_SUPERWALL"].includes(action.sourceCommand);
+}
+
+function playBattleFxActions(actions) {
+  window.clearTimeout(battleFxTimer);
+  if (!actions?.length || !els.battleFormationLayer || !isBattleOpen()) return;
+  actions.slice(0, 3).forEach((action, index) => {
+    battleFxTimer = window.setTimeout(() => playBattleLunge(action), 90 + index * 360);
+  });
+}
+
+function playBattleLunge(action) {
+  const source = els.battleFormationLayer?.querySelector(`[data-battle-no="${Number(action.actorNo)}"]`);
+  const target = els.battleFormationLayer?.querySelector(`[data-battle-no="${Number(action.targetNo)}"]`);
+  if (!source || !target) return;
+  const sourceRect = source.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const dx = ((targetRect.left + targetRect.width / 2) - (sourceRect.left + sourceRect.width / 2)) * 0.68;
+  const dy = ((targetRect.top + targetRect.height / 2) - (sourceRect.top + sourceRect.height / 2)) * 0.68;
+  source.style.setProperty("--battle-lunge-x", `${Math.round(dx)}px`);
+  source.style.setProperty("--battle-lunge-y", `${Math.round(dy)}px`);
+  source.classList.remove("is-attacking");
+  target.classList.remove("is-hit");
+  void source.offsetWidth;
+  source.classList.add("is-attacking");
+  target.classList.add("is-hit");
+  spawnBattleImpact(target);
+  window.setTimeout(() => {
+    source.classList.remove("is-attacking");
+    target.classList.remove("is-hit");
+  }, 420);
+}
+
+function spawnBattleImpact(target) {
+  const layer = els.battleFormationLayer;
+  if (!layer || !target) return;
+  const layerRect = layer.getBoundingClientRect();
+  const rect = target.getBoundingClientRect();
+  const impact = document.createElement("span");
+  impact.className = "battle-impact";
+  impact.style.left = `${rect.left + rect.width / 2 - layerRect.left}px`;
+  impact.style.top = `${rect.top + rect.height / 2 - layerRect.top}px`;
+  layer.append(impact);
+  window.setTimeout(() => impact.remove(), 360);
 }
 
 function toggleBattleItemMenu() {
