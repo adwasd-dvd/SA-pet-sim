@@ -572,6 +572,8 @@ itemGateGame.inventory.push({ id: Number(String(itemGateWarp.npc.warp.free).matc
 itemGateGame = await api("/api/game/sync", { game: itemGateGame });
 itemGateStatus = itemGateGame.world.map.npcs.find((npc) => npc.id === itemGateWarp.npc.id)?.warpStatus;
 assertEqual(itemGateStatus?.ok, true, "world map NPC warp status updates after item condition is satisfied");
+const itemGateCheck = itemGateStatus.condition?.groups?.flatMap((group) => group.checks || []).find((check) => check.type === "item");
+assertEqual(itemGateCheck?.itemName, "条件道具", "satisfied item-gated warp condition carries player-facing item name");
 itemGateGame = await api("/api/game/dialog", { game: itemGateGame, npcId: itemGateWarp.npc.id, message: "传送" });
 assertEqual(itemGateGame.location.mapId, itemGateWarp.npc.warp.target.mapId, "no-cost item-gated warp passes after source ITEM condition is satisfied");
 
@@ -591,6 +593,11 @@ scriptConditionGame.inventory.push({ id: 20911, name: "测试凭证", qty: 1, so
 scriptConditionGame = await api("/api/game/sync", { game: scriptConditionGame });
 scriptRuntimeNpc = scriptConditionGame.world.map.npcs.find((npc) => npc.id === scriptConditionNpc.id);
 assert(scriptRuntimeNpc.scriptStatus.conditions.some((condition) => condition.ok), "source EVENT condition status updates after level, TRANS, and item requirements are satisfied");
+const scriptItemCheck = scriptRuntimeNpc.scriptStatus.conditions
+  .flatMap((condition) => condition.condition?.groups || [])
+  .flatMap((group) => group.checks || [])
+  .find((check) => check.itemId === 2347);
+assertEqual(scriptItemCheck?.itemName, "测试食材", "source EVENT item condition includes resolved inventory item name");
 
 const petScriptNpc = WORLD.maps["100"].npcs.find((npc) => npc.scriptHints?.hints?.some((line) => line.includes("PET=25-221*1") && line.includes("PET=25-222*1")));
 if (!petScriptNpc) throw new Error("missing script condition fixture with PET=family-id format");
@@ -606,6 +613,11 @@ setTestEventFlag(petScriptGame, 35, "now");
 petScriptGame = await api("/api/game/sync", { game: petScriptGame });
 petRuntimeNpc = petScriptGame.world.map.npcs.find((npc) => npc.id === petScriptNpc.id);
 assert(petRuntimeNpc.scriptStatus.conditions.some((condition) => condition.ok && condition.condition?.groups?.some((group) => group.checks?.some((check) => check.type === "pet"))), "source EVENT condition status supports PET=family-id requirements");
+const scriptPetCheck = petRuntimeNpc.scriptStatus.conditions
+  .flatMap((condition) => condition.condition?.groups || [])
+  .flatMap((group) => group.checks || [])
+  .find((check) => check.petId === 221);
+assertEqual(scriptPetCheck?.petName, "测试宠物221", "source EVENT PET condition includes resolved party pet name");
 
 const petEventWarp = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))

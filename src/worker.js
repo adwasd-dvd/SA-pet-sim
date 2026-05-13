@@ -3232,14 +3232,16 @@ function characterConditionMet(game, part) {
   }
   const item = token.match(/^ITEM\s*(!=|=)\s*(\d+)(?:\*(\d+))?$/i);
   if (item) {
-    const qty = inventoryQty(game, Number(item[2]));
+    const itemId = Number(item[2]);
+    const qty = inventoryQty(game, itemId);
     const needed = Number(item[3] || 1);
     const hasItem = qty >= needed;
     return {
       ok: item[1] === "!=" ? !hasItem : hasItem,
       token,
       type: "item",
-      itemId: Number(item[2]),
+      itemId,
+      itemName: conditionItemName(game, itemId),
       qty,
       needed,
       op: item[1]
@@ -3277,7 +3279,7 @@ function characterConditionMet(game, part) {
     const slotFloor = Number(petSlotId[1]);
     const petId = Number(petSlotId[2]);
     const hasPet = petIdInParty(game, petId) && (game.pets || []).length > slotFloor;
-    return { ok: hasPet, token, type: "pet", petId, slotFloor };
+    return { ok: hasPet, token, type: "pet", petId, petName: conditionPetName(game, petId), slotFloor };
   }
   const petId = token.match(/^(?:PET|PETID)\s*(!=|=)\s*(?:(\d+)-)?(\d+)(?:\*(\d+))?$/i);
   if (petId) {
@@ -3290,6 +3292,7 @@ function characterConditionMet(game, part) {
       token,
       type: "pet",
       petId: petNo,
+      petName: conditionPetName(game, petNo),
       qty,
       needed,
       op: petId[1]
@@ -3351,6 +3354,16 @@ function petIdInParty(game, petId) {
 
 function petQtyInParty(game, petId) {
   return (game.pets || []).filter((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId)).length;
+}
+
+function conditionPetName(game, petId) {
+  return (game.pets || []).find((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId))?.Name || "";
+}
+
+function conditionItemName(game, itemId) {
+  const carried = (game.inventory || []).find((item) => Number(item.id) === Number(itemId) && item.name);
+  if (carried?.name) return carried.name;
+  return worldTradeItemIndex().get(Number(itemId))?.name || "";
 }
 
 function conditionNumericFieldValue(game, field) {
@@ -3456,11 +3469,13 @@ function compactConditionCheck(check) {
     actual: check.actual,
     expected: check.expected,
     itemId: check.itemId,
+    itemName: check.itemName,
     qty: check.qty,
     needed: check.needed,
     kind: check.kind,
     shiftbit: check.shiftbit,
     petId: check.petId,
+    petName: check.petName,
     slotFloor: check.slotFloor,
     op: check.op
   }).filter(([, value]) => value !== undefined && value !== ""));

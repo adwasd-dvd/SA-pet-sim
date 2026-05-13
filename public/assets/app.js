@@ -2138,9 +2138,15 @@ function npcScriptStatusLine(npc) {
 
 function conditionCheckLabel(check) {
   if (!check) return "";
-  if (check.type === "item") return `道具 ${check.itemId} ${Number(check.qty || 0)}/${Number(check.needed || 1)}`;
+  if (check.type === "item") {
+    const name = check.itemName ? `「${check.itemName}」` : check.itemId;
+    return `道具 ${name} ${Number(check.qty || 0)}/${Number(check.needed || 1)}`;
+  }
   if (check.type === "event") return `${check.kind === "now" ? "NOWEV" : "ENDEV"} ${check.shiftbit}`;
-  if (check.type === "pet") return `宠物 ${check.petId || ""}${check.needed ? ` ${Number(check.qty || 0)}/${Number(check.needed || 1)}` : ""}`.trim();
+  if (check.type === "pet") {
+    const name = check.petName ? `「${check.petName}」` : (check.petId || "");
+    return `宠物 ${name}${check.needed ? ` ${Number(check.qty || 0)}/${Number(check.needed || 1)}` : ""}`.trim();
+  }
   if (check.type === "level") return `等级 ${check.actual}${check.op}${check.expected}`;
   if (check.type === "stone") return `石币 ${check.actual}${check.op}${check.expected}`;
   if (check.type === "manor") return `庄园 ${check.actual}${check.op}${check.expected}`;
