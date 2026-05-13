@@ -3115,7 +3115,7 @@ function warpPromptReply(game, npc) {
   }
   if (!permission.ok) {
     const line = npc.warp.payMessage || npc.warp.moneyMessage || `${npc.name} 说：现在还不能传送。`;
-    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: permission.reason || "condition", target });
+    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: permission.reason || "condition", target, condition: permission.condition });
     return `${line}\n条件：${npc.warp.free || "未满足"}\n来源：${npc.warp.source}`;
   }
   const costLine = permission.cost > 0 ? `需要 ${permission.cost} 石币。` : "当前满足免费传送条件。";
@@ -3137,7 +3137,7 @@ function warpNpcReply(game, npc) {
   const permission = warpPermission(game, npc.warp);
   if (!permission.ok) {
     const line = npc.warp.payMessage || npc.warp.moneyMessage || `${npc.name}：现在还不能传送。`;
-    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: permission.reason || "condition", target });
+    recordNpcVmEvent(game, npc, "warp", "blocked", { reason: permission.reason || "condition", target, condition: permission.condition });
     return `${line}\n条件：${npc.warp.free || "未满足"}`;
   }
   if (permission.cost > 0 && Number(game.player.stone || 0) < permission.cost) {
@@ -3163,38 +3163,187 @@ function warpNpcReply(game, npc) {
 function warpPermission(game, warp) {
   const hasFreeSpec = Boolean(String(warp.free || "").trim());
   const free = warpFreeStatus(game, warp.free || "");
+  const hasCostSpec = Boolean(warp.cost);
   const cost = warpCost(game, warp.cost);
-  if (hasFreeSpec && free.ok) return { ok: true, free: true, cost: 0 };
+  if (hasFreeSpec && free.ok) return { ok: true, free: true, cost: 0, condition: free.condition };
   if (!hasFreeSpec && cost === 0) return { ok: true, free: true, cost: 0 };
+  if (hasFreeSpec && !free.ok && !hasCostSpec) return { ok: false, free: false, cost: 0, reason: free.reason, condition: free.condition };
   if (cost == null) return { ok: false, free: false, cost: 0, reason: free.reason };
-  return { ok: true, free: false, cost };
+  return { ok: true, free: false, cost, condition: free.condition };
 }
 
 function warpFreeStatus(game, spec) {
-  const raw = String(spec || "").trim();
-  if (!raw || /^ALLFREE$/i.test(raw)) return { ok: true };
-  const parts = raw.split(/[&|]/).map((item) => item.trim()).filter(Boolean);
-  if (!parts.length) return { ok: true };
-  for (const part of parts) {
-    if (!warpConditionMet(game, part)) return { ok: false, reason: raw };
-  }
-  return { ok: true };
+  const condition = characterConditionStatus(game, spec);
+  return {
+    ok: condition.ok,
+    reason: condition.reason,
+    condition
+  };
 }
 
 function warpConditionMet(game, part) {
-  const level = part.match(/^LV\s*(>=|<=|>|<|=)\s*(\d+)$/i);
+  return characterConditionMet(game, part).ok;
+}
+
+function characterConditionStatus(game, spec) {
+  const raw = String(spec || "").replace(/^FREE\s*[:=]\s*/i, "").trim();
+  if (!raw || /^ALLFREE$/i.test(raw)) return { ok: true, reason: "", groups: [] };
+  const groups = raw
+    .split(/[|,]/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((group) => {
+      const checks = group
+        .split("&")
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .map((part) => characterConditionMet(game, part));
+      return {
+        source: group,
+        ok: checks.length ? checks.every((check) => check.ok) : true,
+        checks
+      };
+    });
+  if (!groups.length) return { ok: true, reason: "", groups };
+  const matched = groups.find((group) => group.ok) || null;
+  return {
+    ok: Boolean(matched),
+    reason: raw,
+    matched: matched?.source || "",
+    groups
+  };
+}
+
+function characterConditionMet(game, part) {
+  const token = String(part || "").trim();
+  if (!token) return { ok: true, token, type: "empty" };
+  const level = token.match(/^(?:LV|LEVEL)\s*(>=|<=|>|<|=)\s*(\d+)$/i);
   if (level) {
     const playerLevel = Number(game.player.level || 1);
     const target = Number(level[2]);
-    if (level[1] === ">") return playerLevel > target;
-    if (level[1] === ">=") return playerLevel >= target;
-    if (level[1] === "<") return playerLevel < target;
-    if (level[1] === "<=") return playerLevel <= target;
-    return playerLevel === target;
+    return {
+      ok: compareNumber(playerLevel, level[1], target),
+      token,
+      type: "level",
+      actual: playerLevel,
+      expected: target,
+      op: level[1]
+    };
   }
-  const item = part.match(/^ITEM\s*=\s*(\d+)(?:\*(\d+))?$/i);
-  if (item) return inventoryQty(game, Number(item[1])) >= Number(item[2] || 1);
-  return false;
+  const item = token.match(/^ITEM\s*(!=|=)\s*(\d+)(?:\*(\d+))?$/i);
+  if (item) {
+    const qty = inventoryQty(game, Number(item[2]));
+    const needed = Number(item[3] || 1);
+    const hasItem = qty >= needed;
+    return {
+      ok: item[1] === "!=" ? !hasItem : hasItem,
+      token,
+      type: "item",
+      itemId: Number(item[2]),
+      qty,
+      needed,
+      op: item[1]
+    };
+  }
+  const event = token.match(/^(ENDEV|ENDEVENT|END|NOWEV|NOWEVENT|NEV)\s*(!=|=)\s*(\d+)$/i);
+  if (event) {
+    const kind = /^(NOW|NEV)/i.test(event[1]) ? "now" : "end";
+    const active = eventFlagSet(game, Number(event[3]), kind);
+    return {
+      ok: event[2] === "!=" ? !active : active,
+      token,
+      type: "event",
+      kind,
+      shiftbit: Number(event[3]),
+      actual: active,
+      op: event[2]
+    };
+  }
+  const stone = token.match(/^(?:STONE|GOLD|MONEY)\s*(>=|<=|>|<|=)\s*(\d+)$/i);
+  if (stone) {
+    const actual = Number(game.player?.stone || 0);
+    const expected = Number(stone[2]);
+    return {
+      ok: compareNumber(actual, stone[1], expected),
+      token,
+      type: "stone",
+      actual,
+      expected,
+      op: stone[1]
+    };
+  }
+  const petSlotId = token.match(/^PET\s*>\s*(\d+)-(\d+)$/i);
+  if (petSlotId) {
+    const slotFloor = Number(petSlotId[1]);
+    const petId = Number(petSlotId[2]);
+    const hasPet = petIdInParty(game, petId) && (game.pets || []).length > slotFloor;
+    return { ok: hasPet, token, type: "pet", petId, slotFloor };
+  }
+  const petId = token.match(/^(?:PET|PETID)\s*(!=|=)\s*(\d+)$/i);
+  if (petId) {
+    const hasPet = petIdInParty(game, Number(petId[2]));
+    return {
+      ok: petId[1] === "!=" ? !hasPet : hasPet,
+      token,
+      type: "pet",
+      petId: Number(petId[2]),
+      op: petId[1]
+    };
+  }
+  const petCount = token.match(/^PETCOUNT\s*(>=|<=|>|<|=)\s*(\d+)$/i);
+  if (petCount) {
+    const actual = (game.pets || []).length;
+    const expected = Number(petCount[2]);
+    return {
+      ok: compareNumber(actual, petCount[1], expected),
+      token,
+      type: "petCount",
+      actual,
+      expected,
+      op: petCount[1]
+    };
+  }
+  const numericField = token.match(/^(MANOR|CLASS)\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
+  if (numericField) {
+    const field = numericField[1].toLowerCase();
+    const actual = field === "manor"
+      ? Number(game.player?.manorId ?? game.player?.Manor ?? game.family?.manorId ?? 0)
+      : Number(game.player?.classId ?? game.player?.Class ?? game.player?.professionClass ?? 0);
+    const expected = Number(numericField[3]);
+    return {
+      ok: compareNumber(actual, numericField[2], expected),
+      token,
+      type: field,
+      actual,
+      expected,
+      op: numericField[2]
+    };
+  }
+  return { ok: false, token, type: "unsupported" };
+}
+
+function compareNumber(actual, op, expected) {
+  if (op === ">") return actual > expected;
+  if (op === ">=") return actual >= expected;
+  if (op === "<") return actual < expected;
+  if (op === "<=") return actual <= expected;
+  if (op === "!=") return actual !== expected;
+  return actual === expected;
+}
+
+function eventFlagSet(game, shiftbit, kind = "end") {
+  if (!shiftbit) return false;
+  ensureFlags(game);
+  if (game.flags.bits?.[`${kind}:${shiftbit}`]) return true;
+  const field = kind === "now" ? "nowEvents" : "endEvents";
+  const index = Math.floor(shiftbit / 32);
+  const bit = shiftbit % 32;
+  const mask = (1 << bit) >>> 0;
+  return Boolean(((game.flags[field]?.[index] || 0) >>> 0) & mask);
+}
+
+function petIdInParty(game, petId) {
+  return (game.pets || []).some((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId));
 }
 
 function warpCost(game, cost) {

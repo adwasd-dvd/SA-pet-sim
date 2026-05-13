@@ -551,6 +551,35 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && even
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
 
+const itemGateWarp = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && !npc.warp.cost && /^ITEM=/.test(String(npc.warp.free || "")));
+if (!itemGateWarp) throw new Error("missing item-gated no-cost warp fixture");
+let itemGateGame = await api("/api/game/new", { name: "warp-item-gate-test" });
+itemGateGame.location = { mapId: itemGateWarp.map.id, x: itemGateWarp.npc.x + 1, y: itemGateWarp.npc.y };
+const itemGateStartMap = itemGateGame.location.mapId;
+itemGateGame = await api("/api/game/dialog", { game: itemGateGame, npcId: itemGateWarp.npc.id, message: "传送" });
+assertEqual(itemGateGame.location.mapId, itemGateStartMap, "no-cost item-gated warp blocks when source ITEM condition fails");
+assert(itemGateGame.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "blocked" && event.detail?.condition?.groups?.[0]?.checks?.[0]?.type === "item"), "blocked item-gated warp records condition detail");
+itemGateGame.inventory.push({ id: Number(String(itemGateWarp.npc.warp.free).match(/ITEM=(\d+)/)?.[1] || 0), name: "条件道具", qty: 1, source: "test" });
+itemGateGame = await api("/api/game/dialog", { game: itemGateGame, npcId: itemGateWarp.npc.id, message: "传送" });
+assertEqual(itemGateGame.location.mapId, itemGateWarp.npc.warp.target.mapId, "no-cost item-gated warp passes after source ITEM condition is satisfied");
+
+const petEventWarp = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && String(npc.warp.free || "").includes("PET>0-"));
+if (!petEventWarp) throw new Error("missing PET/ENDEV gated warp fixture");
+let petEventGame = await api("/api/game/new", { name: "warp-pet-event-gate-test" });
+petEventGame.location = { mapId: petEventWarp.map.id, x: petEventWarp.npc.x + 1, y: petEventWarp.npc.y };
+const petEventStartMap = petEventGame.location.mapId;
+petEventGame.player.level = 30;
+petEventGame = await api("/api/game/dialog", { game: petEventGame, npcId: petEventWarp.npc.id, message: "传送" });
+assertEqual(petEventGame.location.mapId, petEventStartMap, "PET/ENDEV gated warp blocks before event bit and pet match");
+setTestEventFlag(petEventGame, 4, "end");
+petEventGame.pets.push({ ...petEventGame.pets[0], PetId: 962, Name: "条件宠物", Lv: 1, Hp: 10, WorkMaxHp: 10 });
+petEventGame = await api("/api/game/dialog", { game: petEventGame, npcId: petEventWarp.npc.id, message: "传送" });
+assertEqual(petEventGame.location.mapId, petEventWarp.npc.warp.target.mapId, "PET/ENDEV gated warp passes after source level, event, and pet conditions are satisfied");
+
 let aiWarpGame = await api("/api/game/new", { name: "ai-warp-test" });
 aiWarpGame.location = { mapId: warpNpc.map.id, x: warpNpc.npc.x + 1, y: warpNpc.npc.y };
 aiWarpGame.player.level = 1;
@@ -701,7 +730,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -752,6 +781,18 @@ function inventoryQty(game, id) {
   return (game.inventory || [])
     .filter((item) => Number(item.id) === Number(id))
     .reduce((sum, item) => sum + Number(item.qty || 0), 0);
+}
+
+function setTestEventFlag(game, shiftbit, kind = "end") {
+  game.flags ||= {};
+  const field = kind === "now" ? "nowEvents" : "endEvents";
+  game.flags[field] ||= Array(8).fill(0);
+  game.flags.bits ||= {};
+  const index = Math.floor(Number(shiftbit) / 32);
+  const bit = Number(shiftbit) % 32;
+  while (game.flags[field].length <= index) game.flags[field].push(0);
+  game.flags[field][index] = (Number(game.flags[field][index] || 0) | (1 << bit)) >>> 0;
+  game.flags.bits[`${kind}:${shiftbit}`] = true;
 }
 
 function stableFlag(value) {
