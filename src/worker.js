@@ -183,6 +183,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/sync" && request.method === "POST") {
       const body = await readJson(request);
+      await loadGameData(env, request);
       return json(withMap(normalizeGame(body.game)));
     }
     if (url.pathname === "/api/game/travel" && request.method === "POST") {
@@ -275,6 +276,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/ai/workspace" && request.method === "POST") {
       const body = await readJson(request);
+      await loadGameData(env, request);
       const game = normalizeGame(body.game);
       return json({
         workspace: buildAiWorkspace(env, game, String(body.prompt || "")),
@@ -283,6 +285,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/ai/workspace-note" && request.method === "POST") {
       const body = await readJson(request);
+      await loadGameData(env, request);
       const game = normalizeGame(body.game);
       const note = writeAiWorkspaceNote(game, body.note || body);
       return json({
@@ -1264,6 +1267,7 @@ function talkGame(game, npcId) {
 }
 
 async function dialogGame(env, request, game, npcId, message) {
+  await loadGameData(env, request);
   game = normalizeGame(game);
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
@@ -3357,12 +3361,17 @@ function petQtyInParty(game, petId) {
 }
 
 function conditionPetName(game, petId) {
-  return (game.pets || []).find((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId))?.Name || "";
+  const carried = (game.pets || []).find((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId));
+  if (carried?.Name) return carried.Name;
+  const template = cache?.enemyBaseSet?.get(Number(petId));
+  return usableReferenceName(template?.Name) ? template.Name : "";
 }
 
 function conditionItemName(game, itemId) {
   const carried = (game.inventory || []).find((item) => Number(item.id) === Number(itemId) && item.name);
   if (carried?.name) return carried.name;
+  const item = cache?.itemSet?.get(Number(itemId));
+  if (usableReferenceName(item?.name)) return item.name;
   return worldTradeItemIndex().get(Number(itemId))?.name || "";
 }
 

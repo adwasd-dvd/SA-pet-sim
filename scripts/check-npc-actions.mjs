@@ -584,9 +584,17 @@ scriptConditionGame.location = { mapId: "100", x: scriptConditionNpc.x + 1, y: s
 scriptConditionGame = await api("/api/game/sync", { game: scriptConditionGame });
 let scriptRuntimeNpc = scriptConditionGame.world.map.npcs.find((npc) => npc.id === scriptConditionNpc.id);
 assert(scriptRuntimeNpc?.scriptStatus?.conditions?.some((condition) => condition.unmet?.some((check) => check.type === "level" || check.type === "item")), "world map NPC exposes source EVENT condition failures");
+const missingScriptItemCheck = scriptRuntimeNpc.scriptStatus.conditions
+  .flatMap((condition) => condition.unmet || [])
+  .find((check) => check.itemId === 2347);
+assert(missingScriptItemCheck?.itemName, "unmet source EVENT item condition resolves itemset name before player owns the item");
 workspaceRsp = await api("/api/ai/workspace", { game: scriptConditionGame, prompt: "这个肉店老板任务需要什么" });
 let workspaceScriptNpc = workspaceRsp.workspace.current.nearby.npcs.find((npc) => npc.id === scriptConditionNpc.id);
 assert(workspaceScriptNpc?.scriptStatus?.conditions?.length, "AI workspace nearby NPCs include compact script condition status");
+const workspaceMissingItemCheck = workspaceScriptNpc.scriptStatus.conditions
+  .flatMap((condition) => condition.unmet || [])
+  .find((check) => check.itemId === 2347);
+assert(workspaceMissingItemCheck?.itemName, "AI workspace script condition includes source item name for unmet requirements");
 scriptConditionGame.player.level = 20;
 scriptConditionGame.inventory.push({ id: 2347, name: "测试食材", qty: 2, source: "test" });
 scriptConditionGame.inventory.push({ id: 20911, name: "测试凭证", qty: 1, source: "test" });
@@ -606,6 +614,10 @@ petScriptGame.location = { mapId: "100", x: petScriptNpc.x + 1, y: petScriptNpc.
 petScriptGame = await api("/api/game/sync", { game: petScriptGame });
 let petRuntimeNpc = petScriptGame.world.map.npcs.find((npc) => npc.id === petScriptNpc.id);
 assert(petRuntimeNpc.scriptStatus.conditions.some((condition) => condition.unmet?.some((check) => check.type === "pet")), "source EVENT condition status exposes missing PET requirements");
+const missingPetCheck = petRuntimeNpc.scriptStatus.conditions
+  .flatMap((condition) => condition.unmet || [])
+  .find((check) => check.petId === 221);
+assert(missingPetCheck?.petName, "unmet source EVENT PET condition resolves enemybase pet name before player owns the pet");
 petScriptGame.inventory.push({ id: 2607, name: "测试任务道具", qty: 1, source: "test" });
 petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 221, Name: "测试宠物221", Lv: 1, Hp: 10, WorkMaxHp: 10 });
 petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 222, Name: "测试宠物222", Lv: 1, Hp: 10, WorkMaxHp: 10 });
