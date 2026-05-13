@@ -161,6 +161,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(petModeGame(body.game, Number(body.petIndex) || 0, String(body.mode || "active")));
     }
+    if (url.pathname === "/api/game/pet-release" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(releasePetGame(body.game, body.petIndex));
+    }
     if (url.pathname === "/api/ai/guide" && request.method === "POST") {
       const body = await readJson(request);
       return json(await guideGame(env, request, body.game, String(body.prompt || "")));
@@ -1748,6 +1752,36 @@ function petModeGame(game, petIndex, mode) {
   });
 }
 
+function releasePetGame(game, petIndex) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能放生宠物");
+  const released = releasePetInPlace(game, petIndex);
+  return withMap(game, {
+    petAction: {
+      type: "release",
+      petIndex: released.index,
+      petName: released.pet.Name,
+      remaining: game.pets.length,
+      source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE + client PET STATUS`
+    }
+  });
+}
+
+function releasePetInPlace(game, petIndex) {
+  const index = exactPetIndex(game, petIndex);
+  if (game.pets.length <= 1) throw new Error("至少要保留一只宠物");
+  const formation = ensurePetFormation(game);
+  const oldActive = formation.activeIndex;
+  const [pet] = game.pets.splice(index, 1);
+  if (!pet) throw new Error("没有找到这只宠物");
+  if (oldActive === index) formation.activeIndex = Math.min(index, game.pets.length - 1);
+  else if (oldActive > index) formation.activeIndex = oldActive - 1;
+  else formation.activeIndex = oldActive;
+  ensurePetFormation(game);
+  addLog(game, `${pet.Name} 离开了队伍，宠物栏空出 1 格。`);
+  return { index, pet };
+}
+
 async function guideGame(env, request, game, prompt) {
   game = normalizeGame(game);
   const action = await applyGuideRequest(env, request, game, prompt);
@@ -1819,6 +1853,33 @@ async function applyGuideRequest(env, request, game, prompt) {
     return {
       text: "我帮你把人物和宠物的耐久力恢复了。真正的医院和治疗 NPC 以后仍会按原版脚本来收钱或判断条件。",
       action: { type: "heal" }
+    };
+  }
+
+  if (isPetReleaseRequest(lower)) {
+    if (game.encounter) {
+      return {
+        text: "战斗中不能放生宠物。先结束当前战斗，再整理宠物栏。",
+        action: { type: "pet-release-refused", reason: "battle-active" }
+      };
+    }
+    if ((game.pets || []).length <= 1) {
+      return {
+        text: "现在只有一只宠物，先保留它吧；至少要有一只宠物才能继续战斗和探索。",
+        action: { type: "pet-release-refused", reason: "last-pet" }
+      };
+    }
+    const choice = chooseGuidePet(game, text);
+    if (!choice?.pet) {
+      return {
+        text: `${guidePetChoiceHelp(game)} 放生会永久移出当前队伍，请说清楚要放生哪一只。`,
+        action: { type: "pet-release-refused", reason: choice?.reason || "unknown-pet" }
+      };
+    }
+    const released = releasePetInPlace(game, choice.index);
+    return {
+      text: `${released.pet.Name} 已离开队伍，宠物栏现在是 ${petState(game).used}/${PET_CAPACITY}。`,
+      action: { type: "pet-release", petIndex: choice.index, petName: released.pet.Name, reason: choice.reason }
     };
   }
 
@@ -3361,6 +3422,14 @@ function getActivePet(game) {
   return index >= 0 ? game.pets[index] || null : null;
 }
 
+function exactPetIndex(game, petIndex) {
+  const index = Math.trunc(Number(petIndex));
+  if (!Number.isFinite(index) || index < 0 || index >= (game.pets || []).length) {
+    throw new Error("没有找到这只宠物");
+  }
+  return index;
+}
+
 function isPetSwitchRequest(text) {
   return hasAny(text, [
     "出战宠",
@@ -3382,6 +3451,10 @@ function isPetSwitchRequest(text) {
 
 function isPetTrainingRequest(text) {
   return hasAny(text, ["练级", "練級", "训练", "訓練", "练宠", "練寵", "升级", "升級", "level", "train"]);
+}
+
+function isPetReleaseRequest(text) {
+  return hasAny(text, ["放生", "野放", "离队", "離隊", "放走宠", "放走寵", "释放宠", "釋放寵", "release pet"]);
 }
 
 function chooseGuidePet(game, prompt) {

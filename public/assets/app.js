@@ -2139,6 +2139,11 @@ function onAssistPanelClick(event) {
     mutate("/api/game/pet-mode", { petIndex: Number(activePetBtn.dataset.assistActivePet), mode: "active" });
     return;
   }
+  const releasePetBtn = event.target.closest("[data-assist-release-pet]");
+  if (releasePetBtn) {
+    releasePet(Number(releasePetBtn.dataset.assistReleasePet));
+    return;
+  }
   const restBtn = event.target.closest("[data-assist-rest]");
   if (restBtn) {
     mutate("/api/game/rest", {});
@@ -2591,6 +2596,22 @@ async function useItem(itemId) {
   }
 }
 
+async function releasePet(petIndex) {
+  if (!game) return;
+  const pet = game.pets?.[petIndex];
+  if (!pet) return;
+  if (!window.confirm(`放生 ${pet.Name}？这会把它移出当前队伍。`)) return;
+  try {
+    game = await api("/api/game/pet-release", { game, petIndex });
+    save();
+    render();
+  } catch (error) {
+    game.log.push(error.message || "宠物放生失败");
+    save();
+    render();
+  }
+}
+
 function appendDialogSystem(text) {
   if (!game?.dialog) return;
   game.dialog.messages = [
@@ -2781,6 +2802,7 @@ function renderAssistPetCard(pet, index) {
       <div class="assist-card-actions">
         <button type="button" data-assist-active-pet="${index}" ${active ? "disabled" : ""}>战</button>
         <button type="button" data-assist-train="${index}">训</button>
+        <button type="button" data-assist-release-pet="${index}" ${game.pets.length <= 1 ? "disabled" : ""}>放</button>
       </div>
     </article>
   `;
@@ -3463,6 +3485,7 @@ function renderPets() {
       <div class="pet-card-actions">
         <button type="button" data-active-pet="${index}" ${index === activePetIndex() ? "disabled" : ""}>出战</button>
         <button type="button" data-train="${index}">训练</button>
+        <button type="button" data-release-pet="${index}" ${game.pets.length <= 1 ? "disabled" : ""}>放生</button>
       </div>
     </article>
   `).join("");
@@ -3498,6 +3521,9 @@ function renderPets() {
   });
   els.petList.querySelectorAll("[data-active-pet]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.activePet), mode: "active" }));
+  });
+  els.petList.querySelectorAll("[data-release-pet]").forEach((btn) => {
+    btn.addEventListener("click", () => releasePet(Number(btn.dataset.releasePet)));
   });
   els.petList.querySelectorAll("[data-use-item]").forEach((btn) => {
     btn.addEventListener("click", () => useItem(Number(btn.dataset.useItem)));

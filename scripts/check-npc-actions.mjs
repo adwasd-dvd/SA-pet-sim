@@ -69,6 +69,24 @@ petSwitchGame.petFormation.activeIndex = 0;
 petSwitchRsp = await api("/api/ai/guide", { game: petSwitchGame, prompt: "让攻击最高的宠物出战" });
 assertEqual(petSwitchRsp.action.reason, "highest-attack", "AI guide can choose pet by role-fit stat hint");
 assertEqual(petSwitchRsp.game.petState.activeIndex, 1, "AI guide stat switch selects strongest attack pet");
+petSwitchRsp = await api("/api/ai/guide", { game: petSwitchRsp.game, prompt: "放生高攻备用奥卡洛斯" });
+assertEqual(petSwitchRsp.action.type, "pet-release", "AI guide can release a named pet");
+assertEqual(petSwitchRsp.game.petState.used, 1, "AI guide release frees a pet slot");
+assertEqual(petSwitchRsp.game.petState.activeIndex, 0, "AI guide release keeps remaining pet active");
+await expectApiError(
+  "/api/game/pet-release",
+  { game: petSwitchRsp.game, petIndex: 0 },
+  "至少要保留一只宠物",
+  "pet release refuses to remove the last pet"
+);
+let petReleaseGame = await api("/api/game/new", { name: "pet-release-active-test" });
+petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "中间宠", PetId: 101, Lv: 2 });
+petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "后排宠", PetId: 102, Lv: 3 });
+petReleaseGame = await api("/api/game/pet-mode", { game: petReleaseGame, petIndex: 2, mode: "active" });
+petReleaseGame = await api("/api/game/pet-release", { game: petReleaseGame, petIndex: 1 });
+assertEqual(petReleaseGame.petState.used, 2, "pet release removes exactly one pet");
+assertEqual(petReleaseGame.petState.activeIndex, 1, "pet release shifts active index when a prior pet leaves");
+assertEqual(petReleaseGame.petState.activeName, "后排宠", "pet release keeps the same active pet after index shift");
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
