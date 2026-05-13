@@ -531,6 +531,40 @@ selectedItemBattleGame = await api("/api/game/battle", { game: selectedItemBattl
 assert(inventoryQty(selectedItemBattleGame, 990002) === 1, "selected battle item leaves unselected item untouched");
 assert(inventoryQty(selectedItemBattleGame, 990003) === 0, "selected battle item consumes requested item id");
 assert(selectedItemBattleGame.battleOutcome?.itemUse?.itemName === "大的肉", "selected battle item outcome records requested item");
+let petSkillBattleGame = await api("/api/game/new", { name: "pet-skill-battle-test" });
+petSkillBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+petSkillBattleGame = await api("/api/game/dialog", { game: petSkillBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
+petSkillBattleGame.pets[0].PetSkillIds = [10];
+petSkillBattleGame.pets[0].PetSkills = [{
+  Id: 10,
+  Name: "连续攻击",
+  Des: "两次连续攻击",
+  FuncName: "PETSKILL_ContinuationAttack",
+  Option: "2",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+petSkillBattleGame.pets[0].WorkFixStr = 60;
+petSkillBattleGame.pets[0].WorkAttackPower = 60;
+petSkillBattleGame.pets[0].WorkQuick = 999;
+petSkillBattleGame.pets[0].WorkFixDex = 999;
+petSkillBattleGame.encounter.WorkMaxHp = 999;
+petSkillBattleGame.encounter.Hp = 999;
+petSkillBattleGame.encounter.WorkFixTough = 1;
+petSkillBattleGame.encounter.WorkDefencePower = 1;
+petSkillBattleGame.encounter.WorkQuick = 0;
+petSkillBattleGame.encounter.WorkFixDex = 0;
+petSkillBattleGame.encounter.WorkAttackPower = 1;
+const skillTargetHpBefore = Number(petSkillBattleGame.encounter.Hp || 0);
+petSkillBattleGame = await api("/api/game/battle", { game: petSkillBattleGame, action: "skill:0" });
+assertEqual(petSkillBattleGame.battleOutcome.playerAction?.command, "W|0|0", "pet skill battle action uses source W command");
+assertEqual(petSkillBattleGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_RENZOKU", "continuous pet skill maps to source battle command");
+assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.id, 10, "pet skill telemetry records source petskill2 id");
+assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.hitCount, 2, "pet skill telemetry records option-derived hit count");
+assert(Number(petSkillBattleGame.encounter?.Hp || 0) < skillTargetHpBefore, "pet skill damages the active battle target");
+assert(petSkillBattleGame.battleOutcome.log.some((line) => line.includes("连续攻击")), "pet skill battle log names the source skill");
 let npcReleaseGame = await api("/api/game/new", { name: "npc-release-battle-test" });
 npcReleaseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 npcReleaseGame = await api("/api/game/dialog", { game: npcReleaseGame, npcId: battleNpc.npc.id, message: "宠物" });

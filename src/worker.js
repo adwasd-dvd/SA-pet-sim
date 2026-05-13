@@ -106,6 +106,15 @@ const NPC_VM_ACTIONS = new Set([
   "quest",
   "debug"
 ]);
+const BATTLE_PET_SKILL_FUNCS = new Set([
+  "PETSKILL_None",
+  "PETSKILL_NormalAttack",
+  "PETSKILL_NormalGuard",
+  "PETSKILL_GuardBreak",
+  "PETSKILL_GuardBreak2",
+  "PETSKILL_ContinuationAttack",
+  "PETSKILL_Mighty"
+]);
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -1628,6 +1637,9 @@ function performBattleAction(game, action) {
   if (move.type === "item") {
     return performBattleItemAction(game, move.itemId);
   }
+  if (move.type === "pet-skill") {
+    return performPetSkillAction(game, move);
+  }
   if (!["attack", "guard", "wait"].includes(move.type)) throw new Error("这个战斗动作还没有实现");
   const activePet = getActivePet(game);
   if (!activePet) throw new Error("你需要至少一只宠物才能战斗");
@@ -1784,6 +1796,17 @@ function normalizeBattleMove(action) {
   const value = String(action || "attack").toLowerCase();
   const itemMatch = value.match(/^item[:|](\d+)$/);
   if (itemMatch) return { type: "item", command: "I", itemId: Number(itemMatch[1]) };
+  const skillMatch = value.match(/^(skill|pet-skill|petskill|技能|宠技|寵技|w)[:|](\d+)(?:[:|](\d+))?$/);
+  if (skillMatch) {
+    const skillSlot = Math.max(0, Number(skillMatch[2]) || 0);
+    const targetIndex = Math.max(0, Number(skillMatch[3]) || 0);
+    return {
+      type: "pet-skill",
+      command: sourcePetSkillCommand(skillSlot, targetIndex),
+      skillSlot,
+      targetIndex
+    };
+  }
   const targetMatch = value.match(/^(attack|h|攻击|打|capture|catch|捕获|抓宠|抓)[:|](\d+)$/);
   if (targetMatch) {
     const targetIndex = Math.max(0, Number(targetMatch[2]) || 0);
@@ -1798,10 +1821,19 @@ function normalizeBattleMove(action) {
   if (["run", "escape", "逃跑", "离开", "離開", "e"].includes(value)) return { type: "escape", command: "E" };
   if (["capture", "catch", "捕获", "抓宠", "抓", "t", "t|0"].includes(value)) return { type: "capture", command: "T|0" };
   if (["item", "道具", "物品", "i"].includes(value)) return { type: "item", command: "I" };
+  if (["skill", "pet-skill", "petskill", "技能", "宠技", "寵技", "w"].includes(value)) {
+    return { type: "pet-skill", command: sourcePetSkillCommand(0, 0), skillSlot: 0, targetIndex: 0 };
+  }
   if (["guard", "防御", "防守", "g"].includes(value)) return { type: "guard", command: "G" };
   if (["wait", "待机", "等待", "n"].includes(value)) return { type: "wait", command: "N" };
   if (["attack", "攻击", "战斗", "打", "h", "h|0"].includes(value)) return { type: "attack", command: "H|0" };
   return { type: value, command: value };
+}
+
+function sourcePetSkillCommand(skillSlot, targetIndex) {
+  const slot = Math.max(0, Math.trunc(Number(skillSlot) || 0));
+  const target = Math.max(0, Math.trunc(Number(targetIndex) || 0));
+  return `W|${slot.toString(16).toUpperCase()}|${target.toString(16).toUpperCase()}`;
 }
 
 function sourcePlayerBattleAction(move, game, activePet, enemy) {
@@ -1824,6 +1856,217 @@ function sourcePlayerBattleAction(move, game, activePet, enemy) {
     targetSlot: targetIndex,
     targetName: enemy?.Name || "enemy"
   };
+}
+
+function performPetSkillAction(game, move) {
+  const activePet = getActivePet(game);
+  if (!activePet) throw new Error("你需要至少一只宠物才能使用技能");
+  ensureBattleState(game, activePet, game.encounter);
+
+  const enemy = game.encounter;
+  const skillSlot = Math.max(0, Math.trunc(Number(move.skillSlot) || 0));
+  const skill = activePet.PetSkills?.[skillSlot] || null;
+  if (!skill?.Id) throw new Error("这个技能槽没有可用的宠物技能");
+  const profile = petSkillBattleProfile(skill);
+  if (!profile.supported) throw new Error(`${skill.Name || "这个宠物技能"} 还没有接入战斗结算`);
+
+  const battleLog = [];
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  const playerAction = sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile);
+  const petFirst = workQuick(activePet) >= workQuick(enemy);
+  let enemyEscaped = false;
+  game.battle.sourceCommand = move.command;
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
+  game.battle.mode = "resolving";
+
+  const petTurn = () => resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
+  const enemyTurn = (guarded = false) => {
+    const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded);
+    enemyEscaped ||= ended;
+    return ended;
+  };
+
+  if (profile.kind === "guard") {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，采取防御姿势。`);
+    enemyTurn(true);
+  } else if (profile.kind === "wait") {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，等待时机。`);
+    enemyTurn(false);
+  } else if (petFirst) {
+    petTurn();
+    if (enemy.Hp > 0) enemyTurn(false);
+  } else {
+    const endedEnemyTurn = enemyTurn(false);
+    if (!endedEnemyTurn && activePet.Hp > 0) petTurn();
+  }
+
+  return settleBattleRound(game, activePet, enemy, {
+    battleLog,
+    result: "turn",
+    sourceCommand: move.command,
+    playerAction,
+    enemyAi,
+    enemyEscaped
+  });
+}
+
+function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile) {
+  const activeEnemyIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  const targetIndex = Math.max(0, Number(move.targetIndex ?? activeEnemyIndex));
+  return {
+    type: "pet-skill",
+    sourceCommand: profile.sourceCommand,
+    command: move.command,
+    source: "gmsv battle_command.c W| + battle/pet_skill.c PETSKILL_Use",
+    actorKind: "pet",
+    actorSlot: battlePetSlot(game, activePet),
+    actorName: activePet?.Name || activePet?.name || "pet",
+    targetKind: profile.targetKind || "enemy",
+    targetSlot: targetIndex,
+    targetName: enemy?.Name || "enemy",
+    petSkill: {
+      id: Number(skill.Id || 0),
+      slot: Number(move.skillSlot || 0),
+      name: skill.Name || "",
+      func: skill.FuncName || "",
+      option: skill.Option || "",
+      target: Number(skill.Target || 0),
+      field: Number(skill.Field || 0),
+      useType: Number(skill.UseType || 0),
+      hitCount: Number(profile.hitCount || 0),
+      multiplier: Number(profile.multiplier || 0),
+      missChance: Number(profile.missChance || 0),
+      source: `${GMSV_DATA_SOURCE}/petskill2.txt`
+    }
+  };
+}
+
+function petSkillBattleProfile(skill = {}) {
+  const func = String(skill.FuncName || "");
+  if (func === "PETSKILL_None") {
+    return { supported: true, kind: "wait", sourceCommand: "BATTLE_COM_WAIT", targetKind: "none" };
+  }
+  if (func === "PETSKILL_NormalAttack") {
+    return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_ATTACK", hitCount: 1, multiplier: 1 };
+  }
+  if (func === "PETSKILL_NormalGuard") {
+    return { supported: true, kind: "guard", sourceCommand: "BATTLE_COM_GUARD", targetKind: "self" };
+  }
+  if (func === "PETSKILL_GuardBreak") {
+    return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_S_GBREAK", hitCount: 1, multiplier: 1, ignoreGuard: true, guardBreak: true };
+  }
+  if (func === "PETSKILL_GuardBreak2") {
+    return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_S_GBREAK", hitCount: 1, multiplier: 1, ignoreGuard: true, guardBreak2: true };
+  }
+  if (func === "PETSKILL_ContinuationAttack") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_RENZOKU",
+      hitCount: clampInt(String(skill.Option || skill.Des || skill.Name).match(/\d+/)?.[0], 2, 9, 2),
+      multiplier: 1
+    };
+  }
+  if (func === "PETSKILL_Mighty") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_MIGHTY",
+      hitCount: 1,
+      multiplier: clampInt(option.match(/倍\s*(\d+)/)?.[1], 1, 5, 2),
+      missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 30)
+    };
+  }
+  return { supported: false, kind: "unsupported", sourceCommand: "", reason: `unsupported ${func || "unknown"}` };
+}
+
+function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const missRoll = profile.missChance
+    ? ((stableHashInt([skill.Id, activePet.PetId || activePet.Name, enemy.EnemyId || enemy.Name, game.battle?.turn || 0, enemy.Hp].join("|")) % 100) + 1)
+    : 0;
+  if (profile.missChance && missRoll <= profile.missChance) {
+    skillState.missRoll = missRoll;
+    skillState.missed = true;
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但是 ${enemy.Name} 闪开了。`);
+    return;
+  }
+
+  const hitCount = Math.max(1, Number(profile.hitCount || 1));
+  const hits = [];
+  let totalDamage = 0;
+  for (let i = 0; i < hitCount && enemy.Hp > 0; i += 1) {
+    let multiplier = Number(profile.multiplier || 1);
+    if (profile.guardBreak2) multiplier = enemyAi.type === "guard" ? 1.3 : 0.7;
+    let hit = combatDamageDetail(activePet, enemy, multiplier);
+    if (enemyAi.type === "guard" && !profile.ignoreGuard) {
+      hit = applySourceGuardAdjust(hit, [
+        "enemy-guard",
+        "pet-skill",
+        skill.Id,
+        i,
+        enemy.EnemyId || enemy.PetId || enemy.Name,
+        activePet.PetId || activePet.Name,
+        game.battle?.turn || 0,
+        enemy.Hp,
+        activePet.Hp
+      ]);
+      enemyAi.guardAdjust = hit.guardAdjust;
+    }
+    enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
+    totalDamage += hit.damage;
+    hits.push({
+      damage: hit.damage,
+      critical: Boolean(hit.critical),
+      elementMultiplier: Number(hit.elementMultiplier || 1),
+      guardAdjust: compactGuardAdjust(hit.guardAdjust)
+    });
+  }
+  skillState.hits = hits;
+  skillState.totalDamage = totalDamage;
+  const hitText = hits.length > 1 ? `连续 ${hits.length} 次命中，共` : "";
+  const detailText = hits.length === 1 ? battleDetailSuffix(hits[0]) : `（${hits.map((hit) => hit.damage).join("/")}）`;
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name} 攻击 ${enemy.Name}，${hitText}造成 ${totalDamage} 伤害${detailText}。`);
+}
+
+function resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded = false) {
+  if (enemyAi.type === "guard") {
+    battleLog.push(`${enemy.Name} 采取防御姿势。`);
+    return false;
+  }
+  if (enemyAi.type === "wait") {
+    battleLog.push(`${enemy.Name} 观察战况，暂不行动。`);
+    return false;
+  }
+  if (enemyAi.type === "escape") {
+    const escape = resolveEnemyEscapeAttempt(game, enemy, activePet, enemyAi);
+    enemyAi.escapeChance = escape.chance;
+    enemyAi.escapeRoll = escape.roll;
+    enemyAi.escapeSucceeded = escape.succeeded;
+    if (escape.succeeded) {
+      battleLog.push(`${enemy.Name} 逃跑成功。`);
+      return true;
+    }
+    battleLog.push(`${enemy.Name} 试图逃跑，但是失败了。`);
+    return false;
+  }
+  let hit = combatDamageDetail(enemy, activePet);
+  if (guarded) {
+    hit = applySourceGuardAdjust(hit, [
+      "player-guard",
+      activePet.PetId || activePet.Name,
+      enemy.EnemyId || enemy.PetId || enemy.Name,
+      game.battle?.turn || 0,
+      activePet.Hp,
+      enemy.Hp
+    ]);
+    playerAction.guardAdjust = hit.guardAdjust;
+  }
+  activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
+  battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  return false;
 }
 
 function chooseEnemyBattleMove(game, enemy, activePet) {
@@ -2080,8 +2323,36 @@ function compactBattleActionTelemetry(action) {
     targetKind: action.targetKind || "",
     targetSlot: Number(action.targetSlot || 0),
     targetName: action.targetName || "",
+    petSkill: compactPetSkillTelemetry(action.petSkill),
     guardAdjust: compactGuardAdjust(action.guardAdjust),
     source: action.source || ""
+  };
+}
+
+function compactPetSkillTelemetry(skill) {
+  if (!skill) return null;
+  return {
+    id: Number(skill.id || 0),
+    slot: Number(skill.slot || 0),
+    name: skill.name || "",
+    func: skill.func || "",
+    option: skill.option || "",
+    target: Number(skill.target || 0),
+    field: Number(skill.field || 0),
+    useType: Number(skill.useType || 0),
+    hitCount: Number(skill.hitCount || 0),
+    multiplier: Number(skill.multiplier || 0),
+    missChance: Number(skill.missChance || 0),
+    missRoll: Number(skill.missRoll || 0),
+    missed: Boolean(skill.missed),
+    totalDamage: Number(skill.totalDamage || 0),
+    hits: (skill.hits || []).slice(0, 9).map((hit) => ({
+      damage: Number(hit.damage || 0),
+      critical: Boolean(hit.critical),
+      elementMultiplier: Number(hit.elementMultiplier || 1),
+      guardAdjust: compactGuardAdjust(hit.guardAdjust)
+    })),
+    source: skill.source || ""
   };
 }
 
@@ -3404,7 +3675,7 @@ function guideSearchTokens(value) {
 
 async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
-  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "防御", "防守", "guard", "等待", "待机", "wait", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
+  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "防御", "防守", "guard", "等待", "待机", "wait", "技能", "宠技", "寵技", "连续", "連續", "必杀", "必殺", "skill", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["道具", "物品", "item"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
@@ -3468,6 +3739,8 @@ function battleActionReply(game, npc, text) {
         ? "guard"
         : hasAny(text, ["等待", "待机", "wait"])
           ? "wait"
+          : hasAny(text, ["技能", "宠技", "寵技", "连续", "連續", "必杀", "必殺", "skill"])
+            ? "skill"
           : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
             ? "capture"
             : hasAny(text, ["道具", "物品", "item"])
@@ -7744,7 +8017,22 @@ function parseSkills(text) {
     const rows = line.split(",");
     if (rows.length < 12) continue;
     const id = toInt(rows[6]);
-    skills.set(id, { Id: id, Name: rows[0], Des: compressStr(rows[1]) });
+    skills.set(id, {
+      Id: id,
+      Name: cleanReferenceText(rows[0]) || `技能 ${id}`,
+      Des: compressStr(cleanReferenceText(rows[1])),
+      FuncName: cleanReferenceText(rows[2]),
+      Option: cleanReferenceText(rows[3]),
+      Free: cleanReferenceText(rows[4]),
+      KindCode: cleanReferenceText(rows[5]),
+      Field: toInt(rows[7]),
+      Target: toInt(rows[8]),
+      UseType: toInt(rows[9]),
+      Cost: toInt(rows[10]),
+      SkillFlag: cleanReferenceText(rows[11]),
+      BattleSupported: BATTLE_PET_SKILL_FUNCS.has(cleanReferenceText(rows[2])),
+      Source: `${GMSV_DATA_SOURCE}/petskill2.txt`
+    });
   }
   return skills;
 }

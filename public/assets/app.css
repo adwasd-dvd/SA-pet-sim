@@ -2575,6 +2575,11 @@ h3 {
     0 12px 18px rgb(0 0 0 / 42%);
 }
 
+.battle-skill-picker {
+  right: auto;
+  left: 0;
+}
+
 .battle-item-picker > div {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 20px;
