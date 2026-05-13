@@ -64,6 +64,8 @@ const INVENTORY_CAPACITY = 15;
 const PET_CAPACITY = 5;
 const PLAYER_LEVEL_SKILL_POINTS = 3;
 const PLAYER_POINT_STEP = 100;
+const PLAYER_INITIAL_CHARM = 60;
+const PLAYER_LEVEL_CHARM_STEP = 2;
 const CG_INVISIBLE = 99;
 const MAP_BLOCKED = 1;
 const MAP_SPECIAL = 2;
@@ -350,6 +352,7 @@ async function createPlayerGame(env, request, body) {
       WorkFixDex: 10,
       WorkMaxHp: 98,
       duelPoint: 0,
+      charm: PLAYER_INITIAL_CHARM,
       skillUpPoint: 0,
       killPetCount: 0,
       deadCount: 0,
@@ -2093,6 +2096,7 @@ function maybeLevelPlayer(game) {
   while (game.player.level < CHAR_MAXUPLEVEL && game.player.exp >= levelExp(game.player.level + 1)) {
     game.player.level += 1;
     game.player.duelPoint = Number(game.player.duelPoint || 0) + game.player.level * 10;
+    game.player.charm = Math.min(100, Number(game.player.charm || 0) + PLAYER_LEVEL_CHARM_STEP);
     game.player.skillUpPoint = Number(game.player.skillUpPoint || 0) + PLAYER_LEVEL_SKILL_POINTS;
     compliancePlayerParameter(game.player, { preserveHp: true });
     levelUps.push(`${game.player.name} 提升到 Lv.${game.player.level}，获得 ${PLAYER_LEVEL_SKILL_POINTS} 点能力点`);
@@ -6113,6 +6117,7 @@ function normalizePlayerRuntime(player) {
   player.Dex = clampInt(player.Dex, 1, 999999, 1000);
   normalizePlayerElementAttributes(player);
   player.duelPoint = clampInt(player.duelPoint ?? player.DuelPoint, 0, 999999999, 0);
+  player.charm = clampInt(player.charm ?? player.Charm ?? player.CHARM, 0, 100, PLAYER_INITIAL_CHARM);
   player.skillUpPoint = clampInt(player.skillUpPoint ?? player.SkillUpPoint, 0, 999999999, 0);
   player.killPetCount = clampInt(player.killPetCount ?? player.KillPetCount, 0, 999999999, 0);
   player.deadCount = clampInt(player.deadCount ?? player.DeadCount, 0, 999999999, 0);
@@ -6228,6 +6233,7 @@ function buildCharacterFields(game) {
       hp: Number(game.player?.hp || 0),
       maxHp: Number(game.player?.maxHp || 0),
       stone: Number(game.player?.stone || 0),
+      charm: Number(game.player?.charm || 0),
       mapId: String(game.location?.mapId || ""),
       x: Number(game.location?.x || 0),
       y: Number(game.location?.y || 0),
@@ -6450,6 +6456,7 @@ function compactPlayerContext(game) {
     maxHp: Number(game.player?.maxHp || 0),
     stone: Number(game.player?.stone || 0),
     dir: normalizeDir(game.player?.dir ?? game.location?.dir),
+    charm: Number(game.player?.charm || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0),
     baseStats: {
       Vital: fields.attributes?.Vital || 0,
@@ -6633,6 +6640,7 @@ function buildCharInfo(game) {
     `STONE=${game.player.stone}`,
     `HP=${game.player.hp}`,
     `MAXHP=${game.player.maxHp}`,
+    `CHARM=${game.player.charm}`,
     `VITAL=${game.player.Vital}`,
     `STR=${game.player.Str}`,
     `TOUGH=${game.player.Tough}`,
@@ -7226,7 +7234,7 @@ function petLevelUp(char, options = {}) {
   const prevHp = Number(char.Hp || 0);
   const prevMaxHp = Math.max(1, Number(char.WorkMaxHp || char.Hp || 1));
   const param = [0, 0, 0, 0];
-  for (let i = 0; i < 10; i += 1) param[randInt(4)] = 1;
+  for (let i = 0; i < 10; i += 1) param[randInt(4)] += 1;
   const rank = Math.max(0, Math.min(char.PetRank || 0, rankTab.length - 1));
   const [min, max] = rankTab[rank];
   const frand = (min + randInt(max - min + 1)) * 0.01;

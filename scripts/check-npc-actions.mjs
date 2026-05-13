@@ -35,6 +35,7 @@ assertEqual(game.player.EarthAT, 50, "new player keeps source-style Earth attrib
 assertEqual(game.player.WaterAT, 50, "new player keeps source-style Water attribute default");
 assertEqual(game.player.FireAT, 0, "new player starts without opposite Fire attribute");
 assertEqual(game.player.WindAT, 0, "new player starts without opposite Wind attribute");
+assertEqual(game.player.charm, 60, "new player starts with source CHAR_CHARM default");
 
 let playerPointGame = await api("/api/game/new", { name: "player-point-test" });
 playerPointGame.player.skillUpPoint = 2;
@@ -764,6 +765,11 @@ let playerLevelPointGame = await api("/api/game/new", { name: "player-level-poin
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerLevelPointGame.player.exp = Math.max(0, Number(playerLevelPointGame.player.nextExp || 1) - 1);
 const playerLevelVitalBefore = Number(playerLevelPointGame.player.Vital || 0);
+const playerCharmBefore = Number(playerLevelPointGame.player.charm || 0);
+playerLevelPointGame.pets[0].Exp = Math.max(0, Number(playerLevelPointGame.pets[0].NextExp || 2) - 1);
+const petLevelBeforeSourceGrowth = Number(playerLevelPointGame.pets[0].Lv || 1);
+const petRawBeforeSourceGrowth = ["Vital", "Str", "Tough", "Dex"]
+  .reduce((sum, key) => sum + Number(playerLevelPointGame.pets[0][key] || 0), 0);
 playerLevelPointGame.pets[0].WorkFixStr = 9999;
 playerLevelPointGame.pets[0].WorkFixDex = 9999;
 playerLevelPointGame.pets[0].Hp = 999;
@@ -784,7 +790,15 @@ assertEqual(playerLevelPointGame.lastBattleOutcome.result, "victory", "game keep
 assertEqual(playerLevelPointGame.save.json.lastBattleOutcome.result, "victory", "save json carries last battle outcome summary");
 assert(playerLevelPointGame.player.level >= 2, "player levels through accumulated battle EXP");
 assert(Number(playerLevelPointGame.player.skillUpPoint || 0) >= 3, "player level-up grants source 3 unspent ability points");
+assert(playerLevelPointGame.player.charm > playerCharmBefore, "player level-up applies source CHAR_CHARM gain");
+assertEqual(playerLevelPointGame.characterFields.base.charm, playerLevelPointGame.player.charm, "character fields expose player charm");
+assert(playerLevelPointGame.save.info.includes(`CHARM=${playerLevelPointGame.player.charm}`), "saac-like save info carries player charm");
 assertEqual(playerLevelPointGame.player.Vital, playerLevelVitalBefore, "player level-up does not auto-spend Vital");
+assert(playerLevelPointGame.pets[0].Lv > petLevelBeforeSourceGrowth, "pet levels through accumulated battle EXP");
+assert(
+  ["Vital", "Str", "Tough", "Dex"].reduce((sum, key) => sum + Number(playerLevelPointGame.pets[0][key] || 0), 0) > petRawBeforeSourceGrowth,
+  "pet level-up applies source CHAR_PetLevelUp raw stat growth"
+);
 
 let sourceNoAreaGame = await api("/api/game/new", { name: "source-encount-no-area-test" });
 sourceNoAreaGame.location = { mapId: "100", x: 5, y: 5, dir: 2 };
