@@ -1822,6 +1822,28 @@ async function applyGuideRequest(env, request, game, prompt) {
     };
   }
 
+  if (isPetSwitchRequest(lower) && !isPetTrainingRequest(lower)) {
+    if (game.encounter) {
+      return {
+        text: "现在已经进入战斗，暂时不能换出战宠。先完成、逃离或放走当前战斗目标，再调整宠物队列。",
+        action: { type: "pet-switch-refused", reason: "battle-active" }
+      };
+    }
+    const choice = chooseGuidePet(game, text);
+    if (!choice?.pet) {
+      return {
+        text: guidePetChoiceHelp(game),
+        action: { type: "pet-switch-refused", reason: choice?.reason || "unknown-pet" }
+      };
+    }
+    ensurePetFormation(game).activeIndex = choice.index;
+    addLog(game, `AI 向导把 ${choice.pet.Name} 设为出战宠。`);
+    return {
+      text: `已让 ${choice.pet.Name} Lv.${Number(choice.pet.Lv || 1)} 出战。之后战斗、道具恢复和训练都会优先作用在这只宠物身上。`,
+      action: { type: "pet-switch", petIndex: choice.index, petName: choice.pet.Name, reason: choice.reason }
+    };
+  }
+
   if (isTeleportRequest(lower)) {
     const teleport = chooseGuideTeleport(game, text);
     if (!teleport) {
@@ -1853,7 +1875,7 @@ async function applyGuideRequest(env, request, game, prompt) {
     };
   }
 
-  if (hasAny(lower, ["练级", "練級", "训练", "訓練", "练宠", "練寵", "升级", "升級", "level", "train"])) {
+  if (isPetTrainingRequest(lower)) {
     const { pet, before } = trainPetInPlace(game, getActivePetIndex(game));
     return {
       text: `我帮 ${pet.Name} 做了一轮训练，从 Lv.${before} 到 Lv.${pet.Lv}。这只是向导辅助，正式战斗经验后面会继续接 gmsv 的战斗结算。`,
@@ -3337,6 +3359,91 @@ function getActivePetIndex(game) {
 function getActivePet(game) {
   const index = getActivePetIndex(game);
   return index >= 0 ? game.pets[index] || null : null;
+}
+
+function isPetSwitchRequest(text) {
+  return hasAny(text, [
+    "出战宠",
+    "出戰寵",
+    "换宠",
+    "換寵",
+    "换一只",
+    "換一隻",
+    "切换宠",
+    "切換寵",
+    "上场",
+    "上場",
+    "出战",
+    "出戰",
+    "active pet",
+    "battle pet"
+  ]);
+}
+
+function isPetTrainingRequest(text) {
+  return hasAny(text, ["练级", "練級", "训练", "訓練", "练宠", "練寵", "升级", "升級", "level", "train"]);
+}
+
+function chooseGuidePet(game, prompt) {
+  const pets = game.pets || [];
+  if (!pets.length) return { reason: "no-pets" };
+  const indexByNumber = petIndexFromPrompt(prompt, pets.length);
+  if (indexByNumber >= 0) return { index: indexByNumber, pet: pets[indexByNumber], reason: "index" };
+
+  const normalized = guideSearchText(prompt);
+  const named = pets
+    .map((pet, index) => ({
+      pet,
+      index,
+      name: guideSearchText(pet.Name || ""),
+      petId: guideSearchText(`${pet.PetId || ""}`),
+      noText: guideSearchText(`no${pet.PetId || ""}`)
+    }))
+    .filter((entry) => (entry.name && normalized.includes(entry.name))
+      || (entry.petId && normalized.includes(entry.petId))
+      || (entry.noText && normalized.includes(entry.noText)))
+    .sort((a, b) => b.name.length - a.name.length || a.index - b.index);
+  if (named.length) return { index: named[0].index, pet: named[0].pet, reason: "name" };
+
+  const lower = String(prompt || "").toLowerCase();
+  if (hasAny(lower, ["最强", "最強", "攻击最高", "攻擊最高", "攻击力最高", "攻擊力最高"])) {
+    return bestGuidePet(pets, (pet) => Number(pet.WorkFixStr || 0), "highest-attack");
+  }
+  if (hasAny(lower, ["等级最高", "等級最高", "最高等级", "最高等級", "level"])) {
+    return bestGuidePet(pets, (pet) => Number(pet.Lv || 0), "highest-level");
+  }
+  if (hasAny(lower, ["血最多", "耐久最高", "耐久力最高", "hp最高", "hp 最高"])) {
+    return bestGuidePet(pets, (pet) => Number(pet.WorkMaxHp || pet.Hp || 0), "highest-hp");
+  }
+  return { reason: "ambiguous" };
+}
+
+function petIndexFromPrompt(prompt, petCount) {
+  const text = String(prompt || "");
+  const match = text.match(/(?:第\s*)?([1-5])\s*(?:只|隻|个|個|号|號|宠|寵)?/);
+  if (match) {
+    const index = Number(match[1]) - 1;
+    if (index >= 0 && index < petCount) return index;
+  }
+  const ordinals = ["一", "二", "三", "四", "五"];
+  for (let i = 0; i < Math.min(petCount, ordinals.length); i += 1) {
+    const ordinal = ordinals[i];
+    if (text.includes(`第${ordinal}`) || text.includes(`${ordinal}号`) || text.includes(`${ordinal}號`)) return i;
+  }
+  return -1;
+}
+
+function bestGuidePet(pets, scoreOf, reason) {
+  const ranked = pets
+    .map((pet, index) => ({ pet, index, score: Number(scoreOf(pet)) || 0 }))
+    .sort((a, b) => b.score - a.score || a.index - b.index);
+  return ranked[0] ? { index: ranked[0].index, pet: ranked[0].pet, reason } : { reason: "no-pets" };
+}
+
+function guidePetChoiceHelp(game) {
+  const pets = (game.pets || []).map((pet, index) => `${index + 1}. ${pet.Name} Lv.${Number(pet.Lv || 1)} 攻${Number(pet.WorkFixStr || 0)}`).join("；");
+  if (!pets) return "你现在没有宠物，先通过剧情、捕获或宠物店取得宠物后才能设置出战宠。";
+  return `我没判断出要让哪只宠物出战。可以说“让第 2 只出战”“让${game.pets[0]?.Name || "这只宠物"}出战”，也可以说“让攻击最高的宠物出战”。当前宠物：${pets}。`;
 }
 
 function petState(game) {

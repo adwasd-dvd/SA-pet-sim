@@ -51,6 +51,24 @@ const petGuideRsp = await api("/api/ai/guide", { game: petModeGame, prompt: "帮
 assertEqual(petGuideRsp.action.petIndex, 1, "AI guide trains the selected active pet");
 assert(petGuideRsp.game.pets[1].Lv > activePetLevelBefore, "selected active pet gains levels through guide training");
 assertEqual(petGuideRsp.game.petState.activeIndex, 1, "selected active pet survives save/map wrapping");
+let petSwitchGame = await api("/api/game/new", { name: "pet-switch-guide-test" });
+petSwitchGame.pets.push({
+  ...petSwitchGame.pets[0],
+  Name: "高攻备用奥卡洛斯",
+  PetId: Number(petSwitchGame.pets[0].PetId || 100) + 2,
+  Lv: 2,
+  Hp: 70,
+  WorkMaxHp: 70,
+  WorkFixStr: 300
+});
+let petSwitchRsp = await api("/api/ai/guide", { game: petSwitchGame, prompt: "让高攻备用奥卡洛斯出战" });
+assertEqual(petSwitchRsp.action.type, "pet-switch", "AI guide can switch active pet by name");
+assertEqual(petSwitchRsp.game.petState.activeIndex, 1, "AI guide name switch selects matching pet");
+petSwitchGame = petSwitchRsp.game;
+petSwitchGame.petFormation.activeIndex = 0;
+petSwitchRsp = await api("/api/ai/guide", { game: petSwitchGame, prompt: "让攻击最高的宠物出战" });
+assertEqual(petSwitchRsp.action.reason, "highest-attack", "AI guide can choose pet by role-fit stat hint");
+assertEqual(petSwitchRsp.game.petState.activeIndex, 1, "AI guide stat switch selects strongest attack pet");
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
