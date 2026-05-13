@@ -107,6 +107,14 @@ const aiDropRsp = await api("/api/ai/guide", { game: aiDropGame, prompt: "丢弃
 assertEqual(aiDropRsp.action.type, "item-drop", "AI guide can drop an item by name");
 assertEqual(aiDropRsp.action.qty, 3, "AI guide can drop an entire item stack");
 assertEqual(inventoryQty(aiDropRsp.game, 5002), 0, "AI item drop mutates inventory");
+let aiUseGame = await api("/api/game/new", { name: "ai-item-use-test" });
+aiUseGame.pets[0].Hp = 10;
+aiUseGame.inventory.push({ id: 5003, name: "小的肉", qty: 2, type: "meat", description: "耐久力 20" });
+const aiUseRsp = await api("/api/ai/guide", { game: aiUseGame, prompt: "使用小的肉回血" });
+assertEqual(aiUseRsp.action.type, "item-use", "AI guide uses named recovery items before free healing");
+assertEqual(aiUseRsp.action.itemName, "小的肉", "AI guide reports used item name");
+assert(aiUseRsp.game.pets[0].Hp > 10, "AI item use restores active pet hp");
+assertEqual(inventoryQty(aiUseRsp.game, 5003), 1, "AI item use consumes one item from stack");
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");

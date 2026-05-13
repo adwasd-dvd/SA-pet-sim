@@ -1883,15 +1883,6 @@ async function applyGuideRequest(env, request, game, prompt) {
     };
   }
 
-  if (hasAny(lower, ["回血", "治疗", "治療", "恢复", "恢復", "补血", "補血", "休息", "heal", "hp"])) {
-    healParty(game);
-    addLog(game, "AI 向导帮队伍恢复了耐久力。");
-    return {
-      text: "我帮你把人物和宠物的耐久力恢复了。真正的医院和治疗 NPC 以后仍会按原版脚本来收钱或判断条件。",
-      action: { type: "heal" }
-    };
-  }
-
   if (isItemDropRequest(lower)) {
     if (game.encounter) {
       return {
@@ -1911,6 +1902,38 @@ async function applyGuideRequest(env, request, game, prompt) {
     return {
       text: `已丢弃 ${dropped.itemName} x${dropped.qty}，背包现在 ${inventoryState(game).used}/${INVENTORY_CAPACITY}。`,
       action: { type: "item-drop", itemId: dropped.itemId, itemName: dropped.itemName, qty: dropped.qty, reason: choice.reason }
+    };
+  }
+
+  if (isItemUseRequest(lower)) {
+    const choice = chooseGuideItem(game, text);
+    if (!choice?.item) {
+      return {
+        text: guideItemChoiceHelp(game).replace("丢弃", "使用"),
+        action: { type: "item-use-refused", reason: choice?.reason || "unknown-item" }
+      };
+    }
+    const preview = previewRecoveryItem(game, choice.item);
+    if (!preview.usable) {
+      return {
+        text: `${choice.item.name} 现在没有可模拟的恢复效果。可以继续找对应 NPC 或脚本线索确认这个道具的原版用途。`,
+        action: { type: "item-use-refused", reason: preview.reason || "unsupported", itemId: choice.item.id }
+      };
+    }
+    const itemUse = applyRecoveryItem(game, choice.item);
+    addLog(game, `AI 向导使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`);
+    return {
+      text: `已使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力从 ${itemUse.before} 恢复到 ${itemUse.after}。`,
+      action: { type: "item-use", itemId: itemUse.itemId, itemName: itemUse.itemName, targetName: itemUse.targetName, restored: itemUse.restored, reason: choice.reason }
+    };
+  }
+
+  if (hasAny(lower, ["回血", "治疗", "治療", "恢复", "恢復", "补血", "補血", "休息", "heal", "hp"])) {
+    healParty(game);
+    addLog(game, "AI 向导帮队伍恢复了耐久力。");
+    return {
+      text: "我帮你把人物和宠物的耐久力恢复了。真正的医院和治疗 NPC 以后仍会按原版脚本来收钱或判断条件。",
+      action: { type: "heal" }
     };
   }
 
@@ -3517,6 +3540,11 @@ function isPetReleaseRequest(text) {
 
 function isItemDropRequest(text) {
   return hasAny(text, ["丢弃", "丟棄", "扔掉", "丢掉", "丟掉", "不要这个道具", "整理背包", "清背包", "drop item"]);
+}
+
+function isItemUseRequest(text) {
+  return hasAny(text, ["使用", "用道具", "用一下", "吃", "喂", "餵", "use item"])
+    && !isItemDropRequest(text);
 }
 
 function chooseGuideItem(game, prompt) {
