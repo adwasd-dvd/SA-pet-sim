@@ -2117,13 +2117,18 @@ function addPetExp(pet, amount) {
 function maybeLevelPlayer(game) {
   normalizePlayerRuntime(game.player);
   const levelUps = [];
+  let gainedLevels = 0;
   while (game.player.level < CHAR_MAXUPLEVEL && game.player.exp >= levelExp(game.player.level + 1)) {
     game.player.level += 1;
+    gainedLevels += 1;
     game.player.duelPoint = Number(game.player.duelPoint || 0) + game.player.level * 10;
-    game.player.charm = Math.min(100, Number(game.player.charm || 0) + PLAYER_LEVEL_CHARM_STEP);
     game.player.skillUpPoint = Number(game.player.skillUpPoint || 0) + PLAYER_LEVEL_SKILL_POINTS;
     compliancePlayerParameter(game.player, { preserveHp: true });
     levelUps.push(`${game.player.name} 提升到 Lv.${game.player.level}，获得 ${PLAYER_LEVEL_SKILL_POINTS} 点能力点`);
+  }
+  if (gainedLevels > 0) {
+    game.player.charm = Math.min(100, Number(game.player.charm || 0) + PLAYER_LEVEL_CHARM_STEP);
+    compliancePlayerParameter(game.player, { preserveHp: true });
   }
   normalizePlayerRuntime(game.player);
   levelUps.forEach((line) => addLog(game, `${line}。`));

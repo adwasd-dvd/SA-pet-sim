@@ -807,6 +807,7 @@ assert(!workAliasBattleGame.battleOutcome.log.some((line) => line.includes("åå
 let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerLevelPointGame.player.exp = Math.max(0, Number(playerLevelPointGame.player.nextExp || 1) - 1);
+const playerLevelBeforeSourceGrowth = Number(playerLevelPointGame.player.level || 1);
 const playerLevelVitalBefore = Number(playerLevelPointGame.player.Vital || 0);
 const playerCharmBefore = Number(playerLevelPointGame.player.charm || 0);
 playerLevelPointGame.pets[0].Exp = Math.max(0, Number(playerLevelPointGame.pets[0].NextExp || 2) - 1);
@@ -832,8 +833,9 @@ assert(playerLevelPointGame.battleOutcome.levelUps.length >= 1, "battle outcome 
 assertEqual(playerLevelPointGame.lastBattleOutcome.result, "victory", "game keeps a compact last battle outcome");
 assertEqual(playerLevelPointGame.save.json.lastBattleOutcome.result, "victory", "save json carries last battle outcome summary");
 assert(playerLevelPointGame.player.level >= 2, "player levels through accumulated battle EXP");
-assert(Number(playerLevelPointGame.player.skillUpPoint || 0) >= 3, "player level-up grants source 3 unspent ability points");
-assert(playerLevelPointGame.player.charm > playerCharmBefore, "player level-up applies source CHAR_CHARM gain");
+const playerLevelGain = Number(playerLevelPointGame.player.level || 1) - playerLevelBeforeSourceGrowth;
+assertEqual(Number(playerLevelPointGame.player.skillUpPoint || 0), playerLevelGain * 3, "player level-up grants source 3 unspent ability points per gained level");
+assertEqual(playerLevelPointGame.player.charm, Math.min(100, playerCharmBefore + 2), "player battle settlement applies source CHAR_CHARM gain once per EXP settlement");
 assertEqual(playerLevelPointGame.characterFields.base.charm, playerLevelPointGame.player.charm, "character fields expose player charm");
 assert(playerLevelPointGame.save.info.includes(`CHARM=${playerLevelPointGame.player.charm}`), "saac-like save info carries player charm");
 assert(playerLevelPointGame.save.info.includes(`WORKFIXCHARM=${playerLevelPointGame.player.WorkFixCharm}`), "saac-like save info carries source WorkFixCharm");
