@@ -1639,12 +1639,25 @@ function performBattleAction(game, action) {
   const battleLog = [];
   const petFirst = workQuick(activePet) >= workQuick(enemy);
   const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  const playerAction = sourcePlayerBattleAction(move, game, activePet, enemy);
   let enemyEscaped = false;
   game.battle.sourceCommand = move.command;
+  game.battle.playerAction = playerAction;
   game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
   const petTurn = () => {
-    const hit = combatDamageDetail(activePet, enemy, enemyAi.type === "guard" ? 0.45 : 1);
+    let hit = combatDamageDetail(activePet, enemy);
+    if (enemyAi.type === "guard") {
+      hit = applySourceGuardAdjust(hit, [
+        "enemy-guard",
+        enemy.EnemyId || enemy.PetId || enemy.Name,
+        activePet.PetId || activePet.Name,
+        game.battle?.turn || 0,
+        enemy.Hp,
+        activePet.Hp
+      ]);
+      enemyAi.guardAdjust = hit.guardAdjust;
+    }
     enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
     battleLog.push(`${activePet.Name} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
@@ -1670,7 +1683,18 @@ function performBattleAction(game, action) {
       battleLog.push(`${enemy.Name} 试图逃跑，但是失败了。`);
       return false;
     }
-    const hit = combatDamageDetail(enemy, activePet, guarded ? 0.45 : 1);
+    let hit = combatDamageDetail(enemy, activePet);
+    if (guarded) {
+      hit = applySourceGuardAdjust(hit, [
+        "player-guard",
+        activePet.PetId || activePet.Name,
+        enemy.EnemyId || enemy.PetId || enemy.Name,
+        game.battle?.turn || 0,
+        activePet.Hp,
+        enemy.Hp
+      ]);
+      playerAction.guardAdjust = hit.guardAdjust;
+    }
     activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
     battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
     return false;
@@ -1694,6 +1718,7 @@ function performBattleAction(game, action) {
     battleLog,
     result: "turn",
     sourceCommand: move.command,
+    playerAction,
     enemyAi,
     enemyEscaped
   });
@@ -1777,6 +1802,28 @@ function normalizeBattleMove(action) {
   if (["wait", "待机", "等待", "n"].includes(value)) return { type: "wait", command: "N" };
   if (["attack", "攻击", "战斗", "打", "h", "h|0"].includes(value)) return { type: "attack", command: "H|0" };
   return { type: value, command: value };
+}
+
+function sourcePlayerBattleAction(move, game, activePet, enemy) {
+  const activeEnemyIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  const targetIndex = Math.max(0, Number(move.targetIndex ?? activeEnemyIndex));
+  const base = {
+    type: move.type,
+    command: move.command,
+    source: "gmsv battle_command.c BattleCommandDispach",
+    actorKind: "pet",
+    actorSlot: battlePetSlot(game, activePet),
+    actorName: activePet?.Name || activePet?.name || "pet"
+  };
+  if (move.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD" };
+  if (move.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT" };
+  return {
+    ...base,
+    sourceCommand: "BATTLE_COM_ATTACK",
+    targetKind: "enemy",
+    targetSlot: targetIndex,
+    targetName: enemy?.Name || "enemy"
+  };
 }
 
 function chooseEnemyBattleMove(game, enemy, activePet) {
@@ -1963,6 +2010,7 @@ function recordBattleOutcome(game, outcome = null) {
     stone: Number(outcome.stone || 0),
     levelUps: [...(outcome.levelUps || [])].slice(0, 6),
     sourceCommand: outcome.sourceCommand || "",
+    playerAction: compactBattleActionTelemetry(outcome.playerAction),
     enemyAi: outcome.enemyAi ? {
       type: outcome.enemyAi.type || "",
       sourceCommand: outcome.enemyAi.sourceCommand || "",
@@ -1975,6 +2023,7 @@ function recordBattleOutcome(game, outcome = null) {
       escapeChance: Number(outcome.enemyAi.escapeChance || 0),
       escapeRoll: Number(outcome.enemyAi.escapeRoll || 0),
       escapeSucceeded: Boolean(outcome.enemyAi.escapeSucceeded),
+      guardAdjust: compactGuardAdjust(outcome.enemyAi.guardAdjust),
       source: outcome.enemyAi.source || ""
     } : null,
     playerEscape: outcome.playerEscape ? {
@@ -2017,6 +2066,33 @@ function recordBattleOutcome(game, outcome = null) {
   };
   game.lastBattleOutcome = summary;
   return summary;
+}
+
+function compactBattleActionTelemetry(action) {
+  if (!action) return null;
+  return {
+    type: action.type || "",
+    sourceCommand: action.sourceCommand || "",
+    command: action.command || "",
+    actorKind: action.actorKind || "",
+    actorSlot: Number(action.actorSlot || 0),
+    actorName: action.actorName || "",
+    targetKind: action.targetKind || "",
+    targetSlot: Number(action.targetSlot || 0),
+    targetName: action.targetName || "",
+    guardAdjust: compactGuardAdjust(action.guardAdjust),
+    source: action.source || ""
+  };
+}
+
+function compactGuardAdjust(guardAdjust) {
+  if (!guardAdjust) return null;
+  return {
+    roll: Number(guardAdjust.roll || 0),
+    multiplier: Number(guardAdjust.multiplier || 0),
+    originalDamage: Number(guardAdjust.originalDamage || 0),
+    source: guardAdjust.source || ""
+  };
 }
 
 function battlePetSlot(game, pet) {
@@ -2101,6 +2177,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         levelUps: [],
         stone,
         sourceCommand: options.sourceCommand,
+        playerAction: options.playerAction || null,
         enemyAi: options.enemyAi || null,
         playerEscape: options.playerEscape || null,
         itemUse: options.itemUse || null,
@@ -2135,7 +2212,9 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         levelUps: [],
         stone,
         sourceCommand: options.sourceCommand,
+        playerAction: options.playerAction || null,
         enemyAi: options.enemyAi || null,
+        playerEscape: options.playerEscape || null,
         itemUse: options.itemUse || null,
         defeatedEnemies: game.battle?.defeatedEnemies || [],
         escapedEnemies: game.battle?.escapedEnemies || [],
@@ -2196,6 +2275,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     levelUps: rewardSummary.levelUps,
     stone,
     sourceCommand: options.sourceCommand,
+    playerAction: options.playerAction || null,
     enemyAi: options.enemyAi || null,
     playerEscape: options.playerEscape || null,
     itemUse: options.itemUse || null,
@@ -2410,6 +2490,27 @@ function combatDamageDetail(attacker, defender, multiplier = 1) {
   };
 }
 
+function applySourceGuardAdjust(detail, seedParts = []) {
+  const roll = (stableHashInt(seedParts.join("|")) % 100) + 1;
+  let multiplier = 0.5;
+  if (roll <= 25) multiplier = 0;
+  else if (roll <= 50) multiplier = 0.1;
+  else if (roll <= 70) multiplier = 0.2;
+  else if (roll <= 85) multiplier = 0.3;
+  else if (roll <= 95) multiplier = 0.4;
+  const originalDamage = Math.max(0, Number(detail.damage || 0));
+  return {
+    ...detail,
+    damage: Math.max(0, Math.floor(originalDamage * multiplier)),
+    guardAdjust: {
+      roll,
+      multiplier,
+      originalDamage,
+      source: "gmsv battle_event.c BATTLE_GuardAdjust"
+    }
+  };
+}
+
 function workAttackPower(char = {}) {
   return Math.max(1, firstFiniteNumber(1, char.WorkAttackPower, char.WorkFixStr, char.level, char.Lv));
 }
@@ -2435,6 +2536,10 @@ function battleDetailSuffix(detail) {
   if (detail.critical) parts.push("会心");
   if (Math.abs(Number(detail.elementMultiplier || 1) - 1) >= 0.06) {
     parts.push(`属性${detail.elementMultiplier > 1 ? "有利" : "不利"} x${detail.elementMultiplier.toFixed(2)}`);
+  }
+  if (detail.guardAdjust) {
+    const multiplier = Number(detail.guardAdjust.multiplier || 0);
+    parts.push(multiplier <= 0 ? "完全防御" : `防御x${multiplier.toFixed(2)}`);
   }
   return parts.length ? `（${parts.join("，")}）` : "";
 }
@@ -3142,6 +3247,7 @@ async function runGuideTrainingBattle(env, request, game, prompt) {
     };
   }
   let map = currentMap(game);
+  const startedWithEncounter = Boolean(game.encounter);
   if (!game.encounter) {
     if (!wildEncounterAllowed(map, game)) {
       return {
@@ -3161,11 +3267,24 @@ async function runGuideTrainingBattle(env, request, game, prompt) {
   };
   const logs = [];
   let lastOutcome = null;
-  for (let i = 0; i < 12 && game.encounter; i += 1) {
-    lastOutcome = performBattleAction(game, "attack");
-    recordBattleOutcome(game, lastOutcome);
-    logs.push(...(lastOutcome.log || []));
-    if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured", "enemy-escaped"].includes(lastOutcome.result)) break;
+  let battleAttempts = 0;
+  const maxBattleAttempts = startedWithEncounter ? 1 : 5;
+  while (battleAttempts < maxBattleAttempts) {
+    if (!game.encounter) {
+      if (!wildEncounterAllowed(map, game)) break;
+      await spawnEncounter(env, request, game, map, "AI 代练");
+      map = currentMap(game);
+    }
+    battleAttempts += 1;
+    for (let i = 0; i < 12 && game.encounter; i += 1) {
+      lastOutcome = performBattleAction(game, "attack");
+      recordBattleOutcome(game, lastOutcome);
+      logs.push(...(lastOutcome.log || []));
+      if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured", "enemy-escaped"].includes(lastOutcome.result)) break;
+    }
+    const currentPet = game.pets[activeIndex] || getActivePet(game);
+    if (Number(currentPet?.Lv || 1) > before.petLevel) break;
+    if (lastOutcome?.result === "defeat" || startedWithEncounter) break;
   }
   const petAfter = game.pets[activeIndex] || getActivePet(game);
   const after = {
@@ -3195,6 +3314,7 @@ async function runGuideTrainingBattle(env, request, game, prompt) {
       petExp,
       playerLevel: after.playerLevel,
       petLevel: after.petLevel,
+      battleAttempts,
       source: "AI can help operate battle; EXP/level still comes from Worker battle settlement"
     }
   };
@@ -3284,7 +3404,7 @@ function guideSearchTokens(value) {
 
 async function npcReply(env, request, game, npc, text) {
   const lower = text.toLowerCase();
-  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
+  if (game.encounter && hasAny(lower, ["攻击", "戰鬥", "战斗", "打", "attack", "防御", "防守", "guard", "等待", "待机", "wait", "放走", "逃跑", "离开", "離開", "release", "run"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["抓宠", "捕获", "capture", "catch"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["道具", "物品", "item"])) return battleActionReply(game, npc, lower);
   if (game.encounter && hasAny(lower, ["宠物", "pet"])) return battleStatusReply(game, npc);
@@ -3344,11 +3464,15 @@ function battleActionReply(game, npc, text) {
     ? "release"
     : hasAny(text, ["逃跑", "离开", "離開", "run", "escape"])
       ? "escape"
-      : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
-        ? "capture"
-        : hasAny(text, ["道具", "物品", "item"])
-          ? "item"
-          : "attack";
+      : hasAny(text, ["防御", "防守", "guard"])
+        ? "guard"
+        : hasAny(text, ["等待", "待机", "wait"])
+          ? "wait"
+          : hasAny(text, ["抓宠", "捕获", "capture", "catch"])
+            ? "capture"
+            : hasAny(text, ["道具", "物品", "item"])
+              ? "item"
+              : "attack";
   const event = runNpcVmAction(game, npc, {
     type: "battleAction",
     move,
@@ -3358,16 +3482,16 @@ function battleActionReply(game, npc, text) {
   const outcome = event.detail?.outcome || {};
   const lines = Array.isArray(outcome.log) ? outcome.log : [];
   const summary = lines.length ? lines.join("\n") : `${npc.name} 处理了战斗动作。`;
-  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”推进战斗，或输入“道具”“逃跑”。`;
+  if (outcome.result === "turn" || outcome.result === "item" || outcome.result === "next-enemy" || outcome.result === "enemy-escaped-next") return `${summary}\n继续输入“攻击”“防御”“待机”，或输入“道具”“逃跑”。`;
   if (outcome.result === "victory") return `${summary}\n战斗结束。`;
   if (outcome.result === "defeat") return `${summary}\n队伍撤退，战斗结束。`;
   if (outcome.result === "escaped") return `${summary}\n你逃离了战斗。`;
-  if (outcome.result === "escape-failed") return `${summary}\n继续输入“攻击”“道具”或再次“逃跑”。`;
+  if (outcome.result === "escape-failed") return `${summary}\n继续输入“攻击”“防御”“道具”或再次“逃跑”。`;
   if (outcome.result === "released") return `${summary}\n战斗结束。`;
   if (outcome.result === "enemy-escaped") return `${summary}\n敌方逃走，战斗结束。`;
   if (outcome.result === "captured") return `${summary}\n捕获成功，战斗结束。`;
   if (outcome.result === "pet-full") return `${summary}\n先去宠物店或仓库整理宠物栏，再继续捕获。`;
-  if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“捕获”或“逃跑”。`;
+  if (outcome.result === "capture-missed") return `${summary}\n继续输入“攻击”“防御”“捕获”或“逃跑”。`;
   return summary;
 }
 
@@ -3380,7 +3504,7 @@ function battleStatusReply(game, npc) {
     enemyHp: enemy?.Hp ?? enemy?.WorkMaxHp,
     reason: "dialog-battle-status"
   });
-  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”推进战斗，输入“捕获”尝试抓宠，或输入“逃跑”尝试脱离。`;
+  return `${npc.name}：当前正在与 ${enemy?.Name || "野外宠物"} Lv.${enemy?.Lv || "?"} 交战。输入“攻击”“防御”“待机”推进战斗，输入“捕获”尝试抓宠，或输入“逃跑”尝试脱离。`;
 }
 
 function isGreeting(text) {
@@ -5299,6 +5423,7 @@ function npcVmActionDetail(action, mutation) {
       stone: mutation.outcome.stone,
       rate: mutation.outcome.rate,
       itemUse: mutation.outcome.itemUse,
+      playerAction: mutation.outcome.playerAction,
       enemyAi: mutation.outcome.enemyAi,
       playerEscape: mutation.outcome.playerEscape,
       defeatedEnemies: mutation.outcome.defeatedEnemies,
@@ -6807,6 +6932,15 @@ function buildCharacterFields(game) {
       enemyLevel: Number(game.encounter.Lv || 1),
       enemyHp: Number(game.encounter.Hp || 0),
       source: game.battle?.source || game.encounter.source || "",
+      sourceCommand: game.battle?.sourceCommand || "",
+      playerAction: compactBattleActionTelemetry(game.battle?.playerAction),
+      enemyAi: game.battle?.enemyAi ? {
+        type: game.battle.enemyAi.type || "",
+        sourceCommand: game.battle.enemyAi.sourceCommand || "",
+        command: game.battle.enemyAi.command || "",
+        guardAdjust: compactGuardAdjust(game.battle.enemyAi.guardAdjust),
+        source: game.battle.enemyAi.source || ""
+      } : null,
       activePetIndex: activeIndex,
       activePetName: activePet?.Name || "",
       activeEnemyIndex: Number(game.battle?.activeEnemyIndex || 0),

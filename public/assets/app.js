@@ -3243,6 +3243,9 @@ function recentBattleOutcome() {
 
 function battleOutcomeSummary(outcome = {}) {
   const resultLabel = {
+    turn: "回合",
+    item: "道具",
+    "next-enemy": "换敌",
     victory: "胜利",
     captured: "捕获",
     defeat: "撤退",
@@ -3260,11 +3263,25 @@ function battleOutcomeSummary(outcome = {}) {
   const petName = outcome.petName || "出战宠";
   const levelUps = (outcome.levelUps || []).slice(0, 2).join("；");
   const parts = [`${resultLabel}${outcome.enemyName ? ` ${outcome.enemyName}` : ""}`];
+  const commandText = battleCommandSummary(outcome.playerAction?.command || outcome.sourceCommand);
+  if (commandText) parts.push(commandText);
   if (exp > 0) parts.push(`人物 +${exp}EXP`);
   if (petExp > 0) parts.push(`${petName} +${petExp}EXP`);
   if (stone > 0) parts.push(`石币 +${stone}`);
   if (levelUps) parts.push(levelUps);
   return parts.join(" | ");
+}
+
+function battleCommandSummary(command) {
+  const value = String(command || "").toUpperCase();
+  if (!value) return "";
+  if (value.startsWith("H")) return "攻击";
+  if (value === "G") return "防御";
+  if (value.startsWith("T")) return "捕获";
+  if (value === "I") return "道具";
+  if (value === "N") return "待机";
+  if (value === "E") return "逃跑";
+  return value;
 }
 
 function noEncounterEffectText() {

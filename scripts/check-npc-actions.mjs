@@ -916,6 +916,54 @@ assertEqual(enemyEscapeNextGame.battle.activeEnemyIndex, 1, "enemy escape tracks
 assertEqual(enemyEscapeNextGame.battle.escapedEnemies.length, 1, "enemy escape keeps escaped telemetry separate from defeated enemies");
 assertEqual(enemyEscapeNextGame.battle.defeatedEnemies.length, 0, "enemy escape does not count as defeated enemy");
 
+let playerGuardGame = await api("/api/game/new", { name: "player-guard-test" });
+playerGuardGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerGuardGame = await api("/api/game/encounter", { game: playerGuardGame });
+Object.assign(playerGuardGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 1,
+  WorkFixTough: 1
+});
+Object.assign(playerGuardGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 120,
+  WorkFixStr: 120,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+const playerGuardHpBefore = Number(playerGuardGame.pets[0].Hp || 0);
+playerGuardGame = await api("/api/game/battle", { game: playerGuardGame, action: "防御" });
+assertEqual(playerGuardGame.battleOutcome.result, "turn", "player guard consumes a normal battle turn");
+assertEqual(playerGuardGame.battleOutcome.sourceCommand, "G", "player guard records source command G");
+assertEqual(playerGuardGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_GUARD", "player guard records BATTLE_COM_GUARD telemetry");
+assert(playerGuardGame.battleOutcome.playerAction?.guardAdjust?.source.includes("BATTLE_GuardAdjust"), "player guard uses source guard adjustment");
+assert(playerGuardGame.battleOutcome.playerAction.guardAdjust.multiplier <= 0.5, "player guard damage multiplier follows source max half damage");
+assert(Number(playerGuardGame.pets[0].Hp || 0) >= playerGuardHpBefore - playerGuardGame.battleOutcome.playerAction.guardAdjust.originalDamage, "player guard reduces incoming damage");
+assertEqual(playerGuardGame.lastBattleOutcome.playerAction.sourceCommand, "BATTLE_COM_GUARD", "last battle outcome persists player guard telemetry");
+
+let playerWaitGame = await api("/api/game/new", { name: "player-wait-test" });
+playerWaitGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerWaitGame = await api("/api/game/encounter", { game: playerWaitGame });
+Object.assign(playerWaitGame.pets[0], { Hp: 999, WorkMaxHp: 999 });
+Object.assign(playerWaitGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+const playerWaitEnemyHpBefore = Number(playerWaitGame.encounter.Hp || 0);
+playerWaitGame = await api("/api/game/battle", { game: playerWaitGame, action: "等待" });
+assertEqual(playerWaitGame.battleOutcome.result, "turn", "player wait consumes a normal battle turn");
+assertEqual(playerWaitGame.battleOutcome.sourceCommand, "N", "player wait records source command N");
+assertEqual(playerWaitGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_WAIT", "player wait records BATTLE_COM_WAIT telemetry");
+assertEqual(Number(playerWaitGame.encounter.Hp || 0), playerWaitEnemyHpBefore, "player wait does not attack the enemy");
+
 let playerEscapeFailGame = await api("/api/game/new", { name: "player-escape-fail-test" });
 playerEscapeFailGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerEscapeFailGame = await api("/api/game/encounter", { game: playerEscapeFailGame });
@@ -1083,7 +1131,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
