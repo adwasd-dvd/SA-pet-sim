@@ -215,6 +215,7 @@ const els = {
   dialogMessages: byId("dialogMessages"),
   dialogSuggestions: byId("dialogSuggestions"),
   dialogForm: byId("dialogForm"),
+  dialogAiToggleBtn: byId("dialogAiToggleBtn"),
   dialogInput: byId("dialogInput"),
   dialogCloseBtn: byId("dialogCloseBtn"),
   dialogScrollUpBtn: byId("dialogScrollUpBtn"),
@@ -309,6 +310,10 @@ function bindEvents() {
     event.preventDefault();
     const text = els.dialogInput.value.trim();
     if (text) sendDialog(text);
+  });
+  els.dialogAiToggleBtn.addEventListener("click", () => {
+    const enabled = Boolean(game?.dialog?.aiMode);
+    toggleDialogAiMode(!enabled);
   });
   els.dialogInput.addEventListener("keydown", onDialogInputKeyDown);
   els.dialogMessages.addEventListener("scroll", updateDialogScrollButtons);
@@ -2274,9 +2279,11 @@ function renderDialog() {
   const battleOpen = isBattleOpen();
   els.dialogPanel.hidden = !dialog?.open || battleOpen;
   if (!dialog?.open || battleOpen) {
+    updateDialogAiToggleButton(null);
     updateDialogScrollButtons();
     return;
   }
+  updateDialogAiToggleButton(dialog);
   els.dialogNpcName.textContent = dialog.npcName || "NPC";
   els.dialogSource.textContent = "";
   els.dialogMessages.innerHTML = (dialog.messages || []).filter((message) => message.speaker !== "system").map((message) => {
@@ -2284,10 +2291,8 @@ function renderDialog() {
     return `<p class="dialog-bubble ${kind}"><span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>${escapeHtml(message.text)}</p>`;
   }).join("");
   const shop = renderDialogShop(dialog);
-  els.dialogSuggestions.innerHTML = renderDialogAiToggle(dialog) + shop;
-  els.dialogSuggestions.querySelectorAll("[data-dialog-ai-toggle]").forEach((btn) => {
-    btn.addEventListener("click", () => toggleDialogAiMode(btn.dataset.dialogAiToggle === "on"));
-  });
+  els.dialogSuggestions.hidden = !shop;
+  els.dialogSuggestions.innerHTML = shop;
   els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
   });
@@ -2304,17 +2309,13 @@ function renderDialog() {
   updateDialogScrollButtons();
 }
 
-function renderDialogAiToggle(dialog) {
-  const enabled = Boolean(dialog.aiMode);
-  return `
-    <button
-      class="dialog-ai-toggle ${enabled ? "active" : ""}"
-      type="button"
-      data-dialog-ai-toggle="${enabled ? "off" : "on"}"
-      aria-pressed="${enabled ? "true" : "false"}"
-      title="${enabled ? "关闭 AI 对话" : "开启 AI 对话"}"
-    >AI</button>
-  `;
+function updateDialogAiToggleButton(dialog) {
+  if (!els.dialogAiToggleBtn) return;
+  const enabled = Boolean(dialog?.aiMode);
+  els.dialogAiToggleBtn.hidden = !dialog?.open;
+  els.dialogAiToggleBtn.classList.toggle("active", enabled);
+  els.dialogAiToggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
+  els.dialogAiToggleBtn.title = enabled ? "关闭 AI 对话" : "开启 AI 对话";
 }
 
 function renderDialogBattle() {

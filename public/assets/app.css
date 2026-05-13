@@ -2140,7 +2140,7 @@ h3 {
   overflow: auto;
 }
 
-.dialog-suggestions .dialog-ai-toggle {
+.dialog-form .dialog-ai-toggle {
   width: 30px;
   min-width: 30px;
   min-height: 24px;
@@ -2155,12 +2155,12 @@ h3 {
   opacity: .48;
 }
 
-.dialog-suggestions .dialog-ai-toggle:hover,
-.dialog-suggestions .dialog-ai-toggle:focus-visible {
+.dialog-form .dialog-ai-toggle:hover,
+.dialog-form .dialog-ai-toggle:focus-visible {
   opacity: .84;
 }
 
-.dialog-suggestions .dialog-ai-toggle.active {
+.dialog-form .dialog-ai-toggle.active {
   border-color: #ffe47c;
   background: linear-gradient(180deg, #255d4c, #123c37);
   color: #ffef7c;
@@ -2181,7 +2181,8 @@ h3 {
 
 .dialog-form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 48px;
+  grid-template-columns: 30px minmax(0, 1fr) 48px;
+  align-items: stretch;
 }
 
 .dialog-form input {
