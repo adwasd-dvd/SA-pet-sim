@@ -2100,9 +2100,40 @@ function renderNpcListHtml(map) {
       <strong>${escapeHtml(npc.name)}</strong>
       ${renderNpcTags(npc)}
       <span>${escapeHtml(npc.type)} | (${npc.x}, ${npc.y}) | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
-      ${npc.questLead ? `<small>${escapeHtml(npc.questLead.summary || npc.questLead.title)}</small>` : ""}
+      ${renderNpcContextLines(npc)}
     </button>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
+}
+
+function renderNpcContextLines(npc) {
+  const lines = [];
+  if (npc.questLead) lines.push(npc.questLead.summary || npc.questLead.title);
+  const warpLine = npcWarpStatusLine(npc);
+  if (warpLine) lines.push(warpLine);
+  return lines.map((line) => `<small>${escapeHtml(line)}</small>`).join("");
+}
+
+function npcWarpStatusLine(npc) {
+  const status = npc.warpStatus;
+  if (!status) return "";
+  const target = status.target?.mapName || (status.target?.mapId ? `floor ${status.target.mapId}` : "目标地图");
+  if (!status.target?.loaded) return `传送目标 ${target} 尚未打包进 Worker 地图集`;
+  if (status.ok && status.free) return `可传送：${target}${status.freeSpec ? " | FREE 条件已满足" : ""}`;
+  if (status.ok) return `${status.affordable ? "可付费传送" : "石币不足"}：${target}${status.cost ? ` | 需要 ${status.cost} 石币` : ""}`;
+  const unmet = (status.unmet || []).map(conditionCheckLabel).filter(Boolean).join("、");
+  return `条件未满足：${unmet || status.freeSpec || "脚本条件"} | 目标 ${target}`;
+}
+
+function conditionCheckLabel(check) {
+  if (!check) return "";
+  if (check.type === "item") return `道具 ${check.itemId} ${Number(check.qty || 0)}/${Number(check.needed || 1)}`;
+  if (check.type === "event") return `${check.kind === "now" ? "NOWEV" : "ENDEV"} ${check.shiftbit}`;
+  if (check.type === "pet") return `宠物 ${check.petId || ""}`.trim();
+  if (check.type === "level") return `等级 ${check.actual}${check.op}${check.expected}`;
+  if (check.type === "stone") return `石币 ${check.actual}${check.op}${check.expected}`;
+  if (check.type === "manor") return `庄园 ${check.actual}${check.op}${check.expected}`;
+  if (check.type === "class") return `职业 ${check.actual}${check.op}${check.expected}`;
+  return check.token || "";
 }
 
 function renderNpcTags(npc) {
@@ -2118,6 +2149,7 @@ function npcTags(npc) {
   if (npc.questId || npc.questIds?.length) tags.push("任务");
   if (npc.trade) tags.push("交易");
   if (npc.warp) tags.push("传送");
+  if (npc.warpStatus) tags.push(npc.warpStatus.ok ? "可达" : "条件");
   if (npc.npcEnemy || /npcenemy/i.test(text)) tags.push("战斗");
   if (/healer/i.test(text)) tags.push("治疗");
   if (/save/i.test(text)) tags.push("记录");

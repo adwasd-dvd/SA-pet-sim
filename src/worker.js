@@ -3346,6 +3346,74 @@ function petIdInParty(game, petId) {
   return (game.pets || []).some((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId));
 }
 
+function compactNpcWarpStatus(game, npc) {
+  if (!npc?.warp?.target) return null;
+  const target = npc.warp.target;
+  const targetMap = WORLD.maps[target.mapId];
+  const permission = warpPermission(game, npc.warp);
+  const cost = Number(permission.cost || 0);
+  return {
+    ok: Boolean(permission.ok),
+    free: Boolean(permission.free),
+    affordable: cost <= Number(game.player?.stone || 0),
+    cost,
+    freeSpec: String(npc.warp.free || ""),
+    target: {
+      mapId: String(target.mapId || ""),
+      x: Number(target.x || 0),
+      y: Number(target.y || 0),
+      mapName: targetMap?.name || "",
+      loaded: Boolean(targetMap)
+    },
+    condition: compactConditionStatus(permission.condition),
+    unmet: compactConditionUnmet(permission.condition)
+  };
+}
+
+function compactConditionStatus(condition) {
+  if (!condition) return null;
+  return {
+    ok: Boolean(condition.ok),
+    reason: condition.reason || "",
+    matched: condition.matched || "",
+    groups: (condition.groups || []).slice(0, 3).map((group) => ({
+      ok: Boolean(group.ok),
+      source: group.source || "",
+      checks: (group.checks || []).slice(0, 6).map(compactConditionCheck)
+    }))
+  };
+}
+
+function compactConditionUnmet(condition) {
+  if (!condition || condition.ok) return [];
+  const checks = [];
+  for (const group of condition.groups || []) {
+    for (const check of group.checks || []) {
+      if (!check.ok) checks.push(compactConditionCheck(check));
+      if (checks.length >= 5) return checks;
+    }
+  }
+  return checks;
+}
+
+function compactConditionCheck(check) {
+  return Object.fromEntries(Object.entries({
+    ok: Boolean(check.ok),
+    type: check.type,
+    token: check.token,
+    actual: check.actual,
+    expected: check.expected,
+    itemId: check.itemId,
+    qty: check.qty,
+    needed: check.needed,
+    kind: check.kind,
+    shiftbit: check.shiftbit,
+    petId: check.petId,
+    slotFloor: check.slotFloor,
+    op: check.op
+  }).filter(([, value]) => value !== undefined && value !== ""));
+}
+
 function warpCost(game, cost) {
   if (!cost) return 0;
   if (cost.mode === "fixed") return Math.max(0, Number(cost.amount || 0));
@@ -3541,7 +3609,8 @@ async function aiNpcReply(env, request, game, npc, text) {
         scriptHints: compactNpcHints(npc),
         scriptReferences: compactScriptReferences,
         trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
-        warp: npc.warp || null
+        warp: npc.warp || null,
+        warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc)
       },
       vm: { allowedActions: debug.allowedActions, recentTrace: compactNpcVmTrace(debug) },
       player: compactPlayerContext(game),
@@ -3605,6 +3674,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
         source: npc.trade.source
       } : null,
       warp: npc.warp || null,
+      warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
       roleProfile: role,
       canDirectlyMutate: false
     },
@@ -5248,7 +5318,8 @@ function buildGuideContext(game, map, prompt = "") {
       } : null,
       warp: npc.warp?.target ? {
         target: npc.warp.target,
-        targetMapName: WORLD.maps[npc.warp.target.mapId]?.name || ""
+        targetMapName: WORLD.maps[npc.warp.target.mapId]?.name || "",
+        status: npc.warpStatus || compactNpcWarpStatus(game, npc)
       } : null,
       source: npc.source,
       script: npc.script,
@@ -6460,7 +6531,19 @@ function visibleMapForGame(game, map) {
         return npcs.length === map.npcs.length ? map : { ...map, npcs };
       })()
     : map;
-  return withWildEncounterPolicy(visible, game);
+  return withRuntimeMapState(game, withWildEncounterPolicy(visible, game));
+}
+
+function withRuntimeMapState(game, map) {
+  if (!game || !map?.npcs?.length) return map;
+  let changed = false;
+  const npcs = map.npcs.map((npc) => {
+    const warpStatus = compactNpcWarpStatus(game, npc);
+    if (!warpStatus) return npc;
+    changed = true;
+    return { ...npc, warpStatus };
+  });
+  return changed ? { ...map, npcs } : map;
 }
 
 function withWildEncounterPolicy(map, game = null) {
@@ -6527,7 +6610,15 @@ function nearbyState(game, map) {
   const npcs = map.npcs
     .filter((npc) => distance(npc.x, npc.y, x, y) <= 2)
     .slice(0, 5)
-    .map((npc) => ({ id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type }));
+    .map((npc) => ({
+      id: npc.id,
+      name: npc.name,
+      x: npc.x,
+      y: npc.y,
+      type: npc.type,
+      actions: npcActionProfile(npc),
+      warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc)
+    }));
   const exits = map.exits
     .filter((exit) => distanceToExit(exit, x, y) <= 2)
     .slice(0, 5)
