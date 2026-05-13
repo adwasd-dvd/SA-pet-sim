@@ -137,7 +137,7 @@ const OPENAI_NPC_SCHEMA = {
       properties: {
         type: {
           type: "string",
-          enum: ["none", "warp", "teleportInfo", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass"]
+          enum: ["none", "warp", "teleportInfo", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass", "roleFavor"]
         },
         text: { type: "string" },
         seconds: { type: "integer" },
@@ -2708,7 +2708,7 @@ function isAiModeOff(text) {
 
 function isAiRequest(text) {
   return isTeleportRequest(text)
-    || hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "打折", "折扣", "便宜", "优惠", "優待", "优待", "平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "卖我", "要一个", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
+    || hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "打折", "折扣", "便宜", "优惠", "優待", "优待", "平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "给些", "卖我", "卖给我", "卖一些", "要一个", "真的需要", "很需要", "急用", "帮帮", "帮我", "拜托", "报酬", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
 }
 
 function isNpcAiMode(game, npc) {
@@ -3373,12 +3373,13 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
   const system = [
     "你正在扮演石器时代单人网页版里的当前 NPC，不是旁白，也不是万能 GM。",
     "必须保持 NPC 的姓名、职业、地图、脚本来源和行为范围；只能根据 JSON 上下文说话。",
-    "NPC 可以解释任务、地图、交易、传送和战斗线索；可以提出优待或交涉意图，但不能直接改状态。",
+    "NPC 可以解释任务、地图、交易、传送和战斗线索；也可以在自己力所能及的角色范围内提出帮助、优待或交涉意图，但不能直接改状态。",
     "knowledge 是从 17173 石器时代专区压缩检索出的相关条目；只引用和玩家问题、当前地图或当前 NPC 相关的条目，不要把索引扩写成不存在的完整攻略。",
     "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前地图、背包、任务、flag 为准。",
-    "所有交易、传送、奖励、flag、避敌、开战、折扣和赠品都必须交给 Worker 的 NPC VM 校验执行。",
-    "只允许提出 action.type 中列出的动作；如果动作不符合 NPC 身份，type 必须是 none 或 teleportInfo，并在 reply 里自然拒绝。",
-    "商店只能围绕自己的商品类别和 gmsv/itemset 资料谈额外物品；守门/敌人 NPC 可被贿赂、威胁或说服，但是否通过由 VM 决定。",
+    "所有交易、传送、奖励、flag、避敌、开战、折扣、赠品和角色帮助都必须交给 Worker 的 NPC VM 校验执行。",
+    "只允许提出 action.type 中列出的动作；roleFavor 表示护士急救、守卫通融、店主额外照顾等角色内帮助，可能需要报酬，也可能被 VM 按概率拒绝。",
+    "如果动作不符合 NPC 身份，type 必须是 none 或 teleportInfo，并在 reply 里自然拒绝。",
+    "商店只能围绕自己的商品类别和 gmsv/itemset 资料谈额外物品；护士/治疗师只能谈治疗、伤势和少量急救恢复品；守门/敌人 NPC 可被贿赂、威胁或说服，但是否通过由 VM 决定。",
     "脚本里出现数字 id 时，必须先查看 scriptReferences，把它解释成道具、宠物、敌人或地图名；不要把裸编号当成最终答案。解析不到时要说资料里暂时找不到，不能假装知道。",
     "中文，1-3 句，像 NPC 在游戏里说话；不要输出调试字段。"
   ].join("\n");
@@ -3756,6 +3757,10 @@ function openAiNpcAction(game, npc, decision, fallbackText) {
     if (!isNpcEnemy(npc)) return null;
     return { type: "negotiatePass", text };
   }
+  if (type === "roleFavor") {
+    if (!npcCanOfferAiFavor(npc)) return null;
+    return { type: "roleFavor", text };
+  }
   return null;
 }
 
@@ -3797,7 +3802,7 @@ function localNpcAiFallback(game, npc, text, error = null) {
   if (npc.questLead) {
     return `${intro}${npc.questLead.title}：${npc.questLead.summary}\n来源：${npc.questLead.source}`;
   }
-  if (role.includes("heal")) return `${intro}我主要负责治疗。你可以说“治疗”，费用和效果会由 Worker 的 NPC VM 校验。`;
+  if (role.includes("heal")) return `${intro}我主要负责治疗。你可以说“治疗”；如果真的急用恢复药，也可以好好商量，但我只会处理急救恢复品，而且可能要收补给钱。`;
   if (role.includes("save")) return `${intro}我主要负责记录进度。你可以说“记录”或“存档”。`;
   return `${intro}我能聊地图、任务线索和附近 NPC。更具体地说“出口”“任务”“能不能帮我避敌”，我会按当前脚本身份回答。`;
 }
@@ -3823,6 +3828,9 @@ function inferNpcAiAction(game, npc, text) {
   if ((isWarpNpc(npc) || isTransportNpc(npc)) && hasAny(lower, ["商量传送", "商量坐车", "去别的地图", "去其他地图", "出发", "前往", "bus", "巴士", "传送", "傳送"])) {
     return { type: "warp", text: lower };
   }
+  if (isNpcRoleFavorRequest(lower, npc)) {
+    return { type: "roleFavor", text: lower };
+  }
   return null;
 }
 
@@ -3838,6 +3846,148 @@ function aiShopDiscountPercent(game, npc, text) {
   const polite = hasAny(text, ["请", "拜托", "能不能", "可以吗", "商量", "帮"]);
   const loyalCustomer = Number(game.player.level || 1) >= 5 || Number(game.player.stone || 0) >= 1000;
   return clampInt(10 + (polite ? 5 : 0) + (loyalCustomer ? 5 : 0), 5, 25, 10);
+}
+
+function isNpcRoleFavorRequest(text, npc) {
+  if (isNpcEnemy(npc)) return false;
+  if (isHealerNpc(npc) && (isHealerAidRequest(text) || isPoliteFavorRequest(text))) return true;
+  if (npc.trade?.items?.length) return false;
+  if (isSavePointNpc(npc) && hasAny(text, ["记录", "記錄", "存档", "保存", "帮我"])) return true;
+  return npcCanOfferAiFavor(npc)
+    && isPoliteFavorRequest(text)
+    && hasAny(text, ["帮", "通融", "照顾", "照顧", "报酬", "給", "给", "卖", "賣", "借"]);
+}
+
+function isPoliteFavorRequest(text) {
+  return hasAny(text, ["请", "請", "拜托", "拜託", "求你", "能不能", "可以吗", "可以嗎", "真的需要", "很需要", "急用", "帮我", "帮帮", "幫我", "幫幫", "报酬", "報酬", "辛苦"]);
+}
+
+function isHealerAidRequest(text) {
+  return hasAny(text, ["回复药", "回復藥", "恢复药", "恢復藥", "回復药", "药", "藥", "急救", "受伤", "受傷", "治疗", "治療", "补血", "補血", "耐久", "hp", "血"]);
+}
+
+function applyNpcRoleFavor(game, npc, text) {
+  if (isHealerNpc(npc)) return applyHealerNpcFavor(game, npc, text);
+  if (isSavePointNpc(npc) && hasAny(text, ["记录", "記錄", "存档", "保存"])) return savePointReply(game, npc);
+  recordNpcVmEvent(game, npc, "debug", "blocked", {
+    reason: "ai-role-favor",
+    role: npcActionProfile(npc),
+    text: String(text || "").slice(0, 80)
+  });
+  return `${npc.name} 想了想：这件事超出我能做的范围。你可以继续问任务、地图，或找更合适的 NPC 交涉。`;
+}
+
+function applyHealerNpcFavor(game, npc, text) {
+  const wantsItem = hasAny(text, ["回复药", "回復藥", "恢复药", "恢復藥", "回復药", "药", "藥", "急救", "卖", "賣", "给我", "給我", "给些", "给点", "一些"]);
+  const wantsTreatment = hasAny(text, ["治疗", "治療", "补血", "補血", "受伤", "受傷", "耐久", "hp", "血"]);
+  if (!wantsItem && (wantsTreatment || needsHealing(game))) return healerReply(game, npc);
+  const item = chooseHealerAidItem(text);
+  if (!item) {
+    recordNpcVmEvent(game, npc, "give", "blocked", { reason: "ai-healer-aid", text: String(text || "").slice(0, 80) });
+    return `${npc.name} 摇摇头：我这里负责治疗，手边没有适合给你的恢复药。真正买药还是要找药店。`;
+  }
+  if (!canCarryItem(game, item)) {
+    recordNpcVmEvent(game, npc, "give", "blocked", { reason: "inventory-full", itemId: item.id, itemName: item.name });
+    return `${npc.name} 看了看你的背包：先整理一下吧，${item.name} 放不下。`;
+  }
+  const cost = healerAidCost(game, item, text);
+  const decision = npcFavorDecision(game, npc, text, "healer-aid", {
+    baseChance: 0.48,
+    cost,
+    urgentBonus: 0.22
+  });
+  recordNpcVmEvent(game, npc, "debug", decision.ok ? "ok" : "blocked", {
+    reason: "ai-role-favor",
+    role: "healer",
+    itemId: item.id,
+    itemName: item.name,
+    cost,
+    chance: decision.chance,
+    roll: decision.roll
+  });
+  if (!decision.ok) {
+    return `${npc.name} 犹豫了一下：我手边的急救药不多，今天不能随便拿出来。你如果愿意出 ${cost} 石币，我可以再想办法；正式买药还是去药店更稳。`;
+  }
+  if (cost > 0) {
+    const paid = runNpcVmAction(game, npc, {
+      type: "take",
+      item: "stone",
+      qty: cost,
+      reason: "ai-healer-aid"
+    });
+    if (!paid.ok) return `${npc.name} 摊开手：我可以匀一瓶 ${item.name}，但至少要 ${cost} 石币当补给钱。`;
+  }
+  const given = runNpcVmAction(game, npc, {
+    type: "give",
+    item,
+    itemId: item.id,
+    itemName: item.name,
+    qty: 1,
+    reason: "ai-healer-aid"
+  });
+  if (!given.ok) return `${npc.name} 想把 ${item.name} 给你，但 ${given.error || "背包放不下"}。`;
+  setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "ai-healer-aid"), "now", "ai-healer-aid");
+  addLog(game, `${npc.name} 通过 AI 交涉给了 ${item.name}，收取 ${cost} 石币。`);
+  return `${npc.name} 点点头：看你确实需要，我可以匀一瓶 ${item.name} 给你，收 ${cost} 石币当补给钱。这个帮助只限急救恢复品，正式买药还是要找药店。`;
+}
+
+function chooseHealerAidItem(text) {
+  const queryTags = requestedItemTags(text);
+  const candidates = worldTradeItems()
+    .filter((item) => itemRoleTags(item).includes("medicine"))
+    .map((item) => ({
+      item,
+      score: healerAidItemScore(item, queryTags, text)
+    }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score || Number(a.item.price || a.item.cost || 0) - Number(b.item.price || b.item.cost || 0));
+  const entry = candidates[0];
+  if (!entry) return null;
+  return {
+    ...entry.item,
+    price: Number(entry.item.price || entry.item.cost || 0),
+    source: entry.item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
+}
+
+function healerAidItemScore(item, queryTags, text) {
+  const itemText = `${item.name || ""} ${item.description || ""}`;
+  let score = roleItemScore(["medicine"], item, queryTags, text);
+  if (/回复药|回復藥|恢复药|恢復藥/.test(text) && /回复药|回復藥|恢复药|恢復藥/.test(item.name || "")) score += 60;
+  if (/回复药|回復藥|恢复药|恢復藥|急救|受伤|受傷|补血|補血|耐久|hp|血/.test(text) && /耐久|回复|回復|恢复|恢復/.test(itemText)) score += 14;
+  if (/气力|氣力|mp/.test(text) && /气力|氣力/.test(itemText)) score += 20;
+  if (/复活|復活|气绝|氣絕|死亡/.test(text) && /复活|復活/.test(itemText)) score += 22;
+  if (/之石|护身符|護身符|娃娃|材料|草/.test(item.name || "")) score -= 18;
+  if (/万能|传送|武器|刀|装备/.test(text) && !/药|藥|耐久|气力|復活|复活/.test(itemText)) score -= 30;
+  return score;
+}
+
+function healerAidCost(game, item, text) {
+  const base = Math.max(1, Number(item.price || item.cost || 1));
+  const urgent = hasAny(text, ["真的需要", "很需要", "急用", "受伤", "受傷", "急救"]);
+  const relationship = Number(game.player.level || 1) >= 10 ? -5 : 0;
+  const markup = urgent ? 0 : Math.max(1, Math.round(base * 0.1));
+  return Math.max(1, base + markup + relationship);
+}
+
+function npcFavorDecision(game, npc, text, kind, options = {}) {
+  const cost = Math.max(0, Number(options.cost || 0));
+  let chance = Number(options.baseChance ?? 0.45);
+  if (isPoliteFavorRequest(text)) chance += 0.14;
+  if (hasAny(text, ["真的需要", "很需要", "急用", "急救", "受伤", "受傷"])) chance += Number(options.urgentBonus ?? 0.2);
+  if (needsHealing(game)) chance += 0.08;
+  if (cost > 0 && Number(game.player.stone || 0) >= cost) chance += 0.08;
+  if (Number(game.player.level || 1) >= 10) chance += 0.06;
+  chance = Math.max(0.05, Math.min(0.95, chance));
+  const seedText = `${game.player?.name || game.character?.name || ""}:${game.character?.id || ""}:${npc.id}:${kind}:${guideSearchText(text).slice(0, 28)}`;
+  const roll = stableFlag(seedText) / 256;
+  const urgent = hasAny(text, ["真的需要", "很需要", "急用", "急救"]);
+  return {
+    ok: urgent || roll <= chance,
+    chance: Math.round(chance * 100),
+    roll: Math.round(roll * 100),
+    cost
+  };
 }
 
 function applyNpcAiAction(game, npc, action) {
@@ -3861,6 +4011,9 @@ function applyNpcAiAction(game, npc, action) {
   }
   if (action.type === "teleportInfo") {
     return npcTeleportInfoReply(game, npc, action.text || "");
+  }
+  if (action.type === "roleFavor") {
+    return applyNpcRoleFavor(game, npc, action.text || "");
   }
   if (action.type === "noEncounter") {
     const seconds = clampInt(action.seconds, 30, 600, 180);
@@ -4357,7 +4510,7 @@ function npcShopRole(npc) {
   const text = `${npc.name || ""} ${npc.type || ""} ${npc.template || ""} ${npc.script || ""} ${(npc.trade?.items || []).map((item) => `${item.name} ${item.description} ${item.type}`).join(" ")}`;
   const roles = [];
   if (/肉/.test(text) || (npc.trade?.items || []).some((item) => /肉/.test(`${item.name} ${item.description}`))) roles.push("meat");
-  if (/药|藥|医|醫|耐久|气力|復活|复活/.test(text)) roles.push("medicine");
+  if (/药|藥|医|醫|护士|護士|healer|耐久|气力|復活|复活/i.test(text)) roles.push("medicine");
   if (/武器|斧|枪|槍|棍|棒|爪|弓|投掷/.test(text) || (npc.trade?.items || []).some((item) => Number(item.type) === 1)) roles.push("weapon");
   if (/防具|兜|铠|鎧|衣|帽|甲/.test(text)) roles.push("armor");
   if (/首饰|首飾|戒|项链|項鍊/.test(text)) roles.push("accessory");
@@ -4499,7 +4652,9 @@ function dialogSuggestions(npc, game = null) {
     ? [aiToggle, "是", "否", "试着交涉"]
     : [aiToggle, "是", "否"];
   const aiHints = isNpcAiMode(game, npc)
-    ? ["请求避敌", npc.trade?.items?.length ? "看看柜台后面" : "请求信息", isWarpNpc(npc) ? "试着交涉" : "试着交涉"]
+    ? (isHealerNpc(npc)
+      ? ["请求急救药", "请求治疗", "试着交涉"]
+      : ["请求避敌", npc.trade?.items?.length ? "看看柜台后面" : "请求信息", isWarpNpc(npc) ? "试着交涉" : "试着交涉"])
     : [];
   const base = npc.trade || /shop/i.test(npc.type)
     ? ["hi", "买东西", "地图"]

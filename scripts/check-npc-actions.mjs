@@ -222,6 +222,24 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && even
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.executor === "npc-action-vm"), "healer take runs through NPC VM executor");
 assert(game.flags.bits[`now:${stableFlag(`${healer.npc.id}:healer`)}`], "healer action flag set");
 
+const caveNurse = WORLD.maps["100"].npcs.find((npc) => npc.name === "洞窟前的护士");
+if (!caveNurse) throw new Error("missing cave nurse fixture");
+let nurseAidGame = await api("/api/game/new", { name: "npc-ai-healer-aid-test" });
+nurseAidGame.location = { mapId: "100", x: caveNurse.x + 1, y: caveNurse.y };
+nurseAidGame.player.stone = 200;
+nurseAidGame = await api("/api/game/dialog", { game: nurseAidGame, npcId: caveNurse.id, message: "AI对话" });
+assert(nurseAidGame.dialog.suggestions.includes("请求急救药"), "AI healer mode exposes role-fit aid suggestion");
+const nurseStoneBefore = nurseAidGame.player.stone;
+nurseAidGame = await api("/api/game/dialog", { game: nurseAidGame, npcId: caveNurse.id, message: "真的很需要，可以卖给我一些回复药么？" });
+const nurseAidItem = nurseAidGame.inventory.find((item) => /回复药|回復藥|恢复药|恢復藥/.test(item.name || ""));
+assert(nurseAidItem, "AI healer aid gives a role-fit recovery item");
+assert(nurseAidGame.player.stone < nurseStoneBefore, "AI healer aid asks for compensation");
+assert(nurseAidGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(nurseAidItem.name)), "AI healer aid names the recovery item");
+assert(nurseAidGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.detail?.reason === "ai-role-favor" && event.detail?.role === "healer"), "AI healer aid records role-favor decision");
+assert(nurseAidGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "ai-healer-aid"), "AI healer aid compensation runs through NPC VM");
+assert(nurseAidGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "ai-healer-aid" && event.detail?.itemName === nurseAidItem.name), "AI healer aid item runs through NPC VM");
+assert(nurseAidGame.flags.bits[`now:${stableFlag(`${caveNurse.id}:ai-healer-aid`)}`], "AI healer aid records a source-style action flag");
+
 const saveNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => /savepoint|save/i.test(`${npc.type} ${npc.template}`));
@@ -616,7 +634,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, healer, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, and source WARP NPC actions mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, and source WARP NPC actions mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
