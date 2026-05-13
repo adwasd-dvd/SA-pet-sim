@@ -107,7 +107,7 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 ## Likely Next Work
 
 1. `progression-001`: finish source EXP/level/counters/field runtime and cover quest/NPC rewards, capture, and battle tests.
-2. `combat-001`: deepen source combat formulas, elemental matchup, and battle result telemetry.
+2. `combat-001`: deepen source combat formulas, elemental matchup, deterministic enemy battle AI, and battle result telemetry.
 3. `status-ui-001`: rebuild original-client STATUS / PET STATUS / ITEM / BATTLE windows around EXP/NEXT, attributes, equipment, and counters.
 4. `ai-training-001`: keep AI代练 as battle operation only, with clear guardrails and compact context.
 5. `character-fields-001`: expand SAAC-like field/flag/counter APIs for NPC conditions and AI context.

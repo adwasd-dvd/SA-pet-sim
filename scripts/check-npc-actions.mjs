@@ -763,6 +763,7 @@ assert(allowedEnemyIds.includes(sourceEncounterGame.encounter.EnemyId), "wild en
 assert(sourceEncounterGame.battle.enemyParty.every((enemy) => allowedEnemyIds.includes(enemy.EnemyId)), "wild encounter filters group1 appear/not-appear item gates");
 assert(sourceEncounterGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) <= 5), "Sainasu ungated encounter stays in the source new-player level range");
 assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounter.EnemyTempNo !== sourceEncounterGame.encounter.EnemyId, "wild encounter uses enemy1 -> enemybase tempNo instead of treating group id as pet no");
+assert(sourceEncounterGame.encounter.WorkTacticsOption?.includes("at:"), "wild source encounter keeps enemy1 battle AI tactics");
 assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
 assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");
 assert(sourceEncounterGame.battle?.enemyParty?.length <= sainasuArea.enemyMax, "wild encounter party respects encount enemymaxnum");
@@ -804,6 +805,37 @@ workAliasBattleGame.battle.activeEnemyIndex = 0;
 workAliasBattleGame = await api("/api/game/battle", { game: workAliasBattleGame, action: "攻击" });
 assertEqual(workAliasBattleGame.battleOutcome.result, "victory", "battle damage reads source WorkAttackPower/WorkDefencePower aliases");
 assert(!workAliasBattleGame.battleOutcome.log.some((line) => line.includes("反击")), "battle turn order reads source WorkQuick alias");
+
+let enemyGuardAiGame = await api("/api/game/new", { name: "enemy-ai-guard-test" });
+enemyGuardAiGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyGuardAiGame = await api("/api/game/encounter", { game: enemyGuardAiGame });
+Object.assign(enemyGuardAiGame.pets[0], {
+  WorkAttackPower: 80,
+  WorkFixStr: 80,
+  WorkQuick: 900,
+  WorkFixDex: 900,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(enemyGuardAiGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 300,
+  WorkFixStr: 300,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:0;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+enemyGuardAiGame.battle.enemyParty = [enemyGuardAiGame.encounter];
+enemyGuardAiGame.battle.activeEnemyIndex = 0;
+enemyGuardAiGame = await api("/api/game/battle", { game: enemyGuardAiGame, action: "攻击" });
+assertEqual(enemyGuardAiGame.battleOutcome.result, "turn", "enemy guard AI keeps battle active after reducing incoming damage");
+assertEqual(enemyGuardAiGame.battleOutcome.enemyAi?.type, "guard", "enemy AI can choose source guard command without OpenAI");
+assert(enemyGuardAiGame.battleOutcome.log.some((line) => line.includes("采取防御姿势")), "enemy guard AI logs deterministic guard action");
 
 let playerLevelPointGame = await api("/api/game/new", { name: "player-level-point-test" });
 playerLevelPointGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };

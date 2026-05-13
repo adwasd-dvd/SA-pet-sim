@@ -1588,6 +1588,8 @@ function createEnemyFromEnemySpec(data, enemyId, npcEnemy = null) {
   enemy.EnemyLvMax = spec.lvMax;
   enemy.EnemyCreateMin = spec.createMin;
   enemy.EnemyCreateMax = spec.createMax;
+  enemy.WorkTactics = 1;
+  enemy.WorkTacticsOption = spec.tacticsOption || enemy.WorkTacticsOption || "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0";
   enemy.CaptureRate = 0;
   enemy.source = `${GMSV_DATA_SOURCE}/enemy1.txt enemy ${spec.id} -> ${GMSV_DATA_SOURCE}/enemybase2.txt ${spec.tempNo}`;
   if (npcEnemy) enemy.npcEnemy = npcEnemy;
@@ -1639,17 +1641,27 @@ function performBattleAction(game, action) {
   const petName = activePet.Name;
   const battleLog = [];
   const petFirst = workQuick(activePet) >= workQuick(enemy);
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
   game.battle.sourceCommand = move.command;
+  game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
   const petTurn = () => {
-    const hit = combatDamageDetail(activePet, enemy);
+    const hit = combatDamageDetail(activePet, enemy, enemyAi.type === "guard" ? 0.45 : 1);
     enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
     battleLog.push(`${activePet.Name} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
   const enemyTurn = (guarded = false) => {
+    if (enemyAi.type === "guard") {
+      battleLog.push(`${enemy.Name} 采取防御姿势。`);
+      return;
+    }
+    if (enemyAi.type === "wait") {
+      battleLog.push(`${enemy.Name} 观察战况，暂不行动。`);
+      return;
+    }
     const hit = combatDamageDetail(enemy, activePet, guarded ? 0.45 : 1);
     activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
-    battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "反击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
 
   if (move.type === "guard") {
@@ -1669,7 +1681,8 @@ function performBattleAction(game, action) {
   return settleBattleRound(game, activePet, enemy, {
     battleLog,
     result: "turn",
-    sourceCommand: move.command
+    sourceCommand: move.command,
+    enemyAi
   });
 }
 
@@ -1697,6 +1710,95 @@ function normalizeBattleMove(action) {
   return { type: value, command: value };
 }
 
+function chooseEnemyBattleMove(game, enemy, activePet) {
+  const tacticsOption = String(enemy.WorkTacticsOption || enemy.TacticsOption || "");
+  const tactics = parseSourceBattleAiTactics(tacticsOption);
+  const choices = [];
+  if (tactics.attack.weight > 0) choices.push({ type: "attack", weight: tactics.attack.weight });
+  if (tactics.guard.weight > 0) choices.push({ type: "guard", weight: tactics.guard.weight });
+  if (tactics.wait.weight > 0) choices.push({ type: "wait", weight: tactics.wait.weight });
+  if (!choices.length) choices.push({ type: "attack", weight: 1 });
+  const selected = weightedDeterministicChoice(choices, [
+    enemy.EnemyId || enemy.PetId || enemy.Name,
+    enemy.Hp,
+    activePet?.Hp,
+    game.battle?.turn || 0,
+    tacticsOption
+  ].join("|"));
+  const base = {
+    type: selected.type,
+    source: "gmsv battle_ai.c BATTLE_ai_normal",
+    tacticsOption,
+    targetRule: tactics.attack.target,
+    selectRule: tactics.attack.select
+  };
+  if (selected.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD", command: "G" };
+  if (selected.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT", command: "N" };
+  return {
+    ...base,
+    sourceCommand: "BATTLE_COM_ATTACK",
+    command: "H|0",
+    targetKind: "pet",
+    targetSlot: battlePetSlot(game, activePet),
+    targetName: activePet?.Name || activePet?.name || "pet"
+  };
+}
+
+function parseSourceBattleAiTactics(value) {
+  const sections = Object.fromEntries(String(value || "")
+    .split("|")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => {
+      const [key, rest = ""] = part.split(":");
+      return [String(key || "").trim().toLowerCase(), rest];
+    }));
+  const attack = parseSourceBattleAiInts(sections.at, [1, 3, 1]);
+  const guard = parseSourceBattleAiInts(sections.gu, [0]);
+  return {
+    attack: {
+      weight: Math.max(0, attack[0] || 0),
+      target: attack[1] || 3,
+      select: attack[2] || 1
+    },
+    guard: {
+      weight: Math.max(0, guard[0] || 0)
+    },
+    wait: {
+      weight: Math.max(0, parseSourceBattleAiInts(sections.n, [0])[0] || 0)
+    }
+  };
+}
+
+function parseSourceBattleAiInts(value, fallback) {
+  if (value == null || value === "") return [...fallback];
+  const nums = String(value)
+    .split(";")
+    .map((item) => Number.parseInt(item, 10))
+    .map((item) => (Number.isFinite(item) ? item : 0));
+  return fallback.map((item, index) => nums[index] ?? item);
+}
+
+function weightedDeterministicChoice(choices, seed) {
+  const total = choices.reduce((sum, item) => sum + Math.max(0, Number(item.weight || 0)), 0);
+  if (total <= 0) return choices[0] || { type: "wait", weight: 1 };
+  let roll = stableHashInt(seed) % total;
+  for (const choice of choices) {
+    roll -= Math.max(0, Number(choice.weight || 0));
+    if (roll < 0) return choice;
+  }
+  return choices[choices.length - 1];
+}
+
+function stableHashInt(value) {
+  let hash = 2166136261;
+  for (const char of String(value || "")) {
+    hash ^= char.charCodeAt(0);
+    hash = Math.imul(hash, 16777619) >>> 0;
+  }
+  return hash >>> 0;
+}
+
 function recordBattleOutcome(game, outcome = null) {
   if (!outcome) return null;
   const summary = {
@@ -1709,6 +1811,17 @@ function recordBattleOutcome(game, outcome = null) {
     stone: Number(outcome.stone || 0),
     levelUps: [...(outcome.levelUps || [])].slice(0, 6),
     sourceCommand: outcome.sourceCommand || "",
+    enemyAi: outcome.enemyAi ? {
+      type: outcome.enemyAi.type || "",
+      sourceCommand: outcome.enemyAi.sourceCommand || "",
+      command: outcome.enemyAi.command || "",
+      targetKind: outcome.enemyAi.targetKind || "",
+      targetSlot: Number(outcome.enemyAi.targetSlot || 0),
+      targetName: outcome.enemyAi.targetName || "",
+      targetRule: Number(outcome.enemyAi.targetRule || 0),
+      selectRule: Number(outcome.enemyAi.selectRule || 0),
+      source: outcome.enemyAi.source || ""
+    } : null,
     sourceResults: (outcome.sourceResults || []).slice(0, 6).map((item) => ({
       type: item.type || "",
       num: Number(item.num || 0),
@@ -1816,6 +1929,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
         levelUps: [],
         stone,
         sourceCommand: options.sourceCommand,
+        enemyAi: options.enemyAi || null,
         itemUse: options.itemUse || null,
         defeatedEnemies: game.battle?.defeatedEnemies || [],
         sourceResults: [],
@@ -1875,6 +1989,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     levelUps: rewardSummary.levelUps,
     stone,
     sourceCommand: options.sourceCommand,
+    enemyAi: options.enemyAi || null,
     itemUse: options.itemUse || null,
     defeatedEnemies,
     sourceResults: rewardSummary.sourceResults,
@@ -7229,6 +7344,7 @@ function parseEnemySpecs(text, enemyBaseSet) {
     const id = toInt(rows[offset]);
     const tempNo = toInt(rows[offset + 1]);
     if (!id || !tempNo || !enemyBaseSet.has(tempNo)) continue;
+    const tacticsOption = cleanReferenceText(rows[1]);
     const rawMin = toInt(rows[offset + 2]);
     const rawMax = toInt(rows[offset + 3]);
     const maxLevel = Math.max(1, rawMax || rawMin || 1);
@@ -7240,6 +7356,7 @@ function parseEnemySpecs(text, enemyBaseSet) {
       lvMax: Math.max(minLevel, maxLevel),
       createMax: Math.max(1, toInt(rows[offset + 4]) || 1),
       createMin: Math.max(1, toInt(rows[offset + 5]) || 1),
+      tacticsOption,
       source: `${GMSV_DATA_SOURCE}/enemy1.txt`
     });
   }
@@ -7302,8 +7419,8 @@ function createEnemy(data, ebno, baselevel) {
     Exp: 0,
     SourceExp: 0,
     AllocPoint: [tp.BaseVital, tp.BaseStr, tp.BaseTgh, tp.BaseDex],
-    WorkTactics: 0,
-    WorkTacticsOption: "",
+    WorkTactics: 1,
+    WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0",
     WorkBattleActContition: "",
     WorkPetFlag: 0,
     WorkModCaptureDefault: tp.Get,
