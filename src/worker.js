@@ -1065,7 +1065,7 @@ async function dialogGame(env, request, game, npcId, message) {
 async function encounterGame(env, request, game) {
   game = normalizeGame(game);
   const map = currentMap(game);
-  assertWildEncounterAllowed(map);
+  assertWildEncounterAllowed(map, game);
   await spawnEncounter(env, request, game, map, "野外");
   return withMap(game);
 }
@@ -1073,7 +1073,7 @@ async function encounterGame(env, request, game) {
 async function maybeStepEncounter(env, request, game, map) {
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.walk.steps = Number(game.walk.steps || 0) + 1;
-  if (!wildEncounterAllowed(map) || game.encounter) return false;
+  if (!wildEncounterAllowed(map, game) || game.encounter) return false;
   if (hasActiveNoEncounterEffect(game)) {
     game.walk.encounterSteps = 0;
     return false;
@@ -1089,7 +1089,7 @@ async function maybeStepEncounter(env, request, game, map) {
 }
 
 async function spawnEncounter(env, request, game, map, source) {
-  assertWildEncounterAllowed(map);
+  assertWildEncounterAllowed(map, game);
   const encounter = await createEncounterParty(env, request, game, map);
   const enemy = encounter.enemies[0];
   if (!enemy) throw new Error("当前地图没有可遇敌宠物");
@@ -1126,6 +1126,9 @@ function hasActiveNoEncounterEffect(game) {
 async function createEncounterParty(env, request, game, map) {
   const data = await loadGameData(env, request);
   const area = chooseEncounterArea(map, game.location);
+  if ((map.encounterAreas || []).some((item) => item.groups?.length) && !area) {
+    return { enemies: [], area: null, source: `${GMSV_DATA_SOURCE}/encount.txt no active area at (${game.location?.x},${game.location?.y})` };
+  }
   if (area?.groups?.length) {
     const availableGroups = area.groups.filter((group) => encounterGroupCanAppear(game, group));
     if (!availableGroups.length) {
@@ -1181,7 +1184,7 @@ function chooseEncounterArea(map, location) {
   const inside = areas
     .filter((area) => pointInBounds(x, y, area.bounds))
     .sort((a, b) => Number(b.zorder || 0) - Number(a.zorder || 0));
-  return inside[0] || areas.slice().sort((a, b) => Number(b.zorder || 0) - Number(a.zorder || 0))[0] || null;
+  return inside[0] || null;
 }
 
 function pointInBounds(x, y, bounds = []) {
@@ -1828,9 +1831,9 @@ async function applyGuideRequest(env, request, game, prompt) {
 
   if (!game.encounter && hasAny(lower, ["遇敌", "遇敵", "野外敌人", "野外敵人", "找敌人", "找敵人", "敌人", "敵人", "刷怪", "开战", "開戰"])) {
     const map = currentMap(game);
-    if (!wildEncounterAllowed(map)) {
+    if (!wildEncounterAllowed(map, game)) {
       return {
-        text: wildEncounterBlockedText(map),
+        text: wildEncounterBlockedText(map, game),
         action: { type: "encounter-refused" }
       };
     }
@@ -2122,14 +2125,14 @@ function questReply(game, npc) {
 
 async function captureReply(env, request, game, npc) {
   const map = currentMap(game);
-  if (!wildEncounterAllowed(map)) {
+  if (!wildEncounterAllowed(map, game)) {
     runNpcVmAction(game, npc, {
       type: "startBattle",
-      reason: encounterDataAvailable(map) ? "safe-map" : "no-encounter-data",
+      reason: encounterSourceDataAvailable(map) ? "safe-or-gated-map" : "no-encounter-data",
       mapId: map.id,
       mapName: map.name
     });
-    return `${npc.name} 查看了当前地图资料：${wildEncounterBlockedText(map)}`;
+    return `${npc.name} 查看了当前地图资料：${wildEncounterBlockedText(map, game)}`;
   }
   const encounter = await createEncounterParty(env, request, game, map);
   const enemy = encounter.enemies[0];
@@ -3402,7 +3405,7 @@ function guideWorldSummary(game, currentMapValue) {
       floorId: map.floorId,
       name: map.name,
       kind: guideMapKind(map),
-      canWildEncounter: wildEncounterAllowed(map),
+      canWildEncounter: wildEncounterAllowed(map, map.id === currentId ? game : null),
       source: map.summary
     }))
     .sort((a, b) => (
@@ -3757,27 +3760,36 @@ function visibleMapForGame(game, map) {
         return npcs.length === map.npcs.length ? map : { ...map, npcs };
       })()
     : map;
-  return withWildEncounterPolicy(visible);
+  return withWildEncounterPolicy(visible, game);
 }
 
-function withWildEncounterPolicy(map) {
-  const canWildEncounter = wildEncounterAllowed(map);
+function withWildEncounterPolicy(map, game = null) {
+  const canWildEncounter = wildEncounterAllowed(map, game);
   return {
     ...map,
     canWildEncounter,
     wildEncounterReason: canWildEncounter
       ? "encount.txt wild encounter enabled"
-      : wildEncounterBlockedText(map)
+      : wildEncounterBlockedText(map, game)
   };
 }
 
-function wildEncounterAllowed(map) {
-  return encounterDataAvailable(map) && !isSafeWildEncounterMap(map);
+function wildEncounterAllowed(map, game = null) {
+  return encounterDataAvailable(map, game) && !isSafeWildEncounterMap(map);
 }
 
-function encounterDataAvailable(map) {
+function encounterSourceDataAvailable(map) {
   return Boolean(map?.encounterAreas?.some((area) => area.groups?.some((group) => group.enemies?.length)))
     || Boolean(map?.encounterPets?.length);
+}
+
+function encounterDataAvailable(map, game = null) {
+  if (!encounterSourceDataAvailable(map)) return false;
+  if (!game) return true;
+  const sourceAreas = (map?.encounterAreas || []).filter((area) => area.groups?.some((group) => group.enemies?.length));
+  if (!sourceAreas.length) return Boolean(map?.encounterPets?.length);
+  const area = chooseEncounterArea(map, game.location);
+  return Boolean(area?.groups?.some((group) => group.enemies?.length && encounterGroupCanAppear(game, group)));
 }
 
 function isSafeWildEncounterMap(map) {
@@ -3787,13 +3799,18 @@ function isSafeWildEncounterMap(map) {
   return /\/samugiru\/|\/kuo\/kuomura|\/marinasu\/marinasu|\/family\//i.test(summary);
 }
 
-function assertWildEncounterAllowed(map) {
-  if (!wildEncounterAllowed(map)) throw new Error(wildEncounterBlockedText(map));
+function assertWildEncounterAllowed(map, game = null) {
+  if (!wildEncounterAllowed(map, game)) throw new Error(wildEncounterBlockedText(map, game));
 }
 
-function wildEncounterBlockedText(map) {
-  if (!encounterDataAvailable(map)) return `${map?.name || "当前地图"} 没有 encount.txt 遇敌表，不能在这里触发野外战斗。`;
+function wildEncounterBlockedText(map, game = null) {
+  if (!encounterSourceDataAvailable(map)) return `${map?.name || "当前地图"} 没有 encount.txt 遇敌表，不能在这里触发野外战斗。`;
   if (isSafeWildEncounterMap(map)) return `${map.name} 是村镇或安全地图，虽然资料里有 encount.txt 记录，但随机野外遇敌已按安全区规则关闭。`;
+  if (game && !encounterDataAvailable(map, game)) {
+    const area = chooseEncounterArea(map, game.location);
+    if (!area) return `${map?.name || "当前地图"} 当前坐标没有可用的 encount.txt 遇敌区域。`;
+    return `${map?.name || "当前地图"} 当前遇敌组需要特定道具或受 group1.txt 背包条件限制，暂时不能在这里触发野外战斗。`;
+  }
   return `${map?.name || "当前地图"} 当前不能触发野外遇敌。`;
 }
 
