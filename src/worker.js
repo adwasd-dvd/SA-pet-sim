@@ -3186,7 +3186,7 @@ function warpConditionMet(game, part) {
 }
 
 function characterConditionStatus(game, spec) {
-  const raw = String(spec || "").replace(/^FREE\s*[:=]\s*/i, "").trim();
+  const raw = String(spec || "").replace(/^(?:FREE|EVENTRUN\d*|EVENT\d*|TALKEVENT\d*|ENDEVENT\d*|CHECKPARTY)\s*[:=]\s*/i, "").trim();
   if (!raw || /^ALLFREE$/i.test(raw)) return { ok: true, reason: "", groups: [] };
   const groups = raw
     .split(/[|,]/)
@@ -3279,14 +3279,19 @@ function characterConditionMet(game, part) {
     const hasPet = petIdInParty(game, petId) && (game.pets || []).length > slotFloor;
     return { ok: hasPet, token, type: "pet", petId, slotFloor };
   }
-  const petId = token.match(/^(?:PET|PETID)\s*(!=|=)\s*(\d+)$/i);
+  const petId = token.match(/^(?:PET|PETID)\s*(!=|=)\s*(?:(\d+)-)?(\d+)(?:\*(\d+))?$/i);
   if (petId) {
-    const hasPet = petIdInParty(game, Number(petId[2]));
+    const petNo = Number(petId[3]);
+    const qty = petQtyInParty(game, petNo);
+    const needed = Number(petId[4] || 1);
+    const hasPet = qty >= needed;
     return {
       ok: petId[1] === "!=" ? !hasPet : hasPet,
       token,
       type: "pet",
-      petId: Number(petId[2]),
+      petId: petNo,
+      qty,
+      needed,
       op: petId[1]
     };
   }
@@ -3303,12 +3308,10 @@ function characterConditionMet(game, part) {
       op: petCount[1]
     };
   }
-  const numericField = token.match(/^(MANOR|CLASS)\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
+  const numericField = token.match(/^(MANOR|CLASS|TRANS)\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
   if (numericField) {
     const field = numericField[1].toLowerCase();
-    const actual = field === "manor"
-      ? Number(game.player?.manorId ?? game.player?.Manor ?? game.family?.manorId ?? 0)
-      : Number(game.player?.classId ?? game.player?.Class ?? game.player?.professionClass ?? 0);
+    const actual = conditionNumericFieldValue(game, field);
     const expected = Number(numericField[3]);
     return {
       ok: compareNumber(actual, numericField[2], expected),
@@ -3343,7 +3346,18 @@ function eventFlagSet(game, shiftbit, kind = "end") {
 }
 
 function petIdInParty(game, petId) {
-  return (game.pets || []).some((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId));
+  return petQtyInParty(game, petId) > 0;
+}
+
+function petQtyInParty(game, petId) {
+  return (game.pets || []).filter((pet) => Number(pet.PetId ?? pet.petId ?? pet.id) === Number(petId)).length;
+}
+
+function conditionNumericFieldValue(game, field) {
+  if (field === "manor") return Number(game.player?.manorId ?? game.player?.Manor ?? game.family?.manorId ?? 0);
+  if (field === "class") return Number(game.player?.classId ?? game.player?.Class ?? game.player?.professionClass ?? 0);
+  if (field === "trans") return Number(game.player?.transmigration ?? game.player?.Trans ?? game.player?.trans ?? 0);
+  return 0;
 }
 
 function compactNpcWarpStatus(game, npc) {
@@ -3366,31 +3380,69 @@ function compactNpcWarpStatus(game, npc) {
       loaded: Boolean(targetMap)
     },
     condition: compactConditionStatus(permission.condition),
-    unmet: compactConditionUnmet(permission.condition)
+    unmet: compactConditionUnmet(permission.condition, 5)
   };
+}
+
+function compactNpcScriptStatus(game, npc) {
+  const conditions = npcScriptConditionSpecs(npc)
+    .slice(0, 5)
+    .map((entry) => {
+      const condition = characterConditionStatus(game, entry.spec);
+      return {
+        kind: entry.kind,
+        ok: Boolean(condition.ok),
+        source: truncateText(entry.source, 180),
+        condition: compactConditionStatus(condition),
+        unmet: compactConditionUnmet(condition, 4)
+      };
+    });
+  if (!conditions.length) return null;
+  return {
+    source: npc.scriptHints?.source || npc.script || npc.source || "",
+    conditions,
+    hasReadyBranch: conditions.some((condition) => condition.ok),
+    hasBlockedBranch: conditions.some((condition) => !condition.ok)
+  };
+}
+
+function npcScriptConditionSpecs(npc) {
+  const specs = [];
+  for (const line of npc?.scriptHints?.hints || []) {
+    const match = String(line || "").match(/^(EVENTRUN\d*|EVENT\d*|TALKEVENT\d*|ENDEVENT\d*|CHECKPARTY)\s*[:=]\s*(.+)$/i);
+    if (!match) continue;
+    const spec = match[2].trim();
+    if (!spec || /^LV>0$/i.test(spec)) continue;
+    specs.push({
+      kind: match[1].toUpperCase(),
+      spec,
+      source: line
+    });
+  }
+  return specs;
 }
 
 function compactConditionStatus(condition) {
   if (!condition) return null;
   return {
     ok: Boolean(condition.ok),
-    reason: condition.reason || "",
-    matched: condition.matched || "",
+    reason: truncateText(condition.reason || "", 180),
+    matched: truncateText(condition.matched || "", 180),
     groups: (condition.groups || []).slice(0, 3).map((group) => ({
       ok: Boolean(group.ok),
-      source: group.source || "",
+      source: truncateText(group.source || "", 180),
       checks: (group.checks || []).slice(0, 6).map(compactConditionCheck)
     }))
   };
 }
 
-function compactConditionUnmet(condition) {
+function compactConditionUnmet(condition, max = 5) {
   if (!condition || condition.ok) return [];
   const checks = [];
   for (const group of condition.groups || []) {
     for (const check of group.checks || []) {
       if (!check.ok) checks.push(compactConditionCheck(check));
-      if (checks.length >= 5) return checks;
+      if (checks.length >= max) return checks;
     }
   }
   return checks;
@@ -3400,7 +3452,7 @@ function compactConditionCheck(check) {
   return Object.fromEntries(Object.entries({
     ok: Boolean(check.ok),
     type: check.type,
-    token: check.token,
+    token: truncateText(check.token, 80),
     actual: check.actual,
     expected: check.expected,
     itemId: check.itemId,
@@ -3412,6 +3464,11 @@ function compactConditionCheck(check) {
     slotFloor: check.slotFloor,
     op: check.op
   }).filter(([, value]) => value !== undefined && value !== ""));
+}
+
+function truncateText(value, max = 160) {
+  const text = String(value || "");
+  return text.length > max ? `${text.slice(0, max - 1)}...` : text;
 }
 
 function warpCost(game, cost) {
@@ -3610,7 +3667,8 @@ async function aiNpcReply(env, request, game, npc, text) {
         scriptReferences: compactScriptReferences,
         trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
         warp: npc.warp || null,
-        warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc)
+        warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
+        scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc)
       },
       vm: { allowedActions: debug.allowedActions, recentTrace: compactNpcVmTrace(debug) },
       player: compactPlayerContext(game),
@@ -3675,6 +3733,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
       } : null,
       warp: npc.warp || null,
       warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
+      scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc),
       roleProfile: role,
       canDirectlyMutate: false
     },
@@ -5321,6 +5380,7 @@ function buildGuideContext(game, map, prompt = "") {
         targetMapName: WORLD.maps[npc.warp.target.mapId]?.name || "",
         status: npc.warpStatus || compactNpcWarpStatus(game, npc)
       } : null,
+      scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc),
       source: npc.source,
       script: npc.script,
       scriptHints: npc.scriptHints || null
@@ -6539,9 +6599,10 @@ function withRuntimeMapState(game, map) {
   let changed = false;
   const npcs = map.npcs.map((npc) => {
     const warpStatus = compactNpcWarpStatus(game, npc);
-    if (!warpStatus) return npc;
+    const scriptStatus = compactNpcScriptStatus(game, npc);
+    if (!warpStatus && !scriptStatus) return npc;
     changed = true;
-    return { ...npc, warpStatus };
+    return { ...npc, ...(warpStatus ? { warpStatus } : {}), ...(scriptStatus ? { scriptStatus } : {}) };
   });
   return changed ? { ...map, npcs } : map;
 }
@@ -6617,7 +6678,8 @@ function nearbyState(game, map) {
       y: npc.y,
       type: npc.type,
       actions: npcActionProfile(npc),
-      warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc)
+      warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
+      scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc)
     }));
   const exits = map.exits
     .filter((exit) => distanceToExit(exit, x, y) <= 2)

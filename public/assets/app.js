@@ -2110,6 +2110,8 @@ function renderNpcContextLines(npc) {
   if (npc.questLead) lines.push(npc.questLead.summary || npc.questLead.title);
   const warpLine = npcWarpStatusLine(npc);
   if (warpLine) lines.push(warpLine);
+  const scriptLine = npcScriptStatusLine(npc);
+  if (scriptLine) lines.push(scriptLine);
   return lines.map((line) => `<small>${escapeHtml(line)}</small>`).join("");
 }
 
@@ -2124,15 +2126,26 @@ function npcWarpStatusLine(npc) {
   return `条件未满足：${unmet || status.freeSpec || "脚本条件"} | 目标 ${target}`;
 }
 
+function npcScriptStatusLine(npc) {
+  const status = npc.scriptStatus;
+  if (!status?.conditions?.length) return "";
+  const ready = status.conditions.find((condition) => condition.ok);
+  if (ready) return `脚本条件：有可执行分支 | ${ready.kind}`;
+  const blocked = status.conditions.find((condition) => condition.unmet?.length) || status.conditions[0];
+  const unmet = (blocked.unmet || []).map(conditionCheckLabel).filter(Boolean).join("、");
+  return `脚本条件未满足：${unmet || blocked.source || "事件条件"}`;
+}
+
 function conditionCheckLabel(check) {
   if (!check) return "";
   if (check.type === "item") return `道具 ${check.itemId} ${Number(check.qty || 0)}/${Number(check.needed || 1)}`;
   if (check.type === "event") return `${check.kind === "now" ? "NOWEV" : "ENDEV"} ${check.shiftbit}`;
-  if (check.type === "pet") return `宠物 ${check.petId || ""}`.trim();
+  if (check.type === "pet") return `宠物 ${check.petId || ""}${check.needed ? ` ${Number(check.qty || 0)}/${Number(check.needed || 1)}` : ""}`.trim();
   if (check.type === "level") return `等级 ${check.actual}${check.op}${check.expected}`;
   if (check.type === "stone") return `石币 ${check.actual}${check.op}${check.expected}`;
   if (check.type === "manor") return `庄园 ${check.actual}${check.op}${check.expected}`;
   if (check.type === "class") return `职业 ${check.actual}${check.op}${check.expected}`;
+  if (check.type === "trans") return `转生 ${check.actual}${check.op}${check.expected}`;
   return check.token || "";
 }
 
@@ -2150,6 +2163,7 @@ function npcTags(npc) {
   if (npc.trade) tags.push("交易");
   if (npc.warp) tags.push("传送");
   if (npc.warpStatus) tags.push(npc.warpStatus.ok ? "可达" : "条件");
+  if (npc.scriptStatus) tags.push(npc.scriptStatus.hasReadyBranch ? "可触发" : "脚本条件");
   if (npc.npcEnemy || /npcenemy/i.test(text)) tags.push("战斗");
   if (/healer/i.test(text)) tags.push("治疗");
   if (/save/i.test(text)) tags.push("记录");

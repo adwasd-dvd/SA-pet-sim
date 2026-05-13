@@ -575,6 +575,38 @@ assertEqual(itemGateStatus?.ok, true, "world map NPC warp status updates after i
 itemGateGame = await api("/api/game/dialog", { game: itemGateGame, npcId: itemGateWarp.npc.id, message: "传送" });
 assertEqual(itemGateGame.location.mapId, itemGateWarp.npc.warp.target.mapId, "no-cost item-gated warp passes after source ITEM condition is satisfied");
 
+const scriptConditionNpc = WORLD.maps["100"].npcs.find((npc) => npc.scriptHints?.hints?.some((line) => line.includes("TRANS=0&ITEM=2347*2&ITEM=20911")));
+if (!scriptConditionNpc) throw new Error("missing script condition fixture with TRANS and item qty");
+let scriptConditionGame = await api("/api/game/new", { name: "npc-script-condition-test" });
+scriptConditionGame.location = { mapId: "100", x: scriptConditionNpc.x + 1, y: scriptConditionNpc.y };
+scriptConditionGame = await api("/api/game/sync", { game: scriptConditionGame });
+let scriptRuntimeNpc = scriptConditionGame.world.map.npcs.find((npc) => npc.id === scriptConditionNpc.id);
+assert(scriptRuntimeNpc?.scriptStatus?.conditions?.some((condition) => condition.unmet?.some((check) => check.type === "level" || check.type === "item")), "world map NPC exposes source EVENT condition failures");
+workspaceRsp = await api("/api/ai/workspace", { game: scriptConditionGame, prompt: "这个肉店老板任务需要什么" });
+let workspaceScriptNpc = workspaceRsp.workspace.current.nearby.npcs.find((npc) => npc.id === scriptConditionNpc.id);
+assert(workspaceScriptNpc?.scriptStatus?.conditions?.length, "AI workspace nearby NPCs include compact script condition status");
+scriptConditionGame.player.level = 20;
+scriptConditionGame.inventory.push({ id: 2347, name: "测试食材", qty: 2, source: "test" });
+scriptConditionGame.inventory.push({ id: 20911, name: "测试凭证", qty: 1, source: "test" });
+scriptConditionGame = await api("/api/game/sync", { game: scriptConditionGame });
+scriptRuntimeNpc = scriptConditionGame.world.map.npcs.find((npc) => npc.id === scriptConditionNpc.id);
+assert(scriptRuntimeNpc.scriptStatus.conditions.some((condition) => condition.ok), "source EVENT condition status updates after level, TRANS, and item requirements are satisfied");
+
+const petScriptNpc = WORLD.maps["100"].npcs.find((npc) => npc.scriptHints?.hints?.some((line) => line.includes("PET=25-221*1") && line.includes("PET=25-222*1")));
+if (!petScriptNpc) throw new Error("missing script condition fixture with PET=family-id format");
+let petScriptGame = await api("/api/game/new", { name: "npc-pet-script-condition-test" });
+petScriptGame.location = { mapId: "100", x: petScriptNpc.x + 1, y: petScriptNpc.y };
+petScriptGame = await api("/api/game/sync", { game: petScriptGame });
+let petRuntimeNpc = petScriptGame.world.map.npcs.find((npc) => npc.id === petScriptNpc.id);
+assert(petRuntimeNpc.scriptStatus.conditions.some((condition) => condition.unmet?.some((check) => check.type === "pet")), "source EVENT condition status exposes missing PET requirements");
+petScriptGame.inventory.push({ id: 2607, name: "测试任务道具", qty: 1, source: "test" });
+petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 221, Name: "测试宠物221", Lv: 1, Hp: 10, WorkMaxHp: 10 });
+petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 222, Name: "测试宠物222", Lv: 1, Hp: 10, WorkMaxHp: 10 });
+setTestEventFlag(petScriptGame, 35, "now");
+petScriptGame = await api("/api/game/sync", { game: petScriptGame });
+petRuntimeNpc = petScriptGame.world.map.npcs.find((npc) => npc.id === petScriptNpc.id);
+assert(petRuntimeNpc.scriptStatus.conditions.some((condition) => condition.ok && condition.condition?.groups?.some((group) => group.checks?.some((check) => check.type === "pet"))), "source EVENT condition status supports PET=family-id requirements");
+
 const petEventWarp = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && String(npc.warp.free || "").includes("PET>0-"));
@@ -740,7 +772,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
