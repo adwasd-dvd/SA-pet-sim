@@ -2103,6 +2103,7 @@ function progressionSummary(level, exp) {
 function addPlayerExp(game, amount) {
   const exp = Math.max(0, Math.trunc(Number(amount) || 0));
   if (exp <= 0) return 0;
+  if (clampInt(game.player?.level ?? game.player?.Lv, 1, CHAR_MAXUPLEVEL, 1) >= CHAR_MAXUPLEVEL) return 0;
   game.player.exp = clampInt(Number(game.player.exp || 0) + exp, 0, CHAR_MAX_EXP, CHAR_MAX_EXP);
   return exp;
 }
@@ -2110,6 +2111,7 @@ function addPlayerExp(game, amount) {
 function addPetExp(pet, amount) {
   const exp = Math.max(0, Math.trunc(Number(amount) || 0));
   if (!pet || exp <= 0) return 0;
+  if (clampInt(pet.Lv ?? pet.level, 1, CHAR_MAXUPLEVEL, 1) >= CHAR_MAXUPLEVEL) return 0;
   pet.Exp = clampInt(Number(pet.Exp || 0) + exp, 0, CHAR_MAX_EXP, CHAR_MAX_EXP);
   return exp;
 }
@@ -2195,15 +2197,15 @@ function grantBattleExperience(game, activePet, defeatedEnemies, options = {}) {
   const petExp = activePet
     ? enemies.reduce((sum, enemy) => sum + scaleBattleExp(battleExpForLevel(enemy, activePet.Lv), scale), 0)
     : 0;
-  addPlayerExp(game, playerExp);
-  if (activePet) addPetExp(activePet, petExp);
+  const playerExpAdded = addPlayerExp(game, playerExp);
+  const petExpAdded = activePet ? addPetExp(activePet, petExp) : 0;
   recordBattleVictory(game, activePet, enemies, options.reason || "battle");
   const playerLevelUps = maybeLevelPlayer(game);
   const petLevelUps = activePet ? maybeLevelPet(game, activePet) : [];
   syncCharacterFields(game);
   return {
-    playerExp,
-    petExp,
+    playerExp: playerExpAdded,
+    petExp: petExpAdded,
     petName: activePet?.Name || "",
     levelUps: [...playerLevelUps, ...petLevelUps],
     source: "gmsv battle.c BATTLE_AddExpItem/BATTLE_GetExpGold"

@@ -847,6 +847,40 @@ assert(
   "pet level-up applies source CHAR_PetLevelUp raw stat growth"
 );
 
+let maxLevelExpGame = await api("/api/game/new", { name: "max-level-exp-test" });
+maxLevelExpGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+maxLevelExpGame.player.level = 140;
+maxLevelExpGame.player.exp = 1224160000;
+Object.assign(maxLevelExpGame.pets[0], {
+  Lv: 140,
+  Exp: 1224160000,
+  WorkAttackPower: 9999,
+  WorkFixStr: 9999,
+  WorkQuick: 9999,
+  WorkFixDex: 9999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+const maxLevelPlayerExpBefore = Number(maxLevelExpGame.player.exp || 0);
+const maxLevelPetExpBefore = Number(maxLevelExpGame.pets[0].Exp || 0);
+maxLevelExpGame = await api("/api/game/encounter", { game: maxLevelExpGame });
+Object.assign(maxLevelExpGame.encounter, {
+  Hp: 1,
+  WorkMaxHp: 1,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  SourceExp: 100000,
+  Exp: 100000
+});
+maxLevelExpGame.battle.enemyParty = [maxLevelExpGame.encounter];
+maxLevelExpGame.battle.activeEnemyIndex = 0;
+maxLevelExpGame = await api("/api/game/battle", { game: maxLevelExpGame, action: "攻击" });
+assertEqual(maxLevelExpGame.battleOutcome.result, "victory", "battle can settle max-level EXP fixture");
+assertEqual(maxLevelExpGame.battleOutcome.playerExp, 0, "max-level player receives no battle EXP");
+assertEqual(maxLevelExpGame.battleOutcome.petExp, 0, "max-level active pet receives no battle EXP");
+assertEqual(maxLevelExpGame.player.exp, maxLevelPlayerExpBefore, "max-level player EXP total is unchanged after battle");
+assertEqual(maxLevelExpGame.pets[0].Exp, maxLevelPetExpBefore, "max-level pet EXP total is unchanged after battle");
+
 let sourceNoAreaGame = await api("/api/game/new", { name: "source-encount-no-area-test" });
 sourceNoAreaGame.location = { mapId: "100", x: 5, y: 5, dir: 2 };
 sourceNoAreaGame = await api("/api/game/sync", { game: sourceNoAreaGame });
