@@ -142,6 +142,14 @@ workspaceRsp = await api("/api/ai/workspace-note", {
 assertEqual(workspaceRsp.note.kind, "questLead", "AI workspace note validates note kind");
 assert(workspaceRsp.game.aiWorkspace.memories.some((entry) => entry.title === "红暴线索"), "AI workspace note persists in game save state");
 
+const quest25GuideRsp = await api("/api/ai/guide", { game, prompt: "2.5任务有哪些" });
+assert(quest25GuideRsp.text.includes("石器2.5任务攻略"), "local guide retrieves 2.5 quest catalog group");
+assert(quest25GuideRsp.text.includes("目录索引"), "2.5 quest catalog stays labeled as index-only knowledge");
+workspaceRsp = await api("/api/ai/workspace", { game, prompt: "2.5 精灵少女 黑暗精灵王" });
+assert(workspaceRsp.workspace.knowledge.entries.some((entry) => entry.id === "quest-version-25-dark-elf-king" && entry.version === "2.5"), "AI workspace includes versioned 2.5 quest index entries");
+workspaceRsp = await api("/api/ai/workspace", { game, prompt: "沙姆岛梦幻洞窟任务" });
+assert(workspaceRsp.workspace.knowledge.entries.some((entry) => entry.id === "quest-sham-island-dream-cave" && entry.group === "沙姆岛任务全攻略"), "AI workspace includes island quest index entries before 2.5");
+
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
 await expectApiError(

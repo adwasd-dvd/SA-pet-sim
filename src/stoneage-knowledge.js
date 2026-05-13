@@ -1,8 +1,26 @@
+import { STONEAGE_QUEST_INDEX_25, STONEAGE_QUEST_VERSION_SCOPE } from "./stoneage-quest-index.js";
+
+const QUEST_INDEX_25_KNOWLEDGE = STONEAGE_QUEST_INDEX_25.map((entry) => ({
+  id: entry.id,
+  category: "quest",
+  title: entry.title,
+  tags: entry.tags,
+  summary: entry.summary,
+  facts: entry.facts,
+  guidance: entry.guidance,
+  source: entry.source,
+  sourceLabel: entry.sourceLabel,
+  version: entry.version,
+  group: entry.group,
+  status: entry.status
+}));
+
 export const STONEAGE_KNOWLEDGE = {
-  version: "17173-stoneage-knowledge-v1",
+  version: "17173-stoneage-knowledge-v2",
   sourceLabel: "17173 石器时代专区",
   sources: {
     quests: "https://news.17173.com/z/stoneage/renwu/renwu.htm",
+    questIndex25: STONEAGE_QUEST_VERSION_SCOPE.source,
     versions: "https://news.17173.com/z/stoneage/banben/banben.htm",
     pets: "https://news.17173.com/z/stoneage/chongwu/pet.htm",
     guide: "https://news.17173.com/z/stoneage/guide/guide.htm",
@@ -383,6 +401,7 @@ export const STONEAGE_KNOWLEDGE = {
       source: "https://news.17173.com/z/stoneage/guide/14.htm",
       sourceLabel: "17173/guide/14"
     },
+    ...QUEST_INDEX_25_KNOWLEDGE,
     {
       id: "ai-role-boundaries",
       category: "system",

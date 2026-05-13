@@ -5236,7 +5236,8 @@ function stoneAgeKnowledgeTokens(value) {
 function stoneAgeKnowledgeHints(promptNormalized, map, npc) {
   const mapKind = map ? guideMapKind(map) : "";
   return {
-    quest: hasAny(promptNormalized, ["任务", "委托", "攻略", "红暴", "四圣石", "成人仪式", "成人礼", "英雄岛", "二转", "六转"]),
+    quest: hasAny(promptNormalized, ["任务", "委托", "攻略", "红暴", "四圣石", "成人仪式", "成人礼", "英雄岛", "二转", "六转", "转生", "五兄弟", "梦德", "愿藏", "梦幻洞窟", "委托店"]),
+    quest25: hasAny(promptNormalized, ["2.5", "2.0", "二点五", "二五", "2.5以前", "2.5及以前", "2.5前", "25以前", "25前", "早期任务"]),
     pet: hasAny(promptNormalized, ["宠物技能", "宠物邮件", "骑宠", "忠诚", "三围", "宠物二转", "抓宠", "捕获"]),
     map: hasAny(promptNormalized, ["地图", "坐标", "座标", "村", "洞窟", "北岛", "南岛", "吉鲁", "沙姆", "去哪"]),
     version: hasAny(promptNormalized, ["版本", "精灵的传说", "精灵的召唤", "7.5", "伊甸", "魔界", "追猎者"]),
@@ -5255,6 +5256,9 @@ function stoneAgeKnowledgeEntryScore(entry, normalized, promptNormalized, tokens
     entry.category,
     entry.title,
     entry.summary,
+    entry.version,
+    entry.group,
+    entry.status,
     ...(entry.tags || []),
     ...(entry.facts || []),
     ...(entry.guidance || [])
@@ -5271,6 +5275,22 @@ function stoneAgeKnowledgeEntryScore(entry, normalized, promptNormalized, tokens
     if (haystack.includes(token)) score += Math.min(8, Math.max(2, token.length));
   }
   if (hints.quest && entry.category === "quest") score += 14;
+  if (hints.quest25 && entry.category === "quest") score += entry.status === "catalog" ? 24 : 10;
+  if (entry.category === "quest") {
+    const asksCatalog = hasAny(promptNormalized, ["有哪些", "全部", "列表", "索引", "目录", "2.5", "2.0", "南岛", "北岛", "吉鲁", "沙姆", "转生", "jot", "sot"]);
+    const asksWalkthrough = hasAny(promptNormalized, ["怎么做", "流程", "步骤", "攻略", "怎么过"]);
+    if (entry.status === "catalog" && asksWalkthrough && !asksCatalog) score -= 22;
+    if (entry.status !== "catalog" && asksWalkthrough) score += 18;
+    const versionText = guideSearchText(`${entry.version || ""} ${entry.group || ""}`);
+    if (promptNormalized.includes("2.5") && versionText.includes("2.5")) score += entry.version === "2.5" ? 32 : 18;
+    if (promptNormalized.includes("2.0") && versionText.includes("2.0")) score += entry.version === "2.0" ? 32 : 18;
+    if (hasAny(promptNormalized, ["南岛", "北岛", "吉鲁", "沙姆", "转生", "jot", "sot"])) {
+      for (const key of ["南岛", "北岛", "吉鲁", "沙姆", "转生", "jot", "sot"]) {
+        const normalizedKey = guideSearchText(key);
+        if (promptNormalized.includes(normalizedKey) && haystack.includes(normalizedKey)) score += 18;
+      }
+    }
+  }
   if (hints.pet && entry.category === "pet") score += 14;
   if (hints.map && entry.category === "map") score += 12;
   if (hints.map && entry.category === "village") score += 8;
@@ -5307,6 +5327,9 @@ function compactStoneAgeKnowledgeEntry(entry) {
     id: entry.id,
     category: entry.category,
     title: entry.title,
+    version: entry.version || "",
+    group: entry.group || "",
+    status: entry.status || "",
     summary: entry.summary,
     facts: (entry.facts || []).slice(0, 4),
     guidance: (entry.guidance || []).slice(0, 2),
@@ -5324,7 +5347,8 @@ function localStoneAgeKnowledgeReply(knowledge, speaker = "AI向导") {
   const lines = entries.map((entry, index) => {
     const fact = entry.facts?.[0] || entry.summary || "";
     const guidance = entry.guidance?.[0] || "";
-    return `${index + 1}. ${entry.title}：${fact}${guidance ? ` ${guidance}` : ""}`;
+    const meta = [entry.version, entry.group, entry.status === "catalog" ? "目录索引" : ""].filter(Boolean).join(" / ");
+    return `${index + 1}. ${entry.title}${meta ? `（${meta}）` : ""}：${fact}${guidance ? ` ${guidance}` : ""}`;
   });
   return [
     `${speaker}按 17173 资料库能对上这些线索：`,
@@ -5380,7 +5404,19 @@ function isStoneAgeKnowledgeQuestion(text) {
     "精灵的召唤",
     "精灵的传说",
     "尼斯大陆",
-    "村庄购物"
+    "村庄购物",
+    "2.5",
+    "2.0",
+    "二点五",
+    "二五",
+    "转生",
+    "五兄弟",
+    "梦德洞窟",
+    "愿藏娃娃",
+    "梦幻洞窟",
+    "委托店",
+    "JOT",
+    "SOT"
   ]);
 }
 
