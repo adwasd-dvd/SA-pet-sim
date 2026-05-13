@@ -39,18 +39,28 @@ petModeGame.pets.push({
   PetId: Number(petModeGame.pets[0].PetId || 100) + 1,
   ImgNo: petModeGame.pets[0].ImgNo,
   Lv: 3,
-  Hp: 80,
-  WorkMaxHp: 80,
-  WorkFixStr: 120
+  Exp: 24,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkFixStr: 999,
+  WorkFixDex: 999
 });
+petModeGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 petModeGame = await api("/api/game/pet-mode", { game: petModeGame, petIndex: 1, mode: "active" });
 assertEqual(petModeGame.petState.activeIndex, 1, "pet-mode can select a non-leading active pet");
 assertEqual(petModeGame.petState.activeName, "备用奥卡洛斯", "pet state exposes selected active pet name");
 const activePetLevelBefore = petModeGame.pets[1].Lv;
 const petGuideRsp = await api("/api/ai/guide", { game: petModeGame, prompt: "帮我训练出战宠" });
+assertEqual(petGuideRsp.action.type, "ai-training-battle", "AI guide trains through battle settlement");
 assertEqual(petGuideRsp.action.petIndex, 1, "AI guide trains the selected active pet");
-assert(petGuideRsp.game.pets[1].Lv > activePetLevelBefore, "selected active pet gains levels through guide training");
+assert(petGuideRsp.game.pets[1].Lv > activePetLevelBefore, "selected active pet gains levels through battle experience");
 assertEqual(petGuideRsp.game.petState.activeIndex, 1, "selected active pet survives save/map wrapping");
+await expectApiError(
+  "/api/game/train",
+  { game: petGuideRsp.game, petIndex: 1 },
+  "战斗经验",
+  "direct pet training endpoint refuses level mutation"
+);
 let petSwitchGame = await api("/api/game/new", { name: "pet-switch-guide-test" });
 petSwitchGame.pets.push({
   ...petSwitchGame.pets[0],
@@ -115,6 +125,22 @@ assertEqual(aiUseRsp.action.type, "item-use", "AI guide uses named recovery item
 assertEqual(aiUseRsp.action.itemName, "小的肉", "AI guide reports used item name");
 assert(aiUseRsp.game.pets[0].Hp > 10, "AI item use restores active pet hp");
 assertEqual(inventoryQty(aiUseRsp.game, 5003), 1, "AI item use consumes one item from stack");
+
+const redRaptorGuideRsp = await api("/api/ai/guide", { game, prompt: "红暴任务怎么做" });
+assert(redRaptorGuideRsp.text.includes("英雄岛前传：红暴"), "local guide retrieves 17173 red raptor quest knowledge");
+assert(redRaptorGuideRsp.text.includes("日美子") && redRaptorGuideRsp.text.includes("弥生"), "red raptor guide answer includes key quest NPCs");
+assert(redRaptorGuideRsp.text.includes("Worker VM"), "knowledge guide keeps action authority with the Worker VM");
+const petKnowledgeRsp = await api("/api/ai/guide", { game, prompt: "宠物技能和忠诚是怎么回事" });
+assert(petKnowledgeRsp.text.includes("宠物系统") && petKnowledgeRsp.text.includes("宠物技能"), "local guide retrieves pet system and skill knowledge");
+let workspaceRsp = await api("/api/ai/workspace", { game, prompt: "红暴任务怎么做" });
+assertEqual(workspaceRsp.workspace.schema, "stoneage-ai-workspace-v1", "AI workspace exposes its schema");
+assert(workspaceRsp.workspace.knowledge.entries.some((entry) => entry.id === "quest-red-raptor-hero-island"), "AI workspace includes prompt-relevant knowledge entries");
+workspaceRsp = await api("/api/ai/workspace-note", {
+  game,
+  note: { kind: "questLead", title: "红暴线索", text: "玩家正在问英雄岛前传。", tags: ["红暴", "英雄岛"], confidence: 0.8 }
+});
+assertEqual(workspaceRsp.note.kind, "questLead", "AI workspace note validates note kind");
+assert(workspaceRsp.game.aiWorkspace.memories.some((entry) => entry.title === "红暴线索"), "AI workspace note persists in game save state");
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
@@ -485,11 +511,16 @@ assistGame = guideRsp.game;
 assertEqual(guideRsp.action.type, "heal", "right AI guide can choose heal action");
 assertEqual(assistGame.player.hp, assistGame.player.maxHp, "right AI guide heal mutates player hp");
 assertEqual(assistGame.pets[0].Hp, assistGame.pets[0].WorkMaxHp, "right AI guide heal mutates pet hp");
-const beforeGuidePetLv = assistGame.pets[0].Lv;
+assistGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+assistGame.pets[0].Hp = 999;
+assistGame.pets[0].WorkMaxHp = 999;
+assistGame.pets[0].WorkFixStr = 999;
+assistGame.pets[0].WorkFixDex = 999;
+const beforeGuidePetExp = Number(assistGame.pets[0].Exp || 0);
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我练宠升级" });
 assistGame = guideRsp.game;
-assertEqual(guideRsp.action.type, "train", "right AI guide can choose train action");
-assert(assistGame.pets[0].Lv > beforeGuidePetLv, "right AI guide training mutates pet level");
+assertEqual(guideRsp.action.type, "ai-training-battle", "right AI guide can choose battle-based training action");
+assert(Number(assistGame.pets[0].Exp || 0) > beforeGuidePetExp, "right AI guide training grants pet exp through battle settlement");
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我一段时间不会遇到野外敌人" });
 assistGame = guideRsp.game;
 assertEqual(guideRsp.action.type, "noEncounter", "right AI guide can grant no-encounter effect");

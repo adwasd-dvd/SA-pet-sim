@@ -1,4 +1,5 @@
 import { WORLD } from "./world-data.js";
+import { STONEAGE_KNOWLEDGE } from "./stoneage-knowledge.js";
 
 const DATA_FILES = {
   enemy: "/data/enemy1.txt",
@@ -19,6 +20,44 @@ const DATA_FILES = {
 
 const GMSV_DATA_SOURCE = "gmsv-data";
 const CHAR_MAXUPLEVEL = 140;
+const CHAR_MAX_EXP = 1224160000;
+const EXPGET_MAXLEVEL = 5;
+const EXPGET_DIV = 15;
+const LEVEL_EXP_TABLE = Object.freeze([
+  0, 0, 2, 8, 25, 62, 129, 240, 409, 656, 1000, 1464, 2073, 2856, 3841, 5062,
+  6553, 8352, 10497, 13032, 16000, 19448, 23425, 27984, 33177, 39062, 45697, 53144,
+  61465, 70728, 81000, 92352, 104857, 118592, 133633, 150062, 167961, 187416, 208513,
+  231344, 256000, 282576, 311169, 341880, 374809, 410062, 447745, 487968, 530841,
+  576480, 625000, 676520, 731161, 789048, 850305, 915062, 983449, 1055600, 1131649,
+  1211736, 1296000, 1402110, 1515521, 1636671, 1766022, 1904066, 2051322, 2208342,
+  2375708, 2554041, 2744000, 2946281, 3161630, 3390834, 3634736, 3894230, 4170272,
+  4463878, 4776136, 5108207, 5461333, 5836843, 6236162, 6660816, 7112448, 7592818,
+  8103824, 8647511, 9226082, 9841920, 10497600, 11195912, 11939882, 12732800,
+  13578242, 14480111, 15442664, 16470563, 17568917, 18743336, 20000000, 21345723,
+  22788045, 24335325, 25996856, 27783000, 29705340, 31776872, 34012224, 36427912,
+  39042666, 41877804, 44957696, 48310329, 51968004, 55968200, 60354645, 65178685,
+  70501009, 76393874, 82944000, 95270613, 110766728, 130792366, 157614250, 195312500,
+  252047376, 320144641, 388435456, 456922881, 525610000, 594499921, 663595776,
+  732900721, 802417936, 872150625, 942102016, 1012275361, 1082673936, 1153301041,
+  1224160000
+]);
+const ENEMY_BASE_EXP_TABLE = Object.freeze([
+  1, 2, 3, 4, 5, 6, 9, 12, 15, 18, 22, 26, 30, 35, 40, 46, 52, 58, 65, 72,
+  79, 87, 95, 104, 113, 122, 131, 141, 151, 162, 173, 184, 196, 208, 220, 233,
+  246, 260, 274, 288, 303, 318, 333, 348, 365, 381, 398, 415, 432, 450, 468, 486,
+  506, 525, 545, 564, 585, 606, 627, 648, 670, 692, 714, 737, 760, 784, 808, 832,
+  857, 882, 907, 933, 959, 956, 1012, 1040, 1067, 1095, 1123, 1152, 1181, 1210,
+  1240, 1270, 1300, 1331, 1362, 1394, 1426, 1458, 1490, 1524, 1557, 1590, 1625,
+  1659, 1694, 1729, 1764, 1800, 1836, 1872, 1909, 1946, 1983, 2021, 2059, 2097,
+  2136, 2175, 2214, 2254, 2294, 2334, 2374, 2414, 2455, 2496, 2537, 2578, 2619,
+  2661, 2703, 2745, 2787, 2829, 2872, 2915, 2958, 3000, 3043, 3088, 3132, 3176,
+  3220, 3264, 3309, 3354, 3399, 3444, 3489, 3535, 3581, 3627, 3673, 3719, 3765,
+  3812, 3859, 3906, 3953, 4000, 4047, 4095, 4143, 4191, 4239, 4287, 4335, 4384,
+  4433, 4482, 4531, 4580, 4629, 4679, 4729, 4779, 4829, 4879, 4929, 4980, 5031,
+  5082, 5133, 5133, 5184, 5235, 5287, 5339, 5391, 5443, 5495, 5547, 5599, 5652,
+  5705, 5758, 5811, 5864, 5917, 5970, 6024, 6078, 6132, 6186, 6240, 6295, 6350,
+  6405, 6460
+]);
 const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
@@ -34,6 +73,8 @@ const NPC_WINDOW_ACTION_RANGE = 3;
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
 const DEFAULT_CHAR_DIR = 5;
+const AI_WORKSPACE_SCHEMA = "stoneage-ai-workspace-v1";
+const AI_WORKSPACE_MAX_MEMORIES = 60;
 const SAFE_WILD_ENCOUNTER_MAP_RE = /村|庄园|店|医院|道场|柜台|商店|房屋|之家|的家|宠物店|肉店|武器店|防具店|便利|竞技场|競技場|斗技场|鬥技場|PK竞技|武斗场/i;
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -222,6 +263,24 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await guideGame(env, request, body.game, String(body.prompt || "")));
     }
+    if (url.pathname === "/api/ai/workspace" && request.method === "POST") {
+      const body = await readJson(request);
+      const game = normalizeGame(body.game);
+      return json({
+        workspace: buildAiWorkspace(env, game, String(body.prompt || "")),
+        game: withMap(game)
+      });
+    }
+    if (url.pathname === "/api/ai/workspace-note" && request.method === "POST") {
+      const body = await readJson(request);
+      const game = normalizeGame(body.game);
+      const note = writeAiWorkspaceNote(game, body.note || body);
+      return json({
+        note,
+        workspace: buildAiWorkspace(env, game, String(body.prompt || note.title || "")),
+        game: withMap(game)
+      });
+    }
     if (url.pathname === "/api/ai/status" && request.method === "GET") {
       return json(aiRuntimeStatus(env));
     }
@@ -233,7 +292,8 @@ async function handleApi(request, env, url) {
 
 async function createPlayerGame(env, request, body) {
   const data = await loadGameData(env, request);
-  const starter = createEnemy(data, Number(body.starterPet) || 100, 1) || createEnemy(data, pick(data.enemyNoList), 1);
+  const starterEnemy = createEnemy(data, Number(body.starterPet) || 100, 1) || createEnemy(data, pick(data.enemyNoList), 1);
+  const starter = normalizeCapturedPet(starterEnemy);
   const name = String(body.name || "").trim().slice(0, 12) || "新来的原始人";
   const now = new Date().toISOString();
   const accountId = cleanAccountId(body.accountId) || `local-${crypto.randomUUID().slice(0, 8)}`;
@@ -260,9 +320,29 @@ async function createPlayerGame(env, request, body) {
       level: 1,
       exp: 0,
       stone: 100,
-      hp: 100,
-      maxHp: 100,
-      dir: DEFAULT_CHAR_DIR
+      hp: 98,
+      maxHp: 98,
+      dir: DEFAULT_CHAR_DIR,
+      Vital: 1600,
+      Str: 1200,
+      Tough: 1200,
+      Dex: 1000,
+      EarthAT: 0,
+      WaterAT: 0,
+      FireAT: 0,
+      WindAT: 0,
+      WorkFixVital: 16,
+      WorkFixStr: 14,
+      WorkFixTough: 14,
+      WorkFixDex: 10,
+      WorkMaxHp: 98,
+      duelPoint: 0,
+      skillUpPoint: 0,
+      killPetCount: 0,
+      deadCount: 0,
+      battleCount: 0,
+      winCount: 0,
+      loseCount: 0
     },
     location: {
       mapId: WORLD.startMap,
@@ -275,6 +355,7 @@ async function createPlayerGame(env, request, body) {
     quests: {},
     flags: createFlags(),
     effects: {},
+    aiWorkspace: createAiWorkspace(now),
     dialogAi: {},
     encounter: null,
     dialog: null,
@@ -1495,14 +1576,14 @@ function performBattleAction(game, action) {
   game.battle.sourceCommand = move.command;
   game.battle.mode = "resolving";
   const petTurn = () => {
-    const damage = combatDamage(activePet, enemy);
-    enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - damage);
-    battleLog.push(`${activePet.Name} 攻击 ${enemy.Name}，造成 ${damage} 伤害。`);
+    const hit = combatDamageDetail(activePet, enemy);
+    enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
+    battleLog.push(`${activePet.Name} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
   const enemyTurn = (guarded = false) => {
-    const damage = combatDamage(enemy, activePet, guarded ? 0.45 : 1);
-    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - damage);
-    battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "反击"} ${activePet.Name}，造成 ${damage} 伤害。`);
+    const hit = combatDamageDetail(enemy, activePet, guarded ? 0.45 : 1);
+    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
+    battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "反击"} ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
 
   if (move.type === "guard") {
@@ -1579,9 +1660,9 @@ function performBattleItemAction(game, itemId = null) {
   const itemUse = applyRecoveryItem(game, item);
   const battleLog = [`使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`];
   if (enemy.Hp > 0) {
-    const damage = combatDamage(enemy, activePet);
-    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - damage);
-    battleLog.push(`${enemy.Name} 趁机反击 ${activePet.Name}，造成 ${damage} 伤害。`);
+    const hit = combatDamageDetail(enemy, activePet);
+    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
+    battleLog.push(`${enemy.Name} 趁机反击 ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   }
 
   return settleBattleRound(game, activePet, enemy, {
@@ -1622,16 +1703,17 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     }
     result = "victory";
     defeatedEnemies = completedBattleEnemies(game, enemy);
-    exp = defeatedEnemies.reduce((sum, item) => sum + 10 + Number(item.Lv || 1) * 6, 0);
+    const reward = grantBattleExperience(game, activePet, defeatedEnemies, { reason: "victory" });
+    exp = reward.playerExp;
     stone = defeatedEnemies.reduce((sum, item) => sum + 12 + Number(item.Lv || 1) * 4, 0);
-    game.player.exp += exp;
     game.player.stone += stone;
     syncStoneItem(game);
     const defeatedText = defeatedEnemies.length > 1
       ? `击败敌方 ${defeatedEnemies.length} 人`
       : `击败 ${enemy.Name}`;
-    battleLog.push(`${defeatedText}，获得 ${exp} 经验和 ${stone} 石币。`);
-    maybeLevelPlayer(game);
+    const petReward = reward.petName ? `，${reward.petName} 获得 ${reward.petExp} 经验` : "";
+    const levelText = reward.levelUps.length ? ` ${reward.levelUps.join(" ")}` : "";
+    battleLog.push(`${defeatedText}，人物获得 ${reward.playerExp} 经验${petReward}，获得 ${stone} 石币。${levelText}`.trim());
     updateQuestProgress(game, "fieldWin", {
       mapId: game.location.mapId,
       petName: enemy.Name,
@@ -1642,6 +1724,7 @@ function settleBattleRound(game, activePet, enemy, options = {}) {
     game.battle = null;
   } else if (activePet.Hp <= 0) {
     result = "defeat";
+    recordBattleDefeat(game, activePet);
     const recovered = Math.max(1, Math.floor(Number(activePet.WorkMaxHp || 1) * 0.35));
     activePet.Hp = recovered;
     game.player.hp = Math.max(1, Math.floor(Number(game.player.maxHp || 1) * 0.5));
@@ -1686,7 +1769,16 @@ function enemyBattleSummary(enemy) {
     EnemyId: enemy.EnemyId,
     PetId: enemy.PetId,
     Name: enemy.Name,
-    Lv: enemy.Lv
+    Lv: enemy.Lv,
+    Exp: sourceEnemyExp(enemy),
+    SourceExp: sourceEnemyExp(enemy),
+    WorkFixStr: enemy.WorkFixStr,
+    WorkFixTough: enemy.WorkFixTough,
+    WorkFixDex: enemy.WorkFixDex,
+    EarthAT: enemy.EarthAT,
+    WaterAT: enemy.WaterAT,
+    FireAT: enemy.FireAT,
+    WindAT: enemy.WindAT
   };
 }
 
@@ -1740,15 +1832,20 @@ function performCaptureAction(game) {
   }
   const ok = Math.random() * 100 < rate;
   if (ok) {
-    game.pets.push({ ...target });
+    const capturedPet = normalizeCapturedPet(target);
+    game.pets.push(capturedPet);
     game.encounter = null;
     game.battle = null;
-    const exp = 12;
+    const reward = activePet
+      ? grantBattleExperience(game, activePet, [target], { reason: "capture", scale: 0.5 })
+      : { playerExp: 0, petExp: 0, petName: "", levelUps: [] };
+    const exp = reward.playerExp;
     const stone = 20;
-    game.player.exp += exp;
     game.player.stone += stone;
     syncStoneItem(game);
-    const line = `捕获成功！${enemyName} 加入了队伍，获得 ${exp} 经验和 ${stone} 石币。`;
+    const petReward = reward.petName ? `，${reward.petName} 获得 ${reward.petExp} 经验` : "";
+    const levelText = reward.levelUps.length ? ` ${reward.levelUps.join(" ")}` : "";
+    const line = `捕获成功！${enemyName} 加入了队伍，人物获得 ${exp} 经验${petReward}，获得 ${stone} 石币。${levelText}`.trim();
     addLog(game, line);
     updateQuestProgress(game, "fieldWin", {
       mapId: game.location.mapId,
@@ -1759,9 +1856,9 @@ function performCaptureAction(game) {
   }
   const battleLog = [`${enemyName} 挣脱了绳索。`];
   if (activePet) {
-    const damage = combatDamage(target, activePet);
-    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - damage);
-    battleLog.push(`${target.Name} 反击 ${activePet.Name}，造成 ${damage} 伤害。`);
+    const hit = combatDamageDetail(target, activePet);
+    activePet.Hp = Math.max(0, Number(activePet.Hp || 0) - hit.damage);
+    battleLog.push(`${target.Name} 反击 ${activePet.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
     return settleBattleRound(game, activePet, target, {
       battleLog,
       result: "capture-missed",
@@ -1788,40 +1885,223 @@ function ensureBattleState(game, pet, enemy) {
 }
 
 function combatDamage(attacker, defender, multiplier = 1) {
+  return combatDamageDetail(attacker, defender, multiplier).damage;
+}
+
+function combatDamageDetail(attacker, defender, multiplier = 1) {
   const attack = Math.max(1, Number(attacker.WorkFixStr || attacker.level || attacker.Lv || 1));
   const defense = Math.max(0, Number(defender.WorkFixTough || 0));
   const variance = 0.85 + Math.random() * 0.3;
+  const elementMultiplier = elementalDamageMultiplier(attacker, defender);
   const raw = attack * variance - defense * 0.42;
   const critical = Math.random() * 100 < Math.max(2, Number(attacker.Critical || 0) * 0.35);
-  return Math.max(1, Math.floor(raw * (critical ? 1.6 : 1) * multiplier));
+  return {
+    damage: Math.max(1, Math.floor(raw * (critical ? 1.6 : 1) * multiplier * elementMultiplier)),
+    critical,
+    elementMultiplier
+  };
+}
+
+function battleDetailSuffix(detail) {
+  const parts = [];
+  if (detail.critical) parts.push("会心");
+  if (Math.abs(Number(detail.elementMultiplier || 1) - 1) >= 0.06) {
+    parts.push(`属性${detail.elementMultiplier > 1 ? "有利" : "不利"} x${detail.elementMultiplier.toFixed(2)}`);
+  }
+  return parts.length ? `（${parts.join("，")}）` : "";
+}
+
+function elementalDamageMultiplier(attacker, defender) {
+  const a = elementVector(attacker);
+  const d = elementVector(defender);
+  const advantage = a.earth * d.water + a.water * d.fire + a.fire * d.wind + a.wind * d.earth;
+  const disadvantage = a.earth * d.wind + a.water * d.earth + a.fire * d.water + a.wind * d.fire;
+  const score = (advantage - disadvantage) / 10000;
+  return Math.max(0.7, Math.min(1.35, 1 + score * 0.45));
+}
+
+function elementVector(char = {}) {
+  return {
+    earth: clampInt(char.EarthAT ?? char.Earth ?? char.earth, 0, 100, 0),
+    water: clampInt(char.WaterAT ?? char.Water ?? char.water, 0, 100, 0),
+    fire: clampInt(char.FireAT ?? char.Fire ?? char.fire, 0, 100, 0),
+    wind: clampInt(char.WindAT ?? char.WindAt ?? char.Wind ?? char.wind, 0, 100, 0)
+  };
+}
+
+function levelExp(level) {
+  const lv = clampInt(level, 0, CHAR_MAXUPLEVEL, 0);
+  return LEVEL_EXP_TABLE[lv] ?? CHAR_MAX_EXP;
+}
+
+function progressionSummary(level, exp) {
+  const lv = clampInt(level, 1, CHAR_MAXUPLEVEL, 1);
+  const safeExp = clampInt(exp, 0, CHAR_MAX_EXP, 0);
+  const currentLevelExp = levelExp(lv);
+  const nextExp = lv >= CHAR_MAXUPLEVEL ? -1 : levelExp(lv + 1);
+  const span = nextExp > currentLevelExp ? nextExp - currentLevelExp : 1;
+  const expInLevel = Math.max(0, safeExp - currentLevelExp);
+  const expToNext = nextExp < 0 ? 0 : Math.max(0, nextExp - safeExp);
+  return {
+    level: lv,
+    exp: safeExp,
+    currentLevelExp,
+    nextExp,
+    expInLevel,
+    expToNext,
+    progressPct: nextExp < 0 ? 100 : Math.max(0, Math.min(100, Math.floor((expInLevel / span) * 100))),
+    source: "gmsv char_data.c LevelUpTbl cumulative EXP"
+  };
+}
+
+function addPlayerExp(game, amount) {
+  const exp = Math.max(0, Math.trunc(Number(amount) || 0));
+  if (exp <= 0) return 0;
+  game.player.exp = clampInt(Number(game.player.exp || 0) + exp, 0, CHAR_MAX_EXP, CHAR_MAX_EXP);
+  return exp;
+}
+
+function addPetExp(pet, amount) {
+  const exp = Math.max(0, Math.trunc(Number(amount) || 0));
+  if (!pet || exp <= 0) return 0;
+  pet.Exp = clampInt(Number(pet.Exp || 0) + exp, 0, CHAR_MAX_EXP, CHAR_MAX_EXP);
+  return exp;
 }
 
 function maybeLevelPlayer(game) {
-  const needed = game.player.level * 60;
-  if (game.player.exp < needed) return;
-  game.player.exp -= needed;
-  game.player.level += 1;
-  game.player.maxHp += 12;
-  game.player.hp = game.player.maxHp;
-  addLog(game, `${game.player.name} 提升到 Lv.${game.player.level}。`);
+  normalizePlayerRuntime(game.player);
+  const levelUps = [];
+  while (game.player.level < CHAR_MAXUPLEVEL && game.player.exp >= levelExp(game.player.level + 1)) {
+    game.player.level += 1;
+    game.player.duelPoint = Number(game.player.duelPoint || 0) + game.player.level * 10;
+    game.player.skillUpPoint = Number(game.player.skillUpPoint || 0) + 3;
+    game.player.Vital = Number(game.player.Vital || 0) + 38 + randInt(7);
+    game.player.Str = Number(game.player.Str || 0) + 28 + randInt(7);
+    game.player.Tough = Number(game.player.Tough || 0) + 28 + randInt(7);
+    game.player.Dex = Number(game.player.Dex || 0) + 22 + randInt(7);
+    compliancePlayerParameter(game.player, { preserveHp: false });
+    levelUps.push(`${game.player.name} 提升到 Lv.${game.player.level}`);
+  }
+  normalizePlayerRuntime(game.player);
+  levelUps.forEach((line) => addLog(game, `${line}。`));
+  return levelUps;
+}
+
+function maybeLevelPet(game, pet) {
+  if (!pet) return [];
+  normalizePetRuntime(pet);
+  const levelUps = [];
+  const limit = petLimitLevel(pet);
+  while (pet.Lv < limit && pet.Exp >= levelExp(pet.Lv + 1)) {
+    petLevelUp(pet, { preserveHp: true });
+    levelUps.push(`${pet.Name} 提升到 Lv.${pet.Lv}`);
+  }
+  normalizePetRuntime(pet);
+  levelUps.forEach((line) => addLog(game, `${line}。`));
+  return levelUps;
+}
+
+function petLimitLevel(pet) {
+  const raw = Number(pet?.LimitLevel ?? pet?.limitLevel);
+  if (!Number.isFinite(raw) || raw <= 0) return CHAR_MAXUPLEVEL;
+  return clampInt(raw, 1, CHAR_MAXUPLEVEL, CHAR_MAXUPLEVEL);
+}
+
+function sourceEnemyExp(enemy) {
+  const direct = Number(enemy?.SourceExp ?? enemy?.EnemyExp ?? enemy?.Exp);
+  if (Number.isFinite(direct) && direct > 0) return Math.max(1, Math.trunc(direct));
+  return sourceEnemyExpFromStats(enemy);
+}
+
+function sourceEnemyExpFromStats(enemy = {}) {
+  const level = clampInt(enemy.Lv ?? enemy.level, 1, ENEMY_BASE_EXP_TABLE.length, 1);
+  const base = ENEMY_BASE_EXP_TABLE[level - 1] || ENEMY_BASE_EXP_TABLE.at(-1) || 1;
+  const rankNum = [2.5, 2, 1.5, 1, 0.5, 0][clampInt(enemy.PetRank, 0, 5, 5)] ?? 0;
+  const alpha = (
+    Number(enemy.Critical || 0) + Number(enemy.Counter || 0) + Number(enemy.WorkModCaptureDefault || 0)
+    + Number(enemy.Poison || 0) + Number(enemy.Paralysis || 0) + Number(enemy.Sleep || 0)
+    + Number(enemy.Stone || 0) + Number(enemy.Drunk || 0) + Number(enemy.Confusion || 0)
+  ) / 100 + Number(enemy.Rare || 0);
+  return Math.max(1, Math.trunc(base + (rankNum + alpha) * level));
+}
+
+function battleExpForLevel(enemy, characterLevel) {
+  const exp = sourceEnemyExp(enemy);
+  const level = clampInt(characterLevel, 1, CHAR_MAXUPLEVEL, 1);
+  const enemyLevel = clampInt(enemy?.Lv, 1, CHAR_MAXUPLEVEL, 1);
+  const diff = level - enemyLevel;
+  if (diff <= EXPGET_MAXLEVEL) return exp;
+  const factor = EXPGET_MAXLEVEL + EXPGET_DIV - diff;
+  if (factor <= 0) return 1;
+  return Math.max(1, Math.trunc((exp * factor) / EXPGET_DIV));
+}
+
+function scaleBattleExp(exp, scale = 1) {
+  return exp <= 0 ? 0 : Math.max(1, Math.trunc(exp * Math.max(0, Number(scale) || 0)));
+}
+
+function grantBattleExperience(game, activePet, defeatedEnemies, options = {}) {
+  const enemies = (defeatedEnemies || []).filter(Boolean);
+  const scale = options.scale ?? 1;
+  const playerExp = enemies.reduce((sum, enemy) => sum + scaleBattleExp(battleExpForLevel(enemy, game.player.level), scale), 0);
+  const petExp = activePet
+    ? enemies.reduce((sum, enemy) => sum + scaleBattleExp(battleExpForLevel(enemy, activePet.Lv), scale), 0)
+    : 0;
+  addPlayerExp(game, playerExp);
+  if (activePet) addPetExp(activePet, petExp);
+  recordBattleVictory(game, activePet, enemies, options.reason || "battle");
+  const playerLevelUps = maybeLevelPlayer(game);
+  const petLevelUps = activePet ? maybeLevelPet(game, activePet) : [];
+  syncCharacterFields(game);
+  return {
+    playerExp,
+    petExp,
+    petName: activePet?.Name || "",
+    levelUps: [...playerLevelUps, ...petLevelUps],
+    source: "gmsv battle.c BATTLE_AddExpItem/BATTLE_GetExpGold"
+  };
+}
+
+function recordBattleVictory(game, activePet, enemies, reason) {
+  const count = Math.max(1, enemies.length);
+  game.player.killPetCount = Number(game.player.killPetCount || 0) + count;
+  game.player.battleCount = Number(game.player.battleCount || 0) + 1;
+  game.player.winCount = Number(game.player.winCount || 0) + 1;
+  game.player.lastBattleReason = reason;
+  if (activePet) {
+    activePet.KillPetCount = Number(activePet.KillPetCount || 0) + count;
+    activePet.BattleCount = Number(activePet.BattleCount || 0) + 1;
+    activePet.WinCount = Number(activePet.WinCount || 0) + 1;
+    activePet.LastBattleReason = reason;
+  }
+}
+
+function recordBattleDefeat(game, activePet) {
+  game.player.deadCount = Number(game.player.deadCount || 0) + 1;
+  game.player.battleCount = Number(game.player.battleCount || 0) + 1;
+  game.player.loseCount = Number(game.player.loseCount || 0) + 1;
+  if (activePet) {
+    activePet.DeadCount = Number(activePet.DeadCount || 0) + 1;
+    activePet.BattleCount = Number(activePet.BattleCount || 0) + 1;
+    activePet.LoseCount = Number(activePet.LoseCount || 0) + 1;
+  }
+  syncCharacterFields(game);
+}
+
+function normalizeCapturedPet(target) {
+  const pet = { ...target };
+  pet.Exp = levelExp(clampInt(pet.Lv, 1, CHAR_MAXUPLEVEL, 1));
+  pet.SourceExp = 0;
+  pet.EnemyExp = 0;
+  pet.CaptureRate = Number(pet.CaptureRate || 0);
+  normalizePetRuntime(pet);
+  return pet;
 }
 
 function trainGame(game, petIndex) {
   game = normalizeGame(game);
-  trainPetInPlace(game, petIndex);
-  return withMap(game);
-}
-
-function trainPetInPlace(game, petIndex) {
-  const pet = game.pets[petIndex];
-  if (!pet) throw new Error("没有找到这只宠物");
-  const before = pet.Lv;
-  const up = pet.Lv < 10 ? 2 : 1;
-  for (let i = 0; i < up; i += 1) petLevelUp(pet);
-  game.player.exp += 10 * (pet.Lv - before);
-  game.player.stone += 12;
-  addLog(game, `${pet.Name} 完成训练，从 Lv.${before} 提升到 Lv.${pet.Lv}。`);
-  return { pet, before };
+  if (petIndex < 0 || petIndex >= game.pets.length) throw new Error("没有找到这只宠物");
+  throw new Error("升级需要通过战斗经验累计；请去野外战斗，或和 AI 协商代练。");
 }
 
 function restGame(game) {
@@ -1896,7 +2176,7 @@ async function guideGame(env, request, game, prompt) {
     };
   }
   const map = currentMap(game);
-  const context = buildGuideContext(game, map);
+  const context = buildGuideContext(game, map, prompt);
   if (hasOpenAi(env)) {
     try {
       const rsp = await callOpenAiGuide(env, context, prompt);
@@ -1920,6 +2200,8 @@ async function guideGame(env, request, game, prompt) {
           "你是单人版石器时代网页运行时的向导，不是万能 GM。",
           "必须只根据给定 JSON 回答；把“当前能做的事”和“需要找对应 NPC/脚本的事”说清楚。",
           "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、原 gmsv 脚本线索。",
+          "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的 17173 压缩条目；条目只是索引时要说明不能补编完整流程。",
+          "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
         ].join("\n")
       },
@@ -1947,6 +2229,8 @@ async function callOpenAiGuide(env, context, prompt) {
     "只根据当前 JSON 状态回答；不要编不存在的地点、NPC、道具、任务或奖励。",
     "如果请求会改变游戏状态，说明应由 Worker 的确定性逻辑执行；你只负责解释和提出下一步。",
     "优先引用当前地图、附近 NPC、出口、任务进度、背包、宠物、战斗和临时状态。",
+    "context.knowledge 是从 17173 石器时代专区压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
+    "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
   ].join("\n");
   const user = JSON.stringify({
@@ -2176,7 +2460,7 @@ async function applyGuideRequest(env, request, game, prompt) {
     ensurePetFormation(game).activeIndex = choice.index;
     addLog(game, `AI 向导把 ${choice.pet.Name} 设为出战宠。`);
     return {
-      text: `已让 ${choice.pet.Name} Lv.${Number(choice.pet.Lv || 1)} 出战。之后战斗、道具恢复和训练都会优先作用在这只宠物身上。`,
+      text: `已让 ${choice.pet.Name} Lv.${Number(choice.pet.Lv || 1)} 出战。之后战斗和道具恢复都会优先作用在这只宠物身上。`,
       action: { type: "pet-switch", petIndex: choice.index, petName: choice.pet.Name, reason: choice.reason }
     };
   }
@@ -2213,11 +2497,7 @@ async function applyGuideRequest(env, request, game, prompt) {
   }
 
   if (isPetTrainingRequest(lower)) {
-    const { pet, before } = trainPetInPlace(game, getActivePetIndex(game));
-    return {
-      text: `我帮 ${pet.Name} 做了一轮训练，从 Lv.${before} 到 Lv.${pet.Lv}。这只是向导辅助，正式战斗经验后面会继续接 gmsv 的战斗结算。`,
-      action: { type: "train", petIndex: getActivePetIndex(game), level: pet.Lv }
-    };
+    return runGuideTrainingBattle(env, request, game, text);
   }
 
   if (!game.encounter && hasAny(lower, ["遇敌", "遇敵", "野外敌人", "野外敵人", "找敌人", "找敵人", "敌人", "敵人", "刷怪", "开战", "開戰"])) {
@@ -2236,6 +2516,73 @@ async function applyGuideRequest(env, request, game, prompt) {
   }
 
   return null;
+}
+
+async function runGuideTrainingBattle(env, request, game, prompt) {
+  const activeIndex = getActivePetIndex(game);
+  const activePet = getActivePet(game);
+  if (!activePet) {
+    return {
+      text: "现在没有出战宠，不能代练。先带上一只宠物，再去野外按原版战斗结算获得经验。",
+      action: { type: "ai-training-refused", reason: "no-active-pet" }
+    };
+  }
+  let map = currentMap(game);
+  if (!game.encounter) {
+    if (!wildEncounterAllowed(map, game)) {
+      return {
+        text: `${wildEncounterBlockedText(map, game)} 代练不会直接给等级；你可以先去野外，我再按战斗流程帮你打。`,
+        action: { type: "ai-training-refused", reason: "safe-map", mapId: map.id }
+      };
+    }
+    await spawnEncounter(env, request, game, map, "AI 代练");
+    map = currentMap(game);
+  }
+  const petBefore = game.pets[activeIndex] || activePet;
+  const before = {
+    playerLevel: Number(game.player.level || 1),
+    playerExp: Number(game.player.exp || 0),
+    petLevel: Number(petBefore.Lv || 1),
+    petExp: Number(petBefore.Exp || 0)
+  };
+  const logs = [];
+  let lastOutcome = null;
+  for (let i = 0; i < 12 && game.encounter; i += 1) {
+    lastOutcome = performBattleAction(game, "attack");
+    logs.push(...(lastOutcome.log || []));
+    if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured"].includes(lastOutcome.result)) break;
+  }
+  const petAfter = game.pets[activeIndex] || getActivePet(game);
+  const after = {
+    playerLevel: Number(game.player.level || 1),
+    playerExp: Number(game.player.exp || 0),
+    petLevel: Number(petAfter?.Lv || 1),
+    petExp: Number(petAfter?.Exp || 0)
+  };
+  const playerExp = Math.max(0, after.playerExp - before.playerExp);
+  const petExp = Math.max(0, after.petExp - before.petExp);
+  const levelText = [
+    after.playerLevel > before.playerLevel ? `人物 Lv.${before.playerLevel}->${after.playerLevel}` : "",
+    after.petLevel > before.petLevel ? `${petAfter?.Name || activePet.Name} Lv.${before.petLevel}->${after.petLevel}` : ""
+  ].filter(Boolean).join("，");
+  const summary = lastOutcome?.result === "victory"
+    ? `这轮代练按战斗结算完成：人物获得 ${playerExp} 经验，${petAfter?.Name || activePet.Name} 获得 ${petExp} 经验。`
+    : `我帮你按战斗规则推进了 ${logs.length ? "几手" : "一手"}，但还没有稳定胜利。人物获得 ${playerExp} 经验，${petAfter?.Name || activePet.Name} 获得 ${petExp} 经验。`;
+  addLog(game, `AI 代练：${summary}`);
+  return {
+    text: `${summary}${levelText ? ` ${levelText}。` : ""}`,
+    action: {
+      type: "ai-training-battle",
+      result: lastOutcome?.result || "none",
+      petIndex: activeIndex,
+      petName: petAfter?.Name || activePet.Name,
+      playerExp,
+      petExp,
+      playerLevel: after.playerLevel,
+      petLevel: after.petLevel,
+      source: "AI can help operate battle; EXP/level still comes from Worker battle settlement"
+    }
+  };
 }
 
 function chooseGuideExit(game, prompt) {
@@ -2337,10 +2684,14 @@ async function npcReply(env, request, game, npc, text) {
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
-  if (hasAny(lower, ["任务", "委托", "quest"])) return questReply(game, npc);
-  if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(env, request, game, npc);
-  if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
-  if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
+  if (hasAny(lower, ["任务", "委托", "攻略", "quest"])) return questReply(game, npc, text);
+  if (hasAny(lower, ["抓宠", "捕获"]) || (hasAny(lower, ["宠物", "pet"]) && !isStoneAgeKnowledgeQuestion(lower))) return captureReply(env, request, game, npc);
+  if (hasAny(lower, ["训练", "练级", "成长", "技能"]) && !isStoneAgeKnowledgeQuestion(lower)) return trainReply(game, npc);
+  if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村", "坐标", "座标"])) return mapReply(game, npc, text);
+  if (isStoneAgeKnowledgeQuestion(lower)) {
+    const reply = localStoneAgeKnowledgeReply(buildStoneAgeKnowledgeContext(game, currentMap(game), text, npc), npc.name);
+    if (reply) return reply;
+  }
   if (isNpcAiMode(game, npc) || isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, request, game, npc, text);
   recordNpcVmEvent(game, npc, "unsupported", "unsupported", { text: text.slice(0, 80) });
@@ -2501,7 +2852,8 @@ function completeQuest(game, questId, npc = null) {
     setNpcVmFlag(game, npc, eventFlagForQuest(questId), "end", "quest-complete");
     runNpcVmAction(game, npc, { type: "give", exp: expReward, stone: stoneReward, reason: "quest" });
   } else {
-    game.player.exp += expReward;
+    addPlayerExp(game, expReward);
+    maybeLevelPlayer(game);
     game.player.stone += stoneReward;
     syncStoneItem(game);
     setEventFlag(game, eventFlagForQuest(questId), "end");
@@ -2509,9 +2861,13 @@ function completeQuest(game, questId, npc = null) {
   addLog(game, `完成任务「${quest.title}」，获得奖励。`);
 }
 
-function questReply(game, npc) {
+function questReply(game, npc, text = "") {
   const questIds = npcQuestIds(npc);
   recordNpcVmEvent(game, npc, "quest", questIds.length ? "ok" : "unsupported", { questIds, query: true });
+  if (isSpecificStoneAgeKnowledgeQuestion(text) || (!questIds.length && isStoneAgeKnowledgeQuestion(text))) {
+    const reply = localStoneAgeKnowledgeReply(buildStoneAgeKnowledgeContext(game, currentMap(game), text, npc), npc.name);
+    if (reply) return reply;
+  }
   if (!questIds.length) {
     if (npc.questLead) return `${npc.name} 有原脚本线索：「${npc.questLead.title}」。${npc.questLead.summary}\n来源：${npc.questLead.source}`;
     return `${npc.name} 这里没有正式委托，但可以继续问地图、交易或训练。`;
@@ -2753,11 +3109,17 @@ function inventoryQty(game, id) {
     .reduce((sum, item) => sum + Number(item.qty || 0), 0);
 }
 
-function mapReply(game, npc) {
+function mapReply(game, npc, text = "") {
   const map = currentMap(game);
   const exits = map.exits.map((exit) => exit.label).join("、") || "暂无出口";
   recordNpcVmEvent(game, npc, "say", "ok", { topic: "map", mapId: map.id });
-  return `当前地图是${map.name}。出口：${exits}。`;
+  const knowledge = buildStoneAgeKnowledgeContext(game, map, text, npc).entries
+    .filter((entry) => ["map", "village", "world"].includes(entry.category))
+    .slice(0, 2);
+  const tip = knowledge.length
+    ? `\n资料库提示：${knowledge.map((entry) => `${entry.title}：${entry.facts?.[0] || entry.summary || ""}`).join("；")}`
+    : "";
+  return `当前地图是${map.name}。出口：${exits}。${tip}`;
 }
 
 function isHealerNpc(npc) {
@@ -2884,6 +3246,7 @@ async function aiNpcReply(env, request, game, npc, text) {
     return referenceReply;
   }
   const compactScriptReferences = compactNpcScriptReferences(scriptReferences);
+  const knowledge = buildStoneAgeKnowledgeContext(game, map, text, npc);
   if (hasOpenAi(env)) {
     try {
       const rsp = await callOpenAiNpc(env, game, npc, text, map, debug, compactScriptReferences);
@@ -2898,7 +3261,7 @@ async function aiNpcReply(env, request, game, npc, text) {
     }
   }
   const messages = [
-    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。knowledge 是从 17173 专区压缩出的相关条目，只能用来补充专业背景，不能把索引编成完整流程。workspace.memory 是 Worker 保存的受限记忆，只能当线索。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
     { role: "user", content: JSON.stringify({
       npc: {
         id: npc.id,
@@ -2924,6 +3287,8 @@ async function aiNpcReply(env, request, game, npc, text) {
         exits: map.exits.map((exit) => ({ label: exit.label, to: exit.to, targetMapName: WORLD.maps[exit.to]?.name || "", distance: distanceToExit(exit, game.location.x, game.location.y) })).slice(0, 12),
         nearbyNpcs: nearbyState(game, map).npcs
       },
+      knowledge,
+      workspace: compactAiWorkspaceMemory(game),
       quests: game.quests,
       pets: game.pets.map(petSummary),
       inventory: inventoryState(game),
@@ -2999,6 +3364,8 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
     pets: game.pets.map(petSummary),
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
+    knowledge: buildStoneAgeKnowledgeContext(game, map, text, npc),
+    workspace: compactAiWorkspaceMemory(game),
     recentConversation: npcOpenAiHistory(game, npc),
     vmTrace: compactNpcVmTrace(debug),
     userText: text
@@ -3007,6 +3374,8 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
     "你正在扮演石器时代单人网页版里的当前 NPC，不是旁白，也不是万能 GM。",
     "必须保持 NPC 的姓名、职业、地图、脚本来源和行为范围；只能根据 JSON 上下文说话。",
     "NPC 可以解释任务、地图、交易、传送和战斗线索；可以提出优待或交涉意图，但不能直接改状态。",
+    "knowledge 是从 17173 石器时代专区压缩检索出的相关条目；只引用和玩家问题、当前地图或当前 NPC 相关的条目，不要把索引扩写成不存在的完整攻略。",
+    "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前地图、背包、任务、flag 为准。",
     "所有交易、传送、奖励、flag、避敌、开战、折扣和赠品都必须交给 Worker 的 NPC VM 校验执行。",
     "只允许提出 action.type 中列出的动作；如果动作不符合 NPC 身份，type 必须是 none 或 teleportInfo，并在 reply 里自然拒绝。",
     "商店只能围绕自己的商品类别和 gmsv/itemset 资料谈额外物品；守门/敌人 NPC 可被贿赂、威胁或说服，但是否通过由 VM 决定。",
@@ -3753,7 +4122,8 @@ function applyNpcVmGive(game, action) {
   let mutated = false;
   const exp = npcVmAmount(action.exp, 0);
   if (exp > 0) {
-    game.player.exp = Number(game.player.exp || 0) + exp;
+    addPlayerExp(game, exp);
+    maybeLevelPlayer(game);
     mutated = true;
   }
   const stone = npcVmAmount(action.stone, 0);
@@ -4394,7 +4764,7 @@ function npcMessage(speaker, text) {
   return { speaker, text, at: Date.now() };
 }
 
-function buildGuideContext(game, map) {
+function buildGuideContext(game, map, prompt = "") {
   const x = Number(game.location.x || 0);
   const y = Number(game.location.y || 0);
   const npcs = (map.npcs || [])
@@ -4438,10 +4808,14 @@ function buildGuideContext(game, map) {
       name: game.player.name,
       level: game.player.level,
       exp: game.player.exp,
+      nextExp: game.player.nextExp,
+      expToNext: game.player.expToNext,
       hp: game.player.hp,
       maxHp: game.player.maxHp,
       stone: game.player.stone,
-      dir: game.player.dir
+      dir: game.player.dir,
+      counters: game.characterFields?.counters || {},
+      attributes: game.characterFields?.attributes || {}
     },
     location: {
       mapId: map.id,
@@ -4452,6 +4826,8 @@ function buildGuideContext(game, map) {
       canWildEncounter: map.canWildEncounter,
       wildEncounterReason: map.wildEncounterReason
     },
+    knowledge: buildStoneAgeKnowledgeContext(game, map, prompt),
+    workspace: compactAiWorkspaceMemory(game),
     map: { exits, npcs, nearby: nearbyState(game, map) },
     world: guideWorldSummary(game, map),
     pets: game.pets.map(petSummary),
@@ -4529,6 +4905,399 @@ function guideMapKindRank(kind) {
   return { village: 0, service: 1, arena: 2, dungeon: 3, field: 4, map: 5 }[kind] ?? 9;
 }
 
+function buildStoneAgeKnowledgeContext(game, map, text = "", npc = null) {
+  const x = Number(game.location?.x || 0);
+  const y = Number(game.location?.y || 0);
+  const nearbyNames = (map.npcs || [])
+    .filter((item) => distance(item.x, item.y, x, y) <= 6)
+    .map((item) => `${item.name} ${item.type || ""}`)
+    .slice(0, 8);
+  const questTitles = Object.values(game.quests || {})
+    .map((quest) => `${quest.title || ""} ${quest.status || ""}`)
+    .slice(0, 6);
+  const exitNames = (map.exits || [])
+    .map((exit) => `${exit.label || ""} ${WORLD.maps[exit.to]?.name || ""}`)
+    .slice(0, 8);
+  const npcParts = npc ? [
+    npc.name,
+    npc.type,
+    npc.template,
+    npc.dialogue,
+    npc.questLead?.title,
+    npc.questLead?.summary,
+    (npc.scriptHints?.hints || []).slice(0, 5).join(" ")
+  ] : [];
+  const query = [
+    text,
+    map.name,
+    map.summary,
+    guideMapKind(map),
+    exitNames.join(" "),
+    nearbyNames.join(" "),
+    questTitles.join(" "),
+    game.pets?.map((pet) => pet.Name).join(" "),
+    game.inventory?.map((item) => item.name).join(" "),
+    ...npcParts
+  ].filter(Boolean).join(" ");
+  return {
+    version: STONEAGE_KNOWLEDGE.version,
+    source: STONEAGE_KNOWLEDGE.sourceLabel,
+    usage: "只把 entries 当作 17173 攻略/设定线索；实际动作仍由当前地图、NPC 脚本、背包和 Worker VM 决定。",
+    entries: selectStoneAgeKnowledgeEntries(query, { game, map, npc, prompt: text, limit: 6 })
+  };
+}
+
+function selectStoneAgeKnowledgeEntries(query, { game = null, map = null, npc = null, prompt = "", limit = 6 } = {}) {
+  const normalized = guideSearchText(query).slice(0, 1600);
+  const promptNormalized = guideSearchText(prompt);
+  const tokens = stoneAgeKnowledgeTokens(promptNormalized ? prompt : `${map?.name || ""} ${npc?.name || ""}`);
+  const hints = stoneAgeKnowledgeHints(promptNormalized, map, npc);
+  const scored = STONEAGE_KNOWLEDGE.entries
+    .map((entry, index) => ({
+      entry,
+      index,
+      score: stoneAgeKnowledgeEntryScore(entry, normalized, promptNormalized, tokens, hints)
+    }))
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.index - b.index);
+
+  const selected = [];
+  for (const item of scored) {
+    if (!selected.some((entry) => entry.id === item.entry.id)) selected.push(item.entry);
+    if (selected.length >= limit) break;
+  }
+  for (const entry of defaultStoneAgeKnowledgeEntries(map, npc, game, promptNormalized)) {
+    if (selected.length >= Math.min(limit, 4)) break;
+    if (!selected.some((item) => item.id === entry.id)) selected.push(entry);
+  }
+  return selected.slice(0, limit).map(compactStoneAgeKnowledgeEntry);
+}
+
+function stoneAgeKnowledgeTokens(value) {
+  const source = String(value || "").slice(0, 240);
+  const normalized = guideSearchText(source);
+  const tokens = new Set((source.match(/[\u4e00-\u9fff]{2,12}|[a-z0-9]{2,}/gi) || []).map(guideSearchText));
+  for (let size = 2; size <= Math.min(4, normalized.length); size += 1) {
+    for (let i = 0; i <= normalized.length - size && i < 80; i += 1) tokens.add(normalized.slice(i, i + size));
+  }
+  return [...tokens].filter((token) => token.length >= 2);
+}
+
+function stoneAgeKnowledgeHints(promptNormalized, map, npc) {
+  const mapKind = map ? guideMapKind(map) : "";
+  return {
+    quest: hasAny(promptNormalized, ["任务", "委托", "攻略", "红暴", "四圣石", "成人仪式", "成人礼", "英雄岛", "二转", "六转"]),
+    pet: hasAny(promptNormalized, ["宠物技能", "宠物邮件", "骑宠", "忠诚", "三围", "宠物二转", "抓宠", "捕获"]),
+    map: hasAny(promptNormalized, ["地图", "坐标", "座标", "村", "洞窟", "北岛", "南岛", "吉鲁", "沙姆", "去哪"]),
+    version: hasAny(promptNormalized, ["版本", "精灵的传说", "精灵的召唤", "7.5", "伊甸", "魔界", "追猎者"]),
+    combat: hasAny(promptNormalized, ["属性", "相克", "战斗", "遇敌", "攻击", "防御", "敏捷", "地克水", "水克火", "火克风", "风克地"]),
+    guide: hasAny(promptNormalized, ["新手", "入门", "开局", "怎么开始", "下一步"]),
+    village: mapKind === "village" || mapKind === "service" || hasAny(promptNormalized, ["商店", "购物", "补给", "医院", "肉屋", "宠物店"]),
+    npcTrade: Boolean(npc?.trade?.items?.length),
+    npcWarp: isWarpNpc(npc || {}),
+    npcEnemy: isNpcEnemy(npc || {})
+  };
+}
+
+function stoneAgeKnowledgeEntryScore(entry, normalized, promptNormalized, tokens, hints) {
+  const haystack = guideSearchText([
+    entry.id,
+    entry.category,
+    entry.title,
+    entry.summary,
+    ...(entry.tags || []),
+    ...(entry.facts || []),
+    ...(entry.guidance || [])
+  ].join(" "));
+  let score = 0;
+  for (const tag of entry.tags || []) {
+    const token = guideSearchText(tag);
+    if (!token) continue;
+    const generic = stoneAgeGenericKnowledgeTag(token);
+    if (promptNormalized.includes(token)) score += (generic ? 8 : 28) + Math.min(generic ? 3 : 10, token.length);
+    else if (normalized.includes(token)) score += 3 + Math.min(3, token.length);
+  }
+  for (const token of tokens) {
+    if (haystack.includes(token)) score += Math.min(8, Math.max(2, token.length));
+  }
+  if (hints.quest && entry.category === "quest") score += 14;
+  if (hints.pet && entry.category === "pet") score += 14;
+  if (hints.map && entry.category === "map") score += 12;
+  if (hints.map && entry.category === "village") score += 8;
+  if (hints.version && entry.category === "version") score += 14;
+  if (hints.combat && entry.category === "combat") score += 12;
+  if (hints.guide && entry.category === "guide") score += 10;
+  if (hints.village && entry.category === "village") score += 10;
+  if (hints.npcTrade && entry.category === "village") score += 4;
+  if (hints.npcWarp && entry.category === "map") score += 4;
+  if (hints.npcEnemy && entry.category === "combat") score += 4;
+  if (entry.category === "system" && hasAny(promptNormalized, ["能干嘛", "能做什么", "ai", "npc", "脚本", "gm"])) score += 10;
+  return score;
+}
+
+function stoneAgeGenericKnowledgeTag(token) {
+  return ["任务", "攻略", "任务攻略", "地图", "宠物", "版本", "新手", "入门", "村", "商店", "坐标", "座标"].includes(token);
+}
+
+function defaultStoneAgeKnowledgeEntries(map, npc, game, promptNormalized) {
+  const ids = ["ai-role-boundaries"];
+  const kind = map ? guideMapKind(map) : "";
+  if (!promptNormalized || hasAny(promptNormalized, ["下一步", "干嘛", "做什么", "新手", "入门"])) ids.push("beginner-first-steps");
+  if (kind === "village" || kind === "service") ids.push("village-shopping-index");
+  if (kind === "field" || kind === "dungeon") ids.push("battle-basics", "map-index");
+  if (npc?.trade?.items?.length) ids.push("village-shopping-index");
+  if (game?.pets?.length) ids.push("pet-system-basics");
+  ids.push("map-index");
+  const byId = new Map(STONEAGE_KNOWLEDGE.entries.map((entry) => [entry.id, entry]));
+  return [...new Set(ids)].map((id) => byId.get(id)).filter(Boolean);
+}
+
+function compactStoneAgeKnowledgeEntry(entry) {
+  return {
+    id: entry.id,
+    category: entry.category,
+    title: entry.title,
+    summary: entry.summary,
+    facts: (entry.facts || []).slice(0, 4),
+    guidance: (entry.guidance || []).slice(0, 2),
+    source: entry.sourceLabel || entry.source
+  };
+}
+
+function localStoneAgeKnowledgeReply(knowledge, speaker = "AI向导") {
+  const rawEntries = (knowledge?.entries || []).filter((entry) => entry.category !== "system");
+  const primary = rawEntries[0]?.category || "";
+  const entries = rawEntries
+    .filter((entry) => stoneAgeRelatedKnowledgeCategory(primary, entry.category))
+    .slice(0, 3);
+  if (!entries.length) return "";
+  const lines = entries.map((entry, index) => {
+    const fact = entry.facts?.[0] || entry.summary || "";
+    const guidance = entry.guidance?.[0] || "";
+    return `${index + 1}. ${entry.title}：${fact}${guidance ? ` ${guidance}` : ""}`;
+  });
+  return [
+    `${speaker}按 17173 资料库能对上这些线索：`,
+    ...lines,
+    "我会把这些当攻略背景；真正能不能交任务、传送、给奖励或开战，仍看当前 NPC 脚本、背包、flag 和 Worker VM。"
+  ].join("\n");
+}
+
+function stoneAgeRelatedKnowledgeCategory(primary, category) {
+  if (!primary || primary === category) return true;
+  const related = {
+    quest: ["quest"],
+    pet: ["pet", "combat"],
+    combat: ["combat", "pet"],
+    map: ["map", "village", "world"],
+    village: ["village", "map", "world"],
+    world: ["world", "map", "village"],
+    version: ["version", "quest"],
+    guide: ["guide", "pet", "combat", "map"]
+  };
+  return (related[primary] || [primary]).includes(category);
+}
+
+function isStoneAgeKnowledgeQuestion(text) {
+  const value = guideSearchText(text);
+  return hasAny(value, [
+    "17173",
+    "攻略",
+    "版本",
+    "新手",
+    "入门",
+    "坐标",
+    "座标",
+    "属性相克",
+    "地克水",
+    "水克火",
+    "火克风",
+    "风克地",
+    "宠物技能",
+    "宠物邮件",
+    "骑宠",
+    "忠诚",
+    "三围",
+    "红暴",
+    "四圣石",
+    "四宝玉",
+    "英雄岛",
+    "成人仪式",
+    "成人礼",
+    "委托店",
+    "宠物二转",
+    "六转",
+    "精灵的召唤",
+    "精灵的传说",
+    "尼斯大陆",
+    "村庄购物"
+  ]);
+}
+
+function isSpecificStoneAgeKnowledgeQuestion(text) {
+  const value = guideSearchText(text);
+  return isStoneAgeKnowledgeQuestion(value) && !["任务", "委托", "quest"].includes(value);
+}
+
+function createAiWorkspace(now = new Date().toISOString()) {
+  return {
+    schema: AI_WORKSPACE_SCHEMA,
+    scope: "save-local",
+    createdAt: now,
+    updatedAt: now,
+    memories: []
+  };
+}
+
+function normalizeAiWorkspace(workspace = null) {
+  const now = new Date().toISOString();
+  const out = {
+    ...createAiWorkspace(now),
+    ...(workspace && typeof workspace === "object" ? workspace : {})
+  };
+  out.schema = AI_WORKSPACE_SCHEMA;
+  out.scope = out.scope || "save-local";
+  out.createdAt ||= now;
+  out.updatedAt ||= out.createdAt;
+  out.memories = Array.isArray(out.memories)
+    ? out.memories.map(normalizeAiWorkspaceMemory).filter(Boolean).slice(0, AI_WORKSPACE_MAX_MEMORIES)
+    : [];
+  return out;
+}
+
+function normalizeAiWorkspaceMemory(entry) {
+  if (!entry || typeof entry !== "object") return null;
+  const text = String(entry.text || "").trim().slice(0, 360);
+  const title = String(entry.title || "").trim().slice(0, 60);
+  if (!text && !title) return null;
+  const now = new Date().toISOString();
+  return {
+    id: String(entry.id || `mem-${stableFlag(`${title}:${text}:${entry.createdAt || now}`).toString(36)}`),
+    kind: aiWorkspaceKind(entry.kind),
+    title: title || aiWorkspaceKind(entry.kind),
+    text,
+    tags: Array.isArray(entry.tags) ? entry.tags.map((tag) => String(tag).trim().slice(0, 24)).filter(Boolean).slice(0, 8) : [],
+    source: String(entry.source || "ai-workspace").trim().slice(0, 80),
+    confidence: clampNumber(entry.confidence, 0, 1, 0.6),
+    createdAt: String(entry.createdAt || now),
+    updatedAt: String(entry.updatedAt || entry.createdAt || now)
+  };
+}
+
+function writeAiWorkspaceNote(game, note = {}) {
+  const workspace = normalizeAiWorkspace(game.aiWorkspace);
+  const now = new Date().toISOString();
+  const title = String(note.title || note.key || "").trim().slice(0, 60);
+  const text = String(note.text || note.body || note.value || "").trim().slice(0, 360);
+  if (!title && !text) throw new Error("AI workspace note 需要 title 或 text");
+  const entry = normalizeAiWorkspaceMemory({
+    id: crypto.randomUUID(),
+    kind: note.kind,
+    title: title || aiWorkspaceKind(note.kind),
+    text,
+    tags: Array.isArray(note.tags) ? note.tags : String(note.tags || "").split(/[,\s，、]+/),
+    source: note.source || "api:/api/ai/workspace-note",
+    confidence: note.confidence,
+    createdAt: now,
+    updatedAt: now
+  });
+  workspace.memories = [
+    entry,
+    ...workspace.memories.filter((item) => item.id !== entry.id)
+  ].slice(0, AI_WORKSPACE_MAX_MEMORIES);
+  workspace.updatedAt = now;
+  game.aiWorkspace = workspace;
+  game.character ||= {};
+  game.character.updatedAt = now;
+  addLog(game, `AI workspace 记录：${entry.title}`);
+  return entry;
+}
+
+function buildAiWorkspace(env, game, prompt = "") {
+  const map = currentMap(game);
+  const nearby = nearbyState(game, map);
+  return {
+    schema: AI_WORKSPACE_SCHEMA,
+    scope: "per-save workspace; 可迁移到 D1/KV/R2，但当前先随存档走",
+    runtime: aiRuntimeStatus(env),
+    writePolicy: {
+      mode: "worker-validated-notes",
+      endpoint: "POST /api/ai/workspace-note",
+      allowedKinds: ["observation", "questLead", "playerPreference", "todo", "routeHint", "npcMemory"],
+      maxMemories: AI_WORKSPACE_MAX_MEMORIES,
+      rule: "AI 只能写入受限 note，不能直接写背包、任务、flag、石币、传送或战斗结果。"
+    },
+    current: {
+      player: {
+        name: game.player.name,
+        level: game.player.level,
+        hp: `${game.player.hp}/${game.player.maxHp}`,
+        stone: game.player.stone
+      },
+      location: {
+        mapId: map.id,
+        floorId: map.floorId,
+        name: map.name,
+        position: [game.location.x, game.location.y],
+        canWildEncounter: map.canWildEncounter,
+        wildEncounterReason: map.wildEncounterReason
+      },
+      nearby,
+      activePet: getActivePet(game) ? petSummary(getActivePet(game)) : null,
+      inventory: inventoryState(game),
+      petState: petState(game),
+      effects: guideEffectSummary(game)
+    },
+    actionSurface: {
+      guideCanMutate: ["heal", "item-use", "item-drop", "pet-switch", "pet-release", "ai-training-battle", "encounter", "teleport", "noEncounter"],
+      npcVmActions: [...NPC_VM_ACTIONS],
+      authority: "worker-npc-vm"
+    },
+    knowledge: buildStoneAgeKnowledgeContext(game, map, prompt),
+    memory: compactAiWorkspaceMemory(game),
+    sources: STONEAGE_KNOWLEDGE.sources
+  };
+}
+
+function compactAiWorkspaceMemory(game) {
+  const workspace = normalizeAiWorkspace(game.aiWorkspace);
+  return {
+    schema: workspace.schema,
+    scope: workspace.scope,
+    updatedAt: workspace.updatedAt,
+    count: workspace.memories.length,
+    memories: workspace.memories.slice(0, 12).map((entry) => ({
+      id: entry.id,
+      kind: entry.kind,
+      title: entry.title,
+      text: entry.text,
+      tags: entry.tags,
+      source: entry.source,
+      confidence: entry.confidence,
+      updatedAt: entry.updatedAt
+    }))
+  };
+}
+
+function aiWorkspaceKind(kind) {
+  const value = guideSearchText(kind || "observation");
+  const allowed = {
+    observation: "observation",
+    questlead: "questLead",
+    playerpreference: "playerPreference",
+    todo: "todo",
+    routehint: "routeHint",
+    npcmemory: "npcMemory"
+  };
+  return allowed[value] || "observation";
+}
+
+function clampNumber(value, min, max, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, n));
+}
+
 function guideEffectSummary(game) {
   const now = Date.now();
   const effects = [];
@@ -4586,6 +5355,10 @@ function fallbackGuide(context, prompt = "", error = null) {
     return item.type;
   }).join("；");
   const aiNote = error ? "远程 AI 暂时不可用，我先按本地规则判断。 " : "";
+  if (isStoneAgeKnowledgeQuestion(lower)) {
+    const reply = localStoneAgeKnowledgeReply(context.knowledge, "AI向导");
+    if (reply) return `${aiNote}${reply}`;
+  }
   if (hasAny(lower, ["任务", "quest"])) {
     if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」可以回报了，回到对应 NPC 双击/hi 结算。附近 NPC：${nearbyNpc || "无"}。`;
     if (active) return `${aiNote}你现在在${context.location.name}。继续「${active.title}」：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。出口：${exits}。`;
@@ -4611,16 +5384,131 @@ function fallbackGuide(context, prompt = "", error = null) {
   return `${aiNote}你现在在${context.location.name}。附近 NPC：${nearbyNpc || "无"}；出口：${exits}。${effects ? `当前状态：${effects}。` : ""}`;
 }
 
+function normalizePlayerRuntime(player) {
+  player.level = clampInt(player.level ?? player.Lv, 1, CHAR_MAXUPLEVEL, 1);
+  player.exp = clampInt(player.exp ?? player.Exp, 0, CHAR_MAX_EXP, 0);
+  player.Vital = clampInt(player.Vital, 1, 999999, 1600);
+  player.Str = clampInt(player.Str, 1, 999999, 1200);
+  player.Tough = clampInt(player.Tough, 1, 999999, 1200);
+  player.Dex = clampInt(player.Dex, 1, 999999, 1000);
+  player.EarthAT = clampInt(player.EarthAT, 0, 100, 0);
+  player.WaterAT = clampInt(player.WaterAT, 0, 100, 0);
+  player.FireAT = clampInt(player.FireAT, 0, 100, 0);
+  player.WindAT = clampInt(player.WindAT, 0, 100, 0);
+  player.duelPoint = clampInt(player.duelPoint ?? player.DuelPoint, 0, 999999999, 0);
+  player.skillUpPoint = clampInt(player.skillUpPoint ?? player.SkillUpPoint, 0, 999999999, 0);
+  player.killPetCount = clampInt(player.killPetCount ?? player.KillPetCount, 0, 999999999, 0);
+  player.deadCount = clampInt(player.deadCount ?? player.DeadCount, 0, 999999999, 0);
+  player.battleCount = clampInt(player.battleCount, 0, 999999999, 0);
+  player.winCount = clampInt(player.winCount, 0, 999999999, 0);
+  player.loseCount = clampInt(player.loseCount, 0, 999999999, 0);
+  compliancePlayerParameter(player, { preserveHp: true });
+  const progress = progressionSummary(player.level, player.exp);
+  player.currentLevelExp = progress.currentLevelExp;
+  player.nextExp = progress.nextExp;
+  player.expToNext = progress.expToNext;
+  player.expProgressPct = progress.progressPct;
+}
+
+function compliancePlayerParameter(player, options = {}) {
+  const previousHp = Number(player.hp ?? player.Hp ?? player.maxHp ?? 1);
+  player.WorkFixDex = Math.max(1, Math.trunc(Number(player.Dex || 0) / 100));
+  player.WorkFixVital = Math.max(1, Math.trunc(Number(player.Vital || 0) / 100));
+  player.WorkFixStr = Math.max(1, Math.trunc((Number(player.Str || 0) + Number(player.Tough || 0) * 0.1 + Number(player.Vital || 0) * 0.1 + Number(player.Dex || 0) * 0.05) / 100));
+  player.WorkFixTough = Math.max(1, Math.trunc((Number(player.Tough || 0) + Number(player.Str || 0) * 0.1 + Number(player.Vital || 0) * 0.1 + Number(player.Dex || 0) * 0.05) / 100));
+  player.WorkMaxHp = Math.max(1, Math.trunc((Number(player.Vital || 0) * 4 + Number(player.Str || 0) + Number(player.Tough || 0) + Number(player.Dex || 0)) / 100));
+  player.maxHp = player.WorkMaxHp;
+  player.hp = options.preserveHp
+    ? clampInt(previousHp, 0, player.maxHp, player.maxHp)
+    : player.maxHp;
+}
+
+function normalizePetRuntime(pet) {
+  pet.Lv = clampInt(pet.Lv ?? pet.level, 1, CHAR_MAXUPLEVEL, 1);
+  pet.Exp = clampInt(pet.Exp ?? pet.exp, 0, CHAR_MAX_EXP, levelExp(pet.Lv));
+  pet.LimitLevel = petLimitLevel(pet);
+  pet.EarthAT = clampInt(pet.EarthAT ?? pet.Earth, 0, 100, 0);
+  pet.WaterAT = clampInt(pet.WaterAT ?? pet.Water, 0, 100, 0);
+  pet.FireAT = clampInt(pet.FireAT ?? pet.Fire, 0, 100, 0);
+  pet.WindAT = clampInt(pet.WindAT ?? pet.WindAt ?? pet.Wind, 0, 100, 0);
+  pet.KillPetCount = clampInt(pet.KillPetCount, 0, 999999999, 0);
+  pet.DeadCount = clampInt(pet.DeadCount, 0, 999999999, 0);
+  pet.BattleCount = clampInt(pet.BattleCount, 0, 999999999, 0);
+  pet.WinCount = clampInt(pet.WinCount, 0, 999999999, 0);
+  pet.LoseCount = clampInt(pet.LoseCount, 0, 999999999, 0);
+  if (!Number.isFinite(Number(pet.WorkMaxHp)) || Number(pet.WorkMaxHp) <= 0) {
+    complianceParameter(pet, { preserveHp: true });
+  } else {
+    pet.Hp = clampInt(pet.Hp, 0, Math.max(1, Number(pet.WorkMaxHp)), Number(pet.WorkMaxHp));
+  }
+  const progress = progressionSummary(pet.Lv, pet.Exp);
+  pet.CurrentLevelExp = progress.currentLevelExp;
+  pet.NextExp = progress.nextExp;
+  pet.ExpToNext = progress.expToNext;
+  pet.ExpProgressPct = progress.progressPct;
+}
+
+function normalizeProgressionRuntime(game) {
+  normalizePlayerRuntime(game.player);
+  game.pets = (game.pets || []).map((pet) => {
+    normalizePetRuntime(pet);
+    return pet;
+  });
+  syncCharacterFields(game);
+}
+
+function syncCharacterFields(game) {
+  game.characterFields ||= {};
+  game.characterFields.source = "gmsv CHAR_* counters/field-style runtime subset";
+  game.characterFields.counters = {
+    killPetCount: Number(game.player?.killPetCount || 0),
+    deadCount: Number(game.player?.deadCount || 0),
+    battleCount: Number(game.player?.battleCount || 0),
+    winCount: Number(game.player?.winCount || 0),
+    loseCount: Number(game.player?.loseCount || 0),
+    duelPoint: Number(game.player?.duelPoint || 0),
+    skillUpPoint: Number(game.player?.skillUpPoint || 0)
+  };
+  game.characterFields.attributes = {
+    Vital: Number(game.player?.Vital || 0),
+    Str: Number(game.player?.Str || 0),
+    Tough: Number(game.player?.Tough || 0),
+    Dex: Number(game.player?.Dex || 0),
+    EarthAT: Number(game.player?.EarthAT || 0),
+    WaterAT: Number(game.player?.WaterAT || 0),
+    FireAT: Number(game.player?.FireAT || 0),
+    WindAT: Number(game.player?.WindAT || 0),
+    WorkFixStr: Number(game.player?.WorkFixStr || 0),
+    WorkFixTough: Number(game.player?.WorkFixTough || 0),
+    WorkFixDex: Number(game.player?.WorkFixDex || 0)
+  };
+}
+
+function progressionState(game) {
+  return {
+    source: "gmsv char_data.c LevelUpTbl + battle.c EXP distribution",
+    player: progressionSummary(game.player?.level, game.player?.exp),
+    pets: (game.pets || []).map((pet) => ({
+      ...progressionSummary(pet.Lv, pet.Exp),
+      name: pet.Name,
+      petId: pet.PetId,
+      limitLevel: petLimitLevel(pet)
+    }))
+  };
+}
+
 function normalizeGame(game) {
   if (!game || !game.player || !game.location) throw new Error("需要先创建人物");
   ensureSaveIdentity(game);
   setCharacterDir(game, game.player?.dir ?? game.location?.dir);
   game.pets ||= [];
   ensurePetFormation(game);
+  normalizeProgressionRuntime(game);
   game.inventory ||= [];
   game.quests ||= {};
   ensureFlags(game);
   game.effects ||= {};
+  game.aiWorkspace = normalizeAiWorkspace(game.aiWorkspace);
   game.dialogAi ||= {};
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.savePoint ||= null;
@@ -4711,6 +5599,8 @@ function buildSaveJson(game) {
     pets: game.pets.map((pet) => ({ ...pet })),
     petFormation: { ...ensurePetFormation(game) },
     petState: petState(game),
+    progression: progressionState(game),
+    characterFields: { ...(game.characterFields || {}) },
     inventory: game.inventory.map((item) => ({ ...item })),
     inventoryState: inventoryState(game),
     quests: game.quests || {},
@@ -4723,6 +5613,7 @@ function buildSaveJson(game) {
       npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) }
     },
     effects: { ...(game.effects || {}) },
+    aiWorkspace: normalizeAiWorkspace(game.aiWorkspace),
     dialogAi: { ...(game.dialogAi || {}) },
     walk: {
       steps: Number(game.walk?.steps || 0),
@@ -4756,9 +5647,28 @@ function buildCharInfo(game) {
     `NAME=${game.player.name}`,
     `LV=${game.player.level}`,
     `EXP=${game.player.exp}`,
+    `NEXTEXP=${game.player.nextExp}`,
+    `EXP_TO_NEXT=${game.player.expToNext}`,
     `STONE=${game.player.stone}`,
     `HP=${game.player.hp}`,
     `MAXHP=${game.player.maxHp}`,
+    `VITAL=${game.player.Vital}`,
+    `STR=${game.player.Str}`,
+    `TOUGH=${game.player.Tough}`,
+    `DEX=${game.player.Dex}`,
+    `EARTH=${game.player.EarthAT}`,
+    `WATER=${game.player.WaterAT}`,
+    `FIRE=${game.player.FireAT}`,
+    `WIND=${game.player.WindAT}`,
+    `WORKMAXHP=${game.player.WorkMaxHp}`,
+    `WORKFIXSTR=${game.player.WorkFixStr}`,
+    `WORKFIXTOUGH=${game.player.WorkFixTough}`,
+    `WORKFIXDEX=${game.player.WorkFixDex}`,
+    `DUELPOINT=${game.player.duelPoint}`,
+    `SKILLUPPOINT=${game.player.skillUpPoint}`,
+    `KILLPETCOUNT=${game.player.killPetCount}`,
+    `DEADCOUNT=${game.player.deadCount}`,
+    `BATTLECOUNT=${game.player.battleCount}`,
     `FLOOR=${game.location.mapId}`,
     `X=${game.location.x}`,
     `Y=${game.location.y}`,
@@ -4775,6 +5685,7 @@ function buildCharInfo(game) {
     `FLAGS_NOW=${(game.flags?.nowEvents || []).join(",")}`,
     `FLAGS_BITS=${safeJson(game.flags?.bits || {})}`,
     `NPC_TALK=${safeJson(game.flags?.npcTalkCounts || {})}`,
+    `AI_WORKSPACE=${safeJson(compactAiWorkspaceMemory(game))}`,
     `PETS=${safeJson(game.pets.map(petSaveSummary))}`,
     `ITEMS=${safeJson(game.inventory.map(itemSaveSummary))}`,
     `UPDATED=${game.character.updatedAt}`,
@@ -4799,10 +5710,14 @@ function petSaveSummary(pet) {
     id: pet.Id,
     no: pet.PetId,
     name: pet.Name,
-    level: pet.LV,
-    hp: pet.HP,
-    maxHp: pet.MaxHP,
+    level: pet.Lv,
+    hp: pet.Hp,
+    maxHp: pet.WorkMaxHp,
     exp: pet.Exp,
+    nextExp: pet.NextExp,
+    expToNext: pet.ExpToNext,
+    killPetCount: pet.KillPetCount,
+    deadCount: pet.DeadCount,
     image: pet.ImgNo
   };
 }
@@ -4838,6 +5753,7 @@ function withMap(game, extra = {}) {
     nearby: nearbyState(game, map),
     inventoryState: inventoryState(game),
     petState: petState(game),
+    progression: progressionState(game),
     world: {
       map,
       quests: WORLD.quests,
@@ -5258,6 +6174,7 @@ function createEnemy(data, ebno, baselevel) {
     PetSkills: tp.PetSkills,
     PetRank: enemyRank(data, ebno),
     Exp: 0,
+    SourceExp: 0,
     AllocPoint: [tp.BaseVital, tp.BaseStr, tp.BaseTgh, tp.BaseDex],
     WorkTactics: 0,
     WorkTacticsOption: "",
@@ -5294,12 +6211,16 @@ function createEnemy(data, ebno, baselevel) {
   char.Tough = paramCal(tp.BaseTgh);
   char.Dex = paramCal(tp.BaseDex);
   complianceParameter(char);
+  char.Exp = sourceEnemyExpFromStats(char);
+  char.SourceExp = char.Exp;
   char.BornPoint = [char.WorkMaxHp, char.WorkFixStr, char.WorkFixTough, char.WorkFixDex];
   return char;
 }
 
-function petLevelUp(char) {
+function petLevelUp(char, options = {}) {
   if (char.Lv >= CHAR_MAXUPLEVEL) return;
+  const prevHp = Number(char.Hp || 0);
+  const prevMaxHp = Math.max(1, Number(char.WorkMaxHp || char.Hp || 1));
   const param = [0, 0, 0, 0];
   for (let i = 0; i < 10; i += 1) param[randInt(4)] = 1;
   const rank = Math.max(0, Math.min(char.PetRank || 0, rankTab.length - 1));
@@ -5310,7 +6231,11 @@ function petLevelUp(char) {
   char.Tough += Math.trunc((char.AllocPoint[2] + param[2]) * frand);
   char.Dex += Math.trunc((char.AllocPoint[3] + param[3]) * frand);
   char.Lv += 1;
-  complianceParameter(char);
+  complianceParameter(char, { preserveHp: Boolean(options.preserveHp) });
+  if (options.preserveHp) {
+    const maxDelta = Math.max(0, Number(char.WorkMaxHp || 1) - prevMaxHp);
+    char.Hp = Math.max(1, Math.min(Number(char.WorkMaxHp || 1), prevHp + maxDelta));
+  }
   const lvd = char.Lv - char.BornLv;
   if (lvd > 0) {
     char.GrowthHp = (char.WorkMaxHp - char.BornPoint[0]) / lvd;
@@ -5321,13 +6246,16 @@ function petLevelUp(char) {
   }
 }
 
-function complianceParameter(char) {
+function complianceParameter(char, options = {}) {
+  const previousHp = Number(char.Hp || 0);
   char.WorkFixDex = Math.trunc(char.Dex / 100);
   char.WorkFixVital = Math.trunc(char.Vital / 100);
   char.WorkFixStr = Math.trunc((char.Str * 1 + char.Tough * 0.1 + char.Vital * 0.1 + char.Dex * 0.05) / 100);
   char.WorkFixTough = Math.trunc((char.Tough * 1 + char.Str * 0.1 + char.Vital * 0.1 + char.Dex * 0.05) / 100);
   char.WorkMaxHp = Math.trunc((char.Vital * 4 + char.Str + char.Tough + char.Dex) / 100);
-  char.Hp = char.WorkMaxHp;
+  char.Hp = options.preserveHp
+    ? clampInt(previousHp, 0, Math.max(1, char.WorkMaxHp), Math.max(1, char.WorkMaxHp))
+    : char.WorkMaxHp;
   char.Mp = char.WorkMaxMp;
 }
 
@@ -5363,6 +6291,9 @@ function petSummary(pet) {
     name: pet.Name,
     no: pet.PetId,
     lv: pet.Lv,
+    exp: pet.Exp,
+    nextExp: pet.NextExp,
+    expToNext: pet.ExpToNext,
     hp: pet.WorkMaxHp,
     attack: pet.WorkFixStr,
     defense: pet.WorkFixTough,

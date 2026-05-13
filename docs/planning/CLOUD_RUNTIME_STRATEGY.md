@@ -21,7 +21,7 @@
 
 当前仓库已经完成了第一层 Web 重构：
 
-- `src/worker.js`: Cloudflare Worker API，已经承载新建人物、同步存档、移动、对话、购买、遇敌、捕获、训练和 AI 向导入口。
+- `src/worker.js`: Cloudflare Worker API，已经承载新建人物、同步存档、移动、对话、购买、遇敌、捕获、战斗 EXP/NEXT 结算和 AI 向导入口；直接训练升级入口已退休，只保留拒绝提示。
 - `public/assets/app.js`: 浏览器 PWA 客户端，已经有一屏式客户端、地图画布、WASD、NPC 列表/点击、对话浮层、宠物/背包/任务/日志/存档/资料库/AI 面板。
 - `src/world-data.js`: 由 `scripts/build-world.mjs` 生成的地图、NPC、出口、遇敌资料。
 - `external/sources/gmsv`: 原游戏服务器源码参考。
@@ -109,6 +109,20 @@ Cloudflare Worker API gateway
   - 浏览器先实现地图、UI、输入和资源渲染。
   - 后续独立客户端可以复用同一套 HTTPS/WebSocket 协议。
   - 原 TCP 客户端兼容作为后置路线，通过 VPS/Spectrum/Container gateway 做桥接。
+
+## Original Resource Pack Strategy
+
+目标是最大化使用原版客户端资源，但不把 `external/sources/client-assets/data` 里的多 GB 原始文件直接放进 Worker/Pages 发布包。
+
+- `real_136.bin` / `adrn_136.bin` / `spr_115.bin` / `spradrn_115.bin` 保留为离线母库，由构建脚本抽取 Web 可用的 atlas、帧表和 manifest。
+- `public/` 只放首屏必须资源：核心地图、核心 UI、少量当前流程必需宠物/角色帧。
+- 宠物资源按用途拆包：
+  - static portrait pack: 宠物图鉴、背包、战斗目标框可用的静态 `ImgNo` 图。
+  - field animation pack: 当前地图/区域需要的 `stand` / `walk`。
+  - battle animation pack: 当前战斗需要的 `attack` / `damage` / `dead` / `stand` / `guard`。
+- 原版 UI 资源单独成包：窗口皮肤、字段菜单、宠物/道具/状态/商店/对话窗口、战斗按钮优先使用客户端 `CG_*` 图。
+- 大资源和后期版本内容通过 R2 或分片 Static Assets 懒加载，并用版本化 manifest + Cache API/Service Worker 缓存。
+- 对应 backlog：`asset-pipeline-001`、`pet-assets-001`、`asset-pipeline-002`、`cloud-assets-001`。
 
 ## AI NPC Rules
 

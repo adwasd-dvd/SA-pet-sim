@@ -103,9 +103,9 @@ The current Worker already exposes a thin command facade:
 | `POST /api/game/use-item` | `inventoryAction(use)` | HP recovery first pass. |
 | `POST /api/game/encounter` | `startEncounter` | Manual/debug encounter. |
 | `POST /api/game/capture` | `battleAction(capture)` | Capture first pass. |
-| `POST /api/game/battle` | `battleAction(attack)` | Attack first pass. |
-| `POST /api/game/train` | `petAction(train)` | Debug training, should later become real training service. |
-| `POST /api/ai/guide` | `aiGuide` | Grounded guide, not state mutation. |
+| `POST /api/game/battle` | `battleAction(H/T/G/N/I/E)` | Source-command battle surface; victory/capture now grants cumulative EXP/NEXT through Worker settlement. |
+| `POST /api/game/train` | retired debug endpoint | Refuses direct level mutation; player/pet growth must come from battle EXP or AI-operated battles. |
+| `POST /api/ai/guide` | `aiGuide` | Grounded guide; state changes are limited to deterministic Worker services such as battle, item use, warp, and effects. |
 
 ## Unsupported Or Later-Only
 

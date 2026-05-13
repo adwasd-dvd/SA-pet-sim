@@ -404,8 +404,9 @@ function render() {
   const map = game.world.map;
   const petsUsed = petUsed();
   const petsCapacity = petCapacity();
+  const playerProgress = progressionForPlayer();
   els.playerTitle.textContent = game.player.name;
-  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | 经验 ${game.player.exp} | 石币 ${game.player.stone} | 宠物 ${petsUsed}/${petsCapacity}`;
+  els.playerStats.textContent = `Lv.${game.player.level} | HP ${game.player.hp}/${game.player.maxHp} | ${expLabel(playerProgress)} | 石币 ${game.player.stone} | 宠物 ${petsUsed}/${petsCapacity}`;
   els.mapName.textContent = map.name;
   els.mapSummary.textContent = `${map.summary} | 位置 (${game.location.x},${game.location.y})${nearbyText()} | 来源：${GMSV_DATA_SOURCE}/map + mapwarp.txt + encount.txt + npc scripts`;
   renderMapHud();
@@ -2142,11 +2143,6 @@ function onAssistPanelClick(event) {
     goToExit(exitBtn.dataset.exit);
     return;
   }
-  const trainBtn = event.target.closest("[data-assist-train]");
-  if (trainBtn) {
-    mutate("/api/game/train", { petIndex: Number(trainBtn.dataset.assistTrain) });
-    return;
-  }
   const activePetBtn = event.target.closest("[data-assist-active-pet]");
   if (activePetBtn) {
     mutate("/api/game/pet-mode", { petIndex: Number(activePetBtn.dataset.assistActivePet), mode: "active" });
@@ -2395,9 +2391,10 @@ function renderBattlePanel() {
   els.battleEnemyHpBar.style.width = `${clampPercent(enemyHp, enemyMax)}%`;
   renderBattleEnemyParty(enemyParty, Number(battle.activeEnemyIndex || 0), activePet);
   if (activePet) {
+    const petProgress = progressionForPet(activePetIndex(), activePet);
     setBattleSprite(els.battlePetImg, activePet.ImgNo);
     els.battlePetName.textContent = `${activePet.Name} Lv.${Number(activePet.Lv || 1)}`;
-    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | 攻 ${Number(activePet.WorkFixStr || 0)} 防 ${Number(activePet.WorkFixTough || 0)} 敏 ${Number(activePet.WorkFixDex || 0)}`;
+    els.battlePetStats.textContent = `HP ${petHp}/${petMax} | ${expLabel(petProgress)} | 攻 ${Number(activePet.WorkFixStr || 0)} 防 ${Number(activePet.WorkFixTough || 0)} 敏 ${Number(activePet.WorkFixDex || 0)}`;
     els.battlePetHpBar.style.width = `${clampPercent(petHp, petMax)}%`;
   } else {
     setBattleSprite(els.battlePetImg, null);
@@ -2406,7 +2403,7 @@ function renderBattlePanel() {
     els.battlePetHpBar.style.width = "0%";
   }
   els.battlePlayerName.textContent = game.player.name;
-  els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)}`;
+  els.battlePlayerStats.textContent = `Lv.${game.player.level} | HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | ${expLabel(progressionForPlayer())}`;
   const battleItems = battleUsableItems();
   const hasBattleItem = battleItems.length > 0;
   const petFull = petUsed() >= petCapacity();
@@ -2825,9 +2822,9 @@ function renderAssistPets() {
       <div class="assist-pane compact">
         <h3>快速指令</h3>
         <div class="assist-action-grid">
-          <button type="button" data-assist-train="${Math.max(0, activeIndex)}" ${activeIndex >= 0 ? "" : "disabled"}>训练出战宠</button>
-          <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
           <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"} title="${escapeHtml(canEncounter ? "按当前地图 encount.txt 触发野外遇敌" : (game.world.map.wildEncounterReason || "当前地图不能触发野外遇敌"))}">寻找野外敌人</button>
+          <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
+          <button type="button" data-assist-client-tab="ai">请求 AI 代练</button>
           <button type="button" data-assist-client-tab="pets">打开 PET</button>
         </div>
         <div class="assist-log-mini">
@@ -2842,6 +2839,7 @@ function renderAssistPetCard(pet, index) {
   const maxHp = Math.max(1, Number(pet.WorkMaxHp || pet.Hp || 1));
   const hp = Math.max(0, Number(pet.Hp || 0));
   const active = index === activePetIndex();
+  const progress = progressionForPet(index, pet);
   return `
     <article class="assist-card pet ${active ? "active" : ""}">
       <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
@@ -2849,11 +2847,11 @@ function renderAssistPetCard(pet, index) {
         <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
         <span>${active ? "出战" : "待命"} | No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
         <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
-        <small>攻 ${Number(pet.WorkFixStr || 0)} | 防 ${Number(pet.WorkFixTough || 0)} | 敏 ${Number(pet.WorkFixDex || 0)} | 成长 ${fmt(pet.Growth)}</small>
+        <small>攻 ${Number(pet.WorkFixStr || 0)} | 防 ${Number(pet.WorkFixTough || 0)} | 敏 ${Number(pet.WorkFixDex || 0)} | ${escapeHtml(expLabel(progress))}</small>
+        <div class="assist-meter exp"><i style="width:${Number(progress.progressPct || 0)}%"></i></div>
       </div>
       <div class="assist-card-actions">
         <button type="button" data-assist-active-pet="${index}" ${active ? "disabled" : ""}>战</button>
-        <button type="button" data-assist-train="${index}">训</button>
         <button type="button" data-assist-release-pet="${index}" ${game.pets.length <= 1 ? "disabled" : ""}>放</button>
       </div>
     </article>
@@ -2905,6 +2903,7 @@ function renderAssistItem(item) {
 
 function renderAssistCharacter() {
   const player = game.player;
+  const progress = progressionForPlayer();
   const equipment = characterEquipmentSummary();
   return `
     <section class="assist-grid two">
@@ -2915,7 +2914,7 @@ function renderAssistCharacter() {
         </div>
         <div class="assist-stat-grid">
           <article><strong>Lv.${Number(player.level || 1)}</strong><span>等级</span></article>
-          <article><strong>${Number(player.exp || 0)}</strong><span>经验</span></article>
+          <article><strong>${Number(progress.exp || 0)}</strong><span>NEXT ${Number(progress.expToNext || 0)}</span></article>
           <article><strong>${Number(player.hp || 0)}/${Number(player.maxHp || 0)}</strong><span>HP</span></article>
           <article><strong>${Number(player.stone || 0)}</strong><span>石币</span></article>
         </div>
@@ -2926,7 +2925,7 @@ function renderAssistCharacter() {
           </div>
           <div>
             <strong>状态</strong>
-            <span>${escapeHtml(noEncounterEffectText() || "普通")}</span>
+            <span>${escapeHtml(noEncounterEffectText() || "普通")} | 战 ${Number(player.battleCount || 0)} 胜 ${Number(player.winCount || 0)} | 技能点 ${Number(player.skillUpPoint || 0)}</span>
           </div>
         </div>
       </div>
@@ -2983,12 +2982,37 @@ function renderAssistKnowledge() {
         </div>
       </div>
       <div class="assist-pane compact">
+        <h3>AI Workspace</h3>
+        ${renderAiWorkspaceMini()}
         <h3>当前线索</h3>
         <div class="assist-log-mini">
           ${(game.log || []).slice(-7).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
         </div>
       </div>
     </section>
+  `;
+}
+
+function renderAiWorkspaceMini() {
+  const workspace = game.aiWorkspace || {};
+  const memories = Array.isArray(workspace.memories) ? workspace.memories.slice(0, 5) : [];
+  return `
+    <div class="assist-debug-list workspace-mini">
+      <article class="assist-debug-row">
+        <b>schema</b>
+        <span>${escapeHtml(workspace.schema || "stoneage-ai-workspace-v1")}</span>
+      </article>
+      <article class="assist-debug-row">
+        <b>memory</b>
+        <span>${memories.length}/${Number(workspace.memories?.length || 0)} saved notes</span>
+      </article>
+      ${memories.length ? memories.map((entry) => `
+        <article class="assist-debug-row">
+          <b>${escapeHtml(entry.kind || "note")}</b>
+          <span>${escapeHtml(`${entry.title || "未命名"}：${entry.text || ""}`.slice(0, 120))}</span>
+        </article>
+      `).join("") : `<article class="assist-debug-row"><b>notes</b><span>暂无 AI memory；可由 Worker 校验接口写入。</span></article>`}
+    </div>
   `;
 }
 
@@ -3069,7 +3093,7 @@ function renderAiStatusPanel() {
       </div>
       <div class="ai-status-grid">
         <article><b>HP</b><span>${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}</span></article>
-        <article><b>EXP</b><span>${Number(game.player.exp || 0)}</span></article>
+        <article><b>EXP</b><span>${escapeHtml(expLabel(progressionForPlayer()))}</span></article>
         <article><b>石币</b><span>${Number(game.player.stone || 0)}</span></article>
         <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}` : "无"}</span></article>
         <article><b>AI</b><span>${escapeHtml(runtime)}</span></article>
@@ -3222,13 +3246,13 @@ function renderMapHud() {
   const petsUsed = petUsed();
   const petsCapacity = petCapacity();
   els.mapHudName.textContent = game.player.name;
-  els.mapHudMeta.textContent = `Lv.${game.player.level} | EXP ${Number(game.player.exp || 0)}`;
+  els.mapHudMeta.textContent = `Lv.${game.player.level} | ${expLabel(progressionForPlayer())}`;
   els.mapHudHpBar.style.width = `${playerHp}%`;
   els.mapHudHpText.textContent = `HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}`;
   if (activePet) {
     const petHp = clampPercent(activePet.Hp, activePet.WorkMaxHp);
     els.mapHudPetName.textContent = activePet.Name;
-    els.mapHudPetMeta.textContent = `Lv.${activePet.Lv} | No.${activePet.PetId}`;
+    els.mapHudPetMeta.textContent = `Lv.${activePet.Lv} | ${expLabel(progressionForPet(activePetIndex(), activePet))}`;
     els.mapHudPetHpBar.style.width = `${petHp}%`;
     els.mapHudPetHpText.textContent = `HP ${Number(activePet.Hp || 0)}/${Number(activePet.WorkMaxHp || 0)}`;
   } else {
@@ -3278,13 +3302,16 @@ function clientWindowContent(name) {
 
 function clientCharacterWindow() {
   const player = game.player;
+  const progress = progressionForPlayer();
   const equipment = characterEquipmentSummary();
   return {
     title: "STATUS",
     html: `
       <div class="client-list-window">
-        <article><strong>${escapeHtml(player.name)}</strong><span>Lv.${Number(player.level || 1)} | EXP ${Number(player.exp || 0)} | 石币 ${Number(player.stone || 0)}</span></article>
+        <article><strong>${escapeHtml(player.name)}</strong><span>Lv.${Number(player.level || 1)} | ${escapeHtml(expLabel(progress))} | 石币 ${Number(player.stone || 0)}</span></article>
         <article><strong>耐久力</strong><span>${Number(player.hp || 0)} / ${Number(player.maxHp || 0)}</span></article>
+        <article><strong>能力</strong><span>攻 ${Number(player.WorkFixStr || 0)} | 防 ${Number(player.WorkFixTough || 0)} | 敏 ${Number(player.WorkFixDex || 0)} | 技能点 ${Number(player.skillUpPoint || 0)}</span></article>
+        <article><strong>计数</strong><span>战 ${Number(player.battleCount || 0)} | 胜 ${Number(player.winCount || 0)} | 击倒 ${Number(player.killPetCount || 0)}</span></article>
         <article><strong>当前位置</strong><span>${escapeHtml(game.world.map.name)} (${Number(game.location.x || 0)},${Number(game.location.y || 0)})</span></article>
         ${equipment.map((item) => `<article><strong>${escapeHtml(item.slot)}</strong><span>${escapeHtml(item.name)} | ${escapeHtml(item.description)}</span></article>`).join("")}
       </div>
@@ -3414,6 +3441,8 @@ function clientPetWindow() {
   }
   const hp = Number(pet.Hp || 0);
   const maxHp = Number(pet.WorkMaxHp || hp || 1);
+  const activeIndex = activePetIndex();
+  const progress = progressionForPet(activeIndex, pet);
   const pets = game.pets || [];
   return {
     title: "PET STATUS",
@@ -3425,8 +3454,8 @@ function clientPetWindow() {
         </div>
         <div class="client-stat-stack">
           ${clientStatRow("等级", pet.Lv)}
-          ${clientStatRow("经验值", Number(pet.Exp || 0))}
-          ${clientStatRow("NEXT", "-1")}
+          ${clientStatRow("经验值", Number(progress.exp || 0))}
+          ${clientStatRow("NEXT", Number(progress.nextExp) < 0 ? "MAX" : Number(progress.expToNext || 0))}
           ${clientStatRow("耐久力", `${hp}/${maxHp}`)}
           ${clientStatRow("攻击力", pet.WorkFixStr)}
           ${clientStatRow("防御力", pet.WorkFixTough)}
@@ -3435,16 +3464,16 @@ function clientPetWindow() {
         </div>
       </div>
       <div class="client-meter-row">
-        <span>地属性</span><i style="width:${clampPercent(pet.Earth || pet.earth || 0, 10)}%"></i>
+        <span>地属性</span><i style="width:${clampPercent(pet.EarthAT || pet.Earth || pet.earth || 0, 100)}%"></i>
       </div>
       <div class="client-meter-row water">
-        <span>水属性</span><i style="width:${clampPercent(pet.Water || pet.water || 0, 10)}%"></i>
+        <span>水属性</span><i style="width:${clampPercent(pet.WaterAT || pet.Water || pet.water || 0, 100)}%"></i>
       </div>
       <div class="client-meter-row fire">
-        <span>火属性</span><i style="width:${clampPercent(pet.Fire || pet.fire || 0, 10)}%"></i>
+        <span>火属性</span><i style="width:${clampPercent(pet.FireAT || pet.Fire || pet.fire || 0, 100)}%"></i>
       </div>
       <div class="client-meter-row wind">
-        <span>风属性</span><i style="width:${clampPercent(pet.Wind || pet.wind || 0, 10)}%"></i>
+        <span>风属性</span><i style="width:${clampPercent(pet.WindAT || pet.Wind || pet.wind || 0, 100)}%"></i>
       </div>
       <div class="client-party-row">
         ${pets.map((entry, index) => `
@@ -3578,9 +3607,6 @@ function clientStatRow(label, value) {
 }
 
 function bindClientWindowActions() {
-  els.clientWindowBody.querySelectorAll("[data-client-train]").forEach((btn) => {
-    btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.clientTrain) }));
-  });
   els.clientWindowBody.querySelectorAll("[data-client-active-pet]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.clientActivePet), mode: "active" }));
   });
@@ -3596,12 +3622,11 @@ function renderPets() {
       <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
       <div>
         <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
-        <p class="muted">${index === activePetIndex() ? "出战" : "待命"} | No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>
+        <p class="muted">${index === activePetIndex() ? "出战" : "待命"} | No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | ${escapeHtml(expLabel(progressionForPet(index, pet)))}</p>
         <p>总成长 <strong>${fmt(pet.Growth)}</strong></p>
       </div>
       <div class="pet-card-actions">
         <button type="button" data-active-pet="${index}" ${index === activePetIndex() ? "disabled" : ""}>出战</button>
-        <button type="button" data-train="${index}">训练</button>
         <button type="button" data-release-pet="${index}" ${game.pets.length <= 1 ? "disabled" : ""}>放生</button>
       </div>
     </article>
@@ -3636,9 +3661,6 @@ function renderPets() {
       `).join("") || `<p class="empty">背包还没有道具。</p>`}
     </article>
   `;
-  els.petList.querySelectorAll("[data-train]").forEach((btn) => {
-    btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.train) }));
-  });
   els.petList.querySelectorAll("[data-active-pet]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.activePet), mode: "active" }));
   });
@@ -3958,6 +3980,30 @@ function clampPercent(value, max) {
 function fmt(value) {
   const n = Number(value);
   return Number.isFinite(n) ? n.toFixed(2) : "0.00";
+}
+
+function progressionForPlayer() {
+  return game?.progression?.player || {
+    exp: Number(game?.player?.exp || 0),
+    nextExp: Number(game?.player?.nextExp ?? -1),
+    expToNext: Number(game?.player?.expToNext || 0),
+    progressPct: Number(game?.player?.expProgressPct || 0)
+  };
+}
+
+function progressionForPet(index, pet = null) {
+  return game?.progression?.pets?.[index] || {
+    exp: Number(pet?.Exp || 0),
+    nextExp: Number(pet?.NextExp ?? -1),
+    expToNext: Number(pet?.ExpToNext || 0),
+    progressPct: Number(pet?.ExpProgressPct || 0)
+  };
+}
+
+function expLabel(progress) {
+  if (!progress) return "EXP 0";
+  if (Number(progress.nextExp) < 0) return `EXP ${Number(progress.exp || 0)} | MAX`;
+  return `EXP ${Number(progress.exp || 0)} | NEXT ${Number(progress.expToNext || 0)}`;
 }
 
 function byId(id) {

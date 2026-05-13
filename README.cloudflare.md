@@ -41,7 +41,9 @@ npx wrangler secret put OPENAI_API_KEY
 - `POST /api/game/dialog`：和当前地图 NPC 对话。
 - `POST /api/game/buy`：从可交易 NPC 购买道具。
 - `POST /api/game/encounter`、`/api/game/capture`：保留的后端实验接口，当前主 UI 不暴露自动遇敌/抓宠。
-- `POST /api/game/train`：宠物训练流程。
+- `POST /api/game/train`：旧调试训练入口，现拒绝直接升级；人物和宠物成长必须来自战斗经验或 AI 代练触发的战斗结算。
 - `POST /api/data/search`：搜索从 `gmsv-data` 同步来的宠物、地图、NPC、道具、遇敌资料。
 - `POST /api/ai/guide`：用当前地图、NPC、任务、背包、宠物和日志生成游戏内向导建议。
+- `POST /api/ai/workspace`：返回 AI 可用的压缩 workspace，包括当前场景、动作边界、17173 知识条目和随存档保存的 AI memory。
+- `POST /api/ai/workspace-note`：写入受 Worker 校验的 AI memory note；只允许记录观察/线索/偏好/TODO，不允许直接改背包、任务、flag、石币、传送或战斗结果。
 - `GET /api/ai/status`：返回当前 AI 运行时，区分 OpenAI、Workers AI 和本地规则回退。

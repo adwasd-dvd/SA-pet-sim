@@ -39,6 +39,17 @@ All major external references have been copied locally:
 
 Run `node scripts/check-resources.mjs` after moving machines.
 
+## Resource Pack Strategy
+
+- Treat `external/sources/client-assets/data` as the offline source library, not a publish directory.
+- Raw client files such as `real_136.bin`, `adrn_136.bin`, `wayisa`, `spr_115.bin`, and `spradrn_115.bin` should be mined into web-ready packs rather than shipped directly.
+- Prioritize original resources that define the StoneAge feel:
+  - pet/enemy portraits from `enemybase*.txt` `ImgNo` bitmap references
+  - pet/enemy animation frames from `spr_115.bin` / `spradrn_115.bin`
+  - core UI windows, field menus, battle panels, and buttons from `anim_tbl.h` and client UI source
+- Avoid one giant atlas. Use separate boot UI, map tile, pet-static, pet-field, and pet-battle packs, then lazy-load the optional packs needed by the current map, pet window, or battle.
+- Keep the default `public/` boot package small enough for Cloudflare Workers/Pages static asset limits; large optional original-resource packs should be split or served through R2 with cache-versioned manifests.
+
 ## Map Rendering Conclusions
 
 - `gmsv-data` is authoritative for map/game logic.
@@ -95,18 +106,33 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 
 ## Likely Next Work
 
-1. `client-ui-002`: rebuild original-client UHD game UI around the map.
-2. `script-vm-001`: deterministic NPC action VM for common script actions.
-3. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
-4. `warp-002`: complete source-grounded map jump and warp runtime.
-5. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
-6. `battle-002`: redesign encounter/battle/capture without resurrecting the removed auto capture UI.
-7. `worker-port-002`: define the JSON/WebSocket command protocol.
-8. `persistence-002`: D1/Durable Object cloud save plan.
-9. `realtime-001`: first map-room WebSocket architecture.
+1. `progression-001`: finish source EXP/level/counters/field runtime and cover quest/NPC rewards, capture, and battle tests.
+2. `combat-001`: deepen source combat formulas, elemental matchup, and battle result telemetry.
+3. `status-ui-001`: rebuild original-client STATUS / PET STATUS / ITEM / BATTLE windows around EXP/NEXT, attributes, equipment, and counters.
+4. `ai-training-001`: keep AI代练 as battle operation only, with clear guardrails and compact context.
+5. `character-fields-001`: expand SAAC-like field/flag/counter APIs for NPC conditions and AI context.
+6. `asset-pipeline-001`: define original-client resource pack pipeline and size budgets.
+7. `pet-assets-001`: build pet portrait and lazy animation packs around original client sprite data.
+8. `asset-pipeline-002`: extract original UI core atlas for windows, menus, and battle panels.
+9. `client-ui-002`: continue rebuilding original-client UHD game UI around the map.
+10. `script-vm-001`: deterministic NPC action VM for common script actions.
+11. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
+12. `warp-002`: complete source-grounded map jump and warp runtime.
+13. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
+14. `cloud-assets-001`: serve large optional resource packs through R2 and cache.
+15. `worker-port-002`: define the JSON/WebSocket command protocol.
+16. `persistence-002`: D1/Durable Object cloud save plan.
+17. `realtime-001`: first map-room WebSocket architecture.
+18. `realtime-002`: online presence MVP where same-map players see each other moving.
 
 ## Latest Runtime Notes
 
+- Progression direction accepted 2026-05-13: player/pet leveling must come from battle EXP, not direct buttons. `progression-001` now ports gmsv `LevelUpTbl` cumulative EXP/NEXT thresholds, enemy EXP approximation, level-difference reduction, battle/capture EXP settlement, player/pet counters, and save progression summaries. `/api/game/train` now refuses direct mutation and tells the player to use battle or negotiated AI代练.
+- AI代练 direction accepted 2026-05-13: AI may help operate battles, but it must not directly write levels/EXP. `ai-training-001` now routes guide training prompts through source encounters and `/api/game/battle` settlement, refuses safe maps, and reports player/pet EXP gains and level changes.
+- Character/pet/status UI direction accepted 2026-05-13: STATUS, PET STATUS, BATTLE, and assist panels must show EXP/NEXT/attributes/counters and must not expose direct level-up buttons. First slice updates main HUD, AI status card, bottom pet/person tabs, PET STATUS, STATUS, and battle panel.
+- Combat direction accepted 2026-05-13: base battle damage now includes WorkFixStr/WorkFixTough/WorkFixDex plus Earth/Water/Fire/Wind matchup notes. The first formula is intentionally compact; later work should compare deeper gmsv battle formulas before finalizing.
+- Multiplayer direction accepted 2026-05-13: first target is a Durable Object/WebSocket online-presence MVP, not full MMO systems. Same-map players should see names, positions, facing direction, and movement updates; chat, party, trade, PvP, and authoritative cloud saves come after the presence layer.
+- Resource direction accepted 2026-05-12: maximize use of original client assets by extracting web-sized packs from the local source bundle, especially pets and original UI, while avoiding raw multi-GB client files in the Cloudflare publish package.
 - Map rendering now uses real client DAT viewport rendering for large maps such as floor `100` / `萨伊那斯`; same-map walking updates markers/viewport without rebuilding `.map-content` or `.ls2-map`, avoiding step flicker.
 - Map layering now follows the original client's diagonal tile display order and puts parts/NPC sprites into one depth queue, so trees/walls/NPCs no longer render as a single flat overlay layer.
 - `map-render-002` is implemented: `scripts/extract-client-tiles.mjs` now exports `adrn` metadata (`bitmapNo`, `hit`, `hitRaw`, `prioType`, `hitX`, `hitY`, `heightFlag`) into `tiles.json`; `public/assets/app.js` uses a JS port of `checkPrioPartsVsChar` for parts-vs-character ordering; `scripts/check-map-atlas.mjs` validates priority metadata coverage.
