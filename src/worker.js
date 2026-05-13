@@ -3553,7 +3553,10 @@ function withMap(game, extra = {}) {
     inventoryState: inventoryState(game),
     world: {
       map,
-      quests: WORLD.quests
+      quests: WORLD.quests,
+      mapCount: Object.keys(WORLD.maps || {}).length,
+      questLeadCount: Object.values(WORLD.maps || {})
+        .reduce((sum, item) => sum + (item.npcs || []).filter((npc) => npc.questLead).length, 0)
     },
     ...extra
   };

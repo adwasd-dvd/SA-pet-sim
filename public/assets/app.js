@@ -2008,6 +2008,7 @@ function renderAssistMap(map) {
         </div>
         <div class="stack" data-assist-list="exit">
           ${renderMapStatusHtml()}
+          ${renderMapQuestLeadHtml(map)}
           ${renderExitListHtml(map)}
         </div>
       </div>
@@ -2020,9 +2021,30 @@ function renderNpcListHtml(map) {
   return npcs.map((npc) => `
     <button class="list-btn" type="button" data-npc="${npc.id}">
       <strong>${escapeHtml(npc.name)}</strong>
-      <span>${escapeHtml(npc.type)}${npc.trade ? " | 可交易" : ""} | (${npc.x}, ${npc.y}) | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
+      ${renderNpcTags(npc)}
+      <span>${escapeHtml(npc.type)} | (${npc.x}, ${npc.y}) | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
+      ${npc.questLead ? `<small>${escapeHtml(npc.questLead.summary || npc.questLead.title)}</small>` : ""}
     </button>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
+}
+
+function renderNpcTags(npc) {
+  const tags = npcTags(npc);
+  if (!tags.length) return "";
+  return `<em class="assist-tags">${tags.map((tag) => `<b>${escapeHtml(tag)}</b>`).join("")}</em>`;
+}
+
+function npcTags(npc) {
+  const text = `${npc.type || ""} ${npc.template || ""} ${npc.script || ""}`;
+  const tags = [];
+  if (npc.questLead) tags.push("线索");
+  if (npc.questId || npc.questIds?.length) tags.push("任务");
+  if (npc.trade) tags.push("交易");
+  if (npc.warp) tags.push("传送");
+  if (npc.npcEnemy || /npcenemy/i.test(text)) tags.push("战斗");
+  if (/healer/i.test(text)) tags.push("治疗");
+  if (/save/i.test(text)) tags.push("记录");
+  return [...new Set(tags)];
 }
 
 function onAssistTabClick(event) {
@@ -2543,8 +2565,17 @@ function renderMapStatusHtml() {
   const pet = game.pets?.[0] || null;
   const firstItem = (game.inventory || []).find((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
   const battle = fieldBattleSummary();
+  const worldMeta = [
+    game.world?.mapCount ? `地图 ${Number(game.world.mapCount)}` : "",
+    game.world?.questLeadCount ? `线索 ${Number(game.world.questLeadCount)}` : "",
+    game.world?.map?.canWildEncounter ? "可遇敌" : "安全/无遇敌"
+  ].filter(Boolean).join(" | ");
   return `
     <section class="assist-status-strip" aria-label="当前状态">
+      <div>
+        <strong>${escapeHtml(game.world.map.name)} floor ${escapeHtml(String(game.world.map.floorId || game.location.mapId))}</strong>
+        <span>(${Number(game.location.x || 0)}, ${Number(game.location.y || 0)}) | ${escapeHtml(worldMeta || "地图资料已加载")}</span>
+      </div>
       <div>
         <strong>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</strong>
         <span>HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
@@ -2561,6 +2592,42 @@ function renderMapStatusHtml() {
         <strong>战斗</strong>
         <span>${battle}</span>
       </div>
+    </section>
+  `;
+}
+
+function renderMapQuestLeadHtml(map) {
+  const activeQuests = Object.values(game.quests || {});
+  const mapLeads = (map.npcs || [])
+    .filter((npc) => npc.questLead)
+    .slice()
+    .sort((a, b) => pointDistance(a.x, a.y) - pointDistance(b.x, b.y))
+    .slice(0, 5);
+  if (!activeQuests.length && !mapLeads.length) return "";
+  return `
+    <section class="assist-lead-panel" aria-label="任务与脚本线索">
+      ${activeQuests.length ? `
+        <div class="assist-lead-group">
+          <strong>当前任务</strong>
+          ${activeQuests.slice(0, 4).map((quest) => `
+            <article>
+              <b>${escapeHtml(quest.title)}</b>
+              <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
+            </article>
+          `).join("")}
+        </div>
+      ` : ""}
+      ${mapLeads.length ? `
+        <div class="assist-lead-group">
+          <strong>本地图原脚本线索</strong>
+          ${mapLeads.map((npc) => `
+            <button class="assist-lead-row" type="button" data-npc="${escapeHtml(npc.id)}">
+              <b>${escapeHtml(npc.name)}</b>
+              <span>${escapeHtml(npc.questLead.summary || npc.questLead.title)} | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
+            </button>
+          `).join("")}
+        </div>
+      ` : ""}
     </section>
   `;
 }
