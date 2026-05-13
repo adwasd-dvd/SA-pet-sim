@@ -566,6 +566,15 @@ villageGirlGame = await api("/api/game/dialog", { game: villageGirlGame, npcId: 
 villageGirlGame = await api("/api/game/dialog", { game: villageGirlGame, npcId: villageGirl.id, message: "帮我瞬移到渔村" });
 assertEqual(villageGirlGame.location.mapId, "1100", "non-transport NPC AI does not teleport out of character");
 assert(villageGirlGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("不能直接瞬移")), "non-transport NPC AI explains teleport refusal instead of falling back to map reply");
+const yayoi = WORLD.maps["2000"].npcs.find((npc) => npc.name === "弥生" && npc.script === "file:sainasu/event/event02_1");
+if (!yayoi) throw new Error("missing Yayoi fixture");
+let yayoiGame = await api("/api/game/new", { name: "npc-ai-source-item-context-test" });
+yayoiGame.location = { mapId: "2000", x: yayoi.x, y: yayoi.y + 1 };
+yayoiGame = await api("/api/game/dialog", { game: yayoiGame, npcId: yayoi.id, message: "AI对话" });
+yayoiGame = await api("/api/game/dialog", { game: yayoiGame, npcId: yayoi.id, message: "什么是2415呢？" });
+const yayoiReply = yayoiGame.dialog.messages.at(-1)?.text || "";
+assert(yayoiReply.includes("仙尼亚的花"), "NPC AI source item context resolves itemset id 2415 to its item name");
+assert(yayoiReply.includes("不可思议的贝壳"), "NPC AI source item context explains the exchange relation");
 assistGame.location = { mapId: "100", x: 637, y: 493 };
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我找野外敌人开战" });
 assistGame = guideRsp.game;

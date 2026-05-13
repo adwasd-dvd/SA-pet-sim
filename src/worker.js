@@ -3,6 +3,7 @@ import { WORLD } from "./world-data.js";
 const DATA_FILES = {
   enemy: "/data/enemy1.txt",
   enemyBase: "/data/enemybase2.txt",
+  items: "/data/itemset6.txt",
   skills: "/data/petskill2.txt",
   searchable: [
     ["宠物", "/data/enemybase2.txt"],
@@ -2328,10 +2329,10 @@ async function npcReply(env, request, game, npc, text) {
   if (!game.encounter && isAiModeOn(lower)) return setNpcAiModeReply(game, npc, true);
   if (!game.encounter && isAiModeOff(lower)) return setNpcAiModeReply(game, npc, false);
   if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
-  if (!game.encounter && isNpcEnemy(npc) && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
+  if (!game.encounter && isNpcEnemy(npc) && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isNpcEnemy(npc)) return npcEnemyReply(env, request, game, npc, lower);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
-  if (!game.encounter && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
+  if (!game.encounter && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
@@ -2340,8 +2341,8 @@ async function npcReply(env, request, game, npc, text) {
   if (hasAny(lower, ["抓宠", "捕获", "宠物", "pet"])) return captureReply(env, request, game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"])) return trainReply(game, npc);
   if (hasAny(lower, ["地图", "出口", "去哪", "travel", "map", "森林", "草原", "村"])) return mapReply(game, npc);
-  if (isNpcAiMode(game, npc) || isAiRequest(lower)) return aiNpcReply(env, game, npc, text);
-  if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, game, npc, text);
+  if (isNpcAiMode(game, npc) || isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
+  if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, request, game, npc, text);
   recordNpcVmEvent(game, npc, "unsupported", "unsupported", { text: text.slice(0, 80) });
   return fallbackNpcReply(npc);
 }
@@ -2870,15 +2871,22 @@ function sourceReply(game, npc) {
   ].join("\n");
 }
 
-async function aiNpcReply(env, game, npc, text) {
+async function aiNpcReply(env, request, game, npc, text) {
   const action = inferNpcAiAction(game, npc, text);
   if (action) return applyNpcAiAction(game, npc, action);
 
   const map = currentMap(game);
   const debug = npcDebugInfo(npc, game);
+  const scriptReferences = await npcScriptReferenceContext(env, request, game, npc, text);
+  const referenceReply = npcReferenceQuestionReply(game, npc, text, scriptReferences);
+  if (referenceReply) {
+    recordNpcVmEvent(game, npc, "say", "ok", { reason: "npc-reference-context", ids: scriptReferences.queryIds });
+    return referenceReply;
+  }
+  const compactScriptReferences = compactNpcScriptReferences(scriptReferences);
   if (hasOpenAi(env)) {
     try {
-      const rsp = await callOpenAiNpc(env, game, npc, text, map, debug);
+      const rsp = await callOpenAiNpc(env, game, npc, text, map, debug, compactScriptReferences);
       const proposed = openAiNpcAction(game, npc, rsp.decision, text);
       if (proposed) return openAiNpcActionReply(game, npc, proposed, rsp.decision);
       if (rsp.decision?.reply) {
@@ -2902,11 +2910,12 @@ async function aiNpcReply(env, game, npc, text) {
         actions: debug.actions,
         questIds: npcQuestIds(npc),
         questLead: npc.questLead || null,
-        scriptHints: npc.scriptHints || null,
+        scriptHints: compactNpcHints(npc),
+        scriptReferences: compactScriptReferences,
         trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
         warp: npc.warp || null
       },
-      vm: { allowedActions: debug.allowedActions, recentTrace: debug.vmTrace },
+      vm: { allowedActions: debug.allowedActions, recentTrace: compactNpcVmTrace(debug) },
       player: game.player,
       map: {
         id: map.id,
@@ -2937,7 +2946,7 @@ async function aiNpcReply(env, game, npc, text) {
   return localNpcAiFallback(game, npc, text);
 }
 
-async function callOpenAiNpc(env, game, npc, text, map, debug) {
+async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences) {
   const role = npcActionProfile(npc);
   const context = {
     npc: {
@@ -2952,7 +2961,8 @@ async function callOpenAiNpc(env, game, npc, text, map, debug) {
       allowedActions: debug.allowedActions,
       questIds: npcQuestIds(npc),
       questLead: npc.questLead || null,
-      scriptHints: npc.scriptHints || null,
+      scriptHints: compactNpcHints(npc),
+      scriptReferences,
       trade: npc.trade ? {
         items: npc.trade.items?.slice(0, 12).map((item) => ({
           id: item.id,
@@ -2990,7 +3000,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug) {
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
     recentConversation: npcOpenAiHistory(game, npc),
-    vmTrace: debug.vmTrace,
+    vmTrace: compactNpcVmTrace(debug),
     userText: text
   };
   const system = [
@@ -3000,6 +3010,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug) {
     "所有交易、传送、奖励、flag、避敌、开战、折扣和赠品都必须交给 Worker 的 NPC VM 校验执行。",
     "只允许提出 action.type 中列出的动作；如果动作不符合 NPC 身份，type 必须是 none 或 teleportInfo，并在 reply 里自然拒绝。",
     "商店只能围绕自己的商品类别和 gmsv/itemset 资料谈额外物品；守门/敌人 NPC 可被贿赂、威胁或说服，但是否通过由 VM 决定。",
+    "脚本里出现数字 id 时，必须先查看 scriptReferences，把它解释成道具、宠物、敌人或地图名；不要把裸编号当成最终答案。解析不到时要说资料里暂时找不到，不能假装知道。",
     "中文，1-3 句，像 NPC 在游戏里说话；不要输出调试字段。"
   ].join("\n");
   const { json: decision, model } = await callOpenAiStructured(env, {
@@ -3012,13 +3023,336 @@ async function callOpenAiNpc(env, game, npc, text, map, debug) {
   return { decision, model };
 }
 
+async function npcScriptReferenceContext(env, request, game, npc, text) {
+  const extracted = extractNpcReferenceIds(npc, text);
+  const ids = [...extracted.keys()].slice(0, 18);
+  const empty = {
+    queryIds: [],
+    ids: [],
+    resolved: [],
+    unresolved: [],
+    byId: {},
+    hintLines: npc.scriptHints?.hints?.slice(0, 8) || []
+  };
+  if (!ids.length) return empty;
+  let data = null;
+  try {
+    data = await loadGameData(env, request);
+  } catch {
+    data = null;
+  }
+  const tradeIndex = worldTradeItemIndex();
+  const resolved = [];
+  const unresolved = [];
+  const byId = {};
+  for (const key of ids) {
+    const usage = extracted.get(key);
+    const id = Number(key);
+    const matches = resolveNpcReferenceId(id, usage, data, game, tradeIndex);
+    const preferred = pickPreferredReference(matches, usage);
+    const entry = {
+      id,
+      fromUser: Boolean(usage.fromUser),
+      uses: [...usage.uses],
+      useLabels: referenceUseLabels(usage.uses),
+      hintLines: usage.hintLines.slice(0, 4),
+      preferred,
+      matches: matches.slice(0, 6)
+    };
+    byId[key] = entry;
+    if (preferred) resolved.push(entry);
+    else unresolved.push({ id, fromUser: Boolean(usage.fromUser), uses: [...usage.uses], hintLines: usage.hintLines.slice(0, 4) });
+  }
+  return {
+    queryIds: ids.filter((id) => extracted.get(id)?.fromUser).map(Number),
+    ids: ids.map(Number),
+    resolved,
+    unresolved,
+    byId,
+    hintLines: empty.hintLines
+  };
+}
+
+function extractNpcReferenceIds(npc, text) {
+  const out = new Map();
+  const add = (rawId, use, line = "", fromUser = false) => {
+    const id = Number(rawId);
+    if (!Number.isFinite(id) || id <= 0 || id > 999999) return;
+    const key = String(id);
+    const entry = out.get(key) || { id, uses: new Set(), hintLines: [], fromUser: false };
+    if (use) entry.uses.add(use);
+    if (fromUser) entry.fromUser = true;
+    if (line && !entry.hintLines.includes(line)) entry.hintLines.push(line);
+    out.set(key, entry);
+  };
+  for (const id of String(text || "").match(/\b\d{2,6}\b/g) || []) add(id, "user-question", "", true);
+  const hintLines = [
+    ...(npc.scriptHints?.hints || []),
+    npc.questLead?.summary || "",
+    npc.dialogue || ""
+  ].filter(Boolean);
+  for (const line of hintLines) {
+    let match;
+    const rules = [
+      { re: /\b(?:GETITEM|GIVEITEM)\s*[:=]\s*(\d{1,6})/gi, use: "give-item" },
+      { re: /\b(?:DELITEM|TAKEITEM)\s*[:=]\s*(\d{1,6})/gi, use: "take-item" },
+      { re: /\bITEM\s*!=\s*(\d{1,6})/gi, use: "condition-missing-item" },
+      { re: /\bITEM\s*=\s*(\d{1,6})/gi, use: "condition-has-item" },
+      { re: /\bCHANGEITEM\s*[:=]\s*(\d{1,6})/gi, use: "change-item" },
+      { re: /\b(?:ENEMY|ENEMYNO|BATTLE)\s*[:=]\s*(\d{1,6})/gi, use: "enemy-ref" },
+      { re: /\bWARP\s*[:=]\s*(\d{1,6})/gi, use: "map-ref" }
+    ];
+    for (const rule of rules) {
+      rule.re.lastIndex = 0;
+      while ((match = rule.re.exec(line))) add(match[1], rule.use, line);
+    }
+  }
+  return out;
+}
+
+function resolveNpcReferenceId(id, usage, data, game, tradeIndex) {
+  const matches = [];
+  const item = data?.itemSet?.get(id);
+  if (item && item.name) {
+    matches.push({
+      kind: "item",
+      id,
+      name: item.name,
+      description: item.description,
+      cost: item.cost,
+      type: item.type,
+      image: item.image,
+      source: DATA_FILES.items
+    });
+  }
+  const carried = (game.inventory || []).find((entry) => Number(entry.id) === id);
+  if (carried) {
+    matches.push({
+      kind: "inventoryItem",
+      id,
+      name: carried.name,
+      qty: carried.qty || 1,
+      description: carried.description || "",
+      source: carried.source || "player-inventory"
+    });
+  }
+  const sold = tradeIndex.get(id);
+  if (sold) {
+    matches.push({
+      kind: "shopItem",
+      id,
+      name: sold.name,
+      soldBy: sold.soldBy.slice(0, 4),
+      source: "world-trade"
+    });
+  }
+  const enemySpec = data?.enemySpecsById?.get(id);
+  if (enemySpec) {
+    const base = data.enemyBaseSet.get(enemySpec.tempNo);
+    matches.push({
+      kind: "enemy",
+      id,
+      name: base?.Name || `敌人 ${enemySpec.tempNo}`,
+      tempNo: enemySpec.tempNo,
+      level: `${enemySpec.lvMin}-${enemySpec.lvMax}`,
+      count: `${enemySpec.createMin}-${enemySpec.createMax}`,
+      source: enemySpec.source
+    });
+  }
+  const petTemplate = data?.enemyBaseSet?.get(id);
+  if (petTemplate) {
+    matches.push({
+      kind: "petTemplate",
+      id,
+      name: petTemplate.Name,
+      image: petTemplate.ImgNo,
+      species: petTemplate.Species,
+      attributes: {
+        earth: petTemplate.EarthAT,
+        water: petTemplate.WaterAT,
+        fire: petTemplate.FireAT,
+        wind: petTemplate.WindAt
+      },
+      source: DATA_FILES.enemyBase
+    });
+  }
+  const map = WORLD.maps[String(id)];
+  if (map) {
+    matches.push({
+      kind: "map",
+      id,
+      name: map.name,
+      floorId: map.floorId,
+      source: "world-data"
+    });
+  }
+  return matches.filter((match) => usableReferenceName(match.name));
+}
+
+function pickPreferredReference(matches, usage) {
+  if (!matches.length) return null;
+  const uses = usage.uses || new Set();
+  const wantsItem = ["condition-has-item", "condition-missing-item", "give-item", "take-item", "change-item"].some((use) => uses.has(use));
+  const wantsEnemy = uses.has("enemy-ref");
+  const wantsMap = uses.has("map-ref");
+  const order = wantsItem
+    ? ["inventoryItem", "item", "shopItem", "enemy", "petTemplate", "map"]
+    : wantsEnemy
+      ? ["enemy", "petTemplate", "item", "inventoryItem", "shopItem", "map"]
+      : wantsMap
+        ? ["map", "item", "enemy", "petTemplate", "inventoryItem", "shopItem"]
+        : ["inventoryItem", "item", "shopItem", "enemy", "petTemplate", "map"];
+  return [...matches].sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind))[0] || null;
+}
+
+function npcReferenceQuestionReply(game, npc, text, context) {
+  const queryIds = context?.queryIds || [];
+  if (!queryIds.length) return "";
+  if (!/(什么|甚么|甚麼|啥|哪个|哪個|编号|編號|道具|物品|东西|東西|意思|用来|用來|item|id)/i.test(String(text || ""))) return "";
+  const entries = queryIds.map((id) => context.byId?.[String(id)]).filter(Boolean);
+  if (!entries.length) return "";
+  const entry = entries.find((item) => item.preferred) || entries[0];
+  if (!entry?.preferred) {
+    return `${npc.name}想了想：这个编号我暂时没在道具、宠物、敌人或地图资料里对上。先按任务线索找人问问，别只盯着数字。`;
+  }
+  const main = entry.preferred;
+  const relation = npcReferenceRelationSentence(entry, context);
+  const description = main.description ? ` ${main.description}` : "";
+  return `${npc.name}想了想：你问的那个东西是${referenceKindLabel(main.kind)}「${main.name}」。${description}${relation ? ` ${relation}` : ""}`.replace(/\s+/g, " ").trim();
+}
+
+function npcReferenceRelationSentence(entry, context) {
+  const uses = new Set(entry.uses || []);
+  const given = (context.resolved || [])
+    .filter((item) => item.id !== entry.id && item.uses?.includes("give-item") && item.preferred?.kind === "item")
+    .map((item) => `「${item.preferred.name}」`);
+  const taken = (context.resolved || [])
+    .filter((item) => item.id !== entry.id && item.uses?.includes("take-item") && item.preferred?.kind === "item")
+    .map((item) => `「${item.preferred.name}」`);
+  if ((uses.has("condition-has-item") || uses.has("take-item")) && given.length) {
+    return `按这段任务，它是要交给我的东西，交给我后会换成${given.join("、")}。`;
+  }
+  if (uses.has("give-item") && taken.length) {
+    return `按这段任务，我会把它给你，用来回应你交来的${taken.join("、")}。`;
+  }
+  const relatedItems = (context.resolved || [])
+    .filter((item) => item.id !== entry.id && item.preferred?.kind === "item")
+    .slice(0, 3)
+    .map((item) => `「${item.preferred.name}」`);
+  if ((uses.has("condition-has-item") || uses.has("take-item")) && relatedItems.length) {
+    return `按这段任务，它会和${relatedItems.join("、")}一起判断或交换。`;
+  }
+  if (uses.has("give-item")) return "按这段任务，它是我会交给你的道具。";
+  if (uses.has("take-item")) return "按这段任务，它是我会收下的道具。";
+  if (uses.has("condition-has-item")) return "按这段任务，我会先看你身上有没有它。";
+  if (uses.has("condition-missing-item")) return "按这段任务，我会看你身上是否缺少它来决定下一句。";
+  return referenceUseLabels(entry.uses || []).join("，");
+}
+
+function compactNpcScriptReferences(context) {
+  const resolved = context?.resolved || [];
+  const unresolved = context?.unresolved || [];
+  return {
+    queryIds: (context?.queryIds || []).slice(0, 6),
+    refs: resolved.slice(0, 8).map((entry) => ({
+      id: entry.id,
+      kind: referenceKindLabel(entry.preferred?.kind),
+      name: entry.preferred?.name || "",
+      use: referenceUseLabels(entry.uses || []).join("；"),
+      desc: shortReferenceText(entry.preferred?.description, 70),
+      relation: shortReferenceText(npcReferenceRelationSentence(entry, context), 90),
+      alt: entry.matches
+        .filter((match) => match.kind !== entry.preferred?.kind && usableReferenceName(match.name))
+        .slice(0, 2)
+        .map((match) => `${referenceKindLabel(match.kind)}:${match.name}`)
+    })),
+    unresolved: unresolved.slice(0, 4).map((entry) => ({
+      id: entry.id,
+      use: referenceUseLabels(entry.uses || []).join("；")
+    }))
+  };
+}
+
+function compactNpcHints(npc) {
+  if (!npc.scriptHints) return null;
+  return {
+    actions: (npc.scriptHints.actions || []).slice(0, 6),
+    hints: (npc.scriptHints.hints || []).slice(0, 5)
+  };
+}
+
+function compactNpcVmTrace(debug) {
+  return (debug.vmTrace || []).slice(-5).map((event) => ({
+    action: event.action,
+    status: event.status,
+    reason: event.detail?.reason || "",
+    effect: event.detail?.effect || "",
+    proposedAction: event.detail?.proposedAction || ""
+  }));
+}
+
+function shortReferenceText(value, max = 80) {
+  const text = cleanReferenceText(value);
+  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+}
+
+function referenceUseLabels(uses) {
+  const labels = {
+    "user-question": "玩家问到这个编号",
+    "condition-has-item": "脚本检查玩家是否持有",
+    "condition-missing-item": "脚本检查玩家是否未持有",
+    "give-item": "脚本给予",
+    "take-item": "脚本收走",
+    "change-item": "脚本交换",
+    "enemy-ref": "脚本敌人引用",
+    "map-ref": "脚本地图/传送引用"
+  };
+  return [...uses].map((use) => labels[use]).filter(Boolean);
+}
+
+function referenceKindLabel(kind) {
+  if (kind === "inventoryItem") return "背包道具";
+  if (kind === "shopItem") return "商品";
+  if (kind === "item") return "道具";
+  if (kind === "enemy") return "战斗敌人";
+  if (kind === "petTemplate") return "宠物/敌人模板";
+  if (kind === "map") return "地图";
+  return "资料";
+}
+
+let tradeItemIndexCache = null;
+function worldTradeItemIndex() {
+  if (tradeItemIndexCache) return tradeItemIndexCache;
+  const index = new Map();
+  for (const map of Object.values(WORLD.maps)) {
+    for (const npc of map.npcs || []) {
+      for (const item of npc.trade?.items || []) {
+        const id = Number(item.id);
+        if (!Number.isFinite(id) || id <= 0) continue;
+        const entry = index.get(id) || { id, name: item.name, soldBy: [] };
+        if (!entry.soldBy.some((shop) => shop.npc === npc.name && shop.map === map.name)) {
+          entry.soldBy.push({ npc: npc.name, map: map.name, price: Number(item.price || item.cost || 0) });
+        }
+        index.set(id, entry);
+      }
+    }
+  }
+  tradeItemIndexCache = index;
+  return index;
+}
+
+function usableReferenceName(value) {
+  const text = cleanReferenceText(value);
+  return Boolean(text && !/[�]/.test(text));
+}
+
 function npcOpenAiHistory(game, npc) {
   if (game.dialog?.npcId !== npc.id) return [];
   return (game.dialog.messages || [])
-    .slice(-8)
+    .slice(-6)
     .map((message) => ({
       speaker: message.speaker,
-      text: String(message.text || "").slice(0, 220)
+      text: String(message.text || "").slice(0, 160)
     }));
 }
 
@@ -4758,12 +5092,14 @@ function stableFlag(value) {
 
 async function loadGameData(env, request) {
   if (cache) return cache;
-  const [enemyText, enemyBaseText, skillText] = await Promise.all([
+  const [enemyText, enemyBaseText, skillText, itemText] = await Promise.all([
     assetText(env, request, DATA_FILES.enemy),
     assetText(env, request, DATA_FILES.enemyBase),
-    assetText(env, request, DATA_FILES.skills)
+    assetText(env, request, DATA_FILES.skills),
+    assetEncodedText(env, request, DATA_FILES.items, "gb18030")
   ]);
   const skills = parseSkills(skillText);
+  const itemSet = parseItemSet(itemText);
   const enemyBaseSet = new Map();
   const enemyNoList = [];
   for (const line of lines(enemyBaseText)) {
@@ -4813,8 +5149,33 @@ async function loadGameData(env, request) {
     enemyNoList.push(eb.No);
   }
   const enemySpecsById = parseEnemySpecs(enemyText, enemyBaseSet);
-  cache = { enemyBaseSet, enemyNoList, enemySpecsById, skills };
+  cache = { enemyBaseSet, enemyNoList, enemySpecsById, itemSet, skills };
   return cache;
+}
+
+function parseItemSet(text) {
+  const items = new Map();
+  for (const line of lines(text)) {
+    const rows = line.split(",");
+    if (rows.length < 20) continue;
+    const id = toInt(rows[16]);
+    if (!id) continue;
+    const name = cleanReferenceText(rows[0]) || `道具 ${id}`;
+    items.set(id, {
+      id,
+      name,
+      secretName: cleanReferenceText(rows[1]),
+      description: cleanReferenceText(rows[2]),
+      image: toInt(rows[17]),
+      cost: toInt(rows[18]),
+      type: toInt(rows[19]),
+      useField: toInt(rows[20]),
+      target: toInt(rows[21]),
+      level: toInt(rows[22]),
+      category: cleanReferenceText(rows[68])
+    });
+  }
+  return items;
 }
 
 function parseEnemySpecs(text, enemyBaseSet) {
@@ -4982,7 +5343,9 @@ async function searchData(env, request, q) {
   if (q.length < 2) return { query: q, results: [] };
   const results = [];
   await Promise.all(DATA_FILES.searchable.map(async ([label, path]) => {
-    const text = await assetText(env, request, path);
+    const text = path === DATA_FILES.items
+      ? await assetEncodedText(env, request, path, "gb18030")
+      : await assetText(env, request, path);
     let lineNo = 0;
     for (const line of lines(text)) {
       lineNo += 1;
@@ -5019,6 +5382,15 @@ async function assetText(env, request, path) {
   const rsp = await env.ASSETS.fetch(new Request(url));
   if (!rsp.ok) throw new Error(`missing asset: ${path}`);
   return rsp.text();
+}
+
+async function assetEncodedText(env, request, path, encoding) {
+  const buffer = await assetBuffer(env, request, path);
+  try {
+    return new TextDecoder(encoding).decode(buffer);
+  } catch {
+    return new TextDecoder().decode(buffer);
+  }
 }
 
 async function assetBuffer(env, request, path) {
@@ -5059,6 +5431,18 @@ function lines(text) {
 
 function compressStr(str) {
   return str ? str.replace(/\s+/g, ",") : "";
+}
+
+function cleanReferenceText(value) {
+  return String(value || "")
+    .replace(/\0/g, "")
+    .replace(/[�\uE000-\uF8FF]/g, "")
+    .replace(/\\n/g, " ")
+    .replace(/\|0+.*$/g, "")
+    .replace(/\|([1-9]\d*).*$/g, " $1")
+    .replace(/\|.*$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function toInt(value) {
