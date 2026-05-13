@@ -157,6 +157,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(restGame(body.game));
     }
+    if (url.pathname === "/api/game/pet-mode" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(petModeGame(body.game, Number(body.petIndex) || 0, String(body.mode || "active")));
+    }
     if (url.pathname === "/api/ai/guide" && request.method === "POST") {
       const body = await readJson(request);
       return json(await guideGame(env, request, body.game, String(body.prompt || "")));
@@ -258,7 +262,7 @@ async function walkGame(env, request, game, dx, dy) {
   game = normalizeGame(game);
   const map = currentMap(game);
   if (game.encounter) {
-    const activePet = game.pets?.[0];
+    const activePet = getActivePet(game);
     if (activePet) ensureBattleState(game, activePet, game.encounter);
     return withMap(game);
   }
@@ -973,7 +977,7 @@ function firstUsableRecoveryItem(game) {
 function previewRecoveryItem(game, item) {
   const effect = itemEffect(item);
   if (!effect.usable) return { usable: false, reason: "unsupported" };
-  const activePet = game.pets[0] || null;
+  const activePet = getActivePet(game);
   const target = selectItemTarget(game, activePet, effect);
   if (!target) return { usable: false, effect, reason: "no-target" };
   const before = Number(target.hpField.owner[target.hpField.key] || 0);
@@ -1095,7 +1099,7 @@ async function spawnEncounter(env, request, game, map, source) {
   const enemy = encounter.enemies[0];
   if (!enemy) throw new Error("当前地图没有可遇敌宠物");
   game.encounter = enemy;
-  const activePet = game.pets?.[0];
+  const activePet = getActivePet(game);
   if (activePet) {
     ensureBattleState(game, activePet, enemy);
     if (game.battle) {
@@ -1374,7 +1378,7 @@ function performBattleAction(game, action) {
     return performBattleItemAction(game, move.itemId);
   }
   if (!["attack", "guard", "wait"].includes(move.type)) throw new Error("这个战斗动作还没有实现");
-  const activePet = game.pets[0];
+  const activePet = getActivePet(game);
   if (!activePet) throw new Error("你需要至少一只宠物才能战斗");
   ensureBattleState(game, activePet, game.encounter);
 
@@ -1457,7 +1461,7 @@ function selectBattleTarget(game, targetIndex) {
 
 function performBattleItemAction(game, itemId = null) {
   if (!game.encounter) throw new Error("当前没有战斗目标");
-  const activePet = game.pets[0];
+  const activePet = getActivePet(game);
   if (!activePet) throw new Error("你需要至少一只宠物才能在战斗中使用道具");
   ensureBattleState(game, activePet, game.encounter);
 
@@ -1616,7 +1620,7 @@ function performCaptureAction(game) {
   if (!game.encounter) throw new Error("当前没有可捕获目标");
   const target = game.encounter;
   const enemyName = target.Name || "野外宠物";
-  const activePet = game.pets[0] || null;
+  const activePet = getActivePet(game);
   if (activePet) {
     ensureBattleState(game, activePet, target);
     game.battle.sourceCommand = "T|0";
@@ -1721,6 +1725,27 @@ function restGame(game) {
   healParty(game);
   addLog(game, `${game.player.name} 和宠物休息了一会儿，耐久力恢复了。`);
   return withMap(game);
+}
+
+function petModeGame(game, petIndex, mode) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中暂时不能切换出战宠");
+  const index = clampInt(petIndex, 0, Math.max(0, game.pets.length - 1), 0);
+  const pet = game.pets[index];
+  if (!pet) throw new Error("没有找到这只宠物");
+  if (!["active", "battle", "出战", "战斗", "fight"].includes(mode)) {
+    throw new Error("这个宠物状态还没有实现");
+  }
+  ensurePetFormation(game).activeIndex = index;
+  addLog(game, `${pet.Name} 设为出战宠。`);
+  return withMap(game, {
+    petAction: {
+      type: "active",
+      petIndex: index,
+      petName: pet.Name,
+      source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE + client PET STATUS`
+    }
+  });
 }
 
 async function guideGame(env, request, game, prompt) {
@@ -1829,10 +1854,10 @@ async function applyGuideRequest(env, request, game, prompt) {
   }
 
   if (hasAny(lower, ["练级", "練級", "训练", "訓練", "练宠", "練寵", "升级", "升級", "level", "train"])) {
-    const { pet, before } = trainPetInPlace(game, 0);
+    const { pet, before } = trainPetInPlace(game, getActivePetIndex(game));
     return {
       text: `我帮 ${pet.Name} 做了一轮训练，从 Lv.${before} 到 Lv.${pet.Lv}。这只是向导辅助，正式战斗经验后面会继续接 gmsv 的战斗结算。`,
-      action: { type: "train", petIndex: 0, level: pet.Lv }
+      action: { type: "train", petIndex: getActivePetIndex(game), level: pet.Lv }
     };
   }
 
@@ -2909,7 +2934,7 @@ function applyNpcVmStartBattle(game, action) {
   game.battle = null;
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.walk.encounterSteps = 0;
-  const activePet = game.pets?.[0];
+  const activePet = getActivePet(game);
   if (activePet) {
     ensureBattleState(game, activePet, game.encounter);
     if (game.battle) {
@@ -3295,12 +3320,42 @@ function canCarryItem(game, item) {
   return inventoryState(game).used < INVENTORY_CAPACITY;
 }
 
+function ensurePetFormation(game) {
+  game.petFormation ||= {};
+  const count = (game.pets || []).length;
+  game.petFormation.activeIndex = count
+    ? clampInt(game.petFormation.activeIndex, 0, count - 1, 0)
+    : -1;
+  game.petFormation.source ||= `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE + client PET STATUS`;
+  return game.petFormation;
+}
+
+function getActivePetIndex(game) {
+  return ensurePetFormation(game).activeIndex;
+}
+
+function getActivePet(game) {
+  const index = getActivePetIndex(game);
+  return index >= 0 ? game.pets[index] || null : null;
+}
+
 function petState(game) {
+  const formation = ensurePetFormation(game);
   const used = (game.pets || []).length;
+  const active = getActivePet(game);
   return {
     used,
     capacity: PET_CAPACITY,
     remaining: Math.max(0, PET_CAPACITY - used),
+    activeIndex: formation.activeIndex,
+    activeName: active?.Name || "",
+    modes: (game.pets || []).map((pet, index) => ({
+      index,
+      name: pet.Name,
+      active: index === formation.activeIndex,
+      hp: Number(pet.Hp || 0),
+      maxHp: Number(pet.WorkMaxHp || pet.Hp || 0)
+    })),
     source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE`
   };
 }
@@ -3547,6 +3602,7 @@ function normalizeGame(game) {
   ensureSaveIdentity(game);
   setCharacterDir(game, game.player?.dir ?? game.location?.dir);
   game.pets ||= [];
+  ensurePetFormation(game);
   game.inventory ||= [];
   game.quests ||= {};
   ensureFlags(game);
@@ -3629,6 +3685,7 @@ function buildSaveJson(game) {
     player: { ...game.player },
     location: { ...game.location },
     pets: game.pets.map((pet) => ({ ...pet })),
+    petFormation: { ...ensurePetFormation(game) },
     petState: petState(game),
     inventory: game.inventory.map((item) => ({ ...item })),
     inventoryState: inventoryState(game),

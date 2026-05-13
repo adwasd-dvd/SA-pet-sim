@@ -2134,6 +2134,11 @@ function onAssistPanelClick(event) {
     mutate("/api/game/train", { petIndex: Number(trainBtn.dataset.assistTrain) });
     return;
   }
+  const activePetBtn = event.target.closest("[data-assist-active-pet]");
+  if (activePetBtn) {
+    mutate("/api/game/pet-mode", { petIndex: Number(activePetBtn.dataset.assistActivePet), mode: "active" });
+    return;
+  }
   const restBtn = event.target.closest("[data-assist-rest]");
   if (restBtn) {
     mutate("/api/game/rest", {});
@@ -2280,7 +2285,7 @@ function renderDialog() {
 function renderDialogBattle() {
   const enemy = game?.encounter;
   if (!enemy) return "";
-  const activePet = game.pets?.[0] || null;
+  const activePet = getActivePet();
   const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
   const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
   const petMax = activePet ? Math.max(1, Number(activePet.WorkMaxHp || activePet.Hp || 1)) : 1;
@@ -2328,7 +2333,7 @@ function renderBattlePanel() {
     return;
   }
   clientWindowOpen = false;
-  const activePet = game.pets?.[0] || null;
+  const activePet = getActivePet();
   const battle = game.battle || {};
   const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
   const enemyHp = Math.max(0, Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : enemyMax);
@@ -2658,7 +2663,7 @@ function formatExitDistance(exit) {
 function renderMapStatusHtml() {
   const effect = noEncounterEffectText();
   const inventory = inventoryState();
-  const pet = game.pets?.[0] || null;
+  const pet = getActivePet();
   const firstItem = (game.inventory || []).find((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
   const battle = fieldBattleSummary();
   const worldMeta = [
@@ -2731,6 +2736,7 @@ function renderMapQuestLeadHtml(map) {
 function renderAssistPets() {
   const pets = game.pets || [];
   const petSlots = petState();
+  const activeIndex = activePetIndex();
   const canEncounter = Boolean(game.world.map.canWildEncounter) && !game.encounter;
   return `
     <section class="assist-grid pets">
@@ -2746,7 +2752,7 @@ function renderAssistPets() {
       <div class="assist-pane compact">
         <h3>快速指令</h3>
         <div class="assist-action-grid">
-          <button type="button" data-assist-train="0" ${pets[0] ? "" : "disabled"}>训练出战宠</button>
+          <button type="button" data-assist-train="${Math.max(0, activeIndex)}" ${activeIndex >= 0 ? "" : "disabled"}>训练出战宠</button>
           <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
           <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"} title="${escapeHtml(canEncounter ? "按当前地图 encount.txt 触发野外遇敌" : (game.world.map.wildEncounterReason || "当前地图不能触发野外遇敌"))}">寻找野外敌人</button>
           <button type="button" data-assist-client-tab="pets">打开 PET</button>
@@ -2762,16 +2768,20 @@ function renderAssistPets() {
 function renderAssistPetCard(pet, index) {
   const maxHp = Math.max(1, Number(pet.WorkMaxHp || pet.Hp || 1));
   const hp = Math.max(0, Number(pet.Hp || 0));
+  const active = index === activePetIndex();
   return `
-    <article class="assist-card pet">
+    <article class="assist-card pet ${active ? "active" : ""}">
       <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
       <div>
         <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
-        <span>No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
+        <span>${active ? "出战" : "待命"} | No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
         <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
         <small>攻 ${Number(pet.WorkFixStr || 0)} | 防 ${Number(pet.WorkFixTough || 0)} | 敏 ${Number(pet.WorkFixDex || 0)} | 成长 ${fmt(pet.Growth)}</small>
       </div>
-      <button type="button" data-assist-train="${index}">训</button>
+      <div class="assist-card-actions">
+        <button type="button" data-assist-active-pet="${index}" ${active ? "disabled" : ""}>战</button>
+        <button type="button" data-assist-train="${index}">训</button>
+      </div>
     </article>
   `;
 }
@@ -2908,7 +2918,7 @@ function renderAssistKnowledge() {
 function fieldBattleSummary() {
   const enemy = game.encounter;
   if (!enemy) return "当前无战斗";
-  const activePet = game.pets?.[0];
+  const activePet = getActivePet();
   const enemyMax = Math.max(1, Number(enemy.WorkMaxHp || enemy.Hp || 1));
   const enemyHp = Math.max(0, Number(enemy.Hp ?? enemyMax));
   const petText = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || 0)}/${Number(activePet.WorkMaxHp || 0)}` : "无出战宠物";
@@ -2927,7 +2937,7 @@ function noEncounterEffectText() {
 
 function renderAiStatusPanel() {
   if (!els.aiStatusPanel || !game) return;
-  const pet = game.pets?.[0] || null;
+  const pet = getActivePet();
   const rows = aiStatusRows();
   els.aiStatusPanel.innerHTML = `
     <section class="ai-status-card">
@@ -3061,7 +3071,7 @@ function renderEncounter() {
   els.encounterPanel.hidden = !enemy;
   if (!enemy) return;
   els.encounterName.textContent = `${enemy.Name} Lv.${enemy.Lv}`;
-  const activePet = game.pets?.[0];
+  const activePet = getActivePet();
   const enemyHp = Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : Number(enemy.WorkMaxHp || 0);
   const petHp = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || activePet.WorkMaxHp || 0)}/${activePet.WorkMaxHp}` : "无出战宠物";
   els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | 敌 HP ${enemyHp}/${enemy.WorkMaxHp} | 攻 ${enemy.WorkFixStr} | 防 ${enemy.WorkFixTough} | 敏 ${enemy.WorkFixDex} | ${petHp}`;
@@ -3072,7 +3082,7 @@ function renderEncounter() {
 
 function renderMapHud() {
   const playerHp = clampPercent(game.player.hp, game.player.maxHp);
-  const activePet = game.pets?.[0];
+  const activePet = getActivePet();
   const inventory = inventoryState();
   const petsUsed = petUsed();
   const petsCapacity = petCapacity();
@@ -3260,7 +3270,7 @@ function clientActionWindow() {
 }
 
 function clientPetWindow() {
-  const pet = game.pets?.[0];
+  const pet = getActivePet();
   if (!pet) {
     return {
       title: "PET STATUS",
@@ -3303,7 +3313,7 @@ function clientPetWindow() {
       </div>
       <div class="client-party-row">
         ${pets.map((entry, index) => `
-          <button type="button" data-client-train="${index}" title="训练 ${escapeHtml(entry.Name)}">
+          <button type="button" class="${index === activePetIndex() ? "active" : ""}" data-client-active-pet="${index}" title="设为出战宠：${escapeHtml(entry.Name)}" ${index === activePetIndex() ? "disabled" : ""}>
             <img src="/f/pet/${Number(entry.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
             <span>Lv.${Number(entry.Lv || 1)}</span>
           </button>
@@ -3432,6 +3442,9 @@ function bindClientWindowActions() {
   els.clientWindowBody.querySelectorAll("[data-client-train]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.clientTrain) }));
   });
+  els.clientWindowBody.querySelectorAll("[data-client-active-pet]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.clientActivePet), mode: "active" }));
+  });
   els.clientWindowBody.querySelectorAll("[data-client-use-item]").forEach((btn) => {
     btn.addEventListener("click", () => useItem(Number(btn.dataset.clientUseItem)));
   });
@@ -3440,14 +3453,17 @@ function bindClientWindowActions() {
 function renderPets() {
   const slots = petState();
   const pets = game.pets.map((pet, index) => `
-    <article class="pet-card">
+    <article class="pet-card ${index === activePetIndex() ? "active" : ""}">
       <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
       <div>
         <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
-        <p class="muted">No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>
+        <p class="muted">${index === activePetIndex() ? "出战" : "待命"} | No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | 攻 ${pet.WorkFixStr} | 防 ${pet.WorkFixTough} | 敏 ${pet.WorkFixDex}</p>
         <p>总成长 <strong>${fmt(pet.Growth)}</strong></p>
       </div>
-      <button type="button" data-train="${index}">训练</button>
+      <div class="pet-card-actions">
+        <button type="button" data-active-pet="${index}" ${index === activePetIndex() ? "disabled" : ""}>出战</button>
+        <button type="button" data-train="${index}">训练</button>
+      </div>
     </article>
   `).join("");
   const inventory = (game.inventory || []).filter((item) => item.id !== "stone");
@@ -3458,7 +3474,7 @@ function renderPets() {
         <h3>PET STATUS</h3>
         <span>${Number(slots.used || game.pets.length)}/${Number(slots.capacity || PET_CAPACITY_FALLBACK)}</span>
       </div>
-      <p class="muted">来源 ${escapeHtml(slots.source || "gmsv CHAR_MAXPETHAVE")}</p>
+      <p class="muted">出战 ${escapeHtml(slots.activeName || "无")} | 来源 ${escapeHtml(slots.source || "gmsv CHAR_MAXPETHAVE")}</p>
     </article>
   ` + pets + `
     <article class="inventory-box">
@@ -3480,6 +3496,9 @@ function renderPets() {
   els.petList.querySelectorAll("[data-train]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/train", { petIndex: Number(btn.dataset.train) }));
   });
+  els.petList.querySelectorAll("[data-active-pet]").forEach((btn) => {
+    btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.activePet), mode: "active" }));
+  });
   els.petList.querySelectorAll("[data-use-item]").forEach((btn) => {
     btn.addEventListener("click", () => useItem(Number(btn.dataset.useItem)));
   });
@@ -3496,7 +3515,7 @@ function petState() {
   const serverState = game?.petState || game?.save?.json?.petState;
   if (serverState?.capacity) return serverState;
   const used = (game?.pets || []).length;
-  return { used, capacity: PET_CAPACITY_FALLBACK, remaining: Math.max(0, PET_CAPACITY_FALLBACK - used) };
+  return { used, capacity: PET_CAPACITY_FALLBACK, remaining: Math.max(0, PET_CAPACITY_FALLBACK - used), activeIndex: used ? 0 : -1 };
 }
 
 function petUsed() {
@@ -3505,6 +3524,16 @@ function petUsed() {
 
 function petCapacity() {
   return Math.max(1, Number(petState().capacity || PET_CAPACITY_FALLBACK));
+}
+
+function activePetIndex() {
+  const index = Number(petState().activeIndex ?? 0);
+  return Number.isFinite(index) ? Math.max(-1, Math.trunc(index)) : -1;
+}
+
+function getActivePet() {
+  const index = activePetIndex();
+  return index >= 0 ? game?.pets?.[index] || null : null;
 }
 
 function inventoryItemUsable(item) {

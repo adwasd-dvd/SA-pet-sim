@@ -32,6 +32,26 @@ const api = async (pathName, body) => {
 
 let game = await api("/api/game/new", { name: "npc-action-test" });
 
+let petModeGame = await api("/api/game/new", { name: "pet-mode-test" });
+petModeGame.pets.push({
+  ...petModeGame.pets[0],
+  Name: "备用奥卡洛斯",
+  PetId: Number(petModeGame.pets[0].PetId || 100) + 1,
+  ImgNo: petModeGame.pets[0].ImgNo,
+  Lv: 3,
+  Hp: 80,
+  WorkMaxHp: 80,
+  WorkFixStr: 120
+});
+petModeGame = await api("/api/game/pet-mode", { game: petModeGame, petIndex: 1, mode: "active" });
+assertEqual(petModeGame.petState.activeIndex, 1, "pet-mode can select a non-leading active pet");
+assertEqual(petModeGame.petState.activeName, "备用奥卡洛斯", "pet state exposes selected active pet name");
+const activePetLevelBefore = petModeGame.pets[1].Lv;
+const petGuideRsp = await api("/api/ai/guide", { game: petModeGame, prompt: "帮我训练出战宠" });
+assertEqual(petGuideRsp.action.petIndex, 1, "AI guide trains the selected active pet");
+assert(petGuideRsp.game.pets[1].Lv > activePetLevelBefore, "selected active pet gains levels through guide training");
+assertEqual(petGuideRsp.game.petState.activeIndex, 1, "selected active pet survives save/map wrapping");
+
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
 await expectApiError(

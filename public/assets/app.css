@@ -646,6 +646,13 @@ h3 {
   background: rgb(43 73 38 / 82%);
 }
 
+.client-party-row button.active,
+.client-party-row button:disabled {
+  border-color: #d6a039;
+  background: rgb(74 86 36 / 92%);
+  opacity: 1;
+}
+
 .client-party-row img {
   width: 38px;
   height: 32px;
@@ -1520,7 +1527,12 @@ h3 {
 }
 
 .assist-card.pet {
-  grid-template-columns: 54px minmax(0, 1fr) 34px;
+  grid-template-columns: 54px minmax(0, 1fr) 68px;
+}
+
+.assist-card.pet.active {
+  border-color: #d6a039;
+  box-shadow: inset 0 0 0 2px rgb(214 160 57 / 26%);
 }
 
 .assist-card img {
@@ -1553,6 +1565,12 @@ h3 {
   min-height: 32px;
   padding: 0;
   border-radius: 4px;
+}
+
+.assist-card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 32px);
+  gap: 4px;
 }
 
 .assist-meter {
@@ -2828,6 +2846,16 @@ h3 {
   border-radius: 8px;
   padding: 12px;
   background: #fff;
+}
+
+.pet-card.active {
+  border-color: #d6a039;
+  box-shadow: inset 0 0 0 2px rgb(214 160 57 / 22%);
+}
+
+.pet-card-actions {
+  display: grid;
+  gap: 6px;
 }
 
 .pet-card img {
