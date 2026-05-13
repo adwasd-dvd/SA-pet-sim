@@ -2959,6 +2959,7 @@ function renderAssistPetCard(pet, index) {
   const hp = Math.max(0, Number(pet.Hp || 0));
   const active = index === activePetIndex();
   const progress = progressionForPet(index, pet);
+  const fieldPet = characterPetField(index) || {};
   return `
     <article class="assist-card pet ${active ? "active" : ""}">
       <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
@@ -2967,6 +2968,7 @@ function renderAssistPetCard(pet, index) {
         <span>${active ? "出战" : "待命"} | No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
         <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
         <small>攻 ${Number(pet.WorkFixStr || 0)} | 防 ${Number(pet.WorkFixTough || 0)} | 敏 ${Number(pet.WorkFixDex || 0)} | ${escapeHtml(expLabel(progress))}</small>
+        <small>${escapeHtml(petGrowthLabel(fieldPet, pet))} | ${escapeHtml(petCounterLabel(fieldPet, pet))}</small>
         <div class="assist-meter exp"><i style="width:${Number(progress.progressPct || 0)}%"></i></div>
       </div>
       <div class="assist-card-actions">
@@ -3581,6 +3583,7 @@ function clientPetWindow() {
   const maxHp = Number(pet.WorkMaxHp || hp || 1);
   const activeIndex = activePetIndex();
   const progress = progressionForPet(activeIndex, pet);
+  const fieldPet = characterPetField(activeIndex) || {};
   const pets = game.pets || [];
   return {
     title: "PET STATUS",
@@ -3599,6 +3602,8 @@ function clientPetWindow() {
           ${clientStatRow("防御力", pet.WorkFixTough)}
           ${clientStatRow("敏捷力", pet.WorkFixDex)}
           ${clientStatRow("忠诚度", pet.Loyal || 100)}
+          ${clientStatRow("成长", petGrowthLabel(fieldPet, pet))}
+          ${clientStatRow("战绩", petCounterLabel(fieldPet, pet))}
         </div>
       </div>
       <div class="client-meter-row">
@@ -3804,7 +3809,8 @@ function renderPets() {
       <div>
         <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
         <p class="muted">${index === activePetIndex() ? "出战" : "待命"} | No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | ${escapeHtml(expLabel(progressionForPet(index, pet)))}</p>
-        <p>总成长 <strong>${fmt(pet.Growth)}</strong></p>
+        <p>${escapeHtml(petGrowthLabel(characterPetField(index), pet))}</p>
+        <p class="muted">${escapeHtml(petCounterLabel(characterPetField(index), pet))} | ${escapeHtml(elementText(pet))}</p>
       </div>
       <div class="pet-card-actions">
         <button type="button" data-active-pet="${index}" ${index === activePetIndex() ? "disabled" : ""}>出战</button>
@@ -4179,6 +4185,29 @@ function progressionForPet(index, pet = null) {
     expToNext: Number(pet?.ExpToNext || 0),
     progressPct: Number(pet?.ExpProgressPct || 0)
   };
+}
+
+function characterPetField(index) {
+  return game?.characterFields?.pets?.[index] || game?.save?.json?.characterFields?.pets?.[index] || null;
+}
+
+function petGrowthLabel(fieldPet = null, pet = {}) {
+  const growth = fieldPet?.growth || {};
+  const total = growth.total ?? pet.Growth;
+  const hp = growth.hp ?? pet.GrowthHp;
+  const str = growth.str ?? pet.GrowthStr;
+  const tough = growth.tough ?? pet.GrowthTough;
+  const dex = growth.dex ?? pet.GrowthDex;
+  return `成长 ${fmt(total)} | 血 ${fmt(hp)} 腕 ${fmt(str)} 耐 ${fmt(tough)} 速 ${fmt(dex)}`;
+}
+
+function petCounterLabel(fieldPet = null, pet = {}) {
+  const counters = fieldPet?.counters || {};
+  const battles = counters.battleCount ?? pet.BattleCount;
+  const wins = counters.winCount ?? pet.WinCount;
+  const defeats = counters.loseCount ?? pet.LoseCount;
+  const kills = counters.killPetCount ?? pet.KillPetCount;
+  return `战 ${Number(battles || 0)} 胜 ${Number(wins || 0)} 败 ${Number(defeats || 0)} 击 ${Number(kills || 0)}`;
 }
 
 function expLabel(progress) {
