@@ -432,9 +432,15 @@ let sourceEncounterGame = await api("/api/game/new", { name: "source-encount-tes
 sourceEncounterGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 const sainasuArea = WORLD.maps["100"].encounterAreas.find((area) => pointInBounds(637, 493, area.bounds));
 if (!sainasuArea) throw new Error("missing Sainasu source encounter area fixture");
-const allowedEnemyIds = sainasuArea.groups.flatMap((group) => group.enemies.map((enemy) => enemy.enemyId));
+const gatedGroup = sainasuArea.groups.find((group) => Number(group.appearByItemId) === 1961);
+assert(gatedGroup?.enemies.some((enemy) => Number(enemy.lvMin || 0) >= 80), "Sainasu area keeps source item-gated high-level event group");
+const allowedEnemyIds = sainasuArea.groups
+  .filter((group) => !group.appearByItemId && !group.notAppearByItemId)
+  .flatMap((group) => group.enemies.map((enemy) => enemy.enemyId));
 sourceEncounterGame = await api("/api/game/encounter", { game: sourceEncounterGame });
 assert(allowedEnemyIds.includes(sourceEncounterGame.encounter.EnemyId), "wild encounter resolves encount group1 enemy id");
+assert(sourceEncounterGame.battle.enemyParty.every((enemy) => allowedEnemyIds.includes(enemy.EnemyId)), "wild encounter filters group1 appear/not-appear item gates");
+assert(sourceEncounterGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) <= 5), "Sainasu ungated encounter stays in the source new-player level range");
 assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounter.EnemyTempNo !== sourceEncounterGame.encounter.EnemyId, "wild encounter uses enemy1 -> enemybase tempNo instead of treating group id as pet no");
 assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
 assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");

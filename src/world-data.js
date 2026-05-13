@@ -316,6 +316,8 @@ export const WORLD = {
               "groupId": 88,
               "name": "sai_e_113_1",
               "weight": 50,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 119,
@@ -333,6 +335,8 @@ export const WORLD = {
               "groupId": 91,
               "name": "sai_e_114_1",
               "weight": 50,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 122,
@@ -350,6 +354,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -367,6 +373,8 @@ export const WORLD = {
               "groupId": 92,
               "name": "sai_e_114_2/3",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 123,
@@ -384,6 +392,8 @@ export const WORLD = {
               "groupId": 1230,
               "name": "92年周年庆",
               "weight": 100,
+              "appearByItemId": 1961,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2250,
@@ -454,6 +464,8 @@ export const WORLD = {
               "groupId": 88,
               "name": "sai_e_113_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 119,
@@ -471,6 +483,8 @@ export const WORLD = {
               "groupId": 91,
               "name": "sai_e_114_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 122,
@@ -488,6 +502,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -505,6 +521,8 @@ export const WORLD = {
               "groupId": 92,
               "name": "sai_e_114_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 123,
@@ -522,6 +540,8 @@ export const WORLD = {
               "groupId": 94,
               "name": "sai_e_113&114_2/3",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -548,6 +568,8 @@ export const WORLD = {
               "groupId": 1230,
               "name": "92年周年庆",
               "weight": 100,
+              "appearByItemId": 1961,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2250,
@@ -618,6 +640,8 @@ export const WORLD = {
               "groupId": 90,
               "name": "sai_e_113_3/5",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 121,
@@ -635,6 +659,8 @@ export const WORLD = {
               "groupId": 93,
               "name": "sai_e_114_3/5",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 124,
@@ -652,6 +678,8 @@ export const WORLD = {
               "groupId": 94,
               "name": "sai_e_113&114_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -678,6 +706,8 @@ export const WORLD = {
               "groupId": 1230,
               "name": "92年周年庆",
               "weight": 100,
+              "appearByItemId": 1961,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2250,
@@ -748,6 +778,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -765,6 +797,8 @@ export const WORLD = {
               "groupId": 92,
               "name": "sai_e_114_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 123,
@@ -782,6 +816,8 @@ export const WORLD = {
               "groupId": 96,
               "name": "sai_e_51_3/4",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 126,
@@ -799,6 +835,8 @@ export const WORLD = {
               "groupId": 99,
               "name": "sai_e_52_3/4",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 129,
@@ -816,6 +854,8 @@ export const WORLD = {
               "groupId": 95,
               "name": "sai_e_51_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 125,
@@ -833,6 +873,8 @@ export const WORLD = {
               "groupId": 98,
               "name": "sai_e_52_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 128,
@@ -850,6 +892,8 @@ export const WORLD = {
               "groupId": 1230,
               "name": "92年周年庆",
               "weight": 100,
+              "appearByItemId": 1961,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2250,
@@ -920,6 +964,8 @@ export const WORLD = {
               "groupId": 90,
               "name": "sai_e_113_3/5",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 121,
@@ -937,6 +983,8 @@ export const WORLD = {
               "groupId": 93,
               "name": "sai_e_114_3/5",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 124,
@@ -954,6 +1002,8 @@ export const WORLD = {
               "groupId": 97,
               "name": "sai_e_51_4/6",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -971,6 +1021,8 @@ export const WORLD = {
               "groupId": 100,
               "name": "sai_e_52_4/6",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 130,
@@ -988,6 +1040,8 @@ export const WORLD = {
               "groupId": 1230,
               "name": "92年周年庆",
               "weight": 100,
+              "appearByItemId": 1961,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2250,
@@ -1058,6 +1112,8 @@ export const WORLD = {
               "groupId": 97,
               "name": "sai_e_51_4/6",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -1075,6 +1131,8 @@ export const WORLD = {
               "groupId": 100,
               "name": "sai_e_52_4/6",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 130,
@@ -1092,6 +1150,8 @@ export const WORLD = {
               "groupId": 101,
               "name": "sai_e_51&52_4/6",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -1135,6 +1195,8 @@ export const WORLD = {
               "groupId": 90,
               "name": "sai_e_113_3/5",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 121,
@@ -1152,6 +1214,8 @@ export const WORLD = {
               "groupId": 93,
               "name": "sai_e_114_3/5",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 124,
@@ -1169,6 +1233,8 @@ export const WORLD = {
               "groupId": 97,
               "name": "sai_e_51_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -1186,6 +1252,8 @@ export const WORLD = {
               "groupId": 100,
               "name": "sai_e_52_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 130,
@@ -1220,6 +1288,8 @@ export const WORLD = {
               "groupId": 104,
               "name": "sai_w_001_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 140,
@@ -1237,6 +1307,8 @@ export const WORLD = {
               "groupId": 107,
               "name": "sai_w_003_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 143,
@@ -1254,6 +1326,8 @@ export const WORLD = {
               "groupId": 110,
               "name": "sai_w_213_1/2",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 146,
@@ -1271,6 +1345,8 @@ export const WORLD = {
               "groupId": 113,
               "name": "sai_w_212_1/2",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 149,
@@ -1305,6 +1381,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -1322,6 +1400,8 @@ export const WORLD = {
               "groupId": 108,
               "name": "sai_w_003_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 144,
@@ -1339,6 +1419,8 @@ export const WORLD = {
               "groupId": 111,
               "name": "sai_w_213_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 147,
@@ -1356,6 +1438,8 @@ export const WORLD = {
               "groupId": 114,
               "name": "sai_w_212_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 150,
@@ -1390,6 +1474,8 @@ export const WORLD = {
               "groupId": 105,
               "name": "sai_w_001_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 141,
@@ -1407,6 +1493,8 @@ export const WORLD = {
               "groupId": 108,
               "name": "sai_w_003_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 144,
@@ -1424,6 +1512,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -1441,6 +1531,8 @@ export const WORLD = {
               "groupId": 114,
               "name": "sai_w_212_2/4",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 150,
@@ -1475,6 +1567,8 @@ export const WORLD = {
               "groupId": 106,
               "name": "sai_w_001_3/5",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 142,
@@ -1492,6 +1586,8 @@ export const WORLD = {
               "groupId": 109,
               "name": "sai_w_003_3/5",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 145,
@@ -1509,6 +1605,8 @@ export const WORLD = {
               "groupId": 111,
               "name": "sai_w_213_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 147,
@@ -1526,6 +1624,8 @@ export const WORLD = {
               "groupId": 114,
               "name": "sai_w_212_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 150,
@@ -1560,6 +1660,8 @@ export const WORLD = {
               "groupId": 115,
               "name": "sai_w_212_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 151,
@@ -1577,6 +1679,8 @@ export const WORLD = {
               "groupId": 112,
               "name": "sai_w_213_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 148,
@@ -1594,6 +1698,8 @@ export const WORLD = {
               "groupId": 116,
               "name": "sai_w_213&212_2/4",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 147,
@@ -1637,6 +1743,8 @@ export const WORLD = {
               "groupId": 117,
               "name": "sai_w_213&212_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 148,
@@ -1663,6 +1771,8 @@ export const WORLD = {
               "groupId": 115,
               "name": "sai_w_212_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 151,
@@ -1680,6 +1790,8 @@ export const WORLD = {
               "groupId": 112,
               "name": "sai_w_213_4/6",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 148,
@@ -1714,6 +1826,8 @@ export const WORLD = {
               "groupId": 90,
               "name": "sai_e_113_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 121,
@@ -1731,6 +1845,8 @@ export const WORLD = {
               "groupId": 93,
               "name": "sai_e_114_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 124,
@@ -1748,6 +1864,8 @@ export const WORLD = {
               "groupId": 97,
               "name": "sai_e_51_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -1765,6 +1883,8 @@ export const WORLD = {
               "groupId": 100,
               "name": "sai_e_52_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 130,
@@ -1799,6 +1919,8 @@ export const WORLD = {
               "groupId": 118,
               "name": "sai_f_331_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 153,
@@ -1816,6 +1938,8 @@ export const WORLD = {
               "groupId": 119,
               "name": "sai_f_331_10",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 152,
@@ -1833,6 +1957,8 @@ export const WORLD = {
               "groupId": 176,
               "name": "sai_sf_051_6/8",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 263,
@@ -1850,6 +1976,8 @@ export const WORLD = {
               "groupId": 177,
               "name": "sai_sf_052_5/7",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 265,
@@ -1867,6 +1995,8 @@ export const WORLD = {
               "groupId": 117,
               "name": "sai_w_213&212_4/6",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 148,
@@ -1893,6 +2023,8 @@ export const WORLD = {
               "groupId": 179,
               "name": "sai_sf_212_5/7",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 262,
@@ -1910,6 +2042,8 @@ export const WORLD = {
               "groupId": 180,
               "name": "sai_sf_213_6/8",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 261,
@@ -1927,6 +2061,8 @@ export const WORLD = {
               "groupId": 101,
               "name": "sai_e_51&52_4/6",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -1953,6 +2089,8 @@ export const WORLD = {
               "groupId": 178,
               "name": "sai_sf_051_6/8&052_5/7",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 263,
@@ -1979,6 +2117,8 @@ export const WORLD = {
               "groupId": 181,
               "name": "sai_sf_212_5/7&213_6/8",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 262,
@@ -2022,6 +2162,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2039,6 +2181,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -2056,6 +2200,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2082,6 +2228,8 @@ export const WORLD = {
               "groupId": 120,
               "name": "sai_n_011_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 156,
@@ -2099,6 +2247,8 @@ export const WORLD = {
               "groupId": 124,
               "name": "sai_n_013_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 160,
@@ -2116,6 +2266,8 @@ export const WORLD = {
               "groupId": 159,
               "name": "sai_n_291_12/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 193,
@@ -2133,6 +2285,8 @@ export const WORLD = {
               "groupId": 163,
               "name": "sai_n_294_13/15",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 197,
@@ -2150,6 +2304,8 @@ export const WORLD = {
               "groupId": 167,
               "name": "sai_n_294_11/13&294_13/15",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -2176,6 +2332,8 @@ export const WORLD = {
               "groupId": 164,
               "name": "sai_n_291_1&294_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 190,
@@ -2219,6 +2377,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2236,6 +2396,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -2253,6 +2415,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2279,6 +2443,8 @@ export const WORLD = {
               "groupId": 158,
               "name": "sai_n_291_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2296,6 +2462,8 @@ export const WORLD = {
               "groupId": 162,
               "name": "sai_n_294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -2313,6 +2481,8 @@ export const WORLD = {
               "groupId": 166,
               "name": "sai_n_291_10/12&294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2356,6 +2526,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 4,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2373,6 +2545,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 4,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -2390,6 +2564,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 4,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2416,6 +2592,8 @@ export const WORLD = {
               "groupId": 1130,
               "name": "1v布依布鲁",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1561,
@@ -2468,6 +2646,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2485,6 +2665,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -2502,6 +2684,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2528,6 +2712,8 @@ export const WORLD = {
               "groupId": 158,
               "name": "sai_n_291_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2545,6 +2731,8 @@ export const WORLD = {
               "groupId": 162,
               "name": "sai_n_294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -2562,6 +2750,8 @@ export const WORLD = {
               "groupId": 166,
               "name": "sai_n_291_10/12&294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2605,6 +2795,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2622,6 +2814,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -2639,6 +2833,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2665,6 +2861,8 @@ export const WORLD = {
               "groupId": 158,
               "name": "sai_n_291_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2682,6 +2880,8 @@ export const WORLD = {
               "groupId": 162,
               "name": "sai_n_294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -2699,6 +2899,8 @@ export const WORLD = {
               "groupId": 166,
               "name": "sai_n_291_10/12&294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2742,6 +2944,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2759,6 +2963,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -2776,6 +2982,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -2802,6 +3010,8 @@ export const WORLD = {
               "groupId": 158,
               "name": "sai_n_291_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2819,6 +3029,8 @@ export const WORLD = {
               "groupId": 162,
               "name": "sai_n_294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -2836,6 +3048,8 @@ export const WORLD = {
               "groupId": 166,
               "name": "sai_n_291_10/12&294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -2879,6 +3093,8 @@ export const WORLD = {
               "groupId": 132,
               "name": "sai_n_072_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 167,
@@ -2896,6 +3112,8 @@ export const WORLD = {
               "groupId": 136,
               "name": "sai_n_074_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 171,
@@ -2913,6 +3131,8 @@ export const WORLD = {
               "groupId": 140,
               "name": "sai_n_072_10/13&074_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 167,
@@ -2956,6 +3176,8 @@ export const WORLD = {
               "groupId": 132,
               "name": "sai_n_072_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 167,
@@ -2973,6 +3195,8 @@ export const WORLD = {
               "groupId": 136,
               "name": "sai_n_074_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 171,
@@ -2990,6 +3214,8 @@ export const WORLD = {
               "groupId": 140,
               "name": "sai_n_072_10/13&074_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 167,
@@ -3016,6 +3242,8 @@ export const WORLD = {
               "groupId": 121,
               "name": "sai_n_011_8/10",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 157,
@@ -3033,6 +3261,8 @@ export const WORLD = {
               "groupId": 128,
               "name": "sai_n_011_8/10&013_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 157,
@@ -3059,6 +3289,8 @@ export const WORLD = {
               "groupId": 157,
               "name": "sai_n_291_8/10",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 191,
@@ -3076,6 +3308,8 @@ export const WORLD = {
               "groupId": 161,
               "name": "sai_n_294_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 195,
@@ -3093,6 +3327,8 @@ export const WORLD = {
               "groupId": 165,
               "name": "sai_n_291_8/10&294_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 191,
@@ -3136,6 +3372,8 @@ export const WORLD = {
               "groupId": 133,
               "name": "sai_n_072_12/15",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 168,
@@ -3153,6 +3391,8 @@ export const WORLD = {
               "groupId": 137,
               "name": "sai_n_074_13/16",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 172,
@@ -3170,6 +3410,8 @@ export const WORLD = {
               "groupId": 141,
               "name": "sai_n_072_12/15&074_13/16",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 168,
@@ -3187,6 +3429,8 @@ export const WORLD = {
               "groupId": 158,
               "name": "sai_n_291_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -3204,6 +3448,8 @@ export const WORLD = {
               "groupId": 162,
               "name": "sai_n_294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -3221,6 +3467,8 @@ export const WORLD = {
               "groupId": 166,
               "name": "sai_n_291_10/12&294_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -3247,6 +3495,8 @@ export const WORLD = {
               "groupId": 205,
               "name": "sai_n_011_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 159,
@@ -3264,6 +3514,8 @@ export const WORLD = {
               "groupId": 127,
               "name": "sai_n_013_11/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 164,
@@ -3281,6 +3533,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -3324,6 +3578,8 @@ export const WORLD = {
               "groupId": 134,
               "name": "sai_n_072_14/17",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 169,
@@ -3341,6 +3597,8 @@ export const WORLD = {
               "groupId": 139,
               "name": "sai_n_074_15/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 173,
@@ -3358,6 +3616,8 @@ export const WORLD = {
               "groupId": 142,
               "name": "sai_n_072_14/17&074_15/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 169,
@@ -3384,6 +3644,8 @@ export const WORLD = {
               "groupId": 131,
               "name": "sai_n_072_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 165,
@@ -3401,6 +3663,8 @@ export const WORLD = {
               "groupId": 135,
               "name": "sai_n_074_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 170,
@@ -3435,6 +3699,8 @@ export const WORLD = {
               "groupId": 146,
               "name": "sai_d_063_16_/20",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 177,
@@ -3452,6 +3718,8 @@ export const WORLD = {
               "groupId": 150,
               "name": "sai_d_064_15/19",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 181,
@@ -3469,6 +3737,8 @@ export const WORLD = {
               "groupId": 153,
               "name": "sai_d_063_16/20&064_15/19",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 177,
@@ -3512,6 +3782,8 @@ export const WORLD = {
               "groupId": 146,
               "name": "sai_d_063_16_/20",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 177,
@@ -3529,6 +3801,8 @@ export const WORLD = {
               "groupId": 150,
               "name": "sai_d_064_15/19",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 181,
@@ -3546,6 +3820,8 @@ export const WORLD = {
               "groupId": 153,
               "name": "sai_d_063_16/20&064_15/19",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 177,
@@ -3572,6 +3848,8 @@ export const WORLD = {
               "groupId": 143,
               "name": "sai_d_063_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 174,
@@ -3589,6 +3867,8 @@ export const WORLD = {
               "groupId": 147,
               "name": "sai_d_064_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 178,
@@ -3623,6 +3903,8 @@ export const WORLD = {
               "groupId": 145,
               "name": "sai_d_063_12/16",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 176,
@@ -3640,6 +3922,8 @@ export const WORLD = {
               "groupId": 149,
               "name": "sai_d_064_11/15",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 180,
@@ -3657,6 +3941,8 @@ export const WORLD = {
               "groupId": 152,
               "name": "sai_d_063_12/16&064_11/15",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 176,
@@ -3700,6 +3986,8 @@ export const WORLD = {
               "groupId": 144,
               "name": "sai_d_063_10/14",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 175,
@@ -3717,6 +4005,8 @@ export const WORLD = {
               "groupId": 148,
               "name": "sai_d_064_9/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 179,
@@ -3734,6 +4024,8 @@ export const WORLD = {
               "groupId": 151,
               "name": "sai_d_063_10/14&064_9/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 175,
@@ -3777,6 +4069,8 @@ export const WORLD = {
               "groupId": 144,
               "name": "sai_d_063_10/14",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 175,
@@ -3794,6 +4088,8 @@ export const WORLD = {
               "groupId": 148,
               "name": "sai_d_064_9/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 179,
@@ -3811,6 +4107,8 @@ export const WORLD = {
               "groupId": 151,
               "name": "sai_d_063_10/14&064_9/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 175,
@@ -3854,6 +4152,8 @@ export const WORLD = {
               "groupId": 169,
               "name": "sai_ei_001_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 255,
@@ -3871,6 +4171,8 @@ export const WORLD = {
               "groupId": 170,
               "name": "sai_ei_003_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 256,
@@ -3905,6 +4207,8 @@ export const WORLD = {
               "groupId": 169,
               "name": "sai_ei_001_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 255,
@@ -3922,6 +4226,8 @@ export const WORLD = {
               "groupId": 170,
               "name": "sai_ei_003_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 256,
@@ -3956,6 +4262,8 @@ export const WORLD = {
               "groupId": 169,
               "name": "sai_ei_001_15/20",
               "weight": 6,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 255,
@@ -3973,6 +4281,8 @@ export const WORLD = {
               "groupId": 170,
               "name": "sai_ei_003_15/20",
               "weight": 6,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 256,
@@ -3990,6 +4300,8 @@ export const WORLD = {
               "groupId": 711,
               "name": "宝珠地",
               "weight": 4,
+              "appearByItemId": 2764,
+              "notAppearByItemId": 2760,
               "enemies": [
                 {
                   "enemyId": 1305,
@@ -4042,6 +4354,8 @@ export const WORLD = {
               "groupId": 169,
               "name": "sai_ei_001_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 255,
@@ -4059,6 +4373,8 @@ export const WORLD = {
               "groupId": 170,
               "name": "sai_ei_003_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 256,
@@ -4093,6 +4409,8 @@ export const WORLD = {
               "groupId": 171,
               "name": "sai_wi_111_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 257,
@@ -4110,6 +4428,8 @@ export const WORLD = {
               "groupId": 172,
               "name": "sai_wi_111_15/20",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 258,
@@ -4127,6 +4447,8 @@ export const WORLD = {
               "groupId": 173,
               "name": "sai_wi_113_15/20",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 259,
@@ -4144,6 +4466,8 @@ export const WORLD = {
               "groupId": 174,
               "name": "sai_wi_114_15/20",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 260,
@@ -4161,6 +4485,8 @@ export const WORLD = {
               "groupId": 175,
               "name": "sai_wi_111&113&114_15/20",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 258,
@@ -4213,6 +4539,8 @@ export const WORLD = {
               "groupId": 105,
               "name": "sai_w_001_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 141,
@@ -4230,6 +4558,8 @@ export const WORLD = {
               "groupId": 108,
               "name": "sai_w_003_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 144,
@@ -4247,6 +4577,8 @@ export const WORLD = {
               "groupId": 111,
               "name": "sai_w_213_2/4",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 147,
@@ -4264,6 +4596,8 @@ export const WORLD = {
               "groupId": 114,
               "name": "sai_w_212_2/4",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 150,
@@ -4281,6 +4615,8 @@ export const WORLD = {
               "groupId": 116,
               "name": "sai_w_213&212_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 147,
@@ -4324,6 +4660,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -4341,6 +4679,8 @@ export const WORLD = {
               "groupId": 92,
               "name": "sai_e_114_2/3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 123,
@@ -4358,6 +4698,8 @@ export const WORLD = {
               "groupId": 94,
               "name": "sai_e_113&114_2/3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -4401,6 +4743,8 @@ export const WORLD = {
               "groupId": 132,
               "name": "sai_n_072_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 167,
@@ -4418,6 +4762,8 @@ export const WORLD = {
               "groupId": 136,
               "name": "sai_n_074_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 171,
@@ -4435,6 +4781,8 @@ export const WORLD = {
               "groupId": 140,
               "name": "sai_n_072_10/13&074_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 167,
@@ -4461,6 +4809,8 @@ export const WORLD = {
               "groupId": 121,
               "name": "sai_n_011_8/10",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 157,
@@ -4478,6 +4828,8 @@ export const WORLD = {
               "groupId": 128,
               "name": "sai_n_011_8/10&013_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 157,
@@ -4504,6 +4856,8 @@ export const WORLD = {
               "groupId": 157,
               "name": "sai_n_291_8/10",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 191,
@@ -4521,6 +4875,8 @@ export const WORLD = {
               "groupId": 161,
               "name": "sai_n_294_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 195,
@@ -4538,6 +4894,8 @@ export const WORLD = {
               "groupId": 165,
               "name": "sai_n_291_8/10&294_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 191,
@@ -4581,6 +4939,8 @@ export const WORLD = {
               "groupId": 88,
               "name": "sai_e_113_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 119,
@@ -4598,6 +4958,8 @@ export const WORLD = {
               "groupId": 91,
               "name": "sai_e_114_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 122,
@@ -4615,6 +4977,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -4632,6 +4996,8 @@ export const WORLD = {
               "groupId": 92,
               "name": "sai_e_114_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 123,
@@ -4649,6 +5015,8 @@ export const WORLD = {
               "groupId": 94,
               "name": "sai_e_113&114_2/3",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -4692,6 +5060,8 @@ export const WORLD = {
               "groupId": 88,
               "name": "sai_e_113_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 119,
@@ -4709,6 +5079,8 @@ export const WORLD = {
               "groupId": 91,
               "name": "sai_e_114_1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 122,
@@ -4726,6 +5098,8 @@ export const WORLD = {
               "groupId": 89,
               "name": "sai_e_113_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -4743,6 +5117,8 @@ export const WORLD = {
               "groupId": 92,
               "name": "sai_e_114_2/3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 123,
@@ -4760,6 +5136,8 @@ export const WORLD = {
               "groupId": 94,
               "name": "sai_e_113&114_2/3",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 120,
@@ -4803,6 +5181,8 @@ export const WORLD = {
               "groupId": 122,
               "name": "sai_n_011_9/11",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -4820,6 +5200,8 @@ export const WORLD = {
               "groupId": 126,
               "name": "sai_n_013_10/12",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 163,
@@ -4837,6 +5219,8 @@ export const WORLD = {
               "groupId": 129,
               "name": "sai_n_011_9/11&013_1012",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 158,
@@ -4863,6 +5247,8 @@ export const WORLD = {
               "groupId": 158,
               "name": "sai_n_291_10/12",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -4880,6 +5266,8 @@ export const WORLD = {
               "groupId": 162,
               "name": "sai_n_294_11/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 196,
@@ -4897,6 +5285,8 @@ export const WORLD = {
               "groupId": 166,
               "name": "sai_n_291_10/12&294_11/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 192,
@@ -4923,6 +5313,8 @@ export const WORLD = {
               "groupId": 127,
               "name": "sai_n_013_11/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 164,
@@ -4957,6 +5349,8 @@ export const WORLD = {
               "groupId": 145,
               "name": "sai_d_063_12/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 176,
@@ -4974,6 +5368,8 @@ export const WORLD = {
               "groupId": 149,
               "name": "sai_d_064_11/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 180,
@@ -4991,6 +5387,8 @@ export const WORLD = {
               "groupId": 152,
               "name": "sai_d_063_12/16&064_11/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 176,
@@ -5017,6 +5415,8 @@ export const WORLD = {
               "groupId": 350,
               "name": "sai_n_thi",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 485,
@@ -5060,6 +5460,8 @@ export const WORLD = {
               "groupId": 144,
               "name": "sai_d_063_10/14",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 175,
@@ -5077,6 +5479,8 @@ export const WORLD = {
               "groupId": 148,
               "name": "sai_d_064_9/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 179,
@@ -5094,6 +5498,8 @@ export const WORLD = {
               "groupId": 151,
               "name": "sai_d_063_10/14&064_9/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 175,
@@ -5120,6 +5526,8 @@ export const WORLD = {
               "groupId": 350,
               "name": "sai_n_thi",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 485,
@@ -5163,6 +5571,8 @@ export const WORLD = {
               "groupId": 90,
               "name": "sai_e_113_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 121,
@@ -5180,6 +5590,8 @@ export const WORLD = {
               "groupId": 93,
               "name": "sai_e_114_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 124,
@@ -5197,6 +5609,8 @@ export const WORLD = {
               "groupId": 97,
               "name": "sai_e_51_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 127,
@@ -5214,6 +5628,8 @@ export const WORLD = {
               "groupId": 100,
               "name": "sai_e_52_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 130,
@@ -5248,6 +5664,8 @@ export const WORLD = {
               "groupId": 1198,
               "name": "沙漠之鹰2",
               "weight": 1,
+              "appearByItemId": 1693,
+              "notAppearByItemId": 1694,
               "enemies": [
                 {
                   "enemyId": 1219,
@@ -8371,6 +8789,8 @@ export const WORLD = {
               "groupId": 565,
               "name": "迷_172_30/40",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1107,
@@ -8388,6 +8808,8 @@ export const WORLD = {
               "groupId": 566,
               "name": "迷_175_30/40",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1108,
@@ -8405,6 +8827,8 @@ export const WORLD = {
               "groupId": 567,
               "name": "迷_172&175_30/40",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1107,
@@ -8431,6 +8855,8 @@ export const WORLD = {
               "groupId": 568,
               "name": "迷_迷路的小孩子",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1109,
@@ -8457,6 +8883,8 @@ export const WORLD = {
               "groupId": 569,
               "name": "迷_盗贼",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1111,
@@ -8492,6 +8920,8 @@ export const WORLD = {
               "groupId": 570,
               "name": "迷_山贼",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1114,
@@ -9079,6 +9509,8 @@ export const WORLD = {
               "groupId": 565,
               "name": "迷_172_30/40",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1107,
@@ -9096,6 +9528,8 @@ export const WORLD = {
               "groupId": 566,
               "name": "迷_175_30/40",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1108,
@@ -9113,6 +9547,8 @@ export const WORLD = {
               "groupId": 567,
               "name": "迷_172&175_30/40",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1107,
@@ -9139,6 +9575,8 @@ export const WORLD = {
               "groupId": 568,
               "name": "迷_迷路的小孩子",
               "weight": 4,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1109,
@@ -9165,6 +9603,8 @@ export const WORLD = {
               "groupId": 569,
               "name": "迷_盗贼",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1111,
@@ -9200,6 +9640,8 @@ export const WORLD = {
               "groupId": 570,
               "name": "迷_山贼",
               "weight": 4,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1114,
@@ -9235,6 +9677,8 @@ export const WORLD = {
               "groupId": 606,
               "name": "迷_175_1&30/40",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1108,
@@ -9686,6 +10130,8 @@ export const WORLD = {
               "groupId": 565,
               "name": "迷_172_30/40",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1107,
@@ -9703,6 +10149,8 @@ export const WORLD = {
               "groupId": 566,
               "name": "迷_175_30/40",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1108,
@@ -9720,6 +10168,8 @@ export const WORLD = {
               "groupId": 567,
               "name": "迷_172&175_30/40",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1107,
@@ -9746,6 +10196,8 @@ export const WORLD = {
               "groupId": 568,
               "name": "迷_迷路的小孩子",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1109,
@@ -9772,6 +10224,8 @@ export const WORLD = {
               "groupId": 569,
               "name": "迷_盗贼",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1111,
@@ -9807,6 +10261,8 @@ export const WORLD = {
               "groupId": 570,
               "name": "迷_山贼",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1114,
@@ -13924,6 +14380,8 @@ export const WORLD = {
               "groupId": 226,
               "name": "jal_e_31_1",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 369,
@@ -13941,6 +14399,8 @@ export const WORLD = {
               "groupId": 229,
               "name": "jal_e_32_1",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 372,
@@ -13958,6 +14418,8 @@ export const WORLD = {
               "groupId": 227,
               "name": "jal_e_31_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 370,
@@ -13975,6 +14437,8 @@ export const WORLD = {
               "groupId": 230,
               "name": "jal_e_32_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 373,
@@ -13992,6 +14456,8 @@ export const WORLD = {
               "groupId": 232,
               "name": "jal_e_31_1/2&32_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 370,
@@ -14035,6 +14501,8 @@ export const WORLD = {
               "groupId": 228,
               "name": "jal_e_31_2/4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14052,6 +14520,8 @@ export const WORLD = {
               "groupId": 231,
               "name": "jal_e_32_2/4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 374,
@@ -14069,6 +14539,8 @@ export const WORLD = {
               "groupId": 233,
               "name": "jal_e_31_2/4&32_2/4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14095,6 +14567,8 @@ export const WORLD = {
               "groupId": 414,
               "name": "木",
               "weight": 3,
+              "appearByItemId": 2478,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 563,
@@ -14129,6 +14603,8 @@ export const WORLD = {
               "groupId": 228,
               "name": "jal_e_31_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14146,6 +14622,8 @@ export const WORLD = {
               "groupId": 231,
               "name": "jal_e_32_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 374,
@@ -14163,6 +14641,8 @@ export const WORLD = {
               "groupId": 233,
               "name": "jal_e_31_2/4&32_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14189,6 +14669,8 @@ export const WORLD = {
               "groupId": 235,
               "name": "jal_e_103_2/4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 379,
@@ -14223,6 +14705,8 @@ export const WORLD = {
               "groupId": 236,
               "name": "jal_e_103_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 380,
@@ -14240,6 +14724,8 @@ export const WORLD = {
               "groupId": 238,
               "name": "jal_e_211_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 376,
@@ -14257,6 +14743,8 @@ export const WORLD = {
               "groupId": 228,
               "name": "jal_e_31_2/4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14274,6 +14762,8 @@ export const WORLD = {
               "groupId": 231,
               "name": "jal_e_32_2/4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 374,
@@ -14291,6 +14781,8 @@ export const WORLD = {
               "groupId": 233,
               "name": "jal_e_31_2/4&32_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14317,6 +14809,8 @@ export const WORLD = {
               "groupId": 237,
               "name": "jal_e_211_1/2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 375,
@@ -14351,6 +14845,8 @@ export const WORLD = {
               "groupId": 236,
               "name": "jal_e_103_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 380,
@@ -14368,6 +14864,8 @@ export const WORLD = {
               "groupId": 238,
               "name": "jal_e_211_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 376,
@@ -14385,6 +14883,8 @@ export const WORLD = {
               "groupId": 228,
               "name": "jal_e_31_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14402,6 +14902,8 @@ export const WORLD = {
               "groupId": 231,
               "name": "jal_e_32_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 374,
@@ -14419,6 +14921,8 @@ export const WORLD = {
               "groupId": 233,
               "name": "jal_e_31_2/4&32_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 371,
@@ -14445,6 +14949,8 @@ export const WORLD = {
               "groupId": 234,
               "name": "jal_e_103_1/2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 378,
@@ -14479,6 +14985,8 @@ export const WORLD = {
               "groupId": 236,
               "name": "jal_e_103_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 380,
@@ -14496,6 +15004,8 @@ export const WORLD = {
               "groupId": 238,
               "name": "jal_e_211_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 376,
@@ -14513,6 +15023,8 @@ export const WORLD = {
               "groupId": 239,
               "name": "jal_e_211_4/6",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 377,
@@ -14547,6 +15059,8 @@ export const WORLD = {
               "groupId": 236,
               "name": "jal_e_103_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 380,
@@ -14564,6 +15078,8 @@ export const WORLD = {
               "groupId": 238,
               "name": "jal_e_211_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 376,
@@ -14581,6 +15097,8 @@ export const WORLD = {
               "groupId": 239,
               "name": "jal_e_211_4/6",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 377,
@@ -14615,6 +15133,8 @@ export const WORLD = {
               "groupId": 239,
               "name": "jal_e_211_4/6",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 377,
@@ -14632,6 +15152,8 @@ export const WORLD = {
               "groupId": 238,
               "name": "jal_e_211_3/5",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 376,
@@ -14649,6 +15171,8 @@ export const WORLD = {
               "groupId": 236,
               "name": "jal_e_103_3/5",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 380,
@@ -14683,6 +15207,8 @@ export const WORLD = {
               "groupId": 240,
               "name": "jal_w_101_1",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 382,
@@ -14700,6 +15226,8 @@ export const WORLD = {
               "groupId": 243,
               "name": "jal_w_104_1",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 385,
@@ -14717,6 +15245,8 @@ export const WORLD = {
               "groupId": 246,
               "name": "jal_w_101_1/2&104_1/2",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 383,
@@ -14743,6 +15273,8 @@ export const WORLD = {
               "groupId": 241,
               "name": "jal_w_101_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 383,
@@ -14760,6 +15292,8 @@ export const WORLD = {
               "groupId": 244,
               "name": "jal_w_104_1/2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 386,
@@ -14794,6 +15328,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -14811,6 +15347,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -14828,6 +15366,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -14854,6 +15394,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -14888,6 +15430,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -14905,6 +15449,8 @@ export const WORLD = {
               "groupId": 258,
               "name": "jal_w_62_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 392,
@@ -14939,6 +15485,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -14956,6 +15504,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -14973,6 +15523,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -14999,6 +15551,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -15033,6 +15587,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15050,6 +15606,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -15067,6 +15625,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15093,6 +15653,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -15127,6 +15689,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15144,6 +15708,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -15161,6 +15727,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15187,6 +15755,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -15221,6 +15791,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15238,6 +15810,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -15255,6 +15829,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15281,6 +15857,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -15315,6 +15893,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15332,6 +15912,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -15349,6 +15931,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -15375,6 +15959,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -15409,6 +15995,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15426,6 +16014,8 @@ export const WORLD = {
               "groupId": 258,
               "name": "jal_w_62_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 392,
@@ -15460,6 +16050,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15477,6 +16069,8 @@ export const WORLD = {
               "groupId": 258,
               "name": "jal_w_62_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 392,
@@ -15511,6 +16105,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15528,6 +16124,8 @@ export const WORLD = {
               "groupId": 258,
               "name": "jal_w_62_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 392,
@@ -15562,6 +16160,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15579,6 +16179,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15613,6 +16215,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15630,6 +16234,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15664,6 +16270,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15681,6 +16289,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15715,6 +16325,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15732,6 +16344,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15766,6 +16380,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15783,6 +16399,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15817,6 +16435,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15834,6 +16454,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15868,6 +16490,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15885,6 +16509,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15919,6 +16545,8 @@ export const WORLD = {
               "groupId": 259,
               "name": "jal_w_62_4/6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 393,
@@ -15936,6 +16564,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15970,6 +16600,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -15987,6 +16619,8 @@ export const WORLD = {
               "groupId": 258,
               "name": "jal_w_62_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 392,
@@ -16004,6 +16638,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -16021,6 +16657,8 @@ export const WORLD = {
               "groupId": 257,
               "name": "jal_w_62_1/2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 391,
@@ -16055,6 +16693,8 @@ export const WORLD = {
               "groupId": 258,
               "name": "jal_w_62_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 392,
@@ -16072,6 +16712,8 @@ export const WORLD = {
               "groupId": 256,
               "name": "jal_w_33_3/5",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 390,
@@ -16089,6 +16731,8 @@ export const WORLD = {
               "groupId": 254,
               "name": "jal_w_33_1/2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 388,
@@ -16106,6 +16750,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -16132,6 +16778,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -16149,6 +16797,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -16183,6 +16833,8 @@ export const WORLD = {
               "groupId": 249,
               "name": "jal_w_221_2/3",
               "weight": 9,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 395,
@@ -16200,6 +16852,8 @@ export const WORLD = {
               "groupId": 712,
               "name": "宝珠水",
               "weight": 1,
+              "appearByItemId": 2764,
+              "notAppearByItemId": 2761,
               "enemies": [
                 {
                   "enemyId": 1306,
@@ -16243,6 +16897,8 @@ export const WORLD = {
               "groupId": 248,
               "name": "jal_w_221_1/2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 394,
@@ -16277,6 +16933,8 @@ export const WORLD = {
               "groupId": 249,
               "name": "jal_w_221_2/3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 395,
@@ -16311,6 +16969,8 @@ export const WORLD = {
               "groupId": 242,
               "name": "jal_w_101_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -16328,6 +16988,8 @@ export const WORLD = {
               "groupId": 245,
               "name": "jal_w_104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 387,
@@ -16345,6 +17007,8 @@ export const WORLD = {
               "groupId": 247,
               "name": "jal_w_101_2/4&104_2/4",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 384,
@@ -16371,6 +17035,8 @@ export const WORLD = {
               "groupId": 255,
               "name": "jal_w_33_2/4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 389,
@@ -16405,6 +17071,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16422,6 +17090,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16439,6 +17109,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16482,6 +17154,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16499,6 +17173,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16516,6 +17192,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16559,6 +17237,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16576,6 +17256,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16593,6 +17275,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16636,6 +17320,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16653,6 +17339,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16670,6 +17358,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16713,6 +17403,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16730,6 +17422,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16747,6 +17441,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16790,6 +17486,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16807,6 +17505,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16824,6 +17524,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16867,6 +17569,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16884,6 +17588,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -16901,6 +17607,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16944,6 +17652,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -16961,6 +17671,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -16978,6 +17690,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -16995,6 +17709,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -17012,6 +17728,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17055,6 +17773,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -17072,6 +17792,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -17089,6 +17811,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17106,6 +17830,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -17123,6 +17849,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17166,6 +17894,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -17183,6 +17913,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -17200,6 +17932,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17217,6 +17951,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -17234,6 +17970,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17277,6 +18015,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -17294,6 +18034,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -17311,6 +18053,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17328,6 +18072,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -17345,6 +18091,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17388,6 +18136,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17405,6 +18155,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -17422,6 +18174,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17448,6 +18202,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -17465,6 +18221,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -17482,6 +18240,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -17525,6 +18285,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -17542,6 +18304,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17559,6 +18323,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17585,6 +18351,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -17602,6 +18370,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17619,6 +18389,8 @@ export const WORLD = {
               "groupId": 290,
               "name": "jal_s_292_10/13&293_10/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17645,6 +18417,8 @@ export const WORLD = {
               "groupId": 286,
               "name": "jal_s_293_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 402,
@@ -17662,6 +18436,8 @@ export const WORLD = {
               "groupId": 282,
               "name": "jal_s_292_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 398,
@@ -17679,6 +18455,8 @@ export const WORLD = {
               "groupId": 393,
               "name": "fooba",
               "weight": 10,
+              "appearByItemId": 2447,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 538,
@@ -17713,6 +18491,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -17730,6 +18510,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -17747,6 +18529,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -17773,6 +18557,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17790,6 +18576,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -17807,6 +18595,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17850,6 +18640,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -17867,6 +18659,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -17884,6 +18678,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17901,6 +18697,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -17918,6 +18716,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -17944,6 +18744,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -17961,6 +18763,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -17978,6 +18782,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18021,6 +18827,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18038,6 +18846,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -18055,6 +18865,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18081,6 +18893,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -18098,6 +18912,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -18115,6 +18931,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -18158,6 +18976,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18175,6 +18995,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -18192,6 +19014,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18218,6 +19042,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -18235,6 +19061,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -18252,6 +19080,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -18295,6 +19125,8 @@ export const WORLD = {
               "groupId": 262,
               "name": "jal_s_181_14/17",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 408,
@@ -18312,6 +19144,8 @@ export const WORLD = {
               "groupId": 266,
               "name": "jal_s_182_13/16",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 412,
@@ -18329,6 +19163,8 @@ export const WORLD = {
               "groupId": 269,
               "name": "jal_s_181_14/17&182_13/16",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 408,
@@ -18355,6 +19191,8 @@ export const WORLD = {
               "groupId": 285,
               "name": "jal_s_292_14/16",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -18372,6 +19210,8 @@ export const WORLD = {
               "groupId": 289,
               "name": "jal_s_293_14/16",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 405,
@@ -18389,6 +19229,8 @@ export const WORLD = {
               "groupId": 292,
               "name": "jal_s_292_14/16&293_14/16",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -18415,6 +19257,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -18432,6 +19276,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -18449,6 +19295,8 @@ export const WORLD = {
               "groupId": 394,
               "name": "katrenu",
               "weight": 10,
+              "appearByItemId": 2456,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 539,
@@ -18483,6 +19331,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -18500,6 +19350,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -18517,6 +19369,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -18543,6 +19397,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -18560,6 +19416,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -18577,6 +19435,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -18620,6 +19480,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -18637,6 +19499,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -18654,6 +19518,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -18680,6 +19546,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -18697,6 +19565,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -18714,6 +19584,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -18757,6 +19629,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18774,6 +19648,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -18791,6 +19667,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -18817,6 +19695,8 @@ export const WORLD = {
               "groupId": 260,
               "name": "jal_s_181_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 406,
@@ -18834,6 +19714,8 @@ export const WORLD = {
               "groupId": 264,
               "name": "jal_s_182_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 410,
@@ -18868,6 +19750,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -18885,6 +19769,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -18902,6 +19788,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -18928,6 +19816,8 @@ export const WORLD = {
               "groupId": 289,
               "name": "jal_s_293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 405,
@@ -18945,6 +19835,8 @@ export const WORLD = {
               "groupId": 285,
               "name": "jal_s_292_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -18962,6 +19854,8 @@ export const WORLD = {
               "groupId": 292,
               "name": "jal_s_292_14/16&293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -18988,6 +19882,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19005,6 +19901,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -19022,6 +19920,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19048,6 +19948,8 @@ export const WORLD = {
               "groupId": 275,
               "name": "jal_s_192_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 418,
@@ -19082,6 +19984,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19099,6 +20003,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -19116,6 +20022,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19142,6 +20050,8 @@ export const WORLD = {
               "groupId": 289,
               "name": "jal_s_293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 405,
@@ -19159,6 +20069,8 @@ export const WORLD = {
               "groupId": 285,
               "name": "jal_s_292_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19176,6 +20088,8 @@ export const WORLD = {
               "groupId": 292,
               "name": "jal_s_292_14/16&293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19202,6 +20116,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19219,6 +20135,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -19236,6 +20154,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19279,6 +20199,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19296,6 +20218,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -19313,6 +20237,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19339,6 +20265,8 @@ export const WORLD = {
               "groupId": 289,
               "name": "jal_s_293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 405,
@@ -19356,6 +20284,8 @@ export const WORLD = {
               "groupId": 285,
               "name": "jal_s_292_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19373,6 +20303,8 @@ export const WORLD = {
               "groupId": 292,
               "name": "jal_s_292_14/16&293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19399,6 +20331,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19416,6 +20350,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -19433,6 +20369,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19476,6 +20414,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19493,6 +20433,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -19510,6 +20452,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19536,6 +20480,8 @@ export const WORLD = {
               "groupId": 289,
               "name": "jal_s_293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 405,
@@ -19553,6 +20499,8 @@ export const WORLD = {
               "groupId": 285,
               "name": "jal_s_292_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19570,6 +20518,8 @@ export const WORLD = {
               "groupId": 292,
               "name": "jal_s_292_14/16&293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19596,6 +20546,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19613,6 +20565,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -19630,6 +20584,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19656,6 +20612,8 @@ export const WORLD = {
               "groupId": 271,
               "name": "jal_s_191_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 414,
@@ -19690,6 +20648,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19707,6 +20667,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -19724,6 +20686,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -19750,6 +20714,8 @@ export const WORLD = {
               "groupId": 289,
               "name": "jal_s_293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 405,
@@ -19767,6 +20733,8 @@ export const WORLD = {
               "groupId": 285,
               "name": "jal_s_292_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19784,6 +20752,8 @@ export const WORLD = {
               "groupId": 292,
               "name": "jal_s_292_14/16&293_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 401,
@@ -19810,6 +20780,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19827,6 +20799,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -19844,6 +20818,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19887,6 +20863,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -19913,6 +20891,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -19930,6 +20910,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -19947,6 +20929,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19973,6 +20957,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -19990,6 +20976,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20024,6 +21012,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20050,6 +21040,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20067,6 +21059,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20084,6 +21078,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20110,6 +21106,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20127,6 +21125,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20161,6 +21161,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20187,6 +21189,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20204,6 +21208,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20221,6 +21227,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20247,6 +21255,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20264,6 +21274,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20298,6 +21310,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20324,6 +21338,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20341,6 +21357,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20358,6 +21376,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20384,6 +21404,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20401,6 +21423,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20435,6 +21459,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20461,6 +21487,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20478,6 +21506,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20495,6 +21525,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20521,6 +21553,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20538,6 +21572,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20572,6 +21608,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20598,6 +21636,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20615,6 +21655,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20632,6 +21674,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20658,6 +21702,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20675,6 +21721,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20709,6 +21757,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20735,6 +21785,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20752,6 +21804,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20769,6 +21823,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20795,6 +21851,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20812,6 +21870,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20846,6 +21906,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20872,6 +21934,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -20889,6 +21953,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -20906,6 +21972,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20932,6 +22000,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -20949,6 +22019,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -20983,6 +22055,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -21009,6 +22083,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -21026,6 +22102,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -21043,6 +22121,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -21069,6 +22149,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -21086,6 +22168,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -21120,6 +22204,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -21146,6 +22232,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -21163,6 +22251,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -21180,6 +22270,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -21206,6 +22298,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -21223,6 +22317,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -21257,6 +22353,8 @@ export const WORLD = {
               "groupId": 281,
               "name": "jal_s_191_18/20&192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -21283,6 +22381,8 @@ export const WORLD = {
               "groupId": 278,
               "name": "jal_s_192_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 421,
@@ -21300,6 +22400,8 @@ export const WORLD = {
               "groupId": 274,
               "name": "jal_s_191_18/20",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 417,
@@ -21317,6 +22419,8 @@ export const WORLD = {
               "groupId": 270,
               "name": "jal_s_181_16/18&182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -21343,6 +22447,8 @@ export const WORLD = {
               "groupId": 263,
               "name": "jal_s_181_16/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 409,
@@ -21360,6 +22466,8 @@ export const WORLD = {
               "groupId": 267,
               "name": "jal_s_182_15/18",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 413,
@@ -21394,6 +22502,8 @@ export const WORLD = {
               "groupId": 293,
               "name": "jal_s_221_15/17",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 422,
@@ -21411,6 +22521,8 @@ export const WORLD = {
               "groupId": 296,
               "name": "jal_s_224_15/17",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 425,
@@ -21428,6 +22540,8 @@ export const WORLD = {
               "groupId": 299,
               "name": "jal_s_221_15/17&224_15/17",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 422,
@@ -21471,6 +22585,8 @@ export const WORLD = {
               "groupId": 294,
               "name": "jal_s_221_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 423,
@@ -21488,6 +22604,8 @@ export const WORLD = {
               "groupId": 297,
               "name": "jal_s_224_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 426,
@@ -21505,6 +22623,8 @@ export const WORLD = {
               "groupId": 300,
               "name": "jal_s_221_16/18&224_16/18",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 423,
@@ -21531,6 +22651,8 @@ export const WORLD = {
               "groupId": 314,
               "name": "jal_I_243_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 438,
@@ -21565,6 +22687,8 @@ export const WORLD = {
               "groupId": 294,
               "name": "jal_s_221_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 423,
@@ -21582,6 +22706,8 @@ export const WORLD = {
               "groupId": 297,
               "name": "jal_s_224_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 426,
@@ -21599,6 +22725,8 @@ export const WORLD = {
               "groupId": 300,
               "name": "jal_s_221_16/18&224_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 423,
@@ -21625,6 +22753,8 @@ export const WORLD = {
               "groupId": 316,
               "name": "jal_I_224_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 396,
@@ -21659,6 +22789,8 @@ export const WORLD = {
               "groupId": 315,
               "name": "jal_I_243_18/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 439,
@@ -21676,6 +22808,8 @@ export const WORLD = {
               "groupId": 294,
               "name": "jal_s_221_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 423,
@@ -21693,6 +22827,8 @@ export const WORLD = {
               "groupId": 297,
               "name": "jal_s_224_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 426,
@@ -21710,6 +22846,8 @@ export const WORLD = {
               "groupId": 300,
               "name": "jal_s_221_16/18&224_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 423,
@@ -21753,6 +22891,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 8,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -21770,6 +22910,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 8,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -21787,6 +22929,8 @@ export const WORLD = {
               "groupId": 307,
               "name": "jal_I_14_8/10",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 434,
@@ -21821,6 +22965,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -21838,6 +22984,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -21855,6 +23003,8 @@ export const WORLD = {
               "groupId": 306,
               "name": "jal_I_14_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 433,
@@ -21889,6 +23039,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -21906,6 +23058,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -21940,6 +23094,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -21957,6 +23113,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -21991,6 +23149,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -22008,6 +23168,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -22042,6 +23204,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -22059,6 +23223,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -22093,6 +23259,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -22110,6 +23278,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -22144,6 +23314,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -22161,6 +23333,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -22195,6 +23369,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -22212,6 +23388,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -22246,6 +23424,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -22263,6 +23443,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -22297,6 +23479,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22314,6 +23498,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -22331,6 +23517,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22357,6 +23545,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22374,6 +23564,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -22391,6 +23583,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22434,6 +23628,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22451,6 +23647,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -22468,6 +23666,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22494,6 +23694,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22511,6 +23713,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -22528,6 +23732,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22571,6 +23777,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22588,6 +23796,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -22605,6 +23815,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22631,6 +23843,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22648,6 +23862,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -22665,6 +23881,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22708,6 +23926,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22725,6 +23945,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -22742,6 +23964,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22768,6 +23992,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22785,6 +24011,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -22802,6 +24030,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22845,6 +24075,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22862,6 +24094,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -22879,6 +24113,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22905,6 +24141,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22922,6 +24160,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -22939,6 +24179,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -22982,6 +24224,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -22999,6 +24243,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -23016,6 +24262,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23042,6 +24290,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23059,6 +24309,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -23076,6 +24328,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23119,6 +24373,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23136,6 +24392,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -23153,6 +24411,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23179,6 +24439,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23196,6 +24458,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -23213,6 +24477,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23256,6 +24522,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23273,6 +24541,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -23290,6 +24560,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23316,6 +24588,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23333,6 +24607,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -23350,6 +24626,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23393,6 +24671,8 @@ export const WORLD = {
               "groupId": 273,
               "name": "jal_s_191_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23410,6 +24690,8 @@ export const WORLD = {
               "groupId": 277,
               "name": "jal_s_192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 420,
@@ -23427,6 +24709,8 @@ export const WORLD = {
               "groupId": 280,
               "name": "jal_s_191_16/18&192_16/18",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 416,
@@ -23453,6 +24737,8 @@ export const WORLD = {
               "groupId": 272,
               "name": "jal_s_191_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23470,6 +24756,8 @@ export const WORLD = {
               "groupId": 276,
               "name": "jal_s_192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 419,
@@ -23487,6 +24775,8 @@ export const WORLD = {
               "groupId": 279,
               "name": "jal_s_191_14/16&192_14/16",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 415,
@@ -23530,6 +24820,8 @@ export const WORLD = {
               "groupId": 302,
               "name": "jal_I_101_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23547,6 +24839,8 @@ export const WORLD = {
               "groupId": 303,
               "name": "jal_I_103_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 429,
@@ -23564,6 +24858,8 @@ export const WORLD = {
               "groupId": 304,
               "name": "jal_I_104_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 430,
@@ -23581,6 +24877,8 @@ export const WORLD = {
               "groupId": 305,
               "name": "jal_I_101_3_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23633,6 +24931,8 @@ export const WORLD = {
               "groupId": 302,
               "name": "jal_I_101_10/12",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23650,6 +24950,8 @@ export const WORLD = {
               "groupId": 303,
               "name": "jal_I_103_10/12",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 429,
@@ -23667,6 +24969,8 @@ export const WORLD = {
               "groupId": 304,
               "name": "jal_I_104_10/12",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 430,
@@ -23684,6 +24988,8 @@ export const WORLD = {
               "groupId": 305,
               "name": "jal_I_101_3_15/20",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23719,6 +25025,8 @@ export const WORLD = {
               "groupId": 1131,
               "name": "1V克达达",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23780,6 +25088,8 @@ export const WORLD = {
               "groupId": 302,
               "name": "jal_I_101_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23797,6 +25107,8 @@ export const WORLD = {
               "groupId": 303,
               "name": "jal_I_103_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 429,
@@ -23814,6 +25126,8 @@ export const WORLD = {
               "groupId": 304,
               "name": "jal_I_104_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 430,
@@ -23831,6 +25145,8 @@ export const WORLD = {
               "groupId": 305,
               "name": "jal_I_101_3_15/20",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 428,
@@ -23883,6 +25199,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -23900,6 +25218,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -23917,6 +25237,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -23934,6 +25256,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -23986,6 +25310,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24003,6 +25329,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24020,6 +25348,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24037,6 +25367,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24089,6 +25421,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24106,6 +25440,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24123,6 +25459,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24140,6 +25478,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24192,6 +25532,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24209,6 +25551,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24226,6 +25570,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24243,6 +25589,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24295,6 +25643,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24312,6 +25662,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24329,6 +25681,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24346,6 +25700,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24398,6 +25754,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24415,6 +25773,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24432,6 +25792,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24449,6 +25811,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24501,6 +25865,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24518,6 +25884,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24535,6 +25903,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24552,6 +25922,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24604,6 +25976,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24621,6 +25995,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24638,6 +26014,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24655,6 +26033,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24707,6 +26087,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24724,6 +26106,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24741,6 +26125,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24758,6 +26144,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24810,6 +26198,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24827,6 +26217,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24844,6 +26236,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24861,6 +26255,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24913,6 +26309,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -24930,6 +26328,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -24947,6 +26347,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -24964,6 +26366,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25016,6 +26420,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25033,6 +26439,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -25050,6 +26458,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -25067,6 +26477,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25119,6 +26531,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25136,6 +26550,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -25153,6 +26569,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -25170,6 +26588,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25222,6 +26642,8 @@ export const WORLD = {
               "groupId": 310,
               "name": "jal_I_31_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25239,6 +26661,8 @@ export const WORLD = {
               "groupId": 311,
               "name": "jal_I_32_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 436,
@@ -25256,6 +26680,8 @@ export const WORLD = {
               "groupId": 312,
               "name": "jal_I_33_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 437,
@@ -25273,6 +26699,8 @@ export const WORLD = {
               "groupId": 313,
               "name": "jal_I_31_3_10/12",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 435,
@@ -25325,6 +26753,8 @@ export const WORLD = {
               "groupId": 349,
               "name": "jal_s_ban",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 473,
@@ -25351,6 +26781,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -25368,6 +26800,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -25385,6 +26819,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -25411,6 +26847,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -25428,6 +26866,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -25445,6 +26885,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -25488,6 +26930,8 @@ export const WORLD = {
               "groupId": 287,
               "name": "jal_s_293_10/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 403,
@@ -25505,6 +26949,8 @@ export const WORLD = {
               "groupId": 283,
               "name": "jal_s_292_10/13",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 399,
@@ -25522,6 +26968,8 @@ export const WORLD = {
               "groupId": 284,
               "name": "jal_s_292_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -25539,6 +26987,8 @@ export const WORLD = {
               "groupId": 288,
               "name": "jal_s_293_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 404,
@@ -25556,6 +27006,8 @@ export const WORLD = {
               "groupId": 291,
               "name": "jal_s_292_12/15&293_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 400,
@@ -25582,6 +27034,8 @@ export const WORLD = {
               "groupId": 261,
               "name": "jal_s_181_12/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -25599,6 +27053,8 @@ export const WORLD = {
               "groupId": 265,
               "name": "jal_s_182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 411,
@@ -25616,6 +27072,8 @@ export const WORLD = {
               "groupId": 268,
               "name": "jal_s_181_12/15&182_11/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 407,
@@ -25659,6 +27117,8 @@ export const WORLD = {
               "groupId": 309,
               "name": "jal_I_62_6/9",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 432,
@@ -25676,6 +27136,8 @@ export const WORLD = {
               "groupId": 308,
               "name": "jal_I_211_6/9",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 431,
@@ -25693,6 +27155,8 @@ export const WORLD = {
               "groupId": 539,
               "name": "曼模竿",
               "weight": 2,
+              "appearByItemId": 2481,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1074,
@@ -25710,6 +27174,8 @@ export const WORLD = {
               "groupId": 540,
               "name": "特沙金竿",
               "weight": 3,
+              "appearByItemId": 2481,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1075,
@@ -25727,6 +27193,8 @@ export const WORLD = {
               "groupId": 541,
               "name": "卡库尔竿",
               "weight": 3,
+              "appearByItemId": 2481,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1076,
@@ -25761,6 +27229,8 @@ export const WORLD = {
               "groupId": 1224,
               "name": "熊1",
               "weight": 1,
+              "appearByItemId": 1834,
+              "notAppearByItemId": 1835,
               "enemies": [
                 {
                   "enemyId": 2227,
@@ -25796,6 +27266,8 @@ export const WORLD = {
               "groupId": 1225,
               "name": "熊2",
               "weight": 1,
+              "appearByItemId": 1834,
+              "notAppearByItemId": 1835,
               "enemies": [
                 {
                   "enemyId": 2227,
@@ -25822,6 +27294,8 @@ export const WORLD = {
               "groupId": 1226,
               "name": "熊3",
               "weight": 1,
+              "appearByItemId": 1834,
+              "notAppearByItemId": 1835,
               "enemies": [
                 {
                   "enemyId": 2227,
@@ -29686,6 +31160,8 @@ export const WORLD = {
               "groupId": 433,
               "name": "gil_s_141_40/42",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 977,
@@ -29703,6 +31179,8 @@ export const WORLD = {
               "groupId": 436,
               "name": "gil_s_193_40/42",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 974,
@@ -29737,6 +31215,8 @@ export const WORLD = {
               "groupId": 433,
               "name": "gil_s_141_40/42",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 977,
@@ -29754,6 +31234,8 @@ export const WORLD = {
               "groupId": 436,
               "name": "gil_s_193_40/42",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 974,
@@ -29788,6 +31270,8 @@ export const WORLD = {
               "groupId": 433,
               "name": "gil_s_141_40/42",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 977,
@@ -29805,6 +31289,8 @@ export const WORLD = {
               "groupId": 436,
               "name": "gil_s_193_40/42",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 974,
@@ -29839,6 +31325,8 @@ export const WORLD = {
               "groupId": 436,
               "name": "gil_s_193_40/42",
               "weight": 80,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 974,
@@ -29856,6 +31344,8 @@ export const WORLD = {
               "groupId": 435,
               "name": "gil_s_193_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 973,
@@ -29890,6 +31380,8 @@ export const WORLD = {
               "groupId": 433,
               "name": "gil_s_141_40/42",
               "weight": 80,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 977,
@@ -29907,6 +31399,8 @@ export const WORLD = {
               "groupId": 432,
               "name": "gil_s_141_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 976,
@@ -29941,6 +31435,8 @@ export const WORLD = {
               "groupId": 463,
               "name": "gil_s_71_41/43",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 998,
@@ -29958,6 +31454,8 @@ export const WORLD = {
               "groupId": 465,
               "name": "gil_s_73_41/43",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1000,
@@ -29975,6 +31473,8 @@ export const WORLD = {
               "groupId": 466,
               "name": "gil_s_71&73_41/43",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 998,
@@ -30018,6 +31518,8 @@ export const WORLD = {
               "groupId": 439,
               "name": "gil_s_93_43/45",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 980,
@@ -30035,6 +31537,8 @@ export const WORLD = {
               "groupId": 441,
               "name": "gil_s_95_43/45",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 982,
@@ -30052,6 +31556,8 @@ export const WORLD = {
               "groupId": 442,
               "name": "gil_s_93&95_43/45",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 980,
@@ -30095,6 +31601,8 @@ export const WORLD = {
               "groupId": 444,
               "name": "gil_n_92_45/47",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 984,
@@ -30112,6 +31620,8 @@ export const WORLD = {
               "groupId": 446,
               "name": "gil_n_94_44_46",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 986,
@@ -30146,6 +31656,8 @@ export const WORLD = {
               "groupId": 444,
               "name": "gil_n_92_45/47",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 984,
@@ -30163,6 +31675,8 @@ export const WORLD = {
               "groupId": 446,
               "name": "gil_n_94_44_46",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 986,
@@ -30197,6 +31711,8 @@ export const WORLD = {
               "groupId": 444,
               "name": "gil_n_92_45/47",
               "weight": 60,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 984,
@@ -30214,6 +31730,8 @@ export const WORLD = {
               "groupId": 446,
               "name": "gil_n_94_44_46",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 986,
@@ -30231,6 +31749,8 @@ export const WORLD = {
               "groupId": 443,
               "name": "gil_n_92_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 983,
@@ -30265,6 +31785,8 @@ export const WORLD = {
               "groupId": 444,
               "name": "gil_n_92_45/47",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 984,
@@ -30282,6 +31804,8 @@ export const WORLD = {
               "groupId": 446,
               "name": "gil_n_94_44_46",
               "weight": 60,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 986,
@@ -30299,6 +31823,8 @@ export const WORLD = {
               "groupId": 445,
               "name": "gil_n_94_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 985,
@@ -30333,6 +31859,8 @@ export const WORLD = {
               "groupId": 449,
               "name": "gil_n_263_48/50",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -30350,6 +31878,8 @@ export const WORLD = {
               "groupId": 451,
               "name": "gil_n_264_48/50",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 990,
@@ -30367,6 +31897,8 @@ export const WORLD = {
               "groupId": 452,
               "name": "gil_n_263&264_48/50",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -30393,6 +31925,8 @@ export const WORLD = {
               "groupId": 714,
               "name": "宝珠火",
               "weight": 10,
+              "appearByItemId": 2764,
+              "notAppearByItemId": 2762,
               "enemies": [
                 {
                   "enemyId": 1308,
@@ -30428,6 +31962,8 @@ export const WORLD = {
               "groupId": 1019,
               "name": "不可抓讦谯龙",
               "weight": 20,
+              "appearByItemId": 20221,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1906,
@@ -30445,6 +31981,8 @@ export const WORLD = {
               "groupId": 1020,
               "name": "可抓讦谯龙",
               "weight": 20,
+              "appearByItemId": 20222,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1912,
@@ -30462,6 +32000,8 @@ export const WORLD = {
               "groupId": 1221,
               "name": "巨大玛恩摩",
               "weight": 1,
+              "appearByItemId": 1810,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2223,
@@ -30514,6 +32054,8 @@ export const WORLD = {
               "groupId": 449,
               "name": "gil_n_263_48/50",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -30531,6 +32073,8 @@ export const WORLD = {
               "groupId": 451,
               "name": "gil_n_264_48/50",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 990,
@@ -30548,6 +32092,8 @@ export const WORLD = {
               "groupId": 452,
               "name": "gil_n_263&264_48/50",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -30574,6 +32120,8 @@ export const WORLD = {
               "groupId": 1019,
               "name": "不可抓讦谯龙",
               "weight": 10,
+              "appearByItemId": 20221,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1906,
@@ -30591,6 +32139,8 @@ export const WORLD = {
               "groupId": 1020,
               "name": "可抓讦谯龙",
               "weight": 10,
+              "appearByItemId": 20222,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1912,
@@ -30625,6 +32175,8 @@ export const WORLD = {
               "groupId": 449,
               "name": "gil_n_263_48/50",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -30642,6 +32194,8 @@ export const WORLD = {
               "groupId": 451,
               "name": "gil_n_264_48/50",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 990,
@@ -30659,6 +32213,8 @@ export const WORLD = {
               "groupId": 452,
               "name": "gil_n_263&264_48/50",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -30685,6 +32241,8 @@ export const WORLD = {
               "groupId": 1019,
               "name": "不可抓讦谯龙",
               "weight": 10,
+              "appearByItemId": 20221,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1906,
@@ -30702,6 +32260,8 @@ export const WORLD = {
               "groupId": 1020,
               "name": "可抓讦谯龙",
               "weight": 10,
+              "appearByItemId": 20222,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1912,
@@ -30736,6 +32296,8 @@ export const WORLD = {
               "groupId": 463,
               "name": "gil_s_71_41/43",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 998,
@@ -30753,6 +32315,8 @@ export const WORLD = {
               "groupId": 465,
               "name": "gil_s_73_41/43",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1000,
@@ -30770,6 +32334,8 @@ export const WORLD = {
               "groupId": 462,
               "name": "gil_s_71_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 997,
@@ -30787,6 +32353,8 @@ export const WORLD = {
               "groupId": 466,
               "name": "gil_s_71&73_41/43",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 998,
@@ -30830,6 +32398,8 @@ export const WORLD = {
               "groupId": 463,
               "name": "gil_s_71_41/43",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 998,
@@ -30847,6 +32417,8 @@ export const WORLD = {
               "groupId": 465,
               "name": "gil_s_73_41/43",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1000,
@@ -30864,6 +32436,8 @@ export const WORLD = {
               "groupId": 464,
               "name": "gil_s_73_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 999,
@@ -30881,6 +32455,8 @@ export const WORLD = {
               "groupId": 466,
               "name": "gil_s_71&73_41/43",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 998,
@@ -30924,6 +32500,8 @@ export const WORLD = {
               "groupId": 439,
               "name": "gil_s_93_43/45",
               "weight": 60,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 980,
@@ -30941,6 +32519,8 @@ export const WORLD = {
               "groupId": 441,
               "name": "gil_s_95_43/45",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 982,
@@ -30958,6 +32538,8 @@ export const WORLD = {
               "groupId": 442,
               "name": "gil_s_93&95_43/45",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 980,
@@ -30984,6 +32566,8 @@ export const WORLD = {
               "groupId": 438,
               "name": "gil_s_93_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 979,
@@ -31018,6 +32602,8 @@ export const WORLD = {
               "groupId": 439,
               "name": "gil_s_93_43/45",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 980,
@@ -31035,6 +32621,8 @@ export const WORLD = {
               "groupId": 441,
               "name": "gil_s_95_43/45",
               "weight": 60,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 982,
@@ -31052,6 +32640,8 @@ export const WORLD = {
               "groupId": 442,
               "name": "gil_s_93&95_43/45",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 980,
@@ -31078,6 +32668,8 @@ export const WORLD = {
               "groupId": 440,
               "name": "gil_s_95_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 981,
@@ -31112,6 +32704,8 @@ export const WORLD = {
               "groupId": 449,
               "name": "gil_n_263_48/50",
               "weight": 60,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -31129,6 +32723,8 @@ export const WORLD = {
               "groupId": 451,
               "name": "gil_n_264_48/50",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 990,
@@ -31146,6 +32742,8 @@ export const WORLD = {
               "groupId": 452,
               "name": "gil_n_263&264_48/50",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -31172,6 +32770,8 @@ export const WORLD = {
               "groupId": 448,
               "name": "gil_n_263_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 987,
@@ -31206,6 +32806,8 @@ export const WORLD = {
               "groupId": 449,
               "name": "gil_n_263_48/50",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -31223,6 +32825,8 @@ export const WORLD = {
               "groupId": 451,
               "name": "gil_n_264_48/50",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 990,
@@ -31240,6 +32844,8 @@ export const WORLD = {
               "groupId": 452,
               "name": "gil_n_263&264_48/50",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 988,
@@ -31266,6 +32872,8 @@ export const WORLD = {
               "groupId": 450,
               "name": "gil_n_264_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 989,
@@ -31300,6 +32908,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31317,6 +32927,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31351,6 +32963,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31368,6 +32982,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31402,6 +33018,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31419,6 +33037,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31453,6 +33073,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 50,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31470,6 +33092,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 50,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31487,6 +33111,8 @@ export const WORLD = {
               "groupId": 627,
               "name": "gil_n_143_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1188,
@@ -31530,6 +33156,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31547,6 +33175,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31581,6 +33211,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31598,6 +33230,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31632,6 +33266,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31649,6 +33285,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31683,6 +33321,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31700,6 +33340,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31734,6 +33376,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31751,6 +33395,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31785,6 +33431,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31802,6 +33450,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31836,6 +33486,8 @@ export const WORLD = {
               "groupId": 626,
               "name": "gil_n_91_51/53",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1187,
@@ -31853,6 +33505,8 @@ export const WORLD = {
               "groupId": 628,
               "name": "gil_n_143_52/54",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1189,
@@ -31887,6 +33541,8 @@ export const WORLD = {
               "groupId": 732,
               "name": "gil_w_26all_82/84",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1369,
@@ -31931,6 +33587,8 @@ export const WORLD = {
               "groupId": 1236,
               "name": "酿酒花",
               "weight": 1,
+              "appearByItemId": 2027,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2346,
@@ -31965,6 +33623,8 @@ export const WORLD = {
               "groupId": 732,
               "name": "gil_w_26all_82/84",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1369,
@@ -32009,6 +33669,8 @@ export const WORLD = {
               "groupId": 1236,
               "name": "酿酒花",
               "weight": 1,
+              "appearByItemId": 2027,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2346,
@@ -32043,6 +33705,8 @@ export const WORLD = {
               "groupId": 732,
               "name": "gil_w_26all_82/84",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1369,
@@ -32087,6 +33751,8 @@ export const WORLD = {
               "groupId": 1236,
               "name": "酿酒花",
               "weight": 1,
+              "appearByItemId": 2027,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2346,
@@ -32121,6 +33787,8 @@ export const WORLD = {
               "groupId": 732,
               "name": "gil_w_26all_82/84",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1369,
@@ -32165,6 +33833,8 @@ export const WORLD = {
               "groupId": 1236,
               "name": "酿酒花",
               "weight": 1,
+              "appearByItemId": 2027,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2346,
@@ -32199,6 +33869,8 @@ export const WORLD = {
               "groupId": 1019,
               "name": "不可抓讦谯龙",
               "weight": 10,
+              "appearByItemId": 20221,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1906,
@@ -32216,6 +33888,8 @@ export const WORLD = {
               "groupId": 1020,
               "name": "可抓讦谯龙",
               "weight": 10,
+              "appearByItemId": 20222,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1912,
@@ -33324,6 +34998,8 @@ export const WORLD = {
               "groupId": 1509,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": 21213,
               "enemies": [
                 {
                   "enemyId": 5108,
@@ -33341,6 +35017,8 @@ export const WORLD = {
               "groupId": 1510,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": 21214,
               "enemies": [
                 {
                   "enemyId": 5109,
@@ -33358,6 +35036,8 @@ export const WORLD = {
               "groupId": 1511,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": 21215,
               "enemies": [
                 {
                   "enemyId": 5110,
@@ -33375,6 +35055,8 @@ export const WORLD = {
               "groupId": 1512,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": 21216,
               "enemies": [
                 {
                   "enemyId": 5111,
@@ -33392,6 +35074,8 @@ export const WORLD = {
               "groupId": 1513,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": 21217,
               "enemies": [
                 {
                   "enemyId": 5112,
@@ -33409,6 +35093,8 @@ export const WORLD = {
               "groupId": 1514,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5113,
@@ -33426,6 +35112,8 @@ export const WORLD = {
               "groupId": 1515,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5114,
@@ -33443,6 +35131,8 @@ export const WORLD = {
               "groupId": 1516,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5115,
@@ -33460,6 +35150,8 @@ export const WORLD = {
               "groupId": 1517,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5116,
@@ -33477,6 +35169,8 @@ export const WORLD = {
               "groupId": 1518,
               "name": "沙姆岛魔兽",
               "weight": 10,
+              "appearByItemId": 21212,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5117,
@@ -33511,6 +35205,8 @@ export const WORLD = {
               "groupId": 523,
               "name": "400_291_36/38",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1061,
@@ -33528,6 +35224,8 @@ export const WORLD = {
               "groupId": 524,
               "name": "400_292_36/38",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1062,
@@ -33545,6 +35243,8 @@ export const WORLD = {
               "groupId": 525,
               "name": "400_293_36/38",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1063,
@@ -33562,6 +35262,8 @@ export const WORLD = {
               "groupId": 526,
               "name": "400_294_36/38",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1064,
@@ -33579,6 +35281,8 @@ export const WORLD = {
               "groupId": 527,
               "name": "400_29all_36/38",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1061,
@@ -33623,6 +35327,8 @@ export const WORLD = {
               "groupId": 529,
               "name": "400_253_40/45",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1066,
@@ -33657,6 +35363,8 @@ export const WORLD = {
               "groupId": 523,
               "name": "400_291_36/38",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1061,
@@ -33674,6 +35382,8 @@ export const WORLD = {
               "groupId": 524,
               "name": "400_292_36/38",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1062,
@@ -33691,6 +35401,8 @@ export const WORLD = {
               "groupId": 525,
               "name": "400_293_36/38",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1063,
@@ -33708,6 +35420,8 @@ export const WORLD = {
               "groupId": 526,
               "name": "400_294_36/38",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1064,
@@ -33725,6 +35439,8 @@ export const WORLD = {
               "groupId": 527,
               "name": "400_29all_36/38",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1061,
@@ -33769,6 +35485,8 @@ export const WORLD = {
               "groupId": 529,
               "name": "400_253_40/45",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1066,
@@ -33786,6 +35504,8 @@ export const WORLD = {
               "groupId": 528,
               "name": "400_253_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1065,
@@ -33803,6 +35523,8 @@ export const WORLD = {
               "groupId": 713,
               "name": "宝珠风",
               "weight": 12,
+              "appearByItemId": 2764,
+              "notAppearByItemId": 2763,
               "enemies": [
                 {
                   "enemyId": 1307,
@@ -34606,6 +36328,8 @@ export const WORLD = {
               "groupId": 1139,
               "name": "水世界30-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -34623,6 +36347,8 @@ export const WORLD = {
               "groupId": 1140,
               "name": "水世界30-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2149,
@@ -34640,6 +36366,8 @@ export const WORLD = {
               "groupId": 1141,
               "name": "水世界30-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -34657,6 +36385,8 @@ export const WORLD = {
               "groupId": 1142,
               "name": "水世界30-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2151,
@@ -34674,6 +36404,8 @@ export const WORLD = {
               "groupId": 1143,
               "name": "水世界30-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -34700,6 +36432,8 @@ export const WORLD = {
               "groupId": 1144,
               "name": "水世界30-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -34743,6 +36477,8 @@ export const WORLD = {
               "groupId": 1139,
               "name": "水世界30-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -34760,6 +36496,8 @@ export const WORLD = {
               "groupId": 1140,
               "name": "水世界30-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2149,
@@ -34777,6 +36515,8 @@ export const WORLD = {
               "groupId": 1141,
               "name": "水世界30-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -34794,6 +36534,8 @@ export const WORLD = {
               "groupId": 1142,
               "name": "水世界30-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2151,
@@ -34811,6 +36553,8 @@ export const WORLD = {
               "groupId": 1143,
               "name": "水世界30-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -34837,6 +36581,8 @@ export const WORLD = {
               "groupId": 1144,
               "name": "水世界30-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -34880,6 +36626,8 @@ export const WORLD = {
               "groupId": 1139,
               "name": "水世界30-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -34897,6 +36645,8 @@ export const WORLD = {
               "groupId": 1140,
               "name": "水世界30-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2149,
@@ -34914,6 +36664,8 @@ export const WORLD = {
               "groupId": 1141,
               "name": "水世界30-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -34931,6 +36683,8 @@ export const WORLD = {
               "groupId": 1142,
               "name": "水世界30-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2151,
@@ -34948,6 +36702,8 @@ export const WORLD = {
               "groupId": 1143,
               "name": "水世界30-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -34974,6 +36730,8 @@ export const WORLD = {
               "groupId": 1144,
               "name": "水世界30-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -35017,6 +36775,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35034,6 +36794,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35051,6 +36813,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -35068,6 +36832,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -35085,6 +36851,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35111,6 +36879,8 @@ export const WORLD = {
               "groupId": 1150,
               "name": "水世界40-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35154,6 +36924,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35171,6 +36943,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35188,6 +36962,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -35205,6 +36981,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -35222,6 +37000,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35248,6 +37028,8 @@ export const WORLD = {
               "groupId": 1150,
               "name": "水世界40-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35274,6 +37056,8 @@ export const WORLD = {
               "groupId": 1229,
               "name": "珊瑚任务1",
               "weight": 10,
+              "appearByItemId": 1870,
+              "notAppearByItemId": 1871,
               "enemies": [
                 {
                   "enemyId": 2243,
@@ -35317,6 +37101,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35334,6 +37120,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35351,6 +37139,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -35368,6 +37158,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -35385,6 +37177,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35411,6 +37205,8 @@ export const WORLD = {
               "groupId": 1150,
               "name": "水世界40-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35454,6 +37250,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35471,6 +37269,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35488,6 +37288,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -35505,6 +37307,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -35522,6 +37326,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35548,6 +37354,8 @@ export const WORLD = {
               "groupId": 1150,
               "name": "水世界40-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35591,6 +37399,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35608,6 +37418,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35625,6 +37437,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -35642,6 +37456,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -35659,6 +37475,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35685,6 +37503,8 @@ export const WORLD = {
               "groupId": 1150,
               "name": "水世界40-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35728,6 +37548,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35745,6 +37567,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35762,6 +37586,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -35779,6 +37605,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -35796,6 +37624,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -35822,6 +37652,8 @@ export const WORLD = {
               "groupId": 1150,
               "name": "水世界40-6",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -35865,6 +37697,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -35882,6 +37716,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -35908,6 +37744,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -35925,6 +37763,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -35995,6 +37835,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36012,6 +37854,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -36038,6 +37882,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -36055,6 +37901,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36125,6 +37973,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36142,6 +37992,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -36168,6 +38020,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -36185,6 +38039,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36255,6 +38111,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36272,6 +38130,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -36298,6 +38158,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -36315,6 +38177,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36385,6 +38249,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36402,6 +38268,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -36428,6 +38296,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -36445,6 +38315,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36515,6 +38387,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36532,6 +38406,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -36558,6 +38434,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -36575,6 +38453,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -36645,6 +38525,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -36662,6 +38544,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -36679,6 +38563,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -36696,6 +38582,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -36766,6 +38654,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -36783,6 +38673,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -36800,6 +38692,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -36817,6 +38711,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -36887,6 +38783,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -36904,6 +38802,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -36921,6 +38821,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -36938,6 +38840,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -37008,6 +38912,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -37025,6 +38931,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -37042,6 +38950,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -37059,6 +38969,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -37129,6 +39041,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -37146,6 +39060,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -37163,6 +39079,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -37180,6 +39098,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -37250,6 +39170,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37267,6 +39189,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -37284,6 +39208,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -37301,6 +39227,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37353,6 +39281,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37370,6 +39300,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -37387,6 +39319,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -37404,6 +39338,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37456,6 +39392,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37473,6 +39411,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -37490,6 +39430,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -37507,6 +39449,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37559,6 +39503,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37576,6 +39522,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -37593,6 +39541,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -37610,6 +39560,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37662,6 +39614,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37679,6 +39633,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -37696,6 +39652,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -37713,6 +39671,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -37765,6 +39725,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -37791,6 +39753,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -37808,6 +39772,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -37834,6 +39800,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -37878,6 +39846,8 @@ export const WORLD = {
               "groupId": 1171,
               "name": "300塔斯摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2172,
@@ -37921,6 +39891,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -37947,6 +39919,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -37964,6 +39938,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -37990,6 +39966,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38034,6 +40012,8 @@ export const WORLD = {
               "groupId": 1172,
               "name": "300欧西摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2173,
@@ -38068,6 +40048,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38094,6 +40076,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -38111,6 +40095,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -38137,6 +40123,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38181,6 +40169,8 @@ export const WORLD = {
               "groupId": 1173,
               "name": "300洛德摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2174,
@@ -38224,6 +40214,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38250,6 +40242,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -38267,6 +40261,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -38293,6 +40289,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38337,6 +40335,8 @@ export const WORLD = {
               "groupId": 1174,
               "name": "300艾尔摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2175,
@@ -38371,6 +40371,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38397,6 +40399,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -38414,6 +40418,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -38440,6 +40446,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38484,6 +40492,8 @@ export const WORLD = {
               "groupId": 1171,
               "name": "300塔斯摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2172,
@@ -38527,6 +40537,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38553,6 +40565,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -38570,6 +40584,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -38596,6 +40612,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -38640,6 +40658,8 @@ export const WORLD = {
               "groupId": 1172,
               "name": "300欧西摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2173,
@@ -38674,6 +40694,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -38700,6 +40722,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -38726,6 +40750,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -38752,6 +40778,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -38796,6 +40824,8 @@ export const WORLD = {
               "groupId": 1173,
               "name": "300洛德摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2174,
@@ -38839,6 +40869,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -38865,6 +40897,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -38891,6 +40925,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -38917,6 +40953,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -38961,6 +40999,8 @@ export const WORLD = {
               "groupId": 1174,
               "name": "300艾尔摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2175,
@@ -38995,6 +41035,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39021,6 +41063,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -39047,6 +41091,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -39073,6 +41119,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39117,6 +41165,8 @@ export const WORLD = {
               "groupId": 1171,
               "name": "300塔斯摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2172,
@@ -39160,6 +41210,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39186,6 +41238,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -39212,6 +41266,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -39238,6 +41294,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39282,6 +41340,8 @@ export const WORLD = {
               "groupId": 1172,
               "name": "300欧西摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2173,
@@ -39316,6 +41376,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39360,6 +41422,8 @@ export const WORLD = {
               "groupId": 1171,
               "name": "300塔斯摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2172,
@@ -39386,6 +41450,8 @@ export const WORLD = {
               "groupId": 1172,
               "name": "300欧西摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2173,
@@ -39403,6 +41469,8 @@ export const WORLD = {
               "groupId": 1173,
               "name": "300洛德摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2174,
@@ -39429,6 +41497,8 @@ export const WORLD = {
               "groupId": 1174,
               "name": "300艾尔摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2175,
@@ -39463,6 +41533,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39489,6 +41561,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -39515,6 +41589,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -39541,6 +41617,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -39585,6 +41663,8 @@ export const WORLD = {
               "groupId": 1174,
               "name": "300艾尔摩米",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2175,
@@ -39619,6 +41699,8 @@ export const WORLD = {
               "groupId": 1175,
               "name": "1v卡伯",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2081,
@@ -39645,6 +41727,8 @@ export const WORLD = {
               "groupId": 1139,
               "name": "水世界30-1",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2148,
@@ -39662,6 +41746,8 @@ export const WORLD = {
               "groupId": 1140,
               "name": "水世界30-2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2149,
@@ -39679,6 +41765,8 @@ export const WORLD = {
               "groupId": 1141,
               "name": "水世界30-3",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2150,
@@ -39696,6 +41784,8 @@ export const WORLD = {
               "groupId": 1142,
               "name": "水世界30-4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2151,
@@ -39730,6 +41820,8 @@ export const WORLD = {
               "groupId": 1176,
               "name": "1v康尔特",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2095,
@@ -39756,6 +41848,8 @@ export const WORLD = {
               "groupId": 1145,
               "name": "水世界40-1",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -39773,6 +41867,8 @@ export const WORLD = {
               "groupId": 1146,
               "name": "水世界40-2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2153,
@@ -39790,6 +41886,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -39807,6 +41905,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -39841,6 +41941,8 @@ export const WORLD = {
               "groupId": 1177,
               "name": "1v奥特普",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2100,
@@ -39867,6 +41969,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -39893,6 +41997,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -39910,6 +42016,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -39927,6 +42035,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -39997,6 +42107,8 @@ export const WORLD = {
               "groupId": 1178,
               "name": "1v伊克多",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -40023,6 +42135,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 11,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -40040,6 +42154,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 11,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -40066,6 +42182,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 11,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -40083,6 +42201,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 11,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -40153,6 +42273,8 @@ export const WORLD = {
               "groupId": 1179,
               "name": "1v那尔斯",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2097,
@@ -40179,6 +42301,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -40196,6 +42320,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -40213,6 +42339,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -40230,6 +42358,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -40300,6 +42430,8 @@ export const WORLD = {
               "groupId": 1180,
               "name": "1v特利斯克",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -40326,6 +42458,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -40343,6 +42477,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -40360,6 +42496,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -40377,6 +42515,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -40429,6 +42569,8 @@ export const WORLD = {
               "groupId": 1181,
               "name": "1v特雷沙",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2109,
@@ -40455,6 +42597,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -40472,6 +42616,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -40489,6 +42635,8 @@ export const WORLD = {
               "groupId": 1161,
               "name": "水世界70-3",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2164,
@@ -40506,6 +42654,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 18,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -40558,6 +42708,8 @@ export const WORLD = {
               "groupId": 1182,
               "name": "1v布迪斯",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -40584,6 +42736,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -40610,6 +42764,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -40627,6 +42783,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -40653,6 +42811,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -40714,6 +42874,8 @@ export const WORLD = {
               "groupId": 1183,
               "name": "1v奇格拉",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -40740,6 +42902,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -40766,6 +42930,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -40792,6 +42958,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -40818,6 +42986,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -40879,6 +43049,8 @@ export const WORLD = {
               "groupId": 1184,
               "name": "1v沙瓦克",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2103,
@@ -40905,6 +43077,8 @@ export const WORLD = {
               "groupId": 1167,
               "name": "水世界140-1",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -40931,6 +43105,8 @@ export const WORLD = {
               "groupId": 1168,
               "name": "水世界140-2",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2170,
@@ -40957,6 +43133,8 @@ export const WORLD = {
               "groupId": 1169,
               "name": "水世界140-3",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2171,
@@ -40983,6 +43161,8 @@ export const WORLD = {
               "groupId": 1170,
               "name": "水世界140-4",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2168,
@@ -41044,6 +43224,8 @@ export const WORLD = {
               "groupId": 1217,
               "name": "1v夏普德",
               "weight": 1,
+              "appearByItemId": 1692,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -41070,6 +43252,8 @@ export const WORLD = {
               "groupId": 1147,
               "name": "水世界40-3",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2154,
@@ -41087,6 +43271,8 @@ export const WORLD = {
               "groupId": 1148,
               "name": "水世界40-4",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2155,
@@ -41104,6 +43290,8 @@ export const WORLD = {
               "groupId": 1149,
               "name": "水世界40-5",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2152,
@@ -41147,6 +43335,8 @@ export const WORLD = {
               "groupId": 1227,
               "name": "漩涡",
               "weight": 20,
+              "appearByItemId": 1861,
+              "notAppearByItemId": 1862,
               "enemies": [
                 {
                   "enemyId": 2239,
@@ -41191,6 +43381,8 @@ export const WORLD = {
               "groupId": 1228,
               "name": "漩涡战队",
               "weight": 1,
+              "appearByItemId": 1861,
+              "notAppearByItemId": 1862,
               "enemies": [
                 {
                   "enemyId": 2240,
@@ -41243,6 +43435,8 @@ export const WORLD = {
               "groupId": 1267,
               "name": "1v弗瑞克",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2418,
@@ -41287,6 +43481,8 @@ export const WORLD = {
               "groupId": 1151,
               "name": "水世界50-1",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -41304,6 +43500,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -41330,6 +43528,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -41364,6 +43564,8 @@ export const WORLD = {
               "groupId": 1266,
               "name": "1v史克弗",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2417,
@@ -41408,6 +43610,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -41434,6 +43638,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -41451,6 +43657,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -41494,6 +43702,8 @@ export const WORLD = {
               "groupId": 1273,
               "name": "1v西斯达",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2436,
@@ -41520,6 +43730,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -41537,6 +43749,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -41607,6 +43821,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -41624,6 +43840,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -41677,6 +43895,8 @@ export const WORLD = {
               "groupId": 1274,
               "name": "1v贝瑞里",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2437,
@@ -41720,6 +43940,8 @@ export const WORLD = {
               "groupId": 1275,
               "name": "1v斯达克",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2409,
@@ -41746,6 +43968,8 @@ export const WORLD = {
               "groupId": 1159,
               "name": "水世界70-1",
               "weight": 35,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -41763,6 +43987,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 35,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -41815,6 +44041,8 @@ export const WORLD = {
               "groupId": 1160,
               "name": "水世界70-2",
               "weight": 35,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2163,
@@ -41832,6 +44060,8 @@ export const WORLD = {
               "groupId": 1162,
               "name": "水世界70-4",
               "weight": 35,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2162,
@@ -41867,6 +44097,8 @@ export const WORLD = {
               "groupId": 1276,
               "name": "1v史卡鲁",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2439,
@@ -41910,6 +44142,8 @@ export const WORLD = {
               "groupId": 1277,
               "name": "1v史卡特",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2137,
@@ -41936,6 +44170,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -41962,6 +44198,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -42023,6 +44261,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -42040,6 +44280,8 @@ export const WORLD = {
               "groupId": 1278,
               "name": "1v多瑞里",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2441,
@@ -42066,6 +44308,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 40,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -42127,6 +44371,8 @@ export const WORLD = {
               "groupId": 1293,
               "name": "1v西柏克",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2089,
@@ -42153,6 +44399,8 @@ export const WORLD = {
               "groupId": 1154,
               "name": "水世界50-4",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2156,
@@ -42206,6 +44454,8 @@ export const WORLD = {
               "groupId": 1153,
               "name": "水世界50-3",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2158,
@@ -42223,6 +44473,8 @@ export const WORLD = {
               "groupId": 1152,
               "name": "水世界50-2",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2157,
@@ -42266,6 +44518,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -42283,6 +44537,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -42300,6 +44556,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -42353,6 +44611,8 @@ export const WORLD = {
               "groupId": 1294,
               "name": "1v柏洛西",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2458,
@@ -42396,6 +44656,8 @@ export const WORLD = {
               "groupId": 1295,
               "name": "1v罗多克雷",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2119,
@@ -42422,6 +44684,8 @@ export const WORLD = {
               "groupId": 1155,
               "name": "水世界60-1",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -42439,6 +44703,8 @@ export const WORLD = {
               "groupId": 1156,
               "name": "水世界60-2",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2160,
@@ -42456,6 +44722,8 @@ export const WORLD = {
               "groupId": 1157,
               "name": "水世界60-3",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2161,
@@ -42473,6 +44741,8 @@ export const WORLD = {
               "groupId": 1158,
               "name": "水世界60-4",
               "weight": 25,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2159,
@@ -42543,6 +44813,8 @@ export const WORLD = {
               "groupId": 1166,
               "name": "水世界130-4",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -42587,6 +44859,8 @@ export const WORLD = {
               "groupId": 1165,
               "name": "水世界130-3",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2167,
@@ -42613,6 +44887,8 @@ export const WORLD = {
               "groupId": 1164,
               "name": "水世界130-2",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2166,
@@ -42630,6 +44906,8 @@ export const WORLD = {
               "groupId": 1163,
               "name": "水世界130-1",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2165,
@@ -42656,6 +44934,8 @@ export const WORLD = {
               "groupId": 1296,
               "name": "1v罗多克拉",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2460,
@@ -70618,6 +72898,8 @@ export const WORLD = {
               "groupId": 1519,
               "name": "普拓洞穴绿人龙",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5118,
@@ -70635,6 +72917,8 @@ export const WORLD = {
               "groupId": 1520,
               "name": "普拓洞穴绿人龙",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5119,
@@ -70652,6 +72936,8 @@ export const WORLD = {
               "groupId": 1521,
               "name": "普拓洞穴绿人龙",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5120,
@@ -70669,6 +72955,8 @@ export const WORLD = {
               "groupId": 1522,
               "name": "普拓洞穴绿人龙",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5121,
@@ -70686,6 +72974,8 @@ export const WORLD = {
               "groupId": 1523,
               "name": "普拓洞穴绿人龙",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 5122,
@@ -78432,6 +80722,8 @@ export const WORLD = {
               "groupId": 1018,
               "name": "渔村艾蜜",
               "weight": 30,
+              "appearByItemId": 20219,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1911,
@@ -87709,6 +90001,8 @@ export const WORLD = {
               "groupId": 1018,
               "name": "渔村艾蜜",
               "weight": 10,
+              "appearByItemId": 20219,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1911,
@@ -89706,6 +92000,8 @@ export const WORLD = {
               "groupId": 1015,
               "name": "加加艾蜜",
               "weight": 30,
+              "appearByItemId": 20216,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1904,
@@ -93252,6 +95548,8 @@ export const WORLD = {
               "groupId": 1185,
               "name": "贪吃的老鼠",
               "weight": 1,
+              "appearByItemId": 1697,
+              "notAppearByItemId": 1698,
               "enemies": [
                 {
                   "enemyId": 2178,
@@ -94116,6 +96414,8 @@ export const WORLD = {
               "groupId": 1015,
               "name": "加加艾蜜",
               "weight": 10,
+              "appearByItemId": 20216,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1904,
@@ -115837,6 +118137,8 @@ export const WORLD = {
               "groupId": 1016,
               "name": "乌鲁力艾蜜",
               "weight": 30,
+              "appearByItemId": 20217,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1909,
@@ -116812,6 +119114,8 @@ export const WORLD = {
               "groupId": 1016,
               "name": "乌鲁力艾蜜",
               "weight": 10,
+              "appearByItemId": 20217,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1909,
@@ -142970,6 +145274,8 @@ export const WORLD = {
               "groupId": 1255,
               "name": "人龙一般队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2373,
@@ -143023,6 +145329,8 @@ export const WORLD = {
               "groupId": 1256,
               "name": "人龙肉队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2373,
@@ -143093,6 +145401,8 @@ export const WORLD = {
               "groupId": 1257,
               "name": "暴龙一般队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2381,
@@ -143128,6 +145438,8 @@ export const WORLD = {
               "groupId": 1258,
               "name": "暴龙牙队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2381,
@@ -143180,6 +145492,8 @@ export const WORLD = {
               "groupId": 1259,
               "name": "熊一般队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2385,
@@ -143224,6 +145538,8 @@ export const WORLD = {
               "groupId": 1260,
               "name": "熊皮队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2087,
               "enemies": [
                 {
                   "enemyId": 2389,
@@ -143268,6 +145584,8 @@ export const WORLD = {
               "groupId": 1261,
               "name": "熊骨队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2088,
               "enemies": [
                 {
                   "enemyId": 2385,
@@ -143312,6 +145630,8 @@ export const WORLD = {
               "groupId": 1262,
               "name": "熊钢铁队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2089,
               "enemies": [
                 {
                   "enemyId": 2385,
@@ -143373,6 +145693,8 @@ export const WORLD = {
               "groupId": 1255,
               "name": "人龙一般队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2373,
@@ -143426,6 +145748,8 @@ export const WORLD = {
               "groupId": 1257,
               "name": "暴龙一般队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2381,
@@ -143478,6 +145802,8 @@ export const WORLD = {
               "groupId": 1259,
               "name": "熊一般队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2385,
@@ -143902,6 +146228,8 @@ export const WORLD = {
               "groupId": 1237,
               "name": "特级弓猪",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2073,
               "enemies": [
                 {
                   "enemyId": 2351,
@@ -143928,6 +146256,8 @@ export const WORLD = {
               "groupId": 1238,
               "name": "一般猪",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2352,
@@ -143962,6 +146292,8 @@ export const WORLD = {
               "groupId": 1238,
               "name": "一般猪",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2352,
@@ -143979,6 +146311,8 @@ export const WORLD = {
               "groupId": 1239,
               "name": "森林乌力",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2352,
@@ -144022,6 +146356,8 @@ export const WORLD = {
               "groupId": 1240,
               "name": "羊肉队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2074,
               "enemies": [
                 {
                   "enemyId": 2354,
@@ -144048,6 +146384,8 @@ export const WORLD = {
               "groupId": 1241,
               "name": "一般羊",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2355,
@@ -144065,6 +146403,8 @@ export const WORLD = {
               "groupId": 1246,
               "name": "羊草队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2075,
               "enemies": [
                 {
                   "enemyId": 2355,
@@ -144091,6 +146431,8 @@ export const WORLD = {
               "groupId": 1242,
               "name": "鸟肉队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2076,
               "enemies": [
                 {
                   "enemyId": 2356,
@@ -144117,6 +146459,8 @@ export const WORLD = {
               "groupId": 1243,
               "name": "一般鸟",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2357,
@@ -144134,6 +146478,8 @@ export const WORLD = {
               "groupId": 1244,
               "name": "猴肉队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2078,
               "enemies": [
                 {
                   "enemyId": 2358,
@@ -144160,6 +146506,8 @@ export const WORLD = {
               "groupId": 1245,
               "name": "一般猴",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2359,
@@ -144177,6 +146525,8 @@ export const WORLD = {
               "groupId": 1247,
               "name": "鸟草队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2077,
               "enemies": [
                 {
                   "enemyId": 2357,
@@ -144203,6 +146553,8 @@ export const WORLD = {
               "groupId": 1248,
               "name": "猴草队",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2079,
               "enemies": [
                 {
                   "enemyId": 2359,
@@ -144246,6 +146598,8 @@ export const WORLD = {
               "groupId": 1242,
               "name": "鸟肉队",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": 2076,
               "enemies": [
                 {
                   "enemyId": 2356,
@@ -144272,6 +146626,8 @@ export const WORLD = {
               "groupId": 1243,
               "name": "一般鸟",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2357,
@@ -144289,6 +146645,8 @@ export const WORLD = {
               "groupId": 1247,
               "name": "鸟草队",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": 2077,
               "enemies": [
                 {
                   "enemyId": 2357,
@@ -144332,6 +146690,8 @@ export const WORLD = {
               "groupId": 1244,
               "name": "猴肉队",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": 2078,
               "enemies": [
                 {
                   "enemyId": 2358,
@@ -144358,6 +146718,8 @@ export const WORLD = {
               "groupId": 1245,
               "name": "一般猴",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2359,
@@ -144375,6 +146737,8 @@ export const WORLD = {
               "groupId": 1248,
               "name": "猴草队",
               "weight": 3,
+              "appearByItemId": null,
+              "notAppearByItemId": 2079,
               "enemies": [
                 {
                   "enemyId": 2359,
@@ -144623,6 +146987,8 @@ export const WORLD = {
               "groupId": 1249,
               "name": "一般蛇队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -144667,6 +147033,8 @@ export const WORLD = {
               "groupId": 1252,
               "name": "药草蛇队3",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2082,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -144711,6 +147079,8 @@ export const WORLD = {
               "groupId": 1250,
               "name": "药草蛇队1",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2080,
               "enemies": [
                 {
                   "enemyId": 2367,
@@ -144755,6 +147125,8 @@ export const WORLD = {
               "groupId": 1251,
               "name": "药草蛇队2",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2081,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -144799,6 +147171,8 @@ export const WORLD = {
               "groupId": 1253,
               "name": "药草蛇队4",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2083,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -144843,6 +147217,8 @@ export const WORLD = {
               "groupId": 1254,
               "name": "药草蛇队5",
               "weight": 2,
+              "appearByItemId": null,
+              "notAppearByItemId": 2084,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -144904,6 +147280,8 @@ export const WORLD = {
               "groupId": 1249,
               "name": "一般蛇队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -144965,6 +147343,8 @@ export const WORLD = {
               "groupId": 1249,
               "name": "一般蛇队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -145026,6 +147406,8 @@ export const WORLD = {
               "groupId": 1249,
               "name": "一般蛇队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -145087,6 +147469,8 @@ export const WORLD = {
               "groupId": 1249,
               "name": "一般蛇队",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2363,
@@ -145424,6 +147808,8 @@ export const WORLD = {
               "groupId": 1233,
               "name": "哥达喽罗1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2344,
@@ -145441,6 +147827,8 @@ export const WORLD = {
               "groupId": 1234,
               "name": "哥达喽罗2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2345,
@@ -145458,6 +147846,8 @@ export const WORLD = {
               "groupId": 1235,
               "name": "哥达喽罗3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2344,
@@ -145584,6 +147974,8 @@ export const WORLD = {
               "groupId": 1233,
               "name": "哥达喽罗1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2344,
@@ -145601,6 +147993,8 @@ export const WORLD = {
               "groupId": 1234,
               "name": "哥达喽罗2",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2345,
@@ -145618,6 +148012,8 @@ export const WORLD = {
               "groupId": 1235,
               "name": "哥达喽罗3",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2344,
@@ -146038,6 +148434,8 @@ export const WORLD = {
               "groupId": 183,
               "name": "dan_1_00_051_20/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 267,
@@ -146055,6 +148453,8 @@ export const WORLD = {
               "groupId": 188,
               "name": "dan_1_00_052_20/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 272,
@@ -146072,6 +148472,8 @@ export const WORLD = {
               "groupId": 192,
               "name": "dan_1_00_051&052_20/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 267,
@@ -146244,6 +148646,8 @@ export const WORLD = {
               "groupId": 184,
               "name": "dan_1_00_051_21/23",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 268,
@@ -146261,6 +148665,8 @@ export const WORLD = {
               "groupId": 188,
               "name": "dan_1_00_052_20/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 272,
@@ -146278,6 +148684,8 @@ export const WORLD = {
               "groupId": 193,
               "name": "dan_1_00_051&052_21/23",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 268,
@@ -146452,6 +148860,8 @@ export const WORLD = {
               "groupId": 197,
               "name": "dan_1_00_41_22/24",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 278,
@@ -146469,6 +148879,8 @@ export const WORLD = {
               "groupId": 201,
               "name": "dan_1_00_42_22/24",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 282,
@@ -146486,6 +148898,8 @@ export const WORLD = {
               "groupId": 203,
               "name": "dan_1_00_41&42__22/24",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 278,
@@ -146529,6 +148943,8 @@ export const WORLD = {
               "groupId": 185,
               "name": "dan_1_00_051_21/23",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 269,
@@ -146546,6 +148962,8 @@ export const WORLD = {
               "groupId": 190,
               "name": "dan_1_00_052_21/23",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 274,
@@ -146563,6 +148981,8 @@ export const WORLD = {
               "groupId": 194,
               "name": "dan_1_00_051&052_21/23",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 269,
@@ -146735,6 +149155,8 @@ export const WORLD = {
               "groupId": 197,
               "name": "dan_1_00_41_22/24",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 278,
@@ -146752,6 +149174,8 @@ export const WORLD = {
               "groupId": 201,
               "name": "dan_1_00_42_22/24",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 282,
@@ -146769,6 +149193,8 @@ export const WORLD = {
               "groupId": 203,
               "name": "dan_1_00_41&42__22/24",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 278,
@@ -146923,6 +149349,8 @@ export const WORLD = {
               "groupId": 198,
               "name": "dan_1_00_41_25/27",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 280,
@@ -146940,6 +149368,8 @@ export const WORLD = {
               "groupId": 202,
               "name": "dan_1_00_42_25/27",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 283,
@@ -146957,6 +149387,8 @@ export const WORLD = {
               "groupId": 204,
               "name": "dan_1_00_41&42__25/27",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 280,
@@ -147391,6 +149823,8 @@ export const WORLD = {
               "groupId": 186,
               "name": "dan_1_00_051_28/30",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 270,
@@ -147408,6 +149842,8 @@ export const WORLD = {
               "groupId": 191,
               "name": "dan_1_00_052_28/30",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 275,
@@ -147425,6 +149861,8 @@ export const WORLD = {
               "groupId": 195,
               "name": "dan_1_00_051&052_28/30",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 270,
@@ -148646,6 +151084,8 @@ export const WORLD = {
               "groupId": 206,
               "name": "dan_1_01_41_20/21",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 285,
@@ -148663,6 +151103,8 @@ export const WORLD = {
               "groupId": 209,
               "name": "dan_1_01_42_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 271,
@@ -148680,6 +151122,8 @@ export const WORLD = {
               "groupId": 210,
               "name": "dan_1_01_42_20/23",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 289,
@@ -148697,6 +151141,8 @@ export const WORLD = {
               "groupId": 213,
               "name": "dan_1_01_41_20/21&42_20/23",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 285,
@@ -148723,6 +151169,8 @@ export const WORLD = {
               "groupId": 216,
               "name": "dan_1_01_041_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 266,
@@ -148868,6 +151316,8 @@ export const WORLD = {
               "groupId": 207,
               "name": "dan_1_01_41_21/23",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 286,
@@ -148885,6 +151335,8 @@ export const WORLD = {
               "groupId": 211,
               "name": "dan_1_01_42_22/25",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 290,
@@ -148902,6 +151354,8 @@ export const WORLD = {
               "groupId": 214,
               "name": "dan_1_01_41_20/21&42_22/25",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 286,
@@ -149056,6 +151510,8 @@ export const WORLD = {
               "groupId": 208,
               "name": "dan_1_01_41_23/25",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 287,
@@ -149073,6 +151529,8 @@ export const WORLD = {
               "groupId": 212,
               "name": "dan_1_01_42_24/26",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 291,
@@ -149090,6 +151548,8 @@ export const WORLD = {
               "groupId": 215,
               "name": "dan_1_01_41_23/25&42_24/26",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 287,
@@ -149244,6 +151704,8 @@ export const WORLD = {
               "groupId": 318,
               "name": "dan_1_02_222_18/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149261,6 +151723,8 @@ export const WORLD = {
               "groupId": 320,
               "name": "dan_1_02_223_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 447,
@@ -149278,6 +151742,8 @@ export const WORLD = {
               "groupId": 321,
               "name": "dan_1_02_222&223_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149321,6 +151787,8 @@ export const WORLD = {
               "groupId": 318,
               "name": "dan_1_02_222_18/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149338,6 +151806,8 @@ export const WORLD = {
               "groupId": 320,
               "name": "dan_1_02_223_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 447,
@@ -149355,6 +151825,8 @@ export const WORLD = {
               "groupId": 321,
               "name": "dan_1_02_222&223_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149381,6 +151853,8 @@ export const WORLD = {
               "groupId": 317,
               "name": "dan_1_02_222_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 442,
@@ -149527,6 +152001,8 @@ export const WORLD = {
               "groupId": 318,
               "name": "dan_1_02_222_18/22",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149544,6 +152020,8 @@ export const WORLD = {
               "groupId": 320,
               "name": "dan_1_02_223_18/22",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 447,
@@ -149561,6 +152039,8 @@ export const WORLD = {
               "groupId": 321,
               "name": "dan_1_02_222&223_18/22",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149587,6 +152067,8 @@ export const WORLD = {
               "groupId": 1017,
               "name": "海底艾蜜",
               "weight": 5,
+              "appearByItemId": 20218,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1910,
@@ -149892,6 +152374,8 @@ export const WORLD = {
               "groupId": 320,
               "name": "dan_1_02_223_18/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 447,
@@ -149909,6 +152393,8 @@ export const WORLD = {
               "groupId": 318,
               "name": "dan_1_02_222_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149926,6 +152412,8 @@ export const WORLD = {
               "groupId": 321,
               "name": "dan_1_02_222&223_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -149969,6 +152457,8 @@ export const WORLD = {
               "groupId": 320,
               "name": "dan_1_02_223_18/22",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 447,
@@ -149986,6 +152476,8 @@ export const WORLD = {
               "groupId": 318,
               "name": "dan_1_02_222_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -150003,6 +152495,8 @@ export const WORLD = {
               "groupId": 321,
               "name": "dan_1_02_222&223_18/22",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 443,
@@ -150029,6 +152523,8 @@ export const WORLD = {
               "groupId": 319,
               "name": "dan_1_02_223_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 446,
@@ -150063,6 +152559,8 @@ export const WORLD = {
               "groupId": 1017,
               "name": "海底艾蜜",
               "weight": 30,
+              "appearByItemId": 20218,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1910,
@@ -150210,6 +152708,8 @@ export const WORLD = {
               "groupId": 322,
               "name": "dan_1_02_102_20/30",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 452,
@@ -150227,6 +152727,8 @@ export const WORLD = {
               "groupId": 323,
               "name": "dan_1_02_112_20/30",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 453,
@@ -150244,6 +152746,8 @@ export const WORLD = {
               "groupId": 324,
               "name": "dan_1_02_2_20/30",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 450,
@@ -150261,6 +152765,8 @@ export const WORLD = {
               "groupId": 325,
               "name": "dan_1_02_34_20/30",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 451,
@@ -150278,6 +152784,8 @@ export const WORLD = {
               "groupId": 326,
               "name": "dan_1_02_s4",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 452,
@@ -150488,6 +152996,8 @@ export const WORLD = {
               "groupId": 380,
               "name": "dan_1_07_332_25/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 524,
@@ -150505,6 +153015,8 @@ export const WORLD = {
               "groupId": 383,
               "name": "dan_1_07_83_25/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 521,
@@ -150693,6 +153205,8 @@ export const WORLD = {
               "groupId": 381,
               "name": "dan_1_07_332_27/30",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 525,
@@ -150710,6 +153224,8 @@ export const WORLD = {
               "groupId": 383,
               "name": "dan_1_07_83_25/28",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 521,
@@ -150727,6 +153243,8 @@ export const WORLD = {
               "groupId": 379,
               "name": "dan_1_07_332_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 523,
@@ -150872,6 +153390,8 @@ export const WORLD = {
               "groupId": 380,
               "name": "dan_1_07_332_25/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 524,
@@ -150889,6 +153409,8 @@ export const WORLD = {
               "groupId": 383,
               "name": "dan_1_07_83_25/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 521,
@@ -151220,6 +153742,8 @@ export const WORLD = {
               "groupId": 381,
               "name": "dan_1_07_332_27/30",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 525,
@@ -151237,6 +153761,8 @@ export const WORLD = {
               "groupId": 384,
               "name": "dan_1_07_83_27/30",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 522,
@@ -151254,6 +153780,8 @@ export const WORLD = {
               "groupId": 382,
               "name": "dan_1_07_83_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 520,
@@ -151483,6 +154011,8 @@ export const WORLD = {
               "groupId": 380,
               "name": "dan_1_07_332_25/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 524,
@@ -151500,6 +154030,8 @@ export const WORLD = {
               "groupId": 383,
               "name": "dan_1_07_83_25/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 521,
@@ -151771,6 +154303,8 @@ export const WORLD = {
               "groupId": 424,
               "name": "SBC_1/12/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 945,
@@ -152240,6 +154774,8 @@ export const WORLD = {
               "groupId": 424,
               "name": "SBC_1/12/13",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 945,
@@ -152443,6 +154979,8 @@ export const WORLD = {
               "groupId": 361,
               "name": "dan_1_10_53_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 500,
@@ -152460,6 +154998,8 @@ export const WORLD = {
               "groupId": 364,
               "name": "dan_1_10_54_11/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 503,
@@ -152626,6 +155166,8 @@ export const WORLD = {
               "groupId": 361,
               "name": "dan_1_10_53_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 500,
@@ -152643,6 +155185,8 @@ export const WORLD = {
               "groupId": 364,
               "name": "dan_1_10_54_11/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 503,
@@ -152857,6 +155401,8 @@ export const WORLD = {
               "groupId": 361,
               "name": "dan_1_10_53_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 500,
@@ -152874,6 +155420,8 @@ export const WORLD = {
               "groupId": 362,
               "name": "dan_1_10_53_12/14",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 501,
@@ -152891,6 +155439,8 @@ export const WORLD = {
               "groupId": 364,
               "name": "dan_1_10_54_11/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 503,
@@ -152908,6 +155458,8 @@ export const WORLD = {
               "groupId": 366,
               "name": "dan_1_10_53_10/13&54_11/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 500,
@@ -152934,6 +155486,8 @@ export const WORLD = {
               "groupId": 360,
               "name": "dan_1_10_53_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 499,
@@ -153079,6 +155633,8 @@ export const WORLD = {
               "groupId": 364,
               "name": "dan_1_10_54_11/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 503,
@@ -153096,6 +155652,8 @@ export const WORLD = {
               "groupId": 365,
               "name": "dan_1_10_54_13/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 504,
@@ -153113,6 +155671,8 @@ export const WORLD = {
               "groupId": 362,
               "name": "dan_1_10_53_12/14",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 501,
@@ -153130,6 +155690,8 @@ export const WORLD = {
               "groupId": 366,
               "name": "dan_1_10_53_10/13&54_11/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 500,
@@ -153156,6 +155718,8 @@ export const WORLD = {
               "groupId": 363,
               "name": "dan_1_10_54_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 502,
@@ -153173,6 +155737,8 @@ export const WORLD = {
               "groupId": 1309,
               "name": "诡异矿石石龟",
               "weight": 50,
+              "appearByItemId": 2785,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 2485,
@@ -153369,6 +155935,8 @@ export const WORLD = {
               "groupId": 362,
               "name": "dan_1_10_53_12/14",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 501,
@@ -153386,6 +155954,8 @@ export const WORLD = {
               "groupId": 365,
               "name": "dan_1_10_54_13/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 504,
@@ -153403,6 +155973,8 @@ export const WORLD = {
               "groupId": 367,
               "name": "dan_1_10_53_12/14&54_13/15",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 501,
@@ -153787,6 +156359,8 @@ export const WORLD = {
               "groupId": 334,
               "name": "dan_2_01_183_10/13",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 460,
@@ -153804,6 +156378,8 @@ export const WORLD = {
               "groupId": 337,
               "name": "dan_2_01_184_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 463,
@@ -153821,6 +156397,8 @@ export const WORLD = {
               "groupId": 339,
               "name": "dan_2_01_183&184_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 460,
@@ -153980,6 +156558,8 @@ export const WORLD = {
               "groupId": 329,
               "name": "dan_2_03_21_25/28",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 456,
@@ -154014,6 +156594,8 @@ export const WORLD = {
               "groupId": 329,
               "name": "dan_2_03_21_25/28",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 456,
@@ -154031,6 +156613,8 @@ export const WORLD = {
               "groupId": 332,
               "name": "dan_2_03_21_25/28&22_28/30",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 456,
@@ -154057,6 +156641,8 @@ export const WORLD = {
               "groupId": 331,
               "name": "dan_2_03_22_28/30",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 458,
@@ -154074,6 +156660,8 @@ export const WORLD = {
               "groupId": 328,
               "name": "dan_2_03_21_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 455,
@@ -154091,6 +156679,8 @@ export const WORLD = {
               "groupId": 330,
               "name": "dan_2_03_22_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 457,
@@ -154511,6 +157101,8 @@ export const WORLD = {
               "groupId": 342,
               "name": "dan_2_04_172_10/13",
               "weight": 30,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 466,
@@ -154528,6 +157120,8 @@ export const WORLD = {
               "groupId": 346,
               "name": "dan_2_04_333_10/13",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 470,
@@ -154770,6 +157364,8 @@ export const WORLD = {
               "groupId": 416,
               "name": "dan_2_05_43_13/15",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 727,
@@ -154787,6 +157383,8 @@ export const WORLD = {
               "groupId": 419,
               "name": "dan_2_05_62_10/12",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 723,
@@ -154804,6 +157402,8 @@ export const WORLD = {
               "groupId": 422,
               "name": "米金恩斯基",
               "weight": 30,
+              "appearByItemId": 2464,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 731,
@@ -154969,6 +157569,8 @@ export const WORLD = {
               "groupId": 423,
               "name": "dan_2_06_ban",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 732,
@@ -155279,6 +157881,8 @@ export const WORLD = {
               "groupId": 427,
               "name": "JBA_1/2/3/4/5",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 951,
@@ -155538,6 +158142,8 @@ export const WORLD = {
               "groupId": 395,
               "name": "dan_2_08_331_25/26",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 540,
@@ -155555,6 +158161,8 @@ export const WORLD = {
               "groupId": 397,
               "name": "dan_2_08_332_26/27",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 542,
@@ -155572,6 +158180,8 @@ export const WORLD = {
               "groupId": 399,
               "name": "dan_2_08_333_27/28",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 544,
@@ -155589,6 +158199,8 @@ export const WORLD = {
               "groupId": 403,
               "name": "dan_2_08_all",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 540,
@@ -155651,6 +158263,8 @@ export const WORLD = {
               "groupId": 1209,
               "name": "地蛇",
               "weight": 20,
+              "appearByItemId": 1702,
+              "notAppearByItemId": 1703,
               "enemies": [
                 {
                   "enemyId": 2202,
@@ -155850,6 +158464,8 @@ export const WORLD = {
               "groupId": 473,
               "name": "dan_3_14_242_38/40",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1010,
@@ -155867,6 +158483,8 @@ export const WORLD = {
               "groupId": 475,
               "name": "dan_3_14_243_38/40",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1011,
@@ -155884,6 +158502,8 @@ export const WORLD = {
               "groupId": 477,
               "name": "dan_3_14_242&243_38/40",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1010,
@@ -155910,6 +158530,8 @@ export const WORLD = {
               "groupId": 1218,
               "name": "百年海主人",
               "weight": 1,
+              "appearByItemId": 1795,
+              "notAppearByItemId": 1797,
               "enemies": [
                 {
                   "enemyId": 1011,
@@ -155936,6 +158558,8 @@ export const WORLD = {
               "groupId": 1232,
               "name": "恶霸老大",
               "weight": 10,
+              "appearByItemId": 1987,
+              "notAppearByItemId": 1988,
               "enemies": [
                 {
                   "enemyId": 2255,
@@ -155988,6 +158612,8 @@ export const WORLD = {
               "groupId": 473,
               "name": "dan_3_14_242_38/40",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1010,
@@ -156005,6 +158631,8 @@ export const WORLD = {
               "groupId": 475,
               "name": "dan_3_14_243_38/40",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1011,
@@ -156022,6 +158650,8 @@ export const WORLD = {
               "groupId": 477,
               "name": "dan_3_14_242&243_38/40",
               "weight": 15,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1010,
@@ -156048,6 +158678,8 @@ export const WORLD = {
               "groupId": 472,
               "name": "dan_3_14_242_1",
               "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1009,
@@ -156195,6 +158827,8 @@ export const WORLD = {
               "groupId": 467,
               "name": "dan_3_13&15_221_35/36",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1005,
@@ -156212,6 +158846,8 @@ export const WORLD = {
               "groupId": 468,
               "name": "dan_3_13&15_222_35/38",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1006,
@@ -156229,6 +158865,8 @@ export const WORLD = {
               "groupId": 469,
               "name": "dan_3_13&15_223_35/38",
               "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1007,
@@ -156246,6 +158884,8 @@ export const WORLD = {
               "groupId": 470,
               "name": "dan_3_13&15_224_35/38",
               "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1008,
@@ -156263,6 +158903,8 @@ export const WORLD = {
               "groupId": 471,
               "name": "dan_3_13&15_22all_35/36",
               "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
               "enemies": [
                 {
                   "enemyId": 1005,

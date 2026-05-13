@@ -248,6 +248,8 @@ function parseEnemyGroups(file, specs) {
     out.set(groupId, {
       groupId,
       name: cleanName(cols[0]) || `group ${groupId}`,
+      appearByItemId: positiveId(cols[2]),
+      notAppearByItemId: positiveId(cols[3]),
       enemies,
       source: `${GMSV_DATA_SOURCE}/group1.txt`
     });
@@ -271,6 +273,8 @@ function parseEncounters(file, groupsById) {
         groupId,
         name: group.name,
         weight: Math.max(1, Number(cols[20 + i]) || 1),
+        appearByItemId: group.appearByItemId,
+        notAppearByItemId: group.notAppearByItemId,
         enemies: group.enemies,
         source: group.source
       });
@@ -298,6 +302,11 @@ function normalizeBounds([x1, y1, x2, y2]) {
     Math.max(Number(x1) || 0, Number(x2) || 0),
     Math.max(Number(y1) || 0, Number(y2) || 0)
   ];
+}
+
+function positiveId(value) {
+  const id = Number(value);
+  return Number.isFinite(id) && id > 0 ? id : null;
 }
 
 function encounterPetNos(areas) {

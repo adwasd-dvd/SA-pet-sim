@@ -1127,13 +1127,17 @@ async function createEncounterParty(env, request, game, map) {
   const data = await loadGameData(env, request);
   const area = chooseEncounterArea(map, game.location);
   if (area?.groups?.length) {
+    const availableGroups = area.groups.filter((group) => encounterGroupCanAppear(game, group));
+    if (!availableGroups.length) {
+      return { enemies: [], area, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} gated by ${GMSV_DATA_SOURCE}/group1.txt item rules` };
+    }
     const enemies = [];
     const counts = new Map();
     const enemyMax = Math.max(1, Number(area.enemyMax || 1));
     const count = randRange(1, enemyMax);
     const attempts = Math.max(10, count * 8);
     for (let i = 0; enemies.length < count && i < attempts; i += 1) {
-      const group = pickWeighted(area.groups, (item) => item.weight);
+      const group = pickWeighted(availableGroups, (item) => item.weight);
       const entry = group ? pickWeighted(group.enemies || [], (item) => item.weight) : null;
       if (entry && Number(counts.get(entry.enemyId) || 0) >= Math.max(1, Number(entry.createMax || 1))) continue;
       const enemy = entry ? createWildEnemyFromSpec(data, entry, game, area, group) : null;
@@ -1160,6 +1164,14 @@ async function createEncounterParty(env, request, game, map) {
     area: null,
     source: `${GMSV_DATA_SOURCE}/encount.txt fallback tempNo + ${GMSV_DATA_SOURCE}/enemybase2.txt`
   };
+}
+
+function encounterGroupCanAppear(game, group) {
+  const requiredItem = Number(group?.appearByItemId || 0);
+  if (requiredItem > 0 && !findInventoryItem(game, requiredItem)) return false;
+  const blockedItem = Number(group?.notAppearByItemId || 0);
+  if (blockedItem > 0 && findInventoryItem(game, blockedItem)) return false;
+  return true;
 }
 
 function chooseEncounterArea(map, location) {
