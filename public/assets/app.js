@@ -164,7 +164,8 @@ const mapView = {
   holdMoveInterval: 0,
   holdMoveActive: false,
   holdMoveLastKey: "",
-  suppressNextClick: false
+  suppressNextClick: false,
+  npcHitboxes: []
 };
 
 const els = {
@@ -435,6 +436,7 @@ function renderMap(map) {
     return;
   }
   resetLargeMapRenderer();
+  mapView.npcHitboxes = [];
   const renderVersion = ++mapRenderVersion;
   const layout = mapLayout(map);
   const metrics = mapMetrics(map);
@@ -540,9 +542,24 @@ function onMapCanvasDoubleClick(event) {
 function npcFromMapEvent(event, maxTileDistance = 1) {
   const npcBtn = event.target.closest("[data-npc]");
   if (npcBtn && els.mapCanvas.contains(npcBtn)) return npcById(npcBtn.dataset.npc);
+  const spriteNpc = npcFromSpriteHitbox(event);
+  if (spriteNpc) return spriteNpc;
   const tile = mapTileFromPointer(event);
   if (!tile) return null;
   return nearestNpcToTile(tile, maxTileDistance);
+}
+
+function npcFromSpriteHitbox(event) {
+  const point = mapContentPointFromPointer(event);
+  if (!point || !mapView.npcHitboxes.length) return null;
+  const candidates = mapView.npcHitboxes
+    .filter((box) => point.x >= box.left && point.x <= box.right && point.y >= box.top && point.y <= box.bottom)
+    .map((box) => ({
+      ...box,
+      distance: Math.hypot(point.x - box.centerX, point.y - box.centerY)
+    }))
+    .sort((a, b) => a.distance - b.distance || b.depth - a.depth || b.order - a.order);
+  return candidates.length ? npcById(candidates[0].npcId) : null;
 }
 
 function npcById(npcId) {
@@ -957,11 +974,17 @@ function cellDistance(ax, ay, bx, by) {
   return Math.max(Math.abs(Number(ax || 0) - Number(bx || 0)), Math.abs(Number(ay || 0) - Number(by || 0)));
 }
 
+function mapContentPointFromPointer(event) {
+  const rect = els.mapCanvas.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left - mapView.panX) / mapView.zoom,
+    y: (event.clientY - rect.top - mapView.panY) / mapView.zoom
+  };
+}
+
 function mapTileFromPointer(event) {
   if (!game?.world?.map) return null;
-  const rect = els.mapCanvas.getBoundingClientRect();
-  const contentX = (event.clientX - rect.left - mapView.panX) / mapView.zoom;
-  const contentY = (event.clientY - rect.top - mapView.panY) / mapView.zoom;
+  const { x: contentX, y: contentY } = mapContentPointFromPointer(event);
   const map = game.world.map;
   const canvas = els.mapCanvas.querySelector(".ls2-map");
   const metrics = mapMetrics(map);
@@ -1226,7 +1249,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
       sprites.push(mapDepthSprite(atlas, object, px, py, screenX, screenY, x, y, "part", order++));
     }
   }
-  sprites.push(...collectNpcSprites(map, atlas, (npc, index) => {
+  const npcSprites = collectNpcSprites(map, atlas, (npc, index) => {
     const [mapX, mapY] = mapRenderPoint(npc.x, npc.y, width, height);
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     return mapDepthSprite(
@@ -1241,7 +1264,9 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
       "char",
       order + index
     );
-  }));
+  });
+  updateNpcSpriteHitboxes(npcSprites);
+  sprites.push(...npcSprites);
   sprites.push(...collectPlayerSprites(map, atlas, (tileId) => {
     const playerPoint = playerTilePoint();
     const [mapX, mapY] = mapRenderPoint(playerPoint.x, playerPoint.y, width, height);
@@ -1272,7 +1297,11 @@ function collectNpcSprites(map, atlas, locate) {
   return map.npcs
     .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
     .filter((npc) => npc.graphicId > CG_INVISIBLE && atlas.frames?.[npc.graphicId])
-    .map((npc, index) => locate(npc, index));
+    .map((npc, index) => {
+      const sprite = locate(npc, index);
+      return sprite ? { ...sprite, npcId: npc.id, npcName: npc.name } : null;
+    })
+    .filter(Boolean);
 }
 
 function collectPlayerSprites(map, atlas, locate) {
@@ -1756,6 +1785,7 @@ function drawViewportDynamicSprites(ctx, renderer, state) {
   const { x1, y1, x2, y2 } = viewportTileBounds(renderer, state);
   let order = 0;
   const charSprites = collectViewportCharSprites(renderer, order);
+  updateNpcSpriteHitboxes(charSprites);
   order += charSprites.length;
   const sprites = [...charSprites];
   forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
@@ -1778,6 +1808,24 @@ function drawViewportDynamicSprites(ctx, renderer, state) {
     }
   });
   drawDepthSprites(ctx, renderer.atlas, sprites);
+}
+
+function updateNpcSpriteHitboxes(sprites = []) {
+  const pad = 3;
+  mapView.npcHitboxes = sprites
+    .filter((sprite) => sprite.npcId)
+    .map((sprite) => ({
+      npcId: sprite.npcId,
+      npcName: sprite.npcName || "",
+      left: sprite.left - pad,
+      top: sprite.top - pad,
+      right: sprite.right + pad,
+      bottom: sprite.bottom + pad,
+      centerX: (sprite.left + sprite.right) / 2,
+      centerY: (sprite.top + sprite.bottom) / 2,
+      depth: Number(sprite.depth || 0),
+      order: Number(sprite.order || 0)
+    }));
 }
 
 function collectViewportCharSprites(renderer, order = 0) {
