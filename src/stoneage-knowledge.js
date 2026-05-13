@@ -16,16 +16,16 @@ const QUEST_INDEX_25_KNOWLEDGE = STONEAGE_QUEST_INDEX_25.map((entry) => ({
 }));
 
 export const STONEAGE_KNOWLEDGE = {
-  version: "17173-stoneage-knowledge-v2",
-  sourceLabel: "17173 石器时代专区",
+  version: "stoneage-knowledge-v2",
+  sourceLabel: "石器时代资料库",
   sources: {
-    quests: "https://news.17173.com/z/stoneage/renwu/renwu.htm",
-    questIndex25: STONEAGE_QUEST_VERSION_SCOPE.source,
-    versions: "https://news.17173.com/z/stoneage/banben/banben.htm",
-    pets: "https://news.17173.com/z/stoneage/chongwu/pet.htm",
-    guide: "https://news.17173.com/z/stoneage/guide/guide.htm",
-    villages: "https://news.17173.com/z/stoneage/cunzhuang/cunzhuang.htm",
-    maps: "https://news.17173.com/z/stoneage/ditu/ditu.htm"
+    quests: "任务攻略目录",
+    questIndex25: STONEAGE_QUEST_VERSION_SCOPE.sourceLabel,
+    versions: "版本资料",
+    pets: "宠物资料",
+    guide: "新手指南",
+    villages: "村庄购物资料",
+    maps: "地图坐标资料"
   },
   entries: [
     {
@@ -33,7 +33,7 @@ export const STONEAGE_KNOWLEDGE = {
       category: "world",
       title: "尼斯大陆与出生地",
       tags: ["尼斯大陆", "塞纳斯", "萨伊那斯", "加鲁迦", "加鲁卡", "萨姆吉尔", "玛丽娜斯", "加加", "卡鲁它那", "出生地"],
-      summary: "17173 新手资料把石器世界称为尼斯大陆，早期冒险主要围绕塞纳斯/萨伊那斯与加鲁迦/加鲁卡两大岛展开。",
+      summary: "新手资料把石器世界称为尼斯大陆，早期冒险主要围绕塞纳斯/萨伊那斯与加鲁迦/加鲁卡两大岛展开。",
       facts: [
         "萨姆吉尔村以英雄萨姆吉尔命名，玛丽娜斯渔村与海产和海之精灵意象相关。",
         "加鲁迦/加鲁卡岛森林密布，加加村是树上村落，卡鲁它那是由小岛组成的渔村。",
@@ -43,8 +43,8 @@ export const STONEAGE_KNOWLEDGE = {
         "NPC 谈出生地时要先问或查看玩家当前地图，不要假定所有玩家都从同一村出发。",
         "向导推荐路线时优先用当前 Worker 出口和 gmsv mapwarp，再用这些世界观名称解释方向。"
       ],
-      source: "https://news.17173.com/z/stoneage/guide/13.htm",
-      sourceLabel: "17173/guide/13"
+      source: "资料库/guide/13",
+      sourceLabel: "guide/13"
     },
     {
       id: "beginner-first-steps",
@@ -56,21 +56,21 @@ export const STONEAGE_KNOWLEDGE = {
         "进入游戏后通常先在村内学习走路、与 NPC 对话、查看地图与坐标。",
         "道具栏只有 15 个袋子，外出冒险前应留空位，否则无法继续拾取或购买。",
         "一次只能派一只宠物出击，宠物可设为战斗、休息、邮件、等待等状态。",
-        "新手创建人物时，17173 建议体力 8-9、腕力 4-5、耐力 4-5、速度 1-2 作为稳健开局。"
+        "新手创建人物时，资料建议体力 8-9、腕力 4-5、耐力 4-5、速度 1-2 作为稳健开局。"
       ],
       guidance: [
         "玩家问下一步时，先检查 HP、背包空位、出战宠、附近 NPC 和出口。",
         "NPC 不要把外部攻略当成已完成状态；任务、交易和传送仍看当前脚本。"
       ],
-      source: "https://news.17173.com/z/stoneage/guide/14.htm",
-      sourceLabel: "17173/guide/14"
+      source: "资料库/guide/14",
+      sourceLabel: "guide/14"
     },
     {
       id: "attributes-and-elements",
       category: "combat",
       title: "属性与基础战斗相克",
       tags: ["属性", "地", "水", "火", "风", "攻击", "防御", "敏捷", "耐久", "魅力", "相克", "战斗"],
-      summary: "17173 属性页把人物能力、武器倾向和四属性相克作为早期战斗判断基础。",
+      summary: "属性资料把人物能力、武器倾向和四属性相克作为早期战斗判断基础。",
       facts: [
         "四属性关系是地克水、水克火、火克风、风克地。",
         "攻击力影响伤害，防御力降低受伤，敏捷影响回避、反击和行动顺序。",
@@ -81,8 +81,8 @@ export const STONEAGE_KNOWLEDGE = {
         "战斗建议要结合当前敌我等级、HP 和宠物属性，不能只凭属性相克下结论。",
         "向导可以解释相克，但实际伤害仍由 Worker 战斗结算。"
       ],
-      source: "https://news.17173.com/z/stoneage/guide/15.htm",
-      sourceLabel: "17173/guide/15"
+      source: "资料库/guide/15",
+      sourceLabel: "guide/15"
     },
     {
       id: "battle-basics",
@@ -99,8 +99,8 @@ export const STONEAGE_KNOWLEDGE = {
         "NPC 要把随机遇敌、NPCEnemy 开战和向导辅助开战区分清楚。",
         "玩家问刷怪时先查当前地图 encount.txt 和安全区规则。"
       ],
-      source: "https://news.17173.com/z/stoneage/guide/13.htm",
-      sourceLabel: "17173/guide/13"
+      source: "资料库/guide/13",
+      sourceLabel: "guide/13"
     },
     {
       id: "pet-system-basics",
@@ -118,8 +118,8 @@ export const STONEAGE_KNOWLEDGE = {
         "宠物建议要先看当前出战宠、宠物栏容量和可捕获资料。",
         "不要承诺稀有宠一定能抓到；捕获成功率由当前战斗与 Worker 规则决定。"
       ],
-      source: "https://news.17173.com/z/stoneage/chongwu/pet01.htm",
-      sourceLabel: "17173/chongwu/pet01"
+      source: "资料库/chongwu/pet01",
+      sourceLabel: "chongwu/pet01"
     },
     {
       id: "pet-skills",
@@ -137,15 +137,15 @@ export const STONEAGE_KNOWLEDGE = {
         "当前 Worker 还没有全量宠物技能 VM 时，NPC 要说清楚“资料里有，当前只模拟部分”。",
         "玩家问技能时优先解释用途和限制，不要虚构已学会的技能。"
       ],
-      source: "https://news.17173.com/z/stoneage/chongwu/pet03.htm",
-      sourceLabel: "17173/chongwu/pet03"
+      source: "资料库/chongwu/pet03",
+      sourceLabel: "chongwu/pet03"
     },
     {
       id: "pet-mail-and-riding",
       category: "pet",
       title: "宠物邮件与骑宠",
       tags: ["宠物邮件", "邮件", "名片", "骑宠", "骑乘", "骑师", "庄园", "雷龙", "老虎", "忠诚100"],
-      summary: "17173 宠物资料介绍了宠物邮件和骑宠：宠物可做信差，骑宠技能则训练玩家而不是宠物本身。",
+      summary: "宠物资料介绍了宠物邮件和骑宠：宠物可做信差，骑宠技能则训练玩家而不是宠物本身。",
       facts: [
         "宠物邮件需要先交换名片、对方在线，并把一只宠物设为邮件状态。",
         "特殊道具和石币通常不能用宠物邮件寄送。",
@@ -156,8 +156,8 @@ export const STONEAGE_KNOWLEDGE = {
         "单人版如未实现邮件/骑宠，NPC 应把它作为原版资料说明，不要直接开启功能。",
         "骑宠答复要强调忠诚度和已学骑乘等级。"
       ],
-      source: "https://news.17173.com/z/stoneage/chongwu/pet02.htm",
-      sourceLabel: "17173/chongwu/pet02+pet04"
+      source: "资料库/chongwu/pet02",
+      sourceLabel: "chongwu/pet02+pet04"
     },
     {
       id: "version-75-spirit-summon",
@@ -175,15 +175,15 @@ export const STONEAGE_KNOWLEDGE = {
         "NPC 谈版本历史时要把它当世界背景，不要把所有 7.5 功能都假定当前 Worker 已实现。",
         "玩家问二转/六转时可指出这是高阶主线，需要对应任务 NPC、道具和前置条件。"
       ],
-      source: "https://news.17173.com/z/stoneage/banben/sa75_1.htm",
-      sourceLabel: "17173/banben/sa75_1"
+      source: "资料库/banben/sa75_1",
+      sourceLabel: "banben/sa75_1"
     },
     {
       id: "quest-index-major-versions",
       category: "quest",
       title: "任务索引：2.0 到 8.0 的攻略脉络",
       tags: ["任务", "攻略", "任务攻略", "8.0", "7.5", "7.0", "6.0", "5.0", "4.0", "3.0", "2.0", "南岛", "北岛", "吉鲁岛", "沙姆岛"],
-      summary: "17173 任务页按版本和岛屿整理攻略，覆盖 8.0、7.5、7.0、6.0、5.0、4.0、3.0、2.0 以及南北岛/吉鲁/沙姆任务。",
+      summary: "任务资料按版本和岛屿整理攻略，覆盖 8.0、7.5、7.0、6.0、5.0、4.0、3.0、2.0 以及南北岛/吉鲁/沙姆任务。",
       facts: [
         "8.0 收录思念故乡的贝克、慰灵碑、黄泉之路、塔蜜提雅之迷、人龙进化等。",
         "7.5 收录地精灵找战士团团长、雷尔、宠物二转、精灵的召唤、六转生之迷、永远的忠诚。",
@@ -194,15 +194,15 @@ export const STONEAGE_KNOWLEDGE = {
         "如果知识库只有任务标题，NPC 应说“我知道这是哪个攻略线，但具体步骤要看对应任务页或本地脚本”。",
         "任务执行仍以当前地图 NPC、背包道具、flag 和 gmsv 脚本为准。"
       ],
-      source: "https://news.17173.com/z/stoneage/renwu/renwu.htm",
-      sourceLabel: "17173/renwu/index"
+      source: "资料库/renwu/renwu",
+      sourceLabel: "renwu/index"
     },
     {
       id: "quest-adult-ceremony",
       category: "quest",
       title: "成人仪式",
       tags: ["成人仪式", "成人礼", "LV30", "LV35", "海底通道", "柯奥村", "卡鲁它那村", "仪之玉", "仪之盔"],
-      summary: "成人仪式是早期关键任务，17173 资料标记 30 级可做，35 级后更轻松。",
+      summary: "成人仪式是早期关键任务，任务资料标记 30 级可做，35 级后更轻松。",
       facts: [
         "北岛路线可从柯奥村附近进入海底通道；南岛路线通常要在卡鲁它那村买通行证后从村外西北洞口进入。",
         "进入成人礼洞穴后老人会要求收集 15 个仪之玉。",
@@ -213,15 +213,15 @@ export const STONEAGE_KNOWLEDGE = {
         "玩家未到等级或战宠太弱时，建议先练级、补给和留背包空位。",
         "涉及通行证和奖励时不要直接发放，必须由脚本或 Worker VM 校验。"
       ],
-      source: "https://news.17173.com/z/stoneage/renwu/n10.htm",
-      sourceLabel: "17173/renwu/n10"
+      source: "资料库/renwu/n10",
+      sourceLabel: "renwu/n10"
     },
     {
       id: "quest-red-raptor-hero-island",
       category: "quest",
       title: "英雄岛前传：红暴",
       tags: ["红暴", "英雄岛", "波拉岛", "拨拉岛", "日美子", "弥生", "不可思议的贝", "黑乌力", "水灞洞窟", "龙王", "龙王玉", "英雄的祝福", "巴朵兰恩"],
-      summary: "红暴任务是英雄岛前传，17173 标记条件为 80 级以上并完成成人礼。",
+      summary: "红暴任务是英雄岛前传，任务资料标记条件为 80 级以上并完成成人礼。",
       facts: [
         "常见起线是萨村日美子送花到渔村弥生，取得不可思议的贝，再回萨村找黑乌力进入英雄岛。",
         "鱼村出生可直接找弥生取贝壳；其他出生地通常先从萨村日美子接线。",
@@ -232,15 +232,15 @@ export const STONEAGE_KNOWLEDGE = {
         "这是高等级长线任务，NPC 要提醒前置成人礼、补给、组队/战宠强度。",
         "当前地图不在任务链时，向导应给“找对应 NPC/入口”的方向，不要直接跳完整流程。"
       ],
-      source: "https://news.17173.com/z/stoneage/renwu/news_01.htm",
-      sourceLabel: "17173/renwu/news_01"
+      source: "资料库/renwu/news_01",
+      sourceLabel: "renwu/news_01"
     },
     {
       id: "quest-four-sacred-stones",
       category: "quest",
       title: "英雄岛后传：四圣石",
       tags: ["四圣石", "四宝玉", "英雄岛后传", "绿雷龙", "金虎", "泰坦", "鲁乌", "迪欧", "加美", "地之宝玉", "水之宝玉", "火之宝玉", "风之宝玉"],
-      summary: "四圣石任务是英雄岛后传，17173 明确写在做红暴/英雄岛任务后继续。",
+      summary: "四圣石任务是英雄岛后传，任务资料明确写在做红暴/英雄岛任务后继续。",
       facts: [
         "任务从海底洞窟接线后，会牵涉泰坦队员、萨姆吉尔、公文、通行证与泰坦洞窟。",
         "鲁乌、迪欧、加美等人形/特定宠需要练到指定等级并配合采矿、伐木、钓竿等证明。",
@@ -251,8 +251,8 @@ export const STONEAGE_KNOWLEDGE = {
         "回答四圣石时要强调它是长链后传，先确认红暴线、成人礼和所需证明。",
         "如玩家只问“金虎/绿雷龙”，先说明其与宝玉和英雄岛后续相关。"
       ],
-      source: "https://news.17173.com/z/stoneage/renwu/news_02.htm",
-      sourceLabel: "17173/renwu/news_02"
+      source: "资料库/renwu/news_02",
+      sourceLabel: "renwu/news_02"
     },
     {
       id: "quest-commission-shops",
@@ -269,26 +269,26 @@ export const STONEAGE_KNOWLEDGE = {
         "玩家问委托时先检查背包、宠物栏和当前村，不要承诺跨村委托通用。",
         "交付宠物/料理必须等本地脚本实现后再扣除或奖励。"
       ],
-      source: "https://news.17173.com/z/stoneage/renwu/wt01.htm",
-      sourceLabel: "17173/renwu/wt01"
+      source: "资料库/renwu/wt01",
+      sourceLabel: "renwu/wt01"
     },
     {
       id: "map-index",
       category: "map",
       title: "石器地图与坐标索引",
       tags: ["地图", "坐标", "座标", "北岛", "南岛", "吉鲁岛", "沙姆岛", "全貌图", "洞窟", "LV1宠物地图"],
-      summary: "17173 地图页提供四大岛坐标入口和大量全貌图、村庄图、LV1 宠物地图。",
+      summary: "地图资料提供四大岛坐标入口和大量全貌图、村庄图、LV1 宠物地图。",
       facts: [
         "坐标索引分北岛、南岛、吉鲁岛、沙姆岛四类。",
         "地图页还列有伊甸大陆、地城/水城/火城/风城、天空之岛、萨姆吉尔、玛丽娜斯、加加、卡鲁它那等全貌图。",
-        "17173 特别强调大地图容易迷路，坐标是找村庄、洞窟和任务点的核心线索。"
+        "地图资料强调大地图容易迷路，坐标是找村庄、洞窟和任务点的核心线索。"
       ],
       guidance: [
-        "向导说路线时优先给当前 Worker 出口；跨岛方向可补充 17173 坐标名词。",
+        "向导说路线时优先给当前 Worker 出口；跨岛方向可补充攻略坐标名词。",
         "图片全貌图不能直接等于当前打包地图，实际移动仍按 WORLD.maps。"
       ],
-      source: "https://news.17173.com/z/stoneage/ditu/ditu.htm",
-      sourceLabel: "17173/ditu/index"
+      source: "资料库/ditu/ditu",
+      sourceLabel: "ditu/index"
     },
     {
       id: "north-island-coordinates",
@@ -306,8 +306,8 @@ export const STONEAGE_KNOWLEDGE = {
         "玩家说“萨村/渔村”时要识别简称，结合当前地图出口给最近行动。",
         "坐标来自攻略资料；游戏内实际 floor 和坐标以当前地图数据为准。"
       ],
-      source: "https://news.17173.com/z/stoneage/ditu/zb1.htm",
-      sourceLabel: "17173/ditu/zb1"
+      source: "资料库/ditu/zb1",
+      sourceLabel: "ditu/zb1"
     },
     {
       id: "south-island-coordinates",
@@ -325,8 +325,8 @@ export const STONEAGE_KNOWLEDGE = {
         "南岛地点较分散，回答时最好给目标村名加坐标，而不是只说“往南走”。",
         "遇敌建议要区别村庄安全区和洞窟/野外。"
       ],
-      source: "https://news.17173.com/z/stoneage/ditu/zb2.htm",
-      sourceLabel: "17173/ditu/zb2"
+      source: "资料库/ditu/zb2",
+      sourceLabel: "ditu/zb2"
     },
     {
       id: "village-shopping-index",
@@ -344,8 +344,8 @@ export const STONEAGE_KNOWLEDGE = {
         "商店 NPC 只能围绕自己的商品和当前地图服务回答，不要代替别村商店卖货。",
         "玩家问补给时先推荐医院、肉屋、道具店和宠物店等当前地图已有服务。"
       ],
-      source: "https://news.17173.com/z/stoneage/cunzhuang/cunzhuang.htm",
-      sourceLabel: "17173/cunzhuang/index"
+      source: "资料库/cunzhuang/cunzhuang",
+      sourceLabel: "cunzhuang/index"
     },
     {
       id: "samugiru-shopping",
@@ -362,8 +362,8 @@ export const STONEAGE_KNOWLEDGE = {
         "萨村 NPC 可自然提到村内补给、记录点和基础装备，但结账必须走当前商品表。",
         "玩家问记录点时要看当前是否已实现 SavePoint NPC。"
       ],
-      source: "https://news.17173.com/z/stoneage/cunzhuang/06.htm",
-      sourceLabel: "17173/cunzhuang/06"
+      source: "资料库/cunzhuang/06",
+      sourceLabel: "cunzhuang/06"
     },
     {
       id: "marinas-shopping",
@@ -380,8 +380,8 @@ export const STONEAGE_KNOWLEDGE = {
         "玩家说“渔村”时优先映射到玛丽娜斯渔村。",
         "料理相关问答可自然引导到材料、宠物料理技能或委托店。"
       ],
-      source: "https://news.17173.com/z/stoneage/cunzhuang/07.htm",
-      sourceLabel: "17173/cunzhuang/07"
+      source: "资料库/cunzhuang/07",
+      sourceLabel: "cunzhuang/07"
     },
     {
       id: "gaga-karutana-shopping",
@@ -398,8 +398,8 @@ export const STONEAGE_KNOWLEDGE = {
         "商人 NPC 回答“哪里买材料”时可以区分料理材料和合成素材。",
         "不要跨店直接卖别村素材；可以建议玩家走出口或请求向导传送。"
       ],
-      source: "https://news.17173.com/z/stoneage/guide/14.htm",
-      sourceLabel: "17173/guide/14"
+      source: "资料库/guide/14",
+      sourceLabel: "guide/14"
     },
     ...QUEST_INDEX_25_KNOWLEDGE,
     {

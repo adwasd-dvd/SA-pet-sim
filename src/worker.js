@@ -2400,7 +2400,7 @@ async function guideGame(env, request, game, prompt) {
           "你是单人版石器时代网页运行时的向导，不是万能 GM。",
           "必须只根据给定 JSON 回答；把“当前能做的事”和“需要找对应 NPC/脚本的事”说清楚。",
           "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、原 gmsv 脚本线索。",
-          "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的 17173 压缩条目；条目只是索引时要说明不能补编完整流程。",
+          "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的石器时代资料库条目；条目只是索引时要说明不能补编完整流程。",
           "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
         ].join("\n")
@@ -2429,7 +2429,7 @@ async function callOpenAiGuide(env, context, prompt) {
     "只根据当前 JSON 状态回答；不要编不存在的地点、NPC、道具、任务或奖励。",
     "如果请求会改变游戏状态，说明应由 Worker 的确定性逻辑执行；你只负责解释和提出下一步。",
     "优先引用当前地图、附近 NPC、出口、任务进度、背包、宠物、战斗和临时状态。",
-    "context.knowledge 是从 17173 石器时代专区压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
+    "context.knowledge 是从石器时代资料库压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
     "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
   ].join("\n");
@@ -3758,7 +3758,7 @@ async function aiNpcReply(env, request, game, npc, text) {
     }
   }
   const messages = [
-    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。knowledge 是从 17173 专区压缩出的相关条目，只能用来补充专业背景，不能把索引编成完整流程。workspace.memory 是 Worker 保存的受限记忆，只能当线索。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。knowledge 是从石器时代资料库压缩出的相关条目，只能用来补充专业背景，不能把索引编成完整流程。workspace.memory 是 Worker 保存的受限记忆，只能当线索。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
     { role: "user", content: JSON.stringify({
       npc: {
         id: npc.id,
@@ -3877,7 +3877,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
     "你正在扮演石器时代单人网页版里的当前 NPC，不是旁白，也不是万能 GM。",
     "必须保持 NPC 的姓名、职业、地图、脚本来源和行为范围；只能根据 JSON 上下文说话。",
     "NPC 可以解释任务、地图、交易、传送和战斗线索；也可以在自己力所能及的角色范围内提出帮助、优待或交涉意图，但不能直接改状态。",
-    "knowledge 是从 17173 石器时代专区压缩检索出的相关条目；只引用和玩家问题、当前地图或当前 NPC 相关的条目，不要把索引扩写成不存在的完整攻略。",
+    "knowledge 是从石器时代资料库压缩检索出的相关条目；只引用和玩家问题、当前地图或当前 NPC 相关的条目，不要把索引扩写成不存在的完整攻略。",
     "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前地图、背包、任务、flag 为准。",
     "所有交易、传送、奖励、flag、避敌、开战、折扣、赠品和角色帮助都必须交给 Worker 的 NPC VM 校验执行。",
     "只允许提出 action.type 中列出的动作；roleFavor 表示护士急救、守卫通融、店主额外照顾等角色内帮助，可能需要报酬，也可能被 VM 按概率拒绝。",
@@ -5654,7 +5654,7 @@ function buildStoneAgeKnowledgeContext(game, map, text = "", npc = null) {
   return {
     version: STONEAGE_KNOWLEDGE.version,
     source: STONEAGE_KNOWLEDGE.sourceLabel,
-    usage: "只把 entries 当作 17173 攻略/设定线索；实际动作仍由当前地图、NPC 脚本、背包和 Worker VM 决定。",
+    usage: "只把 entries 当作攻略/设定线索；实际动作仍由当前地图、NPC 脚本、背包和 Worker VM 决定。",
     entries: selectStoneAgeKnowledgeEntries(query, { game, map, npc, prompt: text, limit: 6 })
   };
 }
@@ -5794,8 +5794,7 @@ function compactStoneAgeKnowledgeEntry(entry) {
     status: entry.status || "",
     summary: entry.summary,
     facts: (entry.facts || []).slice(0, 4),
-    guidance: (entry.guidance || []).slice(0, 2),
-    source: entry.sourceLabel || entry.source
+    guidance: (entry.guidance || []).slice(0, 2)
   };
 }
 
@@ -5813,7 +5812,7 @@ function localStoneAgeKnowledgeReply(knowledge, speaker = "AI向导") {
     return `${index + 1}. ${entry.title}${meta ? `（${meta}）` : ""}：${fact}${guidance ? ` ${guidance}` : ""}`;
   });
   return [
-    `${speaker}按 17173 资料库能对上这些线索：`,
+    `${speaker}按石器时代资料库能对上这些线索：`,
     ...lines,
     "我会把这些当攻略背景；真正能不能交任务、传送、给奖励或开战，仍看当前 NPC 脚本、背包、flag 和 Worker VM。"
   ].join("\n");
@@ -5837,7 +5836,6 @@ function stoneAgeRelatedKnowledgeCategory(primary, category) {
 function isStoneAgeKnowledgeQuestion(text) {
   const value = guideSearchText(text);
   return hasAny(value, [
-    "17173",
     "攻略",
     "版本",
     "新手",

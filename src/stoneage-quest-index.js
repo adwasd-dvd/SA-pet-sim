@@ -1,19 +1,15 @@
-const RENWU_BASE_URL = "https://news.17173.com/z/stoneage/renwu/";
-
-const href = (value) => new URL(value, RENWU_BASE_URL).href;
-
 const task = (slug, title, source, aliases = []) => ({
   slug,
   title,
-  source: href(source),
+  source: `任务攻略/${source}`,
   aliases
 });
 
 export const STONEAGE_QUEST_VERSION_SCOPE = {
   maxVersion: "2.5",
-  source: "https://news.17173.com/z/stoneage/renwu/renwu.htm",
-  sourceLabel: "17173/renwu/index",
-  policy: "只收录 17173 任务目录中 2.5 及以前/早期岛屿/转生/JOT-SOT 任务索引；后续版本条目留给后续资料包。",
+  source: "任务攻略目录",
+  sourceLabel: "任务攻略目录",
+  policy: "只收录 2.5 及以前/早期岛屿/转生/JOT-SOT 任务索引；后续版本条目留给后续资料包。",
   groups: [
     "石器时代2.0-2.5重要攻略篇",
     "石器2.5任务攻略",
@@ -33,7 +29,7 @@ export const STONEAGE_QUEST_GROUPS_25 = [
     version: "2.0-2.5",
     group: "石器时代2.0-2.5重要攻略篇",
     tags: ["2.0", "2.5", "重要攻略", "繁体版", "红暴", "四圣石", "精灵少女", "黑暗精灵王"],
-    note: "17173 将这些作为 2.0-2.5 阶段的重要攻略索引。",
+    note: "2.0-2.5 阶段的重要攻略索引。",
     tasks: [
       task("four-stones-green-dragon-gold-tiger-big5", "四圣石、绿雷龙、金虎任务最佳详细解法", "big5-1.htm", ["四圣石", "绿雷龙", "金虎"]),
       task("five-jade-red-raptor-samugiru-jewelry-big5", "五勾玉、红暴、萨姆吉尔首饰任务详解", "big5-2.htm", ["五勾玉", "红暴", "萨姆吉尔首饰"]),
@@ -183,7 +179,7 @@ export const STONEAGE_QUEST_INDEX_25 = STONEAGE_QUEST_GROUPS_25.flatMap((group) 
     group: group.group,
     order: index + 1,
     source: entry.source,
-    sourceLabel: `17173/renwu/${entry.source.split("/").pop()}`,
+    sourceLabel: entry.source,
     tags: [
       entry.title,
       ...entry.aliases,
@@ -197,9 +193,9 @@ export const STONEAGE_QUEST_INDEX_25 = STONEAGE_QUEST_GROUPS_25.flatMap((group) 
     ],
     summary: `${group.group}目录条目：${entry.title}。${group.note}`,
     facts: [
-      `17173 任务目录把「${entry.title}」归在「${group.group}」。`,
+      `任务目录把「${entry.title}」归在「${group.group}」。`,
       `版本范围：${group.version}；当前只把它作为任务索引和 NPC/AI 线索。`,
-      `原攻略页：${entry.source}`
+      "完整流程需以对应任务资料和本地 gmsv 脚本接入为准。"
     ],
     guidance: [
       "回答玩家时先说明这是目录线索；完整步骤要以对应攻略页和本地 gmsv 脚本接入为准。",
