@@ -173,6 +173,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await dialogGame(env, request, body.game, String(body.npcId || ""), String(body.message || "")));
     }
+    if (url.pathname === "/api/game/dialog-ai" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(dialogAiModeGame(body.game, String(body.npcId || ""), Boolean(body.enabled)));
+    }
     if (url.pathname === "/api/game/buy" && request.method === "POST") {
       const body = await readJson(request);
       return json(buyGame(body.game, String(body.npcId || ""), Number(body.itemId)));
@@ -1151,6 +1155,19 @@ async function dialogGame(env, request, game, npcId, message) {
   ]);
   addLog(game, `${game.player.name} 对 ${npc.name} 说：${text}`);
   addLog(game, `${npc.name}：${reply}`);
+  return withMap(game, { npc });
+}
+
+function dialogAiModeGame(game, npcId, enabled) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc);
+  setNpcAiModeReply(game, npc, enabled);
+  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc);
+  openDialog(game, npc, existing);
+  addLog(game, `${npc.name} ${enabled ? "切换到 AI 对话" : "切回普通脚本对话"}。`);
   return withMap(game, { npc });
 }
 
@@ -2438,12 +2455,21 @@ function applyNpcHi(game, npc) {
 
 function nextNpcDialogueLine(game, npc) {
   const lines = npcDialogueLines(npc);
-  if (!lines.length) return `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
+  if (!lines.length) return npcDefaultLine(npc);
   ensureFlags(game);
   game.flags.npcTalkCounts ||= {};
   const count = Number(game.flags.npcTalkCounts[npc.id] || 0);
   game.flags.npcTalkCounts[npc.id] = count + 1;
   return lines[count % lines.length];
+}
+
+function npcDefaultLine(npc) {
+  if (npc.trade?.items?.length) return "欢迎光临。";
+  if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
+  if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
+  if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
+  if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
+  return "有什么事吗？";
 }
 
 function npcDialogueLines(npc) {
@@ -2813,7 +2839,7 @@ function eventFlagForNpcAction(npcId, action) {
 }
 
 function fallbackNpcReply(npc) {
-  return npcDialogueLines(npc)[0] || `脚本入口：${npc.script || npc.template || npc.source || "未配置"}`;
+  return npcDialogueLines(npc)[0] || npcDefaultLine(npc);
 }
 
 function tradeReply(game, npc) {
@@ -4266,13 +4292,23 @@ function normalizeGame(game) {
   game.savePoint ||= null;
   game.lastWarp ||= null;
   game.dialog ||= null;
+  if (game.dialog?.messages) game.dialog.messages = game.dialog.messages.map((message) => (
+    message?.speaker === "npc" && /^脚本入口：/.test(String(message.text || ""))
+      ? { ...message, text: "有什么事吗？" }
+      : message
+  ));
   game.battle ||= null;
   game.npcVmEvents ||= [];
   game.log ||= [];
+  game.log = game.log.map(sanitizePlayerFacingText).slice(-40);
   game.character.name = game.player.name;
   game.character.updatedAt = new Date().toISOString();
   game.save = buildSaacSave(game);
   return game;
+}
+
+function sanitizePlayerFacingText(text) {
+  return String(text || "").replace(/脚本入口：[^。\n]*/g, "有什么事吗？");
 }
 
 function ensureSaveIdentity(game) {

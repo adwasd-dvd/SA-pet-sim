@@ -2037,7 +2037,8 @@ function renderAssistPanel(map) {
     pets: renderAssistPets,
     items: renderAssistItems,
     character: renderAssistCharacter,
-    knowledge: renderAssistKnowledge
+    knowledge: renderAssistKnowledge,
+    debug: renderAssistDebug
   };
   const renderActive = renderers[assistTab] || renderAssistMap;
   els.assistPanelBody.innerHTML = renderActive(map);
@@ -2219,6 +2220,20 @@ async function sendDialog(message) {
   }
 }
 
+async function toggleDialogAiMode(enabled) {
+  if (!game?.dialog?.npcId) return;
+  const npcId = game.dialog.npcId;
+  try {
+    game = await api("/api/game/dialog-ai", { game, npcId, enabled });
+    save();
+    render();
+    els.dialogInput.focus();
+  } catch (error) {
+    appendDialogSystem(error.message || "无法切换 AI 对话。");
+    els.dialogInput.focus();
+  }
+}
+
 function onDialogInputKeyDown(event) {
   const key = event.key.toLowerCase();
   if (key === "escape") {
@@ -2263,20 +2278,15 @@ function renderDialog() {
     return;
   }
   els.dialogNpcName.textContent = dialog.npcName || "NPC";
-  els.dialogSource.textContent = dialogDebugLine(dialog);
-  els.dialogMessages.innerHTML = (dialog.messages || []).map((message) => `
-    <p class="dialog-bubble ${message.speaker === "player" ? "player" : message.speaker === "system" ? "system" : "npc"}">
-      <span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>
-      ${escapeHtml(message.text)}
-    </p>
-  `).join("");
-  const battle = renderDialogBattle();
+  els.dialogSource.textContent = "";
+  els.dialogMessages.innerHTML = (dialog.messages || []).filter((message) => message.speaker !== "system").map((message) => {
+    const kind = message.speaker === "player" ? "player" : message.speaker === "system" ? "system" : "npc";
+    return `<p class="dialog-bubble ${kind}"><span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>${escapeHtml(message.text)}</p>`;
+  }).join("");
   const shop = renderDialogShop(dialog);
-  els.dialogSuggestions.innerHTML = battle + (dialog.suggestions || ["任务", "地图", "交易"]).map((item) => `
-    <button class="ghost-btn" type="button" data-say="${escapeHtml(item)}">${escapeHtml(item)}</button>
-  `).join("") + shop;
-  els.dialogSuggestions.querySelectorAll("[data-say]").forEach((btn) => {
-    btn.addEventListener("click", () => sendDialog(btn.dataset.say));
+  els.dialogSuggestions.innerHTML = renderDialogAiToggle(dialog) + shop;
+  els.dialogSuggestions.querySelectorAll("[data-dialog-ai-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => toggleDialogAiMode(btn.dataset.dialogAiToggle === "on"));
   });
   els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
@@ -2292,6 +2302,19 @@ function renderDialog() {
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
   updateDialogScrollButtons();
+}
+
+function renderDialogAiToggle(dialog) {
+  const enabled = Boolean(dialog.aiMode);
+  return `
+    <button
+      class="dialog-ai-toggle ${enabled ? "active" : ""}"
+      type="button"
+      data-dialog-ai-toggle="${enabled ? "off" : "on"}"
+      aria-pressed="${enabled ? "true" : "false"}"
+      title="${enabled ? "关闭 AI 对话" : "开启 AI 对话"}"
+    >AI</button>
+  `;
 }
 
 function renderDialogBattle() {
@@ -2529,7 +2552,7 @@ function renderDialogShop(dialog) {
     <div class="shop-box">
       <div>
         <strong>商品</strong>
-        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)} | ${escapeHtml(dialog.trade.source || GMSV_DATA_SOURCE)}</span>
+        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)}</span>
       </div>
       ${items.slice(0, 8).map((item) => `
         <button class="shop-item" type="button" data-buy="${item.id}" ${shopDisabled(item) ? "disabled" : ""}>
@@ -2957,6 +2980,50 @@ function renderAssistKnowledge() {
         <h3>当前线索</h3>
         <div class="assist-log-mini">
           ${(game.log || []).slice(-7).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderAssistDebug() {
+  const dialog = game.dialog?.open ? game.dialog : null;
+  const debug = dialog?.debug || {};
+  const trace = (debug.vmTrace || game.npcVmEvents || []).slice(-10).reverse();
+  const rows = [
+    ["NPC", dialog ? `${dialog.npcName || "--"} | ${dialog.npcType || "--"} | AI ${dialog.aiMode ? "on" : "off"}` : "当前没有打开 NPC 对话"],
+    ["source", dialogDebugLine(dialog)],
+    ["script", debug.script || "--"],
+    ["template", debug.template || "--"],
+    ["actions", (debug.actions || []).join("/") || "--"],
+    ["talkFlow", debug.talkFlow || "--"],
+    ["trade", dialog?.trade?.source || "--"],
+    ["battle", game.battle?.source || game.encounter?.source || "--"],
+    ["AI", `${aiRuntimeLabel()} | action ${aiRuntime.actionAuthority || "worker-npc-vm"}`]
+  ];
+  return `
+    <section class="assist-grid two">
+      <div class="assist-pane">
+        <h3>Debug</h3>
+        <div class="assist-debug-list">
+          ${rows.map(([label, value]) => `
+            <article class="assist-debug-row">
+              <b>${escapeHtml(label)}</b>
+              <span>${escapeHtml(value || "--")}</span>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+      <div class="assist-pane compact">
+        <h3>NPC VM Trace</h3>
+        <div class="assist-debug-trace">
+          ${trace.length ? trace.map((event) => `
+            <article>
+              <b>${escapeHtml(`${event.action || "--"}:${event.status || "--"}`)}</b>
+              <span>${escapeHtml(event.npcName || event.npcId || "--")}</span>
+              <code>${escapeHtml(JSON.stringify(event.detail || {}).slice(0, 180))}</code>
+            </article>
+          `).join("") : `<p class="empty">暂无 NPC VM trace。</p>`}
         </div>
       </div>
     </section>
