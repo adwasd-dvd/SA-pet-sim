@@ -2159,6 +2159,11 @@ function onAssistPanelClick(event) {
     useItem(Number(useBtn.dataset.assistUseItem));
     return;
   }
+  const dropBtn = event.target.closest("[data-assist-drop-item]");
+  if (dropBtn) {
+    dropItem(Number(dropBtn.dataset.assistDropItem));
+    return;
+  }
   const clientBtn = event.target.closest("[data-assist-client-tab]");
   if (clientBtn) {
     showTab(clientBtn.dataset.assistClientTab, { openClientWindow: true });
@@ -2596,6 +2601,22 @@ async function useItem(itemId) {
   }
 }
 
+async function dropItem(itemId) {
+  if (!game) return;
+  const item = (game.inventory || []).find((entry) => Number(entry.id) === Number(itemId));
+  if (!item) return;
+  if (!window.confirm(`丢弃 ${item.name} x1？`)) return;
+  try {
+    game = await api("/api/game/drop-item", { game, itemId, qty: 1 });
+    save();
+    render();
+  } catch (error) {
+    game.log.push(error.message || "道具丢弃失败");
+    save();
+    render();
+  }
+}
+
 async function releasePet(petIndex) {
   if (!game) return;
   const pet = game.pets?.[petIndex];
@@ -2843,7 +2864,10 @@ function renderAssistItem(item) {
         <span>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))}</span>
         <small>${escapeHtml(item.description || item.source || "")}</small>
       </div>
-      <button type="button" data-assist-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>用</button>
+      <div class="assist-card-actions item">
+        <button type="button" data-assist-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>用</button>
+        <button type="button" data-assist-drop-item="${item.id}">丢</button>
+      </div>
     </article>
   `;
 }
@@ -3511,7 +3535,10 @@ function renderPets() {
             <strong>${escapeHtml(item.name)}</strong>
             <small>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))} | ${escapeHtml(item.description || item.source || "")}</small>
           </span>
-          <button type="button" data-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>使用</button>
+          <span class="inventory-item-actions">
+            <button type="button" data-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>使用</button>
+            <button type="button" data-drop-item="${item.id}">丢弃</button>
+          </span>
         </div>
       `).join("") || `<p class="empty">背包还没有道具。</p>`}
     </article>
@@ -3527,6 +3554,9 @@ function renderPets() {
   });
   els.petList.querySelectorAll("[data-use-item]").forEach((btn) => {
     btn.addEventListener("click", () => useItem(Number(btn.dataset.useItem)));
+  });
+  els.petList.querySelectorAll("[data-drop-item]").forEach((btn) => {
+    btn.addEventListener("click", () => dropItem(Number(btn.dataset.dropItem)));
   });
 }
 

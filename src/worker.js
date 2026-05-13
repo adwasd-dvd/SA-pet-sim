@@ -137,6 +137,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(useItemGame(body.game, Number(body.itemId)));
     }
+    if (url.pathname === "/api/game/drop-item" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(dropItemGame(body.game, Number(body.itemId), Number(body.qty) || 1));
+    }
     if (url.pathname === "/api/game/encounter" && request.method === "POST") {
       const body = await readJson(request);
       return json(await encounterGame(env, request, body.game));
@@ -924,6 +928,38 @@ function useItemGame(game, itemId) {
   const itemUse = applyRecoveryItem(game, item);
   addLog(game, `使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`);
   return withMap(game, { itemUse });
+}
+
+function dropItemGame(game, itemId, qty = 1) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能整理背包");
+  const dropped = dropItemInPlace(game, itemId, qty);
+  return withMap(game, {
+    itemAction: {
+      type: "drop",
+      itemId: dropped.itemId,
+      itemName: dropped.itemName,
+      qty: dropped.qty,
+      remaining: dropped.remaining,
+      source: `${GMSV_DATA_SOURCE}/itemset6.txt + CHAR_MAXITEMNUM=${INVENTORY_CAPACITY}`
+    }
+  });
+}
+
+function dropItemInPlace(game, itemId, qty = 1) {
+  const item = findInventoryItem(game, itemId);
+  if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
+  const count = Math.max(1, Math.trunc(Number(qty) || 1));
+  const dropQty = Math.min(count, Number(item.qty || 0));
+  item.qty = Number(item.qty || 0) - dropQty;
+  game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
+  addLog(game, `丢弃了 ${item.name} x${dropQty}，背包空位 ${inventoryState(game).remaining}/${INVENTORY_CAPACITY}。`);
+  return {
+    itemId: item.id,
+    itemName: item.name,
+    qty: dropQty,
+    remaining: Math.max(0, Number(item.qty || 0))
+  };
 }
 
 function itemEffect(item) {
@@ -1853,6 +1889,28 @@ async function applyGuideRequest(env, request, game, prompt) {
     return {
       text: "我帮你把人物和宠物的耐久力恢复了。真正的医院和治疗 NPC 以后仍会按原版脚本来收钱或判断条件。",
       action: { type: "heal" }
+    };
+  }
+
+  if (isItemDropRequest(lower)) {
+    if (game.encounter) {
+      return {
+        text: "战斗中不能整理背包。先结束当前战斗，再丢弃或使用道具。",
+        action: { type: "item-drop-refused", reason: "battle-active" }
+      };
+    }
+    const choice = chooseGuideItem(game, text);
+    if (!choice?.item) {
+      return {
+        text: guideItemChoiceHelp(game),
+        action: { type: "item-drop-refused", reason: choice?.reason || "unknown-item" }
+      };
+    }
+    const qty = itemDropQtyFromPrompt(text, choice.item);
+    const dropped = dropItemInPlace(game, choice.item.id, qty);
+    return {
+      text: `已丢弃 ${dropped.itemName} x${dropped.qty}，背包现在 ${inventoryState(game).used}/${INVENTORY_CAPACITY}。`,
+      action: { type: "item-drop", itemId: dropped.itemId, itemName: dropped.itemName, qty: dropped.qty, reason: choice.reason }
     };
   }
 
@@ -3455,6 +3513,65 @@ function isPetTrainingRequest(text) {
 
 function isPetReleaseRequest(text) {
   return hasAny(text, ["放生", "野放", "离队", "離隊", "放走宠", "放走寵", "释放宠", "釋放寵", "release pet"]);
+}
+
+function isItemDropRequest(text) {
+  return hasAny(text, ["丢弃", "丟棄", "扔掉", "丢掉", "丟掉", "不要这个道具", "整理背包", "清背包", "drop item"]);
+}
+
+function chooseGuideItem(game, prompt) {
+  const items = (game.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
+  if (!items.length) return { reason: "empty-inventory" };
+  const indexByNumber = itemIndexFromPrompt(prompt, items.length);
+  if (indexByNumber >= 0) return { item: items[indexByNumber], reason: "index" };
+
+  const normalized = guideSearchText(prompt);
+  const named = items
+    .map((item, index) => ({
+      item,
+      index,
+      name: guideSearchText(item.name || ""),
+      id: guideSearchText(`${item.id || ""}`)
+    }))
+    .filter((entry) => (entry.name && normalized.includes(entry.name)) || (entry.id && normalized.includes(entry.id)))
+    .sort((a, b) => b.name.length - a.name.length || a.index - b.index);
+  if (named.length) return { item: named[0].item, reason: "name" };
+
+  if (hasAny(String(prompt || "").toLowerCase(), ["第一个", "第一個", "第1个", "第1個", "第1"])) {
+    return { item: items[0], reason: "first" };
+  }
+  return { reason: "ambiguous" };
+}
+
+function itemIndexFromPrompt(prompt, itemCount) {
+  const text = String(prompt || "");
+  const match = text.match(/(?:第\s*)?([1-9])\s*(?:个|個|件|格|号|號|道具)?/);
+  if (match) {
+    const index = Number(match[1]) - 1;
+    if (index >= 0 && index < itemCount) return index;
+  }
+  const ordinals = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
+  for (let i = 0; i < Math.min(itemCount, ordinals.length); i += 1) {
+    const ordinal = ordinals[i];
+    if (text.includes(`第${ordinal}`) || text.includes(`${ordinal}号`) || text.includes(`${ordinal}號`)) return i;
+  }
+  return -1;
+}
+
+function itemDropQtyFromPrompt(prompt, item) {
+  if (hasAny(String(prompt || "").toLowerCase(), ["全部", "全丢", "全丟", "all"])) return Number(item.qty || 1);
+  const match = String(prompt || "").match(/x\s*(\d+)|(\d+)\s*(?:个|個|件|份)/i);
+  const qty = Number(match?.[1] || match?.[2] || 1);
+  return Math.max(1, Math.min(Number(item.qty || 1), Math.trunc(qty) || 1));
+}
+
+function guideItemChoiceHelp(game) {
+  const items = (game.inventory || [])
+    .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
+    .map((item, index) => `${index + 1}. ${item.name} x${Number(item.qty || 0)}`)
+    .join("；");
+  if (!items) return "背包里没有可以丢弃的普通道具；石币不占道具格，也不能丢弃。";
+  return `我没判断出要丢弃哪个道具。可以说“丢弃第 1 个”“丢弃小的肉”或“丢弃小的肉全部”。当前背包：${items}。`;
 }
 
 function chooseGuidePet(game, prompt) {

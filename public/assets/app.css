@@ -1573,6 +1573,10 @@ h3 {
   gap: 4px;
 }
 
+.assist-card-actions.item {
+  grid-template-columns: repeat(2, 32px);
+}
+
 .assist-meter {
   height: 7px;
   overflow: hidden;
@@ -2924,6 +2928,13 @@ h3 {
 .inventory-item button {
   min-height: 34px;
   padding: 0 12px;
+}
+
+.inventory-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
 }
 
 .result-list,

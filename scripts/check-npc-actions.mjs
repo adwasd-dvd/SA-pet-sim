@@ -87,6 +87,26 @@ petReleaseGame = await api("/api/game/pet-release", { game: petReleaseGame, petI
 assertEqual(petReleaseGame.petState.used, 2, "pet release removes exactly one pet");
 assertEqual(petReleaseGame.petState.activeIndex, 1, "pet release shifts active index when a prior pet leaves");
 assertEqual(petReleaseGame.petState.activeName, "后排宠", "pet release keeps the same active pet after index shift");
+let itemDropGame = await api("/api/game/new", { name: "item-drop-test" });
+itemDropGame.inventory.push({ id: 5001, name: "小的肉", qty: 2, type: "meat", description: "耐久力 20" });
+itemDropGame = await api("/api/game/drop-item", { game: itemDropGame, itemId: 5001, qty: 1 });
+assertEqual(inventoryQty(itemDropGame, 5001), 1, "drop item decrements stack quantity");
+assertEqual(itemDropGame.inventoryState.used, 1, "drop item keeps occupied slot while stack remains");
+itemDropGame = await api("/api/game/drop-item", { game: itemDropGame, itemId: 5001, qty: 1 });
+assertEqual(inventoryQty(itemDropGame, 5001), 0, "drop item removes empty stack");
+assertEqual(itemDropGame.inventoryState.used, 0, "drop item frees inventory slot when stack is gone");
+await expectApiError(
+  "/api/game/drop-item",
+  { game: itemDropGame, itemId: "stone", qty: 1 },
+  "背包里没有这个道具",
+  "drop item refuses stone currency"
+);
+let aiDropGame = await api("/api/game/new", { name: "ai-item-drop-test" });
+aiDropGame.inventory.push({ id: 5002, name: "大的肉", qty: 3, type: "meat", description: "耐久力 65" });
+const aiDropRsp = await api("/api/ai/guide", { game: aiDropGame, prompt: "丢弃大的肉全部" });
+assertEqual(aiDropRsp.action.type, "item-drop", "AI guide can drop an item by name");
+assertEqual(aiDropRsp.action.qty, 3, "AI guide can drop an entire item stack");
+assertEqual(inventoryQty(aiDropRsp.game, 5002), 0, "AI item drop mutates inventory");
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
