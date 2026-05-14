@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T14:45:29.530Z",
+  "generatedAt": "2026-05-14T15:00:53.557Z",
   "sourcePolicy": "Closure is computed from local ref___data, generated world-data, and client resource evidence. It is a build-planning manifest, not a runtime filter yet.",
   "profiles": [
     {
@@ -60834,8 +60834,8 @@
         }
       ],
       "route": {
-        "status": "needs-entry-path",
-        "evidence": "Generated WORLD exits derived from local ref___data/map/mapwarp.txt.",
+        "status": "reachable-with-source-npc-warp",
+        "evidence": "Generated WORLD exits and NPC warp targets derived from local ref___data/map/mapwarp.txt and gmsv-data/npc scripts.",
         "startFloors": [
           100,
           200,
@@ -60845,10 +60845,53 @@
           3000,
           4000
         ],
-        "reachableFloors": [],
-        "unreachableFloors": [
+        "reachableFloors": [
           10204
-        ]
+        ],
+        "unreachableFloors": [],
+        "transitFloors": [
+          10202,
+          10203
+        ],
+        "paths": {
+          "10204": {
+            "floors": [
+              200,
+              10203,
+              10202,
+              10204
+            ],
+            "edges": [
+              {
+                "kind": "mapwarp",
+                "from": 200,
+                "to": 10203,
+                "label": "去 海底通路地下１楼 100",
+                "source": "gmsv-data/map/mapwarp.txt"
+              },
+              {
+                "kind": "mapwarp",
+                "from": 10203,
+                "to": 10202,
+                "label": "去 海底通路地下２楼 100",
+                "source": "gmsv-data/map/mapwarp.txt"
+              },
+              {
+                "kind": "npc-warp",
+                "from": 10202,
+                "to": 10204,
+                "label": "仪的值班者 -> floor 10204",
+                "npcId": "10202-31-13-4145",
+                "npcName": "仪的值班者",
+                "x": 31,
+                "y": 13,
+                "condition": "LV>29",
+                "cost": "-1",
+                "source": "gmsv-data/npc/genout/wpm_10202_31_13"
+              }
+            ]
+          }
+        }
       },
       "items": [
         {
@@ -60984,10 +61027,8 @@
         "outboundWarpCount": 1
       },
       "validation": {
-        "status": "script-playable-needs-entry",
-        "warnings": [
-          "1 generated floor(s) have no verified mapwarp route from core starts: 10204."
-        ]
+        "status": "playable-source-script-draft",
+        "warnings": []
       }
     },
     {

@@ -660,32 +660,88 @@ function routeEvidenceForLine(generatedFloors, line = {}) {
   const targetFloors = uniqueNumbers(generatedFloors).filter((floor) => generatedMapIds.has(String(floor)));
   const startFloors = uniqueNumbers(line.routeStartFloors || CORE_ROUTE_START_FLOORS)
     .filter((floor) => generatedMapIds.has(String(floor)));
-  const reachable = reachableFloorsFrom(startFloors);
-  const reachableFloors = targetFloors.filter((floor) => reachable.has(String(floor)));
-  const unreachableFloors = targetFloors.filter((floor) => !reachable.has(String(floor)));
+  const routeTree = reachableFloorsFrom(startFloors);
+  const reachableFloors = targetFloors.filter((floor) => routeTree.reachable.has(String(floor)));
+  const unreachableFloors = targetFloors.filter((floor) => !routeTree.reachable.has(String(floor)));
+  const paths = Object.fromEntries(reachableFloors.map((floor) => [floor, routePathTo(String(floor), routeTree.parents)]));
+  const pathEdges = Object.values(paths).flatMap((path) => path.edges || []);
+  const transitFloors = uniqueNumbers(Object.values(paths).flatMap((path) => path.floors || []))
+    .filter((floor) => !targetFloors.includes(floor) && !startFloors.includes(floor));
+  const usesNpcWarp = pathEdges.some((edge) => edge.kind === "npc-warp");
   return {
-    status: unreachableFloors.length ? "needs-entry-path" : "reachable-from-core-starts",
-    evidence: "Generated WORLD exits derived from local ref___data/map/mapwarp.txt.",
+    status: unreachableFloors.length ? "needs-entry-path" : usesNpcWarp ? "reachable-with-source-npc-warp" : "reachable-from-core-starts",
+    evidence: "Generated WORLD exits and NPC warp targets derived from local ref___data/map/mapwarp.txt and gmsv-data/npc scripts.",
     startFloors,
     reachableFloors,
-    unreachableFloors
+    unreachableFloors,
+    transitFloors,
+    paths
   };
 }
 
 function reachableFloorsFrom(startFloors) {
   const queue = startFloors.map(String);
-  const seen = new Set(queue);
+  const reachable = new Set(queue);
+  const parents = new Map();
   while (queue.length) {
     const floor = queue.shift();
-    const map = WORLD.maps[floor];
-    for (const exit of map?.exits || []) {
-      const next = String(exit.to);
-      if (!generatedMapIds.has(next) || seen.has(next)) continue;
-      seen.add(next);
+    for (const edge of routeEdgesForFloor(floor)) {
+      const next = String(edge.to);
+      if (!generatedMapIds.has(next) || reachable.has(next)) continue;
+      reachable.add(next);
+      parents.set(next, { from: floor, edge });
       queue.push(next);
     }
   }
-  return seen;
+  return { reachable, parents };
+}
+
+function routeEdgesForFloor(floor) {
+  const map = WORLD.maps[String(floor)];
+  const edges = [];
+  for (const exit of map?.exits || []) {
+    edges.push({
+      kind: "mapwarp",
+      from: Number(floor),
+      to: Number(exit.to),
+      label: exit.label,
+      source: exit.source || "gmsv-data/map/mapwarp.txt"
+    });
+  }
+  for (const npc of map?.npcs || []) {
+    const target = npc.warp?.target;
+    if (!target?.mapId) continue;
+    edges.push({
+      kind: "npc-warp",
+      from: Number(floor),
+      to: Number(target.mapId),
+      label: `${npc.name} -> floor ${target.mapId}`,
+      npcId: npc.id,
+      npcName: npc.name,
+      x: npc.x,
+      y: npc.y,
+      condition: npc.warp.free || "",
+      cost: npc.warp.money || "",
+      source: npc.warp.source || npc.script || npc.source || ""
+    });
+  }
+  return edges;
+}
+
+function routePathTo(targetFloor, parents) {
+  const edges = [];
+  const floors = [Number(targetFloor)];
+  let cursor = targetFloor;
+  while (parents.has(cursor)) {
+    const parent = parents.get(cursor);
+    edges.push(parent.edge);
+    cursor = String(parent.from);
+    floors.push(Number(cursor));
+  }
+  return {
+    floors: floors.reverse(),
+    edges: edges.reverse()
+  };
 }
 
 function validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters = [], route = null) {
@@ -868,7 +924,7 @@ function renderMarkdown(manifest) {
   lines.push("", "## Important Notes", "");
   lines.push("- `sourceOnlyFloors` means local original LS2MAP data exists, but the current generated Worker `WORLD` does not include the floor yet.");
   lines.push("- `sourceTaskClusters` are parsed `EventNo`/`TYPE` changeevent groups with their source required/reward items. They are used to keep task resources in profile closure instead of trusting text matches alone.");
-  lines.push("- `script-playable-needs-entry` means the local NPC script task cluster looks runnable, but the generated floor is not yet reachable from the core start maps through verified original mapwarp data.");
+  lines.push("- Route evidence uses original map exits and generated NPC warp scripts. `script-playable-needs-entry` means the local NPC script task cluster looks runnable, but no verified mapwarp/NPC-warp route from core start maps is known yet.");
   lines.push("- `closedWarps` are not bugs by themselves. They are the list of exits that need source-style close/hide behavior if a smaller profile ships without the target map.");
   lines.push("- Rebirth remains gated until the four proof cave lines and dark cave line have no missing generated floors and have battle/NPC rewards validated.");
   lines.push("- This draft intentionally avoids new art, renamed content, shortened cave chains, and arbitrary map caps.");
