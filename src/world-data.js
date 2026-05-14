@@ -36953,7 +36953,12 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
-              "delItems": [],
+              "delItems": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ],
               "getRandItems": [],
               "getStones": [],
               "delStones": [],
@@ -36963,6 +36968,9 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "PET>0-560*5&ITEM=2590*1&ITEM=2594,PET>0-560*4&ITEM=2590*1&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2590*1&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2590*1&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2590*1&ITEM=2589*4&ITEM=2594",
+              "notDelItems": [
+                2594
+              ],
               "delPets": [
                 {
                   "evdel": true,
@@ -36988,7 +36996,12 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
-              "delItems": [],
+              "delItems": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ],
               "getRandItems": [],
               "getStones": [],
               "delStones": [],
@@ -36998,6 +37011,9 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "PET>0-560*5&ITEM=2594,PET>0-560*4&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2589*4&ITEM=2594",
+              "notDelItems": [
+                2594
+              ],
               "delPets": [
                 {
                   "evdel": true,
@@ -37355,7 +37371,12 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
-              "delItems": [],
+              "delItems": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ],
               "getRandItems": [],
               "getStones": [],
               "delStones": [],
@@ -37365,6 +37386,9 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "PET>0-559*5&ITEM=2590*1&ITEM=2595,PET>0-559*4&ITEM=2590*1&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2590*1&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2590*1&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2590*1&ITEM=2589*4&ITEM=2595",
+              "notDelItems": [
+                2595
+              ],
               "delPets": [
                 {
                   "evdel": true,
@@ -37390,7 +37414,12 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
-              "delItems": [],
+              "delItems": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ],
               "getRandItems": [],
               "getStones": [],
               "delStones": [],
@@ -37400,6 +37429,9 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "PET>0-559*5&ITEM=2595,PET>0-559*4&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2589*4&ITEM=2595",
+              "notDelItems": [
+                2595
+              ],
               "delPets": [
                 {
                   "evdel": true,
@@ -37756,7 +37788,12 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
-              "delItems": [],
+              "delItems": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ],
               "getRandItems": [],
               "getStones": [],
               "delStones": [],
@@ -37766,6 +37803,9 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "PET>0-558*5&ITEM=2590*1&ITEM=2596,PET>0-558*4&ITEM=2590*1&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2590*1&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2590*1&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2590*1&ITEM=2589*4&ITEM=2596",
+              "notDelItems": [
+                2596
+              ],
               "delPets": [
                 {
                   "evdel": true,
@@ -37790,7 +37830,12 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
-              "delItems": [],
+              "delItems": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ],
               "getRandItems": [],
               "getStones": [],
               "delStones": [],
@@ -37800,6 +37845,9 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "PET>0-558*5&ITEM=2596,PET>0-558*4&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2589*4&ITEM=2596",
+              "notDelItems": [
+                2596
+              ],
               "delPets": [
                 {
                   "evdel": true,

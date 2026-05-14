@@ -4684,6 +4684,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     phase: "message",
     getItems: event.getItems,
     delItems: event.delItems,
+    notDelItems: event.notDelItems,
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
@@ -4718,6 +4719,7 @@ function runNpcScriptClean(game, npc, event, detail) {
     cleanFlags: event.cleanFlags,
     getItems: event.getItems,
     delItems: event.delItems,
+    notDelItems: event.notDelItems,
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
@@ -4894,6 +4896,7 @@ function sourceScriptRuntimeEvent(game, event) {
   return {
     ...event,
     getItems: [...(event.getItems || []), ...randomItems],
+    delItems: sourceScriptRuntimeDelItems(game, event),
     getStones: sourceScriptRuntimeStones(game, event.getStones),
     delStones: sourceScriptRuntimeStones(game, event.delStones),
     delPets: sourceScriptRuntimeDelPets(game, event)
@@ -4930,6 +4933,37 @@ function sourceScriptStoneAmount(game, spec = {}) {
     return Math.max(0, Number(game.player?.level || 1) * multiplier);
   }
   return Math.max(0, Number(spec.amount || 0));
+}
+
+function sourceScriptRuntimeDelItems(game, event) {
+  const out = [];
+  for (const item of event.delItems || []) {
+    if (!item?.evdel) {
+      out.push(item);
+      continue;
+    }
+    const condition = characterConditionStatus(game, event.condition || "");
+    out.push(...parseSourceScriptItemConditionSpecs(condition.matched || "", event.notDelItems));
+  }
+  return out;
+}
+
+function parseSourceScriptItemConditionSpecs(source = "", notDelItems = []) {
+  const keep = new Set((notDelItems || []).map((id) => Number(id)).filter((id) => id > 0));
+  return String(source || "")
+    .split(/[,&|]/)
+    .map((part) => {
+      const match = part.trim().match(/^ITEM\s*=\s*(\d+)(?:\*(\d+))?$/i);
+      if (!match) return null;
+      const id = Number(match[1]);
+      if (keep.has(id)) return null;
+      return sourceScriptItem({
+        id,
+        qty: Math.max(1, Number(match[2] || 1)),
+        source: match[0]
+      });
+    })
+    .filter(Boolean);
 }
 
 function sourceScriptRuntimeDelPets(game, event) {
@@ -9705,6 +9739,8 @@ function compactScriptEventSummary(scriptEvents) {
     pushUniqueCompact(types, event.type, 8);
     if (event.getItems?.length) pushUniqueCompact(actions, "GetItem", 8);
     if (event.delItems?.length) pushUniqueCompact(actions, "DelItem", 8);
+    if (event.delItems?.some((item) => item?.evdel)) pushUniqueCompact(actions, "DelItemEVDEL", 8);
+    if (event.notDelItems?.length) pushUniqueCompact(actions, "NotDel", 8);
     if (event.getRandItems?.length) pushUniqueCompact(actions, "GetRandItem", 8);
     if (event.getStones?.length) pushUniqueCompact(actions, "GetStone", 8);
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);

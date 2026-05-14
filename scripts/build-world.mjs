@@ -810,6 +810,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     delStones: [],
     npcWarps: [],
     charms: [],
+    notDelItems: [],
     cleanFlags: [],
     nowSetFlags: [],
     endSetFlags: []
@@ -867,6 +868,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.charms.push(...splitNumberList(value));
       continue;
     }
+    if (key === "notdel" || key === "notdelitem") {
+      event.notDelItems.push(...splitNumberList(value));
+      continue;
+    }
     if (key === "getpet") {
       getPets.push(...parseScriptGetPetSpecs(value));
       continue;
@@ -905,7 +910,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       .filter(([, pages]) => pages.length)
   );
   if (!event.type && !Object.keys(event.messages).length && !Object.keys(messagePages).length) return null;
-  const { messagePages: _rawMessagePages, npcWarps: _rawNpcWarps, charms: _rawCharms, ...eventOut } = event;
+  const { messagePages: _rawMessagePages, npcWarps: _rawNpcWarps, charms: _rawCharms, notDelItems: _rawNotDelItems, ...eventOut } = event;
   return {
     ...eventOut,
     ...(Object.keys(messagePages).length ? { messagePages } : {}),
@@ -914,6 +919,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     getRandItems: event.getRandItems.map(withScriptRandomItemNames),
     ...(event.npcWarps.length ? { npcWarps: event.npcWarps } : {}),
     ...(event.charms.length ? { charms: event.charms } : {}),
+    ...(event.notDelItems.length ? { notDelItems: [...new Set(event.notDelItems)].filter((value) => value > 0) } : {}),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
     cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),
@@ -970,7 +976,9 @@ function parseScriptNpcWarpSpecs(value = "") {
 }
 
 function parseScriptItemSpecs(value = "") {
-  return String(value || "")
+  const text = String(value || "").trim();
+  if (/^EVDEL$/i.test(text)) return [{ evdel: true, source: "EVDEL" }];
+  return text
     .split(",")
     .map((part) => {
       const match = part.trim().match(/^(\d+)(?:\*(\d+))?$/);
@@ -1054,6 +1062,7 @@ function parseScriptPetConditionSpec(value = "") {
 }
 
 function withScriptItemName(item) {
+  if (item?.evdel) return { ...item, source: item.source || "EVDEL" };
   const sourceItem = itemDb.get(Number(item.id));
   return {
     ...item,

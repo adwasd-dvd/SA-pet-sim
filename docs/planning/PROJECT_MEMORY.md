@@ -110,6 +110,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - The Worker deterministic NPC VM now handles several `changeevent` source actions directly:
   - `GetItem` / `DelItem`
   - `GetPet` / `DelPet`, including `EVDEL` pet-condition resolution
+  - `DelItem:EVDEL` plus `NotDel`, expanding only the matched source `EVENT` item checks and preserving protected tool/ticket items
   - `GetRandItem`, preserving duplicate source IDs as weighted random reward candidates
   - `GetStone` / `DelStone`, including source-style dynamic costs such as `LV*3`
   - `CleanFlg`, clearing both NOWEV and ENDEV for the source event id through the VM `clearFlag` action

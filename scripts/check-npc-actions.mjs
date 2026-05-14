@@ -595,6 +595,45 @@ assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "window
 assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-message-delitem" && event.detail?.itemId === 2555), "source KeyWord item take runs through NPC VM");
 assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-message-getitem" && event.detail?.itemId === 2556), "source KeyWord item give runs through NPC VM");
 
+const sourceNotDelNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs || [])
+  .find((npc) => (npc.scriptEvents || []).some((event) => event.notDelItems?.length && event.delItems?.some((item) => item.evdel)));
+assert(sourceNotDelNpc, "world data parses at least one source NotDel + DelItem:EVDEL branch");
+const notDelFixture = {
+  id: "source-notdel-fixture",
+  name: "源码 NotDel 测试",
+  type: "changeevent",
+  template: "npcgen_man",
+  x: 43,
+  y: 40,
+  source: "gmsv-data/npc/jaruga/event/bait_03a2",
+  script: "file:jaruga/event/bait_03a2",
+  scriptEvents: [{
+    type: "MESSAGE",
+    eventNo: -1,
+    condition: "LV>0&ITEM=2590*1&ITEM=2594",
+    messages: { normal: "保留加工工具，扣掉材料。" },
+    notDelItems: [2594],
+    delItems: [{ evdel: true, source: "EVDEL" }],
+    getItems: [{ id: 2591, qty: 1, name: "测试加工证明" }]
+  }]
+};
+WORLD.maps["1000"].npcs.push(notDelFixture);
+let notDelGame = await api("/api/game/new", { name: "source-notdel-test" });
+notDelGame.location = { mapId: "1000", x: 42, y: 40 };
+notDelGame.inventory.push(
+  { id: 2590, name: "测试材料证明", qty: 1, source: "test notdel consumed item" },
+  { id: 2594, name: "测试加工工具", qty: 1, source: "test notdel kept item" }
+);
+notDelGame = await api("/api/game/dialog", { game: notDelGame, npcId: notDelFixture.id });
+assertEqual(inventoryQty(notDelGame, 2590), 0, "source DelItem:EVDEL consumes matched EVENT item");
+assertEqual(inventoryQty(notDelGame, 2594), 1, "source NotDel keeps matched EVENT item");
+assertEqual(inventoryQty(notDelGame, 2591), 1, "source NotDel branch still grants reward item");
+assert(notDelGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-message-delitem" && event.detail?.itemId === 2590), "source DelItem:EVDEL take runs through NPC VM");
+assert(!notDelGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.itemId === 2594), "source NotDel item is not sent to the NPC VM take action");
+const notDelSummary = notDelGame.world.map.npcs.find((npc) => npc.id === notDelFixture.id)?.scriptEventSummary?.actions || [];
+assert(notDelSummary.includes("DelItemEVDEL") && notDelSummary.includes("NotDel"), "client payload exposes compact NotDel/EVDEL summary without raw source lines");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
