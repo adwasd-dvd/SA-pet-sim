@@ -114,6 +114,9 @@ Cloudflare Worker API gateway
 
 目标是最大化使用原版客户端资源，但不把 `external/sources/client-assets/data` 里的多 GB 原始文件直接放进 Worker/Pages 发布包。
 
+- 资源体积控制来自原版内容白名单：只打包已开放任务/地图/NPC/敌人/宠物/道具闭包需要的资源。
+- 不用改图、换色、缩短洞窟层数、改地图结构、改 NPC/宠物名字或原创剧情来省体积。
+- 外部攻略和公开地图/宠物表只作为候选参考，最终白名单必须由本地 `ref___data`、`world-data` 和客户端资源验证。
 - `real_136.bin` / `adrn_136.bin` / `spr_115.bin` / `spradrn_115.bin` 保留为离线母库，由构建脚本抽取 Web 可用的 atlas、帧表和 manifest。
 - `public/` 只放首屏必须资源：核心地图、核心 UI、少量当前流程必需宠物/角色帧。
 - 宠物资源按用途拆包：

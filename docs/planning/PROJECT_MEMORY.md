@@ -19,6 +19,7 @@ This file is the durable memory for continuing development on another machine or
 - Generated world model: `src/world-data.js`.
 - Cloud/runtime strategy: `docs/planning/CLOUD_RUNTIME_STRATEGY.md`.
 - Worker-native port plan: `docs/planning/WORKER_NATIVE_GMSV_PORT.md`.
+- Classic core content profile: `docs/planning/CLASSIC_CORE_CONTENT_PROFILE.md`.
 - Original server entry point map: `docs/planning/GMSV_SAAC_WORKER_PORT_MAP.md`.
 - Runtime map assets:
   - `public/data/maps/*.ls2map`
@@ -49,6 +50,23 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - core UI windows, field menus, battle panels, and buttons from `anim_tbl.h` and client UI source
 - Avoid one giant atlas. Use separate boot UI, map tile, pet-static, pet-field, and pet-battle packs, then lazy-load the optional packs needed by the current map, pet window, or battle.
 - Keep the default `public/` boot package small enough for Cloudflare Workers/Pages static asset limits; large optional original-resource packs should be split or served through R2 with cache-versioned manifests.
+
+## Content Slimming Strategy
+
+- Shrink the game by enabling a smaller original-content graph, not by inventing new art, editing maps, or replacing source quests with shortcuts.
+- External guides and public map/pet tables are advisory only. Release profiles must be backed by local `ref___data`, generated `world-data`, and client resource evidence.
+- Hard rule: no custom replacement art, no recolor/reskin, no map structure or floor-count changes, no renamed NPC/pet/item/map names, and no original lightweight starter story.
+- Default target should become a `classic-core` profile built around old-player memory and required progression:
+  - 渔村 / 萨姆吉尔村 start
+  - first-pet capture
+  - village shops, equipment, capture learning, and pet training
+  - 成人仪式
+  - representative caves and attribute proof moments
+  - rebirth through the complete 四洞 + 漆黑洞窟 flow when rebirth is enabled
+- 2.0 content such as 英雄岛 / 红暴 / 四圣石 / 金虎 should be staged as an advanced optional profile.
+- 2.5 content such as 玛蕾菲雅 / 精灵王线 should be staged after 2.0 as an advanced optional profile.
+- Unopened maps should not be packaged. Disabled content should close or hide entrances. A quest line is included complete or disabled complete.
+- Pet family trimming is allowed only as staging; classic families and iconic targets must remain original and should not be replaced with custom variants.
 
 ## Map Rendering Conclusions
 
@@ -106,27 +124,34 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 
 ## Likely Next Work
 
-1. `progression-001`: finish source EXP/level/counters/field runtime and cover quest/NPC rewards, capture, and battle tests.
-2. `combat-001`: deepen source combat formulas, elemental matchup, deterministic enemy battle AI, and battle result telemetry.
-3. `status-ui-001`: rebuild original-client STATUS / PET STATUS / ITEM / BATTLE windows around EXP/NEXT, attributes, equipment, and counters.
-4. `ai-training-001`: keep AI代练 as battle operation only, with clear guardrails and compact context.
-5. `character-fields-001`: expand SAAC-like field/flag/counter APIs for NPC conditions and AI context.
-6. `asset-pipeline-001`: define original-client resource pack pipeline and size budgets.
-7. `pet-assets-001`: build pet portrait and lazy animation packs around original client sprite data.
-8. `asset-pipeline-002`: extract original UI core atlas for windows, menus, and battle panels.
-9. `client-ui-002`: continue rebuilding original-client UHD game UI around the map.
-10. `script-vm-001`: deterministic NPC action VM for common script actions.
-11. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
-12. `warp-002`: complete source-grounded map jump and warp runtime.
-13. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
-14. `cloud-assets-001`: serve large optional resource packs through R2 and cache.
-15. `worker-port-002`: define the JSON/WebSocket command protocol.
-16. `persistence-002`: D1/Durable Object cloud save plan.
-17. `realtime-001`: first map-room WebSocket architecture.
-18. `realtime-002`: online presence MVP where same-map players see each other moving.
+1. `content-profile-001`: define classic-core/advanced content profiles and no-original-content rules.
+2. `content-profile-004`: audit candidate whitelist against local source data before trusting guide-site claims.
+3. `content-profile-002`: build quest-line closure manifest for maps, NPCs, items, enemies, pets, and resources.
+4. `content-profile-003`: filter world/resource builds by enabled content profile.
+5. `classic-core-001`: implement the default classic-core progression spine.
+6. `progression-001`: finish source EXP/level/counters/field runtime and cover quest/NPC rewards, capture, and battle tests.
+7. `combat-001`: deepen source combat formulas, elemental matchup, deterministic enemy battle AI, and battle result telemetry.
+8. `status-ui-001`: rebuild original-client STATUS / PET STATUS / ITEM / BATTLE windows around EXP/NEXT, attributes, equipment, and counters.
+9. `asset-pipeline-001`: define original-client resource pack pipeline and size budgets.
+10. `pet-assets-001`: build pet portrait and lazy animation packs around original client sprite data.
+11. `asset-pipeline-002`: extract original UI core atlas for windows, menus, and battle panels.
+12. `classic-advanced-001`: stage 2.0 and 2.5 advanced classic goals.
+13. `client-ui-002`: continue rebuilding original-client UHD game UI around the map.
+14. `script-vm-001`: deterministic NPC action VM for common script actions.
+15. `npc-runtime-002`: run NPCs, quests, flags, and field-like data through source-grounded deterministic rules.
+16. `warp-002`: complete source-grounded map jump and warp runtime.
+17. `pathfinding-001`: mouse movement, route finding, and collision/hit-map logic.
+18. `cloud-assets-001`: serve large optional resource packs through R2 and cache.
+19. `ai-training-001`: keep AI代练 as battle operation only, with clear guardrails and compact context.
+20. `character-fields-001`: expand SAAC-like field/flag/counter APIs for NPC conditions and AI context.
+21. `worker-port-002`: define the JSON/WebSocket command protocol.
+22. `persistence-002`: D1/Durable Object cloud save plan.
+23. `realtime-001`: first map-room WebSocket architecture.
+24. `realtime-002`: online presence MVP where same-map players see each other moving.
 
 ## Latest Runtime Notes
 
+- Classic-core content direction accepted 2026-05-13: size reduction should come from source-backed content profiles and dependency closure, not from custom replacement assets, recolors, edited maps, shortened cave floors, renamed source content, or original starter quests. External guides are reference material only; every whitelist candidate must be verified against local `ref___data`, generated `world-data`, and client resource evidence. The default slim profile should preserve village start, first pet, village/equipment/capture/training loops, 成人仪式, representative cave/proof moments, and complete rebirth only if 四洞 + 漆黑洞窟 are all present. 2.0 英雄岛/红暴/四圣石/金虎 and 2.5 玛蕾菲雅/精灵王线 are advanced staged profiles, not mandatory boot content.
 - Progression direction accepted 2026-05-13: player/pet leveling must come from battle EXP, not direct buttons. `progression-001` now ports gmsv `LevelUpTbl` cumulative EXP/NEXT thresholds, enemy EXP approximation, level-difference reduction, battle/capture EXP settlement, player/pet counters, save progression summaries, and player ability-point allocation. `/api/game/train` refuses direct mutation, while `/api/game/allocate-point` mirrors `CHAR_SkillUp`: spend 1 `CHAR_SKILLUPPOINT`, add +100 raw Vital/Str/Tough/Dex. Player level-up now follows `battle.c::BATTLE_GetExpGold`: ability points are `UpLevel * 3`, but source `CHAR_CHARM` gains +2 once per EXP settlement, up to 100. At `CHAR_MAXUPLEVEL` 140, player and active pet battle EXP settlement returns 0 and keeps total EXP unchanged, matching `BATTLE_GetExp`. Battle outcomes now carry `sourceResults`, an RS_LIST-style result list where player `num=-2` and pet `num` is the source pet slot, plus persisted defeated-enemy telemetry for multi-enemy battles. Pet level-up follows `CHAR_PetLevelUp`'s 10 random growth point accumulation instead of collapsing repeated rolls. NPC/quest VM `give` rewards now route EXP through the same level-up/skill-point path, sync `characterFields`, and record level-up lines in VM trace.
 - AI代练 direction accepted 2026-05-13: AI may help operate battles, but it must not directly write levels/EXP. `ai-training-001` now routes guide training prompts through source encounters and `/api/game/battle` settlement, refuses safe maps, and reports player/pet EXP gains and level changes. The guide can now chain a small bounded set of real wild battles when it spawned the encounter itself, which makes代练 less flaky without bypassing battle EXP/level rules.
 - AI NPC role-favor direction accepted 2026-05-13: NPC AI can help only within the NPC's role and source data. `ai-002` now supports a VM-gated `roleFavor` proposal: healer/nurse NPCs may, based on context/probability/compensation, sell a real recovery item from `itemset6` such as `耐久力回复药`; stone, inventory, flags, and debug traces still mutate only through `runNpcVmAction`.

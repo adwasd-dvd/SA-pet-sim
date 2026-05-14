@@ -1,0 +1,5189 @@
+{
+  "generatedAt": "2026-05-14T01:31:45.656Z",
+  "policy": "External guides are advisory only; release profile entries require local ref___data, world-data, or client-resource evidence.",
+  "summary": {
+    "totalCandidates": 47,
+    "sourceConfirmed": 47,
+    "guideIndexOnly": 0,
+    "unresolved": 0,
+    "byType": {
+      "quest": 12,
+      "map-region": 14,
+      "npc-map-function": 7,
+      "pet-family": 14
+    },
+    "byGroup": {
+      "core-quest-lines": 6,
+      "advanced-quest-lines": 6,
+      "core-regions": 14,
+      "functional-interiors": 7,
+      "core-pet-families": 14
+    }
+  },
+  "packageImpact": {
+    "generatedWorld": {
+      "floorCount": 260,
+      "npcCount": 2353,
+      "questCount": 4,
+      "encounterAreaCount": 327,
+      "encounterPetCount": 141
+    },
+    "publicDataBytes": {
+      "maps": 14806585,
+      "clientMaps": 22008788,
+      "clientTilesJson": 1205637,
+      "clientTilesAtlas": 22572346
+    },
+    "clientTileFrameCount": 5784,
+    "note": "These are current full-dev-ish generated package numbers, not the future classic-core closure size."
+  },
+  "candidates": [
+    {
+      "id": "core-quest-lines:成人仪式",
+      "group": "core-quest-lines",
+      "profile": "classic-core",
+      "type": "quest",
+      "name": "成人仪式",
+      "aliases": [
+        "成人",
+        "成人任务"
+      ],
+      "terms": [
+        "成人仪式",
+        "成人",
+        "成人任务"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "1|ENDEV=4|成人仪式|已完成 1|NOWEV=4|成人仪式|进行中 2|ENDEV=44|猜谜3兄弟|已完成 2|N",
+          "label": "jobdaily.txt",
+          "term": "成人仪式"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "1|ENDEV=4|成人仪式|已完成 1|NOWEV=4|成人仪式|进行中 2|ENDEV=44|猜谜3兄弟|已完成 2",
+          "label": "jobdaily.txt",
+          "term": "成人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_1000_74_93",
+          "ref": "妮尔，要是有什么好情报的话，记得告诉我哦！,我还没参加过成人式，成人式是什么啊。,有好情报进来了。现在好像可以去吉鲁岛了，那里的恐龙很强哦。,从萨伊那斯去吉",
+          "label": "msg_1000_74_93",
+          "term": "成人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_1006_16_16",
+          "ref": "长家里的饭菜，都是由我鲍尔负责，如果你想快长大，就要参加成人礼，变成大人。,典礼举行的地点在···忘了···",
+          "label": "msg_1006_16_16",
+          "term": "成人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_116_37_20",
+          "ref": "NT:LV>80 AcceptMsg:年青人，你是来参加成人仪式的吗？\\n让我来为你进阶为成人做见证 ThanksMsg:这么一来，你也是个顶天立地的成人了\\n",
+          "label": "msg_116_37_20",
+          "term": "成人仪式"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/adult-ceremony",
+          "label": "成人仪式",
+          "term": "成人仪式"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-quest-lines:琉璃洞窟",
+      "group": "core-quest-lines",
+      "profile": "classic-core",
+      "type": "quest",
+      "name": "琉璃洞窟",
+      "aliases": [
+        "琉璃",
+        "琉璃洞"
+      ],
+      "terms": [
+        "琉璃洞窟",
+        "琉璃",
+        "琉璃洞"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=46|碧青洞窟|进行中 36|ENDEV=39|琉璃洞窟|已完成 36|NOWEV=39|琉璃洞窟|进行中 37|ENDEV=40|深红洞窟|已完成 3",
+          "label": "jobdaily.txt",
+          "term": "琉璃洞窟"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=46|碧青洞窟|进行中 36|ENDEV=39|琉璃洞窟|已完成 36|NOWEV=39|琉璃洞窟|进行中 37|ENDEV=40|深红洞窟|已完成",
+          "label": "jobdaily.txt",
+          "term": "琉璃"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/dungeon/ruri/dan_2_10_01",
+          "ref": "LS2MAPR 琉璃的洞窟１楼|13UUFFFFFFFFFF",
+          "label": "dan_2_10_01",
+          "term": "琉璃"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/dungeon/ruri/dan_2_10_02",
+          "ref": "LS2MAPR 琉璃的洞窟２楼|13KKFFFFFFFFFF",
+          "label": "dan_2_10_02",
+          "term": "琉璃"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/dungeon/ruri/dan_2_10_03",
+          "ref": "LS2MAPR 琉璃的洞窟３楼|13FFFFFFFFFFFF",
+          "label": "dan_2_10_03",
+          "term": "琉璃"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/liuli-cave-south",
+          "label": "琉璃洞窟",
+          "term": "琉璃洞窟"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/liuli-cave-rebirth",
+          "label": "琉璃洞窟",
+          "term": "琉璃洞窟"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-quest-lines:玄黄洞窟",
+      "group": "core-quest-lines",
+      "profile": "classic-core",
+      "type": "quest",
+      "name": "玄黄洞窟",
+      "aliases": [
+        "玄黄",
+        "玄黄洞"
+      ],
+      "terms": [
+        "玄黄洞窟",
+        "玄黄",
+        "玄黄洞"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=40|深红洞窟|进行中 38|ENDEV=41|玄黄洞窟-1|已完成 38|NOWEV=41|玄黄洞窟-1|进行中 39|ENDEV=42|玄黄洞窟-2",
+          "label": "jobdaily.txt",
+          "term": "玄黄洞窟"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=40|深红洞窟|进行中 38|ENDEV=41|玄黄洞窟-1|已完成 38|NOWEV=41|玄黄洞窟-1|进行中 39|ENDEV=42|玄黄洞窟",
+          "label": "jobdaily.txt",
+          "term": "玄黄"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=40|深红洞窟|进行中 38|ENDEV=41|玄黄洞窟-1|已完成 38|NOWEV=41|玄黄洞窟-1|进行中 39|ENDEV=42|玄黄洞窟-",
+          "label": "jobdaily.txt",
+          "term": "玄黄洞"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/sa70/neweq/neweq.create",
+          "ref": ".arg } ######## 岚黄等级三装备精工师 玄黄洞四楼 ######### { name=莫非的弟子 floorid=11204 borncen",
+          "label": "neweq.create",
+          "term": "玄黄"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/sa70/neweq/neweq.create",
+          "ref": ".arg } ######## 岚黄等级三装备精工师 玄黄洞四楼 ######### { name=莫非的弟子 floorid=11204 borncent",
+          "label": "neweq.create",
+          "term": "玄黄洞"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/xuanhuang-cave-north",
+          "label": "玄黄洞窟",
+          "term": "玄黄洞窟"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/xuanhuang-cave-rebirth",
+          "label": "玄黄洞窟",
+          "term": "玄黄洞窟"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-quest-lines:碧青洞窟",
+      "group": "core-quest-lines",
+      "profile": "classic-core",
+      "type": "quest",
+      "name": "碧青洞窟",
+      "aliases": [
+        "碧青",
+        "碧青洞"
+      ],
+      "terms": [
+        "碧青洞窟",
+        "碧青",
+        "碧青洞"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/gambleitems.txt",
+          "ref": "符 1452 70 1 NEXT 0 0 0 ＧＰ羽毛（碧青） 13090 90 1 ＧＰ羽毛（深红） 13092 110 1 炎之圣石 18558 140",
+          "label": "gambleitems.txt",
+          "term": "碧青"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "4|梦幻洞窟 拿衣服|进行中 35|ENDEV=46|碧青洞窟|已完成 35|NOWEV=46|碧青洞窟|进行中 36|ENDEV=39|琉璃洞窟|已完成 3",
+          "label": "jobdaily.txt",
+          "term": "碧青洞窟"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "4|梦幻洞窟 拿衣服|进行中 35|ENDEV=46|碧青洞窟|已完成 35|NOWEV=46|碧青洞窟|进行中 36|ENDEV=39|琉璃洞窟|已完成",
+          "label": "jobdaily.txt",
+          "term": "碧青"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/dungeon/dan_2-11-08",
+          "ref": "LS2MAPRt碧青的洞窟地下８楼|0<<BBBBBBBBBBB",
+          "label": "dan_2-11-08",
+          "term": "碧青"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/dungeon/dan_2-11-10",
+          "ref": "LS2MAPRv碧青的洞窟地下１０楼|0<<BBBBBBBBBBBB",
+          "label": "dan_2-11-10",
+          "term": "碧青"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/biqing-cave",
+          "label": "碧青洞窟",
+          "term": "碧青洞窟"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-quest-lines:深红洞窟",
+      "group": "core-quest-lines",
+      "profile": "classic-core",
+      "type": "quest",
+      "name": "深红洞窟",
+      "aliases": [
+        "深红",
+        "深红洞"
+      ],
+      "terms": [
+        "深红洞窟",
+        "深红",
+        "深红洞"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/gambleitems.txt",
+          "ref": "0 ＧＰ羽毛（碧青） 13090 90 1 ＧＰ羽毛（深红） 13092 110 1 炎之圣石 18558 140 1 合成铠１０滋４ 8998 170",
+          "label": "gambleitems.txt",
+          "term": "深红"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=39|琉璃洞窟|进行中 37|ENDEV=40|深红洞窟|已完成 37|NOWEV=40|深红洞窟|进行中 38|ENDEV=41|玄黄洞窟-1|已完成",
+          "label": "jobdaily.txt",
+          "term": "深红洞窟"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=39|琉璃洞窟|进行中 37|ENDEV=40|深红洞窟|已完成 37|NOWEV=40|深红洞窟|进行中 38|ENDEV=41|玄黄洞窟-1|已",
+          "label": "jobdaily.txt",
+          "term": "深红"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=39|琉璃洞窟|进行中 37|ENDEV=40|深红洞窟|已完成 37|NOWEV=40|深红洞窟|进行中 38|ENDEV=41|玄黄洞窟-1|已完",
+          "label": "jobdaily.txt",
+          "term": "深红洞"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/giiru/dungeon/dan_3-00-01",
+          "ref": "LS2MAPu1深红的洞窟地下１楼|022@@@@@@@@@@@",
+          "label": "dan_3-00-01",
+          "term": "深红"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/deep-red-cave",
+          "label": "深红洞窟",
+          "term": "深红洞窟"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-quest-lines:漆黑洞窟 / 人物转生",
+      "group": "core-quest-lines",
+      "profile": "classic-core",
+      "type": "quest",
+      "name": "漆黑洞窟 / 人物转生",
+      "aliases": [
+        "漆黑洞窟",
+        "漆黑",
+        "人物转生",
+        "转生"
+      ],
+      "terms": [
+        "漆黑洞窟 / 人物转生",
+        "漆黑洞窟",
+        "漆黑",
+        "人物转生",
+        "转生"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 697",
+          "label": "漆黑的守护兽 img 100389",
+          "term": "漆黑"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "1,1238,,,,,,,,,,50,,,,,,,,, 转生地,at:1;1;1|gu:1|es:8|wa:0;0;0;0;0;0;0;,,1373,693",
+          "label": "enemy1.txt",
+          "term": "转生"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,300,,300,300,,300,300,,-1 漆黑的守护兽,石,木,皮,骨,线,697,25,5.00,30,30,43,4,300,-1,50,",
+          "label": "enemybase1.txt",
+          "term": "漆黑"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "398,,,,,,,,10,10,10,4,,,,,, 转生地水火风,754,-1,-1,1373,1374,1375,1376,,,,,,,1,1,1,1",
+          "label": "group1.txt",
+          "term": "转生"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/giiru/dungeon/sikkoku/dan_3-20-01",
+          "ref": "LS2MAP}\u0001漆黑的洞窟 地下1楼|2奒|0<<???????????",
+          "label": "dan_3-20-01",
+          "term": "漆黑"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/giiru/dungeon/sikkoku/dan_3-20-02",
+          "ref": "LS2MAP}\u0002漆黑的洞窟 地下2楼|2<<???????????",
+          "label": "dan_3-20-02",
+          "term": "漆黑"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,300,,300,300,,300,300,,-1 漆黑的守护兽,石,木,皮,骨,线,697,25,5.00,30,30,43,4,300,-1,50,",
+          "label": "enemybase2.txt",
+          "term": "漆黑"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/liuli-cave-rebirth",
+          "label": "琉璃洞窟",
+          "term": "转生"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/xuanhuang-cave-rebirth",
+          "label": "玄黄洞窟",
+          "term": "转生"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/biqing-cave",
+          "label": "碧青洞窟",
+          "term": "转生"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/deep-red-cave",
+          "label": "深红洞窟",
+          "term": "转生"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "转生四洞窟全攻略/black-cave-final-rebirth",
+          "label": "漆黑洞窟(最后转生)",
+          "term": "漆黑洞窟"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "advanced-quest-lines:英雄岛",
+      "group": "advanced-quest-lines",
+      "profile": "classic-advanced",
+      "type": "quest",
+      "name": "英雄岛",
+      "aliases": [
+        "英雄岛前传",
+        "英雄岛后传"
+      ],
+      "terms": [
+        "英雄岛",
+        "英雄岛前传",
+        "英雄岛后传"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "1,1237,,,,,,,,,,50,,,,,,,,, 英雄岛布洛多斯LV105,at:1;3;1|gu:0|es:0|wa:1;1;0;0;0;0;0;,,",
+          "label": "enemy1.txt",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 英雄岛后传米兰达队员,at:1;1;1|gu:0|es:0|wa:1;1;0;0;0;0;0;,,1481",
+          "label": "enemy1.txt",
+          "term": "英雄岛后传"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "1,1441,,,,,,,,,,20,,,,,,,,, 英雄岛四周雷龙系LV90(同系),761,-1,-1,1465,1466,1467,1468,,,,,",
+          "label": "group1.txt",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/racequiz.txt",
+          "ref": "题“80级以上需带着()思议的贝壳”跟黑乌力说话就能登上英雄岛|不可 填空题“使用素材制作料理是()技能”|料理 每年最后一天是12月几号|31 填空题“宠物",
+          "label": "racequiz.txt",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/red-raptor-hero-island",
+          "label": "英雄岛前传(红暴)",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/four-stones-hero-island",
+          "label": "英雄岛后传(四圣石)",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/humanoid-pet",
+          "label": "人形宠最新解法",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/riddle-three-brothers",
+          "label": "猜谜三兄弟全解(参考)",
+          "term": "英雄岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/samugiru-commission-shop",
+          "label": "萨姆吉尔村任务委托店",
+          "term": "英雄岛"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "advanced-quest-lines:红暴",
+      "group": "advanced-quest-lines",
+      "profile": "classic-advanced",
+      "type": "quest",
+      "name": "红暴",
+      "aliases": [
+        "红暴任务",
+        "红色暴龙"
+      ],
+      "terms": [
+        "红暴",
+        "红暴任务",
+        "红色暴龙"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "0,,,,,,,,,,250,,,,,,,,, 英雄岛的红暴LV105,at:1;1;1|gu:0|es:0|wa:1;0;0;0;0;0;0;,,1457",
+          "label": "enemy1.txt",
+          "term": "红暴"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "V=42|玄黄洞窟-2|进行中 40|ENDEV=63|红暴任务|已完成 40|NOWEV=63|红暴任务|进行中 41|ENDEV=64|四圣石任务 接",
+          "label": "jobdaily.txt",
+          "term": "红暴"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "V=42|玄黄洞窟-2|进行中 40|ENDEV=63|红暴任务|已完成 40|NOWEV=63|红暴任务|进行中 41|ENDEV=64|四圣石任务 接任务",
+          "label": "jobdaily.txt",
+          "term": "红暴任务"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/five-jade-red-raptor-samugiru-jewelry-big5",
+          "label": "五勾玉、红暴、萨姆吉尔首饰任务详解",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/red-raptor-hero-island",
+          "label": "英雄岛前传(红暴)",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/four-stones-hero-island",
+          "label": "英雄岛后传(四圣石)",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/humanoid-pet",
+          "label": "人形宠最新解法",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/riddle-three-brothers",
+          "label": "猜谜三兄弟全解(参考)",
+          "term": "红暴"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "advanced-quest-lines:四圣石",
+      "group": "advanced-quest-lines",
+      "profile": "classic-advanced",
+      "type": "quest",
+      "name": "四圣石",
+      "aliases": [
+        "圣石"
+      ],
+      "terms": [
+        "四圣石",
+        "圣石"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "0,0,0,,,,,,,,,,,,,,,,,,,, 光之圣石,at:0;1;1|gu:0|es:0|rn:|wa:0;3;1;2;2;2;0;,,2254,",
+          "label": "enemy1.txt",
+          "term": "圣石"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "700,,700,700,,700,700,,10 光之圣石,,,,,,45,150,2.00,150,0,50,0,100,0,0,0,0,0,1000,",
+          "label": "enemybase1.txt",
+          "term": "圣石"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/gambleitems.txt",
+          "ref": "90 1 ＧＰ羽毛（深红） 13092 110 1 炎之圣石 18558 140 1 合成铠１０滋４ 8998 170 1 合成手环５ 10092 20",
+          "label": "gambleitems.txt",
+          "term": "圣石"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "WEV=63|红暴任务|进行中 41|ENDEV=64|四圣石任务 接任务|已完成 41|NOWEV=64|四圣石任务 接任务|进行中 42|ENDEV=",
+          "label": "jobdaily.txt",
+          "term": "四圣石"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "EV=63|红暴任务|进行中 41|ENDEV=64|四圣石任务 接任务|已完成 41|NOWEV=64|四圣石任务 接任务|进行中 42|ENDEV=",
+          "label": "jobdaily.txt",
+          "term": "圣石"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/four-stones-green-dragon-gold-tiger-big5",
+          "label": "四圣石、绿雷龙、金虎任务最佳详细解法",
+          "term": "四圣石"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/red-raptor-hero-island",
+          "label": "英雄岛前传(红暴)",
+          "term": "四圣石"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/four-stones-hero-island",
+          "label": "英雄岛后传(四圣石)",
+          "term": "四圣石"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/humanoid-pet",
+          "label": "人形宠最新解法",
+          "term": "四圣石"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/riddle-three-brothers",
+          "label": "猜谜三兄弟全解(参考)",
+          "term": "四圣石"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "advanced-quest-lines:金虎",
+      "group": "advanced-quest-lines",
+      "profile": "classic-advanced",
+      "type": "quest",
+      "name": "金虎",
+      "aliases": [
+        "金格萨贝鲁"
+      ],
+      "terms": [
+        "金虎",
+        "金格萨贝鲁"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 164",
+          "label": "新手金格萨贝鲁 img 100330",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 194",
+          "label": "金格萨贝鲁 img 100330",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "1,0,1,,,,,,,,,,,,,,,,,,,, 体验金虎,at:1;1;1|gu:0|es:0|wa:0;0;0;0;0;0;0;,,10032,100",
+          "label": "enemy1.txt",
+          "term": "金虎"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 金格萨贝鲁,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,310,194,",
+          "label": "enemy1.txt",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": ",,600,600,,600,600,,,,,23 新手金格萨贝鲁,石,木,肉,鱼,米,164,17,4.00,16,21,11,23,100,5,30,0,0,",
+          "label": "enemybase1.txt",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",,1,1,1,1,,,,,, 伊甸园-幻影之界-族长骑金虎,960,-1,-1,1782,1783,1784,1785,,,,,,,1,1,1,1,,,,",
+          "label": "group1.txt",
+          "term": "金虎"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/poru/mary01",
+          "ref": "Msg:我要快点跟村长说这个好消息，要大家准备出发。这只金格萨贝鲁就托你照顾了，它是老爷爷送给我的，可惜我没时间好好照顾它。 DelItem:18556,1855",
+          "label": "mary01",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": ",,600,600,,600,600,,,,,23 新手金格萨贝鲁,石,木,肉,鱼,米,164,17,4.00,16,21,11,23,100,5,30,0,0,",
+          "label": "enemybase2.txt",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "00 330,task_getpet,310,194,金格萨贝鲁,2066,2314,1.1200922266139657,3874,1.875,2700,1.",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "金格萨贝鲁"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/four-stones-green-dragon-gold-tiger-big5",
+          "label": "四圣石、绿雷龙、金虎任务最佳详细解法",
+          "term": "金虎"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/four-stones-green-dragon-gold-tiger",
+          "label": "四圣石、绿雷龙、金虎任务最佳详细解法",
+          "term": "金虎"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "advanced-quest-lines:玛蕾菲雅",
+      "group": "advanced-quest-lines",
+      "profile": "classic-advanced",
+      "type": "quest",
+      "name": "玛蕾菲雅",
+      "aliases": [
+        "玛蕾菲亚",
+        "malayfia"
+      ],
+      "terms": [
+        "玛蕾菲雅",
+        "玛蕾菲亚",
+        "malayfia"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 401",
+          "label": "玛蕾菲雅 img 100454",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 718",
+          "label": "玛蕾菲雅 img 100451",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100451",
+          "label": "玛蕾菲雅",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 玛蕾菲雅,at:1;1;1|gu:0|es:0|wa:0;0;0;0;0;0;0;,,1479,718,",
+          "label": "enemy1.txt",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,700,,700,700,,700,700,,-1 玛蕾菲雅,木,石,米,碳火,饮用水,401,20,6.00,25,25,25,25,100,0,100,",
+          "label": "enemybase1.txt",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/malayfia.txt",
+          "ref": "玛蕾菲雅,,,,,,718,20,5.00,25,30,20,25,100,0,0,0,50,50,0,",
+          "label": "malayfia.txt",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/jaruga/event/ruri01",
+          "ref": "璃？\\n\\n绿珀石是大地压力凝聚的力量石，为了帮助你恢复玛蕾菲雅的力量，我现在把它交给你，但是千万别离开这世界，否则绿珀石会消失的无影无踪。 ItemFullM",
+          "label": "ruri01",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/king/event69_3",
+          "ref": "。,老太婆，你怎么可以这样麻烦人家呢？ #确认玩家送回玛蕾菲雅 EventNo:-1 TYPE:MESSAGE EVENT:ENDEV=4&ENDEV=69&",
+          "label": "event69_3",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,700,,700,700,,700,700,,-1 玛蕾菲雅,木,石,米,碳火,饮用水,401,20,5.00,25,25,25,25,100,0,100,",
+          "label": "enemybase2.txt",
+          "term": "玛蕾菲雅"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "5 181,task_getpet,2547,401,玛蕾菲雅,2128,2607,1.225,2128,1.0,5320,2.5,2128,1.0,851,",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "玛蕾菲雅"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "advanced-quest-lines:精灵王 / 精灵少女 / 黑暗精灵王",
+      "group": "advanced-quest-lines",
+      "profile": "classic-advanced",
+      "type": "quest",
+      "name": "精灵王 / 精灵少女 / 黑暗精灵王",
+      "aliases": [
+        "精灵王",
+        "精灵少女",
+        "黑暗精灵王"
+      ],
+      "terms": [
+        "精灵王 / 精灵少女 / 黑暗精灵王",
+        "精灵王",
+        "精灵少女",
+        "黑暗精灵王"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 843",
+          "label": "黑暗精灵王 img 100444",
+          "term": "精灵王"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 精灵王-绿人龙,at:0;3;3|gu:1|es:0|wa:1;1;0;0;0;0;0;,,1661,",
+          "label": "enemy1.txt",
+          "term": "精灵王"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "0,0,0,0,,,,,,,,,,,,,,,,,,,, 黑暗精灵王,at:0;1;3|gu:0|es:0|wa:1;1;1;1;1;0;0;,,1690,843,",
+          "label": "enemy1.txt",
+          "term": "黑暗精灵王"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "86,0,0,,,,,,,,,,,,,,,,,-1 黑暗精灵王,,,,,,843,500,9.00,60,60,60,60,100,0,0,0,0,0,50,",
+          "label": "enemybase1.txt",
+          "term": "精灵王"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0886,0,0,,,,,,,,,,,,,,,,,-1 黑暗精灵王,,,,,,843,500,9.00,60,60,60,60,100,0,0,0,0,0,50,",
+          "label": "enemybase1.txt",
+          "term": "黑暗精灵王"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "14,1458,,,,,,,,,1,1,,,,,,,, 精灵王-黑蛙60,828,-1,19623,1681,,,,,,,,,,1,,,,,,,,, 精灵王-",
+          "label": "group1.txt",
+          "term": "精灵王"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "86,0,0,,,,,,,,,,,,,,,,,-1 黑暗精灵王,,,,,,843,500,9.00,60,60,60,60,100,0,0,0,0,0,50,",
+          "label": "enemybase2.txt",
+          "term": "精灵王"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0886,0,0,,,,,,,,,,,,,,,,,-1 黑暗精灵王,,,,,,843,500,9.00,60,60,60,60,100,0,0,0,0,0,50,",
+          "label": "enemybase2.txt",
+          "term": "黑暗精灵王"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/spirit-girl-part-1-big5",
+          "label": "精灵少女篇图文攻略(上篇)",
+          "term": "精灵少女"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/spirit-girl-part-2-big5",
+          "label": "精灵少女篇图文攻略(中篇)",
+          "term": "精灵少女"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/spirit-girl-part-3-big5",
+          "label": "精灵少女篇图文攻略(下篇)",
+          "term": "精灵少女"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/spirit-girl-final-big5",
+          "label": "精灵少女篇攻略(最后补充篇)",
+          "term": "精灵少女"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/dark-elf-king-big5",
+          "label": "黑暗精灵王任务全解",
+          "term": "精灵王"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:北岛 / 萨伊那斯",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "北岛 / 萨伊那斯",
+      "aliases": [
+        "北岛",
+        "萨伊那斯"
+      ],
+      "terms": [
+        "北岛 / 萨伊那斯",
+        "北岛",
+        "萨伊那斯"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "萨伊那斯",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-four-village-route",
+          "label": "萨伊那斯四村巡礼",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "ganzo-roadblock",
+          "label": "坏心眼的愿藏",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/extra/event/marju",
+          "ref": "9&ENDEV!=38 RequestMsg:\\n我在帮萨伊那斯的邮件递送\\n打工\\n我叫做马祖。\\n不知道谁能够帮我打\\n邮件递送的工呢？\\n诺鲁玛很像还没有",
+          "label": "marju",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_1000_74_93",
+          "ref": "报进来了。现在好像可以去吉鲁岛了，那里的恐龙很强哦。,从萨伊那斯去吉鲁岛的话···好像可以从霍特尔那边过去嘛。,最近最有个喜欢玩躲迷藏的小孩子里奥很有名。虽然说",
+          "label": "msg_1000_74_93",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_10901_46_6",
+          "ref": "这里是萨伊那斯饲育员委员会，委员会本部是在１０楼。,如果有这里的会员认定书的话就可以直接从４楼前往本部。,在前",
+          "label": "msg_10901_46_6",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_10913_37_34",
+          "ref": "萨伊那斯饲育员委员会…简称为ＳＢＣ,只要接受这里的ＳＢＣ的认定，位在本部的首席饲育员就会教给你各式各样的",
+          "label": "msg_10913_37_34",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_10916_17_19",
+          "ref": "果等级没有超过４０左右的话，将会非常困难。,ＳＢＣ是位在萨伊那斯的饲育员的委员会，而在加鲁卡好像也有这样的委员会哦。",
+          "label": "msg_10916_17_19",
+          "term": "萨伊那斯"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/yam-axe",
+          "label": "亚姆的斧头",
+          "term": "北岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/dinosaur-doctor",
+          "label": "恐龙博士",
+          "term": "北岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/shell-delivery",
+          "label": "送贝壳的故事",
+          "term": "北岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/xuanhuang-cave-north",
+          "label": "玄黄洞窟",
+          "term": "北岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/nama-club",
+          "label": "拿马棒方法",
+          "term": "北岛"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:南岛 / 加鲁卡",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "南岛 / 加鲁卡",
+      "aliases": [
+        "南岛",
+        "加鲁卡",
+        "加鲁迦"
+      ],
+      "terms": [
+        "南岛 / 加鲁卡",
+        "南岛",
+        "加鲁卡",
+        "加鲁迦"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 200",
+          "label": "加鲁卡",
+          "term": "加鲁卡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen00_33",
+          "ref": ":最近从外地来的人真是不少啊──\\n\\n有什么塞伊那斯、加鲁卡来的，还讲到什么吉鲁、沙姆、波拉？\\n弄得我头都晕了……\\n\\n你们尼斯那边怎么都是一堆小岛啊？",
+          "label": "citizen00_33",
+          "term": "加鲁卡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_10916_17_19",
+          "ref": "会非常困难。,ＳＢＣ是位在萨伊那斯的饲育员的委员会，而在加鲁卡好像也有这样的委员会哦。",
+          "label": "msg_10916_17_19",
+          "term": "加鲁卡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_10916_5_34",
+          "ref": "噢，对了，在加鲁卡，好像有个加鲁卡饲育员协会的样子哦,加鲁卡饲育员协会···好像是简称为ＪＢＡ的样子。",
+          "label": "msg_10916_5_34",
+          "term": "加鲁卡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_1100_97_62",
+          "ref": "前面就是通往加鲁卡岛的海底回廊，技术未成熟者是无法通过的。",
+          "label": "msg_1100_97_62",
+          "term": "加鲁卡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_2000_59_109",
+          "ref": "钓竿的木头叫做“洛特”，你知道吗？,萨依那斯的木材都是从加鲁卡来的，这个岛上有很多木材哦。,做钓竿的木头？我觉得这附近应该找不到，因为这里没什么树啊。",
+          "label": "msg_2000_59_109",
+          "term": "加鲁卡"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/save-grandfather",
+          "label": "解救老爷爷",
+          "term": "南岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/dragon-cave",
+          "label": "龙洞的任务",
+          "term": "南岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/logging",
+          "label": "伐木任务",
+          "term": "南岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/pig-love-story",
+          "label": "小猪的爱情故事",
+          "term": "南岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "南岛任务全攻略/ibu-mother",
+          "label": "伊布的母亲",
+          "term": "南岛"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:吉鲁岛",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "吉鲁岛",
+      "aliases": [
+        "吉鲁"
+      ],
+      "terms": [
+        "吉鲁岛",
+        "吉鲁"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 300",
+          "label": "吉鲁岛",
+          "term": "吉鲁岛"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 10007 npc (28,39)",
+          "label": "查罕·吉鲁",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 11006 npc (11,7)",
+          "label": "助手吉鲁",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 772",
+          "label": "欧林吉鲁 img 100867",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 903",
+          "label": "葛雷吉鲁 img 101154",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "2440,,,,,,,,,,10,,,,,,,,, 查罕吉鲁,at:20;2;1|gu:1|es:0|wa:1;0;0;0;0;0;0;,,295,503,",
+          "label": "enemy1.txt",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": ",700,,700,700,,700,700,,5 欧林吉鲁,石,木,皮,骨,牙,772,19,4.50,19,30,22,31,150,11,0,0,60",
+          "label": "enemybase1.txt",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",,,,,10,1,,,,,,,, 伊甸-706--欧林吉鲁、耶普鲁-48-54,897,-1,-1,1731,1732,1940,,,,,,,,10,10",
+          "label": "group1.txt",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/giiru/dungeon/dan_3-13-02",
+          "ref": "LS2MAPzF吉鲁的海底通道|100|12<<BBBBBBBBBB",
+          "label": "dan_3-13-02",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/giiru/dungeon/dun_3-13-01",
+          "ref": "LS2MAPzE吉鲁的海底通路|100(xBBBBBBBBBB",
+          "label": "dun_3-13-01",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": ",700,,700,700,,700,700,,5 欧林吉鲁,石,木,皮,骨,牙,772,19,4.50,19,30,22,31,150,11,0,0,60",
+          "label": "enemybase2.txt",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "127,task_getpet,1796,903,葛雷吉鲁,2374,2716,1.1441384063506828,2838,1.19565217391",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "吉鲁"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "吉鲁岛任务全攻略/five-brothers",
+          "label": "五兄弟的谜",
+          "term": "吉鲁岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "吉鲁岛任务全攻略/miner-contest",
+          "label": "矿工的比赛",
+          "term": "吉鲁岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "吉鲁岛任务全攻略/golden-antelope",
+          "label": "黄金羚羊之谜",
+          "term": "吉鲁岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "吉鲁岛任务全攻略/new-pig-love-story",
+          "label": "新小猪爱情故事",
+          "term": "吉鲁岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "吉鲁岛任务全攻略/direction-shrine",
+          "label": "方位之祠",
+          "term": "吉鲁岛"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:沙姆岛",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "沙姆岛",
+      "aliases": [
+        "沙姆"
+      ],
+      "terms": [
+        "沙姆岛",
+        "沙姆"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 400",
+          "label": "沙姆岛A 10",
+          "term": "沙姆岛"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "05,5106,,,,,,,,,1,1,,,,,,,, 沙姆岛魔兽,1509,21212,21213,5108,,,,,,,,,,1,,,,,,,,, 沙姆岛",
+          "label": "group1.txt",
+          "term": "沙姆岛"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "05,5106,,,,,,,,,1,1,,,,,,,, 沙姆岛魔兽,1509,21212,21213,5108,,,,,,,,,,1,,,,,,,,, 沙姆",
+          "label": "group1.txt",
+          "term": "沙姆"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen00_33",
+          "ref": "──\\n\\n有什么塞伊那斯、加鲁卡来的，还讲到什么吉鲁、沙姆、波拉？\\n弄得我头都晕了……\\n\\n你们尼斯那边怎么都是一堆小岛啊？这样交通不是很不方便吗？",
+          "label": "citizen00_33",
+          "term": "沙姆"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/familyman.create",
+          "ref": ":family/familyman.conf } # 沙姆奇姆依 { floorid=6006 borncenter=19,24,1,1 movecent",
+          "label": "familyman.create",
+          "term": "沙姆"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/fmdengon.create",
+          "ref": "enemy=npcgen_fmdengon } # 沙姆奇姆依 { floorid=6006 borncorner=19,19,19,19 time=0",
+          "label": "fmdengon.create",
+          "term": "沙姆"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "沙姆岛任务全攻略/four-jewels",
+          "label": "四宝玉之谜",
+          "term": "沙姆岛"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "沙姆岛任务全攻略/dream-cave",
+          "label": "梦幻洞窟",
+          "term": "沙姆岛"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:玛丽娜丝渔村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "玛丽娜丝渔村",
+      "aliases": [
+        "玛丽娜斯渔村",
+        "玛丽娜丝",
+        "渔村"
+      ],
+      "terms": [
+        "玛丽娜丝渔村",
+        "玛丽娜斯渔村",
+        "玛丽娜丝",
+        "渔村"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1998",
+          "label": "玛丽娜丝的秘室",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 2000",
+          "label": "玛丽娜丝渔村",
+          "term": "玛丽娜丝渔村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 2001",
+          "label": "玛丽娜丝的武器店",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 2002",
+          "label": "玛丽娜丝的道具店",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 2003",
+          "label": "玛丽娜丝的宠物店",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2000 npc (73,69)",
+          "label": "玛丽娜丝的传言板",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2000 npc (87,78)",
+          "label": "竞技场前看板 ＝＝＝＝＝玛丽娜丝的竞技场＝＝＝＝＝\\n公开挑战对战的场所\\n会场战斗的排行榜前１０名和\\n等级２０的人可以免费入场\\n此外，排名第７７和７７７位也免费。",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2000 npc (87,92)",
+          "label": "玛丽娜丝的传言板",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2001 npc (18,15)",
+          "label": "玛丽娜丝的武器店",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2001 npc (18,18)",
+          "label": "玛丽娜丝的防具店",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-four-village-route",
+          "label": "萨伊那斯四村巡礼",
+          "term": "玛丽娜丝渔村"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "0,1,,,,,,,,,,,,,,,,,,,, ####玛丽娜丝的秘密##### 神秘人,at:0;1;3|gu:0|es:0|wa:1;1;1;1;1;1;1",
+          "label": "enemy1.txt",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",,,,,,,,,1000,,,,,,,,, 艾蜜(3掉渔村),at:5;1;1|gu:2|es:3|rn:|wa:0;0;4;0;0;0;0;,,1910",
+          "label": "enemy1.txt",
+          "term": "渔村"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": ",,300,300,,300,300,,19 #####玛丽娜丝的秘密##### 神秘人,,,,,,10157,25,4.50,29,35,20,30,300,",
+          "label": "enemybase1.txt",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "1,1910,,,,,,,,,,10,,,,,,,,, 渔村艾蜜,1018,20219,-1,1911,,,,,,,,,,10,,,,,,,,, 不可抓讦谯",
+          "label": "group1.txt",
+          "term": "渔村"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/chatroom/airplane.create",
+          "ref": "NPCCREATE #######加美航空 玛丽娜丝～奇努伊########## { floorid=2000 borncenter=105,87,",
+          "label": "airplane.create",
+          "term": "玛丽娜丝"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/marinas-commission-shop",
+          "label": "玛丽娜斯渔村任务委托店",
+          "term": "玛丽娜斯渔村"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:萨姆吉尔村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "萨姆吉尔村",
+      "aliases": [
+        "萨姆吉尔",
+        "萨村"
+      ],
+      "terms": [
+        "萨姆吉尔村",
+        "萨姆吉尔",
+        "萨村"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1000",
+          "label": "萨姆吉尔村",
+          "term": "萨姆吉尔村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1001",
+          "label": "萨姆吉尔的武器店",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1002",
+          "label": "萨姆吉尔的道具店",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1003",
+          "label": "萨姆吉尔的宠物店",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1004",
+          "label": "萨姆吉尔的肉店",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (463,625)",
+          "label": "往萨姆吉尔",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (119,656)",
+          "label": "往萨姆吉尔",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (57,12)",
+          "label": "萨姆吉尔向导",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1000 npc (42,72)",
+          "label": "萨姆吉尔的老师",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1000 npc (94,99)",
+          "label": "萨姆吉尔的储存点",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-field-practice",
+          "label": "萨姆吉尔野外练习",
+          "term": "萨姆吉尔村"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-four-village-route",
+          "label": "萨伊那斯四村巡礼",
+          "term": "萨姆吉尔村"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-arena-tour",
+          "label": "竞技场与英雄战场见学",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "ganzo-roadblock",
+          "label": "坏心眼的愿藏",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/family/100/1040",
+          "ref": "LS2MAP\u0004\u0010萨姆吉尔庄园PP\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0013",
+          "label": "1040",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/family/100/1041",
+          "ref": "LS2MAP\u0004\u0011萨姆吉尔庄园族长家|0\u0014\u0014\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013",
+          "label": "1041",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/family/100/1042",
+          "ref": "LS2MAP\u0004\u0012萨姆吉尔庄园竞技场|0 \u000f\u0010 \u0010\u0015\u0010 \u0010\u0015\u0010 \u0010 \u0010\u0015\u000f\u000f\u0010 \u000f",
+          "label": "1042",
+          "term": "萨姆吉尔"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/family/100/1043",
+          "ref": "LS2MAP\u0004\u0013萨姆吉尔庄园聊天柜台|0 \u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013",
+          "label": "1043",
+          "term": "萨姆吉尔"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:柯奥村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "柯奥村",
+      "aliases": [
+        "柯奥"
+      ],
+      "terms": [
+        "柯奥村",
+        "柯奥"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1100",
+          "label": "柯奥村",
+          "term": "柯奥村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1101",
+          "label": "柯奥的武器店",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1102",
+          "label": "柯奥的道具店",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1103",
+          "label": "柯奥的宠物店",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1104",
+          "label": "柯奥的肉店",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (629,488)",
+          "label": "往柯奥",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (122,656)",
+          "label": "往柯奥",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1100 npc (50,91)",
+          "label": "柯奥的储存点",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1100 npc (78,87)",
+          "label": "柯奥的传言板",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1101 npc (18,13)",
+          "label": "柯奥的武器店",
+          "term": "柯奥"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-four-village-route",
+          "label": "萨伊那斯四村巡礼",
+          "term": "柯奥村"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
+          "ref": "LS2MAP(=柯奥的洞窟１楼|10022BBBBBBBBBB",
+          "label": "dan_1-03-01",
+          "term": "柯奥"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
+          "ref": "LS2MAP(>柯奥的洞窟２楼|100022BBBBBBBBBB",
+          "label": "dan_1-03-02",
+          "term": "柯奥"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
+          "ref": "LS2MAP(?柯奥的洞窟３楼|100022BBBBBBBBBB",
+          "label": "dan_1-03-03",
+          "term": "柯奥"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
+          "ref": "LS2MAP(@柯奥的洞窟４楼|100022BBBBBBBBBB",
+          "label": "dan_1-03-04",
+          "term": "柯奥"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
+          "ref": "LS2MAP(A柯奥的洞窟５楼|100|022BBBBBBBBBB",
+          "label": "dan_1-03-05",
+          "term": "柯奥"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:卡坦村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "卡坦村",
+      "aliases": [
+        "卡坦"
+      ],
+      "terms": [
+        "卡坦村",
+        "卡坦"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1400",
+          "label": "卡坦村温",
+          "term": "卡坦村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1401",
+          "label": "卡坦的武器店",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1402",
+          "label": "卡坦的道具店",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1403",
+          "label": "卡坦的宠物店",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1404",
+          "label": "卡坦的肉店",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (230,180)",
+          "label": "卡坦",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1300 npc (35,60)",
+          "label": "卡坦的商人",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1400 npc (71,76)",
+          "label": "卡坦的年轻人",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1400 npc (76,104)",
+          "label": "卡坦的储存点",
+          "term": "卡坦"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1400 npc (78,97)",
+          "label": "卡坦的传言板",
+          "term": "卡坦"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "7|猜谜3兄弟 拿蓝暴|进行中 4|ENDEV=35|卡坦 找4只鲨鱼|已完成 4|NOWEV=35|卡坦 找4只鲨鱼|进行中 5|ENDEV=37|",
+          "label": "jobdaily.txt",
+          "term": "卡坦"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/katan/1401",
+          "ref": "LS2MAP\u0005y卡坦的武器店|000\u001e\u001e",
+          "label": "1401",
+          "term": "卡坦"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/katan/1402",
+          "ref": "LS2MAP\u0005z卡坦的道具店|000\u001e\u001e",
+          "label": "1402",
+          "term": "卡坦"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/katan/1403",
+          "ref": "LS2MAP\u0005{卡坦的宠物店|0皘0b僾|0\u001e\u001e",
+          "label": "1403",
+          "term": "卡坦"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/katan/1404",
+          "ref": "LS2MAP\u0005|卡坦的肉店|000\u001e\u001e",
+          "label": "1404",
+          "term": "卡坦"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/katan-wish",
+          "label": "卡坦的愿望",
+          "term": "卡坦"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "北岛任务全攻略/katan-illusion-cave",
+          "label": "卡坦村迷幻洞窟",
+          "term": "卡坦村"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:柯尔克村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "柯尔克村",
+      "aliases": [
+        "柯尔克"
+      ],
+      "terms": [
+        "柯尔克村",
+        "柯尔克"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1200",
+          "label": "柯尔克村",
+          "term": "柯尔克村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1201",
+          "label": "柯尔克的武器店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1202",
+          "label": "柯尔克的道具店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1203",
+          "label": "柯尔克的宠物店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1204",
+          "label": "柯尔克的肉店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1200 npc (63,46)",
+          "label": "柯尔克的储存点",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1200 npc (53,54)",
+          "label": "柯尔克的传言板恺",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1201 npc (14,13)",
+          "label": "柯尔克的武器店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1201 npc (17,13)",
+          "label": "柯尔克的防具店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1202 npc (15,13)",
+          "label": "柯尔克的道具店",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-01-01",
+          "ref": "LS2MAP'u往柯尔克的道路１楼|0022????????????",
+          "label": "dan_1-01-01",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-01-02",
+          "ref": "LS2MAP'v往柯尔克的道路２楼|0022??????????\u000f\u000f\u000f",
+          "label": "dan_1-01-02",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-01-03",
+          "ref": "LS2MAP'w往柯尔克的道路３楼|0022????????????",
+          "label": "dan_1-01-03",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-06-01",
+          "ref": "LS2MAP)i东柯尔克的坑道１楼|022AAAAAAAAAAAA",
+          "label": "dan_1-06-01",
+          "term": "柯尔克"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/dungeon/dan_1-06-02",
+          "ref": "LS2MAP)j东柯尔克的坑道２楼|022AAAAAAAAAAAA",
+          "label": "dan_1-06-02",
+          "term": "柯尔克"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:加加村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "加加村",
+      "aliases": [
+        "加加"
+      ],
+      "terms": [
+        "加加村",
+        "加加"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 3000",
+          "label": "加加村",
+          "term": "加加村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 3001",
+          "label": "加加的武器店",
+          "term": "加加"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 3002",
+          "label": "加加的道具店",
+          "term": "加加"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 3003",
+          "label": "加加的宠物店",
+          "term": "加加"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 3004",
+          "label": "加加的肉店",
+          "term": "加加"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (57,30)",
+          "label": "加加向导",
+          "term": "加加"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 200 npc (422,98)",
+          "label": "往加加",
+          "term": "加加"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 200 npc (310,600)",
+          "label": "往加加",
+          "term": "加加"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 3000 npc (96,97)",
+          "label": "加加的储存点",
+          "term": "加加"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 3000 npc (96,95)",
+          "label": "加加的留言版",
+          "term": "加加"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 731",
+          "label": "加加 img 100826",
+          "term": "加加"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 加加,at:1;1;1|gu:1|es:2|rn:|wa:0;0;0;0;0;0;0;,,1564,",
+          "label": "enemy1.txt",
+          "term": "加加"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "00,700,,700,700,,700,700,,1 加加,肉,鱼,米,卵,饮用水,731,21,4.50,27,25,25,26,150,11,60,4",
+          "label": "enemybase1.txt",
+          "term": "加加"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",,,,,,,,20,1,,,,,,,, 伊甸-703-加加-48-54,883,-1,-1,1720,1938,1939,,,,,,,,10,10,10,",
+          "label": "group1.txt",
+          "term": "加加"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "古瓜去伊甸|进行中 70|ENDEV=99|古瓜任务 加加百人过后|已完成 70|NOWEV=99|古瓜任务 加加百人过后|进行中 71|ENDEV=1",
+          "label": "jobdaily.txt",
+          "term": "加加"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen00_61",
+          "ref": "E EVENT:LV>0 NomalWindowMsg:加加加加加加加加加加加加加加加加加加加！\\n\\n我们这一队要到北边的弗烈顿抓可爱的拉斯基喔！\\n\\n",
+          "label": "citizen00_61",
+          "term": "加加"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "00,700,,700,700,,700,700,,1 加加,肉,鱼,米,卵,饮用水,731,21,4.50,27,25,25,26,150,11,60,4",
+          "label": "enemybase2.txt",
+          "term": "加加"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": ",,100 266,capture_lv1,,731,加加,2203,2436,1.1059282822440717,1542,0.70000000000",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "加加"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:卡鲁它那村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "卡鲁它那村",
+      "aliases": [
+        "卡鲁它那",
+        "卡鲁他那"
+      ],
+      "terms": [
+        "卡鲁它那村",
+        "卡鲁它那",
+        "卡鲁他那"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 201",
+          "label": "卡鲁它那牧场事务所",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 4000",
+          "label": "卡鲁它那村",
+          "term": "卡鲁它那村"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 4001",
+          "label": "卡鲁它那的武器店",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 4002",
+          "label": "卡鲁它那的道具店",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 4003",
+          "label": "卡鲁它那的宠物店",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (57,39)",
+          "label": "卡鲁它那向导",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 200 npc (419,98)",
+          "label": "往卡鲁它那",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 200 npc (564,388)",
+          "label": "往卡鲁它那",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 4000 npc (57,103)",
+          "label": "卡鲁它那的老师",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 4000 npc (68,55)",
+          "label": "卡鲁它那的储存点",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/chatroom/airplane.create",
+          "ref": "airplane1.arg } #######加美航空 卡鲁他那～奇努伊########## { floorid=4000 borncenter=92,72,1",
+          "label": "airplane.create",
+          "term": "卡鲁他那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/bankman.create",
+          "ref": "ff:family/bankman.conf } # 卡鲁它那的银行管理员(庄园) { floorid=4031 borncenter=17,16,1,1 m",
+          "label": "bankman.create",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/familyman.create",
+          "ref": "family/familyman.conf } # 卡鲁它那的家族管理员 { floorid=4006 borncenter=18,23,1,1 movec",
+          "label": "familyman.create",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/fmdengon.create",
+          "ref": "enemy=npcgen_fmdengon } # 卡鲁它那村长家 { floorid=4006 borncorner=19,18,19,18 time=0",
+          "label": "fmdengon.create",
+          "term": "卡鲁它那村"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/fmhealer.create",
+          "ref": "nemy=npcgen_fmhealer|1 } # 卡鲁它那家族小护士 { floorid=4031 borncorner=12,8,12,8 time=0",
+          "label": "fmhealer.create",
+          "term": "卡鲁它那"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/karutana-commission-shop",
+          "label": "卡鲁他那村任务委托店",
+          "term": "卡鲁它那"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:奇喀喀村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "奇喀喀村",
+      "aliases": [
+        "奇喀喀"
+      ],
+      "terms": [
+        "奇喀喀村",
+        "奇喀喀"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 3400",
+          "label": "奇喀喀村鐋0",
+          "term": "奇喀喀村"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 3400 npc (65,48)",
+          "label": "奇喀喀的储存点",
+          "term": "奇喀喀"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 3400 npc (57,57)",
+          "label": "奇喀喀的传言板",
+          "term": "奇喀喀"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3403",
+          "ref": "LS2MAP K奇喀喀的宠物店|000\u001e\u001e",
+          "label": "3403",
+          "term": "奇喀喀"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3404",
+          "ref": "LS2MAP L奇喀喀的肉店|0畖00\u001e\u001e",
+          "label": "3404",
+          "term": "奇喀喀"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3405",
+          "ref": "LS2MAP M奇喀喀的医院|0畖00\u001e\u001e",
+          "label": "3405",
+          "term": "奇喀喀"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3406",
+          "ref": "LS2MAP N奇喀喀的村长家|0(\u001e",
+          "label": "3406",
+          "term": "奇喀喀"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3409",
+          "ref": "LS2MAP Q奇喀喀的便利商店|00(<",
+          "label": "3409",
+          "term": "奇喀喀"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:福尔德村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "福尔德村",
+      "aliases": [
+        "福尔德"
+      ],
+      "terms": [
+        "福尔德村",
+        "福尔德"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/shop_m3.create",
+          "ref": "le=1 graphicname=16209 name=福尔德的武器店 enemy=npcgen_shop|file:genout/ss_5001_28_14",
+          "label": "shop_m3.create",
+          "term": "福尔德"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/sp.create",
+          "ref": "le=1 graphicname=10048 name=福尔德的的储存点 enemy=npcgen_savepoint|file:genout/sp_5000",
+          "label": "sp.create",
+          "term": "福尔德"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/giiru/event/event30_3",
+          "ref": "索了吗？挺努力的嘛！ EventEnd #催促玩家去找福尔德长老 EventNo:-1 TYPE:ACCEPT EVENT:ENDEV=4&NOWEV=30",
+          "label": "event30_3",
+          "term": "福尔德"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/giiru/event/event30_4",
+          "ref": "NomalMainMsg:欢迎来到福尔德的村鸳！,福尔德是石之岛吉鲁南方的的村鸳。吉鲁是花草不生的石之岛呀，也因此可以采到良质的石头。,",
+          "label": "event30_4",
+          "term": "福尔德"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/giiru/event/event30.create",
+          "ref": "e:giiru/event/event30_3 } #福尔德村长老 { floorid=5005 borncorner=19,15,19,15 time=0",
+          "label": "event30.create",
+          "term": "福尔德村"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-regions:达那村",
+      "group": "core-regions",
+      "profile": "classic-core",
+      "type": "map-region",
+      "name": "达那村",
+      "aliases": [
+        "达那"
+      ],
+      "terms": [
+        "达那村",
+        "达那"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/gambleitems.txt",
+          "ref": "精灵羽毛（达那村） 13067 10 1 有气势的鱼 2435 20 1 千年龟的壳 11879 30 1 合成",
+          "label": "gambleitems.txt",
+          "term": "达那村"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/gambleitems.txt",
+          "ref": "精灵羽毛（达那村） 13067 10 1 有气势的鱼 2435 20 1 千年龟的壳 11879 30 1 合",
+          "label": "gambleitems.txt",
+          "term": "达那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/chatroom/airplane.create",
+          "ref": "airplane2.arg } #######加美航空 达那～奇努伊########## { floorid=5100 borncenter=43,37,1",
+          "label": "airplane.create",
+          "term": "达那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/familyman.create",
+          "ref": ":family/familyman.conf } # 达那 { floorid=5106 borncenter=23,10,1,1 movecenter=",
+          "label": "familyman.create",
+          "term": "达那"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/family/fmdengon.create",
+          "ref": "enemy=npcgen_fmdengon } # 达那 { floorid=5106 borncorner=23,12,23,12 time=0 cr",
+          "label": "fmdengon.create",
+          "term": "达那"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:武器店",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "武器店",
+      "aliases": [
+        "武器",
+        "weapon"
+      ],
+      "terms": [
+        "武器店",
+        "武器",
+        "weapon"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1001",
+          "label": "萨姆吉尔的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1101",
+          "label": "柯奥的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1201",
+          "label": "柯尔克的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1301",
+          "label": "霍特尔的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1401",
+          "label": "卡坦的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (23,3)",
+          "label": "斗技场的武器屋",
+          "term": "武器"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (1,14)",
+          "label": "斗技场的武器屋",
+          "term": "武器"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1001 npc (17,13)",
+          "label": "萨姆吉尔的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1001 npc (16,19)",
+          "label": "村子里的万事通",
+          "term": "武器"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1101 npc (18,13)",
+          "label": "柯奥的武器店",
+          "term": "武器店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/family/800/8038",
+          "ref": "LS2MAP\u001ff武器贩卖店|0眧0\u0014\u0014<<<<<<<<<<",
+          "label": "8038",
+          "term": "武器"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/ruieryashi/7501",
+          "ref": "LS2MAP\u001dM瑞尔亚斯的武器店|0\u001e\u001e",
+          "label": "7501",
+          "term": "武器店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/hotoru/1301",
+          "ref": "LS2MAP\u0005\u0015霍特尔的武器店|00\u001e\u001e",
+          "label": "1301",
+          "term": "武器店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/katan/1401",
+          "ref": "LS2MAP\u0005y卡坦的武器店|000\u001e\u001e",
+          "label": "1401",
+          "term": "武器店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/kuo/1101",
+          "ref": "LS2MAP\u0004M柯奥的武器店|0畖0\u001e\u001e",
+          "label": "1101",
+          "term": "武器店"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/petskill2.txt",
+          "ref": "TSKILL_SACRIFICE E啮齿术,破坏对方装备武器,PETSKILL_ToothCrushe,,,Ed,574,1,6,2,0,PETSKILL_",
+          "label": "petskill2.txt",
+          "term": "武器"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:道具店",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "道具店",
+      "aliases": [
+        "道具店",
+        "ItemShop"
+      ],
+      "terms": [
+        "道具店",
+        "ItemShop"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1002",
+          "label": "萨姆吉尔的道具店",
+          "term": "道具店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1102",
+          "label": "柯奥的道具店",
+          "term": "道具店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1202",
+          "label": "柯尔克的道具店",
+          "term": "道具店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1302",
+          "label": "霍特尔的道具店",
+          "term": "道具店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1402",
+          "label": "卡坦的道具店",
+          "term": "道具店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (412,337)",
+          "label": "权利书贩卖处",
+          "term": "ItemShop"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (3,3)",
+          "label": "斗技场的防具屋",
+          "term": "ItemShop"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (9,3)",
+          "label": "斗技场的防具屋",
+          "term": "ItemShop"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (16,3)",
+          "label": "斗技场的道具屋",
+          "term": "ItemShop"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (23,3)",
+          "label": "斗技场的武器屋",
+          "term": "ItemShop"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/ruieryashi/7502",
+          "ref": "LS2MAP\u001dN瑞尔亚斯的道具店 |0\u001e\u001e",
+          "label": "7502",
+          "term": "道具店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/hotoru/1302",
+          "ref": "LS2MAP\u0005\u0016霍特尔的道具店|00\u001e\u001e",
+          "label": "1302",
+          "term": "道具店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/katan/1402",
+          "ref": "LS2MAP\u0005z卡坦的道具店|000\u001e\u001e",
+          "label": "1402",
+          "term": "道具店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/sainasu/kuo/1102",
+          "ref": "LS2MAP\u0004N柯奥的道具店|0畖0\u001e\u001e",
+          "label": "1102",
+          "term": "道具店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/npcgen.template",
+          "ref": "cname=SPR_chr02 functionset=ItemShop } # limitbuyinshop { templatename=npcgen_limits",
+          "label": "npcgen.template",
+          "term": "ItemShop"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:宠物店",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "宠物店",
+      "aliases": [
+        "宠物店",
+        "PetShop"
+      ],
+      "terms": [
+        "宠物店",
+        "PetShop"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1003",
+          "label": "萨姆吉尔的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1103",
+          "label": "柯奥的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1203",
+          "label": "柯尔克的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1303",
+          "label": "霍特尔的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1403",
+          "label": "卡坦的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (49,3)",
+          "label": "宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1003 npc (12,13)",
+          "label": "宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1103 npc (19,17)",
+          "label": "柯奥的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1203 npc (14,13)",
+          "label": "柯尔克的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1303 npc (16,13)",
+          "label": "霍特尔的宠物店",
+          "term": "宠物店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/EDEN/edenpark/7009",
+          "ref": "LS2MAP\u001ba宠物店|00\u0012\u0010\u0011\u0017p\u0017p\u0017p\u0017p\u0017p",
+          "label": "7009",
+          "term": "宠物店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/EDEN/water/7205",
+          "ref": "LS2MAP\u001c%尼克斯宠物店|0眧0\u000f\u000f",
+          "label": "7205",
+          "term": "宠物店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/greener/8018",
+          "ref": "LS2MAP\u001fR新手村的宠物店|000\u001e\u001e",
+          "label": "8018",
+          "term": "宠物店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3403",
+          "ref": "LS2MAP K奇喀喀的宠物店|000\u001e\u001e",
+          "label": "3403",
+          "term": "宠物店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/tamtam/3103",
+          "ref": "LS2MAP \u001f塔姆塔姆的宠物店|00\u001e\u001e",
+          "label": "3103",
+          "term": "宠物店"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:医院 / 护士",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "医院 / 护士",
+      "aliases": [
+        "医院",
+        "护士",
+        "Healer",
+        "heal"
+      ],
+      "terms": [
+        "医院 / 护士",
+        "医院",
+        "护士",
+        "Healer",
+        "heal"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1005",
+          "label": "萨姆吉尔的医院",
+          "term": "医院"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1105",
+          "label": "柯奥的医院",
+          "term": "医院"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1205",
+          "label": "柯尔克的医院",
+          "term": "医院"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1305",
+          "label": "霍特尔的医院",
+          "term": "医院"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1405",
+          "label": "卡坦的医院",
+          "term": "医院"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (180,339)",
+          "label": "洞窟前的护士",
+          "term": "护士"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (343,464)",
+          "label": "森林的护士",
+          "term": "护士"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (31,3)",
+          "label": "斗技场护士",
+          "term": "护士"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (4,26)",
+          "label": "斗技场护士",
+          "term": "护士"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 200 npc (405,374)",
+          "label": "森林的护士",
+          "term": "护士"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/EDEN/edenpark/7010",
+          "ref": "LS2MAP\u001bb医院|000\u0014\u0012\u0017p\u0017p\u0017p\u0017p\u0017p\u0017p\u0017p",
+          "label": "7010",
+          "term": "医院"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/EDEN/water/7204",
+          "ref": "LS2MAP\u001c$尼克斯医院|00眧0\u0012\u0012",
+          "label": "7204",
+          "term": "医院"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/greener/8020",
+          "ref": "LS2MAP\u001fT新手村的医院|00\u001e\u001e",
+          "label": "8020",
+          "term": "医院"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3405",
+          "ref": "LS2MAP M奇喀喀的医院|0畖00\u001e\u001e",
+          "label": "3405",
+          "term": "医院"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/tamtam/3105",
+          "ref": "LS2MAP !塔姆塔姆的医院|000\u001e\u001e",
+          "label": "3105",
+          "term": "医院"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/oft/oft.cpp",
+          "ref": "; ATR_CHR_NO(a1) = SPR_heal + d0; /* ???顤 */ LoadBmp(ATR_PAT_NO(",
+          "label": "oft.cpp",
+          "term": "heal"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/systeminc/anim_tbl.h",
+          "ref": "/ 顜ｎ彏??????? //#define SPR_heal 100601 // 顜ｎ彏???????????? #define SPR_heal",
+          "label": "anim_tbl.h",
+          "term": "heal"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:肉店",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "肉店",
+      "aliases": [
+        "肉店",
+        "肉"
+      ],
+      "terms": [
+        "肉店"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1004",
+          "label": "萨姆吉尔的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1104",
+          "label": "柯奥的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1204",
+          "label": "柯尔克的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1304",
+          "label": "霍特尔的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1404",
+          "label": "卡坦的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 100 npc (615,190)",
+          "label": "肉店老板",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1004 npc (17,13)",
+          "label": "萨姆吉尔的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1104 npc (17,13)",
+          "label": "柯奥的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1204 npc (18,15)",
+          "label": "柯尔克的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1304 npc (18,16)",
+          "label": "霍特尔的肉店",
+          "term": "肉店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/EDEN/edenpark/7011",
+          "ref": "LS2MAP\u001bc肉店|0釜韩K坝┍|0 \u000f\u0011\u0011\u0011\u0011\u0011\u0011",
+          "label": "7011",
+          "term": "肉店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/EDEN/water/7201",
+          "ref": "LS2MAP\u001c!尼克斯肉店|0\u000f\u000f\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013",
+          "label": "7201",
+          "term": "肉店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/greener/8019",
+          "ref": "LS2MAP\u001fS新手村的肉店|00\u001e\u001e",
+          "label": "8019",
+          "term": "肉店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/kikuku/3404",
+          "ref": "LS2MAP L奇喀喀的肉店|0畖00\u001e\u001e",
+          "label": "3404",
+          "term": "肉店"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/jyaruga/tamtam/3104",
+          "ref": "LS2MAP 塔姆塔姆的肉店|0畖0\u001e\u001e",
+          "label": "3104",
+          "term": "肉店"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:村长 / 长老屋",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "村长 / 长老屋",
+      "aliases": [
+        "村长",
+        "长老",
+        "族长"
+      ],
+      "terms": [
+        "村长 / 长老屋",
+        "村长",
+        "长老",
+        "族长",
+        "长老屋"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1006",
+          "label": "萨姆吉尔的村长家",
+          "term": "村长"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1041",
+          "label": "萨姆吉尔庄园族长家",
+          "term": "族长"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1106",
+          "label": "柯奥的长老家",
+          "term": "长老"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1206",
+          "label": "柯尔克的村长家",
+          "term": "村长"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 1306",
+          "label": "霍特尔的长老家",
+          "term": "长老"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1006 npc (18,22)",
+          "label": "萨姆吉尔的村长",
+          "term": "村长"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1006 npc (16,16)",
+          "label": "村长家的厨师",
+          "term": "村长"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1106 npc (20,14)",
+          "label": "柯奥的村长",
+          "term": "村长"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1206 npc (23,16)",
+          "label": "柯尔克的村长",
+          "term": "村长"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1306 npc (20,14)",
+          "label": "霍特尔的村长",
+          "term": "村长"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",22138,,,,,,,,,,30,,,,,,,,, 村长的孙子,at:0;1;3|gu:0|es:0|wa:1;1;1;1;1;1;1;,,10158,",
+          "label": "enemy1.txt",
+          "term": "村长"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",,,,,,,,,,,,, eden-幻影之界-地灵兽-族长1,at:1;1;1|gu:0|es:0|wa:1;1;0;0;0;0;0;,,1774,884",
+          "label": "enemy1.txt",
+          "term": "族长"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "1159,1,0,,,,,,,,,,,,,,,,,-1 村长的孙子,,,,,,10158,500,9.00,100,30,30,30,100,0,0,0,0",
+          "label": "enemybase1.txt",
+          "term": "村长"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",,,,,,,1,1,,,,,,,, 伊甸园-幻影之界-族长骑黄虎,958,-1,-1,1774,1775,1776,1777,,,,,,,1,1,1,1,",
+          "label": "group1.txt",
+          "term": "族长"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/map/family/100/1041",
+          "ref": "LS2MAP\u0004\u0011萨姆吉尔庄园族长家|0\u0014\u0014\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013\u0013",
+          "label": "1041",
+          "term": "族长"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "functional-interiors:交通 / 传送",
+      "group": "functional-interiors",
+      "profile": "classic-core",
+      "type": "npc-map-function",
+      "name": "交通 / 传送",
+      "aliases": [
+        "通关处",
+        "传送",
+        "WarpMan",
+        "warp"
+      ],
+      "terms": [
+        "交通 / 传送",
+        "通关处",
+        "传送",
+        "WarpMan",
+        "warp",
+        "交通"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 40 npc (13,1)",
+          "label": "海底通路的通关处",
+          "term": "通关处"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 40 npc (1,8)",
+          "label": "海底通路的通关处",
+          "term": "通关处"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 40 npc (10,9)",
+          "label": "WarpMan",
+          "term": "WarpMan"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 40 npc (12,18)",
+          "label": "海底通路的通关处",
+          "term": "通关处"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 40 npc (6,3)",
+          "label": "Warp",
+          "term": "warp"
+        },
+        {
+          "kind": "world-quest",
+          "path": "src/world-data.js",
+          "ref": "samugiru-four-village-route",
+          "label": "萨伊那斯四村巡礼",
+          "term": "warp"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/doujyou/jyajyadou.create",
+          "ref": "ame=0 name=跳跃点 enemy=npcgen_warp|3022|1|7 } { floorid=3021 borncenter=406,127,1,",
+          "label": "jyajyadou.create",
+          "term": "warp"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/doujyou/mkarg.c",
+          "ref": "cnt = 1; // ＮＰＣの眶 int win_warpX = WIN_WARP_X, win_warpY = WIN_WARP_Y; int wa",
+          "label": "mkarg.c",
+          "term": "warp"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/doujyou/samdou.create",
+          "ref": "ame=0 name=跳跃点 enemy=npcgen_warp|1022|1|7 } { floorid=1021 borncenter=406,127,1,",
+          "label": "samdou.create",
+          "term": "warp"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/init/eden81.create",
+          "ref": "39 name=霍特雷敦助手 enemy=npcgen_warpman|file:eden1/init/eden81_5w } ###### 伊甸驻扎地的守门",
+          "label": "eden81.create",
+          "term": "warp"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/saveking/saveking3",
+          "ref": "####传送牌小精灵#### WARP:7000,180,53 FREE:ENDEV=84 MONEY:",
+          "label": "saveking3",
+          "term": "传送"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/system/character.cpp",
+          "ref": "irework[0]->damage == -2 || warpEffectStart) { DeathAction(ext->pActFirew",
+          "label": "character.cpp",
+          "term": "warp"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/system/map.cpp",
+          "ref": "?????2顝?顛?????????? BOOL warpEffectFlag = FALSE; BOOL warpEffectStart = FALS",
+          "label": "map.cpp",
+          "term": "warp"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/system/netproc.cpp",
+          "ref": "======================== C warp 鐢 D 淇鏃堕棿 X 楠戝疇 P 浜虹墿鐘舵€ F 瀹舵棌鐘舵€ M HP",
+          "label": "netproc.cpp",
+          "term": "warp"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/system/process.cpp",
+          "ref": "tTime(); // S??????C? warpEffectProc();????? // ?????????????????",
+          "label": "process.cpp",
+          "term": "warp"
+        },
+        {
+          "kind": "client-source",
+          "path": "external/sources/client-source/systeminc/map.h",
+          "ref": "rChangeFlag; extern BOOL warpEffectFlag; extern BOOL warpEffectStart; exter",
+          "label": "map.h",
+          "term": "warp"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:乌力系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "乌力系",
+      "aliases": [
+        "乌力"
+      ],
+      "terms": [
+        "乌力",
+        "乌力"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 130 npc (48,3)",
+          "label": "乌力",
+          "term": "乌力"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 201 npc (17,30)",
+          "label": "乌力斯坦",
+          "term": "乌力"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 201 npc (15,31)",
+          "label": "乌力",
+          "term": "乌力"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 201 npc (19,31)",
+          "label": "乌力斯坦",
+          "term": "乌力"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 201 npc (17,32)",
+          "label": "乌力乌力",
+          "term": "乌力"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 1",
+          "label": "乌力 img 100250",
+          "term": "乌力"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 2",
+          "label": "乌力乌力 img 100251",
+          "term": "乌力"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 3",
+          "label": "乌力斯坦 img 100252",
+          "term": "乌力"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 4",
+          "label": "乌力布鲁 img 100253",
+          "term": "乌力"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 5",
+          "label": "黑乌力 img 100388",
+          "term": "乌力"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "乌力 (1)",
+          "term": "乌力"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "乌力斯坦 (3)",
+          "term": "乌力"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 8220",
+          "label": "乌力 (1)",
+          "term": "乌力"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 8220",
+          "label": "森林乌力 (97)",
+          "term": "乌力"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 10204",
+          "label": "乌力乌力 (2)",
+          "term": "乌力"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100250",
+          "label": "乌力",
+          "term": "乌力"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100251",
+          "label": "乌力乌力",
+          "term": "乌力"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100252",
+          "label": "乌力斯坦",
+          "term": "乌力"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:布伊系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "布伊系",
+      "aliases": [
+        "布伊"
+      ],
+      "terms": [
+        "布伊",
+        "布伊"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1103 npc (15,13)",
+          "label": "布伊",
+          "term": "布伊"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 3103 npc (13,13)",
+          "label": "布伊比",
+          "term": "布伊"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 4003 npc (18,12)",
+          "label": "布伊比",
+          "term": "布伊"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 12",
+          "label": "金布伊 img 100255",
+          "term": "布伊"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 13",
+          "label": "布伊 img 100256",
+          "term": "布伊"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 14",
+          "label": "布伊比 img 100257",
+          "term": "布伊"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 15",
+          "label": "卡布伊 img 100258",
+          "term": "布伊"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 311",
+          "label": "布伊德 img 100375",
+          "term": "布伊"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "布伊 (13)",
+          "term": "布伊"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100256",
+          "label": "布伊",
+          "term": "布伊"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100257",
+          "label": "布伊比",
+          "term": "布伊"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "-1,0,1,,,,,,,,,,,,,,,,,,,, 金布伊,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,14,12,1,",
+          "label": "enemy1.txt",
+          "term": "布伊"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,600,,600,600,,600,600,,1 金布伊,肉,鱼,串,卵,盐,12,25,4.50,31,20,32,12,270,-1,0,0,30,",
+          "label": "enemybase1.txt",
+          "term": "布伊"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",10,,,,,,, 伊甸-703-布依布鲁、布依布依、布伊胖-48-54,891,-1,-1,1724,1725,1726,,,,,,,,10,10,1,",
+          "label": "group1.txt",
+          "term": "布伊"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen82_07",
+          "ref": "ksMsg2:住哪里？这个嘛……我年轻的时候有看过成群的布伊胖会聚集在水边，要找克达达的话可以去水边看看喔。 EventEnd #确认玩家未接动物园任务",
+          "label": "citizen82_07",
+          "term": "布伊"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen82_08",
+          "ref": "只也是跑到山崖那里躲起来了。 ThanksMsg3:至于布伊胖跟拉斯基的话，我就不知道了，跟其他人问问会比较好吧？ EventEnd #确认玩家未接动物园",
+          "label": "citizen82_08",
+          "term": "布伊"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,600,,600,600,,600,600,,1 金布伊,肉,鱼,串,卵,盐,12,25,4.50,31,20,32,12,270,-1,0,0,30,",
+          "label": "enemybase2.txt",
+          "term": "布伊"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": ",60213 102,capture_lv1,,13,布伊,2511,2777,1.1059282822440717,1758,0.70000000000",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "布伊"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:加美系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "加美系",
+      "aliases": [
+        "加美",
+        "加比"
+      ],
+      "terms": [
+        "加美",
+        "加美",
+        "加比"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1212 npc (16,20)",
+          "label": "加美",
+          "term": "加美"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2000 npc (101,86)",
+          "label": "加美航空",
+          "term": "加美"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 2000 npc (105,87)",
+          "label": "加美航空",
+          "term": "加美"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 4000 npc (90,69)",
+          "label": "加美航空",
+          "term": "加美"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 4000 npc (92,72)",
+          "label": "加美航空",
+          "term": "加美"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 21",
+          "label": "加美 img 100259",
+          "term": "加美"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 22",
+          "label": "加比 img 100260",
+          "term": "加比"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 23",
+          "label": "加比奥 img 100261",
+          "term": "加比"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 655",
+          "label": "加美 img 100259",
+          "term": "加美"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 667",
+          "label": "加比奥 img 100261",
+          "term": "加比"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 20301",
+          "label": "加美 (21)",
+          "term": "加美"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 20301",
+          "label": "加比 (22)",
+          "term": "加比"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100259",
+          "label": "加美",
+          "term": "加美"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100260",
+          "label": "加比",
+          "term": "加比"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100259",
+          "label": "爱丽儿队的加美",
+          "term": "加美"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 加美,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,21,21,1,",
+          "label": "enemy1.txt",
+          "term": "加美"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 加比,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,25,22,1,",
+          "label": "enemy1.txt",
+          "term": "加比"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "700,700,,700,700,,700,700,, 加美,肉,鱼,米,卵,饮用水,21,22,4.50,22,23,19,23,210,7,0,0,60",
+          "label": "enemybase1.txt",
+          "term": "加美"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:凯比系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "凯比系",
+      "aliases": [
+        "凯比"
+      ],
+      "terms": [
+        "凯比",
+        "凯比"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1303 npc (14,13)",
+          "label": "凯比",
+          "term": "凯比"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 3303 npc (18,18)",
+          "label": "凯比",
+          "term": "凯比"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 112",
+          "label": "凯比 img 100296",
+          "term": "凯比"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 114",
+          "label": "凯比特 img 100298",
+          "term": "凯比"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 1062",
+          "label": "凯比 img 100296",
+          "term": "凯比"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 2052",
+          "label": "凯比特 img 100298",
+          "term": "凯比"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "凯比特 (114)",
+          "term": "凯比"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 10204",
+          "label": "凯比 (112)",
+          "term": "凯比"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100296",
+          "label": "凯比",
+          "term": "凯比"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100298",
+          "label": "凯比特",
+          "term": "凯比"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",,,,,,,800,200,,,,,,,, 初期拥有的凯比,at:1;1;1|gu:0|es:0|rn:|wa:0;0;0;0;0;0;0;,,2,112",
+          "label": "enemy1.txt",
+          "term": "凯比"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": ",,700,700,,700,700,,,,,,,,4 凯比,肉,鱼,串,,,112,20,4.50,14,19,19,27,100,11,20,0,0,8",
+          "label": "enemybase1.txt",
+          "term": "凯比"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "57,2158,,,,,,,1,1,1,1,,,,,, 凯比皮,1268,1674,2192,2426,2112,2114,2115,,,,,,,1,1,1",
+          "label": "group1.txt",
+          "term": "凯比"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/msg_3003_12_19",
+          "ref": "也有擅长加工或者是擅长料理的。每个宠物的个性都不一样。像凯比就很擅长加工。,我们也开始让人寄放宠物的服务了。一个人可以寄放五只请多多利用。",
+          "label": "msg_3003_12_19",
+          "term": "凯比"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/shop_m.create",
+          "ref": "m=1 graphicname=100296 name=凯比 dir=6 ignoreinvincible=1 enemy=npcgen_mugon } #",
+          "label": "shop_m.create",
+          "term": "凯比"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": ",,700,700,,700,700,,,,,,,,4 凯比,肉,鱼,串,,,112,20,4.50,14,19,19,27,100,11,20,0,0,8",
+          "label": "enemybase2.txt",
+          "term": "凯比"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "10407 263,capture_lv1,,114,凯比特,1994,2443,1.225,4985,2.5,1994,1.0,798,0.399999",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "凯比"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:人龙系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "人龙系",
+      "aliases": [
+        "人龙"
+      ],
+      "terms": [
+        "人龙",
+        "人龙"
+      ],
+      "evidence": [
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",1,,,,,,,,,,,,,,,,,,,, 精灵王-绿人龙,at:0;3;3|gu:1|es:0|wa:1;1;0;0;0;0;0;,,1661,825,",
+          "label": "enemy1.txt",
+          "term": "人龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "3,,,,,,,,,1,80,,,,,,,, 精灵王-绿人龙,830,19624,-1,1661,,,,,,,,,,1,,,,,,,,, 精灵王-蓝人龙,8",
+          "label": "group1.txt",
+          "term": "人龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "晶|进行中 19|ENDEV=31|五兄弟之迷 拿到人龙|已完成 19|NOWEV=31|五兄弟之迷 拿到人龙|进行中 20|ENDEV=23|小猪爱",
+          "label": "jobdaily.txt",
+          "term": "人龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/signb_705_90_32",
+          "ref": "<<第十一检查点>>\\n\\n火山洞窟出现的黑色人龙\\n杨格斯属性为？",
+          "label": "signb_705_90_32",
+          "term": "人龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/sa60/zoo/yungas",
+          "ref": "EVENT:LV>0 NomalWindowMsg:我们人龙可是石器时代里最凶猛的一族了呢，尤其是我黑人龙，我是人龙之王…！！ EventEnd",
+          "label": "yungas",
+          "term": "人龙"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/petskill2.txt",
+          "ref": "PETSKILL_SETMAGICPET 龙战于野,机械人龙专属技能 攻击下降18% 全体麻痹2回合,PETSKILL_BattleModel,5|5|麻|",
+          "label": "petskill2.txt",
+          "term": "人龙"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:火鸡系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "火鸡系",
+      "aliases": [
+        "火鸡"
+      ],
+      "terms": [
+        "火鸡",
+        "火鸡"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1303 npc (19,19)",
+          "label": "火鸡",
+          "term": "火鸡"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 11006 npc (7,35)",
+          "label": "火鸡君",
+          "term": "火鸡"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 291",
+          "label": "火鸡 img 100367",
+          "term": "火鸡"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 591",
+          "label": "火鸡 img 100367",
+          "term": "火鸡"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 680",
+          "label": "火鸡 img 100367",
+          "term": "火鸡"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "火鸡 (291)",
+          "term": "火鸡"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 400",
+          "label": "火鸡 (291)",
+          "term": "火鸡"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 400",
+          "label": "火鸡 (680)",
+          "term": "火鸡"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100367",
+          "label": "火鸡",
+          "term": "火鸡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",,,,300,,,,,,,,, sai_n_291_1火鸡,at:10;1;1|gu:0|es:1|wa:0;0;0;0;0;0;0;,,190,291,",
+          "label": "enemy1.txt",
+          "term": "火鸡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "00,300,,300,300,,300,300,,9 火鸡,石,木,皮,线,牙,291,17,4.50,19,18,10,33,180,9,0,0,30,",
+          "label": "enemybase1.txt",
+          "term": "火鸡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen00_58",
+          "ref": "来到这里就是为了抓宠～～\\n呵～～我要先抓满克克尔类还有火鸡类～～\\n呵呵呵～～一想到这我就高兴啦～～ EventEnd",
+          "label": "citizen00_58",
+          "term": "火鸡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/11000npc.create",
+          "ref": "m=1 graphicname=100357 name=火鸡君 dir=4 ignoreinvincible=1 enemy=npcgen_mugon }",
+          "label": "11000npc.create",
+          "term": "火鸡"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/genout/shop_m.create",
+          "ref": "m=1 graphicname=100367 name=火鸡 dir=6 ignoreinvincible=1 enemy=npcgen_mugon } #",
+          "label": "shop_m.create",
+          "term": "火鸡"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "00,300,,300,300,,300,300,,9 火鸡,石,木,皮,线,牙,291,17,4.50,19,18,10,33,180,9,0,0,30,",
+          "label": "enemybase2.txt",
+          "term": "火鸡"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": ",,816 338,capture_lv1,,291,火鸡,2039,2284,1.1200922266139657,3823,1.875,1560,0.",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "火鸡"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:老虎系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "老虎系",
+      "aliases": [
+        "贝鲁",
+        "老虎"
+      ],
+      "terms": [
+        "老虎",
+        "贝鲁",
+        "老虎"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 161",
+          "label": "新手贝鲁卡 img 100327",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 162",
+          "label": "新手贝鲁伊卡 img 100328",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 164",
+          "label": "新手金格萨贝鲁 img 100330",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 191",
+          "label": "贝鲁卡 img 100327",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 192",
+          "label": "贝鲁伊卡 img 100328",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 200",
+          "label": "贝鲁伊卡 (192)",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 200",
+          "label": "贝鲁卡 (191)",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 10701",
+          "label": "兰贝鲁斯 (332)",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 10702",
+          "label": "兰贝鲁斯 (332)",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 10703",
+          "label": "兰贝鲁斯 (332)",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100327",
+          "label": "新手贝鲁卡",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100328",
+          "label": "新手贝鲁伊卡",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100327",
+          "label": "贝鲁卡",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100328",
+          "label": "贝鲁伊卡",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100385",
+          "label": "兰贝鲁斯",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "4,22595,5,5,5,5,5,5,5,5,5,5 老虎,at:0;1;3|gu:0|es:0|wa:1;1;1;1;1;1;1;,,10195,101",
+          "label": "enemy1.txt",
+          "term": "老虎"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 贝鲁卡,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,307,191",
+          "label": "enemy1.txt",
+          "term": "贝鲁"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "1067,0,0,,,,,,,,,,,,,,,,,-1 老虎,,,,,,889,100,8.00,45,25,25,25,100,0,0,100,0,0,0",
+          "label": "enemybase1.txt",
+          "term": "老虎"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:暴龙系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "暴龙系",
+      "aliases": [
+        "暴龙",
+        "帖拉所伊朵",
+        "红暴",
+        "蓝暴",
+        "机械暴龙"
+      ],
+      "terms": [
+        "暴龙",
+        "暴龙",
+        "帖拉所伊朵",
+        "红暴",
+        "蓝暴",
+        "机械暴龙"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 304",
+          "label": "帖拉所伊朵 img 100374",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 698",
+          "label": "帖拉所伊朵 img 100374",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 967",
+          "label": "帖拉所伊朵 img 100374",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100374",
+          "label": "帖拉所伊朵",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "0,,,,,,,,,,250,,,,,,,,, 英雄岛的红暴LV105,at:1;1;1|gu:0|es:0|wa:1;0;0;0;0;0;0;,,1457",
+          "label": "enemy1.txt",
+          "term": "红暴"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",,,,,,,,,,100,,,,,,,,, 精灵王-白暴龙-地85,at:1;3;3|gu:0|es:0|wa:1;1;1;1;1;0;0;,,1673,",
+          "label": "enemy1.txt",
+          "term": "暴龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 帖拉所伊朵,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,353,304,",
+          "label": "enemy1.txt",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "1,0,1,,,,,,,,,,,,,,,,,,,, 体验蓝暴,at:1;1;1|gu:0|es:0|wa:0;0;0;0;0;0;0;,,10028,100",
+          "label": "enemy1.txt",
+          "term": "蓝暴"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0909,1,0,,,,,,,,,,,,,,,,,-1 暴龙,,,,,,10189,50,4.50,100,20,35,20,300,3,0,0,100,0",
+          "label": "enemybase1.txt",
+          "term": "暴龙"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,300,,300,300,,300,300,,19 帖拉所伊朵,石,皮,线,肉,鱼,304,28,4.50,23,35,25,21,300,-3,0,0,50",
+          "label": "enemybase2.txt",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "25 285,task_getpet,353,304,帖拉所伊朵,2181,2402,1.10125,3408,1.5625,1396,0.64,1396,0.",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "帖拉所伊朵"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/five-jade-red-raptor-samugiru-jewelry-big5",
+          "label": "五勾玉、红暴、萨姆吉尔首饰任务详解",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/red-raptor-hero-island",
+          "label": "英雄岛前传(红暴)",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/four-stones-hero-island",
+          "label": "英雄岛后传(四圣石)",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/humanoid-pet",
+          "label": "人形宠最新解法",
+          "term": "红暴"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/riddle-three-brothers",
+          "label": "猜谜三兄弟全解(参考)",
+          "term": "红暴"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:雷龙系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "雷龙系",
+      "aliases": [
+        "雷龙",
+        "布林帖斯"
+      ],
+      "terms": [
+        "雷龙",
+        "雷龙",
+        "布林帖斯"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 252",
+          "label": "布林帖斯 img 100352",
+          "term": "布林帖斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "4,22585,5,5,5,5,5,5,5,5,5,5 雷龙,at:0;1;3|gu:0|es:0|wa:1;1;1;1;1;1;1;,,10194,101",
+          "label": "enemy1.txt",
+          "term": "雷龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 布林帖斯,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,331,252,",
+          "label": "enemy1.txt",
+          "term": "布林帖斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "1493,1,0,,,,,,,,,,,,,,,,,-1 雷龙,,,,,,10194,50,4.50,100,20,35,20,300,3,0,0,100,0",
+          "label": "enemybase1.txt",
+          "term": "雷龙"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,300,,300,300,,300,300,,18 布林帖斯,石,木,肉,鱼,米,252,26,4.50,40,23,32,7,300,1,30,70,0,",
+          "label": "enemybase1.txt",
+          "term": "布林帖斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": "1,,,,,,,,,,20,,,,,,,,, 英雄岛四周雷龙系LV90(同系),761,-1,-1,1465,1466,1467,1468,,,,,,,30",
+          "label": "group1.txt",
+          "term": "雷龙"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,300,,300,300,,300,300,,18 布林帖斯,石,木,肉,鱼,米,252,26,4.50,40,23,32,7,300,1,30,70,0,",
+          "label": "enemybase2.txt",
+          "term": "布林帖斯"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "60065 156,capture_lv1,,252,布林帖斯,2391,2678,1.1200922266139657,1275,0.53333333333",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "布林帖斯"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/petskill2.txt",
+          "ref": "SKILL_NOCAST 大吼,对年兽吼叫，可吓跑年兽，雷龙专用技,PETSKILL_Roar,901|902|903|904|1056|1057|1058",
+          "label": "petskill2.txt",
+          "term": "雷龙"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0-2.5重要攻略篇/four-stones-green-dragon-gold-tiger-big5",
+          "label": "四圣石、绿雷龙、金虎任务最佳详细解法",
+          "term": "雷龙"
+        },
+        {
+          "kind": "quest-index",
+          "path": "src/stoneage-quest-index.js",
+          "ref": "石器时代2.0任务攻略/four-stones-green-dragon-gold-tiger",
+          "label": "四圣石、绿雷龙、金虎任务最佳详细解法",
+          "term": "雷龙"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:鲨鱼系 / 海主人系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "鲨鱼系 / 海主人系",
+      "aliases": [
+        "鲨鱼",
+        "海主人"
+      ],
+      "terms": [
+        "鲨鱼系 / 海主人",
+        "鲨鱼",
+        "海主人"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 243",
+          "label": "海主人 img 100349",
+          "term": "海主人"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 1137",
+          "label": "百年海主人 img 100349",
+          "term": "海主人"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 31401",
+          "label": "海主人 (243)",
+          "term": "海主人"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 31401",
+          "label": "百年海主人 (1137)",
+          "term": "海主人"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100349",
+          "label": "海主人",
+          "term": "海主人"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100349",
+          "label": "百年海主人",
+          "term": "海主人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 海主人,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,328,243,",
+          "label": "enemy1.txt",
+          "term": "海主人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,600,,600,600,,600,600,,13 海主人,石,木,皮,骨,线,243,21,4.50,34,19,26,9,180,7,20,80,0,",
+          "label": "enemybase1.txt",
+          "term": "海主人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",2133,,,,,,,,,1,1,,,,,,,, 百年海主人,1218,1795,1797,1011,2220,,,,,,,,,1,1,,,,,,,, 奇岩",
+          "label": "group1.txt",
+          "term": "海主人"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/jobdaily.txt",
+          "ref": "拿蓝暴|进行中 4|ENDEV=35|卡坦 找4只鲨鱼|已完成 4|NOWEV=35|卡坦 找4只鲨鱼|进行中 5|ENDEV=37|马祖任务|已完",
+          "label": "jobdaily.txt",
+          "term": "鲨鱼"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/citizen82_05",
+          "ref": "hanksMsg1:刚刚我在雕像广场散步的时候有看到只绿鲨鱼突然冲出来，吓了我一大跳呢！ ThanksMsg2:喔对了，听说鲨鱼类都爱吃肉，难道是那只鲨鱼想",
+          "label": "citizen82_05",
+          "term": "鲨鱼"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,600,,600,600,,600,600,,13 海主人,石,木,皮,骨,线,243,21,4.50,34,19,26,9,180,7,20,80,0,",
+          "label": "enemybase2.txt",
+          "term": "海主人"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": ",,701 151,capture_lv1,,243,海主人,2346,2684,1.1441384063506825,1139,0.48571428571",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "海主人"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:穿山甲系 / 洞窟生态",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "穿山甲系 / 洞窟生态",
+      "aliases": [
+        "穿山甲",
+        "卡达鲁卡斯"
+      ],
+      "terms": [
+        "穿山甲系 / 洞窟生态",
+        "穿山甲",
+        "卡达鲁卡斯",
+        "洞窟生态"
+      ],
+      "evidence": [
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 81",
+          "label": "卡达鲁卡斯 img 100283",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 1306",
+          "label": "卡达鲁卡斯 img 100283",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 卡达鲁卡斯,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,50,81,1,",
+          "label": "enemy1.txt",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,700,,700,700,,700,700,,15 卡达鲁卡斯,石,木,皮,骨,线,81,22,4.50,25,23,40,6,240,5,100,0,0,0",
+          "label": "enemybase1.txt",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/jaruga/event/oev_9b",
+          "ref": "道具太多了\\n而不能拿证明石耶.... KeyWord:卡达鲁卡斯 DelItem:2560 GetItem:2561 EventEnd EventNo:-1",
+          "label": "oev_9b",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/sa60/zoo/kadalukas",
+          "ref": ">0 NomalWindowMsg:我是卡达鲁卡斯，就是穿山甲啦，我跟大舌头兄一样是防御力超高的生物，不过…我可以让你们骑乘喔！！ EventEnd",
+          "label": "kadalukas",
+          "term": "穿山甲"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/sa60/zoo/kadalukas",
+          "ref": "#### 卡达鲁卡斯 #### EventNo:-1 TYPE:MESSAGE EVENT:LV>0 NomalWi",
+          "label": "kadalukas",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,700,,700,700,,700,700,,15 卡达鲁卡斯,石,木,皮,骨,线,81,22,4.50,25,23,40,6,240,5,100,0,0,0",
+          "label": "enemybase2.txt",
+          "term": "卡达鲁卡斯"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "0,2000 128,capture_lv1,,81,卡达鲁卡斯,2216,2714,1.225,2216,1.0,5540,2.5,2216,1.0,886,",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "卡达鲁卡斯"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:大象系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "大象系",
+      "aliases": [
+        "大象",
+        "玛恩摩"
+      ],
+      "terms": [
+        "大象",
+        "大象",
+        "玛恩摩"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 11006 npc (4,36)",
+          "label": "玛恩摩助",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 8",
+          "label": "巨大玛恩摩 img 100355",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 261",
+          "label": "玛恩摩 img 100355",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 264",
+          "label": "玛恩摩洛斯 img 100358",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 1304",
+          "label": "玛恩摩洛斯 img 100358",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 300",
+          "label": "玛恩摩洛斯 (264)",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 300",
+          "label": "巨大玛恩摩 (8)",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 300",
+          "label": "玛恩摩 (261)",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100355",
+          "label": "巨大玛恩摩",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100355",
+          "label": "玛恩摩",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100358",
+          "label": "玛恩摩洛斯",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "#######9.0新C（未开放）####### #超级大象(风）,at:1;1;1|gu:1|es:2|rn:|wa:0;0;1;0;0;0;0;,,10",
+          "label": "enemy1.txt",
+          "term": "大象"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",-1,0,1,,,,,,,,,,,,,,,,,,,, 玛恩摩,at:10;1;1|gu:1|es:1|wa:0;0;0;0;0;0;0;,,334,261,",
+          "label": "enemy1.txt",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,0,0,0,0,0,0,0,0,0,0,,-1 巨大玛恩摩,石,木,肉,鱼,米,8,27,4.50,50,25,15,8,270,3,90,10,0,0,",
+          "label": "enemybase1.txt",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",2222,,,,,,,,1,1,1,,,,,,, 巨大玛恩摩,1221,1810,-1,2223,990,988,,,,,,,,1,1,1,,,,,,, 富",
+          "label": "group1.txt",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden3/earth/earth7107_12_13",
+          "ref": "T>81-264*1 AcceptMsg:\\n嗯～～这只大象还真不赖，为了感谢你这阵子帮忙我们，我要告诉你一项秘密。\\n你知道塔耳塔城区有一座巨大的人头石像",
+          "label": "earth7107_12_13",
+          "term": "大象"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,0,0,0,0,0,0,0,0,0,0,,-1 巨大玛恩摩,石,木,肉,鱼,米,8,27,4.50,50,25,15,8,270,3,90,10,0,0,",
+          "label": "enemybase2.txt",
+          "term": "玛恩摩"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": ",,7025 26,capture_lv1,,261,玛恩摩,2582,3044,1.1787600061576355,2361,0.91428571428",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "玛恩摩"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:飞天蛙系 / 洛克斯系",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "飞天蛙系 / 洛克斯系",
+      "aliases": [
+        "飞天蛙",
+        "洛克斯"
+      ],
+      "terms": [
+        "飞天蛙系 / 洛克斯",
+        "飞天蛙",
+        "洛克斯"
+      ],
+      "evidence": [
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 1403 npc (16,12)",
+          "label": "邦洛洛克斯",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 85",
+          "label": "洛克斯 img 100389",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 331",
+          "label": "邦洛洛克斯 img 100384",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 3032",
+          "label": "赛洛克斯 img 102041",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 100",
+          "label": "邦洛洛克斯 (331)",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "encounter",
+          "path": "src/world-data.js",
+          "ref": "floor 20801",
+          "label": "邦洛洛克斯 (331)",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100384",
+          "label": "邦洛洛克斯",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": ",300,,,,,,,,, sai_f_331_10邦洛洛克斯,at:20;1;3|gu:1|es:1|wa:0;0;0;0;0;0;0;,,152,331,",
+          "label": "enemy1.txt",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemybase1.txt",
+          "ref": "0,700,,700,700,,700,700,,27 洛克斯,石,木,皮,骨,线,85,20,4.50,19,27,43,10,300,-1,50,0,0,",
+          "label": "enemybase1.txt",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/group1.txt",
+          "ref": ",,,,,,,1,1,1,1,,,,,, PC团所抓邦洛洛克斯军,758,-1,-1,1438,1439,1440,1437,,,,,,,1,1,1,1,,,",
+          "label": "group1.txt",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/300/sb_sikkoku.create",
+          "ref": "NPCCREATE #######漆黑的守护兽(洛克斯)########## { floorid=32010 borncenter=54,30,1,1",
+          "label": "sb_sikkoku.create",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/npc/eden1/zoo1/eden_zoo.create",
+          "ref": "oo1/signboard00_01 } #布告栏E（飞天蛙类生态环境介绍） { floorid=7001 borncorner=16,40,16,40 t",
+          "label": "eden_zoo.create",
+          "term": "飞天蛙"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/enemybase2.txt",
+          "ref": "0,700,,700,700,,700,700,,27 洛克斯,石,木,皮,骨,线,85,20,4.50,19,27,43,10,300,-1,50,0,0,",
+          "label": "enemybase2.txt",
+          "term": "洛克斯"
+        },
+        {
+          "kind": "public-data",
+          "path": "public/data/obtainable_140_attr_net_rank_v2.csv",
+          "ref": "533 313,capture_lv1,,331,邦洛洛克斯,2139,2366,1.1059282822440717,1250,0.58461538461",
+          "label": "obtainable_140_attr_net_rank_v2.csv",
+          "term": "洛克斯"
+        }
+      ],
+      "status": "source-confirmed"
+    },
+    {
+      "id": "core-pet-families:四洞守护与转生 Boss",
+      "group": "core-pet-families",
+      "profile": "classic-core",
+      "type": "pet-family",
+      "name": "四洞守护与转生 Boss",
+      "aliases": [
+        "守护",
+        "Boss",
+        "魔王",
+        "精灵"
+      ],
+      "terms": [
+        "四洞守护与转生 Boss",
+        "守护",
+        "Boss",
+        "魔王",
+        "精灵",
+        "四洞守护与转生"
+      ],
+      "evidence": [
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 154",
+          "label": "魔王竞技场1F",
+          "term": "魔王"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 155",
+          "label": "魔王竞技场2F",
+          "term": "魔王"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 156",
+          "label": "魔王竞技场3F",
+          "term": "魔王"
+        },
+        {
+          "kind": "world-map",
+          "path": "src/world-data.js",
+          "ref": "floor 157",
+          "label": "魔王竞技场4F",
+          "term": "魔王"
+        },
+        {
+          "kind": "world-npc",
+          "path": "src/world-data.js",
+          "ref": "floor 20801 npc (13,63)",
+          "label": "守护者",
+          "term": "守护"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 552",
+          "label": "水的守护者 img 100379",
+          "term": "守护"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 553",
+          "label": "火的守护者 img 100370",
+          "term": "守护"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 554",
+          "label": "风的守护者 img 100328",
+          "term": "守护"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 555",
+          "label": "地的守护者 img 100274",
+          "term": "守护"
+        },
+        {
+          "kind": "enemybase",
+          "path": "public/data/enemybase2.txt",
+          "ref": "tempNo 556",
+          "label": "精灵的使者 img 100461",
+          "term": "精灵"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100370",
+          "label": "火的守护者",
+          "term": "守护"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100328",
+          "label": "风的守护者",
+          "term": "守护"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100274",
+          "label": "地的守护者",
+          "term": "守护"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100461",
+          "label": "精灵的使者",
+          "term": "精灵"
+        },
+        {
+          "kind": "client-resource",
+          "path": "public/data/client-tiles/tiles.json",
+          "ref": "bitmap 100373",
+          "label": "火之守护兽",
+          "term": "守护"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "00,,,,,,,,,,1000,,,,,,,,, 大地守护兽特洛,at:2;1;1|gu:2|es:0|wa:0;0;1;0;0;0;0;,,1147,5",
+          "label": "enemy1.txt",
+          "term": "守护"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "0,0,0,0,,,,,,,,,,,,,,,,,,,, 魔王挑战库玛斯,at:1;1;1|gu:0|es:0|rn:|wa:1;1;1;1;1;1;1;,,",
+          "label": "enemy1.txt",
+          "term": "魔王"
+        },
+        {
+          "kind": "ref-data",
+          "path": "external/sources/ref___data/enemy1.txt",
+          "ref": "11909,,,,,,,,,150,2,,,,,,,, 精灵的使者,at:1;1;1|gu:1|es:0|wa:1;1;1;0;0;0;0;,,1060,5",
+          "label": "enemy1.txt",
+          "term": "精灵"
+        }
+      ],
+      "status": "source-confirmed"
+    }
+  ]
+}
