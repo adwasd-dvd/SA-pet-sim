@@ -518,6 +518,44 @@ npcWarpGame.location = { mapId: "200", x: 10, y: 10 };
 npcWarpGame = await api("/api/game/dialog", { game: npcWarpGame, npcId: npcWarpFixture.id });
 assertEqual(npcWarpGame.flags.npcPositions[npcWarpFixture.id]?.mapId, "1000", "source NpcWarp injected NPC can be talked to on the target map and cycles back");
 
+const sourceCharmNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs || [])
+  .find((npc) => (npc.scriptEvents || []).some((event) => event.charms?.includes(1)));
+assert(sourceCharmNpc, "world data parses at least one source Charm changeevent branch");
+const charmFixture = {
+  id: "source-charm-fixture",
+  name: "源码 Charm 测试",
+  type: "changeevent",
+  template: "npcgen_man",
+  x: 41,
+  y: 40,
+  source: "gmsv-data/npc/sainasu/event/event11",
+  script: "file:sainasu/event/event11",
+  scriptEvents: [{
+    type: "MESSAGE",
+    eventNo: 111,
+    condition: "LV>0",
+    messages: { normal: "谢谢你帮忙，名声会变好的。" },
+    charms: [1]
+  }]
+};
+WORLD.maps["1000"].npcs.push(charmFixture);
+let charmGame = await api("/api/game/new", { name: "source-charm-test" });
+charmGame.location = { mapId: "1000", x: 40, y: 40 };
+charmGame.player.charm = 99;
+charmGame.player.Charm = 99;
+charmGame.player.CHARM = 99;
+charmGame.player.WorkFixCharm = 99;
+charmGame = await api("/api/game/dialog", { game: charmGame, npcId: charmFixture.id });
+assertEqual(charmGame.player.charm, 100, "source Charm action caps player CHAR_CHARM at 100");
+assertEqual(charmGame.player.WorkFixCharm, 100, "source Charm action syncs WorkFixCharm");
+assertEqual(charmGame.characterFields.base.charm, 100, "source Charm action syncs character base charm");
+assertEqual(charmGame.characterFields.work.WorkFixCharm, 100, "source Charm action syncs character work charm");
+assert(charmGame.save.info.includes("CHARM=100"), "saac-like save info carries source Charm result");
+assert(charmGame.dialog.debug.actions.includes("adjustCharm"), "source Charm branch advertises deterministic charm VM action");
+assert(charmGame.dialog.debug.vmTrace.some((event) => event.action === "adjustCharm" && event.detail?.reason === "source-changeevent-charm" && event.detail?.charmAfter === 100), "source Charm runs through NPC VM adjustCharm action");
+assert(charmGame.world.map.npcs.find((npc) => npc.id === charmFixture.id)?.scriptEventSummary?.actions?.includes("Charm"), "client payload exposes compact Charm summary");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
@@ -1634,7 +1672,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

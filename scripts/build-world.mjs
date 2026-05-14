@@ -809,6 +809,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     getStones: [],
     delStones: [],
     npcWarps: [],
+    charms: [],
     cleanFlags: [],
     nowSetFlags: [],
     endSetFlags: []
@@ -858,6 +859,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.npcWarps.push(...parseScriptNpcWarpSpecs(value));
       continue;
     }
+    if (key === "charm") {
+      event.charms.push(...splitNumberList(value));
+      continue;
+    }
     if (key === "getpet") {
       getPets.push(...parseScriptGetPetSpecs(value));
       continue;
@@ -896,7 +901,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       .filter(([, pages]) => pages.length)
   );
   if (!event.type && !Object.keys(event.messages).length && !Object.keys(messagePages).length) return null;
-  const { messagePages: _rawMessagePages, npcWarps: _rawNpcWarps, ...eventOut } = event;
+  const { messagePages: _rawMessagePages, npcWarps: _rawNpcWarps, charms: _rawCharms, ...eventOut } = event;
   return {
     ...eventOut,
     ...(Object.keys(messagePages).length ? { messagePages } : {}),
@@ -904,6 +909,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     delItems: event.delItems.map(withScriptItemName),
     getRandItems: event.getRandItems.map(withScriptRandomItemNames),
     ...(event.npcWarps.length ? { npcWarps: event.npcWarps } : {}),
+    ...(event.charms.length ? { charms: event.charms } : {}),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
     cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),

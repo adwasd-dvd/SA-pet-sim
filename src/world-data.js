@@ -92226,7 +92226,10 @@ export const WORLD = {
               ],
               "eventNo": 11,
               "type": "ACCEPT",
-              "condition": "ENDEV=10&NOWEV=11&ITEM=2420"
+              "condition": "ENDEV=10&NOWEV=11&ITEM=2420",
+              "charms": [
+                1
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/event11",
@@ -92267,7 +92270,10 @@ export const WORLD = {
               ],
               "eventNo": 11,
               "type": "ACCEPT",
-              "condition": "NOWEV=11&ITEM=2420"
+              "condition": "NOWEV=11&ITEM=2420",
+              "charms": [
+                1
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/event11",

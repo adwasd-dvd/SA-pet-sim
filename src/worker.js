@@ -110,6 +110,7 @@ const NPC_VM_ACTIONS = new Set([
   "setFlag",
   "clearFlag",
   "moveNpc",
+  "adjustCharm",
   "effect",
   "startBattle",
   "battleAction",
@@ -4549,6 +4550,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     });
   }
   runNpcScriptNpcWarps(game, npc, event, detail, "request");
+  runNpcScriptCharmActions(game, npc, event, detail, "request");
   runNpcScriptCleanFlags(game, npc, event, detail, "request");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
@@ -4559,6 +4561,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     getStones: event.getStones,
     delStones: event.delStones,
     npcWarps: event.npcWarps,
+    charms: event.charms,
     cleanFlags: event.cleanFlags,
     getPets: event.getPets,
     delPets: event.delPets
@@ -4588,6 +4591,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
     });
   }
   runNpcScriptNpcWarps(game, npc, event, detail, "accept");
+  runNpcScriptCharmActions(game, npc, event, detail, "accept");
   runNpcScriptCleanFlags(game, npc, event, detail, "accept");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
@@ -4598,6 +4602,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
     getStones: event.getStones,
     delStones: event.delStones,
     npcWarps: event.npcWarps,
+    charms: event.charms,
     getPets: event.getPets,
     delPets: event.delPets,
     cleanFlags: event.cleanFlags,
@@ -4638,6 +4643,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     });
   }
   runNpcScriptNpcWarps(game, npc, event, detail, "message");
+  runNpcScriptCharmActions(game, npc, event, detail, "message");
   runNpcScriptCleanFlags(game, npc, event, detail, "message");
   const hasMutation = (event.getItems || []).length
     || (event.delItems || []).length
@@ -4645,6 +4651,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     || (event.getStones || []).length
     || (event.delStones || []).length
     || (event.npcWarps || []).length
+    || (event.charms || []).length
     || (event.getPets || []).length
     || (event.delPets || []).length
     || (event.cleanFlags || []).length
@@ -4659,6 +4666,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     getStones: event.getStones,
     delStones: event.delStones,
     npcWarps: event.npcWarps,
+    charms: event.charms,
     getPets: event.getPets,
     delPets: event.delPets,
     cleanFlags: event.cleanFlags,
@@ -4680,6 +4688,7 @@ function runNpcScriptClean(game, npc, event, detail) {
   });
   if (!applied.ok) return applied.reply;
   runNpcScriptNpcWarps(game, npc, event, detail, "clean");
+  runNpcScriptCharmActions(game, npc, event, detail, "clean");
   runNpcScriptCleanFlags(game, npc, event, detail, "clean");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
@@ -4691,6 +4700,7 @@ function runNpcScriptClean(game, npc, event, detail) {
     getStones: event.getStones,
     delStones: event.delStones,
     npcWarps: event.npcWarps,
+    charms: event.charms,
     getPets: event.getPets,
     delPets: event.delPets
   });
@@ -4711,6 +4721,20 @@ function runNpcScriptNpcWarps(game, npc, event, detail, phase) {
     phase,
     reason: "source-changeevent-npcwarp"
   });
+}
+
+function runNpcScriptCharmActions(game, npc, event, detail, phase) {
+  const eventNo = Number(event.eventNo || 0);
+  if (eventNo <= 0 || !event.charms?.length) return;
+  for (const amount of event.charms || []) {
+    runNpcVmAction(game, npc, {
+      type: "adjustCharm",
+      amount,
+      ...detail,
+      phase,
+      reason: "source-changeevent-charm"
+    });
+  }
 }
 
 function runNpcScriptCleanFlags(game, npc, event, detail, phase) {
@@ -7115,6 +7139,7 @@ function npcActionProfile(npc) {
     actions.push("quest", "window", "give", "take", "setFlag");
     if ((npc.scriptEvents || []).some((event) => event.cleanFlags?.length)) actions.push("clearFlag");
     if ((npc.scriptEvents || []).some((event) => event.npcWarps?.length)) actions.push("moveNpc");
+    if ((npc.scriptEvents || []).some((event) => event.charms?.length)) actions.push("adjustCharm");
     if ((npc.scriptEvents || []).some((event) => event.getPets?.length)) actions.push("givePet");
     if ((npc.scriptEvents || []).some((event) => event.delPets?.length)) actions.push("takePet");
   }
@@ -7174,6 +7199,7 @@ function applyNpcVmMutation(game, type, action) {
     return { ok: true, mutated: true };
   }
   if (type === "moveNpc") return applyNpcVmMoveNpc(game, action);
+  if (type === "adjustCharm") return applyNpcVmAdjustCharm(game, action);
   if (type === "take") return applyNpcVmTake(game, action);
   if (type === "give") return applyNpcVmGive(game, action);
   if (type === "takePet") return applyNpcVmTakePet(game, action);
@@ -7440,6 +7466,27 @@ function applyNpcVmMoveNpc(game, action) {
   return { ok: true, mutated: true, target: { mapId, x, y }, pointCount: points.length };
 }
 
+function applyNpcVmAdjustCharm(game, action) {
+  const amount = Number(action.amount ?? action.charm ?? 0);
+  if (!Number.isFinite(amount) || amount === 0) return { ok: true, mutated: false };
+  game.player ||= {};
+  normalizePlayerRuntime(game.player);
+  const before = Number(game.player.charm || 0);
+  const after = clampInt(before + amount, 0, 100, before);
+  game.player.charm = after;
+  game.player.Charm = after;
+  game.player.CHARM = after;
+  game.player.WorkFixCharm = after;
+  syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated: after !== before,
+    charmBefore: before,
+    charmAfter: after,
+    charmAmount: amount
+  };
+}
+
 function npcVmActionDetail(action, mutation) {
   const { type: _type, action: _action, status: _status, item, enemy, points: _points, ...detail } = action;
   const out = {
@@ -7485,6 +7532,9 @@ function npcVmActionDetail(action, mutation) {
   if (mutation.givenPets?.length) out.givenPets = mutation.givenPets;
   if (mutation.target) out.target = mutation.target;
   if (mutation.pointCount != null) out.pointCount = mutation.pointCount;
+  if (mutation.charmBefore != null) out.charmBefore = mutation.charmBefore;
+  if (mutation.charmAfter != null) out.charmAfter = mutation.charmAfter;
+  if (mutation.charmAmount != null) out.charmAmount = mutation.charmAmount;
   if (mutation.playerLevel != null) out.playerLevel = mutation.playerLevel;
   if (mutation.playerExp != null) out.playerExp = mutation.playerExp;
   if (mutation.skillUpPoint != null) out.skillUpPoint = mutation.skillUpPoint;
@@ -9625,6 +9675,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.getStones?.length) pushUniqueCompact(actions, "GetStone", 8);
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
     if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
+    if (event.charms?.length) pushUniqueCompact(actions, "Charm", 8);
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
