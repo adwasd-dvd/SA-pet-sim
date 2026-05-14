@@ -840,6 +840,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.keyword = cleanName(value);
       continue;
     }
+    if (key === "pet_name" || key === "petname") {
+      event.petName = cleanName(value);
+      continue;
+    }
     if (key === "getitem" || key === "giveitem") {
       event.getItems.push(...parseScriptItemSpecs(value));
       continue;

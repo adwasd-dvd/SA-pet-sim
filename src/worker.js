@@ -4508,6 +4508,7 @@ function sourceScriptEventReply(game, npc, text = "") {
     eventType: event.type,
     condition: event.condition || "",
     conditionOk: Boolean(condition?.ok),
+    petName: event.petName || "",
     keywordRequired: Boolean(keyword.required),
     keywordOk: Boolean(keyword.ok),
     source: event.source || npc.script || npc.source || ""
@@ -4532,11 +4533,15 @@ function chooseNpcScriptEvent(game, npc, text = "") {
     if (eventNo > 0 && event.type === "REQUEST" && eventFlagSet(game, eventNo, "now")) continue;
     const keyword = sourceScriptKeywordStatus(event, text);
     if (keyword.required && !keyword.ok) continue;
-    const condition = characterConditionStatus(game, event.condition || "");
+    const condition = sourceScriptEventConditionStatus(game, event);
     if (!condition.ok) continue;
     return { event, condition };
   }
   return null;
+}
+
+function sourceScriptEventConditionStatus(game, event) {
+  return characterConditionStatus(game, event?.condition || "", { petName: event?.petName || "" });
 }
 
 function npcHasKeywordBranches(npc) {
@@ -4684,6 +4689,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     phase: "message",
     getItems: event.getItems,
     delItems: event.delItems,
+    petName: event.petName,
     notDelItems: event.notDelItems,
     getRandItems: event.getRandItems,
     getStones: event.getStones,
@@ -4719,6 +4725,7 @@ function runNpcScriptClean(game, npc, event, detail) {
     cleanFlags: event.cleanFlags,
     getItems: event.getItems,
     delItems: event.delItems,
+    petName: event.petName,
     notDelItems: event.notDelItems,
     getRandItems: event.getRandItems,
     getStones: event.getStones,
@@ -4822,7 +4829,7 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
     const taken = runNpcVmAction(game, npc, {
       type: "takePet",
       petId: pet.petId,
-      petName: conditionPetName(game, pet.petId),
+      petName: pet.petName || conditionPetName(game, pet.petId),
       level: pet.level,
       op: pet.op,
       qty: pet.qty,
@@ -4831,7 +4838,7 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       reason: options.takePetReason || "source-changeevent-delpet"
     });
     if (!taken.ok) {
-      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: taken.error || "take-pet-failed", petId: pet.petId, petName: conditionPetName(game, pet.petId) });
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: taken.error || "take-pet-failed", petId: pet.petId, petName: pet.petName || conditionPetName(game, pet.petId) });
       return { ok: false, reply: `${npc.name}：${taken.error || "需要的宠物不符合条件"}。` };
     }
   }
@@ -4942,7 +4949,7 @@ function sourceScriptRuntimeDelItems(game, event) {
       out.push(item);
       continue;
     }
-    const condition = characterConditionStatus(game, event.condition || "");
+    const condition = sourceScriptEventConditionStatus(game, event);
     out.push(...parseSourceScriptItemConditionSpecs(condition.matched || "", event.notDelItems));
   }
   return out;
@@ -4970,16 +4977,16 @@ function sourceScriptRuntimeDelPets(game, event) {
   const out = [];
   for (const pet of event.delPets || []) {
     if (!pet?.evdel) {
-      out.push(pet);
+      out.push(event.petName ? { ...pet, petName: event.petName } : pet);
       continue;
     }
-    const condition = characterConditionStatus(game, event.condition || "");
-    out.push(...parseSourceScriptPetConditionSpecs(condition.matched || ""));
+    const condition = sourceScriptEventConditionStatus(game, event);
+    out.push(...parseSourceScriptPetConditionSpecs(condition.matched || "", event.petName));
   }
   return out;
 }
 
-function parseSourceScriptPetConditionSpecs(source = "") {
+function parseSourceScriptPetConditionSpecs(source = "", petName = "") {
   return String(source || "")
     .split(/[,&|]/)
     .map((part) => {
@@ -4990,6 +4997,7 @@ function parseSourceScriptPetConditionSpecs(source = "") {
         level: Number(match[2]),
         petId: Number(match[3]),
         qty: Number(match[4] || 1),
+        ...(petName ? { petName } : {}),
         source: match[0]
       };
     })
@@ -5034,7 +5042,7 @@ function npcScriptEventPreflight(game, event) {
   for (const pet of event.delPets || []) {
     const qty = petQtyInPartyMatching(game, pet);
     if (qty < Number(pet.qty || 1)) {
-      const petName = conditionPetName(game, pet.petId) || `pet ${pet.petId}`;
+      const petName = pet.petName || conditionPetName(game, pet.petId) || `pet ${pet.petId}`;
       return {
         ok: false,
         reason: "missing-pet",
@@ -5068,7 +5076,7 @@ function npcScriptEventPreflight(game, event) {
 function sourceScriptEventBlockedReply(game, npc, text = "") {
   const statuses = (npc.scriptEvents || []).map((event) => ({
     event,
-    condition: characterConditionStatus(game, event.condition || ""),
+    condition: sourceScriptEventConditionStatus(game, event),
     keyword: sourceScriptKeywordStatus(event, text)
   }));
   const completed = statuses.find(({ event }) => Number(event.eventNo || 0) > 0 && eventFlagSet(game, Number(event.eventNo), "end"));
@@ -5231,6 +5239,7 @@ function buildSourceScriptTaskIndex(world) {
           source,
           sourceCluster,
           condition: event.condition || "",
+          petName: event.petName || "",
           eventType: event.type
         };
         task.sources.add(ref.source);
@@ -5245,7 +5254,7 @@ function buildSourceScriptTaskIndex(world) {
             getStones: event.getStones || [],
             delStones: event.delStones || [],
             getPets: (event.getPets || []).map(sourceScriptTaskGetPet),
-            delPets: (event.delPets || []).map(sourceScriptTaskPet).filter(Boolean),
+            delPets: (event.delPets || []).map((pet) => sourceScriptTaskPet({ ...pet, petName: event.petName || "" })).filter(Boolean),
             endSetFlags: [...(event.endSetFlags || [])]
           });
         }
@@ -5254,7 +5263,7 @@ function buildSourceScriptTaskIndex(world) {
         for (const item of event.getRandItems || []) upsertSourceScriptTaskItem(task.rewardItems, sourceScriptTaskRandItem(item));
         for (const stone of event.delStones || []) task.requiredStones.push(stone);
         for (const stone of event.getStones || []) task.rewardStones.push(stone);
-        for (const pet of event.delPets || []) upsertSourceScriptTaskPet(task.requiredPets, sourceScriptTaskPet(pet));
+        for (const pet of event.delPets || []) upsertSourceScriptTaskPet(task.requiredPets, sourceScriptTaskPet({ ...pet, petName: event.petName || "" }));
         for (const pet of event.getPets || []) upsertSourceScriptTaskPet(task.rewardPets, sourceScriptTaskGetPet(pet));
         tasks.set(taskKey, task);
       }
@@ -5319,7 +5328,7 @@ function sourceScriptTaskRandItem(spec = {}) {
 
 function upsertSourceScriptTaskPet(map, pet) {
   if (!pet) return;
-  const key = pet.key || `${pet.petId || ""}:${pet.enemyIds?.join(".") || ""}:${pet.op || ""}:${pet.level ?? ""}`;
+  const key = pet.key || `${pet.petId || ""}:${pet.enemyIds?.join(".") || ""}:${pet.op || ""}:${pet.level ?? ""}:${pet.petName || ""}`;
   if (!key) return;
   const existing = map.get(key);
   map.set(key, existing ? { ...existing, qty: Math.max(Number(existing.qty || 1), Number(pet.qty || 1)) } : pet);
@@ -5328,12 +5337,13 @@ function upsertSourceScriptTaskPet(map, pet) {
 function sourceScriptTaskPet(pet = {}) {
   if (pet.evdel || !Number(pet.petId)) return null;
   return {
-    key: `${pet.petId}:${pet.op || "="}:${pet.level}`,
+    key: `${pet.petId}:${pet.op || "="}:${pet.level}:${pet.petName || ""}`,
     petId: Number(pet.petId),
-    name: `pet ${pet.petId}`,
+    name: pet.petName || `pet ${pet.petId}`,
     op: pet.op || "=",
     level: Number(pet.level || 1),
-    qty: Math.max(1, Number(pet.qty || 1))
+    qty: Math.max(1, Number(pet.qty || 1)),
+    ...(pet.petName ? { petName: pet.petName } : {})
   };
 }
 
@@ -5387,10 +5397,10 @@ function recentSourceScriptTaskClusters(game) {
 function compactSourceScriptTask(game, task, recentClusters = new Map()) {
   const readyTurnIns = task.acceptNpcs
     .filter((npc) => npc.delItems?.length || npc.delPets?.length)
-    .filter((npc) => characterConditionStatus(game, npc.condition || "").ok);
+    .filter((npc) => characterConditionStatus(game, npc.condition || "", { petName: npc.petName || "" }).ok);
   const readyProviders = task.acceptNpcs
     .filter((npc) => npc.getItems?.length || npc.getPets?.length)
-    .filter((npc) => characterConditionStatus(game, npc.condition || "").ok);
+    .filter((npc) => characterConditionStatus(game, npc.condition || "", { petName: npc.petName || "" }).ok);
   const missingItems = task.requiredItems
     .map((item) => ({ ...item, have: inventoryQty(game, item.id), needed: Number(item.qty || 1) }))
     .filter((item) => item.have < item.needed);
@@ -5767,7 +5777,7 @@ function warpConditionMet(game, part) {
   return characterConditionMet(game, part).ok;
 }
 
-function characterConditionStatus(game, spec) {
+function characterConditionStatus(game, spec, options = {}) {
   const raw = String(spec || "").replace(/^(?:FREE|EVENTRUN\d*|EVENT\d*|TALKEVENT\d*|ENDEVENT\d*|CHECKPARTY)\s*[:=]\s*/i, "").trim();
   if (!raw || /^ALLFREE$/i.test(raw)) return { ok: true, reason: "", groups: [] };
   const groups = raw
@@ -5779,7 +5789,7 @@ function characterConditionStatus(game, spec) {
         .split("&")
         .map((item) => item.trim())
         .filter(Boolean)
-        .map((part) => characterConditionMet(game, part));
+        .map((part) => characterConditionMet(game, part, options));
       return {
         source: group,
         ok: checks.length ? checks.every((check) => check.ok) : true,
@@ -5796,7 +5806,7 @@ function characterConditionStatus(game, spec) {
   };
 }
 
-function characterConditionMet(game, part) {
+function characterConditionMet(game, part, options = {}) {
   const token = String(part || "").trim();
   if (!token) return { ok: true, token, type: "empty" };
   const level = token.match(/^(?:LV|LEVEL)\s*(>=|<=|>|<|=)\s*(\d+)$/i);
@@ -5862,7 +5872,8 @@ function characterConditionMet(game, part) {
       op: sourcePet[1],
       level: Number(sourcePet[2]),
       petId: Number(sourcePet[3]),
-      qty: Number(sourcePet[4] || 1)
+      qty: Number(sourcePet[4] || 1),
+      petName: options.petName || ""
     };
     const qty = petQtyInPartyMatching(game, spec);
     const needed = Math.max(1, Number(spec.qty || 1));
@@ -5872,6 +5883,7 @@ function characterConditionMet(game, part) {
       type: "pet",
       petId: spec.petId,
       petName: conditionPetName(game, spec.petId),
+      petNameRequired: options.petName || "",
       qty,
       needed,
       expected: spec.level,
@@ -5957,9 +5969,11 @@ function petQtyInPartyMatching(game, spec = {}) {
   const petId = Number(spec.petId);
   const level = Number(spec.level);
   const op = spec.op || "=";
+  const petName = String(spec.petName || "");
   return (game.pets || []).filter((pet) => (
     Number(pet.PetId ?? pet.petId ?? pet.id) === petId &&
-    compareNumber(Number(pet.Lv ?? pet.level ?? 1), op, level)
+    compareNumber(Number(pet.Lv ?? pet.level ?? 1), op, level) &&
+    sourcePetNameMatches(pet, petName)
   )).length;
 }
 
@@ -5968,13 +5982,23 @@ function petIndexesInPartyMatching(game, spec = {}) {
   const petId = Number(spec.petId);
   const level = Number(spec.level);
   const op = spec.op || "=";
+  const petName = String(spec.petName || "");
   for (let index = 0; index < (game.pets || []).length; index += 1) {
     const pet = game.pets[index];
     if (Number(pet?.PetId ?? pet?.petId ?? pet?.id) !== petId) continue;
     if (!compareNumber(Number(pet.Lv ?? pet.level ?? 1), op, level)) continue;
+    if (!sourcePetNameMatches(pet, petName)) continue;
     indexes.push(index);
   }
   return indexes;
+}
+
+function sourcePetNameMatches(pet, requiredName = "") {
+  const expected = String(requiredName || "").trim();
+  if (!expected) return true;
+  const actual = String(pet?.Name ?? pet?.name ?? "").trim();
+  if (!actual) return false;
+  return actual === expected || guideSearchText(actual) === guideSearchText(expected);
 }
 
 function conditionPetName(game, petId) {
@@ -6051,7 +6075,7 @@ function compactNpcScriptStatus(game, npc) {
   const conditions = npcScriptConditionSpecs(npc)
     .slice(0, 5)
     .map((entry) => {
-      const condition = characterConditionStatus(game, entry.spec);
+      const condition = characterConditionStatus(game, entry.spec, { petName: entry.petName || "" });
       return {
         kind: entry.kind,
         ok: Boolean(condition.ok),
@@ -6071,6 +6095,17 @@ function compactNpcScriptStatus(game, npc) {
 
 function npcScriptConditionSpecs(npc) {
   const specs = [];
+  for (const event of npc?.scriptEvents || []) {
+    const spec = String(event.condition || "").trim();
+    if (!spec || /^LV>0$/i.test(spec)) continue;
+    specs.push({
+      kind: event.type || "EVENT",
+      spec,
+      petName: event.petName || "",
+      source: event.source || npc.script || npc.source || ""
+    });
+  }
+  if (specs.length) return specs;
   for (const line of npc?.scriptHints?.hints || []) {
     const match = String(line || "").match(/^(EVENTRUN\d*|EVENT\d*|TALKEVENT\d*|ENDEVENT\d*|CHECKPARTY)\s*[:=]\s*(.+)$/i);
     if (!match) continue;
@@ -6126,6 +6161,7 @@ function compactConditionCheck(check) {
     shiftbit: check.shiftbit,
     petId: check.petId,
     petName: check.petName,
+    petNameRequired: check.petNameRequired,
     petLevel: check.petLevel,
     op: check.op
   }).filter(([, value]) => value !== undefined && value !== ""));
@@ -7402,7 +7438,8 @@ function applyNpcVmTakePet(game, action) {
   const spec = {
     petId: Number(action.petId),
     level: Number(action.level),
-    op: action.op || "="
+    op: action.op || "=",
+    petName: action.petName || ""
   };
   const indexes = petIndexesInPartyMatching(game, spec);
   if (indexes.length < qty) {
@@ -9747,6 +9784,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
     if (event.charms?.length) pushUniqueCompact(actions, "Charm", 8);
     if (event.keyword) pushUniqueCompact(actions, "KeyWord", 8);
+    if (event.petName) pushUniqueCompact(actions, "Pet_Name", 8);
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);

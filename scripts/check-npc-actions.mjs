@@ -634,6 +634,50 @@ assert(!notDelGame.dialog.debug.vmTrace.some((event) => event.action === "take" 
 const notDelSummary = notDelGame.world.map.npcs.find((npc) => npc.id === notDelFixture.id)?.scriptEventSummary?.actions || [];
 assert(notDelSummary.includes("DelItemEVDEL") && notDelSummary.includes("NotDel"), "client payload exposes compact NotDel/EVDEL summary without raw source lines");
 
+assert(readFileSync(path.join(appRoot, "external/sources/ref___data/npc/jaruga/event/kikukuev"), "utf8").includes("Pet_Name:"), "local source data contains a Pet_Name branch fixture");
+const petNameFixture = {
+  id: "source-pet-name-fixture",
+  name: "源码 Pet_Name 测试",
+  type: "changeevent",
+  template: "npcgen_man",
+  x: 44,
+  y: 40,
+  source: "gmsv-data/npc/jaruga/event/kikukuev",
+  script: "file:jaruga/event/kikukuev",
+  scriptEvents: [{
+    type: "ACCEPT",
+    eventNo: -1,
+    condition: "LV>0&PET>14-524",
+    petName: "加美努",
+    messages: { accept: "这是我要找的孩子。" },
+    delPets: [{ petId: 524, op: ">", level: 14, qty: 1 }],
+    getItems: [{ id: 2451, qty: 1, name: "测试正确名字奖励" }]
+  }, {
+    type: "ACCEPT",
+    eventNo: -1,
+    condition: "LV>0&PET>14-524",
+    messages: { accept: "这孩子名字不对。" },
+    getItems: [{ id: 2455, qty: 1, name: "测试错误名字奖励" }]
+  }]
+};
+WORLD.maps["1000"].npcs.push(petNameFixture);
+let petNameGame = await api("/api/game/new", { name: "source-pet-name-wrong-test" });
+petNameGame.location = { mapId: "1000", x: 43, y: 40 };
+petNameGame.pets.push({ ...petNameGame.pets[0], PetId: 524, Name: "别的加美", Lv: 15, Hp: 10, WorkMaxHp: 10 });
+petNameGame = await api("/api/game/dialog", { game: petNameGame, npcId: petNameFixture.id });
+assertEqual(inventoryQty(petNameGame, 2451), 0, "source Pet_Name branch does not match a wrong-name pet");
+assertEqual(inventoryQty(petNameGame, 2455), 1, "source Pet_Name falls through to the next PET branch when name differs");
+assert(petNameGame.pets.some((pet) => Number(pet.PetId) === 524 && pet.Name === "别的加美"), "wrong-name Pet_Name branch does not delete the pet");
+let petNameOkGame = await api("/api/game/new", { name: "source-pet-name-ok-test" });
+petNameOkGame.location = { mapId: "1000", x: 43, y: 40 };
+petNameOkGame.pets.push({ ...petNameOkGame.pets[0], PetId: 524, Name: "加美努", Lv: 15, Hp: 10, WorkMaxHp: 10 });
+petNameOkGame = await api("/api/game/dialog", { game: petNameOkGame, npcId: petNameFixture.id });
+assertEqual(inventoryQty(petNameOkGame, 2451), 1, "source Pet_Name matches the named pet branch");
+assert(!petNameOkGame.pets.some((pet) => Number(pet.PetId) === 524 && pet.Name === "加美努"), "source Pet_Name DelPet removes the named pet through VM");
+assert(petNameOkGame.dialog.debug.vmTrace.some((event) => event.action === "takePet" && event.detail?.reason === "source-changeevent-delpet" && event.detail?.petName === "加美努"), "source Pet_Name DelPet carries the required name into NPC VM");
+const petNameSummary = petNameOkGame.world.map.npcs.find((npc) => npc.id === petNameFixture.id)?.scriptEventSummary?.actions || [];
+assert(petNameSummary.includes("Pet_Name"), "client payload exposes compact Pet_Name summary");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
@@ -1750,7 +1794,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
