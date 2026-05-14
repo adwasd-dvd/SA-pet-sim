@@ -466,6 +466,22 @@ assert(battleTutorReply.includes("要提升自已的等级") && battleTutorReply
 const battleTutorPayload = battleTutorGame.world.map.npcs.find((npc) => npc.id === battleTutor.id);
 assert(battleTutorPayload?.scriptEventSummary?.actions?.includes("MessagePages"), "client payload exposes compact source numbered-message summary");
 
+const giftCleanNpc = WORLD.maps["1100"]?.npcs.find((npc) => npc.name === "伊芙丽");
+if (!giftCleanNpc) throw new Error("missing source CleanFlg fixture");
+const giftCleanEvent = giftCleanNpc.scriptEvents?.find((event) => event.type === "CLEAN" && event.cleanFlags?.includes(139));
+assert(giftCleanEvent, "gift source script parses TYPE:CLEAN and CleanFlg");
+let cleanFlagGame = await api("/api/game/new", { name: "source-cleanflg-test" });
+cleanFlagGame.location = { mapId: "1100", x: giftCleanNpc.x + 1, y: giftCleanNpc.y };
+setTestEventFlag(cleanFlagGame, 139, "now");
+setTestEventFlag(cleanFlagGame, 139, "end");
+cleanFlagGame = await api("/api/game/dialog", { game: cleanFlagGame, npcId: giftCleanNpc.id });
+assert(!testEventFlagSet(cleanFlagGame, 139, "now"), "source CleanFlg clears NOWEV through NPC VM");
+assert(!testEventFlagSet(cleanFlagGame, 139, "end"), "source CleanFlg clears ENDEV through NPC VM");
+assert(cleanFlagGame.dialog.messages.at(-1)?.text.includes("分隔两地"), "source CleanFlg reply uses CleanFlgMsg");
+assert(cleanFlagGame.dialog.debug.vmTrace.some((event) => event.action === "clearFlag" && event.detail?.reason === "source-changeevent-cleanflag" && event.detail?.shiftbit === 139), "source CleanFlg records clearFlag VM action");
+const giftCleanPayload = cleanFlagGame.world.map.npcs.find((npc) => npc.id === giftCleanNpc.id);
+assert(giftCleanPayload?.scriptEventSummary?.actions?.includes("CleanFlg"), "client payload exposes compact CleanFlg summary");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
@@ -1664,6 +1680,15 @@ function setTestEventFlag(game, shiftbit, kind = "end") {
   while (game.flags[field].length <= index) game.flags[field].push(0);
   game.flags[field][index] = (Number(game.flags[field][index] || 0) | (1 << bit)) >>> 0;
   game.flags.bits[`${kind}:${shiftbit}`] = true;
+}
+
+function testEventFlagSet(game, shiftbit, kind = "end") {
+  const field = kind === "now" ? "nowEvents" : "endEvents";
+  const index = Math.floor(Number(shiftbit) / 32);
+  const bit = Number(shiftbit) % 32;
+  const mask = (1 << bit) >>> 0;
+  return Boolean(game.flags?.bits?.[`${kind}:${shiftbit}`])
+    || Boolean(((game.flags?.[field]?.[index] || 0) >>> 0) & mask);
 }
 
 function stableFlag(value) {

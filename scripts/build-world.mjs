@@ -808,6 +808,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     getRandItems: [],
     getStones: [],
     delStones: [],
+    cleanFlags: [],
     nowSetFlags: [],
     endSetFlags: []
   };
@@ -868,6 +869,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.nowSetFlags.push(...splitNumberList(value));
       continue;
     }
+    if (key === "cleanflg" || key === "cleanflag") {
+      event.cleanFlags.push(...splitNumberList(value));
+      continue;
+    }
     const messageSpec = npcScriptMessageSpec(key);
     if (messageSpec) {
       const message = cleanScriptText(value);
@@ -895,6 +900,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     getRandItems: event.getRandItems.map(withScriptRandomItemNames),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
+    cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),
     nowSetFlags: [...new Set(event.nowSetFlags)].filter((value) => value > 0),
     endSetFlags: [...new Set(event.endSetFlags)].filter((value) => value > 0)
   };
@@ -924,7 +930,10 @@ function npcScriptMessageSpec(key) {
     petfullmsg: "petFull",
     stopmsg: "stop",
     endstopmsg: "endStop",
-    nostopmsg: "noStop"
+    nostopmsg: "noStop",
+    cleanmainmsg: "cleanMain",
+    cleanflgmsg: "cleanFlag",
+    cleanflagmsg: "cleanFlag"
   };
   return messageKeys[base] ? { key: messageKeys[base], page } : null;
 }

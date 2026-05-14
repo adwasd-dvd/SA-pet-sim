@@ -108,6 +108,7 @@ const NPC_VM_ACTIONS = new Set([
   "givePet",
   "takePet",
   "setFlag",
+  "clearFlag",
   "effect",
   "startBattle",
   "battleAction",
@@ -4513,8 +4514,9 @@ function sourceScriptEventReply(game, npc, text = "") {
   if (event.type === "REQUEST") return runNpcScriptRequest(game, npc, event, detail);
   if (event.type === "ACCEPT") return runNpcScriptAccept(game, npc, event, detail);
   if (event.type === "MESSAGE") return runNpcScriptMessage(game, npc, event, detail);
+  if (event.type === "CLEAN") return runNpcScriptClean(game, npc, event, detail);
   recordNpcVmEvent(game, npc, "say", "ok", detail);
-  return scriptEventMessages(event, ["normal", "normalMain", "thanks"], game).join("\n") || npcDefaultLine(npc);
+  return scriptEventMessages(event, ["normal", "normalMain", "thanks", "cleanMain", "cleanFlag"], game).join("\n") || npcDefaultLine(npc);
 }
 
 function chooseNpcScriptEvent(game, npc) {
@@ -4545,6 +4547,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
       ...detail
     });
   }
+  runNpcScriptCleanFlags(game, npc, event, detail, "request");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "request",
@@ -4553,6 +4556,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
+    cleanFlags: event.cleanFlags,
     getPets: event.getPets,
     delPets: event.delPets
   });
@@ -4580,6 +4584,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
       reason: "source-changeevent-end"
     });
   }
+  runNpcScriptCleanFlags(game, npc, event, detail, "accept");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "accept",
@@ -4590,6 +4595,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
     delStones: event.delStones,
     getPets: event.getPets,
     delPets: event.delPets,
+    cleanFlags: event.cleanFlags,
     endSetFlags: event.endSetFlags
   });
   syncCharacterFields(game);
@@ -4626,6 +4632,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
       reason: "source-changeevent-message-end"
     });
   }
+  runNpcScriptCleanFlags(game, npc, event, detail, "message");
   const hasMutation = (event.getItems || []).length
     || (event.delItems || []).length
     || (event.getRandItems || []).length
@@ -4633,6 +4640,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     || (event.delStones || []).length
     || (event.getPets || []).length
     || (event.delPets || []).length
+    || (event.cleanFlags || []).length
     || (event.endSetFlags || []).length
     || (event.nowSetFlags || []).length;
   recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", {
@@ -4645,6 +4653,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     delStones: event.delStones,
     getPets: event.getPets,
     delPets: event.delPets,
+    cleanFlags: event.cleanFlags,
     endSetFlags: event.endSetFlags,
     nowSetFlags: event.nowSetFlags
   });
@@ -4653,6 +4662,47 @@ function runNpcScriptMessage(game, npc, event, detail) {
   const rewardLine = scriptEventRewardLine(event);
   if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function runNpcScriptClean(game, npc, event, detail) {
+  const applied = applyNpcScriptItemDelta(game, npc, event, detail, {
+    phase: "clean",
+    takeReason: "source-changeevent-clean-delitem",
+    giveReason: "source-changeevent-clean-getitem"
+  });
+  if (!applied.ok) return applied.reply;
+  runNpcScriptCleanFlags(game, npc, event, detail, "clean");
+  recordNpcVmEvent(game, npc, "quest", "ok", {
+    ...detail,
+    phase: "clean",
+    cleanFlags: event.cleanFlags,
+    getItems: event.getItems,
+    delItems: event.delItems,
+    getRandItems: event.getRandItems,
+    getStones: event.getStones,
+    delStones: event.delStones,
+    getPets: event.getPets,
+    delPets: event.delPets
+  });
+  syncCharacterFields(game);
+  const lines = scriptEventMessages(event, ["cleanMain", "cleanFlag", "normalMain", "normal", "thanks"], game);
+  const rewardLine = scriptEventRewardLine(event);
+  if (rewardLine) lines.push(rewardLine);
+  return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function runNpcScriptCleanFlags(game, npc, event, detail, phase) {
+  for (const shiftbit of event.cleanFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "clearFlag",
+      kind: "now-end",
+      shiftbit,
+      key: `now-end:${shiftbit}`,
+      ...detail,
+      phase,
+      reason: "source-changeevent-cleanflag"
+    });
+  }
 }
 
 function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
@@ -7041,6 +7091,7 @@ function npcActionProfile(npc) {
   if (isSavePointNpc(npc)) actions.push("save");
   if (hasNpcScriptEvents(npc)) {
     actions.push("quest", "window", "give", "take", "setFlag");
+    if ((npc.scriptEvents || []).some((event) => event.cleanFlags?.length)) actions.push("clearFlag");
     if ((npc.scriptEvents || []).some((event) => event.getPets?.length)) actions.push("givePet");
     if ((npc.scriptEvents || []).some((event) => event.delPets?.length)) actions.push("takePet");
   }
@@ -7092,6 +7143,11 @@ function applyNpcVmMutation(game, type, action) {
   if (type === "setFlag") {
     if (!action.shiftbit) return { ok: true, mutated: false };
     setEventFlag(game, action.shiftbit, action.kind || "end");
+    return { ok: true, mutated: true };
+  }
+  if (type === "clearFlag") {
+    if (!action.shiftbit) return { ok: true, mutated: false };
+    clearEventFlag(game, action.shiftbit, action.kind || "now-end");
     return { ok: true, mutated: true };
   }
   if (type === "take") return applyNpcVmTake(game, action);
@@ -9507,6 +9563,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
+    if (event.cleanFlags?.length) pushUniqueCompact(actions, "CleanFlg", 8);
     if (event.messagePages && Object.keys(event.messagePages).length) pushUniqueCompact(actions, "MessagePages", 8);
     if (event.condition) pushUniqueCompact(actions, "condition", 8);
   }
@@ -9763,6 +9820,23 @@ function setEventFlag(game, shiftbit, kind = "end") {
   while (game.flags[field].length <= index) game.flags[field].push(0);
   game.flags[field][index] = (game.flags[field][index] | (1 << bit)) >>> 0;
   game.flags.bits[`${kind}:${shiftbit}`] = true;
+}
+
+function clearEventFlag(game, shiftbit, kind = "end") {
+  if (!shiftbit) return;
+  if (kind === "now-end" || kind === "both") {
+    clearEventFlag(game, shiftbit, "now");
+    clearEventFlag(game, shiftbit, "end");
+    return;
+  }
+  ensureFlags(game);
+  const field = kind === "now" ? "nowEvents" : "endEvents";
+  const index = Math.floor(shiftbit / 32);
+  const bit = shiftbit % 32;
+  const mask = (1 << bit) >>> 0;
+  while (game.flags[field].length <= index) game.flags[field].push(0);
+  game.flags[field][index] = (game.flags[field][index] & ~mask) >>> 0;
+  delete game.flags.bits[`${kind}:${shiftbit}`];
 }
 
 function setNpcVmFlag(game, npc, shiftbit, kind = "end", reason = "") {

@@ -112,7 +112,9 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - `GetPet` / `DelPet`, including `EVDEL` pet-condition resolution
   - `GetRandItem`, preserving duplicate source IDs as weighted random reward candidates
   - `GetStone` / `DelStone`, including source-style dynamic costs such as `LV*3`
+  - `CleanFlg`, clearing both NOWEV and ENDEV for the source event id through the VM `clearFlag` action
 - Source NPC full/shortage messages are parsed into runtime messages, including `ItemFullMsg`, `PetFullMsg`, `StoneFullMsg`, and `StoneLessMsg`.
+- Source `TYPE:CLEAN`, `CleanMainMsg`, and `CleanFlgMsg` branches are parsed so reset/cancel style NPCs can show their original text and clear task flags.
 - Numbered source dialogue pages such as `RequestMsg1/2`, `AcceptMsg1/2`, `ThanksMsg1/2`, and `NormalWindowMsg1/2` are preserved as `messagePages` and joined at runtime, while client map payloads still get only compact `scriptEventSummary` metadata.
 - Stone changes still go through `runNpcVmAction`, sync the inventory stone row, and are checked against the original max carried-stone scale (`CHAR_MAXGOLDHAVE = 10000 * 10000`).
 - NPC task summaries and AI/debug context should prefer these compact parsed actions over dumping raw source lines, so token use stays low and numeric item IDs can be resolved before reaching the model.
