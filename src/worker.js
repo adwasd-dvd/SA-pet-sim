@@ -4563,6 +4563,20 @@ async function captureReply(env, request, game, npc) {
 
 function trainReply(game, npc) {
   recordNpcVmEvent(game, npc, "fieldSkill", "unsupported", { reason: "training script not ported" });
+  const questIds = npcQuestIds(npc);
+  const active = questIds.map((id) => game.quests?.[id]).find((quest) => quest?.status === "进行中" || quest?.status === "可回报");
+  if (active) {
+    recordNpcVmEvent(game, npc, "quest", "ok", { questId: active.id, reason: "training-query" });
+    if (active.status === "可回报") {
+      return `${npc.name}：训练和成长要靠战斗经验，不能直接帮你提升等级。你已经完成「${active.title}」，回来向我报告就能结算奖励。`;
+    }
+    return `${npc.name}：训练和成长要靠战斗经验，不能直接帮你提升等级。当前「${active.title}」下一步是：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}`;
+  }
+  if (questIds.length) {
+    const titles = questIds.map((id) => WORLD.quests[id]?.title).filter(Boolean).join("、");
+    recordNpcVmEvent(game, npc, "quest", "ok", { questIds, reason: "training-query-available" });
+    return `${npc.name}：如果想训练，就先接 ${titles || "这里的委托"}；人物和宠物经验只能从战斗、捕获和源码奖励结算获得。`;
+  }
   return `${npc.name} 当前没有可模拟的训练脚本，只保留原 NPC 数据入口：${npc.source || npc.script || npc.type}。`;
 }
 

@@ -229,6 +229,39 @@ teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.
 assertEqual(teacherGame.dialog.aiMode, false, "AI dialog toggle can return to source dialog mode");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "训练" });
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "unsupported" && event.detail?.originalAction === "fieldSkill"), "unsupported VM actions preserve original action");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.detail?.reason === "training-query"), "teacher training query connects to active quest context");
+assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && /战斗经验|下一步/.test(message.text)), "teacher training reply explains battle-based progression and next quest step");
+
+let questLoopGame = await api("/api/game/new", { name: "source-quest-loop-test" });
+questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2 };
+questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id });
+assertEqual(questLoopGame.quests[teacher.questId].status, "进行中", "teacher starts the first source-grounded quest");
+questLoopGame = await api("/api/game/walk", {
+  game: { ...questLoopGame, location: { mapId: "1000", x: 49, y: 116, dir: 2 }, player: { ...questLoopGame.player, dir: 2 } },
+  dx: 0,
+  dy: 0
+});
+assertEqual(questLoopGame.location.mapId, "100", "field quest uses real mapwarp into Sainasu");
+assert(Number(questLoopGame.quests[teacher.questId].progress || 0) >= 2, "entering a wild encounter map advances the field quest");
+questLoopGame.location = { ...questLoopGame.location, x: 637, y: 493, dir: 2 };
+questLoopGame.pets[0].WorkFixStr = 999;
+questLoopGame.pets[0].WorkAttackPower = 999;
+questLoopGame.pets[0].WorkFixDex = 999;
+questLoopGame.pets[0].WorkQuick = 999;
+questLoopGame = await api("/api/game/encounter", { game: questLoopGame });
+assert(questLoopGame.battle?.source?.includes("encount.txt"), "field quest encounter is sourced from encount.txt");
+questLoopGame.encounter.Hp = 1;
+questLoopGame.encounter.WorkFixDex = 0;
+questLoopGame.encounter.WorkQuick = 0;
+questLoopGame.battle.enemyParty = [{ ...questLoopGame.encounter }];
+questLoopGame = await api("/api/game/battle", { game: questLoopGame, action: "攻击" });
+assertEqual(questLoopGame.battleOutcome.result, "victory", "field quest can finish through Worker battle settlement");
+assertEqual(questLoopGame.quests[teacher.questId].status, "可回报", "field quest becomes reportable after a wild battle win");
+const questLoopStoneBefore = questLoopGame.player.stone;
+questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2 };
+questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id, message: "hi" });
+assertEqual(questLoopGame.quests[teacher.questId].status, "完成", "field quest completes through teacher NPC VM reward");
+assert(questLoopGame.player.stone > questLoopStoneBefore, "field quest completion grants source-style stone reward");
 const questExpReward = Number(teacherGame.quests[teacher.questId].expReward || 20);
 const questStoneReward = Number(teacherGame.quests[teacher.questId].stoneReward || 80);
 teacherGame.player.exp = Math.max(0, Number(teacherGame.player.nextExp || 1) - questExpReward + 1);
