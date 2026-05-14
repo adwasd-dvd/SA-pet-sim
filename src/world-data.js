@@ -6142,7 +6142,32 @@ export const WORLD = {
               ],
               "eventNo": 35,
               "type": "ACCEPT",
-              "condition": "LV>0&PET=25-221*1&PET=25-222*1&ITEM=2607&NOWEV=35"
+              "condition": "LV>0&PET=25-221*1&PET=25-222*1&ITEM=2607&NOWEV=35",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    93
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ],
+              "delPets": [
+                {
+                  "op": "=",
+                  "level": 25,
+                  "petId": 221,
+                  "qty": 1,
+                  "source": "PET=25-221*1"
+                },
+                {
+                  "op": "=",
+                  "level": 25,
+                  "petId": 222,
+                  "qty": 1,
+                  "source": "PET=25-222*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
@@ -6176,7 +6201,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&PET=25-223*1&PET=25-224*1&ITEM!=2607&NOWEV=35"
+              "condition": "LV>0&PET=25-223*1&PET=25-224*1&ITEM!=2607&NOWEV=35",
+              "delPets": [
+                {
+                  "op": "=",
+                  "level": 25,
+                  "petId": 223,
+                  "qty": 1,
+                  "source": "PET=25-223*1"
+                },
+                {
+                  "op": "=",
+                  "level": 25,
+                  "petId": 224,
+                  "qty": 1,
+                  "source": "PET=25-224*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
@@ -6215,7 +6256,22 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&PET=25-558*1&PET=25-293*1&ITEM=2607&ENDEV=35,LV>0&PET=25-292*1&PET=25-293*1&ITEM=2607&ENDEV=35"
+              "condition": "LV>0&PET=25-558*1&PET=25-293*1&ITEM=2607&ENDEV=35,LV>0&PET=25-292*1&PET=25-293*1&ITEM=2607&ENDEV=35",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    341
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ],
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
@@ -6249,7 +6305,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&PET=25-291*1&PET=25-294*1&ITEM!=2607&ENDEV=35"
+              "condition": "LV>0&PET=25-291*1&PET=25-294*1&ITEM!=2607&ENDEV=35",
+              "delPets": [
+                {
+                  "op": "=",
+                  "level": 25,
+                  "petId": 291,
+                  "qty": 1,
+                  "source": "PET=25-291*1"
+                },
+                {
+                  "op": "=",
+                  "level": 25,
+                  "petId": 294,
+                  "qty": 1,
+                  "source": "PET=25-294*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
@@ -6326,7 +6398,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV=20&TRANS=0&ITEM=2347*2&ITEM=20911,LV=21&TRANS=0&ITEM=2347*2&ITEM=20911,LV=22&TRANS=0&ITEM=2347*2&ITEM=20911,LV=23&TRANS=0&ITEM=2347*2&ITEM=20911,LV=24&TRANS=0&ITEM=2347*2&ITEM=20911,LV=25&TRANS=0&ITEM=2347*2&ITEM=20911,LV=26&TRANS=0&ITEM=2347*2&ITEM=20911,LV=27&TRANS=0&ITEM=2347*2&ITEM=20911,LV=28&TRANS=0&ITEM=2347*2&ITEM=20911,LV=29&TRANS=0&ITEM=2347*2&ITEM=20911"
+              "condition": "LV=20&TRANS=0&ITEM=2347*2&ITEM=20911,LV=21&TRANS=0&ITEM=2347*2&ITEM=20911,LV=22&TRANS=0&ITEM=2347*2&ITEM=20911,LV=23&TRANS=0&ITEM=2347*2&ITEM=20911,LV=24&TRANS=0&ITEM=2347*2&ITEM=20911,LV=25&TRANS=0&ITEM=2347*2&ITEM=20911,LV=26&TRANS=0&ITEM=2347*2&ITEM=20911,LV=27&TRANS=0&ITEM=2347*2&ITEM=20911,LV=28&TRANS=0&ITEM=2347*2&ITEM=20911,LV=29&TRANS=0&ITEM=2347*2&ITEM=20911",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    15
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/scipt_plus/fishlevelup/npc_at_100",
@@ -6619,7 +6700,20 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2727"
+              "condition": "LV>0&ITEM=2727",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    39,
+                    49,
+                    94,
+                    303,
+                    327
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -33352,7 +33446,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-560*5&ITEM=2590*1&ITEM=2594,PET>0-560*4&ITEM=2590*1&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2590*1&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2590*1&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2590*1&ITEM=2589*4&ITEM=2594"
+              "condition": "PET>0-560*5&ITEM=2590*1&ITEM=2594,PET>0-560*4&ITEM=2590*1&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2590*1&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2590*1&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2590*1&ITEM=2589*4&ITEM=2594",
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
@@ -33376,7 +33476,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-560*5&ITEM=2594,PET>0-560*4&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2589*4&ITEM=2594"
+              "condition": "PET>0-560*5&ITEM=2594,PET>0-560*4&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2589*4&ITEM=2594",
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
@@ -33400,7 +33506,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-560*4&ITEM=2594"
+              "condition": "PET>0-560*4&ITEM=2594",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 560,
+                  "qty": 4,
+                  "source": "PET>0-560*4"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
@@ -33424,7 +33539,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-560*3&ITEM=2594"
+              "condition": "PET>0-560*3&ITEM=2594",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 560,
+                  "qty": 3,
+                  "source": "PET>0-560*3"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
@@ -33448,7 +33572,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-560*2&ITEM=2594"
+              "condition": "PET>0-560*2&ITEM=2594",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 560,
+                  "qty": 2,
+                  "source": "PET>0-560*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
@@ -33471,7 +33604,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-560*1&ITEM=2594"
+              "condition": "PET>0-560*1&ITEM=2594",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 560,
+                  "qty": 1,
+                  "source": "PET>0-560*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
@@ -33654,7 +33796,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-559*5&ITEM=2590*1&ITEM=2595,PET>0-559*4&ITEM=2590*1&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2590*1&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2590*1&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2590*1&ITEM=2589*4&ITEM=2595"
+              "condition": "PET>0-559*5&ITEM=2590*1&ITEM=2595,PET>0-559*4&ITEM=2590*1&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2590*1&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2590*1&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2590*1&ITEM=2589*4&ITEM=2595",
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
@@ -33678,7 +33826,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-559*5&ITEM=2595,PET>0-559*4&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2589*4&ITEM=2595"
+              "condition": "PET>0-559*5&ITEM=2595,PET>0-559*4&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2589*4&ITEM=2595",
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
@@ -33702,7 +33856,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-559*4&ITEM=2595"
+              "condition": "PET>0-559*4&ITEM=2595",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 559,
+                  "qty": 4,
+                  "source": "PET>0-559*4"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
@@ -33726,7 +33889,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-559*3&ITEM=2595"
+              "condition": "PET>0-559*3&ITEM=2595",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 559,
+                  "qty": 3,
+                  "source": "PET>0-559*3"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
@@ -33750,7 +33922,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-559*2&ITEM=2595"
+              "condition": "PET>0-559*2&ITEM=2595",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 559,
+                  "qty": 2,
+                  "source": "PET>0-559*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
@@ -33774,7 +33955,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-559*1&ITEM=2595"
+              "condition": "PET>0-559*1&ITEM=2595",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 559,
+                  "qty": 1,
+                  "source": "PET>0-559*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
@@ -33955,7 +34145,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-558*5&ITEM=2590*1&ITEM=2596,PET>0-558*4&ITEM=2590*1&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2590*1&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2590*1&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2590*1&ITEM=2589*4&ITEM=2596"
+              "condition": "PET>0-558*5&ITEM=2590*1&ITEM=2596,PET>0-558*4&ITEM=2590*1&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2590*1&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2590*1&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2590*1&ITEM=2589*4&ITEM=2596",
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
@@ -33978,7 +34174,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-558*5&ITEM=2596,PET>0-558*4&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2589*4&ITEM=2596"
+              "condition": "PET>0-558*5&ITEM=2596,PET>0-558*4&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2589*4&ITEM=2596",
+              "delPets": [
+                {
+                  "evdel": true,
+                  "source": "EVDEL"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
@@ -34001,7 +34203,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-558*4&ITEM=2596"
+              "condition": "PET>0-558*4&ITEM=2596",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 558,
+                  "qty": 4,
+                  "source": "PET>0-558*4"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
@@ -34024,7 +34235,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-558*3&ITEM=2596"
+              "condition": "PET>0-558*3&ITEM=2596",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 558,
+                  "qty": 3,
+                  "source": "PET>0-558*3"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
@@ -34047,7 +34267,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-558*2&ITEM=2596"
+              "condition": "PET>0-558*2&ITEM=2596",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 558,
+                  "qty": 2,
+                  "source": "PET>0-558*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
@@ -34070,7 +34299,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "PET>0-558*1&ITEM=2596"
+              "condition": "PET>0-558*1&ITEM=2596",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 558,
+                  "qty": 1,
+                  "source": "PET>0-558*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
@@ -37759,7 +37997,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV<45&ITEM=2418"
+              "condition": "LV<45&ITEM=2418",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2670
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
@@ -50902,7 +51149,21 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2587&ENDEV=17"
+              "condition": "LV>0&ITEM=2587&ENDEV=17",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    1592,
+                    1579,
+                    1577,
+                    1363,
+                    351,
+                    1645
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edc",
@@ -58989,7 +59250,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20001&PET>0-113*2&PET>0-114*2"
+              "condition": "ITEM=20001&PET>0-113*2&PET>0-114*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 113,
+                  "qty": 2,
+                  "source": "PET>0-113*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 114,
+                  "qty": 2,
+                  "source": "PET>0-114*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_1000",
@@ -59012,7 +59289,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20002&PET>0-1*2&PET>0-3*2"
+              "condition": "ITEM=20002&PET>0-1*2&PET>0-3*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 1,
+                  "qty": 2,
+                  "source": "PET>0-1*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 3,
+                  "qty": 2,
+                  "source": "PET>0-3*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_1000",
@@ -59035,7 +59328,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20003&PET>0-72*1&PET>0-74*1"
+              "condition": "ITEM=20003&PET>0-72*1&PET>0-74*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 72,
+                  "qty": 1,
+                  "source": "PET>0-72*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 74,
+                  "qty": 1,
+                  "source": "PET>0-74*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_1000",
@@ -59058,7 +59367,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20004&PET>0-63*2&PET>0-64*2"
+              "condition": "ITEM=20004&PET>0-63*2&PET>0-64*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 63,
+                  "qty": 2,
+                  "source": "PET>0-63*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 64,
+                  "qty": 2,
+                  "source": "PET>0-64*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_1000",
@@ -59082,7 +59407,37 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20005&PET>0-51*1&PET>0-52*1&PET>0-53*1&PET>0-54*1"
+              "condition": "ITEM=20005&PET>0-51*1&PET>0-52*1&PET>0-53*1&PET>0-54*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 51,
+                  "qty": 1,
+                  "source": "PET>0-51*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 52,
+                  "qty": 1,
+                  "source": "PET>0-52*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 53,
+                  "qty": 1,
+                  "source": "PET>0-53*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 54,
+                  "qty": 1,
+                  "source": "PET>0-54*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_1000",
@@ -59105,7 +59460,44 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20006&PET>0-82*1&PET>0-83*1&PET>0-174*1&PET>0-222*1&PET>0-243*1"
+              "condition": "ITEM=20006&PET>0-82*1&PET>0-83*1&PET>0-174*1&PET>0-222*1&PET>0-243*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 82,
+                  "qty": 1,
+                  "source": "PET>0-82*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 83,
+                  "qty": 1,
+                  "source": "PET>0-83*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 174,
+                  "qty": 1,
+                  "source": "PET>0-174*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 222,
+                  "qty": 1,
+                  "source": "PET>0-222*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 243,
+                  "qty": 1,
+                  "source": "PET>0-243*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_1000",
@@ -90976,7 +91368,16 @@ export const WORLD = {
               ],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&ENDEV=69&NOWEV=70"
+              "condition": "ENDEV=4&ENDEV=69&NOWEV=70",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    1479
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
@@ -91450,7 +91851,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&PET<2-331*1"
+              "condition": "LV>0&PET<2-331*1",
+              "delPets": [
+                {
+                  "op": "<",
+                  "level": 2,
+                  "petId": 331,
+                  "qty": 1,
+                  "source": "PET<2-331*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/crisis/crisis1.arg",
@@ -93271,7 +93681,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2587"
+              "condition": "LV>0&ITEM=2587",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    1797,
+                    1796,
+                    1795,
+                    1794
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edd",
@@ -96908,7 +97330,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV=140&ITEM=2418&TRANS=1&ITEM=18543*10"
+              "condition": "LV=140&ITEM=2418&TRANS=1&ITEM=18543*10",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    1610
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/genout/msg_2006_23_14",
@@ -100106,7 +100537,37 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20031&PET>0-1*1&PET>0-3*1&PET>0-212*1&PET>0-213*1"
+              "condition": "ITEM=20031&PET>0-1*1&PET>0-3*1&PET>0-212*1&PET>0-213*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 1,
+                  "qty": 1,
+                  "source": "PET>0-1*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 3,
+                  "qty": 1,
+                  "source": "PET>0-3*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 212,
+                  "qty": 1,
+                  "source": "PET>0-212*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 213,
+                  "qty": 1,
+                  "source": "PET>0-213*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_2000",
@@ -100129,7 +100590,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20032&PET>0-113*2&PET>0-114*2"
+              "condition": "ITEM=20032&PET>0-113*2&PET>0-114*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 113,
+                  "qty": 2,
+                  "source": "PET>0-113*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 114,
+                  "qty": 2,
+                  "source": "PET>0-114*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_2000",
@@ -100152,7 +100629,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20033&PET>0-41*1&PET>0-42*1"
+              "condition": "ITEM=20033&PET>0-41*1&PET>0-42*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 41,
+                  "qty": 1,
+                  "source": "PET>0-41*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 42,
+                  "qty": 1,
+                  "source": "PET>0-42*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_2000",
@@ -100175,7 +100668,37 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20034&PET>0-11*1&PET>0-13*1&PET>0-291*1&PET>0-294*1"
+              "condition": "ITEM=20034&PET>0-11*1&PET>0-13*1&PET>0-291*1&PET>0-294*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 11,
+                  "qty": 1,
+                  "source": "PET>0-11*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 13,
+                  "qty": 1,
+                  "source": "PET>0-13*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 291,
+                  "qty": 1,
+                  "source": "PET>0-291*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 294,
+                  "qty": 1,
+                  "source": "PET>0-294*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_2000",
@@ -100198,7 +100721,37 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20035&PET>0-111*1&PET>0-112*1&PET>0-113*1&PET>0-114*1"
+              "condition": "ITEM=20035&PET>0-111*1&PET>0-112*1&PET>0-113*1&PET>0-114*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 111,
+                  "qty": 1,
+                  "source": "PET>0-111*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 112,
+                  "qty": 1,
+                  "source": "PET>0-112*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 113,
+                  "qty": 1,
+                  "source": "PET>0-113*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 114,
+                  "qty": 1,
+                  "source": "PET>0-114*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_2000",
@@ -100221,7 +100774,44 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20036&PET>0-81*1&PET>0-332*1&PET>0-44*1&PET>0-223*1&PET>0-242*1"
+              "condition": "ITEM=20036&PET>0-81*1&PET>0-332*1&PET>0-44*1&PET>0-223*1&PET>0-242*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 81,
+                  "qty": 1,
+                  "source": "PET>0-81*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 332,
+                  "qty": 1,
+                  "source": "PET>0-332*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 44,
+                  "qty": 1,
+                  "source": "PET>0-44*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 223,
+                  "qty": 1,
+                  "source": "PET>0-223*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 242,
+                  "qty": 1,
+                  "source": "PET>0-242*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_2000",
@@ -105611,7 +106201,38 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2564&ENDEV=2"
+              "condition": "LV>0&ITEM=2564&ENDEV=2",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2569,
+                    2570,
+                    2571,
+                    482,
+                    78,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_edb",
@@ -109866,7 +110487,16 @@ export const WORLD = {
               ],
               "eventNo": 99,
               "type": "ACCEPT",
-              "condition": "LV>100&PET>0-913&NOWEV=99"
+              "condition": "LV>100&PET>0-913&NOWEV=99",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 913,
+                  "qty": 1,
+                  "source": "PET>0-913*1"
+                }
+              ]
             }
           ],
           "scriptHints": {
@@ -112088,7 +112718,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20061&PET>0-31*2&PET>0-32*2"
+              "condition": "ITEM=20061&PET>0-31*2&PET>0-32*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 31,
+                  "qty": 2,
+                  "source": "PET>0-31*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 32,
+                  "qty": 2,
+                  "source": "PET>0-32*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_3000",
@@ -112111,7 +112757,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20062&PET>0-62*2&PET>0-33*2"
+              "condition": "ITEM=20062&PET>0-62*2&PET>0-33*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 62,
+                  "qty": 2,
+                  "source": "PET>0-62*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 33,
+                  "qty": 2,
+                  "source": "PET>0-33*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_3000",
@@ -112134,7 +112796,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20063&PET>0-292*2&PET>0-293*2"
+              "condition": "ITEM=20063&PET>0-292*2&PET>0-293*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 292,
+                  "qty": 2,
+                  "source": "PET>0-292*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 293,
+                  "qty": 2,
+                  "source": "PET>0-293*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_3000",
@@ -112157,7 +112835,37 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20065&PET>0-21*1&PET>0-22*1&PET>0-23*1&PET>0-24*1"
+              "condition": "ITEM=20065&PET>0-21*1&PET>0-22*1&PET>0-23*1&PET>0-24*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 21,
+                  "qty": 1,
+                  "source": "PET>0-21*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 22,
+                  "qty": 1,
+                  "source": "PET>0-22*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 23,
+                  "qty": 1,
+                  "source": "PET>0-23*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 24,
+                  "qty": 1,
+                  "source": "PET>0-24*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_3000",
@@ -112180,7 +112888,44 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20066&PET>0-331*1&PET>0-184*1&PET>0-172*1&PET>0-243*1&PET>0-22*1"
+              "condition": "ITEM=20066&PET>0-331*1&PET>0-184*1&PET>0-172*1&PET>0-243*1&PET>0-22*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 331,
+                  "qty": 1,
+                  "source": "PET>0-331*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 184,
+                  "qty": 1,
+                  "source": "PET>0-184*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 172,
+                  "qty": 1,
+                  "source": "PET>0-172*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 243,
+                  "qty": 1,
+                  "source": "PET>0-243*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 22,
+                  "qty": 1,
+                  "source": "PET>0-22*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_3000",
@@ -114531,7 +115276,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&PET>0-953&ITEM=20223"
+              "condition": "ENDEV=4&PET>0-953&ITEM=20223",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 953,
+                  "qty": 1,
+                  "source": "PET>0-953*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -114553,7 +115307,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&PET>0-953"
+              "condition": "ENDEV=4&PET>0-953",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 953,
+                  "qty": 1,
+                  "source": "PET>0-953"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -114612,7 +115375,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&PET>0-961&ITEM=20216"
+              "condition": "ENDEV=4&PET>0-961&ITEM=20216",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 961,
+                  "qty": 1,
+                  "source": "PET>0-961*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -114634,7 +115406,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&PET>0-961"
+              "condition": "ENDEV=4&PET>0-961",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 961,
+                  "qty": 1,
+                  "source": "PET>0-961*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -114666,7 +115447,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&PET>0-962&ITEM=20222"
+              "condition": "ENDEV=4&PET>0-962&ITEM=20222",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 962,
+                  "qty": 1,
+                  "source": "PET>0-962*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -114678,7 +115468,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&PET>0-962"
+              "condition": "ENDEV=4&PET>0-962",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 962,
+                  "qty": 1,
+                  "source": "PET>0-962*1"
+                }
+              ]
             }
           ],
           "scriptHints": {
@@ -136715,7 +137514,16 @@ export const WORLD = {
               ],
               "eventNo": 144,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&NOWEV=144&ITEM=1873"
+              "condition": "LV>0&ENDEV=4&NOWEV=144&ITEM=1873",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2085
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/sound/sound1.arg",
@@ -138251,7 +139059,39 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2564"
+              "condition": "LV>0&ITEM=2564",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    1946,
+                    2212,
+                    309,
+                    365,
+                    309,
+                    365,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_ed1",
@@ -145250,7 +146090,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20091&PET>0-101*2&PET>0-104*2"
+              "condition": "ITEM=20091&PET>0-101*2&PET>0-104*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 101,
+                  "qty": 2,
+                  "source": "PET>0-101*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 104,
+                  "qty": 2,
+                  "source": "PET>0-104*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_4000",
@@ -145273,7 +146129,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20092&PET>0-31*2&PET>0-32*2"
+              "condition": "ITEM=20092&PET>0-31*2&PET>0-32*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 31,
+                  "qty": 2,
+                  "source": "PET>0-31*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 32,
+                  "qty": 2,
+                  "source": "PET>0-32*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_4000",
@@ -145296,7 +146168,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20093&PET>0-14*2&PET>0-211*2"
+              "condition": "ITEM=20093&PET>0-14*2&PET>0-211*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 14,
+                  "qty": 2,
+                  "source": "PET>0-14*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 211,
+                  "qty": 2,
+                  "source": "PET>0-211*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_4000",
@@ -145319,7 +146207,23 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20094&PET>0-21*2&PET>0-22*2"
+              "condition": "ITEM=20094&PET>0-21*2&PET>0-22*2",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 21,
+                  "qty": 2,
+                  "source": "PET>0-21*2"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 22,
+                  "qty": 2,
+                  "source": "PET>0-22*2"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_4000",
@@ -145343,7 +146247,37 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20095&PET>0-181*1&PET>0-182*1&PET>0-183*1&PET>0-184*1"
+              "condition": "ITEM=20095&PET>0-181*1&PET>0-182*1&PET>0-183*1&PET>0-184*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 181,
+                  "qty": 1,
+                  "source": "PET>0-181*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 182,
+                  "qty": 1,
+                  "source": "PET>0-182*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 183,
+                  "qty": 1,
+                  "source": "PET>0-183*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 184,
+                  "qty": 1,
+                  "source": "PET>0-184*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_4000",
@@ -145366,7 +146300,44 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=20096&PET>0-332*1&PET>0-43*1&PET>0-172*1&PET>0-242*1&PET>0-183*1"
+              "condition": "ITEM=20096&PET>0-332*1&PET>0-43*1&PET>0-172*1&PET>0-242*1&PET>0-183*1",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 332,
+                  "qty": 1,
+                  "source": "PET>0-332*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 43,
+                  "qty": 1,
+                  "source": "PET>0-43*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 172,
+                  "qty": 1,
+                  "source": "PET>0-172*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 242,
+                  "qty": 1,
+                  "source": "PET>0-242*1"
+                },
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 183,
+                  "qty": 1,
+                  "source": "PET>0-183*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/M_4000",
@@ -175527,7 +176498,16 @@ export const WORLD = {
               ],
               "eventNo": 15,
               "type": "ACCEPT",
-              "condition": "NOWEV=15&PET>14-74"
+              "condition": "NOWEV=15&PET>14-74",
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 14,
+                  "petId": 74,
+                  "qty": 1,
+                  "source": "PET>14-74*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/event15_1",
@@ -175542,7 +176522,25 @@ export const WORLD = {
               ],
               "eventNo": 16,
               "type": "ACCEPT",
-              "condition": "ENDEV=15&NOWEV=16&PET>29-191"
+              "condition": "ENDEV=15&NOWEV=16&PET>29-191",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    95
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ],
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 29,
+                  "petId": 191,
+                  "qty": 1,
+                  "source": "PET>29-191*1"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/event15_1",
@@ -176915,7 +177913,16 @@ export const WORLD = {
               ],
               "eventNo": 6,
               "type": "ACCEPT",
-              "condition": "NOWEV=6&ITEM=2414*2"
+              "condition": "NOWEV=6&ITEM=2414*2",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    44
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/event06_1",
@@ -176940,7 +177947,16 @@ export const WORLD = {
               ],
               "eventNo": 6,
               "type": "ACCEPT",
-              "condition": "NOWEV=6&ITEM=2414*1"
+              "condition": "NOWEV=6&ITEM=2414*1",
+              "getPets": [
+                {
+                  "enemyIds": [
+                    47
+                  ],
+                  "qty": 1,
+                  "source": "GetPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/event06_1",

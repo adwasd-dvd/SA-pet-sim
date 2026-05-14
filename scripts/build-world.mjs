@@ -806,6 +806,8 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     delItems: [],
     endSetFlags: []
   };
+  const getPets = [];
+  const rawDelPetSpecs = [];
   for (const raw of String(rawBlock || "").split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
@@ -833,6 +835,14 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.delItems.push(...parseScriptItemSpecs(value));
       continue;
     }
+    if (key === "getpet") {
+      getPets.push(...parseScriptGetPetSpecs(value));
+      continue;
+    }
+    if (key === "delpet") {
+      rawDelPetSpecs.push(value);
+      continue;
+    }
     if (key === "endsetflg" || key === "endsetflag") {
       event.endSetFlags.push(...splitNumberList(value));
       continue;
@@ -841,10 +851,13 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     if (messageKey) event.messages[messageKey] = cleanScriptText(value);
   }
   if (!event.type && !Object.keys(event.messages).length) return null;
+  const delPets = rawDelPetSpecs.flatMap((value) => parseScriptDelPetSpecs(value, event.condition));
   return {
     ...event,
     getItems: event.getItems.map(withScriptItemName),
     delItems: event.delItems.map(withScriptItemName),
+    ...(getPets.length ? { getPets } : {}),
+    ...(delPets.length ? { delPets } : {}),
     endSetFlags: [...new Set(event.endSetFlags)].filter((value) => value > 0)
   };
 }
@@ -874,6 +887,40 @@ function parseScriptItemSpecs(value = "") {
       return { id: Number(match[1]), qty: Number(match[2] || 1) };
     })
     .filter((item) => item && item.id > 0 && item.qty > 0);
+}
+
+function parseScriptGetPetSpecs(value = "") {
+  const choices = String(value || "")
+    .split(",")
+    .map((part) => Number(part.trim()))
+    .filter((id) => Number.isFinite(id) && id > 0);
+  if (!choices.length) return [];
+  // gmsv NPC_EventAddPet picks one enemy1 id from a comma list.
+  return [{ enemyIds: choices, qty: 1, source: "GetPet" }];
+}
+
+function parseScriptDelPetSpecs(value = "", eventCondition = "") {
+  const text = String(value || "").trim();
+  if (/EVDEL/i.test(text)) {
+    return [{ evdel: true, source: "EVDEL" }];
+  }
+  const source = text || eventCondition;
+  return String(source || "")
+    .split(/[,&|]/)
+    .map((part) => parseScriptPetConditionSpec(part))
+    .filter(Boolean);
+}
+
+function parseScriptPetConditionSpec(value = "") {
+  const match = String(value || "").trim().match(/^PET\s*(!=|>=|<=|>|<|=)\s*(\d+)-(\d+)(?:\*(\d+))?$/i);
+  if (!match) return null;
+  return {
+    op: match[1],
+    level: Number(match[2]),
+    petId: Number(match[3]),
+    qty: Number(match[4] || 1),
+    source: match[0]
+  };
 }
 
 function withScriptItemName(item) {

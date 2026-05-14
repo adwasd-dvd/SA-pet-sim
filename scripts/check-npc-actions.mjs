@@ -1029,17 +1029,44 @@ const missingPetCheck = petRuntimeNpc.scriptStatus.conditions
   .find((check) => check.petId === 221);
 assert(missingPetCheck?.petName, "unmet source EVENT PET condition resolves enemybase pet name before player owns the pet");
 petScriptGame.inventory.push({ id: 2607, name: "测试任务道具", qty: 1, source: "test" });
-petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 221, Name: "测试宠物221", Lv: 1, Hp: 10, WorkMaxHp: 10 });
-petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 222, Name: "测试宠物222", Lv: 1, Hp: 10, WorkMaxHp: 10 });
+petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 221, Name: "测试宠物221", Lv: 25, Hp: 10, WorkMaxHp: 10 });
+petScriptGame.pets.push({ ...petScriptGame.pets[0], PetId: 222, Name: "测试宠物222", Lv: 25, Hp: 10, WorkMaxHp: 10 });
 setTestEventFlag(petScriptGame, 35, "now");
 petScriptGame = await api("/api/game/sync", { game: petScriptGame });
 petRuntimeNpc = petScriptGame.world.map.npcs.find((npc) => npc.id === petScriptNpc.id);
-assert(petRuntimeNpc.scriptStatus.conditions.some((condition) => condition.ok && condition.condition?.groups?.some((group) => group.checks?.some((check) => check.type === "pet"))), "source EVENT condition status supports PET=family-id requirements");
+assert(petRuntimeNpc.scriptStatus.conditions.some((condition) => condition.ok && condition.condition?.groups?.some((group) => group.checks?.some((check) => check.type === "pet"))), "source EVENT condition status supports PET=level-pet-id requirements");
 const scriptPetCheck = petRuntimeNpc.scriptStatus.conditions
   .flatMap((condition) => condition.condition?.groups || [])
   .flatMap((group) => group.checks || [])
   .find((check) => check.petId === 221);
 assertEqual(scriptPetCheck?.petName, "测试宠物221", "source EVENT PET condition includes resolved party pet name");
+
+const dinoDoctor = WORLD.maps["11006"]?.npcs.find((npc) => npc.name === "恐龙博士哈鲁");
+if (!dinoDoctor) throw new Error("missing dinosaur doctor source task fixture");
+assert(dinoDoctor.scriptEvents?.some((event) => event.type === "ACCEPT" && event.delPets?.some((pet) => pet.petId === 74 && pet.op === ">" && pet.level === 14)), "dinosaur doctor parses source DelPet PET>level-pet-id condition");
+assert(dinoDoctor.scriptEvents?.some((event) => event.type === "ACCEPT" && event.getPets?.some((pet) => pet.enemyIds?.includes(95))), "dinosaur doctor parses source GetPet reward");
+let dinoGame = await api("/api/game/new", { name: "source-task-dino-pet-test" });
+dinoGame.location = { mapId: "11006", x: dinoDoctor.x + 1, y: dinoDoctor.y };
+setTestEventFlag(dinoGame, 15, "now");
+dinoGame.pets.push({ ...dinoGame.pets[0], PetId: 74, Name: "未达标鲁尼帖斯", Lv: 14, Hp: 10, WorkMaxHp: 10 });
+dinoGame = await api("/api/game/dialog", { game: dinoGame, npcId: dinoDoctor.id });
+assert(!dinoGame.flags.bits["end:15"], "dinosaur doctor does not accept PET>14 when the pet is exactly Lv.14");
+assert(dinoGame.pets.some((pet) => Number(pet.PetId) === 74), "failed source PET>level condition does not delete the pet");
+dinoGame.pets = dinoGame.pets.filter((pet) => Number(pet.PetId) !== 74);
+dinoGame.pets.push({ ...dinoGame.pets[0], PetId: 74, Name: "达标鲁尼帖斯", Lv: 15, Hp: 10, WorkMaxHp: 10 });
+dinoGame = await api("/api/game/dialog", { game: dinoGame, npcId: dinoDoctor.id });
+assert(dinoGame.flags.bits["end:15"], "dinosaur doctor accepts PET>14 when the pet is Lv.15");
+assert(!dinoGame.pets.some((pet) => Number(pet.PetId) === 74), "dinosaur doctor deletes the submitted source pet");
+assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "takePet" && event.detail?.reason === "source-changeevent-delpet" && event.detail?.petId === 74), "source DelPet runs through NPC VM");
+setTestEventFlag(dinoGame, 16, "now");
+dinoGame.player.level = 16;
+dinoGame.pets.push({ ...dinoGame.pets[0], PetId: 191, Name: "贝鲁卡", Lv: 30, Hp: 10, WorkMaxHp: 10 });
+const dinoPetCountBeforeReward = dinoGame.pets.length;
+dinoGame = await api("/api/game/dialog", { game: dinoGame, npcId: dinoDoctor.id });
+assert(dinoGame.flags.bits["end:16"], "dinosaur doctor second source pet task completes with PET>29-191");
+assert(!dinoGame.pets.some((pet) => Number(pet.PetId) === 191), "dinosaur doctor removes submitted Beluka source pet");
+assertEqual(dinoGame.pets.length, dinoPetCountBeforeReward, "dinosaur doctor removes one pet and gives one source reward pet");
+assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "givePet" && event.detail?.reason === "source-changeevent-getpet" && event.detail?.givenPets?.some((pet) => pet.enemyId === 95)), "source GetPet reward runs through NPC VM");
 
 const petEventWarp = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
