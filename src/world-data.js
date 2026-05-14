@@ -6053,7 +6053,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2579"
+              "condition": "LV>0&ITEM=2579",
+              "keyword": "妮尔"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
@@ -6619,7 +6620,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2576"
+              "condition": "LV>0&ITEM=2576",
+              "keyword": "ＢＡＲ Ｓｉｌｋｙ ＣＬＵＢ"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
@@ -8362,7 +8364,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2586"
+              "condition": "LV>0&ITEM=2586",
+              "keyword": "83岁"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
@@ -8521,7 +8524,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2575"
+              "condition": "LV>0&ITEM=2575",
+              "keyword": "千穗"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1d",
@@ -8662,7 +8666,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2581"
+              "condition": "LV>0&ITEM=2581",
+              "keyword": "强恩一族"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
@@ -32088,7 +32093,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2553"
+              "condition": "LV>0&ITEM=2553",
+              "keyword": "在卡坦有梦德"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
@@ -32278,7 +32284,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2552&ENDEV=2"
+              "condition": "LV>0&ITEM=2552&ENDEV=2",
+              "keyword": "卡拉卡利"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1b",
@@ -32539,7 +32546,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2554"
+              "condition": "LV>0&ITEM=2554",
+              "keyword": "硬的枪"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
@@ -32698,7 +32706,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2555"
+              "condition": "LV>0&ITEM=2555",
+              "keyword": "美容师"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
@@ -33114,7 +33123,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2556"
+              "condition": "LV>0&ITEM=2556",
+              "keyword": "吉鲁岛"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
@@ -33273,7 +33283,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2557"
+              "condition": "LV>0&ITEM=2557",
+              "keyword": "吉萨拉奇"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
@@ -42004,7 +42015,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718"
+              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718",
+              "keyword": "很多"
             },
             {
               "source": "gmsv-data/npc/giiru/event/sink/sink03",
@@ -42043,7 +42055,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718"
+              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718",
+              "keyword": "一半"
             },
             {
               "source": "gmsv-data/npc/giiru/event/sink/sink03",
@@ -42082,7 +42095,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718"
+              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718",
+              "keyword": "一点点"
             },
             {
               "source": "gmsv-data/npc/giiru/event/sink/sink03",
@@ -57561,7 +57575,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2575&ENDEV=17"
+              "condition": "LV>0&ITEM=2575&ENDEV=17",
+              "keyword": "贝洛洛克"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1c",
@@ -79775,7 +79790,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2576&ENDEV=17"
+              "condition": "LV>0&ITEM=2576&ENDEV=17",
+              "keyword": "喝酒"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
@@ -83427,7 +83443,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2582&ENDEV=17"
+              "condition": "LV>0&ITEM=2582&ENDEV=17",
+              "keyword": "头盔"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
@@ -87450,7 +87467,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2583&ENDEV=17"
+              "condition": "LV>0&ITEM=2583&ENDEV=17",
+              "keyword": "携带方便的三明治"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
@@ -92645,7 +92663,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2586&ENDEV=17"
+              "condition": "LV>0&ITEM=2586&ENDEV=17",
+              "keyword": "83岁"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
@@ -100735,7 +100754,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2578&ENDEV=17"
+              "condition": "LV>0&ITEM=2578&ENDEV=17",
+              "keyword": "特级柯尔克石"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
@@ -112506,7 +112526,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2552"
+              "condition": "LV>0&ITEM=2552",
+              "keyword": "近藏"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1",
@@ -137149,7 +137170,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2553"
+              "condition": "LV>0&ITEM=2553",
+              "keyword": "逃走呼拔拔的骨头"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
@@ -140906,7 +140928,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM!=2447"
+              "condition": "LV>0&ITEM!=2447",
+              "keyword": "果实鸡尾酒"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_4",
@@ -141011,7 +141034,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2559"
+              "condition": "LV>0&ITEM=2559",
+              "keyword": "贝鲁卡"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
@@ -143618,7 +143642,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2560"
+              "condition": "LV>0&ITEM=2560",
+              "keyword": "吉德"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
@@ -147453,7 +147478,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2563"
+              "condition": "LV>0&ITEM=2563",
+              "keyword": "克克尔"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
@@ -149960,7 +149986,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2557"
+              "condition": "LV>0&ITEM=2557",
+              "keyword": "吉萨拉奇"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
@@ -180506,7 +180533,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2584"
+              "condition": "LV>0&ITEM=2584",
+              "keyword": "邦洛洛克斯"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
@@ -181533,7 +181561,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2580&ENDEV=17"
+              "condition": "LV>0&ITEM=2580&ENDEV=17",
+              "keyword": "半年前"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
@@ -184564,7 +184593,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2585"
+              "condition": "LV>0&ITEM=2585",
+              "keyword": "携带方便的三明治"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
@@ -184706,7 +184736,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2579&ENDEV=17"
+              "condition": "LV>0&ITEM=2579&ENDEV=17",
+              "keyword": "为了健康而推荐的温青菜"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
@@ -186157,7 +186188,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2583"
+              "condition": "LV>0&ITEM=2583",
+              "keyword": "查罕吉鲁兄弟"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
@@ -186676,7 +186708,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2582"
+              "condition": "LV>0&ITEM=2582",
+              "keyword": "达克尔"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
@@ -187337,7 +187370,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2577&ENDEV=17"
+              "condition": "LV>0&ITEM=2577&ENDEV=17",
+              "keyword": "42"
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
@@ -188689,7 +188723,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2560"
+              "condition": "LV>0&ITEM=2560",
+              "keyword": "卡达鲁卡斯"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
@@ -188848,7 +188883,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2558"
+              "condition": "LV>0&ITEM=2558",
+              "keyword": "毒香菇"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
@@ -190119,7 +190155,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2562"
+              "condition": "LV>0&ITEM=2562",
+              "keyword": "科巴尔特"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
@@ -190278,7 +190315,8 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2558"
+              "condition": "LV>0&ITEM=2558",
+              "keyword": "布伊比"
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",

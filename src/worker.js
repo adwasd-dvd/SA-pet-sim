@@ -4334,6 +4334,7 @@ async function npcReply(env, request, game, npc, text) {
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasNpcScriptEvents(npc) && hasAny(lower, ["任务", "委托", "攻略", "quest", "仪式", "儀式", "领取", "领", "給", "给", "交付", "完成"])) return sourceScriptEventReply(game, npc, text);
+  if (hasNpcScriptEvents(npc) && npcHasKeywordBranches(npc)) return sourceScriptEventReply(game, npc, text);
   if (hasAny(lower, ["任务", "委托", "攻略", "quest"])) return questReply(game, npc, text);
   if (hasAny(lower, ["抓宠", "捕获"]) || (hasAny(lower, ["宠物", "pet"]) && !isStoneAgeKnowledgeQuestion(lower))) return captureReply(env, request, game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"]) && !isStoneAgeKnowledgeQuestion(lower)) return trainReply(game, npc);
@@ -4497,15 +4498,18 @@ function hasNpcScriptEvents(npc) {
 }
 
 function sourceScriptEventReply(game, npc, text = "") {
-  const branch = chooseNpcScriptEvent(game, npc);
+  const branch = chooseNpcScriptEvent(game, npc, text);
   if (!branch) return sourceScriptEventBlockedReply(game, npc, text);
   const { event, condition } = branch;
+  const keyword = sourceScriptKeywordStatus(event, text);
   const detail = {
     reason: "source-changeevent",
     eventNo: event.eventNo,
     eventType: event.type,
     condition: event.condition || "",
     conditionOk: Boolean(condition?.ok),
+    keywordRequired: Boolean(keyword.required),
+    keywordOk: Boolean(keyword.ok),
     source: event.source || npc.script || npc.source || ""
   };
   runNpcVmAction(game, npc, {
@@ -4521,16 +4525,34 @@ function sourceScriptEventReply(game, npc, text = "") {
   return scriptEventMessages(event, ["normal", "normalMain", "thanks", "cleanMain", "cleanFlag"], game).join("\n") || npcDefaultLine(npc);
 }
 
-function chooseNpcScriptEvent(game, npc) {
+function chooseNpcScriptEvent(game, npc, text = "") {
   for (const event of npc.scriptEvents || []) {
     const eventNo = Number(event.eventNo || 0);
     if (eventNo > 0 && eventFlagSet(game, eventNo, "end") && event.type !== "MESSAGE") continue;
     if (eventNo > 0 && event.type === "REQUEST" && eventFlagSet(game, eventNo, "now")) continue;
+    const keyword = sourceScriptKeywordStatus(event, text);
+    if (keyword.required && !keyword.ok) continue;
     const condition = characterConditionStatus(game, event.condition || "");
     if (!condition.ok) continue;
     return { event, condition };
   }
   return null;
+}
+
+function npcHasKeywordBranches(npc) {
+  return (npc?.scriptEvents || []).some((event) => sourceScriptKeywordStatus(event).required);
+}
+
+function sourceScriptKeywordStatus(event, text = "") {
+  const keyword = String(event?.keyword || "").trim();
+  if (!keyword) return { required: false, ok: true };
+  const actual = String(text || "").trim();
+  return {
+    required: true,
+    ok: actual === keyword || guideSearchText(actual) === guideSearchText(keyword),
+    // Do not expose the keyword itself in normal debug/detail payloads; players should discover it in-world.
+    keywordLength: keyword.length
+  };
 }
 
 function runNpcScriptRequest(game, npc, event, detail) {
@@ -5012,7 +5034,8 @@ function npcScriptEventPreflight(game, event) {
 function sourceScriptEventBlockedReply(game, npc, text = "") {
   const statuses = (npc.scriptEvents || []).map((event) => ({
     event,
-    condition: characterConditionStatus(game, event.condition || "")
+    condition: characterConditionStatus(game, event.condition || ""),
+    keyword: sourceScriptKeywordStatus(event, text)
   }));
   const completed = statuses.find(({ event }) => Number(event.eventNo || 0) > 0 && eventFlagSet(game, Number(event.eventNo), "end"));
   if (completed) {
@@ -5028,6 +5051,17 @@ function sourceScriptEventBlockedReply(game, npc, text = "") {
   if (inProgress) {
     recordNpcVmEvent(game, npc, "quest", "noop", { reason: "source-changeevent-in-progress", eventNo: inProgress.event.eventNo });
     return scriptEventMessages(inProgress.event, ["noStop", "stop", "thanks", "request", "normalMain"]).join("\n") || `${npc.name}：这件事还在进行中。`;
+  }
+  const keywordBlocked = statuses.find(({ condition, keyword }) => condition.ok && keyword.required && !keyword.ok);
+  if (keywordBlocked) {
+    recordNpcVmEvent(game, npc, "quest", "blocked", {
+      reason: "source-changeevent-keyword",
+      text: text.slice(0, 80),
+      keywordRequired: true,
+      keywordOk: false
+    });
+    const base = npc.dialogue && !String(npc.dialogue).startsWith("脚本入口") ? npc.dialogue : npcDefaultLine(npc);
+    return `${base}\n这段事件需要说出正确的关键词。`;
   }
   const blocked = statuses.find(({ condition }) => !condition.ok);
   const unmet = compactConditionUnmet(blocked?.condition, 3)
@@ -9676,6 +9710,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
     if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
     if (event.charms?.length) pushUniqueCompact(actions, "Charm", 8);
+    if (event.keyword) pushUniqueCompact(actions, "KeyWord", 8);
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);

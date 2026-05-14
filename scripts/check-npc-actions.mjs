@@ -556,6 +556,45 @@ assert(charmGame.dialog.debug.actions.includes("adjustCharm"), "source Charm bra
 assert(charmGame.dialog.debug.vmTrace.some((event) => event.action === "adjustCharm" && event.detail?.reason === "source-changeevent-charm" && event.detail?.charmAfter === 100), "source Charm runs through NPC VM adjustCharm action");
 assert(charmGame.world.map.npcs.find((npc) => npc.id === charmFixture.id)?.scriptEventSummary?.actions?.includes("Charm"), "client payload exposes compact Charm summary");
 
+const sourceKeywordNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs || [])
+  .find((npc) => (npc.scriptEvents || []).some((event) => event.keyword));
+assert(sourceKeywordNpc, "world data parses at least one source KeyWord changeevent branch");
+const keywordFixture = {
+  id: "source-keyword-fixture",
+  name: "源码 KeyWord 测试",
+  type: "changeevent",
+  template: "npcgen_man",
+  x: 42,
+  y: 40,
+  source: "gmsv-data/npc/jaruga/event/oev_4",
+  script: "file:jaruga/event/oev_4",
+  scriptEvents: [{
+    type: "MESSAGE",
+    eventNo: -1,
+    condition: "LV>0&ITEM=2555",
+    keyword: "20000",
+    messages: { normal: "正确答案。" },
+    delItems: [{ id: 2555, qty: 1, name: "测试证明石" }],
+    getItems: [{ id: 2556, qty: 1, name: "测试下一站证明石" }]
+  }]
+};
+WORLD.maps["1000"].npcs.push(keywordFixture);
+let keywordGame = await api("/api/game/new", { name: "source-keyword-test" });
+keywordGame.location = { mapId: "1000", x: 41, y: 40 };
+keywordGame.inventory.push({ id: 2555, name: "测试证明石", qty: 1, source: "test keyword item" });
+keywordGame = await api("/api/game/dialog", { game: keywordGame, npcId: keywordFixture.id });
+assertEqual(inventoryQty(keywordGame, 2555), 1, "source KeyWord branch does not mutate on default hi");
+assert(keywordGame.dialog.messages.at(-1)?.text.includes("正确的关键词"), "source KeyWord branch asks player to discover the correct keyword");
+assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.status === "blocked" && event.detail?.reason === "source-changeevent-keyword"), "source KeyWord mismatch records a blocked VM trace without leaking the keyword");
+assert(keywordGame.world.map.npcs.find((npc) => npc.id === keywordFixture.id)?.scriptEventSummary?.actions?.includes("KeyWord"), "client payload exposes compact KeyWord summary");
+keywordGame = await api("/api/game/dialog", { game: keywordGame, npcId: keywordFixture.id, message: "20000" });
+assertEqual(inventoryQty(keywordGame, 2555), 0, "source KeyWord match consumes the source item");
+assertEqual(inventoryQty(keywordGame, 2556), 1, "source KeyWord match gives the source reward item");
+assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.keywordRequired === true && event.detail?.keywordOk === true), "source KeyWord match opens source event window through VM");
+assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-message-delitem" && event.detail?.itemId === 2555), "source KeyWord item take runs through NPC VM");
+assert(keywordGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-message-getitem" && event.detail?.itemId === 2556), "source KeyWord item give runs through NPC VM");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
@@ -1672,7 +1711,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

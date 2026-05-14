@@ -835,6 +835,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.condition = cleanName(value);
       continue;
     }
+    if (key === "keyword") {
+      event.keyword = cleanName(value);
+      continue;
+    }
     if (key === "getitem" || key === "giveitem") {
       event.getItems.push(...parseScriptItemSpecs(value));
       continue;
