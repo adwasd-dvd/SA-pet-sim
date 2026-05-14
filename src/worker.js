@@ -4670,8 +4670,13 @@ function buildSourceScriptTaskIndex(world) {
       for (const event of npc.scriptEvents || []) {
         const eventNo = Number(event.eventNo || 0);
         if (eventNo <= 0) continue;
-        const task = tasks.get(eventNo) || {
+        const source = event.source || npc.script || npc.source || "";
+        const sourceCluster = sourceScriptTaskCluster(source);
+        const taskKey = `${eventNo}:${sourceCluster}`;
+        const task = tasks.get(taskKey) || {
           eventNo,
+          taskKey,
+          sourceCluster,
           title: "",
           sources: new Set(),
           npcs: [],
@@ -4687,7 +4692,8 @@ function buildSourceScriptTaskIndex(world) {
           mapName: map.name,
           x: npc.x,
           y: npc.y,
-          source: event.source || npc.script || npc.source || "",
+          source,
+          sourceCluster,
           condition: event.condition || "",
           eventType: event.type
         };
@@ -4704,7 +4710,7 @@ function buildSourceScriptTaskIndex(world) {
         }
         for (const item of event.delItems || []) upsertSourceScriptTaskItem(task.requiredItems, item);
         for (const item of event.getItems || []) upsertSourceScriptTaskItem(task.rewardItems, item);
-        tasks.set(eventNo, task);
+        tasks.set(taskKey, task);
       }
     }
   }
@@ -4719,7 +4725,14 @@ function buildSourceScriptTaskIndex(world) {
       requestNpcs: task.requestNpcs.slice(0, 4),
       acceptNpcs: task.acceptNpcs.slice(0, 8)
     }))
-    .sort((a, b) => a.eventNo - b.eventNo);
+    .sort((a, b) => a.eventNo - b.eventNo || a.sourceCluster.localeCompare(b.sourceCluster));
+}
+
+function sourceScriptTaskCluster(source) {
+  const cleaned = String(source || "").replace(/^gmsv-data\/npc\//, "");
+  const parts = cleaned.split(/[\\/]+/).filter(Boolean);
+  if (parts.length >= 2) return parts.slice(0, 2).join("/");
+  return cleaned || "unknown";
 }
 
 function upsertSourceScriptTaskItem(map, item) {
@@ -4746,16 +4759,28 @@ function sourceScriptTaskTitle(task) {
 
 function sourceScriptTaskState(game) {
   ensureFlags(game);
-  const tasks = [];
-  for (const task of SOURCE_SCRIPT_TASKS) {
-    if (!eventFlagSet(game, task.eventNo, "now") || eventFlagSet(game, task.eventNo, "end")) continue;
-    tasks.push(compactSourceScriptTask(game, task));
-    if (tasks.length >= 8) break;
-  }
-  return tasks;
+  const recentClusters = recentSourceScriptTaskClusters(game);
+  return SOURCE_SCRIPT_TASKS
+    .filter((task) => eventFlagSet(game, task.eventNo, "now") && !eventFlagSet(game, task.eventNo, "end"))
+    .map((task) => compactSourceScriptTask(game, task, recentClusters))
+    .sort(sourceScriptTaskStateSort)
+    .slice(0, 8);
 }
 
-function compactSourceScriptTask(game, task) {
+function recentSourceScriptTaskClusters(game) {
+  const clusters = new Map();
+  for (const event of [...(game.npcVmEvents || [])].reverse()) {
+    const detail = event.detail || {};
+    if (!String(detail.reason || "").startsWith("source-changeevent")) continue;
+    const eventNo = Number(detail.eventNo || 0);
+    if (eventNo <= 0 || clusters.has(eventNo)) continue;
+    clusters.set(eventNo, sourceScriptTaskCluster(detail.source || event.source || event.script || ""));
+    if (clusters.size >= 8) break;
+  }
+  return clusters;
+}
+
+function compactSourceScriptTask(game, task, recentClusters = new Map()) {
   const readyTurnIns = task.acceptNpcs
     .filter((npc) => npc.delItems?.length)
     .filter((npc) => characterConditionStatus(game, npc.condition || "").ok);
@@ -4776,8 +4801,11 @@ function compactSourceScriptTask(game, task) {
     .map((npc) => sourceScriptTaskNpc(game, npc))
     .sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name, "zh-Hans"))
     .slice(0, 3);
+  const recentSourceCluster = recentClusters.get(task.eventNo);
   return {
     eventNo: task.eventNo,
+    sourceCluster: task.sourceCluster,
+    recent: Boolean(recentSourceCluster && recentSourceCluster === task.sourceCluster),
     title: task.title,
     status: "进行中",
     phase,
@@ -4787,6 +4815,18 @@ function compactSourceScriptTask(game, task) {
     nextNpcs,
     source: task.sources[0] || ""
   };
+}
+
+function sourceScriptTaskStateSort(a, b) {
+  return sourceScriptTaskRank(a) - sourceScriptTaskRank(b)
+    || a.eventNo - b.eventNo
+    || String(a.sourceCluster || "").localeCompare(String(b.sourceCluster || ""));
+}
+
+function sourceScriptTaskRank(task) {
+  const distanceRank = Math.min(task.nextNpcs?.[0]?.distance ?? 9999, 9999);
+  const phaseRank = task.phase === "turn-in" ? 0 : task.phase === "collect" ? 100 : 200;
+  return (task.recent ? -20000 : 0) + (distanceRank < 9999 ? -10000 : 0) + phaseRank + distanceRank;
 }
 
 function sourceScriptTaskNpc(game, npc) {
