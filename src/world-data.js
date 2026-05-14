@@ -6286,7 +6286,12 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 35,
               "type": "REQUEST",
-              "condition": "LV>0&ENDEV!=35"
+              "condition": "LV>0&ENDEV!=35",
+              "messagePages": {
+                "request": [
+                  "很像是鱼的恐龙，名字是～加格、邦恩吉、克邦凯斯、加克拉这4只。 若是、可以代替我收集的话 我就送你一只金色的恐龙。 如何呢？应该还不错吧？"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
@@ -6409,7 +6414,12 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=35"
+              "condition": "LV>0&ENDEV=35",
+              "messagePages": {
+                "accept": [
+                  "火鸡、奇宝、霍尔克、克克洛斯这4只。 若是可以帮我收集的话我就把这只捡到的恐龙送给你。怎样呢？！"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -7281,7 +7291,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "thanks": [
+                  "呀呵～～ 那么，我有十个地方可以躲，就看看你找不找得到我吧？ 找到我十次的话，我就送你好东西喔！",
+                  "啊，因为现在已经被发现了，这就算是第一次吧。 为了代替纪录，我的娃娃先让你保管啰。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -7366,7 +7382,12 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM!=11848&ITEM!=11829&ITEM!=11887&ITEM!=12025&ITEM!=11903"
+              "condition": "LV>0&ITEM!=11848&ITEM!=11829&ITEM!=11887&ITEM!=12025&ITEM!=11903",
+              "messagePages": {
+                "normal": [
+                  "准备好5万石币以及点不燃的皮、龙骨的化石、强的绳、蒸馏水的水滴、柔软的黏土，我就帮你完成一个手部防具喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa80/gloves/gloves_1",
@@ -31271,7 +31292,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=2414&ENDEV=4&ITEM=1834"
+              "condition": "LV>29&ITEM=2414&ENDEV=4&ITEM=1834",
+              "messagePages": {
+                "accept": [
+                  "拜и︙璶ю阑摸и琌玂臔и摆╡ネ窾ㄓю阑ê或快摆и睛摸程硂琿丁ぃ璶秈ㄓ此狶柑ワ纞胊и单╡翴ぇи︑礛ぃ穦ю阑摸"
+                ],
+                "thanks": [
+                  "ōΤи睛ぇぃ穦旱ю阑みǐ"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast2.arg",
@@ -31720,7 +31749,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM=12629"
+              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM=12629",
+              "messagePages": {
+                "accept": [
+                  "原来一切都是误会！真是不好意思，我太冲动了没有冷静的思考过！对你说了那种话，请你不要介意，但是我想最难过又最担心我的应该是你朋友吧！请你将这封信转交给他。"
+                ],
+                "thanks": [
+                  "那颗白雪苹果我就留下来当成我和他的纪念好了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
@@ -31762,7 +31799,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=1794&NOWEV=142"
+              "condition": "LV>29&ITEM=1794&NOWEV=142",
+              "messagePages": {
+                "accept": [
+                  "我吃了白雪苹果之后，就一直吐身体也很不舒服，医生说我是中毒了，这一颗白雪苹果还给你朋友吧！没想到我太容易相信陌生人了，妈妈有说过不要和陌生人说话，也别乱拿陌生人的东西，我下次再也不敢了，你走吧！"
+                ],
+                "thanks": [
+                  "请你离开！！！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
@@ -31798,7 +31843,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=12860&NOWEV=142"
+              "condition": "LV>29&ITEM=12860&NOWEV=142",
+              "messagePages": {
+                "accept": [
+                  "这个苹果好像很好吃的样子？原来是你朋友托你拿给我的啊！真是谢谢你了，你朋友还真聪明知道我爱吃苹果。那也请你帮我交一样东西给他？"
+                ],
+                "thanks": [
+                  "这是我自己种的苹果喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
@@ -32378,7 +32431,20 @@ export const WORLD = {
               ],
               "eventNo": 136,
               "type": "ACCEPT",
-              "condition": "LV>79&ENDEV=4&ITEM=1677&TIME=0&ITEM=1679&NOWEV=136"
+              "condition": "LV>79&ENDEV=4&ITEM=1677&TIME=0&ITEM=1679&NOWEV=136",
+              "messagePages": {
+                "accept": [
+                  "对不起！我不应该对你发脾气。他是否有留下东西给你呢？",
+                  "这枚戒指！！！没错这是我和他的对戒！！！",
+                  "还有这封信～呜～呜～呜～泣～呜～泣～呜～泣（夕姬看着洛林出海前交给她的最后一封信中）",
+                  "<信件内容>（这一次出海捕鱼是最后一次了，虽然不想离开你但是我已经答应了船长，相信我～回来之后我会和你结婚组织我们的家庭，因为我再也受不了没有你的日子。洛林笔）",
+                  "（这是为什么～为什么上天要不断的拆散我们！我到底该怎么辨啊！）",
+                  "谢谢你的帮忙，我没有什么东西可以送给你，这五颗石头就送给你。"
+                ],
+                "thanks": [
+                  "它可以增加某一些能力希望对你有帮助。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
@@ -32430,7 +32496,18 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>79&ENDEV=4&ITEM=1676&TIME=0&NOWEV=136"
+              "condition": "LV>79&ENDEV=4&ITEM=1676&TIME=0&NOWEV=136",
+              "messagePages": {
+                "accept": [
+                  "天啊！！你找到他了～这是洛林的项炼，我没有看错吧！",
+                  "咦？！那他没有跟着你回来吗？他为何不跟着你回来呢？",
+                  "（他不会忘了我吧！？不会！！我相信他不是这种人，他不认我可能有其它原因吧！不管如何我一定要让他回来找我）",
+                  "可以请你再帮我一个忙吗？"
+                ],
+                "thanks": [
+                  "帮我将这封信交给洛林。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
@@ -32472,7 +32549,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>79&ENDEV=4&TIME=0&NOWEV=136"
+              "condition": "LV>79&ENDEV=4&TIME=0&NOWEV=136",
+              "messagePages": {
+                "accept": [
+                  "我给你的东西不见了喔！"
+                ],
+                "thanks": [
+                  "下次注意一点！不要再不见了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
@@ -32498,7 +32583,17 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 136,
               "type": "REQUEST",
-              "condition": "LV>79&ENDEV=4&TIME=0"
+              "condition": "LV>79&ENDEV=4&TIME=0",
+              "messagePages": {
+                "request": [
+                  "你要下海去探险吗？可以请你帮我找寻一个人吗？他的名字叫做洛林～",
+                  "因为我的灵魂已经被封卬在这石像里面，所以一直无法下海找寻我的爱人。",
+                  "我和他失散已久也不知道他是否还活着，我只能将这枚戒指交给你，请你见到他时转交给他，这枚戒指是我和他的定情之物。身上东西记得不能太满喔！"
+                ],
+                "thanks": [
+                  "请你好好保存这一枚戒指，它对我来说非常重要，对了去海底里顺便带一个不可思议贝壳，说不定会有用处。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
@@ -32594,7 +32689,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM!=1721"
+              "condition": "LV>0&ITEM!=1721",
+              "messagePages": {
+                "accept": [
+                  "你想进入泪之海吗？要进去的话可没那么简单，因为我们不像鱼类一样可以在水里呼吸。所以只能靠鱼腮草的帮助了。",
+                  "看你人也不错的样子，我这里刚好有鱼腮草，那就给你一份吧；要注意就算有鱼腮草，也是有时效性的，大约是一小时左右就会失去效用了。不过别担心，水里的鱼类身上都可以得到鱼腮草的。"
+                ],
+                "thanks": [
+                  "在海底可要小心些，奇怪的生物很多，蛮危险的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -32642,7 +32746,12 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM!=11848&ITEM!=1726&ITEM!=11887&ITEM!=12025&ITEM!=11903"
+              "condition": "LV>0&ITEM!=11848&ITEM!=1726&ITEM!=11887&ITEM!=12025&ITEM!=11903",
+              "messagePages": {
+                "normal": [
+                  "准备好5万石币以及点不燃的皮、蓝色珊瑚、强的绳、蒸馏水的水滴、柔软的黏土，我就帮你完成一个手部防具！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa80/gloves/gloves_2",
@@ -51829,7 +51938,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=2414&ITEM=1862&ITEM=1861"
+              "condition": "ITEM=2414&ITEM=1862&ITEM=1861",
+              "messagePages": {
+                "accept": [
+                  "想不到的你还真有一套啊！我们终于可以外出去觅食了，不然就快要饿死啰！"
+                ],
+                "thanks": [
+                  "这碧绿海藻是我们留下来最后的食物，就送给你做为纪念，但是我借你的护身符要记得还我喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/closed/closed1.arg",
@@ -51887,7 +52004,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM=2414"
+              "condition": "ITEM=2414",
+              "messagePages": {
+                "accept": [
+                  "最近在海中央细长的通道中，出现了许多漩涡，让我们的族群无法通过去觅食，在这样下去我们可能会因此而减亡，所以想请问你，是否有辨法帮我们把那股强大的漩涡移除掉？"
+                ],
+                "thanks": [
+                  "谢谢你的帮助我们都会很感谢你的，你要小心喔！那漩涡有一股强大的力量喔！我把身上的鳞片借你当护身符吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/closed/closed1.arg",
@@ -54156,7 +54281,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2010&ITEM=2011&ITEM=2012"
+              "condition": "LV>0&ITEM=2010&ITEM=2011&ITEM=2012",
+              "messagePages": {
+                "accept": [
+                  "你帮我带来毛皮啦！好棒喔！我马上回去请我妈妈缝！"
+                ],
+                "thanks": [
+                  "对了，这个糖果送给你，谢谢你了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/dance/dance.arg",
@@ -54691,7 +54824,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "要提升自已的等级、强度，只有战斗一途。当我们遇到敌人的时候，有几样事情一定要知道的。",
+                  "进入战斗之后，首先我们得先看敌人的等级，把滑鼠移到对方身上就可以得知，一方面可以知道对方的等级高低，一方面如果是一级的宠物也可以决定抓或不抓。",
+                  "一旦发现敌人的等级比你高得多，尽量选择逃跑会比较安全。这时候自已的敏捷就相当重要。",
+                  "人物的敏捷如果够高的话，对于练功是非常好的。因为这样跟自已所带的宠物合击率会大大增加，特别是敌人的敏不高时，像乌龟、雷龙、大象等，都是练功的最佳选择。",
+                  "除了基本的战斗之外，石器时代里还有许多的精灵，像是补血的滋润精灵、使敌人沉睡的昏睡精灵、甚至于是把敌人的属性反转的奥萝拉精灵等。",
+                  "这些精灵只能依附在武器或装备之上，所以寻找这些带有精灵的装备，就是我们很重要的课题了。",
+                  "所有的人物除了能力之外都有自已的属性，包含宠物也是一样。共分为地、水、火、风四种，这四种属性分别相克，地克水、水克火、火克风、风克地。所以在战斗时也得要注意到敌人是什么样的属性喔。",
+                  "而这四种属性又分别有它的特性，例如火属性的宠物攻击力会较高，水属性的宠物血会较多，地属性的宠物防御力高，而风属性就代表了敏捷啰。善用属性的话，不论是练功或者是解任务，对我们都会有相当的帮助的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -55153,7 +55298,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&ITEM=1853&ITEM=1854&ITEM=1855&ITEM=1856&ITEM=1857"
+              "condition": "LV>0&ENDEV=4&ITEM=1853&ITEM=1854&ITEM=1855&ITEM=1856&ITEM=1857",
+              "messagePages": {
+                "accept": [
+                  "我！我！第一次看到这五种宝藏同时出现在我的眼前，别说了要换就快一点！"
+                ],
+                "thanks": [
+                  "谢啦！现在我要想想这些宝物我要藏在那里比较不会被别人发现，不聊了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
@@ -55247,7 +55400,18 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "我告诉你喔！你知道尼斯大陆南边有座海吗？听说在很多年以前有一艘船在那里沉没了，那一艘沉船里有大量的宝藏，但只是一个传说。",
+                  "只到最近，我朋友去那里钓鱼，当然那一天他也是满载而归，在某一只鱼的肚子里意外发现有一支钥匙，他觉得既然有錀匙那之前传说的宝藏有可能存在着！于是他决定碰碰运气带着钥匙潜入海里，没想到这个传说是真的，他发现了宝箱也开启了宝箱，现在他变的非常富有。",
+                  "所以我想请你帮我去寻找那些宝藏，找到之后我会给你相同的利益做为叩赏，你就当做下海去探捡，顺便赚赚外快。",
+                  "对了！听说宝箱里的宝藏到目前已经发现了有五种，你要同时收集到五种宝物给我，我才会和你交换喔！因为我要和你交换的利益也是稀世珍宝呢！？"
+                ],
+                "thanks": [
+                  "看着我朋友现在过的不愁吃穿的生活我真的好羡慕喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
@@ -56203,7 +56367,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2021"
+              "condition": "LV>0&ITEM=2021",
+              "messagePages": {
+                "accept": [
+                  "你水果拿回来了喔，那我要赶快去制作新的水果酒了。",
+                  "对了喔！总不能让你白跑一趟！这个是我专门拿来酿酒的橘子，挺不错的你吃吃看！"
+                ],
+                "thanks": [
+                  "村长应该会很开心的！终于可以松了一口气了！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers1.arg",
@@ -56239,7 +56412,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2023"
+              "condition": "LV>0&ITEM=2023",
+              "messagePages": {
+                "accept": [
+                  "酒拿回来了啊！那位布鲁斯酿酒的技术，真不得了啊！果然有二下子，真是香啊！相信村长一定会喜欢的。",
+                  "等等喔！这根酩酊草就给你当做谢礼啰！"
+                ],
+                "thanks": [
+                  "村长应该会很开心的！终于可以松了一口气了！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers1.arg",
@@ -56281,7 +56463,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "完蛋了啦！～～～７天之后萨姆吉尔村的村长请宾客，我原本要送给他的水果酒因为放太久坏掉了！之前就不断的和他吹嘘我酿出来的水果酒多香多甜，村长可是非常期待这一瓶水果酒呢！！",
+                  "你有空闲的时间吗，愿意帮我解决这一件事情吗？求求你啦！！不然我先告诉你解决的办法，你再考虑看看。",
+                  "我知道在相普尔山顶上面有专门种植酿水果酒的水果，这种水果，只要花费我一天的时间就可以酿出香香甜甜的水果酒了。",
+                  "还有另一个方法，到南岛塔姆塔姆村找一个叫布鲁斯的人，很早就听说这位奇人，可以把酸坏的水果酒，再重新酿制成水果酒。",
+                  "那你是否愿意帮我这个忙呢？！"
+                ],
+                "thanks": [
+                  "我把这个一瓶水果酒交给你了，记得快一点喔！村长生气那可不是开玩笑的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -56417,7 +56611,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&ITEM=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893"
+              "condition": "LV>0&ENDEV=4&ITEM=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893",
+              "messagePages": {
+                "accept": [
+                  "５种肉的收集回来啰！合约书记得一起给我，合约书上写的很明确５种肉都收集完成，我要给你的报酬是一个超级补的肉。"
+                ],
+                "thanks": [
+                  "这种肉很好吃喔！！是我用这些肉同时料理出来的，没有几年的料理功夫是料理不出来的喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
@@ -56555,7 +56757,17 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4"
+              "condition": "LV>0&ENDEV=4",
+              "messagePages": {
+                "accept": [
+                  "肉！我好久没有吃到肉了！！我好想吃肉喔！",
+                  "因为一直吃肉的关系！导致现在身材肥胖，现在我外出捕捉猎物都被它们轻易的逃脱。",
+                  "你可以帮我这个忙吗？如果愿意我会给你一张合约书，请你帮我去收集５种肉。"
+                ],
+                "thanks": [
+                  "谢啰！５种肉分别是一口肉、小的肉、丸丸肉、大块的肉、满腹肉。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
@@ -59205,7 +59417,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "宠物能帮我们做的事情很多，最重要的一件事当然是战斗。一只训练有素的宠物，绝对是战场上最能信任的帮手。",
+                  "宠物所有的能力里，最要注意的就是它的忠诚度，忠诚度太低，可是有可能不听你的指挥哟。甚至会在战场上逃跑呢？所以一定要随时注意。",
+                  "要保持宠物对我们的忠心，首先得要注意的就是千万别让它在战场上死亡，每次的死亡，都会影响到它对你的忠诚度。",
+                  "若是不小心让宠物的忠诚度降了，有几个方法可以补救，一个是带着宠物战斗提升等级，忠诚度也会上升。但是如果忠诚度低到宠物进入战斗会跑掉的话，就得用别的方法了。",
+                  "有些道具可以直接让宠物吃下去，吃了就可以提升忠诚度，像是忠诚之心、宠物罐头等，都是很好用的道具。",
+                  "除了战斗，宠物还有许多有用的能力可以帮助我们，像是对装备的加工合成技能，制作好吃的料理技能，针对损坏道具的修复技能等。",
+                  "这些都可以在宠物店里学习的，当然啰…其中也会包含许多战斗的技能，不过要注意的是，不是所有的宠物店都能学习到所有技能喔，而且有的特殊技能只有某些宠物才能学习呢。",
+                  "想要抓野生的宠物的话，也得记得抓一级的把它养大会比抓等级高于一级的还来得好喔。这点千万记得…。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -64315,7 +64539,14 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=63&ITEM=18538&ITEM=18539&ITEM=18540&ITEM=18541&ITEM=18542"
+              "condition": "ENDEV=63&ITEM=18538&ITEM=18539&ITEM=18540&ITEM=18541&ITEM=18542",
+              "messagePages": {
+                "thanks": [
+                  "爷爷有跟我说过，拥有五块萨姆吉尔勾玉的人， 一定是具备爱与勇气的人，而你正好拥有这五块勾玉，我们家族一直等待的人...就是你",
+                  "我帮你将勾玉回复成萨姆吉尔的首饰，并给你英雄的祝福， 英雄的祝福是很珍贵的，千万不要掉落了。",
+                  "希望你继续保持爱与勇气， 让这个世界更加美好！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/poru/girl",
@@ -64352,7 +64583,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=63&ITEM=18538"
+              "condition": "ENDEV=63&ITEM=18538",
+              "messagePages": {
+                "thanks": [
+                  "爷爷有跟我说过，拥有萨姆吉尔勾玉的人， 一定是具备爱与勇气的人！",
+                  "我将英雄的祝福给你，它可是有神奇的功效哦，千万不要掉落了。 最后希望你可以继续加油，让这个世界更加美好！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/poru/girl",
@@ -64389,7 +64626,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=63&ITEM=18539"
+              "condition": "ENDEV=63&ITEM=18539",
+              "messagePages": {
+                "thanks": [
+                  "爷爷有跟我说过，拥有萨姆吉尔勾玉的人， 一定是具备爱与勇气的人！",
+                  "我将英雄的祝福给你，它可是有神奇的功效哦，千万不要掉落了。 最后希望你可以继续加油，让这个世界更加美好！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/poru/girl",
@@ -64426,7 +64669,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=63&ITEM=18540"
+              "condition": "ENDEV=63&ITEM=18540",
+              "messagePages": {
+                "thanks": [
+                  "爷爷有跟我说过，拥有萨姆吉尔勾玉的人， 一定是具备爱与勇气的人！",
+                  "我将英雄的祝福给你，它可是有神奇的功效哦，千万不要掉落了。 最后希望你可以继续加油，让这个世界更加美好！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/poru/girl",
@@ -64463,7 +64712,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=63&ITEM=18541"
+              "condition": "ENDEV=63&ITEM=18541",
+              "messagePages": {
+                "thanks": [
+                  "爷爷有跟我说过，拥有萨姆吉尔勾玉的人， 一定是具备爱与勇气的人！",
+                  "我将英雄的祝福给你，它可是有神奇的功效哦，千万不要掉落了。 最后希望你可以继续加油，让这个世界更加美好！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/poru/girl",
@@ -64500,7 +64755,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=63&ITEM=18542"
+              "condition": "ENDEV=63&ITEM=18542",
+              "messagePages": {
+                "thanks": [
+                  "爷爷有跟我说过，拥有萨姆吉尔勾玉的人， 一定是具备爱与勇气的人！",
+                  "我将英雄的祝福给你，它可是有神奇的功效哦，千万不要掉落了。 最后希望你可以继续加油，让这个世界更加美好！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/poru/girl",
@@ -77275,7 +77536,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=12745&ITEM=12550&ITEM=12571&ITEM=12708&ITEM=12719"
+              "condition": "LV>0&ITEM=12745&ITEM=12550&ITEM=12571&ITEM=12708&ITEM=12719",
+              "messagePages": {
+                "accept": [
+                  "真是谢谢了，没有你的帮忙今晚我的面子一定都丢光了。",
+                  "那些材料费我就给你一万块，我够大方了吧！我再拿一个东西送你好了，你就收下吧。"
+                ],
+                "thanks": [
+                  "有机会多来坐啊！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
@@ -77369,7 +77639,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "完蛋了啦！今天家里有盛大的宴会，但是那位大厨师却在一早的时候病倒了，该怎么辨啊？！",
+                  "我请了很多人去找寻其他的大厨，但是他们都在别的地方开伙了，现在赶来这里也来不及了！所以我一直在找人帮我料理今晚宴会所膳用的主菜，你有时间帮我料理吗？还是你有认识的大厨，可以请他帮我料理吗？"
+                ],
+                "thanks": [
+                  "今晚宴会公怖的菜单有清脆沙拉、豪迈的炒青菜、豪华肉拼盘、照烧煮鱼、美食汤。如果你愿意帮我这个忙，我会给你相对的报酬和一个道具。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
@@ -81429,7 +81708,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=1797"
+              "condition": "LV>0&ITEM=1797",
+              "messagePages": {
+                "accept": [
+                  "百年海主人的肉带回来了喔！我马上拿给我哥哥吃！他应该就会清醒了。没有什么可以报答你，这是我之前和我哥哥去抓毒蛇所得到的肉，请收下吧。"
+                ],
+                "thanks": [
+                  "我要赶快拿百年海主人的肉给我哥哥吃了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
@@ -81471,7 +81758,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "唉！从小和我相依为命的哥哥，在上次出外打猎的时候，被传说中的百年海主人咬了一下，到现在还是昏迷不醒，我为了我哥哥也去求了很多偏方，但是都没有用。",
+                  "之后我遇到一位老伯伯，我请问他有没有办法医治我哥哥的病，他告诉我解铃还需系铃人，我想了很久终于了解他的意思，但是我始终杀不了那一只恐怖的百年海主人。",
+                  "因为它实在是太凶猛了，而我也害怕我会像哥哥一样被咬到就昏睡不起，那我哥哥就真的永远醒不来了。",
+                  "所以我想请你帮我去那个有海主人踪迹的洞窟，杀了那百年海主人并将它的肉拿回来让我哥哥吃，我想这样就能让我哥哥再次清醒过来了。",
+                  "对那只百年海主人我实在是无能为力，但是又不能不救我哥哥，所以想请你帮我这个忙，将这株草带在身上，百年海主人闻到味道就自然会出现的。"
+                ],
+                "thanks": [
+                  "你要小心点，我不希望你也因此而昏睡不起，如果你也中了毒，那我真的不知找谁来帮我了，这株草很大！你身上的东西不要带太多喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
@@ -85958,7 +86257,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=1871&ITEM=1870"
+              "condition": "LV>0&ITEM=1871&ITEM=1870",
+              "messagePages": {
+                "accept": [
+                  "哇！！！好漂亮喔，我想我的爱人一定会喜欢的。那一支专门挖珊瑚的爪你也顺便还给我吧！"
+                ],
+                "thanks": [
+                  "对了！忘了告诉你，我家是卖香菇的，这朵香菇是用我们家传手法所研制出来的，你不用客气这只是一点小小的谢礼。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/romance/romance1.arg",
@@ -86026,7 +86333,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=4980"
+              "condition": "LV>0&ITEM=4980",
+              "messagePages": {
+                "accept": [
+                  "前几天我又发现了一件事，原来那些珊瑚都是长在泪之海的寄居蟹身上，偏偏我又打不过，所以我希望你能帮我去挖珊瑚。",
+                  "请你将合成七的爪给我，我来将它改成挖珊瑚用的爪，那你会比较好挖喔！"
+                ],
+                "thanks": [
+                  "我在这里等你的好消息喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/romance/romance1.arg",
@@ -90213,7 +90529,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&ITEM=1818"
+              "condition": "LV>0&ENDEV=4&ITEM=1818",
+              "messagePages": {
+                "accept": [
+                  "这个就是特效药啊！没有你的帮忙，我想我会愧疚一辈子的，我和克莱姆都很谢谢你。"
+                ],
+                "thanks": [
+                  "我还小没有什么贵重的东西可以送给你，这是我家自己种的药草，你就收下吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
@@ -90303,7 +90627,18 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&ITEM!=1817"
+              "condition": "LV>0&ENDEV=4&ITEM!=1817",
+              "messagePages": {
+                "accept": [
+                  "记得前几天我在村外玩耍时，不小心把恐龙蛋给踩破了，被恐龙妈妈追着跑，当时和我一起玩耍的朋友都不敢过来救我，就当我快被恐龙妈妈追到的时候，克莱姆奋不顾身的冲过来救我，他为了救我受了重伤，我实在很过意不去。",
+                  "以前克莱姆来找我玩耍，我都只会欺负他，他没有生气也没有记仇，现在想想我真的觉得自己错了，有一个那么好的朋友不懂得珍惜。",
+                  "所以我决定要报答他，我打听到奇努伊村有一位专门制造冶愈恐龙咬伤特效药专家，但是我只收集到了其中一种还有另外二种材料我找不到，另外二种材料分别是奇宝的肉耐久力１５前后回复和格尔顿的肉耐久力１０５前后回复。",
+                  "不是我没有尽力去找材料是我真的找不到，而且那个制造特效药的人很喜欢打架，还必需打赢他才愿意帮我制作呢！我真的无能为力了，所以想请你帮我收集另外二种材料？看你身上的东西好像快满了？！记得留一些位子让我放材料喔！"
+                ],
+                "thanks": [
+                  "谢谢你愿意帮我这一个忙，我和我的好朋友都会很感谢你的。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
@@ -91117,7 +91452,15 @@ export const WORLD = {
               ],
               "eventNo": 137,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=137&ITEM=1694"
+              "condition": "LV>29&ENDEV=4&NOWEV=137&ITEM=1694",
+              "messagePages": {
+                "accept": [
+                  "这个就是盗贼的悔过书吗？真是谢天谢地，要不是多亏你的帮助我还真的不知该怎么辨呢？！这小小的谢礼你就收下吧！"
+                ],
+                "thanks": [
+                  "你真是我们的英雄啊！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/desert/desert1.arg",
@@ -91159,7 +91502,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=137&ITEM!=1693"
+              "condition": "LV>29&ENDEV=4&NOWEV=137&ITEM!=1693",
+              "messagePages": {
+                "accept": [
+                  "什么货物不见了！！！"
+                ],
+                "thanks": [
+                  "别再搞丢了喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/desert/desert1.arg",
@@ -91185,7 +91536,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 137,
               "type": "REQUEST",
-              "condition": "LV>29&ENDEV=4"
+              "condition": "LV>29&ENDEV=4",
+              "messagePages": {
+                "request": [
+                  "唉～最近在村子的外面，常常遇见盗贼，一些要运送的货物都被抢走了，再这样下去生意都不用做了。",
+                  "所以我想请你拿着假的货物去将他们引出来，再将他们一网打尽，我这个计画不错吧。那你愿意当那位勇者吗？"
+                ],
+                "thanks": [
+                  "路上请小心，一切全拜托你了，对了这个假货物很大喔！记得要背包不要放太多东西不然我就不给你啰。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/desert/desert1.arg",
@@ -96133,6 +96493,13 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&ENDEV=69&NOWEV=70",
+              "messagePages": {
+                "thanks": [
+                  "说实在的，我们老夫妇根本不知道要怎么照顾精灵耶。 能把玛蕾菲雅托付给像你这样的好心人照顾，我们也放心多了。",
+                  "以后玛蕾菲雅就靠你照顾了喔。 不知道为什么她很喜欢这条项炼，就让她一起带走吧。 玛蕾菲雅对陌生人类很有戒心，你要多和她说说话，说不定可以让她想起什么事情呢。",
+                  "对了，这条项炼上有镶嵌宝石的空位，如果你有拿到漂亮石头的话可以再拿回来，我可以帮你镶上去喔。 不过先说好，这是我给玛蕾菲雅的礼物，不是给你的喔。"
+                ]
+              },
               "getPets": [
                 {
                   "enemyIds": [
@@ -96724,6 +97091,14 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "LV>0&PET<2-331*1",
+              "messagePages": {
+                "accept": [
+                  "你身上的邦洛洛克斯是给我的吗？"
+                ],
+                "thanks": [
+                  "那真是谢谢你啰。感谢感谢！希望你下次再来。"
+                ]
+              },
               "delPets": [
                 {
                   "op": "<",
@@ -97074,7 +97449,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "要提升自已的等级、强度，只有战斗一途。当我们遇到敌人的时候，有几样事情一定要知道的。",
+                  "进入战斗之后，首先我们得先看敌人的等级，把滑鼠移到对方身上就可以得知，一方面可以知道对方的等级高低，一方面如果是一级的宠物也可以决定抓或不抓。",
+                  "一旦发现敌人的等级比你高得多，尽量选择逃跑会比较安全。这时候自已的敏捷就相当重要。",
+                  "人物的敏捷如果够高的话，对于练功是非常好的。因为这样跟自已所带的宠物合击率会大大增加，特别是敌人的敏不高时，像乌龟、雷龙、大象等，都是练功的最佳选择。",
+                  "除了基本的战斗之外，石器时代里还有许多的精灵，像是补血的滋润精灵、使敌人沉睡的昏睡精灵、甚至于是把敌人的属性反转的奥萝拉精灵等。",
+                  "这些精灵只能依附在武器或装备之上，所以寻找这些带有精灵的装备，就是我们很重要的课题了。",
+                  "所有的人物除了能力之外都有自已的属性，包含宠物也是一样。共分为地、水、火、风四种，这四种属性分别相克，地克水、水克火、火克风、风克地。所以在战斗时也得要注意到敌人是什么样的属性喔。",
+                  "而这四种属性又分别有它的特性，例如火属性的宠物攻击力会较高，水属性的宠物血会较多，地属性的宠物防御力高，而风属性就代表了敏捷啰。善用属性的话，不论是练功或者是解任务，对我们都会有相当的帮助的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -97120,7 +97507,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "现在～我们已经学会帮助宠物融合的方法了，只要将两只到三只的宠物进行合体，就能培育出更强的宠物了。可是记得一件事，合体完的新宠物会变成他们的原始生命体，也就是宠物蛋。",
+                  "要孵化出比较强的新宠物，就得注意拿来融合的宠物强度、技能等。那些都会影响到融合成功后的宠物唷。另外，有些宠物可是不能拿来融合之用的。",
+                  "至于宠物蛋的话，得喂养它营养剂帮助它孵化，这个部分你可以去请教磨药师了，因为他们研究的很透彻，目前磨药师在伊甸四大城出没若想合药剂你可要想办法过去。",
+                  "但是要去之前可别忘了去加加村拿龙骨粉末，不然你可又要多跑一趟了。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -97403,7 +97798,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2439&ITEM=5610&ITEM=6810&ITEM=6210&ITEM=7410"
+              "condition": "LV>0&ITEM=2439&ITEM=5610&ITEM=6810&ITEM=6210&ITEM=7410",
+              "messagePages": {
+                "accept": [
+                  "你帮我收集完远距离武器啦？"
+                ],
+                "thanks": [
+                  "这把我研发的乱射弓就送给你当礼物吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/collect/collect1.arg",
@@ -97475,7 +97878,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2438&ITEM=3210&ITEM=4410&ITEM=3810&ITEM=5010"
+              "condition": "LV>0&ITEM=2438&ITEM=3210&ITEM=4410&ITEM=3810&ITEM=5010",
+              "messagePages": {
+                "accept": [
+                  "你帮我收集完近距离武器啦？"
+                ],
+                "thanks": [
+                  "这把我研发的双尖枪就送给你当礼物吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/collect/collect1.arg",
@@ -97489,7 +97900,17 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "我是一个喜爱收集各式各样武器的工匠，我也会自己改造武器。",
+                  "由於我把家产都用在收集及改造武器上了，所以才在这里当一个小小的工匠。",
+                  "我想要收集一套近距离及远距离武器，你可以帮我收集吗？"
+                ],
+                "thanks": [
+                  "近距离武器我要的是合成斧８、合成枪８、合成棍棒８、合成爪８及一把愿藏的斧头！远距离武器我要的是合成弓箭８、合成投掷斧８、合成回旋标８、合成石８及一把近藏的棍棒！如果忘了收集的武器再来问我，我会从头再告诉你喔！"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -97556,7 +97977,13 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
-              "condition": "LV>29&ENDEV=4&ITEM!=2785&ITEM!=2786"
+              "condition": "LV>29&ENDEV=4&ITEM!=2785&ITEM!=2786",
+              "messagePages": {
+                "request": [
+                  "柯尔克所产的石头品质相当不错！可是比起吉鲁出产的还是略逊一成。 所以这阵子我到各地的洞窟去看看有没有比较好的矿可以开采，虽然我没有找到好的矿脉但是却发现柯奥山的洞窟里面有一些奇怪的石头，前几天我带回来了一些做研究，但是柯尔克矿坑缺乏人手，必须回去帮忙。",
+                  "我必须在这段时间准备好我的行李回去柯尔克村，但是我不想放弃研究，我给你一张我发现矿石的地图你帮我去带一些回来好吗？那我就能再度好好研究诡异的石头。 当然啦，我是不会亏待你的。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
@@ -101756,7 +102183,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "宠物能帮我们做的事情很多，最重要的一件事当然是战斗。一只训练有素的宠物，绝对是战场上最能信任的帮手。",
+                  "宠物所有的能力里，最要注意的就是它的忠诚度，忠诚度太低，可是有可能不听你的指挥哟。甚至会在战场上逃跑呢？所以一定要随时注意。",
+                  "要保持宠物对我们的忠心，首先得要注意的就是千万别让它在战场上死亡，每次的死亡，都会影响到它对你的忠诚度。",
+                  "若是不小心让宠物的忠诚度降了，有几个方法可以补救，一个是带着宠物战斗提升等级，忠诚度也会上升。但是如果忠诚度低到宠物进入战斗会跑掉的话，就得用别的方法了。",
+                  "有些道具可以直接让宠物吃下去，吃了就可以提升忠诚度，像是忠诚之心、宠物罐头等，都是很好用的道具。",
+                  "除了战斗，宠物还有许多有用的能力可以帮助我们，像是对装备的加工合成技能，制作好吃的料理技能，针对损坏道具的修复技能等。",
+                  "这些都可以在宠物店里学习的，当然啰…其中也会包含许多战斗的技能，不过要注意的是，不是所有的宠物店都能学习到所有技能喔，而且有的特殊技能只有某些宠物才能学习呢。",
+                  "想要抓野生的宠物的话，也得记得抓一级的把它养大会比抓等级高于一级的还来得好喔。这点千万记得…。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -106596,7 +107035,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ITEM!=20167&LV>90&EVPET>0-914&ENDEV=100"
+              "condition": "ITEM!=20167&LV>90&EVPET>0-914&ENDEV=100",
+              "messagePages": {
+                "accept": [
+                  "怎么？你想带一些尼斯的特产上路吗？很便宜的哟～～只收你１０万石币而已啦～～"
+                ],
+                "thanks": [
+                  "谢谢啦～～～～相信我，这些东西绝对物超所值啦！！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/eden2/fight/fight-authu",
@@ -106646,7 +107093,15 @@ export const WORLD = {
               ],
               "eventNo": 100,
               "type": "ACCEPT",
-              "condition": "LV>90&EVPET>0-914&NOWEV=100"
+              "condition": "LV>90&EVPET>0-914&NOWEV=100",
+              "messagePages": {
+                "accept": [
+                  "怎么？你想带一些尼斯的特产上路吗？很便宜的哟～～只收你１０万石币而已啦～～"
+                ],
+                "thanks": [
+                  "谢谢啦～～～～相信我，这些东西绝对物超所值啦！！"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -110215,7 +110670,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM!=1622"
+              "condition": "LV>0&ITEM!=1622",
+              "messagePages": {
+                "accept": [
+                  "你问的是骨头吗？我身上正好有一个，你需要的话就拿去吧。"
+                ],
+                "thanks": [
+                  "不用感谢我了，这只是举手之劳。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -110289,7 +110752,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
-              "condition": "ENDEV=4&ITEM!=20215"
+              "condition": "ENDEV=4&ITEM!=20215",
+              "messagePages": {
+                "request": [
+                  "好奇怪，昨天晚上我在旁边的水井里听到了怪声。不知道是不是闹鬼。",
+                  "我现在正要去找村长报告这件事，不然那个声音吓得我睡不着，你不怕吗？那你帮我们去看看好吗？"
+                ],
+                "thanks": [
+                  "谢谢你…这是我在水井旁捡到的怪东西，会发出亮光喔！！不知道是不是受诅咒的东西，就给你好了，反正水井里也很暗吧。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/eden3/gan/hoggies",
@@ -110535,7 +111007,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=1982&ITEM=1984"
+              "condition": "LV>0&ITEM=1982&ITEM=1984",
+              "messagePages": {
+                "accept": [
+                  "腊ир媚ㄓ罢谅谅硂琌и逞媚癳倒"
+                ],
+                "thanks": [
+                  "谅谅腊и璶话е何谋"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/evening/evening1.arg",
@@ -110577,7 +111057,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "ぱ＋何ぃ帝痷琌礹璚＋钮弧履﹊焊洛ネΤ疭媚и龟店畓ǐぃ笆腊и禲诫盾"
+                ],
+                "thanks": [
+                  "е翴翅ぃ礛иア痸筁Ν常е"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -111715,7 +112203,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "要提升自已的等级、强度，只有战斗一途。当我们遇到敌人的时候，有几样事情一定要知道的。",
+                  "进入战斗之后，首先我们得先看敌人的等级，把滑鼠移到对方身上就可以得知，一方面可以知道对方的等级高低，一方面如果是一级的宠物也可以决定抓或不抓。",
+                  "一旦发现敌人的等级比你高得多，尽量选择逃跑会比较安全。这时候自已的敏捷就相当重要。",
+                  "人物的敏捷如果够高的话，对于练功是非常好的。因为这样跟自已所带的宠物合击率会大大增加，特别是敌人的敏不高时，像乌龟、雷龙、大象等，都是练功的最佳选择。",
+                  "除了基本的战斗之外，石器时代里还有许多的精灵，像是补血的滋润精灵、使敌人沉睡的昏睡精灵、甚至于是把敌人的属性反转的奥萝拉精灵等。",
+                  "这些精灵只能依附在武器或装备之上，所以寻找这些带有精灵的装备，就是我们很重要的课题了。",
+                  "所有的人物除了能力之外都有自已的属性，包含宠物也是一样。共分为地、水、火、风四种，这四种属性分别相克，地克水、水克火、火克风、风克地。所以在战斗时也得要注意到敌人是什么样的属性喔。",
+                  "而这四种属性又分别有它的特性，例如火属性的宠物攻击力会较高，水属性的宠物血会较多，地属性的宠物防御力高，而风属性就代表了敏捷啰。善用属性的话，不论是练功或者是解任务，对我们都会有相当的帮助的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -112671,7 +113171,15 @@ export const WORLD = {
               ],
               "eventNo": 140,
               "type": "ACCEPT",
-              "condition": "LV>0&NOWEV=140&ITEM=1698&ITEM=1697"
+              "condition": "LV>0&NOWEV=140&ITEM=1698&ITEM=1697",
+              "messagePages": {
+                "accept": [
+                  "咦！这不是老鼠的骨头吗？！多亏你的帮助不然还真不知该怎么辨呢？！"
+                ],
+                "thanks": [
+                  "这是我们村民大家一起出钱去买的手环。这小小的谢礼你就收下吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
@@ -112745,7 +113253,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&NOWEV=140&ITEM!=1696"
+              "condition": "LV>0&NOWEV=140&ITEM!=1696",
+              "messagePages": {
+                "accept": [
+                  "什么！！大福不见了！！！"
+                ],
+                "thanks": [
+                  "别再搞丢了喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
@@ -112771,7 +113287,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 140,
               "type": "REQUEST",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "request": [
+                  "最近在村子里面出现了一只又大又肥的老鼠，把一些粮食都给吃光了，所以我想到了一个辨法，就是拿大福去引那只老鼠出来，再把它抓起来，这个主意不错吧。",
+                  "但是～～～～～我很怕老鼠！！所以想请你去把它抓起来，你愿意帮我这个忙吗？"
+                ],
+                "thanks": [
+                  "谢谢你喔！！那只老鼠很会跑喔！身上不要放太多东西喔！不然大福是放不进去的！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
@@ -112861,7 +113386,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=1622"
+              "condition": "LV>0&ITEM=1622",
+              "messagePages": {
+                "accept": [
+                  "这不是龙的骨头吗，你愿意给我的话，我会拿珍贵的药材龙骨粉末跟你交换喔。"
+                ],
+                "thanks": [
+                  "谢谢你，龙骨粉末可是制造营养剂必备的材料呢。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa50/bone.arg",
@@ -115277,7 +115810,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "宠物能帮我们做的事情很多，最重要的一件事当然是战斗。一只训练有素的宠物，绝对是战场上最能信任的帮手。",
+                  "宠物所有的能力里，最要注意的就是它的忠诚度，忠诚度太低，可是有可能不听你的指挥哟。甚至会在战场上逃跑呢？所以一定要随时注意。",
+                  "要保持宠物对我们的忠心，首先得要注意的就是千万别让它在战场上死亡，每次的死亡，都会影响到它对你的忠诚度。",
+                  "若是不小心让宠物的忠诚度降了，有几个方法可以补救，一个是带着宠物战斗提升等级，忠诚度也会上升。但是如果忠诚度低到宠物进入战斗会跑掉的话，就得用别的方法了。",
+                  "有些道具可以直接让宠物吃下去，吃了就可以提升忠诚度，像是忠诚之心、宠物罐头等，都是很好用的道具。",
+                  "除了战斗，宠物还有许多有用的能力可以帮助我们，像是对装备的加工合成技能，制作好吃的料理技能，针对损坏道具的修复技能等。",
+                  "这些都可以在宠物店里学习的，当然啰…其中也会包含许多战斗的技能，不过要注意的是，不是所有的宠物店都能学习到所有技能喔，而且有的特殊技能只有某些宠物才能学习呢。",
+                  "想要抓野生的宠物的话，也得记得抓一级的把它养大会比抓等级高于一级的还来得好喔。这点千万记得…。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -116756,6 +117301,17 @@ export const WORLD = {
               "eventNo": 99,
               "type": "ACCEPT",
               "condition": "LV>100&PET>0-913&NOWEV=99",
+              "messagePages": {
+                "accept": [
+                  "呵呵呵～～小鬼，你终于还是来找我啦！！怎么样？我教你的料理做出来了没呀～～～"
+                ],
+                "thanks": [
+                  "不错哦～～我就知道你可以的，我现在就告诉你要你做那些料理的秘密吧！！",
+                  "那几道料理的制作手法其实就是百人拳的招式所变化出来的，我是看你的料理功夫很不错，所以才把这几道料理教你的呀～～ 现在你明白了吧！！",
+                  "你能来到这找我就证明你已经学会了百人拳的招式，但是如果你真的想融会贯通的话，那你还要经历另一场知识的磨练才行，因为百人拳讲求的是智勇双全，除了招式外还要有智慧的人才能发挥出其真正的威力呀～～ 就让我这个老头带你去猜谜道场那去找我的挚友姆罗伊吧！！",
+                  "年轻人，就麻烦你到猜谜道场那里找姆罗伊接古瓜吧！！"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -121573,7 +122129,20 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&ITEM=20215&ITEM!=20216"
+              "condition": "ENDEV=4&ITEM=20215&ITEM!=20216",
+              "messagePages": {
+                "accept": [
+                  "咦？这不是我们的手电筒吗？？怎会在你那里？？先还给我吧。",
+                  "请别吃我呀，我可是一个人类，虽然长的像青蛙！！",
+                  "这里到底是个什么样的世界呀？？虽然我到这里有几天了，可是我可不敢出去外面。你们的穿着好奇怪，难道这里就是地狱了吗？？！！",
+                  "看来这里是古代了，不知道出了什么差错，怎会来到这里的呀？？？",
+                  "记得我是跟我的同事们出去旅游，当我们开车进入一个隧道的时候，突然就不省人事了。",
+                  "哎…我猜是那时候隧道入口不知为何产生了时空的扭曲使它在那一瞬间变成了时空隧道。",
+                  "哎…听不懂吗？这也难怪…你们是古代人呀。反正我们碰到了大麻烦就是了。",
+                  "我的同伴们都不像我这么老实，他们早就不见人影了，毕竟这是我们没到过的地方。真不知该怎么办才好…哎。",
+                  "可以麻烦你帮我找他们回来吗？我可不敢一个人待在这鬼地方，更不敢出去找他们呐。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -121624,7 +122193,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "ENDEV=4&ITEM=20220&ITEM=20221"
+              "condition": "ENDEV=4&ITEM=20220&ITEM=20221",
+              "messagePages": {
+                "accept": [
+                  "哎…可恶呀，我就知道他不会这么简单就还我钱的。这纸条里说他还没赚到一万元可以还我。",
+                  "一定是骗人的啦，象牙这么值钱，怎么可能还不出来的呀？？他比我想像的还要狡滑…。",
+                  "什么？！你愿意帮他还吗？？我们的钱可跟你们不一样的，你们的钱全是石头。",
+                  "如果你真要帮他还的话，嗯嗯，得要你们的钱二万才行唷。这样你还愿意吗？（他们的石头在我们那里应该很值钱吧）"
+                ],
+                "thanks": [
+                  "嗯…你愿意帮他还的话；那这张收据给你，再麻烦你帮我拿给他，收据上已写了你帮他还钱。他不用再躲我了，这样他应该会回来吧。",
+                  "你真是太好心了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
@@ -121693,6 +122274,20 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&PET>0-953&ITEM=20223",
+              "messagePages": {
+                "accept": [
+                  "谢谢你帮我找雷诛回来，可是我们还有另一位伙伴，他就是我们的主管，叫做讦谯龙。他之前欠我一万元还没还，哎…",
+                  "所以他现在有点怕我，那个讦谯龙可是很狡滑的，一直不还我钱，而且他又是我的上司。",
+                  "实在很难跟他开口，不知道到底要不要跟他要回这笔钱，哎…。",
+                  "嗯嗯，雷诛说的没错，那可是我的血汗钱，一定得要回来。只好再麻烦你帮我找找他了。",
+                  "我最后一次见到他时，他说你们这里有个地方都是大象，而且比我们那里的还要大只，更有着超大的象牙。",
+                  "他想弄一些象牙来卖钱，所以我想他会出现在有大象的地方。",
+                  "你带着这张借据去吧，他那么会耍赖，到时候很有可能不认账。"
+                ],
+                "thanks": [
+                  "我等着你的好消息。（哎…事情可没这么简单）"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -121728,6 +122323,20 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&PET>0-953",
+              "messagePages": {
+                "accept": [
+                  "谢谢你帮我找雷诛回来，可是我们还有另一位伙伴，他就是我们的主管，叫做讦谯龙。他之前欠我一万元还没还，哎…",
+                  "所以他现在有点怕我，那个讦谯龙可是很狡滑的，一直不还我钱，而且他又是我的上司。",
+                  "实在很难跟他开口，不知道到底要不要跟他要回这笔钱，哎…。",
+                  "嗯嗯，雷诛说的没错，那可是我的血汗钱，一定得要回来。只好再麻烦你帮我找找他了。",
+                  "我最后一次见到他时，他说你们这里有个地方都是大象，而且比我们那里的还要大只，更有着超大的象牙。",
+                  "他想弄一些象牙来卖钱，所以我想他会出现在有大象的地方。",
+                  "你带着这张借据去吧，他那么会耍赖，到时候很有可能不认账。"
+                ],
+                "thanks": [
+                  "我等着你的好消息。（哎…事情可没这么简单）"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -121800,6 +122409,16 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&PET>0-961&ITEM=20216",
+              "messagePages": {
+                "accept": [
+                  "真是不简单呀，这么爱乱跑的艾蜜你也找的到。想必花了不少工夫吧？？我们另一位同事叫雷诛，没错，他长的其实就像猪。",
+                  "他这个人有点歇斯底里，特别喜欢猪。他上次带了一只猪回来，还取名叫小布伊，说是在一个都是石头的小岛上抓到的，真是够了。哎…",
+                  "他有丢给艾蜜一只猪的牙齿，在有这种牙齿的生物出没的地方可能可以找到他，又要麻烦你了，谢谢你…。"
+                ],
+                "thanks": [
+                  "我等着你的好消息。"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -121835,6 +122454,16 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&PET>0-961",
+              "messagePages": {
+                "accept": [
+                  "真是不简单呀，这么爱乱跑的艾蜜你也找的到。想必花了不少工夫吧？？我们另一位同事叫雷诛，没错，他长的其实就像猪。",
+                  "他这个人有点歇斯底里，特别喜欢猪。他上次带了一只猪回来，还取名叫小布伊，说是在一个都是石头的小岛上抓到的，真是够了。哎…",
+                  "他有丢给艾蜜一只猪的牙齿，在有这种牙齿的生物出没的地方可能可以找到他，又要麻烦你了，谢谢你…。"
+                ],
+                "thanks": [
+                  "我等着你的好消息。"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -121963,6 +122592,15 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&PET>0-962&ITEM=20222",
+              "messagePages": {
+                "accept": [
+                  "实在感谢你这么大费周章的帮助我们，没想到野人中也有好人呀。",
+                  "我们误打误撞来到这里，也没有什么好东西。这瓶酒就送给你吧，相信你们这时代还没有这种东西的。"
+                ],
+                "thanks": [
+                  "别喝太多喔。"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -122065,6 +122703,15 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "ENDEV=4&PET>0-962",
+              "messagePages": {
+                "accept": [
+                  "实在感谢你这么大费周章的帮助我们，没想到野人中也有好人呀。",
+                  "我们误打误撞来到这里，也没有什么好东西。这瓶酒就送给你吧，相信你们这时代还没有这种东西的。"
+                ],
+                "thanks": [
+                  "别喝太多喔。"
+                ]
+              },
               "delPets": [
                 {
                   "op": ">",
@@ -134388,7 +135035,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2002"
+              "condition": "LV>0&ITEM=2002",
+              "messagePages": {
+                "accept": [
+                  "什么，你居然能带回光之圣石的碎片！？我马上就帮你研磨成光之石。"
+                ],
+                "thanks": [
+                  "好了！光之石你拿去吧！它的力量就让你去体会吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/holy/holy1.arg",
@@ -134402,7 +135057,17 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "我是一个旅行于各地的石匠，我以寻找稀奇珍贵的石头为目标。",
+                  "我最近在森林洞窟的顶楼发现一个巨大的光之圣石，传说光之圣石由于吸取的太阳的能量，具有神圣的力量。如果能取得光之圣石的碎片，我就可以将其研磨成光之石，就会有不可思议的力量。",
+                  "不过也因为光之圣石因为吸取了大量的太阳能量，所以传说他会发出相当强烈的火焰能量，一般人是不敢轻易地去采集的。"
+                ],
+                "thanks": [
+                  "我在这里等你的好消息喔！"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -134490,7 +135155,16 @@ export const WORLD = {
               ],
               "eventNo": 142,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=1793&NOWEV=142"
+              "condition": "LV>29&ITEM=1793&NOWEV=142",
+              "messagePages": {
+                "accept": [
+                  "这一封是她给我的信吗？她说她身体已经好多了，而且她没有怪我，反而很感动我对她所做的一切。",
+                  "真是谢天谢地啊！我没有什么东西可以报答你，这一顶帽子是我自己做的，你就收下吧！"
+                ],
+                "thanks": [
+                  "没有你的帮助，我也不能认识她，真是太谢谢你了，我会好好的把握机会。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
@@ -134514,7 +135188,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM=1794"
+              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM=1794",
+              "messagePages": {
+                "accept": [
+                  "这一颗香甜的苹果是她要给我的吗？我真是幸福啊！！............你说什么？再说清楚一点？！",
+                  "什么！！！她吃了白雪苹果之后中毒了！都是我的错，我不该听别人乱说的，记得我爸爸之前中毒的时候，我妈妈都会料理烤焦的兽肉串烧给我爸爸吃，吃了之后我爸爸就没事了，请你再帮我一次吧？求求你！"
+                ],
+                "thanks": [
+                  "真是谢谢你，没有你的帮助我真的不知道该怎么辨！那颗吃过的白雪苹果你就留在身上吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
@@ -134592,7 +135275,18 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 142,
               "type": "REQUEST",
-              "condition": "LV>29"
+              "condition": "LV>29",
+              "messagePages": {
+                "request": [
+                  "还记得前几天见了她一面之后，我一直念念不忘着她～事情是这样发生的～～～～～",
+                  "我记得是前几天吧！我和爸爸妈妈去野餐的时候，看见一位可爱的女孩子手里拿着苹果和小狗玩耍着，就在当时她发现了有一双眼睛在注视着她，没错那一双明亮的眼睛就是我，她害羞着看着我，那时我的心扑通扑通加速的跳着。",
+                  "之后妈妈叫我去吃东西，我就依依不舍的离开了，她真的好可爱喔！我去学校上学的时候同学告诉我说，那位女孩子好像住在南岛的南方，我想去找她但是妈妈又不肯让我出去，那你可不可以帮我这个忙啊！",
+                  "听同学说，她很喜欢吃苹果喔！可以请你帮我拿一颗白雪苹果送给她吃吗？！我从小就听别人说白雪苹果很甜很好吃喔！那你愿意帮我这个忙吗？"
+                ],
+                "thanks": [
+                  "真是谢谢你！不然我想我可能和她没有缘份了，请你快去快回喔！我很想知道她对我有什么感觉！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
@@ -134871,7 +135565,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2020&ITEM=2022&ITEM=2027"
+              "condition": "LV>0&ITEM=2020&ITEM=2022&ITEM=2027",
+              "messagePages": {
+                "accept": [
+                  "香喷喷的花香味！！",
+                  "把花和酒交给我吧，我要重新酿制那瓶酒，利用花香去消除它氧化的臭味，再用我的秘密遍方就好了。"
+                ],
+                "thanks": [
+                  "好了！！哈哈哈～我果然天才.......哈哈哈"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers2.arg",
@@ -134913,7 +135616,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2020"
+              "condition": "LV>0&ITEM=2020",
+              "messagePages": {
+                "accept": [
+                  "有事吗？！你身上有股臭酒味喔！那瓶酒应该是坏掉的吧！",
+                  "你是想请我帮你把那一瓶酒重新酿过一次吗？如果是的话，请你先去吉鲁岛那里有一座花园可以采集，我给你一把铲子你去挖给我吧！别问为什么快去吧！"
+                ],
+                "thanks": [
+                  "想要那瓶酒起死回生就快出发吧！还有记得铲子要拿回来还给我喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers2.arg",
@@ -138107,7 +138819,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>39&ENDEV=4&ENDEV=143&ITEM=1812&ITEM=1809"
+              "condition": "LV>39&ENDEV=4&ENDEV=143&ITEM=1812&ITEM=1809",
+              "messagePages": {
+                "accept": [
+                  "找到精灵草了？了不起，那我就开始帮你封印精灵进去吧。"
+                ],
+                "thanks": [
+                  "拿去吧，这是一把全新的枪，好好使用喔…。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
@@ -138186,7 +138906,16 @@ export const WORLD = {
               ],
               "eventNo": 143,
               "type": "ACCEPT",
-              "condition": "LV>39&ENDEV=4&NOWEV=143&ITEM=1808*2"
+              "condition": "LV>39&ENDEV=4&NOWEV=143&ITEM=1808*2",
+              "messagePages": {
+                "accept": [
+                  "嗯嗯…你把石头给带回来了吗？我看一下…。",
+                  "没错…就是这个吉岩石，那你等我一下，我马上就可打造出一把武器来。"
+                ],
+                "thanks": [
+                  "其实我本来想将精灵也一起封印进去的，可惜需要精灵草才办的到，而我手上的精灵草又在前几天被强恩洞窟的小毛贼给抢去了，如果你能帮我找回来的话，我会再帮你封印精灵的。小毛贼我忘了他是在二楼还是三楼出没了。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
@@ -138273,7 +139002,14 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 143,
               "type": "REQUEST",
-              "condition": "LV>39&ENDEV=4"
+              "condition": "LV>39&ENDEV=4",
+              "messagePages": {
+                "request": [
+                  "你知道吗？人家叫我神兵专家，就是因为我有一双灵巧的双手，可以打造各种神兵利器。但是…巧妇难为无米之炊，没有材料也是没有用的。",
+                  "听说在阿斯玛鲁矿山里有一种吉岩矿，质地坚硬无比，如果能用这种石头来打造武器，一定可以做出来一只很棒的武器的。",
+                  "嗯嗯～我帮人家打造武器一向是非常昂贵的，不过如果你能帮我带一颗这种石头过来，我就免费帮你打造一把枪，你觉得如何呢？"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
@@ -141372,7 +142108,15 @@ export const WORLD = {
               ],
               "eventNo": 138,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1703&ITEM=1704&ITEM=1705&ITEM=1706"
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1703&ITEM=1704&ITEM=1705&ITEM=1706",
+              "messagePages": {
+                "accept": [
+                  "哇！你找到了四种蛇鳞啊！我找了很久呢！为了报答你～我将这四种鳞片做成一个铠送给你，我只要留下每一种鳞片的一小部份就心满意足了。"
+                ],
+                "thanks": [
+                  "做好啰！拿去吧！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141429,7 +142173,16 @@ export const WORLD = {
               ],
               "eventNo": 138,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1703"
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1703",
+              "messagePages": {
+                "accept": [
+                  "这是蛇的鳞片，真是谢谢你。对了～如果你愿意收集４种蛇鳞片给我，我可用更好的物品和你交换喔。",
+                  "如果你只想用这个鳞片和我交换就好了，我也不勉强你了。"
+                ],
+                "thanks": [
+                  "谢谢啰！这个鳞片真是美丽！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141486,7 +142239,16 @@ export const WORLD = {
               ],
               "eventNo": 138,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1704"
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1704",
+              "messagePages": {
+                "accept": [
+                  "这是蛇的鳞片，真是谢谢你。对了～如果你愿意收集４种蛇鳞片给我，我可用更好的物品和你交换喔。",
+                  "如果你只想用这个鳞片和我交换就好了，我也不勉强你了。"
+                ],
+                "thanks": [
+                  "谢谢啰！这个鳞片真是美丽！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141543,7 +142305,16 @@ export const WORLD = {
               ],
               "eventNo": 138,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1705"
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1705",
+              "messagePages": {
+                "accept": [
+                  "这是蛇的鳞片，真是谢谢你。对了～如果你愿意收集４种蛇鳞片给我，我可用更好的物品和你交换喔。",
+                  "如果你只想用这个鳞片和我交换就好了，我也不勉强你了。"
+                ],
+                "thanks": [
+                  "谢谢啰！这个鳞片真是美丽！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141600,7 +142371,16 @@ export const WORLD = {
               ],
               "eventNo": 138,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1706"
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1706",
+              "messagePages": {
+                "accept": [
+                  "这是蛇的鳞片，真是谢谢你。对了～如果你愿意收集４种蛇鳞片给我，我可用更好的物品和你交换喔。",
+                  "如果你只想用这个鳞片和我交换就好了，我也不勉强你了。"
+                ],
+                "thanks": [
+                  "谢谢啰！这个鳞片真是美丽！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141642,7 +142422,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM!=1702"
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM!=1702",
+              "messagePages": {
+                "accept": [
+                  "石头呢？你真是的！再给你一颗吧！"
+                ],
+                "thanks": [
+                  "唤蛇之石要好好保存啦！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141668,7 +142456,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 138,
               "type": "REQUEST",
-              "condition": "LV>29&ENDEV=4"
+              "condition": "LV>29&ENDEV=4",
+              "messagePages": {
+                "request": [
+                  "不是我在吹牛！我从小时候就开始学习抓蛇，捕蛇对我来说就像走路那么简单。目前难倒我的就只有这个村子附近的那个洞窟，那里面的蛇每只都很凶悍，我去抓了那么多次都一无所获。",
+                  "其实我只是喜欢收集蛇身上的鳞片，你愿意帮我这个忙吗？"
+                ],
+                "thanks": [
+                  "对了，忘了告诉你，刚刚给你的那一颗唤蛇之石你带着它，就比较容易遇到那几只凶猛的蛇了，别忘记身上的东西要空一些出来喔！！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
@@ -141774,7 +142571,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&ITEM=1838"
+              "condition": "LV>0&ENDEV=4&ITEM=1838",
+              "messagePages": {
+                "accept": [
+                  "ぱ摆稱ぃ痷и临踞みぃ㎡痷琌谅谅舘癳狥﹁倒種"
+                ],
+                "thanks": [
+                  "硂ド钩Τ疭ノ翅иΩカ栋碞抖獽禦琌и临⊿Τ╯ㄓウΤぐ或疭ノ"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/coin/coin1.arg",
@@ -141816,7 +142621,17 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&ITEM!=1837&ITEM!=1838"
+              "condition": "LV>0&ENDEV=4&ITEM!=1837&ITEM!=1838",
+              "messagePages": {
+                "accept": [
+                  "Чир產柑窥絚芲巴倒耞и產玻常柑硂ぃ笵ぱΤ⊿Τ窥逗",
+                  "и琌猜矹摆ぃ穦т盡秨玛盡產ㄓ秨и窥絚摆碞琌т筁常弧и硂窥絚㎝芲巴常疭窥絚㎝霤巴常м砃常⊿侩猭秨币窥絚┪琌穝籹や芲巴ぇ玡ゴ硑硂窥絚㎝芲巴竒",
+                  "单单и稱钮弧筁Τ︗岭硑畍暗妓莱赣叫刚刚ぃ叫腊и盢硂や芲巴ユ倒"
+                ],
+                "thanks": [
+                  "ぃ種陈沸иぃ琌ぃ︑тиê或窯单单砆偿脋倒"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/coin/coin1.arg",
@@ -144642,6 +145457,16 @@ export const WORLD = {
               "eventNo": 144,
               "type": "ACCEPT",
               "condition": "LV>0&ENDEV=4&NOWEV=144&ITEM=1873",
+              "messagePages": {
+                "accept": [
+                  "看到你平安归回我就放心了，那个声音是怎么回事呢？",
+                  "喔喔！原来是一只人鱼的诡计啊！多亏了你的解救不然不知还有多少人会受害呢？！这个人鱼鳞片是他抵押的东西喔，嗯！那我就收下了，相信渔夫们很快就会回来了。",
+                  "这只洛比特是渔夫报答你的礼物，对了还有珊瑚耳饰是渔夫的妻子们编织要送给你的，你就收下它吧。这个都是我们的心意呢！"
+                ],
+                "thanks": [
+                  "失踪的渔夫都回来了，我们村民都很感谢你的帮助。"
+                ]
+              },
               "getPets": [
                 {
                   "enemyIds": [
@@ -144680,7 +145505,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 144,
               "type": "REQUEST",
-              "condition": "LV>29&ENDEV=4"
+              "condition": "LV>29&ENDEV=4",
+              "messagePages": {
+                "request": [
+                  "村子里的渔夫最近到泪之海补鱼时，在史东尔洞窟里听到唱歌的声音，而胆子够大敢去探险的人也都一去不回了，那些渔夫的家人现在都非常担心。",
+                  "而我对你说了那么多，也是希望你能帮我们这个忙，找寻失踪渔夫的下落，你愿意发挥你冒险的精神吗？"
+                ],
+                "thanks": [
+                  "你自己也要小心点喔！"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/sound/sound1.arg",
@@ -145742,7 +146576,14 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": 39,
               "type": "REQUEST",
-              "condition": "LV>0&ENDEV=4"
+              "condition": "LV>0&ENDEV=4",
+              "messagePages": {
+                "thanks": [
+                  "那本日记里写着真实的真相 儿子开始问起了事实的真相 但是、我是打算等到成人仪式 结束之后才说的。 我并没有回答他的问题 他就带着日记离家出走了。",
+                  "一定是去琉璃的洞窟 寻找雅哈奴的行踪吧。 那个孩子的成人一事也还没结束 应该也不知道他母亲在何处吧。 但是、即使知道地方 也不可能往琉璃的洞窟的深处前进的。",
+                  "虽然是非常无理的请求 不知道你是否能够保管我儿子手中的日记 跟这条充满着我相思之情的项炼一起 转交给我的妻子雅哈奴。"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/jaruga/event/ruri02",
@@ -146777,7 +147618,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "要提升自已的等级、强度，只有战斗一途。当我们遇到敌人的时候，有几样事情一定要知道的。",
+                  "进入战斗之后，首先我们得先看敌人的等级，把滑鼠移到对方身上就可以得知，一方面可以知道对方的等级高低，一方面如果是一级的宠物也可以决定抓或不抓。",
+                  "一旦发现敌人的等级比你高得多，尽量选择逃跑会比较安全。这时候自已的敏捷就相当重要。",
+                  "人物的敏捷如果够高的话，对于练功是非常好的。因为这样跟自已所带的宠物合击率会大大增加，特别是敌人的敏不高时，像乌龟、雷龙、大象等，都是练功的最佳选择。",
+                  "除了基本的战斗之外，石器时代里还有许多的精灵，像是补血的滋润精灵、使敌人沉睡的昏睡精灵、甚至于是把敌人的属性反转的奥萝拉精灵等。",
+                  "这些精灵只能依附在武器或装备之上，所以寻找这些带有精灵的装备，就是我们很重要的课题了。",
+                  "所有的人物除了能力之外都有自已的属性，包含宠物也是一样。共分为地、水、火、风四种，这四种属性分别相克，地克水、水克火、火克风、风克地。所以在战斗时也得要注意到敌人是什么样的属性喔。",
+                  "而这四种属性又分别有它的特性，例如火属性的宠物攻击力会较高，水属性的宠物血会较多，地属性的宠物防御力高，而风属性就代表了敏捷啰。善用属性的话，不论是练功或者是解任务，对我们都会有相当的帮助的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -147090,7 +147943,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ITEM=1834&ITEM=1835&ENDEV=4"
+              "condition": "LV>29&ITEM=1834&ITEM=1835&ENDEV=4",
+              "messagePages": {
+                "accept": [
+                  "ㄓ摆и碞笵フ旱ぃ穦礚珿ю阑摸ê硂皚и叫决ひヰ琿丁单フ旱翴秈此狶ワ癸ê碞倒и痙暗├盾"
+                ],
+                "thanks": [
+                  "硂ㄇ媚琌ぇ玡и禦ㄓ倒ю阑决ひ干じノ常纞瘆義硂ㄇ碞倒"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast1.arg",
@@ -147132,7 +147993,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>29&ENDEV=4"
+              "condition": "LV>29&ENDEV=4",
+              "messagePages": {
+                "accept": [
+                  "程れ借常跑畉琌此狶柑礚狠狠瞷フ旱τ临穦笆ю阑摸ぇ决ひ常ぃ幢┕此狶柑ワゑ耕れ",
+                  "痷┣ぇ玡眖ㄓ⊿Τ祇ネフ旱ю阑摸ㄆン腀種腊и此狶柑琩フ旱︙穦笆ю阑摸盾"
+                ],
+                "thanks": [
+                  "谅舘硂眎〆癠琌叫腊Γ靡单秆フ旱︙璶ю阑摸ぇи穦倒癸厨筍ぃ礛摆иれ常芥ぃ"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast1.arg",
@@ -147657,7 +148527,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "现在～我们已经学会帮助宠物融合的方法了，只要将两只到三只的宠物进行合体，就能培育出更强的宠物了。可是记得一件事，合体完的新宠物会变成他们的原始生命体，也就是宠物蛋。",
+                  "要孵化出比较强的新宠物，就得注意拿来融合的宠物强度、技能等。那些都会影响到融合成功后的宠物唷。另外，有些宠物可是不能拿来融合之用的。",
+                  "至于宠物蛋的话，得喂养它营养剂帮助它孵化，这个部分你可以去请教磨药师了，因为他们研究的很透彻，目前磨药师在伊甸四大城出没若想合药剂你可要想办法过去。",
+                  "但是要去之前可别忘了去加加村拿龙骨粉末，不然你可又要多跑一趟了。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -150449,7 +151327,19 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "宠物能帮我们做的事情很多，最重要的一件事当然是战斗。一只训练有素的宠物，绝对是战场上最能信任的帮手。",
+                  "宠物所有的能力里，最要注意的就是它的忠诚度，忠诚度太低，可是有可能不听你的指挥哟。甚至会在战场上逃跑呢？所以一定要随时注意。",
+                  "要保持宠物对我们的忠心，首先得要注意的就是千万别让它在战场上死亡，每次的死亡，都会影响到它对你的忠诚度。",
+                  "若是不小心让宠物的忠诚度降了，有几个方法可以补救，一个是带着宠物战斗提升等级，忠诚度也会上升。但是如果忠诚度低到宠物进入战斗会跑掉的话，就得用别的方法了。",
+                  "有些道具可以直接让宠物吃下去，吃了就可以提升忠诚度，像是忠诚之心、宠物罐头等，都是很好用的道具。",
+                  "除了战斗，宠物还有许多有用的能力可以帮助我们，像是对装备的加工合成技能，制作好吃的料理技能，针对损坏道具的修复技能等。",
+                  "这些都可以在宠物店里学习的，当然啰…其中也会包含许多战斗的技能，不过要注意的是，不是所有的宠物店都能学习到所有技能喔，而且有的特殊技能只有某些宠物才能学习呢。",
+                  "想要抓野生的宠物的话，也得记得抓一级的把它养大会比抓等级高于一级的还来得好喔。这点千万记得…。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -158686,7 +159576,17 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "accept": [
+                  "４８５４４７圣饼时，吉鲁出现大批机暴横行，所到之处皆无一幸免， 尼斯各村的长老达成共识，调集各村勇士，前往消灭这群发狂的机暴。",
+                  "这群勇士在海底隧道入口跟这群机暴激战，不料，实力相差悬殊，勇士们伤亡惨重，残余的勇士，选择在霍特尔海底通路的入口做最后的抵抗，各村长老召集大批人力，封死所有通往吉鲁的海底通道，终于在大批机暴涌入前，将入口封死。",
+                  "此地为４８５５５０圣饼时所建造，为纪念４８５４４７圣饼时所牺牲的勇士，立此石碑，建此地洞，命名为“ 英雄战场”。望后世人效法先烈的行径，达到强种强族为目的，让尼斯大陆的人们生生不息。"
+                ],
+                "thanks": [
+                  "记得，一个楼层只有二个路口，只要走错路口将会回到第一层。如果中途就离开英雄战场，没有在石碑上刻上战绩，那英雄战场将不认定你是英雄的成员之一。当然，登出也是不行的哟…所以下线前一定要回来这里登记才可以的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -171585,7 +172485,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "拉尔在年轻的时候曾经遭到他的村庄人民的放逐，只因为他的白狼朋友，而白狼这种生物…在当时是被人们所深深恐惧着的。",
+                  "而了解什么叫宽恕的拉尔非但没有跟他的村民计较，反倒在村庄最危急的时候，带着他的白狼同伴联手解救了村庄，之后他就成立了这个白狼勇士公会。",
+                  "现在你了解了吧，白狼勇士不只是指我们超人的战斗力而已。真正的意义包含了宽恕、友情、正义以及勇气。",
+                  "如果你也想要成为我们的一员的话，只要通过这里的考验，我们一定非常欢迎你的。",
+                  "不过…也不是每个人都具备这样的能力，最低的要求是最少也经过成人礼的印证以及达到80级，这样的话我相信要成为一名白狼勇士就绝对没问题了。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -171632,7 +172541,14 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "CLASS>0"
+              "condition": "CLASS>0",
+              "messagePages": {
+                "accept": [
+                  "嗯嗯，恭喜您已经正式就职了。",
+                  "如果你对自己选择的职业感到后悔的话，我会帮你办理退出的事宜。",
+                  "只不过之前所做的努力都将白费，已经学得的等级与技能都必须遗忘。 请务必要考虑清楚。你确定要退出吗？"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/class/clean",
@@ -172001,7 +172917,14 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "CLASS>0"
+              "condition": "CLASS>0",
+              "messagePages": {
+                "accept": [
+                  "嗯嗯，恭喜您已经正式就职了。",
+                  "如果你对自己选择的职业感到后悔的话，我会帮你办理退出的事宜。",
+                  "只不过之前所做的努力都将白费，已经学得的等级与技能都必须遗忘。 请务必要考虑清楚。你确定要退出吗？"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/class/clean",
@@ -172155,7 +173078,16 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0"
+              "condition": "LV>0",
+              "messagePages": {
+                "normal": [
+                  "在这个世界上，其实大家都是猎人，都是不错的猎人，而我们追猎者跟一般的猎人不同的是：我们不为粮食而猎杀生物。",
+                  "我们是为了挑战人类的极限，对付各种一般人不敢面对的可怕生物，我们追求的…其实是一种荣誉感，一种为民除害的正义感。",
+                  "再也没有其他人像追猎者一样拥有各种野外求生和驯伏宠物的特殊技能了，就是这些技能让我们得以在各式各样险恶的环境里顺利补杀目标。",
+                  "但是别误会了，我们不到最后关头决不轻易杀生，我们热爱生命、尊重生命，因为就是这些生命给我们带来了美好的生活。你懂吗？",
+                  "听到这里，如果你想追随我们的话，就去找奈尔秋吧…他会帮助你的。"
+                ]
+              }
             }
           ],
           "scriptHints": {
@@ -172409,7 +173341,14 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "CLASS>0"
+              "condition": "CLASS>0",
+              "messagePages": {
+                "accept": [
+                  "嗯嗯，恭喜您已经正式就职了。",
+                  "如果你对自己选择的职业感到后悔的话，我会帮你办理退出的事宜。",
+                  "只不过之前所做的努力都将白费，已经学得的等级与技能都必须遗忘。 请务必要考虑清楚。你确定要退出吗？"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/class/clean",
@@ -173471,7 +174410,15 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2101&ITEM=2102&ITEM=2087&ITEM=2088&ITEM=2089"
+              "condition": "LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2101&ITEM=2102&ITEM=2087&ITEM=2088&ITEM=2089",
+              "messagePages": {
+                "accept": [
+                  "应该是这个熔炉了…希望能成功。"
+                ],
+                "thanks": [
+                  "这…"
+                ]
+              }
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest5",

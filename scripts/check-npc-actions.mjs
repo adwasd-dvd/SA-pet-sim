@@ -453,6 +453,19 @@ const yayoiSp = WORLD.maps["2000"]?.npcs.find((npc) => npc.name === "弥生");
 if (!himikoSp || !yayoiSp) throw new Error("missing Himiko/Yayoi source task fixtures");
 assert(himikoSp.scriptEvents?.some((event) => event.type === "REQUEST" && /SP=0/.test(event.condition || "")), "Himiko parses source SP-gated request branch");
 assert(yayoiSp.scriptEvents?.some((event) => event.type === "REQUEST" && /SP=1/.test(event.condition || "")), "Yayoi parses source SP-gated request branch");
+
+const battleTutor = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "战斗技巧指导员");
+if (!battleTutor) throw new Error("missing battle tutor source message fixture");
+const battleTutorEvent = battleTutor.scriptEvents?.find((event) => event.type === "MESSAGE" && event.messagePages?.normal?.length >= 8);
+assert(battleTutorEvent, "battle tutor parses numbered NormalWindowMsg pages from source script");
+let battleTutorGame = await api("/api/game/new", { name: "source-numbered-message-test" });
+battleTutorGame.location = { mapId: "1000", x: battleTutor.x + 1, y: battleTutor.y };
+battleTutorGame = await api("/api/game/dialog", { game: battleTutorGame, npcId: battleTutor.id });
+const battleTutorReply = battleTutorGame.dialog.messages.at(-1)?.text || "";
+assert(battleTutorReply.includes("要提升自已的等级") && battleTutorReply.includes("四种属性"), "source numbered message pages are joined into the NPC dialogue reply");
+const battleTutorPayload = battleTutorGame.world.map.npcs.find((npc) => npc.id === battleTutor.id);
+assert(battleTutorPayload?.scriptEventSummary?.actions?.includes("MessagePages"), "client payload exposes compact source numbered-message summary");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });

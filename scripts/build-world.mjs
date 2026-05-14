@@ -802,6 +802,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
   const event = {
     source: relativeRef(file),
     messages: {},
+    messagePages: {},
     getItems: [],
     delItems: [],
     getRandItems: [],
@@ -867,13 +868,28 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.nowSetFlags.push(...splitNumberList(value));
       continue;
     }
-    const messageKey = npcScriptMessageKey(key);
-    if (messageKey) event.messages[messageKey] = cleanScriptText(value);
+    const messageSpec = npcScriptMessageSpec(key);
+    if (messageSpec) {
+      const message = cleanScriptText(value);
+      if (messageSpec.page > 0) {
+        event.messagePages[messageSpec.key] ||= [];
+        event.messagePages[messageSpec.key][messageSpec.page - 1] = message;
+      } else {
+        event.messages[messageSpec.key] = message;
+      }
+    }
   }
-  if (!event.type && !Object.keys(event.messages).length) return null;
   const delPets = rawDelPetSpecs.flatMap((value) => parseScriptDelPetSpecs(value, event.condition));
+  const messagePages = Object.fromEntries(
+    Object.entries(event.messagePages)
+      .map(([key, pages]) => [key, pages.filter(Boolean)])
+      .filter(([, pages]) => pages.length)
+  );
+  if (!event.type && !Object.keys(event.messages).length && !Object.keys(messagePages).length) return null;
+  const { messagePages: _rawMessagePages, ...eventOut } = event;
   return {
-    ...event,
+    ...eventOut,
+    ...(Object.keys(messagePages).length ? { messagePages } : {}),
     getItems: event.getItems.map(withScriptItemName),
     delItems: event.delItems.map(withScriptItemName),
     getRandItems: event.getRandItems.map(withScriptRandomItemNames),
@@ -885,7 +901,14 @@ function parseNpcScriptEventBlock(rawBlock, file) {
 }
 
 function npcScriptMessageKey(key) {
-  return {
+  return npcScriptMessageSpec(key)?.key || "";
+}
+
+function npcScriptMessageSpec(key) {
+  const match = String(key || "").toLowerCase().match(/^(.+?)(\d+)?$/);
+  const base = match?.[1] || "";
+  const page = Number(match?.[2] || 0);
+  const messageKeys = {
     nomalmainmsg: "normalMain",
     normalmainmsg: "normalMain",
     nomalmsg: "normal",
@@ -902,7 +925,8 @@ function npcScriptMessageKey(key) {
     stopmsg: "stop",
     endstopmsg: "endStop",
     nostopmsg: "noStop"
-  }[key] || "";
+  };
+  return messageKeys[base] ? { key: messageKeys[base], page } : null;
 }
 
 function parseScriptItemSpecs(value = "") {

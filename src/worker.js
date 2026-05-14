@@ -4514,7 +4514,7 @@ function sourceScriptEventReply(game, npc, text = "") {
   if (event.type === "ACCEPT") return runNpcScriptAccept(game, npc, event, detail);
   if (event.type === "MESSAGE") return runNpcScriptMessage(game, npc, event, detail);
   recordNpcVmEvent(game, npc, "say", "ok", detail);
-  return scriptEventMessages(event, ["normal", "normalMain", "thanks"]).join("\n") || npcDefaultLine(npc);
+  return scriptEventMessages(event, ["normal", "normalMain", "thanks"], game).join("\n") || npcDefaultLine(npc);
 }
 
 function chooseNpcScriptEvent(game, npc) {
@@ -4557,7 +4557,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     delPets: event.delPets
   });
   syncCharacterFields(game);
-  const lines = scriptEventMessages(event, ["request", "thanks", "normalMain"]);
+  const lines = scriptEventMessages(event, ["request", "thanks", "normalMain"], game);
   const rewardLine = scriptEventRewardLine(event);
   if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
@@ -4593,7 +4593,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
     endSetFlags: event.endSetFlags
   });
   syncCharacterFields(game);
-  const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"]);
+  const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"], game);
   const rewardLine = scriptEventRewardLine(event);
   if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
@@ -4649,7 +4649,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     nowSetFlags: event.nowSetFlags
   });
   syncCharacterFields(game);
-  const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"]);
+  const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"], game);
   const rewardLine = scriptEventRewardLine(event);
   if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
@@ -4950,10 +4950,29 @@ function sourceScriptEventBlockedReply(game, npc, text = "") {
   return unmet.length ? `${base}\n还缺：${unmet.join("、")}。` : base;
 }
 
-function scriptEventMessages(event, keys) {
-  return keys
-    .map((key) => event.messages?.[key])
-    .filter(Boolean);
+function scriptEventMessages(event, keys, game) {
+  const lines = [];
+  for (const key of keys) {
+    const base = event.messages?.[key];
+    const pages = (event.messagePages?.[key] || []).filter(Boolean);
+    if (base) {
+      lines.push(formatSourceScriptMessage(game, event, base));
+      for (const page of pages) {
+        if (page && page !== base) lines.push(formatSourceScriptMessage(game, event, page));
+      }
+    } else {
+      for (const page of pages) lines.push(formatSourceScriptMessage(game, event, page));
+    }
+  }
+  return lines;
+}
+
+function formatSourceScriptMessage(game, event, message) {
+  const text = String(message || "");
+  if (!text.includes("%8d")) return text;
+  const stone = (event.delStones || [])[0];
+  const amount = stone ? sourceScriptStoneAmount(game, stone) : 0;
+  return text.replace(/%8d/g, String(amount));
 }
 
 function scriptEventRewardLine(event) {
@@ -9488,6 +9507,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
+    if (event.messagePages && Object.keys(event.messagePages).length) pushUniqueCompact(actions, "MessagePages", 8);
     if (event.condition) pushUniqueCompact(actions, "condition", 8);
   }
   return {
