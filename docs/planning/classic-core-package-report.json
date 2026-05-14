@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-05-14T02:54:23.072Z",
+  "generatedAt": "2026-05-14T03:06:18.738Z",
   "sourcePolicy": "Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.",
   "currentPublic": {
-    "fileCount": 565,
-    "bytes": 70836251,
-    "gzipBytes": 28048521
+    "fileCount": 539,
+    "bytes": 66615119,
+    "gzipBytes": 27158620
   },
   "sharedPublic": {
-    "fileCount": 46,
-    "bytes": 34020878,
-    "gzipBytes": 23847821
+    "fileCount": 20,
+    "bytes": 29799746,
+    "gzipBytes": 22957920
   },
   "profiles": [
     {
@@ -76,20 +76,20 @@
     "floorSavings": 129,
     "npcDelta": -793,
     "estimatedRawBytes": {
-      "fullDev": 75419907,
-      "classicCore": 59668560
+      "fullDev": 71198775,
+      "classicCore": 55447428
     },
     "estimatedGzipBytes": {
-      "fullDev": 28382118,
-      "classicCore": 26677746
+      "fullDev": 27492217,
+      "classicCore": 25787845
     },
     "estimatedRawSavings": {
       "bytes": 15751347,
-      "percent": 20.88486664402808
+      "percent": 22.123058999259467
     },
     "estimatedGzipSavings": {
       "bytes": 1704372,
-      "percent": 6.005090951986036
+      "percent": 6.199470926626252
     },
     "mapAssetSavings": {
       "bytes": 13966111,
@@ -100,8 +100,8 @@
       "percent": 38.947861706899474
     },
     "unchangedSharedAssets": {
-      "bytes": 34020878,
-      "gzipBytes": 23847821,
+      "bytes": 29799746,
+      "gzipBytes": 22957920,
       "note": "Shared assets include the current monolithic client tile atlas and data tables; these require later resource-pack extraction to shrink further."
     }
   },
