@@ -3241,13 +3241,22 @@ function dialogSpeaker(speaker, dialog) {
 }
 
 function renderExitListHtml(map) {
-  const exits = sortMapPoints(map.exits, exitSortMode, (exit) => distanceToExitClient(exit));
-  return exits.map((exit) => `
+  const exits = sortMapPoints(map.exits || [], exitSortMode, (exit) => distanceToExitClient(exit));
+  const closedExits = sortMapPoints(map.profileClosedExits || [], exitSortMode, (exit) => distanceToExitClient(exit));
+  const activeHtml = exits.map((exit) => `
     <button class="list-btn" type="button" data-exit="${exit.id}">
       <strong>${escapeHtml(exit.label)}</strong>
       <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
     </button>
-  `).join("") || `<p class="empty">当前地图没有出口。</p>`;
+  `).join("");
+  const closedHtml = closedExits.map((exit) => `
+    <button class="list-btn closed-profile-exit" type="button" disabled title="${escapeHtml(exit.reason || "当前内容 profile 暂未开放")}">
+      <strong>${escapeHtml(exit.label)}</strong>
+      <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
+      <small>暂未开放：${escapeHtml(exit.toName || exit.to || "目标地图")}</small>
+    </button>
+  `).join("");
+  return activeHtml || closedHtml ? `${activeHtml}${closedHtml}` : `<p class="empty">当前地图没有出口。</p>`;
 }
 
 function renderSortBar(kind, mode) {
@@ -4680,6 +4689,7 @@ function nearbyText() {
   const parts = [];
   if (nearby.npcs?.length) parts.push(`NPC ${nearby.npcs.map((npc) => npc.name).join("、")}`);
   if (nearby.exits?.length) parts.push(`出口 ${nearby.exits.map((exit) => exit.label).join("、")}`);
+  if (nearby.closedExits?.length) parts.push(`未开放入口 ${nearby.closedExits.map((exit) => exit.label).join("、")}`);
   return parts.length ? ` | 附近：${parts.join("；")}` : "";
 }
 

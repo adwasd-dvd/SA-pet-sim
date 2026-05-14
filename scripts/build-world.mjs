@@ -165,7 +165,9 @@ const world = {
 if (!DRY_RUN) writeFileSync(worldOut, `export const WORLD = ${JSON.stringify(world, null, 2)};\n`);
 console.log(`${DRY_RUN ? "[dry-run] " : ""}Generated ${Object.keys(maps).length} maps${DRY_RUN ? "" : ` into ${path.relative(appRoot, worldOut)}`}`);
 if (contentProfile) {
-  console.log(`${DRY_RUN ? "[dry-run] " : ""}Content profile ${contentProfile.id}: manifest floors=${contentProfile.floorSet.size}, closed warps=${contentProfile.closedWarps.length}, includeSourceOnly=${CONTENT_PROFILE_INCLUDE_SOURCE_ONLY}`);
+  const activeExitCount = Object.values(maps).reduce((sum, map) => sum + (map.exits || []).length, 0);
+  const profileClosedExitCount = Object.values(maps).reduce((sum, map) => sum + (map.profileClosedExits || []).length, 0);
+  console.log(`${DRY_RUN ? "[dry-run] " : ""}Content profile ${contentProfile.id}: manifest floors=${contentProfile.floorSet.size}, active exits=${activeExitCount}, profile-closed exits=${profileClosedExitCount}, closed warps=${contentProfile.closedWarps.length}, includeSourceOnly=${CONTENT_PROFILE_INCLUDE_SOURCE_ONLY}`);
 }
 if (!DRY_RUN) {
   console.log(`Copied LS2MAP files into ${path.relative(appRoot, publicMapRoot)}`);
@@ -481,23 +483,46 @@ function selectFloors() {
 function applyProfileClosedExits(maps) {
   if (!contentProfile) return;
   const selected = new Set(Object.keys(maps));
-  const byFloor = new Map();
-  for (const warp of contentProfile.closedWarps) {
-    const floor = Number(warp.floor);
-    const to = Number(warp.to);
-    if (!Number.isFinite(floor) || !Number.isFinite(to) || !selected.has(String(floor)) || selected.has(String(to))) continue;
-    const list = byFloor.get(String(floor)) || [];
-    list.push({
-      label: warp.label || `去 ${warp.toName || `floor ${to}`}`,
-      to: String(to),
-      toName: warp.toName || cleanName(mapFiles.get(to)?.name) || `floor ${to}`,
-      source: warp.source || `${GMSV_DATA_SOURCE}/map/mapwarp.txt`,
-      status: "closed-or-hidden-until-profile-enabled"
-    });
-    byFloor.set(String(floor), list);
-  }
-  for (const [floor, closedExits] of byFloor) {
-    if (maps[floor]) maps[floor].profileClosedExits = closedExits;
+  for (const floorText of selected) {
+    const floor = Number(floorText);
+    const map = maps[floorText];
+    const closedSourceWarps = (warps.get(floor) || []).filter((warp) => !selected.has(String(warp.toFloor)) && mapFiles.has(warp.toFloor));
+    if (!closedSourceWarps.length) continue;
+    const closedExits = [];
+    const seen = new Set();
+    for (const cluster of clusterWarps(closedSourceWarps)) {
+      const warp = cluster[0];
+      const target = mapFiles.get(warp.toFloor);
+      const targetName = cleanName(target?.name) || `floor ${warp.toFloor}`;
+      const bounds = boundsFor(cluster);
+      const marker = centerFor(cluster);
+      const targetPoint = centerFor(cluster.map((item) => ({ x: item.toX, y: item.toY })));
+      const key = `${warp.toFloor}:${bounds.minX}:${bounds.minY}:${bounds.maxX}:${bounds.maxY}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      closedExits.push({
+        id: `closed-${warp.toFloor}-${closedExits.length}`,
+        label: `去 ${targetName}`,
+        detail: `${targetName} | floor ${warp.toFloor} | ${formatExitBounds(bounds, cluster.length)} | classic-core 暂未开放`,
+        to: String(warp.toFloor),
+        toName: targetName,
+        x: marker.x,
+        y: marker.y,
+        bounds: [bounds.minX, bounds.minY, bounds.maxX, bounds.maxY],
+        target: [targetPoint.x, targetPoint.y],
+        tiles: cluster.map((item) => ({
+          x: item.x,
+          y: item.y,
+          target: [item.toX, item.toY]
+        })),
+        source: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`,
+        status: "closed-or-hidden-until-profile-enabled",
+        reason: `${CONTENT_PROFILE} profile 未启用 ${targetName}`
+      });
+    }
+    if (closedExits.length) {
+      map.profileClosedExits = closedExits.sort((a, b) => a.y - b.y || a.x - b.x || a.to.localeCompare(b.to));
+    }
   }
 }
 

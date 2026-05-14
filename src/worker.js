@@ -463,6 +463,8 @@ async function walkGame(env, request, game, dx, dy) {
   if (requestedDx === 0 && requestedDy === 0) {
     const currentExit = exitAt(map, game.location.x, game.location.y);
     if (currentExit) return applyExit(game, currentExit);
+    const currentClosedExit = closedExitAt(map, game.location.x, game.location.y);
+    if (currentClosedExit) noteClosedExit(game, currentClosedExit);
     noteNearby(game, map);
     return withMap(game);
   }
@@ -472,6 +474,7 @@ async function walkGame(env, request, game, dx, dy) {
   const nextX = clampInt(Number(game.location.x || 0) + delta.dx, 0, width - 1, game.location.x);
   const nextY = clampInt(Number(game.location.y || 0) + delta.dy, 0, height - 1, game.location.y);
   const exit = exitAt(map, nextX, nextY);
+  const closedExit = exit ? null : closedExitAt(map, nextX, nextY);
   if (!exit && (await blocksMove(env, request, map, nextX, nextY))) {
     noteBlockedMove(game, map, nextX, nextY);
     noteNearby(game, map);
@@ -479,6 +482,7 @@ async function walkGame(env, request, game, dx, dy) {
   }
   game.location = { ...game.location, x: nextX, y: nextY, dir };
   if (exit) return applyExit(game, exit);
+  if (closedExit) noteClosedExit(game, closedExit);
   noteNearby(game, map);
   await maybeStepEncounter(env, request, game, map);
   return withMap(game);
@@ -655,7 +659,11 @@ async function routeExitGame(env, request, game, exitId) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const exit = findExit(map, exitId);
-  if (!exit) throw new Error("这个出口不在当前地图");
+  if (!exit) {
+    const closedExit = findClosedExit(map, exitId);
+    if (closedExit) throw new Error(closedExitMessage(closedExit));
+    throw new Error("这个出口不在当前地图");
+  }
   const collision = await loadCollisionMap(env, request, map);
   const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
   const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
@@ -756,11 +764,54 @@ function assertNpcInteractionRange(game, npc, range = NPC_INTERACTION_RANGE, act
 }
 
 function findExit(map, id) {
-  return map.exits.find((item) => item.id === id || item.to === id);
+  return (map.exits || []).find((item) => item.id === id || item.to === id);
+}
+
+function findClosedExit(map, id) {
+  return (map.profileClosedExits || []).find((item) => item.id === id || item.to === id);
+}
+
+function closedExitMessage(exit) {
+  return `这个入口通往 ${exit.toName || exit.to || "未开放地图"}，当前内容 profile 暂未开放。`;
+}
+
+function closedExitSummary(exit) {
+  return {
+    id: exit.id,
+    label: exit.label,
+    detail: exit.detail,
+    to: exit.to,
+    toName: exit.toName,
+    x: exit.x,
+    y: exit.y,
+    bounds: exit.bounds,
+    source: exit.source,
+    status: exit.status,
+    reason: exit.reason
+  };
+}
+
+function closedExitAt(map, x, y) {
+  for (const exit of map.profileClosedExits || []) {
+    const tile = (exit.tiles || []).find((item) => Number(item.x) === x && Number(item.y) === y);
+    if (tile) {
+      return {
+        ...exit,
+        x: tile.x,
+        y: tile.y,
+        target: tile.target,
+        sourceTile: { x: tile.x, y: tile.y, target: tile.target }
+      };
+    }
+    if (Array.isArray(exit.tiles) && exit.tiles.length) continue;
+    const bounds = Array.isArray(exit.bounds) ? exit.bounds : [exit.x, exit.y, exit.x, exit.y];
+    if (x >= bounds[0] && y >= bounds[1] && x <= bounds[2] && y <= bounds[3]) return exit;
+  }
+  return null;
 }
 
 function exitAt(map, x, y) {
-  for (const exit of map.exits) {
+  for (const exit of map.exits || []) {
     const tile = (exit.tiles || []).find((item) => Number(item.x) === x && Number(item.y) === y);
     if (tile) {
       return {
@@ -991,14 +1042,23 @@ function noteNearby(game, map) {
     game.location.x,
     game.location.y,
     nearby.npcs.map((npc) => npc.id).join(","),
-    nearby.exits.map((exit) => exit.id).join(",")
+    nearby.exits.map((exit) => exit.id).join(","),
+    nearby.closedExits.map((exit) => exit.id).join(",")
   ].join(":");
   if (game.lastNearbyKey === key) return;
   game.lastNearbyKey = key;
   const parts = [];
   if (nearby.npcs.length) parts.push(`附近 NPC：${nearby.npcs.map((npc) => npc.name).join("、")}`);
   if (nearby.exits.length) parts.push(`附近出口：${nearby.exits.map((exit) => exit.label).join("、")}`);
+  if (nearby.closedExits.length) parts.push(`暂未开放入口：${nearby.closedExits.map((exit) => exit.label).join("、")}`);
   if (parts.length) addLog(game, parts.join("；"));
+}
+
+function noteClosedExit(game, exit) {
+  const key = `${game.location.mapId}:${exit.id}:${game.location.x}:${game.location.y}`;
+  if (game.lastClosedExitKey === key) return;
+  game.lastClosedExitKey = key;
+  addLog(game, closedExitMessage(exit));
 }
 
 function applyExit(game, exit) {
@@ -6917,6 +6977,13 @@ function buildGuideContext(game, map, prompt = "") {
     }))
     .sort((a, b) => a.distance - b.distance || a.label.localeCompare(b.label, "zh-Hans"))
     .slice(0, 16);
+  const closedExits = (map.profileClosedExits || [])
+    .map((exit) => ({
+      ...closedExitSummary(exit),
+      distance: distanceToExit(exit, x, y)
+    }))
+    .sort((a, b) => a.distance - b.distance || String(a.label || "").localeCompare(String(b.label || ""), "zh-Hans"))
+    .slice(0, 8);
   return {
     player: {
       ...compactPlayerContext(game),
@@ -6935,7 +7002,7 @@ function buildGuideContext(game, map, prompt = "") {
     },
     knowledge: buildStoneAgeKnowledgeContext(game, map, prompt),
     workspace: compactAiWorkspaceMemory(game),
-    map: { exits, npcs, nearby: nearbyState(game, map) },
+    map: { exits, closedExits, npcs, nearby: nearbyState(game, map) },
     world: guideWorldSummary(game, map),
     pets: game.pets.map(petSummary),
     petState: petState(game),
@@ -8461,11 +8528,15 @@ function nearbyState(game, map) {
       warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
       scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc)
     }));
-  const exits = map.exits
+  const exits = (map.exits || [])
     .filter((exit) => distanceToExit(exit, x, y) <= 2)
     .slice(0, 5)
     .map((exit) => ({ id: exit.id, label: exit.label, x: exit.x, y: exit.y, to: exit.to }));
-  return { npcs, exits };
+  const closedExits = (map.profileClosedExits || [])
+    .filter((exit) => distanceToExit(exit, x, y) <= 2)
+    .slice(0, 5)
+    .map((exit) => closedExitSummary(exit));
+  return { npcs, exits, closedExits };
 }
 
 function distance(ax, ay, bx, by) {
