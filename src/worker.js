@@ -4509,6 +4509,7 @@ function sourceScriptEventReply(game, npc, text = "") {
   });
   if (event.type === "REQUEST") return runNpcScriptRequest(game, npc, event, detail);
   if (event.type === "ACCEPT") return runNpcScriptAccept(game, npc, event, detail);
+  if (event.type === "MESSAGE") return runNpcScriptMessage(game, npc, event, detail);
   recordNpcVmEvent(game, npc, "say", "ok", detail);
   return scriptEventMessages(event, ["normal", "normalMain", "thanks"]).join("\n") || npcDefaultLine(npc);
 }
@@ -4526,40 +4527,12 @@ function chooseNpcScriptEvent(game, npc) {
 }
 
 function runNpcScriptRequest(game, npc, event, detail) {
-  const preflight = npcScriptEventPreflight(game, event);
-  if (!preflight.ok) {
-    recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase: "request", reason: preflight.reason, itemId: preflight.itemId, itemName: preflight.itemName });
-    return event.messages?.itemFull && preflight.reason === "inventory-full"
-      ? event.messages.itemFull
-      : `${npc.name}：${preflight.message || "条件还没有准备好。"}。`;
-  }
-  for (const item of event.delItems || []) {
-    const taken = runNpcVmAction(game, npc, {
-      type: "take",
-      itemId: item.id,
-      itemName: item.name,
-      qty: item.qty,
-      ...detail,
-      reason: "source-changeevent-request-delitem"
-    });
-    if (!taken.ok) {
-      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase: "request", reason: taken.error || "take-failed", itemId: item.id, itemName: item.name });
-      return `${npc.name}：${taken.error || "需要的道具不够"}。`;
-    }
-  }
-  for (const item of event.getItems || []) {
-    const given = runNpcVmAction(game, npc, {
-      type: "give",
-      item: sourceScriptItem(item),
-      qty: item.qty,
-      ...detail,
-      reason: "source-changeevent-request-getitem"
-    });
-    if (!given.ok) {
-      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase: "request", reason: given.error || "give-failed", itemId: item.id, itemName: item.name });
-      return event.messages?.itemFull || `${npc.name}：${given.error || "背包放不下任务道具"}。`;
-    }
-  }
+  const applied = applyNpcScriptItemDelta(game, npc, event, detail, {
+    phase: "request",
+    takeReason: "source-changeevent-request-delitem",
+    giveReason: "source-changeevent-request-getitem"
+  });
+  if (!applied.ok) return applied.reply;
   if (Number(event.eventNo || 0) > 0) {
     runNpcVmAction(game, npc, {
       type: "setFlag",
@@ -4578,40 +4551,12 @@ function runNpcScriptRequest(game, npc, event, detail) {
 }
 
 function runNpcScriptAccept(game, npc, event, detail) {
-  const preflight = npcScriptEventPreflight(game, event);
-  if (!preflight.ok) {
-    recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, reason: preflight.reason, itemId: preflight.itemId, itemName: preflight.itemName });
-    return event.messages?.itemFull && preflight.reason === "inventory-full"
-      ? event.messages.itemFull
-      : `${npc.name}：${preflight.message || "条件还没有准备好。"}。`;
-  }
-  for (const item of event.delItems || []) {
-    const taken = runNpcVmAction(game, npc, {
-      type: "take",
-      itemId: item.id,
-      itemName: item.name,
-      qty: item.qty,
-      ...detail,
-      reason: "source-changeevent-delitem"
-    });
-    if (!taken.ok) {
-      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, reason: taken.error || "take-failed", itemId: item.id, itemName: item.name });
-      return `${npc.name}：${taken.error || "需要的道具不够"}。`;
-    }
-  }
-  for (const item of event.getItems || []) {
-    const given = runNpcVmAction(game, npc, {
-      type: "give",
-      item: sourceScriptItem(item),
-      qty: item.qty,
-      ...detail,
-      reason: "source-changeevent-getitem"
-    });
-    if (!given.ok) {
-      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, reason: given.error || "give-failed", itemId: item.id, itemName: item.name });
-      return event.messages?.itemFull || `${npc.name}：${given.error || "背包放不下任务道具"}。`;
-    }
-  }
+  const applied = applyNpcScriptItemDelta(game, npc, event, detail, {
+    phase: "accept",
+    takeReason: "source-changeevent-delitem",
+    giveReason: "source-changeevent-getitem"
+  });
+  if (!applied.ok) return applied.reply;
   for (const shiftbit of event.endSetFlags || []) {
     runNpcVmAction(game, npc, {
       type: "setFlag",
@@ -4628,6 +4573,84 @@ function runNpcScriptAccept(game, npc, event, detail) {
   const rewardLine = scriptEventRewardLine(event);
   if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function runNpcScriptMessage(game, npc, event, detail) {
+  const applied = applyNpcScriptItemDelta(game, npc, event, detail, {
+    phase: "message",
+    takeReason: "source-changeevent-message-delitem",
+    giveReason: "source-changeevent-message-getitem"
+  });
+  if (!applied.ok) return applied.reply;
+  for (const shiftbit of event.nowSetFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "setFlag",
+      kind: "now",
+      shiftbit,
+      key: `now:${shiftbit}`,
+      ...detail,
+      reason: "source-changeevent-message-now"
+    });
+  }
+  for (const shiftbit of event.endSetFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "setFlag",
+      kind: "end",
+      shiftbit,
+      key: `end:${shiftbit}`,
+      ...detail,
+      reason: "source-changeevent-message-end"
+    });
+  }
+  const hasMutation = (event.getItems || []).length || (event.delItems || []).length || (event.endSetFlags || []).length || (event.nowSetFlags || []).length;
+  recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", { ...detail, phase: "message", getItems: event.getItems, delItems: event.delItems, endSetFlags: event.endSetFlags, nowSetFlags: event.nowSetFlags });
+  syncCharacterFields(game);
+  const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"]);
+  const rewardLine = scriptEventRewardLine(event);
+  if (rewardLine) lines.push(rewardLine);
+  return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
+  const phase = options.phase || "script";
+  const preflight = npcScriptEventPreflight(game, event);
+  if (!preflight.ok) {
+    recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: preflight.reason, itemId: preflight.itemId, itemName: preflight.itemName });
+    return {
+      ok: false,
+      reply: event.messages?.itemFull && preflight.reason === "inventory-full"
+        ? event.messages.itemFull
+        : `${npc.name}：${preflight.message || "条件还没有准备好。"}。`
+    };
+  }
+  for (const item of event.delItems || []) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      ...detail,
+      reason: options.takeReason || "source-changeevent-delitem"
+    });
+    if (!taken.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: taken.error || "take-failed", itemId: item.id, itemName: item.name });
+      return { ok: false, reply: `${npc.name}：${taken.error || "需要的道具不够"}。` };
+    }
+  }
+  for (const item of event.getItems || []) {
+    const given = runNpcVmAction(game, npc, {
+      type: "give",
+      item: sourceScriptItem(item),
+      qty: item.qty,
+      ...detail,
+      reason: options.giveReason || "source-changeevent-getitem"
+    });
+    if (!given.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: given.error || "give-failed", itemId: item.id, itemName: item.name });
+      return { ok: false, reply: event.messages?.itemFull || `${npc.name}：${given.error || "背包放不下任务道具"}。` };
+    }
+  }
+  return { ok: true };
 }
 
 function npcScriptEventPreflight(game, event) {
@@ -4751,7 +4774,7 @@ function buildSourceScriptTaskIndex(world) {
         task.sources.add(ref.source);
         task.npcs.push(ref);
         if (event.type === "REQUEST") task.requestNpcs.push(ref);
-        if (event.type === "ACCEPT") {
+        if (event.type === "ACCEPT" || event.type === "MESSAGE") {
           task.acceptNpcs.push({
             ...ref,
             getItems: (event.getItems || []).map(sourceScriptTaskItem),

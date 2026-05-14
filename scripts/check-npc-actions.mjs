@@ -482,6 +482,46 @@ assertEqual(inventoryQty(shellFlowerGame, 2414), 0, "Himiko ACCEPT takes source 
 assertEqual(inventoryQty(shellFlowerGame, 2415), 1, "Himiko ACCEPT gives source Senia flower");
 assert(shellFlowerGame.flags.bits["end:2"], "Himiko ACCEPT completes source EventNo 2 for SP=1 path");
 
+const yamyam = WORLD.maps["1400"]?.npcs.find((npc) => npc.name === "亚姆亚姆");
+const matiAxe = WORLD.maps["1300"]?.npcs.find((npc) => npc.name === "马提");
+if (!yamyam || !matiAxe) throw new Error("missing Yamyam/Mati source task fixtures");
+let axeLetterGame = await api("/api/game/new", { name: "source-task-axe-letter-test" });
+axeLetterGame.location = { mapId: "1400", x: yamyam.x + 1, y: yamyam.y };
+axeLetterGame = await api("/api/game/dialog", { game: axeLetterGame, npcId: yamyam.id });
+assert(axeLetterGame.flags.bits["now:3"], "Yamyam REQUEST starts source EventNo 3");
+assertEqual(inventoryQty(axeLetterGame, 2416), 1, "Yamyam REQUEST gives source axe");
+assert(axeLetterGame.progression.sourceTasks.some((task) => task.eventNo === 3 && task.phase === "turn-in" && task.nextNpcs.some((npc) => npc.name === "马提")), "EventNo 3 source task points to Mati");
+axeLetterGame = await api("/api/game/dialog", { game: axeLetterGame, npcId: yamyam.id });
+assertEqual(inventoryQty(axeLetterGame, 2416), 1, "repeating Yamyam while NOWEV=3 does not duplicate the axe");
+axeLetterGame.location = { mapId: "1300", x: matiAxe.x + 1, y: matiAxe.y };
+axeLetterGame = await api("/api/game/dialog", { game: axeLetterGame, npcId: matiAxe.id });
+assertEqual(inventoryQty(axeLetterGame, 2416), 0, "Mati ACCEPT takes source axe");
+assert(axeLetterGame.flags.bits["end:3"], "Mati ACCEPT completes source EventNo 3");
+assert(!axeLetterGame.progression.sourceTasks.some((task) => task.eventNo === 3), "EventNo 3 disappears after ENDEV=3");
+axeLetterGame = await api("/api/game/dialog", { game: axeLetterGame, npcId: matiAxe.id });
+assert(axeLetterGame.flags.bits["now:5"], "Mati REQUEST starts source EventNo 5 after EventNo 3");
+assertEqual(inventoryQty(axeLetterGame, 2423), 1, "Mati REQUEST gives source letter");
+assert(axeLetterGame.progression.sourceTasks.some((task) => task.eventNo === 5 && task.phase === "turn-in" && task.nextNpcs.some((npc) => npc.name === "亚姆亚姆")), "EventNo 5 source task points back to Yamyam");
+axeLetterGame.location = { mapId: "1400", x: yamyam.x + 1, y: yamyam.y };
+axeLetterGame = await api("/api/game/dialog", { game: axeLetterGame, npcId: yamyam.id });
+assertEqual(inventoryQty(axeLetterGame, 2423), 0, "Yamyam ACCEPT takes source letter");
+assertEqual(inventoryQty(axeLetterGame, 2448), 1, "Yamyam ACCEPT gives source return axe reward");
+assert(axeLetterGame.flags.bits["end:5"], "Yamyam ACCEPT completes source EventNo 5");
+
+const sutton = WORLD.maps["1112"]?.npcs.find((npc) => npc.name === "老人萨顿");
+if (!sutton) throw new Error("missing Sutton source task fixture");
+assert(sutton.scriptEvents?.some((event) => event.type === "MESSAGE" && event.getItems?.some((item) => Number(item.id) === 2431)), "Sutton parses source MESSAGE item recovery branch");
+let suttonGame = await api("/api/game/new", { name: "source-task-message-item-test" });
+suttonGame.player.level = 16;
+suttonGame.location = { mapId: "1112", x: sutton.x + 1, y: sutton.y };
+suttonGame = await api("/api/game/dialog", { game: suttonGame, npcId: sutton.id });
+assert(suttonGame.flags.bits["now:13"], "Sutton REQUEST starts source EventNo 13");
+assertEqual(inventoryQty(suttonGame, 2431), 1, "Sutton REQUEST gives source thief footprints");
+suttonGame.inventory = suttonGame.inventory.filter((item) => Number(item.id) !== 2431);
+suttonGame = await api("/api/game/dialog", { game: suttonGame, npcId: sutton.id });
+assertEqual(inventoryQty(suttonGame, 2431), 1, "Sutton MESSAGE branch reissues lost source thief footprints");
+assert(suttonGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-message-getitem" && event.detail?.itemId === 2431), "MESSAGE item branch runs through NPC VM");
+
 const adultJudge = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式的审判");
 const adultMessenger = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式审判的差使");
 const adultGatekeeper = WORLD.maps["10202"]?.npcs.find((npc) => npc.name === "仪的值班者");
