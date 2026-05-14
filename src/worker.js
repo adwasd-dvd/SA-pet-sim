@@ -345,6 +345,7 @@ async function createPlayerGame(env, request, body) {
   const name = String(body.name || "").trim().slice(0, 12) || "新来的原始人";
   const now = new Date().toISOString();
   const accountId = cleanAccountId(body.accountId) || `local-${crypto.randomUUID().slice(0, 8)}`;
+  const startPoint = clampInt(body.startPoint ?? body.sp, 0, 3, 0);
   return withMap({
     id: crypto.randomUUID(),
     account: {
@@ -393,7 +394,9 @@ async function createPlayerGame(env, request, body) {
       deadCount: 0,
       battleCount: 0,
       winCount: 0,
-      loseCount: 0
+      loseCount: 0,
+      startPoint,
+      savePointMask: 1 << startPoint
     },
     location: {
       mapId: WORLD.startMap,
@@ -4514,6 +4517,7 @@ function chooseNpcScriptEvent(game, npc) {
   for (const event of npc.scriptEvents || []) {
     const eventNo = Number(event.eventNo || 0);
     if (eventNo > 0 && eventFlagSet(game, eventNo, "end") && event.type !== "MESSAGE") continue;
+    if (eventNo > 0 && event.type === "REQUEST" && eventFlagSet(game, eventNo, "now")) continue;
     const condition = characterConditionStatus(game, event.condition || "");
     if (!condition.ok) continue;
     return { event, condition };
@@ -4522,6 +4526,40 @@ function chooseNpcScriptEvent(game, npc) {
 }
 
 function runNpcScriptRequest(game, npc, event, detail) {
+  const preflight = npcScriptEventPreflight(game, event);
+  if (!preflight.ok) {
+    recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase: "request", reason: preflight.reason, itemId: preflight.itemId, itemName: preflight.itemName });
+    return event.messages?.itemFull && preflight.reason === "inventory-full"
+      ? event.messages.itemFull
+      : `${npc.name}：${preflight.message || "条件还没有准备好。"}。`;
+  }
+  for (const item of event.delItems || []) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      ...detail,
+      reason: "source-changeevent-request-delitem"
+    });
+    if (!taken.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase: "request", reason: taken.error || "take-failed", itemId: item.id, itemName: item.name });
+      return `${npc.name}：${taken.error || "需要的道具不够"}。`;
+    }
+  }
+  for (const item of event.getItems || []) {
+    const given = runNpcVmAction(game, npc, {
+      type: "give",
+      item: sourceScriptItem(item),
+      qty: item.qty,
+      ...detail,
+      reason: "source-changeevent-request-getitem"
+    });
+    if (!given.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase: "request", reason: given.error || "give-failed", itemId: item.id, itemName: item.name });
+      return event.messages?.itemFull || `${npc.name}：${given.error || "背包放不下任务道具"}。`;
+    }
+  }
   if (Number(event.eventNo || 0) > 0) {
     runNpcVmAction(game, npc, {
       type: "setFlag",
@@ -4531,8 +4569,11 @@ function runNpcScriptRequest(game, npc, event, detail) {
       ...detail
     });
   }
-  recordNpcVmEvent(game, npc, "quest", "ok", { ...detail, phase: "request" });
+  recordNpcVmEvent(game, npc, "quest", "ok", { ...detail, phase: "request", getItems: event.getItems, delItems: event.delItems });
+  syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["request", "thanks", "normalMain"]);
+  const rewardLine = scriptEventRewardLine(event);
+  if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
 }
 
@@ -4626,6 +4667,16 @@ function sourceScriptEventBlockedReply(game, npc, text = "") {
   if (completed) {
     recordNpcVmEvent(game, npc, "say", "ok", { reason: "source-changeevent-completed", eventNo: completed.event.eventNo });
     return scriptEventMessages(completed.event, ["normal", "thanks", "normalMain"]).join("\n") || `${npc.name}：这件事已经结束了。`;
+  }
+  const inProgress = statuses.find(({ event }) => (
+    Number(event.eventNo || 0) > 0 &&
+    event.type === "REQUEST" &&
+    eventFlagSet(game, Number(event.eventNo), "now") &&
+    !eventFlagSet(game, Number(event.eventNo), "end")
+  ));
+  if (inProgress) {
+    recordNpcVmEvent(game, npc, "quest", "noop", { reason: "source-changeevent-in-progress", eventNo: inProgress.event.eventNo });
+    return scriptEventMessages(inProgress.event, ["noStop", "stop", "thanks", "request", "normalMain"]).join("\n") || `${npc.name}：这件事还在进行中。`;
   }
   const blocked = statuses.find(({ condition }) => !condition.ok);
   const unmet = compactConditionUnmet(blocked?.condition, 3)
@@ -5276,7 +5327,7 @@ function characterConditionMet(game, part) {
       op: petCount[1]
     };
   }
-  const numericField = token.match(/^(MANOR|CLASS|TRANS)\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
+  const numericField = token.match(/^(MANOR|CLASS|TRANS|SP)\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
   if (numericField) {
     const field = numericField[1].toLowerCase();
     const actual = conditionNumericFieldValue(game, field);
@@ -5340,7 +5391,31 @@ function conditionNumericFieldValue(game, field) {
   if (field === "manor") return Number(game.player?.manorId ?? game.player?.Manor ?? game.family?.manorId ?? 0);
   if (field === "class") return Number(game.player?.classId ?? game.player?.Class ?? game.player?.professionClass ?? 0);
   if (field === "trans") return Number(game.player?.transmigration ?? game.player?.Trans ?? game.player?.trans ?? 0);
+  if (field === "sp") return sourceStartPoint(game);
   return 0;
+}
+
+function sourceStartPoint(game) {
+  const mask = Number(
+    game.player?.savePointMask ??
+    game.player?.SavePoint ??
+    game.player?.CHAR_SAVEPOINT ??
+    game.characterFields?.base?.savePointMask ??
+    0
+  );
+  if (Number.isFinite(mask) && mask > 0) {
+    for (let shift = 0; shift < 4; shift += 1) {
+      if (((mask >>> 0) & (1 << shift)) === (1 << shift)) return shift;
+    }
+  }
+  const explicit = Number(
+    game.player?.startPoint ??
+    game.player?.StartPoint ??
+    game.player?.birthPoint ??
+    game.characterFields?.base?.startPoint ??
+    0
+  );
+  return clampInt(explicit, 0, 3, 0);
 }
 
 function compactNpcWarpStatus(game, npc) {
@@ -8050,6 +8125,9 @@ function normalizePlayerRuntime(player) {
   player.battleCount = clampInt(player.battleCount, 0, 999999999, 0);
   player.winCount = clampInt(player.winCount, 0, 999999999, 0);
   player.loseCount = clampInt(player.loseCount, 0, 999999999, 0);
+  player.startPoint = clampInt(player.startPoint ?? player.StartPoint ?? player.birthPoint, 0, 3, 0);
+  player.savePointMask = clampInt(player.savePointMask ?? player.SavePoint ?? player.CHAR_SAVEPOINT, 0, 0xffffffff, 1 << player.startPoint);
+  player.SavePoint = player.savePointMask;
   compliancePlayerParameter(player, { preserveHp: true });
   const progress = progressionSummary(player.level, player.exp);
   player.currentLevelExp = progress.currentLevelExp;
@@ -8166,6 +8244,8 @@ function buildCharacterFields(game) {
       maxHp: Number(game.player?.maxHp || 0),
       stone: Number(game.player?.stone || 0),
       charm: Number(game.player?.charm || 0),
+      startPoint: sourceStartPoint(game),
+      savePointMask: Number(game.player?.savePointMask ?? game.player?.SavePoint ?? 0),
       mapId: String(game.location?.mapId || ""),
       x: Number(game.location?.x || 0),
       y: Number(game.location?.y || 0),
@@ -8769,6 +8849,8 @@ function buildCharInfo(game) {
     `KILLPETCOUNT=${game.player.killPetCount}`,
     `DEADCOUNT=${game.player.deadCount}`,
     `BATTLECOUNT=${game.player.battleCount}`,
+    `STARTPOINT=${sourceStartPoint(game)}`,
+    `SAVEPOINT=${game.player.savePointMask ?? game.player.SavePoint ?? 0}`,
     `FLOOR=${game.location.mapId}`,
     `X=${game.location.x}`,
     `Y=${game.location.y}`,

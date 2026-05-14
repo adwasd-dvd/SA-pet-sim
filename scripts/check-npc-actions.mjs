@@ -63,6 +63,11 @@ assertEqual(activeFieldPet?.counters?.battleCount, Number(playerPointGame.pets[0
 assert(playerPointGame.save.info.includes("CHARACTER_FIELDS="), "saac-like save info includes compact character fields");
 assertEqual(playerPointGame.save.json.characterFields.schema, "gmsv-character-fields-v1", "save json carries compact character fields");
 assertEqual(playerPointGame.save.json.characterFields.pets[0].expToNext, playerPointGame.pets[0].ExpToNext, "save json carries pet EXP to next level");
+assertEqual(game.player.startPoint, 0, "new player defaults to source startpoint SP=0");
+assertEqual(game.player.savePointMask, 1, "new player defaults to source CHAR_SAVEPOINT bit 0");
+assertEqual(game.characterFields?.base?.startPoint, 0, "character fields expose source startpoint");
+assert(game.save.info.includes("STARTPOINT=0"), "saac-like save info records source startpoint");
+assert(game.save.info.includes("SAVEPOINT=1"), "saac-like save info records source CHAR_SAVEPOINT mask");
 
 let petModeGame = await api("/api/game/new", { name: "pet-mode-test" });
 petModeGame.pets.push({
@@ -442,6 +447,40 @@ assertEqual(ganzoBattleGame.battleOutcome.defeatedEnemies.length, 2, "Ganzo fina
 assertEqual(ganzoBattleGame.lastBattleOutcome.defeatedEnemies.length, 2, "last battle outcome persists defeated enemy telemetry");
 assert(ganzoBattleGame.flags.npcEnemyDefeats[ganzo.id]?.until, "Ganzo victory records source dieact=0 respawn timer");
 assert(!ganzoBattleGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "Ganzo victory hides the blocker NPC from the active map");
+
+const himikoSp = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "日美子");
+const yayoiSp = WORLD.maps["2000"]?.npcs.find((npc) => npc.name === "弥生");
+if (!himikoSp || !yayoiSp) throw new Error("missing Himiko/Yayoi source task fixtures");
+assert(himikoSp.scriptEvents?.some((event) => event.type === "REQUEST" && /SP=0/.test(event.condition || "")), "Himiko parses source SP-gated request branch");
+assert(yayoiSp.scriptEvents?.some((event) => event.type === "REQUEST" && /SP=1/.test(event.condition || "")), "Yayoi parses source SP-gated request branch");
+let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
+flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
+flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
+assert(flowerShellGame.flags.bits["now:2"], "Himiko REQUEST sets source NOWEV=2 for SP=0 player");
+assertEqual(inventoryQty(flowerShellGame, 2415), 1, "Himiko REQUEST gives source Senia flower");
+assert(flowerShellGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-request-getitem" && event.detail?.itemId === 2415), "Himiko REQUEST gives item through NPC VM");
+assert(flowerShellGame.progression.sourceTasks.some((task) => task.eventNo === 2 && task.phase === "collect" && task.nextNpcs.some((npc) => npc.name === "弥生")), "source task EventNo 2 points SP=0 player to Yayoi after request");
+flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
+assertEqual(inventoryQty(flowerShellGame, 2415), 1, "repeating Himiko while NOWEV=2 does not duplicate request item");
+flowerShellGame.location = { mapId: "2000", x: yayoiSp.x + 1, y: yayoiSp.y };
+flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: yayoiSp.id });
+assertEqual(inventoryQty(flowerShellGame, 2415), 0, "Yayoi ACCEPT takes source Senia flower");
+assertEqual(inventoryQty(flowerShellGame, 2414), 1, "Yayoi ACCEPT gives source mysterious shell");
+assert(flowerShellGame.flags.bits["end:2"], "Yayoi ACCEPT sets source ENDEV=2");
+assert(!flowerShellGame.progression.sourceTasks.some((task) => task.eventNo === 2), "source task EventNo 2 disappears after ENDEV=2");
+
+let shellFlowerGame = await api("/api/game/new", { name: "source-task-sp1-test", startPoint: 1 });
+shellFlowerGame.location = { mapId: "2000", x: yayoiSp.x + 1, y: yayoiSp.y };
+shellFlowerGame = await api("/api/game/dialog", { game: shellFlowerGame, npcId: yayoiSp.id });
+assertEqual(shellFlowerGame.player.startPoint, 1, "new player can carry source startpoint SP=1");
+assertEqual(shellFlowerGame.player.savePointMask, 2, "SP=1 player carries CHAR_SAVEPOINT bit 1");
+assertEqual(inventoryQty(shellFlowerGame, 2414), 1, "Yayoi REQUEST gives source shell to SP=1 player");
+assert(shellFlowerGame.progression.sourceTasks.some((task) => task.eventNo === 2 && task.phase === "collect" && task.nextNpcs.some((npc) => npc.name === "日美子")), "source task EventNo 2 points SP=1 player to Himiko");
+shellFlowerGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
+shellFlowerGame = await api("/api/game/dialog", { game: shellFlowerGame, npcId: himikoSp.id });
+assertEqual(inventoryQty(shellFlowerGame, 2414), 0, "Himiko ACCEPT takes source mysterious shell");
+assertEqual(inventoryQty(shellFlowerGame, 2415), 1, "Himiko ACCEPT gives source Senia flower");
+assert(shellFlowerGame.flags.bits["end:2"], "Himiko ACCEPT completes source EventNo 2 for SP=1 path");
 
 const adultJudge = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式的审判");
 const adultMessenger = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式审判的差使");
