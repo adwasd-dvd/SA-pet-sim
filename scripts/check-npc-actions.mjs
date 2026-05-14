@@ -262,6 +262,27 @@ questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2
 questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id, message: "hi" });
 assertEqual(questLoopGame.quests[teacher.questId].status, "完成", "field quest completes through teacher NPC VM reward");
 assert(questLoopGame.player.stone > questLoopStoneBefore, "field quest completion grants source-style stone reward");
+
+const fourVillageQuestId = "samugiru-four-village-route";
+questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id });
+assertEqual(questLoopGame.quests[fourVillageQuestId].status, "进行中", "teacher starts the four-village source route after field practice");
+questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id, message: "任务" });
+assert(questLoopGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("下一处地图：萨伊那斯")), "four-village quest reply shows source map objective hints");
+questLoopGame = await walkSourceWarp(questLoopGame, "1000", "100");
+assertEqual(questLoopGame.location.mapId, "100", "four-village route uses mapwarp from Samugiru to Sainasu");
+assertEqual(questLoopGame.quests[fourVillageQuestId].progress, 2, "four-village route records Sainasu visit");
+questLoopGame = await walkSourceWarp(questLoopGame, "100", "2000");
+assertEqual(questLoopGame.location.mapId, "2000", "four-village route uses mapwarp from Sainasu to Marinasu");
+assertEqual(questLoopGame.quests[fourVillageQuestId].progress, 3, "four-village route records Marinasu visit");
+questLoopGame = await walkSourceWarp(questLoopGame, "2000", "100");
+questLoopGame = await walkSourceWarp(questLoopGame, "100", "1100");
+assertEqual(questLoopGame.location.mapId, "1100", "four-village route uses mapwarp from Sainasu to Kuo");
+assertEqual(questLoopGame.quests[fourVillageQuestId].status, "可回报", "four-village route becomes reportable after all source maps");
+const fourVillageStoneBefore = questLoopGame.player.stone;
+questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2 };
+questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id, message: "hi" });
+assertEqual(questLoopGame.quests[fourVillageQuestId].status, "完成", "four-village route completes through teacher NPC VM reward");
+assert(questLoopGame.player.stone > fourVillageStoneBefore, "four-village completion grants source-style stone reward");
 const questExpReward = Number(teacherGame.quests[teacher.questId].expReward || 20);
 const questStoneReward = Number(teacherGame.quests[teacher.questId].stoneReward || 80);
 teacherGame.player.exp = Math.max(0, Number(teacherGame.player.nextExp || 1) - questExpReward + 1);
@@ -1365,6 +1386,25 @@ function farLocation(map, npc) {
   const far = candidates.find((item) => distance(item.x, item.y, npc.x, npc.y) > 4);
   if (!far) throw new Error(`cannot find far point for ${npc.name}`);
   return far;
+}
+
+async function walkSourceWarp(game, fromMapId, toMapId) {
+  const map = WORLD.maps[String(fromMapId)];
+  const exit = map?.exits?.find((item) => String(item.to) === String(toMapId));
+  if (!exit) throw new Error(`missing source mapwarp ${fromMapId}->${toMapId}`);
+  const tile = exit.tiles?.[0] || { x: exit.x, y: exit.y };
+  return api("/api/game/walk", {
+    game: {
+      ...game,
+      dialog: null,
+      encounter: null,
+      battle: null,
+      location: { mapId: String(fromMapId), x: tile.x, y: tile.y, dir: 2 },
+      player: { ...game.player, dir: 2 }
+    },
+    dx: 0,
+    dy: 0
+  });
 }
 
 function distance(ax, ay, bx, by) {

@@ -4526,9 +4526,40 @@ function questReply(game, npc, text = "") {
   const reportable = questIds.map((id) => game.quests[id]).find((quest) => quest?.status === "可回报");
   if (reportable) return `你已经可以回报「${reportable.title}」了。再次点选我会自动送出 hi 并结算奖励。`;
   const active = questIds.map((id) => game.quests[id]).find((quest) => quest?.status === "进行中");
-  if (active) return `「${active.title}」还在进行中。下一步是：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。`;
+  if (active) {
+    const detail = questObjectiveProgressText(active);
+    return `「${active.title}」还在进行中。下一步是：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。${detail ? `\n${detail}` : ""}`;
+  }
   const titles = questIds.map((id) => `「${WORLD.quests[id].title}」`).join("、");
   return `我这里有 ${titles}。点选我时客户端会自动打招呼并触发一个可接任务。`;
+}
+
+function questObjectiveProgressText(quest) {
+  const objectives = quest?.objectives || {};
+  const parts = [];
+  if (Array.isArray(objectives.enterMaps) && objectives.enterMaps.length) {
+    const targetMaps = objectives.enterMaps.map(String);
+    const visited = new Set((quest.visitedMaps || []).map(String));
+    const done = targetMaps.filter((mapId) => visited.has(mapId));
+    const next = targetMaps.find((mapId) => !visited.has(mapId));
+    if (done.length) parts.push(`已确认地图：${done.map(questMapLabel).join("、")}`);
+    parts.push(next ? `下一处地图：${questMapLabel(next)}` : "地图目标已确认");
+  }
+  if (objectives.visitEncounterMap) {
+    parts.push(Number(quest.progress || 0) >= 2 ? "野外地图已确认" : "还需要进入有 encount.txt 的野外地图");
+  }
+  if (objectives.fieldWin) {
+    parts.push(quest.status === "可回报" ? "野外战斗已完成" : "还需要完成一次野外战斗或捕获");
+  }
+  if (Array.isArray(objectives.npcEnemyIds) && objectives.npcEnemyIds.length) {
+    parts.push(`NPCEnemy 目标：${objectives.npcEnemyIds.length} 个源码拦路战斗`);
+  }
+  return parts.length ? `目标进度：${parts.join("；")}。` : "";
+}
+
+function questMapLabel(mapId) {
+  const map = WORLD.maps[String(mapId)];
+  return map ? `${map.name}(floor ${map.id})` : `floor ${mapId}`;
 }
 
 async function captureReply(env, request, game, npc) {
@@ -4570,7 +4601,8 @@ function trainReply(game, npc) {
     if (active.status === "可回报") {
       return `${npc.name}：训练和成长要靠战斗经验，不能直接帮你提升等级。你已经完成「${active.title}」，回来向我报告就能结算奖励。`;
     }
-    return `${npc.name}：训练和成长要靠战斗经验，不能直接帮你提升等级。当前「${active.title}」下一步是：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}`;
+    const detail = questObjectiveProgressText(active);
+    return `${npc.name}：训练和成长要靠战斗经验，不能直接帮你提升等级。当前「${active.title}」下一步是：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}${detail ? `\n${detail}` : ""}`;
   }
   if (questIds.length) {
     const titles = questIds.map((id) => WORLD.quests[id]?.title).filter(Boolean).join("、");
