@@ -445,7 +445,25 @@ assert(!ganzoBattleGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "Ganz
 
 const adultJudge = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式的审判");
 const adultMessenger = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式审判的差使");
-if (!adultJudge || !adultMessenger) throw new Error("missing adult ceremony changeevent fixtures");
+const adultGatekeeper = WORLD.maps["10202"]?.npcs.find((npc) => npc.name === "仪的值班者");
+if (!adultJudge || !adultMessenger || !adultGatekeeper) throw new Error("missing adult ceremony fixtures");
+assertEqual(adultGatekeeper.warp?.target?.mapId, "10204", "adult ceremony gatekeeper parses source WARP target");
+assertEqual(adultGatekeeper.warp?.free, "LV>29", "adult ceremony gatekeeper preserves source level gate");
+let adultGateGame = await api("/api/game/new", { name: "adult-ceremony-entry-test" });
+adultGateGame.location = { mapId: "10202", x: adultGatekeeper.x + 1, y: adultGatekeeper.y };
+adultGateGame.player.level = 29;
+adultGateGame = await api("/api/game/dialog", { game: adultGateGame, npcId: adultGatekeeper.id, message: "传送" });
+assertEqual(adultGateGame.location.mapId, "10202", "adult ceremony gatekeeper blocks players below source LV>29");
+assert(adultGateGame.dialog.messages.at(-1)?.text.includes("LV>29"), "blocked adult ceremony gatekeeper explains source level condition");
+assert(adultGateGame.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "blocked" && event.detail?.reason === "LV>29"), "blocked adult ceremony gatekeeper records source level gate");
+adultGateGame.player.level = 30;
+adultGateGame = await api("/api/game/dialog", { game: adultGateGame, npcId: adultGatekeeper.id, message: "传送" });
+assertEqual(adultGateGame.location.mapId, "10204", "adult ceremony gatekeeper warps eligible players into source ceremony floor");
+assertEqual(adultGateGame.location.x, 2, "adult ceremony gatekeeper preserves source target x");
+assertEqual(adultGateGame.location.y, 6, "adult ceremony gatekeeper preserves source target y");
+assertEqual(adultGateGame.lastWarp?.kind, "npc-warp", "adult ceremony entry records NPC warp telemetry");
+assertEqual(adultGateGame.lastWarp?.to?.mapId, "10204", "adult ceremony entry telemetry records target floor");
+assert(adultGateGame.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "ok" && event.detail?.target?.mapId === "10204"), "adult ceremony gatekeeper warp runs through NPC VM");
 assert(adultJudge.scriptEvents?.some((event) => event.type === "ACCEPT" && event.delItems?.some((item) => Number(item.id) === 2417)), "adult ceremony judge parses source DelItem from changeevent script");
 assert(adultMessenger.scriptEvents?.some((event) => event.type === "ACCEPT" && event.getItems?.some((item) => Number(item.id) === 2417)), "adult ceremony messenger parses source GetItem from changeevent script");
 let adultGame = await api("/api/game/new", { name: "adult-ceremony-test" });
