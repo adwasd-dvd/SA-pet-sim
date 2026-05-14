@@ -1,6 +1,6 @@
 # Classic Core Closure Manifest
 
-Generated: 2026-05-14T14:06:54.520Z
+Generated: 2026-05-14T14:19:22.052Z
 
 This manifest is the first machine-readable dependency closure draft for original-resource content profiles. It does not prune runtime assets yet.
 
@@ -19,7 +19,7 @@ This manifest is the first machine-readable dependency closure draft for origina
 | Classic Village Start | classic-core | boot | 53 | 8 | 547 | 8 | 843 | 36 | needs-closure-work | 8 source map floors are not in current generated WORLD and must be added before this line is playable.<br>Some enemy/pet bitmap ids are not in the current client tile atlas. |
 | Village Shops, Heal, Save, Equipment | classic-core | boot | 98 | 48 | 402 | 0 | 752 | 62 | needs-closure-work | 48 source map floors are not in current generated WORLD and must be added before this line is playable.<br>Some enemy/pet bitmap ids are not in the current client tile atlas. |
 | First Pet Capture And Training Loop | classic-core | boot | 31 | 17 | 120 | 2 | 3 | 66 | needs-closure-work | 17 source map floors are not in current generated WORLD and must be added before this line is playable.<br>Some enemy/pet bitmap ids are not in the current client tile atlas. |
-| 成人仪式 | classic-core | core | 6 | 0 | 7 | 2 | 4 | 4 | playable-source-script-draft |  |
+| 成人仪式 | classic-core | core | 1 | 0 | 2 | 1 | 3 | 4 | playable-source-script-draft |  |
 | 琉璃洞窟 | classic-core | rebirth-proof | 2 | 16 | 2 | 1 | 2 | 29 | needs-closure-work | 16 source map floors are not in current generated WORLD and must be added before this line is playable.<br>Some enemy/pet bitmap ids are not in the current client tile atlas.<br>NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable. |
 | 玄黄洞窟 | classic-core | rebirth-proof | 1 | 15 | 1 | 1 | 0 | 30 | needs-closure-work | 15 source map floors are not in current generated WORLD and must be added before this line is playable.<br>Some enemy/pet bitmap ids are not in the current client tile atlas.<br>NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable. |
 | 碧青洞窟 | classic-core | rebirth-proof | 2 | 19 | 2 | 1 | 0 | 29 | needs-closure-work | 19 source map floors are not in current generated WORLD and must be added before this line is playable.<br>Some enemy/pet bitmap ids are not in the current client tile atlas.<br>NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable. |

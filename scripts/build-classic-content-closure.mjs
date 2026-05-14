@@ -58,6 +58,7 @@ const CONTENT_LINES = [
     terms: ["成人仪式", "成人式", "仪式的审判", "仪式审判", "审判仪式", "仪之玉", "仪玉"],
     seedFloors: [],
     includeScriptText: true,
+    preferRunnableSourceTaskClosure: true,
     required: true
   },
   {
@@ -166,21 +167,35 @@ function buildLineClosure(line) {
   const generatedMatches = findGeneratedMatches(terms, line);
   const sourceMapMatches = findSourceMapMatches(terms);
   const seedFloors = uniqueNumbers(line.seedFloors || []);
-  const requiredFloors = uniqueNumbers([
+  let requiredFloors = uniqueNumbers([
     ...seedFloors,
     ...generatedMatches.mapFloors,
     ...sourceMapMatches.map((item) => item.floor)
   ]);
-  const generatedFloors = requiredFloors.filter((floor) => generatedMapIds.has(String(floor)));
-  const sourceOnlyFloors = requiredFloors.filter((floor) => !generatedMapIds.has(String(floor)) && sourceMaps.has(floor));
-  const oneHopTransitFloors = collectOneHopTransit(generatedFloors, requiredFloors);
-  const enabledFloors = generatedFloors;
-  const npcs = collectNpcs(enabledFloors, terms, line);
-  const scriptEvents = collectScriptEvents(npcs);
+  let generatedFloors = requiredFloors.filter((floor) => generatedMapIds.has(String(floor)));
+  let sourceOnlyFloors = requiredFloors.filter((floor) => !generatedMapIds.has(String(floor)) && sourceMaps.has(floor));
+  let oneHopTransitFloors = collectOneHopTransit(generatedFloors, requiredFloors);
+  let enabledFloors = generatedFloors;
+  let npcs = collectNpcs(enabledFloors, terms, line);
+  let scriptEvents = collectScriptEvents(npcs);
+  let sourceTaskClusters = collectSourceTaskClusters(scriptEvents);
+  const preferredSourceTaskClusters = line.preferRunnableSourceTaskClosure
+    ? sourceTaskClusters.filter((cluster) => cluster.runnable && sourceTaskClusterMatchesTerms(cluster, terms))
+    : [];
+  if (preferredSourceTaskClusters.length) {
+    npcs = collectNpcsForSourceTaskClusters(preferredSourceTaskClusters);
+    requiredFloors = uniqueNumbers(npcs.map((npc) => npc.floor));
+    generatedFloors = requiredFloors.filter((floor) => generatedMapIds.has(String(floor)));
+    sourceOnlyFloors = requiredFloors.filter((floor) => !generatedMapIds.has(String(floor)) && sourceMaps.has(floor));
+    oneHopTransitFloors = collectOneHopTransit(generatedFloors, requiredFloors);
+    enabledFloors = generatedFloors;
+    scriptEvents = collectScriptEvents(npcs);
+    sourceTaskClusters = collectSourceTaskClusters(scriptEvents)
+      .filter((cluster) => sourceTaskClusterMatchesTerms(cluster, terms));
+  }
   const warpsForLine = collectWarps(enabledFloors);
   const encounters = collectEncounters(enabledFloors);
   const items = collectItems(npcs, scriptEvents);
-  const sourceTaskClusters = collectSourceTaskClusters(scriptEvents);
   const enemyTempNos = uniqueNumbers([
     ...encounters.flatMap((area) => area.enemyTempNos),
     ...matchingEnemyTempNos(terms)
@@ -329,6 +344,17 @@ function collectNpcs(floors, terms, line = {}) {
     }
   }
   return dedupeBy(out, (npc) => npc.id).sort((a, b) => Number(a.floor) - Number(b.floor) || a.y - b.y || a.x - b.x);
+}
+
+function collectNpcsForSourceTaskClusters(clusters) {
+  const ids = new Set(clusters.flatMap((cluster) => (cluster.npcs || []).map((npc) => npc.id)));
+  const out = [];
+  for (const map of Object.values(WORLD.maps || {})) {
+    for (const npc of map.npcs || []) {
+      if (ids.has(npc.id)) out.push(npcRecord(map, npc));
+    }
+  }
+  return out.sort((a, b) => Number(a.floor) - Number(b.floor) || a.y - b.y || a.x - b.x);
 }
 
 function collectWarps(floors) {
@@ -530,6 +556,18 @@ function sourceScriptCluster(source) {
   const parts = cleaned.split(/[\\/]+/).filter(Boolean);
   if (parts.length >= 2) return parts.slice(0, 2).join("/");
   return cleaned || "unknown";
+}
+
+function sourceTaskClusterMatchesTerms(cluster, terms) {
+  const text = [
+    cluster.eventNo,
+    cluster.sourceCluster,
+    ...(cluster.npcs || []).flatMap((npc) => [npc.name, npc.mapName]),
+    ...(cluster.requiredItems || []).map((item) => item.name),
+    ...(cluster.rewardItems || []).map((item) => item.name),
+    ...(cluster.sources || [])
+  ].filter(Boolean).join(" ");
+  return matchesAny(text, terms);
 }
 
 function matchingEnemyTempNos(terms) {
