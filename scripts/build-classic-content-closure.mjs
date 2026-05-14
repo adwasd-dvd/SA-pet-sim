@@ -55,8 +55,9 @@ const CONTENT_LINES = [
     profile: "classic-core",
     title: "成人仪式",
     stage: "core",
-    terms: ["成人仪式", "成人礼", "成人式", "典礼"],
+    terms: ["成人仪式", "成人式", "仪式的审判", "仪式审判", "审判仪式", "仪之玉", "仪玉"],
     seedFloors: [],
+    includeScriptText: true,
     required: true
   },
   {
@@ -66,6 +67,7 @@ const CONTENT_LINES = [
     stage: "rebirth-proof",
     terms: ["琉璃洞窟", "琉璃的洞窟", "琉璃"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   },
   {
@@ -75,6 +77,7 @@ const CONTENT_LINES = [
     stage: "rebirth-proof",
     terms: ["玄黄洞窟", "岚黄", "玄黄"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   },
   {
@@ -84,6 +87,7 @@ const CONTENT_LINES = [
     stage: "rebirth-proof",
     terms: ["碧青洞窟", "碧青的洞窟", "碧青"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   },
   {
@@ -93,6 +97,7 @@ const CONTENT_LINES = [
     stage: "rebirth-proof",
     terms: ["深红洞窟", "深红的洞窟", "深红"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   },
   {
@@ -100,8 +105,9 @@ const CONTENT_LINES = [
     profile: "classic-core",
     title: "漆黑洞窟 / 人物转生",
     stage: "rebirth",
-    terms: ["漆黑洞窟", "漆黑", "人物转生", "转生", "魔王", "守护兽"],
+    terms: ["漆黑洞窟", "漆黑的洞窟", "漆黑", "人物转生", "转生地", "漆黑的守护兽"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   },
   {
@@ -111,6 +117,7 @@ const CONTENT_LINES = [
     stage: "advanced",
     terms: ["英雄岛", "红暴", "红色暴龙", "四圣石", "圣石", "金虎", "金格萨贝鲁"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   },
   {
@@ -120,6 +127,7 @@ const CONTENT_LINES = [
     stage: "advanced",
     terms: ["玛蕾菲雅", "玛蕾菲亚", "精灵王", "精灵少女", "黑暗精灵王"],
     seedFloors: [],
+    includeScriptText: true,
     required: false
   }
 ];
@@ -130,6 +138,7 @@ const enemyBase = parseEnemyBase(path.join(publicDataRoot, "enemybase2.txt"));
 const clientTileFrames = readClientFrames();
 const audit = existsSync(auditPath) ? JSON.parse(readFileSync(auditPath, "utf8")) : null;
 const generatedMapIds = new Set(Object.keys(WORLD.maps || {}));
+const npcScriptTextCache = new Map();
 
 const lineClosures = CONTENT_LINES.map((line) => buildLineClosure(line));
 const profiles = buildProfiles(lineClosures);
@@ -154,7 +163,7 @@ for (const profile of profiles) {
 
 function buildLineClosure(line) {
   const terms = normalizeTerms(line.terms);
-  const generatedMatches = findGeneratedMatches(terms);
+  const generatedMatches = findGeneratedMatches(terms, line);
   const sourceMapMatches = findSourceMapMatches(terms);
   const seedFloors = uniqueNumbers(line.seedFloors || []);
   const requiredFloors = uniqueNumbers([
@@ -166,7 +175,7 @@ function buildLineClosure(line) {
   const sourceOnlyFloors = requiredFloors.filter((floor) => !generatedMapIds.has(String(floor)) && sourceMaps.has(floor));
   const oneHopTransitFloors = collectOneHopTransit(generatedFloors, requiredFloors);
   const enabledFloors = generatedFloors;
-  const npcs = collectNpcs(enabledFloors, terms);
+  const npcs = collectNpcs(enabledFloors, terms, line);
   const warpsForLine = collectWarps(enabledFloors);
   const encounters = collectEncounters(enabledFloors);
   const items = collectItems(npcs);
@@ -261,24 +270,14 @@ function buildProfiles(lines) {
   });
 }
 
-function findGeneratedMatches(terms) {
+function findGeneratedMatches(terms, line = {}) {
   const mapFloors = new Set();
   const npcMatches = [];
   for (const map of Object.values(WORLD.maps || {})) {
     const mapText = [map.id, map.name, map.summary, map.clientMapSource].filter(Boolean).join(" ");
     if (matchesAny(mapText, terms)) mapFloors.add(Number(map.id));
     for (const npc of map.npcs || []) {
-      const npcText = [
-        npc.name,
-        npc.type,
-        npc.dialogue,
-        npc.source,
-        npc.script,
-        npc.template,
-        npc.trade?.source,
-        npc.warp?.source,
-        npc.scriptHints?.hints?.join(" ")
-      ].filter(Boolean).join(" ");
+      const npcText = npcSearchText(npc, line);
       if (!matchesAny(npcText, terms)) continue;
       mapFloors.add(Number(map.id));
       npcMatches.push(npcRecord(map, npc));
@@ -311,24 +310,14 @@ function collectOneHopTransit(generatedFloors, requiredFloors) {
   return [...out].sort((a, b) => a - b);
 }
 
-function collectNpcs(floors, terms) {
+function collectNpcs(floors, terms, line = {}) {
   const out = [];
   for (const floor of floors) {
     const map = WORLD.maps[String(floor)];
     if (!map) continue;
     for (const npc of map.npcs || []) {
       if (terms.length) {
-        const npcText = [
-          npc.name,
-          npc.type,
-          npc.dialogue,
-          npc.source,
-          npc.script,
-          npc.template,
-          npc.trade?.source,
-          npc.warp?.source,
-          npc.scriptHints?.hints?.join(" ")
-        ].filter(Boolean).join(" ");
+        const npcText = npcSearchText(npc, line);
         if (!matchesAny(npcText, terms) && !terms.some((term) => map.name.includes(term))) continue;
       }
       out.push(npcRecord(map, npc));
@@ -415,6 +404,69 @@ function matchingEnemyTempNos(terms) {
     .map((enemy) => enemy.tempNo);
 }
 
+function npcSearchText(npc, line = {}) {
+  return [
+    npc.name,
+    npc.type,
+    npc.dialogue,
+    npc.source,
+    npc.script,
+    npc.template,
+    npc.trade?.source,
+    npc.warp?.source,
+    npc.warp?.freeMessage,
+    npc.warp?.payMessage,
+    npc.warp?.moneyMessage,
+    npc.warp?.partyMessage,
+    npc.npcEnemy?.source,
+    npc.scriptHints?.hints?.join(" "),
+    line.includeScriptText ? npcScriptText(npc) : ""
+  ].filter(Boolean).join(" ");
+}
+
+function npcScriptText(npc) {
+  const refs = [
+    npc.script,
+    npc.scriptHints?.source,
+    npc.trade?.source,
+    npc.warp?.source,
+    npc.npcEnemy?.source
+  ];
+  return uniqueStrings(refs.flatMap(resolveNpcScriptRefs))
+    .map((file) => readCachedNpcScript(file))
+    .filter(Boolean)
+    .join("\n");
+}
+
+function resolveNpcScriptRefs(ref) {
+  const value = String(ref || "").trim();
+  if (!value) return [];
+  const out = [];
+  const pushNpcRelative = (relativePath) => {
+    if (!relativePath) return;
+    const clean = relativePath.replace(/^\/+/, "");
+    out.push(path.join(refRoot, "npc", clean));
+  };
+
+  if (value.startsWith("file:")) {
+    pushNpcRelative(value.slice("file:".length));
+  } else if (value.startsWith("gmsv-data/npc/")) {
+    pushNpcRelative(value.slice("gmsv-data/npc/".length));
+  } else if (value.startsWith("gmsv-data/")) {
+    out.push(path.join(refRoot, value.slice("gmsv-data/".length)));
+  }
+  return out;
+}
+
+function readCachedNpcScript(file) {
+  if (!file || !existsSync(file)) return "";
+  if (!npcScriptTextCache.has(file)) {
+    const stat = statSync(file);
+    npcScriptTextCache.set(file, stat.size <= 1024 * 1024 ? readGb(file) : "");
+  }
+  return npcScriptTextCache.get(file);
+}
+
 function sourceEvidenceFor(terms) {
   if (!audit) return [];
   return (audit.candidates || [])
@@ -432,6 +484,7 @@ function validationForLine(line, requiredFloors, sourceOnlyFloors, petResources)
   if (!requiredFloors.length) warnings.push("No local floor was pulled into this line yet; use script/NPC evidence before enabling.");
   if (sourceOnlyFloors.length) warnings.push(`${sourceOnlyFloors.length} source map floors are not in current generated WORLD and must be added before this line is playable.`);
   if (petResources.some((pet) => !pet.hasClientFrame)) warnings.push("Some enemy/pet bitmap ids are not in the current client tile atlas.");
+  if (line.includeScriptText) warnings.push("NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable.");
   return {
     status: warnings.length ? "needs-closure-work" : "closure-draft",
     warnings

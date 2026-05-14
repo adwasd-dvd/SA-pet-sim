@@ -631,9 +631,9 @@ petStatusSkillGame.pets[0].PetSkillIds = [60];
 petStatusSkillGame.pets[0].PetSkills = [{
   Id: 60,
   Name: "毒攻击",
-  Des: "攻击力减30%三回合前后让敌人中毒",
+  Des: "攻击力减95%三回合前后让敌人中毒",
   FuncName: "PETSKILL_StatusChange",
-  Option: "毒 turn 3  攻%-30",
+  Option: "毒 turn 3  攻%-95",
   Field: 1,
   Target: 6,
   UseType: 2,
@@ -642,22 +642,27 @@ petStatusSkillGame.pets[0].PetSkills = [{
 petStatusSkillGame.pets[0].Lv = 80;
 petStatusSkillGame.pets[0].WorkFixLuck = 80;
 petStatusSkillGame.pets[0].Luck = 80;
-petStatusSkillGame.pets[0].WorkFixStr = 25;
-petStatusSkillGame.pets[0].WorkAttackPower = 25;
+petStatusSkillGame.pets[0].WorkFixStr = 1;
+petStatusSkillGame.pets[0].WorkAttackPower = 1;
 petStatusSkillGame.pets[0].WorkQuick = 999;
 petStatusSkillGame.pets[0].WorkFixDex = 999;
-petStatusSkillGame.encounter.Lv = 1;
-petStatusSkillGame.encounter.WorkMaxHp = 999;
-petStatusSkillGame.encounter.Hp = 999;
-petStatusSkillGame.encounter.Vital = 100;
-petStatusSkillGame.encounter.Str = 100;
-petStatusSkillGame.encounter.Tough = 100;
-petStatusSkillGame.encounter.Dex = 100;
-petStatusSkillGame.encounter.WorkFixTough = 1;
-petStatusSkillGame.encounter.WorkDefencePower = 1;
-petStatusSkillGame.encounter.WorkQuick = 0;
-petStatusSkillGame.encounter.WorkFixDex = 0;
-petStatusSkillGame.encounter.WorkAttackPower = 1;
+petStatusSkillGame.pets[0].Critical = 0;
+const statusSkillEnemyFixture = {
+  Lv: 1,
+  WorkMaxHp: 999,
+  Hp: 999,
+  Vital: 100,
+  Str: 100,
+  Tough: 100,
+  Dex: 100,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 1
+};
+Object.assign(petStatusSkillGame.encounter, statusSkillEnemyFixture);
+Object.assign(petStatusSkillGame.battle?.enemyParty?.[0] || {}, statusSkillEnemyFixture);
 petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "skill:0" });
 const statusSkillTelemetry = petStatusSkillGame.battleOutcome.playerAction?.petSkill?.status;
 assertEqual(petStatusSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STATUSCHANGE", "status pet skill maps to source battle command");

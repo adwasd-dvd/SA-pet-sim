@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T03:06:18.738Z",
+  "generatedAt": "2026-05-14T04:28:57.776Z",
   "sourcePolicy": "Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.",
   "currentPublic": {
     "fileCount": 539,
@@ -29,13 +29,13 @@
         "gzipBytes": 1947989
       },
       "worldModel": {
-        "bytes": 4583656,
-        "gzipBytes": 333597,
+        "bytes": 4583681,
+        "gzipBytes": 333644,
         "activeExitCount": 774,
         "profileClosedExitCount": 0
       },
-      "profileRawBytes": 41399029,
-      "profileGzipBytes": 4534297,
+      "profileRawBytes": 41399054,
+      "profileGzipBytes": 4534344,
       "missing": [
         {
           "floor": 1408,
@@ -47,57 +47,57 @@
     },
     {
       "id": "classic-core",
-      "floorCount": 131,
-      "npcCount": 1560,
-      "activeExitCount": 318,
-      "profileClosedExitCount": 63,
+      "floorCount": 133,
+      "npcCount": 1588,
+      "activeExitCount": 323,
+      "profileClosedExitCount": 65,
       "mapAssets": {
-        "fileCount": 131,
-        "bytes": 9137704,
-        "gzipBytes": 1431402
+        "fileCount": 133,
+        "bytes": 9190993,
+        "gzipBytes": 1438544
       },
       "clientMapAssets": {
-        "fileCount": 131,
-        "bytes": 13711558,
-        "gzipBytes": 1173896
+        "fileCount": 133,
+        "bytes": 13791374,
+        "gzipBytes": 1181555
       },
       "worldModel": {
-        "bytes": 2798420,
-        "gzipBytes": 224627,
-        "activeExitCount": 318,
-        "profileClosedExitCount": 54
+        "bytes": 2844290,
+        "gzipBytes": 229925,
+        "activeExitCount": 323,
+        "profileClosedExitCount": 55
       },
-      "profileRawBytes": 25647682,
-      "profileGzipBytes": 2829925,
+      "profileRawBytes": 25826657,
+      "profileGzipBytes": 2850024,
       "missing": []
     }
   ],
   "comparison": {
-    "floorSavings": 129,
-    "npcDelta": -793,
+    "floorSavings": 127,
+    "npcDelta": -765,
     "estimatedRawBytes": {
-      "fullDev": 71198775,
-      "classicCore": 55447428
+      "fullDev": 71198800,
+      "classicCore": 55626403
     },
     "estimatedGzipBytes": {
-      "fullDev": 27492217,
-      "classicCore": 25787845
+      "fullDev": 27492264,
+      "classicCore": 25807944
     },
     "estimatedRawSavings": {
-      "bytes": 15751347,
-      "percent": 22.123058999259467
+      "bytes": 15572397,
+      "percent": 21.871712725495374
     },
     "estimatedGzipSavings": {
-      "bytes": 1704372,
-      "percent": 6.199470926626252
+      "bytes": 1684320,
+      "percent": 6.126523446741236
     },
     "mapAssetSavings": {
-      "bytes": 13966111,
-      "percent": 37.93554122078296
+      "bytes": 13833006,
+      "percent": 37.573993885652065
     },
     "worldModelSavings": {
-      "bytes": 1785236,
-      "percent": 38.947861706899474
+      "bytes": 1739391,
+      "percent": 37.94747060277537
     },
     "unchangedSharedAssets": {
       "bytes": 29799746,
