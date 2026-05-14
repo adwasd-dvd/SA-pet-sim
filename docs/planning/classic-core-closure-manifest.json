@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T15:00:53.557Z",
+  "generatedAt": "2026-05-14T15:33:34.102Z",
   "sourcePolicy": "Closure is computed from local ref___data, generated world-data, and client resource evidence. It is a build-planning manifest, not a runtime filter yet.",
   "profiles": [
     {
@@ -1497,6 +1497,18 @@
           "name": "海底通路地下２楼 100",
           "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-02-02",
+          "size": [
+            40,
+            60
+          ],
+          "mapBytes": 9644,
+          "clientMapBytes": 14408
+        },
+        {
+          "floor": 10203,
+          "name": "海底通路地下１楼 100",
+          "generated": true,
+          "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-02-03",
           "size": [
             40,
             60
@@ -3539,15 +3551,6 @@
         {
           "floor": 200,
           "mapName": "加鲁卡",
-          "to": 10203,
-          "toName": "海底通路地下１楼 100",
-          "label": "去 海底通路地下１楼 100",
-          "source": "gmsv-data/map/mapwarp.txt",
-          "status": "closed-or-hidden-until-profile-enabled"
-        },
-        {
-          "floor": 200,
-          "mapName": "加鲁卡",
           "to": 20101,
           "toName": "森林洞窟１楼",
           "label": "去 森林洞窟１楼",
@@ -3895,29 +3898,20 @@
           "label": "去 海底通路地下１楼 100",
           "source": "gmsv-data/map/mapwarp.txt",
           "status": "closed-or-hidden-until-profile-enabled"
-        },
-        {
-          "floor": 10202,
-          "mapName": "海底通路地下２楼 100",
-          "to": 10203,
-          "toName": "海底通路地下１楼 100",
-          "label": "去 海底通路地下１楼 100",
-          "source": "gmsv-data/map/mapwarp.txt",
-          "status": "closed-or-hidden-until-profile-enabled"
         }
       ],
       "packageImpact": {
-        "mapBytes": 9190993,
-        "clientMapBytes": 13791374,
+        "mapBytes": 9200637,
+        "clientMapBytes": 13805782,
         "petStaticFrameCount": 69,
         "note": "This is an approximate manifest impact. It does not include future field/battle animation packs yet."
       },
       "counts": {
-        "floorCount": 133,
+        "floorCount": 134,
         "sourceOnlyFloorCount": 151,
-        "npcCount": 1588,
-        "closedWarpCount": 53,
-        "encounterAreaCount": 180,
+        "npcCount": 1590,
+        "closedWarpCount": 51,
+        "encounterAreaCount": 183,
         "enemyTempNoCount": 76,
         "itemCount": 819,
         "petResourceCount": 74
@@ -3926,7 +3920,7 @@
         "status": "needs-world-generation",
         "warnings": [
           "151 source-confirmed floors are not in current generated WORLD.",
-          "53 outgoing warps would need close/hide rules if this profile ships as-is."
+          "51 outgoing warps would need close/hide rules if this profile ships as-is."
         ]
       }
     },
@@ -6339,6 +6333,7 @@
             "clientMapBytes": 28808
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -27640,6 +27635,7 @@
         "generatedFloorCount": 53,
         "sourceOnlyFloorCount": 8,
         "transitFloorCount": 38,
+        "routeTransitFloorCount": 0,
         "npcCount": 547,
         "scriptCount": 361,
         "scriptEventCount": 151,
@@ -31997,6 +31993,7 @@
             "clientMapBytes": 28808
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -53528,6 +53525,7 @@
         "generatedFloorCount": 98,
         "sourceOnlyFloorCount": 48,
         "transitFloorCount": 62,
+        "routeTransitFloorCount": 0,
         "npcCount": 402,
         "scriptCount": 201,
         "scriptEventCount": 8,
@@ -55600,6 +55598,7 @@
             "clientMapBytes": 28808
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -60637,6 +60636,7 @@
         "generatedFloorCount": 31,
         "sourceOnlyFloorCount": 17,
         "transitFloorCount": 68,
+        "routeTransitFloorCount": 0,
         "npcCount": 120,
         "scriptCount": 74,
         "scriptEventCount": 2,
@@ -60717,6 +60717,32 @@
             "name": "海底通路地下２楼 100",
             "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-02-02",
+            "size": [
+              40,
+              60
+            ],
+            "mapBytes": 9644,
+            "clientMapBytes": 14408
+          }
+        ],
+        "routeTransitFloors": [
+          {
+            "floor": 10202,
+            "name": "海底通路地下２楼 100",
+            "generated": true,
+            "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-02-02",
+            "size": [
+              40,
+              60
+            ],
+            "mapBytes": 9644,
+            "clientMapBytes": 14408
+          },
+          {
+            "floor": 10203,
+            "name": "海底通路地下１楼 100",
+            "generated": true,
+            "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-02-03",
             "size": [
               40,
               60
@@ -61016,6 +61042,7 @@
         "generatedFloorCount": 1,
         "sourceOnlyFloorCount": 0,
         "transitFloorCount": 1,
+        "routeTransitFloorCount": 2,
         "npcCount": 2,
         "scriptCount": 3,
         "scriptEventCount": 3,
@@ -61746,6 +61773,7 @@
             "clientMapBytes": 28808
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -65090,6 +65118,7 @@
         "generatedFloorCount": 2,
         "sourceOnlyFloorCount": 16,
         "transitFloorCount": 21,
+        "routeTransitFloorCount": 0,
         "npcCount": 2,
         "scriptCount": 3,
         "scriptEventCount": 3,
@@ -65740,6 +65769,7 @@
             "clientMapBytes": 28808
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -67454,6 +67484,7 @@
         "generatedFloorCount": 1,
         "sourceOnlyFloorCount": 15,
         "transitFloorCount": 18,
+        "routeTransitFloorCount": 0,
         "npcCount": 1,
         "scriptCount": 2,
         "scriptEventCount": 1,
@@ -68260,6 +68291,7 @@
             "clientMapBytes": 28808
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -71576,6 +71608,7 @@
         "generatedFloorCount": 2,
         "sourceOnlyFloorCount": 19,
         "transitFloorCount": 21,
+        "routeTransitFloorCount": 0,
         "npcCount": 2,
         "scriptCount": 4,
         "scriptEventCount": 3,
@@ -72008,6 +72041,7 @@
           }
         ],
         "oneHopTransitFloors": [],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [],
@@ -72023,6 +72057,7 @@
         "generatedFloorCount": 0,
         "sourceOnlyFloorCount": 16,
         "transitFloorCount": 0,
+        "routeTransitFloorCount": 0,
         "npcCount": 0,
         "scriptCount": 0,
         "scriptEventCount": 0,
@@ -72579,6 +72614,7 @@
           }
         ],
         "oneHopTransitFloors": [],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [],
@@ -72609,6 +72645,7 @@
         "generatedFloorCount": 0,
         "sourceOnlyFloorCount": 21,
         "transitFloorCount": 0,
+        "routeTransitFloorCount": 0,
         "npcCount": 0,
         "scriptCount": 0,
         "scriptEventCount": 0,
@@ -73015,6 +73052,7 @@
             "clientMapBytes": 872
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -73376,6 +73414,7 @@
         "generatedFloorCount": 5,
         "sourceOnlyFloorCount": 0,
         "transitFloorCount": 16,
+        "routeTransitFloorCount": 0,
         "npcCount": 5,
         "scriptCount": 4,
         "scriptEventCount": 1,
@@ -73607,6 +73646,7 @@
             "clientMapBytes": 3758
           }
         ],
+        "routeTransitFloors": [],
         "missingSeedFloors": []
       },
       "npcs": [
@@ -73922,6 +73962,7 @@
         "generatedFloorCount": 1,
         "sourceOnlyFloorCount": 0,
         "transitFloorCount": 12,
+        "routeTransitFloorCount": 0,
         "npcCount": 2,
         "scriptCount": 3,
         "scriptEventCount": 8,

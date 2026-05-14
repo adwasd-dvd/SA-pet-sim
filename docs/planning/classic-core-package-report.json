@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T14:09:21.946Z",
+  "generatedAt": "2026-05-14T15:35:41.532Z",
   "sourcePolicy": "Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.",
   "currentPublic": {
     "fileCount": 539,
@@ -47,57 +47,57 @@
     },
     {
       "id": "classic-core",
-      "floorCount": 133,
-      "npcCount": 1588,
-      "activeExitCount": 323,
-      "profileClosedExitCount": 65,
+      "floorCount": 134,
+      "npcCount": 1590,
+      "activeExitCount": 327,
+      "profileClosedExitCount": 63,
       "mapAssets": {
-        "fileCount": 133,
-        "bytes": 9190993,
-        "gzipBytes": 1438544
+        "fileCount": 134,
+        "bytes": 9200637,
+        "gzipBytes": 1440767
       },
       "clientMapAssets": {
-        "fileCount": 133,
-        "bytes": 13791374,
-        "gzipBytes": 1181555
+        "fileCount": 134,
+        "bytes": 13805782,
+        "gzipBytes": 1183862
       },
       "worldModel": {
-        "bytes": 3491479,
-        "gzipBytes": 294758,
-        "activeExitCount": 323,
-        "profileClosedExitCount": 55
+        "bytes": 3499915,
+        "gzipBytes": 295380,
+        "activeExitCount": 327,
+        "profileClosedExitCount": 53
       },
-      "profileRawBytes": 26473846,
-      "profileGzipBytes": 2914857,
+      "profileRawBytes": 26506334,
+      "profileGzipBytes": 2920009,
       "missing": []
     }
   ],
   "comparison": {
-    "floorSavings": 127,
-    "npcDelta": -765,
+    "floorSavings": 126,
+    "npcDelta": -763,
     "estimatedRawBytes": {
       "fullDev": 71973402,
-      "classicCore": 56276963
+      "classicCore": 56309451
     },
     "estimatedGzipBytes": {
       "fullDev": 27570861,
-      "classicCore": 25873485
+      "classicCore": 25878637
     },
     "estimatedRawSavings": {
-      "bytes": 15696439,
-      "percent": 21.808666206996858
+      "bytes": 15663951,
+      "percent": 21.763527309713663
     },
     "estimatedGzipSavings": {
-      "bytes": 1697376,
-      "percent": 6.156412743149371
+      "bytes": 1692224,
+      "percent": 6.137726348118036
     },
     "mapAssetSavings": {
-      "bytes": 13833006,
-      "percent": 37.573993885652065
+      "bytes": 13808954,
+      "percent": 37.50866248183877
     },
     "worldModelSavings": {
-      "bytes": 1863433,
-      "percent": 34.79857372072595
+      "bytes": 1854997,
+      "percent": 34.64103611786711
     },
     "unchangedSharedAssets": {
       "bytes": 29803117,

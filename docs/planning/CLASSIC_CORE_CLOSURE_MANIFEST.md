@@ -1,6 +1,6 @@
 # Classic Core Closure Manifest
 
-Generated: 2026-05-14T15:00:53.557Z
+Generated: 2026-05-14T15:33:34.102Z
 
 This manifest is the first machine-readable dependency closure draft for original-resource content profiles. It does not prune runtime assets yet.
 
@@ -8,7 +8,7 @@ This manifest is the first machine-readable dependency closure draft for origina
 
 | Profile | Lines | Floors | Source-Only Floors | NPCs | Items | Enemy TempNos | Pet Frames | Closed Warps | Map Bytes | Client Map Bytes |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| classic-core | 9 | 133 | 151 | 1588 | 819 | 76 | 74 | 53 | 9190993 | 13791374 |
+| classic-core | 9 | 134 | 151 | 1590 | 819 | 76 | 74 | 51 | 9200637 | 13805782 |
 | classic-advanced-2.0 | 1 | 5 | 0 | 118 | 5 | 1 | 1 | 19 | 160220 | 240040 |
 | classic-advanced-2.5 | 1 | 1 | 0 | 78 | 51 | 1 | 1 | 12 | 90044 | 135008 |
 

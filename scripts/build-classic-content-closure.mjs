@@ -204,6 +204,7 @@ function buildLineClosure(line) {
   ]);
   const petResources = enemyTempNos.map((tempNo) => petResourceFor(tempNo)).filter(Boolean);
   const route = routeEvidenceForLine(generatedFloors, line);
+  const routeTransitFloors = uniqueNumbers(route?.transitFloors || []);
 
   return {
     id: line.id,
@@ -218,6 +219,7 @@ function buildLineClosure(line) {
       generatedFloors: floorRecords(generatedFloors),
       sourceOnlyFloors: floorRecords(sourceOnlyFloors),
       oneHopTransitFloors: floorRecords(oneHopTransitFloors),
+      routeTransitFloors: floorRecords(routeTransitFloors),
       missingSeedFloors: seedFloors.filter((floor) => !sourceMaps.has(floor) && !generatedMapIds.has(String(floor)))
     },
     npcs,
@@ -234,6 +236,7 @@ function buildLineClosure(line) {
       generatedFloorCount: generatedFloors.length,
       sourceOnlyFloorCount: sourceOnlyFloors.length,
       transitFloorCount: oneHopTransitFloors.length,
+      routeTransitFloorCount: routeTransitFloors.length,
       npcCount: npcs.length,
       scriptCount: uniqueStrings(npcs.flatMap((npc) => [npc.source, npc.script]).filter(Boolean)).length,
       scriptEventCount: scriptEvents.length,
@@ -257,7 +260,8 @@ function buildProfiles(lines) {
   }
   return [...byProfile.entries()].map(([id, profileLines]) => {
     const floorIds = uniqueNumbers(profileLines.flatMap((line) => [
-      ...line.maps.generatedFloors.map((floor) => floor.floor)
+      ...line.maps.generatedFloors.map((floor) => floor.floor),
+      ...((line.maps.routeTransitFloors || []).map((floor) => floor.floor))
     ]));
     const closedWarps = collectClosedWarps(floorIds);
     const npcs = collectNpcs(floorIds, []);
