@@ -109,6 +109,7 @@ const NPC_VM_ACTIONS = new Set([
   "takePet",
   "setFlag",
   "clearFlag",
+  "moveNpc",
   "effect",
   "startBattle",
   "battleAction",
@@ -4547,6 +4548,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
       ...detail
     });
   }
+  runNpcScriptNpcWarps(game, npc, event, detail, "request");
   runNpcScriptCleanFlags(game, npc, event, detail, "request");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
@@ -4556,6 +4558,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
+    npcWarps: event.npcWarps,
     cleanFlags: event.cleanFlags,
     getPets: event.getPets,
     delPets: event.delPets
@@ -4584,6 +4587,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
       reason: "source-changeevent-end"
     });
   }
+  runNpcScriptNpcWarps(game, npc, event, detail, "accept");
   runNpcScriptCleanFlags(game, npc, event, detail, "accept");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
@@ -4593,6 +4597,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
+    npcWarps: event.npcWarps,
     getPets: event.getPets,
     delPets: event.delPets,
     cleanFlags: event.cleanFlags,
@@ -4632,12 +4637,14 @@ function runNpcScriptMessage(game, npc, event, detail) {
       reason: "source-changeevent-message-end"
     });
   }
+  runNpcScriptNpcWarps(game, npc, event, detail, "message");
   runNpcScriptCleanFlags(game, npc, event, detail, "message");
   const hasMutation = (event.getItems || []).length
     || (event.delItems || []).length
     || (event.getRandItems || []).length
     || (event.getStones || []).length
     || (event.delStones || []).length
+    || (event.npcWarps || []).length
     || (event.getPets || []).length
     || (event.delPets || []).length
     || (event.cleanFlags || []).length
@@ -4651,6 +4658,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
+    npcWarps: event.npcWarps,
     getPets: event.getPets,
     delPets: event.delPets,
     cleanFlags: event.cleanFlags,
@@ -4671,6 +4679,7 @@ function runNpcScriptClean(game, npc, event, detail) {
     giveReason: "source-changeevent-clean-getitem"
   });
   if (!applied.ok) return applied.reply;
+  runNpcScriptNpcWarps(game, npc, event, detail, "clean");
   runNpcScriptCleanFlags(game, npc, event, detail, "clean");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
@@ -4681,6 +4690,7 @@ function runNpcScriptClean(game, npc, event, detail) {
     getRandItems: event.getRandItems,
     getStones: event.getStones,
     delStones: event.delStones,
+    npcWarps: event.npcWarps,
     getPets: event.getPets,
     delPets: event.delPets
   });
@@ -4689,6 +4699,18 @@ function runNpcScriptClean(game, npc, event, detail) {
   const rewardLine = scriptEventRewardLine(event);
   if (rewardLine) lines.push(rewardLine);
   return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function runNpcScriptNpcWarps(game, npc, event, detail, phase) {
+  if (!event.npcWarps?.length) return;
+  runNpcVmAction(game, npc, {
+    type: "moveNpc",
+    npcId: npc.id,
+    points: event.npcWarps,
+    ...detail,
+    phase,
+    reason: "source-changeevent-npcwarp"
+  });
 }
 
 function runNpcScriptCleanFlags(game, npc, event, detail, phase) {
@@ -7092,6 +7114,7 @@ function npcActionProfile(npc) {
   if (hasNpcScriptEvents(npc)) {
     actions.push("quest", "window", "give", "take", "setFlag");
     if ((npc.scriptEvents || []).some((event) => event.cleanFlags?.length)) actions.push("clearFlag");
+    if ((npc.scriptEvents || []).some((event) => event.npcWarps?.length)) actions.push("moveNpc");
     if ((npc.scriptEvents || []).some((event) => event.getPets?.length)) actions.push("givePet");
     if ((npc.scriptEvents || []).some((event) => event.delPets?.length)) actions.push("takePet");
   }
@@ -7150,6 +7173,7 @@ function applyNpcVmMutation(game, type, action) {
     clearEventFlag(game, action.shiftbit, action.kind || "now-end");
     return { ok: true, mutated: true };
   }
+  if (type === "moveNpc") return applyNpcVmMoveNpc(game, action);
   if (type === "take") return applyNpcVmTake(game, action);
   if (type === "give") return applyNpcVmGive(game, action);
   if (type === "takePet") return applyNpcVmTakePet(game, action);
@@ -7378,8 +7402,46 @@ function applyNpcVmBattleAction(game, action) {
   }
 }
 
+function applyNpcVmMoveNpc(game, action) {
+  if (!action.npcId) return { ok: false, mutated: false, error: "moveNpc 缺少 npcId" };
+  ensureFlags(game);
+  const points = Array.isArray(action.points) ? action.points : [];
+  const target = action.target || (() => {
+    if (!points.length) return null;
+    const counter = Number(game.flags.npcWarpCounters[action.npcId] || 0);
+    game.flags.npcWarpCounters[action.npcId] = counter + 1;
+    return points[counter % points.length];
+  })();
+  if (!target) return { ok: false, mutated: false, error: "moveNpc 缺少目标坐标" };
+  const mapId = String(target.mapId || game.location?.mapId || "");
+  const targetMap = WORLD.maps[mapId];
+  if (!targetMap) {
+    return {
+      ok: false,
+      mutated: false,
+      error: `moveNpc 目标地图 ${mapId} 未加载`,
+      target: { mapId, x: target.x, y: target.y },
+      pointCount: points.length
+    };
+  }
+  const width = Math.max(1, Number(targetMap.size?.[0]) || 1);
+  const height = Math.max(1, Number(targetMap.size?.[1]) || 1);
+  const x = clampInt(target.x, 0, width - 1, 0);
+  const y = clampInt(target.y, 0, height - 1, 0);
+  game.flags.npcPositions[action.npcId] = {
+    mapId,
+    x,
+    y,
+    reason: action.reason || "npc-move",
+    source: action.source || "",
+    eventNo: action.eventNo,
+    updatedAt: new Date().toISOString()
+  };
+  return { ok: true, mutated: true, target: { mapId, x, y }, pointCount: points.length };
+}
+
 function npcVmActionDetail(action, mutation) {
-  const { type: _type, action: _action, status: _status, item, enemy, ...detail } = action;
+  const { type: _type, action: _action, status: _status, item, enemy, points: _points, ...detail } = action;
   const out = {
     executor: "npc-action-vm",
     ...detail,
@@ -7421,6 +7483,8 @@ function npcVmActionDetail(action, mutation) {
   if (mutation.levelUps?.length) out.levelUps = mutation.levelUps;
   if (mutation.removedPets?.length) out.removedPets = mutation.removedPets;
   if (mutation.givenPets?.length) out.givenPets = mutation.givenPets;
+  if (mutation.target) out.target = mutation.target;
+  if (mutation.pointCount != null) out.pointCount = mutation.pointCount;
   if (mutation.playerLevel != null) out.playerLevel = mutation.playerLevel;
   if (mutation.playerExp != null) out.playerExp = mutation.playerExp;
   if (mutation.skillUpPoint != null) out.skillUpPoint = mutation.skillUpPoint;
@@ -9560,6 +9624,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.getRandItems?.length) pushUniqueCompact(actions, "GetRandItem", 8);
     if (event.getStones?.length) pushUniqueCompact(actions, "GetStone", 8);
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
+    if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
@@ -9591,7 +9656,9 @@ function currentMap(game) {
 function visibleMapForGame(game, map) {
   const visible = map.npcs?.length
     ? (() => {
-        const npcs = map.npcs.filter((npc) => !isNpcEnemyDefeated(game, npc));
+        let npcs = map.npcs.filter((npc) => !isNpcEnemyDefeated(game, npc) && npcVisibleOnRuntimeMap(game, map, npc));
+        const movedNpcs = runtimeMovedNpcsForMap(game, map, new Set(npcs.map((npc) => npc.id)));
+        if (movedNpcs.length) npcs = [...npcs, ...movedNpcs];
         return npcs.length === map.npcs.length ? map : { ...map, npcs };
       })()
     : map;
@@ -9602,13 +9669,47 @@ function withRuntimeMapState(game, map) {
   if (!game || !map?.npcs?.length) return map;
   let changed = false;
   const npcs = map.npcs.map((npc) => {
-    const warpStatus = compactNpcWarpStatus(game, npc);
-    const scriptStatus = compactNpcScriptStatus(game, npc);
-    if (!warpStatus && !scriptStatus) return npc;
+    const runtimePosition = runtimeNpcPosition(game, npc);
+    const moved = runtimePosition && String(runtimePosition.mapId) === String(map.id);
+    const currentNpc = moved
+      ? { ...npc, x: Number(runtimePosition.x), y: Number(runtimePosition.y), runtimePosition }
+      : npc;
+    const warpStatus = compactNpcWarpStatus(game, currentNpc);
+    const scriptStatus = compactNpcScriptStatus(game, currentNpc);
+    if (!moved && !warpStatus && !scriptStatus) return npc;
     changed = true;
-    return { ...npc, ...(warpStatus ? { warpStatus } : {}), ...(scriptStatus ? { scriptStatus } : {}) };
+    return { ...currentNpc, ...(warpStatus ? { warpStatus } : {}), ...(scriptStatus ? { scriptStatus } : {}) };
   });
   return changed ? { ...map, npcs } : map;
+}
+
+function runtimeNpcPosition(game, npc) {
+  return game?.flags?.npcPositions?.[npc?.id] || null;
+}
+
+function npcVisibleOnRuntimeMap(game, map, npc) {
+  const position = runtimeNpcPosition(game, npc);
+  return !position || String(position.mapId) === String(map.id);
+}
+
+function runtimeMovedNpcsForMap(game, map, existingIds = new Set()) {
+  const positions = game?.flags?.npcPositions || {};
+  const moved = [];
+  for (const [npcId, position] of Object.entries(positions)) {
+    if (existingIds.has(npcId) || String(position?.mapId || "") !== String(map.id)) continue;
+    const npc = findWorldNpcById(npcId);
+    if (!npc || isNpcEnemyDefeated(game, npc)) continue;
+    moved.push({ ...npc, x: Number(position.x), y: Number(position.y), runtimePosition: position });
+  }
+  return moved;
+}
+
+function findWorldNpcById(npcId) {
+  for (const map of Object.values(WORLD.maps || {})) {
+    const npc = (map.npcs || []).find((item) => item.id === npcId);
+    if (npc) return npc;
+  }
+  return null;
 }
 
 function withWildEncounterPolicy(map, game = null) {
@@ -9800,6 +9901,8 @@ function ensureFlags(game) {
   game.flags.bits ||= {};
   game.flags.npcTalkCounts ||= {};
   game.flags.npcEnemyDefeats ||= {};
+  game.flags.npcPositions ||= {};
+  game.flags.npcWarpCounters ||= {};
 }
 
 function normalizeFlagArray(value) {

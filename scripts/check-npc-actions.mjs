@@ -482,6 +482,42 @@ assert(cleanFlagGame.dialog.debug.vmTrace.some((event) => event.action === "clea
 const giftCleanPayload = cleanFlagGame.world.map.npcs.find((npc) => npc.id === giftCleanNpc.id);
 assert(giftCleanPayload?.scriptEventSummary?.actions?.includes("CleanFlg"), "client payload exposes compact CleanFlg summary");
 
+const npcWarpFixture = {
+  id: "source-npcwarp-fixture",
+  name: "源码 NpcWarp 位置测试",
+  type: "changeevent",
+  template: "npcgen_man",
+  x: 40,
+  y: 40,
+  source: "gmsv-data/npc/my/weilingbei/talimu.arg",
+  script: "file:my/weilingbei/talimu.arg",
+  scriptEvents: [{
+    type: "MESSAGE",
+    eventNo: -1,
+    condition: "LV>0",
+    messages: { normal: "我去下一个碑位看看。" },
+    npcWarps: [
+      { mapId: "1000", x: 42, y: 40 },
+      { mapId: "200", x: 10, y: 10 }
+    ]
+  }]
+};
+WORLD.maps["1000"].npcs.push(npcWarpFixture);
+let npcWarpGame = await api("/api/game/new", { name: "source-npcwarp-test" });
+npcWarpGame.location = { mapId: "1000", x: 39, y: 40 };
+npcWarpGame = await api("/api/game/dialog", { game: npcWarpGame, npcId: npcWarpFixture.id });
+assertEqual(npcWarpGame.flags.npcPositions[npcWarpFixture.id]?.x, 42, "source NpcWarp records first NPC runtime x");
+assertEqual(npcWarpGame.world.map.npcs.find((npc) => npc.id === npcWarpFixture.id)?.x, 42, "source NpcWarp moves NPC in current map payload");
+assert(npcWarpGame.dialog.debug.vmTrace.some((event) => event.action === "moveNpc" && event.detail?.reason === "source-changeevent-npcwarp" && event.detail?.target?.x === 42), "source NpcWarp runs through NPC VM moveNpc action");
+assert(npcWarpGame.world.map.npcs.find((npc) => npc.id === npcWarpFixture.id)?.scriptEventSummary?.actions?.includes("NpcWarp"), "client payload exposes compact NpcWarp summary");
+npcWarpGame.location = { mapId: "1000", x: 42, y: 40 };
+npcWarpGame = await api("/api/game/dialog", { game: npcWarpGame, npcId: npcWarpFixture.id });
+assertEqual(npcWarpGame.flags.npcPositions[npcWarpFixture.id]?.mapId, "200", "source NpcWarp can move an NPC to another loaded map");
+assert(!npcWarpGame.world.map.npcs.some((npc) => npc.id === npcWarpFixture.id), "source NpcWarp hides moved-away NPC from the original map payload");
+npcWarpGame.location = { mapId: "200", x: 10, y: 10 };
+npcWarpGame = await api("/api/game/dialog", { game: npcWarpGame, npcId: npcWarpFixture.id });
+assertEqual(npcWarpGame.flags.npcPositions[npcWarpFixture.id]?.mapId, "1000", "source NpcWarp injected NPC can be talked to on the target map and cycles back");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
@@ -1598,7 +1634,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/give/take/effect/startBattle/battleAction traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

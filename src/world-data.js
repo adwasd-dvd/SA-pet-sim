@@ -6971,6 +6971,83 @@ export const WORLD = {
               "eventNo": -1,
               "type": "ACCEPT",
               "condition": "LV>0&ITEM=2727",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ],
               "getPets": [
                 {
                   "enemyIds": [
@@ -7022,7 +7099,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2726"
+              "condition": "LV>0&ITEM=2726",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7061,7 +7215,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2725"
+              "condition": "LV>0&ITEM=2725",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7100,7 +7331,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2724"
+              "condition": "LV>0&ITEM=2724",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7139,7 +7447,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2723"
+              "condition": "LV>0&ITEM=2723",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7178,7 +7563,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2722"
+              "condition": "LV>0&ITEM=2722",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7217,7 +7679,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2721"
+              "condition": "LV>0&ITEM=2721",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7256,7 +7795,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2720"
+              "condition": "LV>0&ITEM=2720",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7295,7 +7911,84 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2719"
+              "condition": "LV>0&ITEM=2719",
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sainasu/event/rion",
@@ -7332,7 +8025,84 @@ export const WORLD = {
                   "呀呵～～ 那么，我有十个地方可以躲，就看看你找不找得到我吧？ 找到我十次的话，我就送你好东西喔！",
                   "啊，因为现在已经被发现了，这就算是第一次吧。 为了代替纪录，我的娃娃先让你保管啰。"
                 ]
-              }
+              },
+              "npcWarps": [
+                {
+                  "mapId": "100",
+                  "x": 215,
+                  "y": 91
+                },
+                {
+                  "mapId": "100",
+                  "x": 581,
+                  "y": 332
+                },
+                {
+                  "mapId": "1000",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "100",
+                  "x": 454,
+                  "y": 120
+                },
+                {
+                  "mapId": "100",
+                  "x": 656,
+                  "y": 628
+                },
+                {
+                  "mapId": "100",
+                  "x": 661,
+                  "y": 627
+                },
+                {
+                  "mapId": "100",
+                  "x": 536,
+                  "y": 117
+                },
+                {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 639
+                },
+                {
+                  "mapId": "100",
+                  "x": 562,
+                  "y": 357
+                },
+                {
+                  "mapId": "1200",
+                  "x": 35,
+                  "y": 61
+                },
+                {
+                  "mapId": "100",
+                  "x": 349,
+                  "y": 343
+                },
+                {
+                  "mapId": "100",
+                  "x": 154,
+                  "y": 383
+                },
+                {
+                  "mapId": "100",
+                  "x": 416,
+                  "y": 474
+                },
+                {
+                  "mapId": "100",
+                  "x": 651,
+                  "y": 686
+                },
+                {
+                  "mapId": "100",
+                  "x": 167,
+                  "y": 398
+                }
+              ]
             }
           ],
           "scriptHints": {
@@ -11038,7 +11808,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "118",
+                  "x": 132,
+                  "y": 126
+                },
+                {
+                  "mapId": "118",
+                  "x": 27,
+                  "y": 75
+                },
+                {
+                  "mapId": "118",
+                  "x": 129,
+                  "y": 33
+                },
+                {
+                  "mapId": "118",
+                  "x": 33,
+                  "y": 63
+                },
+                {
+                  "mapId": "118",
+                  "x": 167,
+                  "y": 39
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju05",
@@ -11257,7 +12054,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "118",
+                  "x": 201,
+                  "y": 111
+                },
+                {
+                  "mapId": "118",
+                  "x": 69,
+                  "y": 165
+                },
+                {
+                  "mapId": "118",
+                  "x": 225,
+                  "y": 15
+                },
+                {
+                  "mapId": "118",
+                  "x": 111,
+                  "y": 135
+                },
+                {
+                  "mapId": "118",
+                  "x": 219,
+                  "y": 57
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju06",
@@ -11476,7 +12300,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "118",
+                  "x": 63,
+                  "y": 27
+                },
+                {
+                  "mapId": "118",
+                  "x": 170,
+                  "y": 105
+                },
+                {
+                  "mapId": "118",
+                  "x": 74,
+                  "y": 69
+                },
+                {
+                  "mapId": "118",
+                  "x": 177,
+                  "y": 117
+                },
+                {
+                  "mapId": "118",
+                  "x": 69,
+                  "y": 75
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju06a",
@@ -11682,7 +12533,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "118",
+                  "x": 21,
+                  "y": 75
+                },
+                {
+                  "mapId": "118",
+                  "x": 117,
+                  "y": 27
+                },
+                {
+                  "mapId": "118",
+                  "x": 21,
+                  "y": 123
+                },
+                {
+                  "mapId": "118",
+                  "x": 111,
+                  "y": 39
+                },
+                {
+                  "mapId": "118",
+                  "x": 33,
+                  "y": 153
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju05a",
@@ -13230,7 +14108,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "122",
+                  "x": 198,
+                  "y": 39
+                },
+                {
+                  "mapId": "122",
+                  "x": 234,
+                  "y": 96
+                },
+                {
+                  "mapId": "122",
+                  "x": 105,
+                  "y": 158
+                },
+                {
+                  "mapId": "122",
+                  "x": 246,
+                  "y": 158
+                },
+                {
+                  "mapId": "122",
+                  "x": 162,
+                  "y": 12
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju04a",
@@ -13449,7 +14354,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "122",
+                  "x": 174,
+                  "y": 110
+                },
+                {
+                  "mapId": "122",
+                  "x": 282,
+                  "y": 12
+                },
+                {
+                  "mapId": "122",
+                  "x": 72,
+                  "y": 36
+                },
+                {
+                  "mapId": "122",
+                  "x": 192,
+                  "y": 12
+                },
+                {
+                  "mapId": "122",
+                  "x": 282,
+                  "y": 48
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju03a",
@@ -13655,7 +14587,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "122",
+                  "x": 144,
+                  "y": 54
+                },
+                {
+                  "mapId": "122",
+                  "x": 216,
+                  "y": 78
+                },
+                {
+                  "mapId": "122",
+                  "x": 16,
+                  "y": 146
+                },
+                {
+                  "mapId": "122",
+                  "x": 144,
+                  "y": 66
+                },
+                {
+                  "mapId": "122",
+                  "x": 216,
+                  "y": 51
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju02a",
@@ -13874,7 +14833,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "122",
+                  "x": 120,
+                  "y": 63
+                },
+                {
+                  "mapId": "122",
+                  "x": 210,
+                  "y": 12
+                },
+                {
+                  "mapId": "122",
+                  "x": 282,
+                  "y": 66
+                },
+                {
+                  "mapId": "122",
+                  "x": 222,
+                  "y": 90
+                },
+                {
+                  "mapId": "122",
+                  "x": 54,
+                  "y": 90
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju03",
@@ -14080,7 +15066,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "122",
+                  "x": 120,
+                  "y": 145
+                },
+                {
+                  "mapId": "122",
+                  "x": 234,
+                  "y": 133
+                },
+                {
+                  "mapId": "122",
+                  "x": 114,
+                  "y": 6
+                },
+                {
+                  "mapId": "122",
+                  "x": 126,
+                  "y": 63
+                },
+                {
+                  "mapId": "122",
+                  "x": 111,
+                  "y": 127
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju04",
@@ -14286,7 +15299,34 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "LV>0&ITEM=2697"
+              "condition": "LV>0&ITEM=2697",
+              "npcWarps": [
+                {
+                  "mapId": "122",
+                  "x": 57,
+                  "y": 126
+                },
+                {
+                  "mapId": "122",
+                  "x": 168,
+                  "y": 152
+                },
+                {
+                  "mapId": "122",
+                  "x": 246,
+                  "y": 30
+                },
+                {
+                  "mapId": "122",
+                  "x": 156,
+                  "y": 24
+                },
+                {
+                  "mapId": "122",
+                  "x": 39,
+                  "y": 164
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/extra/event/marju02",
@@ -32430,7 +33470,54 @@ export const WORLD = {
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
-              "condition": "NOWEV=39&ITEM!=2698"
+              "condition": "NOWEV=39&ITEM!=2698",
+              "npcWarps": [
+                {
+                  "mapId": "200",
+                  "x": 215,
+                  "y": 1017
+                },
+                {
+                  "mapId": "200",
+                  "x": 198,
+                  "y": 1001
+                },
+                {
+                  "mapId": "200",
+                  "x": 186,
+                  "y": 1032
+                },
+                {
+                  "mapId": "200",
+                  "x": 173,
+                  "y": 1008
+                },
+                {
+                  "mapId": "200",
+                  "x": 99,
+                  "y": 1085
+                },
+                {
+                  "mapId": "200",
+                  "x": 115,
+                  "y": 1011
+                },
+                {
+                  "mapId": "200",
+                  "x": 115,
+                  "y": 1011
+                },
+                {
+                  "mapId": "200",
+                  "x": 218,
+                  "y": 953
+                },
+                {
+                  "mapId": "200",
+                  "x": 158,
+                  "y": 1005
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/jaruga/event/ruri03",

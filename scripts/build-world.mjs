@@ -808,6 +808,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     getRandItems: [],
     getStones: [],
     delStones: [],
+    npcWarps: [],
     cleanFlags: [],
     nowSetFlags: [],
     endSetFlags: []
@@ -853,6 +854,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.delStones.push(...parseScriptStoneSpecs(value));
       continue;
     }
+    if (key === "npcwarp") {
+      event.npcWarps.push(...parseScriptNpcWarpSpecs(value));
+      continue;
+    }
     if (key === "getpet") {
       getPets.push(...parseScriptGetPetSpecs(value));
       continue;
@@ -891,13 +896,14 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       .filter(([, pages]) => pages.length)
   );
   if (!event.type && !Object.keys(event.messages).length && !Object.keys(messagePages).length) return null;
-  const { messagePages: _rawMessagePages, ...eventOut } = event;
+  const { messagePages: _rawMessagePages, npcWarps: _rawNpcWarps, ...eventOut } = event;
   return {
     ...eventOut,
     ...(Object.keys(messagePages).length ? { messagePages } : {}),
     getItems: event.getItems.map(withScriptItemName),
     delItems: event.delItems.map(withScriptItemName),
     getRandItems: event.getRandItems.map(withScriptRandomItemNames),
+    ...(event.npcWarps.length ? { npcWarps: event.npcWarps } : {}),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
     cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),
@@ -936,6 +942,21 @@ function npcScriptMessageSpec(key) {
     cleanflagmsg: "cleanFlag"
   };
   return messageKeys[base] ? { key: messageKeys[base], page } : null;
+}
+
+function parseScriptNpcWarpSpecs(value = "") {
+  return String(value || "")
+    .split(",")
+    .map((part) => {
+      const [mapId, x, y] = part.trim().split(".");
+      if (!mapId || x === undefined || y === undefined) return null;
+      return {
+        mapId: String(Number(mapId)),
+        x: Number(x),
+        y: Number(y)
+      };
+    })
+    .filter((target) => target && target.mapId !== "0" && Number.isFinite(target.x) && Number.isFinite(target.y));
 }
 
 function parseScriptItemSpecs(value = "") {
