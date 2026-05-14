@@ -4322,6 +4322,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
+  if (hasNpcScriptEvents(npc) && hasAny(lower, ["任务", "委托", "攻略", "quest", "仪式", "儀式", "领取", "领", "給", "给", "交付", "完成"])) return sourceScriptEventReply(game, npc, text);
   if (hasAny(lower, ["任务", "委托", "攻略", "quest"])) return questReply(game, npc, text);
   if (hasAny(lower, ["抓宠", "捕获"]) || (hasAny(lower, ["宠物", "pet"]) && !isStoneAgeKnowledgeQuestion(lower))) return captureReply(env, request, game, npc);
   if (hasAny(lower, ["训练", "练级", "成长", "技能"]) && !isStoneAgeKnowledgeQuestion(lower)) return trainReply(game, npc);
@@ -4436,6 +4437,7 @@ function isPlayerFacingQuest(quest) {
 function applyNpcHi(game, npc) {
   ensureFlags(game);
   setNpcVmFlag(game, npc, eventFlagForNpc(npc.id), "now", "talk-hi");
+  if (hasNpcScriptEvents(npc)) return sourceScriptEventReply(game, npc, "hi");
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
@@ -4477,6 +4479,186 @@ function npcDefaultLine(npc) {
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
   if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
   return "有什么事吗？";
+}
+
+function hasNpcScriptEvents(npc) {
+  return Array.isArray(npc?.scriptEvents) && npc.scriptEvents.length > 0;
+}
+
+function sourceScriptEventReply(game, npc, text = "") {
+  const branch = chooseNpcScriptEvent(game, npc);
+  if (!branch) return sourceScriptEventBlockedReply(game, npc, text);
+  const { event, condition } = branch;
+  const detail = {
+    reason: "source-changeevent",
+    eventNo: event.eventNo,
+    eventType: event.type,
+    condition: event.condition || "",
+    conditionOk: Boolean(condition?.ok),
+    source: event.source || npc.script || npc.source || ""
+  };
+  runNpcVmAction(game, npc, {
+    type: "window",
+    windowType: "CHAR_WINDOWTYPE_EVENT",
+    ...detail
+  });
+  if (event.type === "REQUEST") return runNpcScriptRequest(game, npc, event, detail);
+  if (event.type === "ACCEPT") return runNpcScriptAccept(game, npc, event, detail);
+  recordNpcVmEvent(game, npc, "say", "ok", detail);
+  return scriptEventMessages(event, ["normal", "normalMain", "thanks"]).join("\n") || npcDefaultLine(npc);
+}
+
+function chooseNpcScriptEvent(game, npc) {
+  for (const event of npc.scriptEvents || []) {
+    const eventNo = Number(event.eventNo || 0);
+    if (eventNo > 0 && eventFlagSet(game, eventNo, "end") && event.type !== "MESSAGE") continue;
+    const condition = characterConditionStatus(game, event.condition || "");
+    if (!condition.ok) continue;
+    return { event, condition };
+  }
+  return null;
+}
+
+function runNpcScriptRequest(game, npc, event, detail) {
+  if (Number(event.eventNo || 0) > 0) {
+    runNpcVmAction(game, npc, {
+      type: "setFlag",
+      kind: "now",
+      shiftbit: Number(event.eventNo),
+      key: `now:${event.eventNo}`,
+      ...detail
+    });
+  }
+  recordNpcVmEvent(game, npc, "quest", "ok", { ...detail, phase: "request" });
+  const lines = scriptEventMessages(event, ["request", "thanks", "normalMain"]);
+  return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function runNpcScriptAccept(game, npc, event, detail) {
+  const preflight = npcScriptEventPreflight(game, event);
+  if (!preflight.ok) {
+    recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, reason: preflight.reason, itemId: preflight.itemId, itemName: preflight.itemName });
+    return event.messages?.itemFull && preflight.reason === "inventory-full"
+      ? event.messages.itemFull
+      : `${npc.name}：${preflight.message || "条件还没有准备好。"}。`;
+  }
+  for (const item of event.delItems || []) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      ...detail,
+      reason: "source-changeevent-delitem"
+    });
+    if (!taken.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, reason: taken.error || "take-failed", itemId: item.id, itemName: item.name });
+      return `${npc.name}：${taken.error || "需要的道具不够"}。`;
+    }
+  }
+  for (const item of event.getItems || []) {
+    const given = runNpcVmAction(game, npc, {
+      type: "give",
+      item: sourceScriptItem(item),
+      qty: item.qty,
+      ...detail,
+      reason: "source-changeevent-getitem"
+    });
+    if (!given.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, reason: given.error || "give-failed", itemId: item.id, itemName: item.name });
+      return event.messages?.itemFull || `${npc.name}：${given.error || "背包放不下任务道具"}。`;
+    }
+  }
+  for (const shiftbit of event.endSetFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "setFlag",
+      kind: "end",
+      shiftbit,
+      key: `end:${shiftbit}`,
+      ...detail,
+      reason: "source-changeevent-end"
+    });
+  }
+  recordNpcVmEvent(game, npc, "quest", "ok", { ...detail, phase: "accept", getItems: event.getItems, delItems: event.delItems, endSetFlags: event.endSetFlags });
+  syncCharacterFields(game);
+  const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"]);
+  const rewardLine = scriptEventRewardLine(event);
+  if (rewardLine) lines.push(rewardLine);
+  return lines.join("\n") || npcDefaultLine(npc);
+}
+
+function npcScriptEventPreflight(game, event) {
+  for (const item of event.delItems || []) {
+    const qty = inventoryQty(game, item.id);
+    if (qty < Number(item.qty || 1)) {
+      return {
+        ok: false,
+        reason: "missing-item",
+        itemId: item.id,
+        itemName: item.name,
+        message: `需要 ${item.name || `item ${item.id}`} x${item.qty || 1}`
+      };
+    }
+  }
+  const slots = new Set((game.inventory || [])
+    .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
+    .map((item) => Number(item.id)));
+  for (const item of event.delItems || []) {
+    if (inventoryQty(game, item.id) <= Number(item.qty || 1)) slots.delete(Number(item.id));
+  }
+  for (const item of event.getItems || []) {
+    slots.add(Number(item.id));
+  }
+  if (slots.size > INVENTORY_CAPACITY) {
+    return { ok: false, reason: "inventory-full", message: `背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具` };
+  }
+  return { ok: true };
+}
+
+function sourceScriptEventBlockedReply(game, npc, text = "") {
+  const statuses = (npc.scriptEvents || []).map((event) => ({
+    event,
+    condition: characterConditionStatus(game, event.condition || "")
+  }));
+  const completed = statuses.find(({ event }) => Number(event.eventNo || 0) > 0 && eventFlagSet(game, Number(event.eventNo), "end"));
+  if (completed) {
+    recordNpcVmEvent(game, npc, "say", "ok", { reason: "source-changeevent-completed", eventNo: completed.event.eventNo });
+    return scriptEventMessages(completed.event, ["normal", "thanks", "normalMain"]).join("\n") || `${npc.name}：这件事已经结束了。`;
+  }
+  const blocked = statuses.find(({ condition }) => !condition.ok);
+  const unmet = compactConditionUnmet(blocked?.condition, 3)
+    .map((check) => check.itemName ? `${check.itemName} x${check.needed || 1}` : check.token)
+    .filter(Boolean);
+  recordNpcVmEvent(game, npc, "quest", "blocked", {
+    reason: "source-changeevent-no-ready-branch",
+    text: text.slice(0, 80),
+    unmet
+  });
+  const base = npc.dialogue && !String(npc.dialogue).startsWith("脚本入口") ? npc.dialogue : npcDefaultLine(npc);
+  return unmet.length ? `${base}\n还缺：${unmet.join("、")}。` : base;
+}
+
+function scriptEventMessages(event, keys) {
+  return keys
+    .map((key) => event.messages?.[key])
+    .filter(Boolean);
+}
+
+function scriptEventRewardLine(event) {
+  const gets = (event.getItems || []).map((item) => `${item.name || `item ${item.id}`} x${item.qty || 1}`);
+  if (!gets.length) return "";
+  return `获得：${gets.join("、")}。`;
+}
+
+function sourceScriptItem(item) {
+  const sourceItem = cache?.itemSet?.get(Number(item.id));
+  return {
+    ...(sourceItem || {}),
+    ...item,
+    id: Number(item.id),
+    name: item.name || sourceItem?.name || `item ${item.id}`,
+    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
 }
 
 function npcDialogueLines(npc) {
@@ -6139,6 +6321,7 @@ function npcActionProfile(npc) {
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
   if (isSavePointNpc(npc)) actions.push("save");
+  if (hasNpcScriptEvents(npc)) actions.push("quest", "window", "give", "take", "setFlag");
   if (npcQuestIds(npc).length || npc.questLead) actions.push("quest");
   if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
   if (!isNpcEnemy(npc)) actions.push("effect");

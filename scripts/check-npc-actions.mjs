@@ -443,6 +443,32 @@ assertEqual(ganzoBattleGame.lastBattleOutcome.defeatedEnemies.length, 2, "last b
 assert(ganzoBattleGame.flags.npcEnemyDefeats[ganzo.id]?.until, "Ganzo victory records source dieact=0 respawn timer");
 assert(!ganzoBattleGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "Ganzo victory hides the blocker NPC from the active map");
 
+const adultJudge = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式的审判");
+const adultMessenger = WORLD.maps["10204"]?.npcs.find((npc) => npc.name === "仪式审判的差使");
+if (!adultJudge || !adultMessenger) throw new Error("missing adult ceremony changeevent fixtures");
+assert(adultJudge.scriptEvents?.some((event) => event.type === "ACCEPT" && event.delItems?.some((item) => Number(item.id) === 2417)), "adult ceremony judge parses source DelItem from changeevent script");
+assert(adultMessenger.scriptEvents?.some((event) => event.type === "ACCEPT" && event.getItems?.some((item) => Number(item.id) === 2417)), "adult ceremony messenger parses source GetItem from changeevent script");
+let adultGame = await api("/api/game/new", { name: "adult-ceremony-test" });
+adultGame.location = { mapId: "10204", x: adultJudge.x + 1, y: adultJudge.y };
+adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultJudge.id });
+assert(adultGame.flags.bits["now:4"], "adult ceremony judge REQUEST sets source NOWEV=4");
+assert(adultGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("取回１５个")), "adult ceremony judge explains source request text");
+assert(adultGame.dialog.debug.actions.includes("give") && adultGame.dialog.debug.actions.includes("take"), "changeevent debug profiles deterministic item actions");
+adultGame.location = { mapId: "10204", x: adultMessenger.x + 1, y: adultMessenger.y };
+adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultMessenger.id });
+assertEqual(inventoryQty(adultGame, 2417), 15, "adult ceremony messenger gives exactly 15 source ritual jades");
+assert(adultGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("给你１５个仪玉")), "adult ceremony messenger uses source thanks text");
+assert(adultGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-getitem" && event.detail?.itemId === 2417), "adult ceremony messenger gives item through NPC VM");
+adultGame.location = { mapId: "10204", x: adultJudge.x + 1, y: adultJudge.y };
+adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultJudge.id });
+assertEqual(inventoryQty(adultGame, 2417), 0, "adult ceremony judge removes all ritual jades through source DelItem");
+assertEqual(inventoryQty(adultGame, 2418), 1, "adult ceremony judge gives source adult helmet reward");
+assert(adultGame.flags.bits["end:4"], "adult ceremony judge sets source ENDEV=4");
+assert(adultGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-delitem" && event.detail?.itemId === 2417), "adult ceremony judge takes items through NPC VM");
+assert(adultGame.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "source-changeevent-end" && event.detail?.shiftbit === 4), "adult ceremony judge records source EndSetFlg through NPC VM");
+adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultJudge.id });
+assert(adultGame.dialog.messages.at(-1)?.text.includes("成人的身份"), "adult ceremony completed branch uses source ENDEV=4 message");
+
 const shopNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.trade?.items?.length);
@@ -648,6 +674,9 @@ petStatusSkillGame.pets[0].WorkQuick = 999;
 petStatusSkillGame.pets[0].WorkFixDex = 999;
 petStatusSkillGame.pets[0].Critical = 0;
 const statusSkillEnemyFixture = {
+  EnemyId: 999999,
+  PetId: 999999,
+  Name: "状态测试敌人",
   Lv: 1,
   WorkMaxHp: 999,
   Hp: 999,

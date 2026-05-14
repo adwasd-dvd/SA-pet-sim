@@ -382,6 +382,7 @@ function parseNpcs() {
       const warp = readNpcWarp(argPath, file);
       const functionset = template.functionset || enemy.template || "NPC";
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
+      const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
       const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp);
       const npc = {
@@ -399,6 +400,7 @@ function parseNpcs() {
         ...(trade ? { trade } : {}),
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
+        ...(scriptEvents?.length ? { scriptEvents } : {}),
         ...(scriptHints ? { scriptHints } : {})
       };
       const questLead = questLeadForNpc(npc, scriptHints);
@@ -777,6 +779,112 @@ function readNpcTrade(argPath, createFile) {
     sellWords: splitWords(kv.sell_msg),
     mainMessage: cleanName(kv.main_msg || kv.buy_main || ""),
     items: items.slice(0, 40)
+  };
+}
+
+function readNpcScriptEvents(argPath, createFile, functionset) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return [];
+  const text = readText(file);
+  if (!/^\s*EventNo\s*:/im.test(text) || !/^\s*TYPE\s*:/im.test(text)) return [];
+  const isChangeEvent = /changeevent|exchange|event/i.test(`${functionset} ${argPath} ${text.slice(0, 240)}`);
+  if (!isChangeEvent) return [];
+  const events = [];
+  for (const rawBlock of text.split(/^\s*EventEnd\s*$/gim)) {
+    const event = parseNpcScriptEventBlock(rawBlock, file);
+    if (event) events.push(event);
+    if (events.length >= 16) break;
+  }
+  return events;
+}
+
+function parseNpcScriptEventBlock(rawBlock, file) {
+  const event = {
+    source: relativeRef(file),
+    messages: {},
+    getItems: [],
+    delItems: [],
+    endSetFlags: []
+  };
+  for (const raw of String(rawBlock || "").split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const index = line.indexOf(":");
+    if (index < 0) continue;
+    const key = line.slice(0, index).trim().toLowerCase();
+    const value = line.slice(index + 1).trim();
+    if (key === "eventno") {
+      event.eventNo = Number(value);
+      continue;
+    }
+    if (key === "type") {
+      event.type = cleanName(value).toUpperCase();
+      continue;
+    }
+    if (key === "event") {
+      event.condition = cleanName(value);
+      continue;
+    }
+    if (key === "getitem" || key === "giveitem") {
+      event.getItems.push(...parseScriptItemSpecs(value));
+      continue;
+    }
+    if (key === "delitem") {
+      event.delItems.push(...parseScriptItemSpecs(value));
+      continue;
+    }
+    if (key === "endsetflg" || key === "endsetflag") {
+      event.endSetFlags.push(...splitNumberList(value));
+      continue;
+    }
+    const messageKey = npcScriptMessageKey(key);
+    if (messageKey) event.messages[messageKey] = cleanScriptText(value);
+  }
+  if (!event.type && !Object.keys(event.messages).length) return null;
+  return {
+    ...event,
+    getItems: event.getItems.map(withScriptItemName),
+    delItems: event.delItems.map(withScriptItemName),
+    endSetFlags: [...new Set(event.endSetFlags)].filter((value) => value > 0)
+  };
+}
+
+function npcScriptMessageKey(key) {
+  return {
+    nomalmainmsg: "normalMain",
+    normalmainmsg: "normalMain",
+    nomalmsg: "normal",
+    normalmsg: "normal",
+    requestmsg: "request",
+    acceptmsg: "accept",
+    thanksmsg: "thanks",
+    itemfullmsg: "itemFull",
+    stopmsg: "stop",
+    endstopmsg: "endStop",
+    nostopmsg: "noStop"
+  }[key] || "";
+}
+
+function parseScriptItemSpecs(value = "") {
+  return String(value || "")
+    .split(",")
+    .map((part) => {
+      const match = part.trim().match(/^(\d+)(?:\*(\d+))?$/);
+      if (!match) return null;
+      return { id: Number(match[1]), qty: Number(match[2] || 1) };
+    })
+    .filter((item) => item && item.id > 0 && item.qty > 0);
+}
+
+function withScriptItemName(item) {
+  const sourceItem = itemDb.get(Number(item.id));
+  return {
+    ...item,
+    name: sourceItem?.name || `item ${item.id}`,
+    image: sourceItem?.image || 0,
+    cost: sourceItem?.cost || 0,
+    description: sourceItem?.description || "",
+    source: `${GMSV_DATA_SOURCE}/itemset6.txt`
   };
 }
 

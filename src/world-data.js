@@ -5,7 +5,8 @@ export const WORLD = {
     "clientMaps": "公益石器时代/map/*.dat",
     "npcs": "gmsv-data/npc/**/*.create + .template + args/config",
     "warps": "gmsv-data/map/mapwarp.txt",
-    "encounters": "gmsv-data/encount.txt"
+    "encounters": "gmsv-data/encount.txt",
+    "contentProfile": null
   },
   "startMap": "1000",
   "maps": {
@@ -5997,6 +5998,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_5d",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5d",
+              "messages": {
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2580,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 60,
+                  "description": "第5检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2579"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2579"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6030,6 +6117,157 @@ export const WORLD = {
           "script": "file:seimu/event/event02_1",
           "template": "changeevent",
           "graphic": "16033",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {
+                "normalMain": "我想收集世界中的恐龙。",
+                "accept": "我拜托你捕抓类似鱼状的恐龙你已经全部帮我抓来了！",
+                "thanks": "真的非常谢谢你！ 作梦都没想到能够收集齐全，依照最初的约定，这只金色的恐龙就给你吧。 要好好的养育它喔。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2607,
+                  "qty": 1,
+                  "name": "火难的戒指",
+                  "image": 22102,
+                  "cost": 0,
+                  "description": "魅力 +2 会心一击率上升 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                35
+              ],
+              "eventNo": 35,
+              "type": "ACCEPT",
+              "condition": "LV>0&PET=25-221*1&PET=25-222*1&ITEM=2607&NOWEV=35"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&NOWEV=35&ITEM=2607"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {
+                "accept": "我拜托你寻找的加格和邦恩吉你已经抓来了呀，那剩下的只剩克邦凯斯和加克拉，那就拜托你啰。",
+                "thanks": "对了，收下这个吧。 这是你抓到恐龙的证明喔。 掉落不见的话就没有办法承认你帮过我喔。",
+                "itemFull": "哎呀，道具已经满了无法收下的样子喔。 可以把所持品的数量减少之后再到我这里来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2607,
+                  "qty": 1,
+                  "name": "火难的戒指",
+                  "image": 22102,
+                  "cost": 0,
+                  "description": "魅力 +2 会心一击率上升 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&PET=25-223*1&PET=25-224*1&ITEM!=2607&NOWEV=35"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {
+                "request": "你好！初次见面。 我想收集LV25的恐龙而在世界中旅行。 但是有些恐龙尚未在我的恐龙名单中，这些是···",
+                "thanks": "答应我了吗。 那么，可以先帮我收集加格和邦恩吉吗？ 但是我的宠物栏只剩下2个空位而已，所以请你一次只带两只来给我。 当然等级要是25的喔，那么就拜托啰。 任何时候我都会在这个沙漠的附近旅行。",
+                "stop": "无法继续我的请求吗？",
+                "endStop": "这样呀、非常的遗憾。 如果可以的话随时拜托你喔。",
+                "noStop": "这样说真是令我非常的高兴。 首先先帮我收集加格和邦恩吉吧 我的宠物栏只剩下2个空位而已。 啊、别忘了等级要25的喔 那么就拜托你啰。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 35,
+              "type": "REQUEST",
+              "condition": "LV>0&ENDEV!=35"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {
+                "accept": "我所拜托你的恐龙已经 全部收集齐全了呀！",
+                "thanks": "真的非常谢谢你！作梦都没想到能够收集齐全。 依照最初的约定我将捡到的金色的恐龙给你吧。 要好好养育它喔。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2607,
+                  "qty": 1,
+                  "name": "火难的戒指",
+                  "image": 22102,
+                  "cost": 0,
+                  "description": "魅力 +2 会心一击率上升 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&PET=25-558*1&PET=25-293*1&ITEM=2607&ENDEV=35,LV>0&PET=25-292*1&PET=25-293*1&ITEM=2607&ENDEV=35"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2607&ENDEV=35"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {
+                "accept": "这是我拜托你去找的火鸡和奇宝，真是太好了！那剩下的就只有霍尔克和克克洛斯了。 再拜托你啰。",
+                "thanks": "对了，把这个拿去吧！这是抓到恐龙的证明喔。 若是遗失，我可能就无法确定你曾帮过我喔。",
+                "itemFull": "哎呀、道具已经满了无法收下的样子喔。 可以把所持品减少之后再到我这里来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2607,
+                  "qty": 1,
+                  "name": "火难的戒指",
+                  "image": 22102,
+                  "cost": 0,
+                  "description": "魅力 +2 会心一击率上升 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&PET=25-291*1&PET=25-294*1&ITEM!=2607&ENDEV=35"
+            },
+            {
+              "source": "gmsv-data/npc/seimu/event/event02_1",
+              "messages": {
+                "accept": "哎呀，你好呀好久不见了呢。 在不久前我又捡到一只大恐龙喔。 现在我的恐龙名单中又有新增尚未收集的恐龙，这些分别是···",
+                "thanks": "愿意接受吗。 那么，首先是否可以帮我收集火鸡和奇宝呢? 当然等级也是25的喔，那么就拜托啰。 这段时间我仍然会在这个沙漠的附近旅行，找到了就抓来给我喔。",
+                "stop": "无法接受我的情求吗？",
+                "endStop": "这样呀、非常的遗憾。",
+                "noStop": "这样说真是令我非常的高兴。 那就先帮我收集火鸡和奇宝吧！别忘了等级要25的喔！那么就拜托你啰。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=35"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6065,6 +6303,48 @@ export const WORLD = {
           "script": "file:scipt_plus/fishlevelup/npc_at_100",
           "template": "changeevent",
           "graphic": "16054",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/scipt_plus/fishlevelup/npc_at_100",
+              "messages": {
+                "normalMain": "最近日子不太好过啊……",
+                "accept": "你带来了高级肉！ 真的是要谢谢你 这个宠物，能帮助你 送你吧........................作为回报！ 这东西长大了会值点钱的！ 谢谢！",
+                "thanks": "年轻小伙子，以后努力吧 嗯……"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2347,
+                  "qty": 2,
+                  "name": "高级肉",
+                  "image": 24026,
+                  "cost": 48,
+                  "description": "耐久力80前後回复",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV=20&TRANS=0&ITEM=2347*2&ITEM=20911,LV=21&TRANS=0&ITEM=2347*2&ITEM=20911,LV=22&TRANS=0&ITEM=2347*2&ITEM=20911,LV=23&TRANS=0&ITEM=2347*2&ITEM=20911,LV=24&TRANS=0&ITEM=2347*2&ITEM=20911,LV=25&TRANS=0&ITEM=2347*2&ITEM=20911,LV=26&TRANS=0&ITEM=2347*2&ITEM=20911,LV=27&TRANS=0&ITEM=2347*2&ITEM=20911,LV=28&TRANS=0&ITEM=2347*2&ITEM=20911,LV=29&TRANS=0&ITEM=2347*2&ITEM=20911"
+            },
+            {
+              "source": "gmsv-data/npc/scipt_plus/fishlevelup/npc_at_100",
+              "messages": {
+                "request": "最近日子不好过 亲自来上货了 你有肉么！",
+                "thanks": "我需要2块高级肉 你能帮我吧 我会报答你的",
+                "stop": "怎么啦！很困难的么？",
+                "endStop": "不想帮我的话，算了吧……",
+                "noStop": "要2块高级肉，加油吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV=20&TRANS=0,LV=21&TRANS=0,LV=22&TRANS=0,LV=23&TRANS=0,LV=24&TRANS=0,LV=25&TRANS=0,LV=26&TRANS=0,LV=27&TRANS=0,LV=28&TRANS=0,LV=29&TRANS=0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6096,6 +6376,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_2d",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2d",
+              "messages": {
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2576"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2576"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6160,6 +6526,46 @@ export const WORLD = {
           "script": "file:sainasu/event/genou_3",
           "template": "changeevent",
           "graphic": "100110",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/genou_3",
+              "messages": {
+                "normalMain": "啊啊，谢谢你在我危急的时候救我。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&NOWEV=42"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/genou_3",
+              "messages": {
+                "request": "谢谢你在我危急的时候救我 真的非常感谢你。",
+                "thanks": "刚才那些人吗？ 我的宝贝差一点就被胖特族给抢走了 进入胖特族洞窟的暗号 他们要我教他们，可是这··· 我真倒楣遇到这种事。",
+                "stop": "你还有什么事吗？",
+                "endStop": "什么事？",
+                "noStop": "这样子吗，真的非常感谢你。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 42,
+              "type": "REQUEST",
+              "condition": "LV>0&NOWEV=41&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/genou_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6190,6 +6596,330 @@ export const WORLD = {
           "script": "file:sainasu/event/rion",
           "template": "changeevent",
           "graphic": "100015",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！被发现了！已经是第十次了，嗯……我输了！ 依照约定，给你奖品吧！ 如果还有时间的话再一起玩吧。",
+                "thanks": "下次我绝对不会输给你的！",
+                "itemFull": "因为道具太多了，没办法收下我的礼物的样子呢……"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2727,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 9/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2727"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！又被找到了！是我躲的方法太笨拙了吗 赌上我爷爷的名字，下次绝对不会被你找到，再见啰～～",
+                "thanks": "完了，下次就是最后一次了，不使劲躲的话……",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子呢……"
+              },
+              "getItems": [
+                {
+                  "id": 2727,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 9/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2726,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 8/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2726"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "啊！被发现了！是我躲的方式不好吗？ 下次不会再被你发现了，再见了～～",
+                "thanks": "啊，只差两次就十次啰～～",
+                "itemFull": "因为道具太多，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2726,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 8/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2725,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 7/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2725"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！被抓到了！你真是太厉害了！ 下次绝对不能被你找到，再见了～～",
+                "thanks": "啊，还差三次就十次啰，该躲哪里好呢？",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2725,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 7/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2724,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 6/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2724"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！又被发现了，难道我捉迷藏的技巧真的太差了吗？ 下次不会被你发现的，再见了～～",
+                "thanks": "啊，还剩下四次了～～",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2724,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 6/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2723,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 5/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2723"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！被发现了！你的眼睛真是太厉害了！ 下次不会被你发现的，再见了～～",
+                "thanks": "只剩下五次了～～",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2723,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 5/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2722,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 4/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2722"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哎呀！被发现了！是我躲的方式太差了吗？ 下次绝对不会被你找到的，再见了～～",
+                "thanks": "啊，还有六次就十次啰～～",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2722,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 4/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2721,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 3/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2721"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！被找到了！我躲的方式要好好改进才行呢…… 下次一定不能被你发现，再见了～～",
+                "thanks": "啊，还有七次就十次啰～～",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2721,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 3/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2720,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 2/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2720"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "哇！被发现了！是我躲的方式太差了吗？ 下次一定不会被你发现的，再见了～～",
+                "thanks": "啊，还有八次就十次啰～～",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2720,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 2/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2719,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 1/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2719"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/rion",
+              "messages": {
+                "accept": "喂，要不要陪我玩捉迷藏？",
+                "stop": "不想跟我玩捉迷藏吗？",
+                "endStop": "真是遗憾啊……",
+                "noStop": "我常常躲在树木的旁边，加加油把我找出来吧！",
+                "itemFull": "因为道具太多了，没办法收下我的愿藏娃娃的样子……"
+              },
+              "getItems": [
+                {
+                  "id": 2719,
+                  "qty": 1,
+                  "name": "里奥的愿藏娃娃",
+                  "image": 24317,
+                  "cost": 10,
+                  "description": "捉到假鬼的证据 1/10次",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6256,6 +6986,90 @@ export const WORLD = {
           "script": "file:sa80/gloves/gloves_1",
           "template": "changeevent",
           "graphic": "16353",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa80/gloves/gloves_1",
+              "messages": {
+                "normalMain": "萨伊那斯好像没有贩卖手部防具的样子······"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=11848&ITEM!=11829&ITEM!=11887&ITEM!=12025&ITEM!=11903"
+            },
+            {
+              "source": "gmsv-data/npc/sa80/gloves/gloves_1",
+              "messages": {
+                "accept": "唔～？你带来了啊，那等我一下。",
+                "thanks": "这一个防具的特性就是比较重了点，所以会让你速度稍微降低！ 不跟你说这么多了，有需要再来找我吧，我要继续我的旅程，顺道去加鲁卡海边找我弟弟。",
+                "itemFull": "虽然想交给你但你已经无法再收下。"
+              },
+              "getItems": [
+                {
+                  "id": 2399,
+                  "qty": 1,
+                  "name": "龙骨皮甲手套",
+                  "image": 21201,
+                  "cost": 0,
+                  "description": "以硬骨与皮甲做成的手套 攻+8 防+17 敏-2",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 11848,
+                  "qty": 1,
+                  "name": "点不燃的皮",
+                  "image": 24128,
+                  "cost": 15900,
+                  "description": "皮的成分 9",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11829,
+                  "qty": 1,
+                  "name": "龙骨的化石",
+                  "image": 20036,
+                  "cost": 27000,
+                  "description": "骨的成分 10",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11887,
+                  "qty": 1,
+                  "name": "强的绳",
+                  "image": 24104,
+                  "cost": 7920,
+                  "description": "线的成分 8",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12025,
+                  "qty": 1,
+                  "name": "蒸馏水的水滴",
+                  "image": 24144,
+                  "cost": 298,
+                  "description": "水的成分 6",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11903,
+                  "qty": 1,
+                  "name": "柔软的黏土",
+                  "image": 24062,
+                  "cost": 285,
+                  "description": "黏土的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=11848&ITEM=11829&ITEM=11887&ITEM=12025&ITEM=11903"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6286,6 +7100,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_12d",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12d",
+              "messages": {
+                "itemFull": "你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2587,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 130,
+                  "description": "第12检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2586"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2547,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2586"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6319,6 +7219,82 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_1d",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1d",
+              "messages": {
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -6351,6 +7327,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_7d",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7d",
+              "messages": {
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2581,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 70,
+                  "description": "第6检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2581"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2581"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -9270,6 +10332,45 @@ export const WORLD = {
           "script": "file:extra/event/marju05",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju05",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju05",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -9300,6 +10401,45 @@ export const WORLD = {
           "script": "file:extra/event/marju06",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju06",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju06",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -9330,6 +10470,45 @@ export const WORLD = {
           "script": "file:extra/event/marju06a",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju06a",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju06a",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -9360,6 +10539,45 @@ export const WORLD = {
           "script": "file:extra/event/marju05a",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju05a",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju05a",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -9718,6 +10936,104 @@ export const WORLD = {
           "script": "file:extra/event/marju01",
           "template": "changeevent",
           "graphic": "16000",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju01",
+              "messages": {
+                "normalMain": "没想到你竟然能够到这里来。真是值得期待呀。",
+                "request": "递送邮件？？ 没想到会帮我送到这种边境地方来 真的非常的谢谢你喔。",
+                "thanks": "特意送到这里来我就把在这个迷宫中 可以切断“宝袋”的绳子的石头送给你吧。 希望你不要丢失了。 如果掉了的话是无法跟周围的石头做区别的喔。",
+                "stop": "？另外还有什么是吗？",
+                "endStop": "不需要切绳石吗？ 那么回去的时候小心点喔。",
+                "noStop": "最近邮件递送屋的人都很亲切。 愿意当我这种老人聊天的对象呀。",
+                "itemFull": "所持物太多了无法收下。 能否把手中的行李减少之后再到我这里来一次呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2687,
+                  "qty": 1,
+                  "name": "邮寄物",
+                  "image": 24314,
+                  "cost": 0,
+                  "description": "被拜托转交的邮寄物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                37
+              ],
+              "eventNo": 38,
+              "type": "REQUEST",
+              "condition": "NOWEV=37&LV>49&ITEM=2687&ITEM!=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju01",
+              "messages": {
+                "itemFull": "所持物太多了无法收下。 能否把手中的行李减少之后再到我这里来一次呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=37&ENDEV=38&LV>49&ITEM!=2697,ENDEV=37&LV>49&ITEM!=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju01",
+              "messages": {
+                "accept": "没想到会帮我送到这种边境地方来。",
+                "thanks": "特意送到这里来我就把在这个迷宫中 可以切断“宝袋”的绳子的石头送给你吧。 希望你不要丢失了。 如果掉了的话是无法跟周围的石头做区别的喔。",
+                "itemFull": "所持物太多了无法收下。 能否把手中的行李减少之后再到我这里来一次呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "NOWEV!=37&ENDEV!=37&LV>39&ITEM!=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju01",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -10611,6 +11927,45 @@ export const WORLD = {
           "script": "file:extra/event/marju04a",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju04a",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju04a",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -10641,6 +11996,45 @@ export const WORLD = {
           "script": "file:extra/event/marju03a",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju03a",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju03a",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -10671,6 +12065,45 @@ export const WORLD = {
           "script": "file:extra/event/marju02a",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju02a",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju02a",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -10701,6 +12134,45 @@ export const WORLD = {
           "script": "file:extra/event/marju03",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju03",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju03",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -10731,6 +12203,45 @@ export const WORLD = {
           "script": "file:extra/event/marju04",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju04",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju04",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -10761,6 +12272,45 @@ export const WORLD = {
           "script": "file:extra/event/marju02",
           "template": "changeevent",
           "graphic": "16073",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju02",
+              "messages": {
+                "normalMain": "这个很像是宝袋。",
+                "accept": "要用切绳石把 绑在袋口的绳子切开吗？",
+                "thanks": "袋子里出现了很多的道具。",
+                "itemFull": "所持物太多无法收下。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2697,
+                  "qty": 1,
+                  "name": "切绳石",
+                  "image": 20568,
+                  "cost": 0,
+                  "description": "切断迷宫里的宝物的 绳子的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2697"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju02",
+              "messages": {
+                "normal": "袋口被牢牢的封住不可能拿的到里面的东西。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=2697"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -12977,6 +14527,45 @@ export const WORLD = {
           "script": "file:chatroom/ticket130",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket130",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖去聊天室的票。",
+                "accept": "交付往聊天室的门票。可以吗？",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket130",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2054"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27416,6 +29005,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_2b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2554,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 30,
+                  "description": "通过第2检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2553"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2553"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27480,6 +29154,81 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_1b",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27512,6 +29261,62 @@ export const WORLD = {
           "script": "file:sa70/feast/feast2.arg",
           "template": "changeevent",
           "graphic": "101446",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast2.arg",
+              "messages": {
+                "normalMain": ""
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=2414&ITEM=1834&ENDEV=4&ITEM=1835"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast2.arg",
+              "messages": {
+                "itemFull": "稱ぃ摸硂或猜摆ō狥﹁骸常ぃ笵"
+              },
+              "getItems": [
+                {
+                  "id": 1835,
+                  "qty": 1,
+                  "name": "白熊的牙",
+                  "image": 24109,
+                  "cost": 2476,
+                  "description": "白熊卡莉的牙",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=2414&ENDEV=4&ITEM=1834"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2414"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27543,6 +29348,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_3b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_3b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2555,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 40,
+                  "description": "通过第3检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2554,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 30,
+                  "description": "通过第2检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2554"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_3b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_3b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_3b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2554"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_3b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_3b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27576,6 +29466,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_4b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_4b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2556,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 50,
+                  "description": "通过第4检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2555,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 40,
+                  "description": "通过第3检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2555"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_4b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_4b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_4b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2555"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_4b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_4b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27609,6 +29584,155 @@ export const WORLD = {
           "script": "file:sa70/apple/apple3.arg",
           "template": "changeevent",
           "graphic": "16084",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {
+                "normalMain": "你觉得苹果好吃吗？我超爱吃苹果的！！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=1793&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1793,
+                  "qty": 1,
+                  "name": "信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "给小泽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 12629,
+                  "qty": 1,
+                  "name": "烤焦的兽肉串烧",
+                  "image": 24493,
+                  "cost": 10,
+                  "description": "毒状态回复 可以解毒的串烧",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1791,
+                  "qty": 1,
+                  "name": "吃过的白雪苹果",
+                  "image": 24085,
+                  "cost": 10,
+                  "description": "已经被咬一口的白雪苹果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM=12629"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM!=12629"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1791,
+                  "qty": 1,
+                  "name": "吃过的白雪苹果",
+                  "image": 24085,
+                  "cost": 10,
+                  "description": "已经被咬一口的白雪苹果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=1794&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1794,
+                  "qty": 1,
+                  "name": "香甜的苹果",
+                  "image": 24085,
+                  "cost": 10,
+                  "description": "香甜多汁的苹果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 12860,
+                  "qty": 1,
+                  "name": "白雪苹果",
+                  "image": 24085,
+                  "cost": 10,
+                  "description": "前後3回合中毒 带毒的苹果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=12860&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple3.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27644,6 +29768,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_5b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_5b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2557,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 60,
+                  "description": "通过第5检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2556,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 50,
+                  "description": "通过第4检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2556"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_5b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_5b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_5b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2556"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_5b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_5b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27677,6 +29886,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_6b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2557,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 60,
+                  "description": "通过第5检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2557"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2557"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27741,6 +30035,62 @@ export const WORLD = {
           "script": "file:jaruga/event/ruri03",
           "template": "changeevent",
           "graphic": "100075",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri03",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=39"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri03",
+              "messages": {
+                "accept": "你有遇到我爸爸吗？ (告诉伊布，拉鲁所说的事情) …以我现在的能力 即使去母亲所在的琉璃的洞窟也没有办法 可以见到她吧…。",
+                "thanks": "我明白了、请你拿着这本日记 到母亲的地方去吧。 请转告我母亲有一天 我一定会用我自己的力量去见她的。 一切都麻烦你了。",
+                "itemFull": "所持物品太多\\无法收下日记。"
+              },
+              "getItems": [
+                {
+                  "id": 2698,
+                  "qty": 1,
+                  "name": "雅哈奴的日记",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "雅哈奴写的日记",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "NOWEV=39&ITEM!=2698"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri03",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "NOWEV=39&ITEM=2698"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri03",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27772,6 +30122,170 @@ export const WORLD = {
           "script": "file:sa60/tear/tear.arg",
           "template": "changeevent",
           "graphic": "16664",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {
+                "normalMain": "（咦！这里什么时候冒出了一个石像啊！回去问问看村民有什么线索！）"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>79&ENDEV=4&ENDEV=136&TIME=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {
+                "accept": "什么！他被别人给抓走了！怎么会这样子呢？你没有救他吗？......................................",
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1680,
+                  "qty": 5,
+                  "name": "泪之石",
+                  "image": 24059,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1677,
+                  "qty": 1,
+                  "name": "白星．男戒",
+                  "image": 22104,
+                  "cost": 0,
+                  "description": "白星．男戒",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1679,
+                  "qty": 1,
+                  "name": "洛林的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "夕姬 吾爱．．．",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                136
+              ],
+              "eventNo": 136,
+              "type": "ACCEPT",
+              "condition": "LV>79&ENDEV=4&ITEM=1677&TIME=0&ITEM=1679&NOWEV=136"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>79&ENDEV=4&NOWEV=136&ITEM=1679&TIME=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1679,
+                  "qty": 1,
+                  "name": "洛林的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "夕姬 吾爱．．．",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1676,
+                  "qty": 1,
+                  "name": "克斯林首饰",
+                  "image": 22016,
+                  "cost": 0,
+                  "description": "克斯林首饰",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>79&ENDEV=4&ITEM=1676&TIME=0&NOWEV=136"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>79&ENDEV=4&NOWEV=136&ITEM=1678&TIME=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1678,
+                  "qty": 1,
+                  "name": "白星．女戒",
+                  "image": 22053,
+                  "cost": 0,
+                  "description": "白星．女戒",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>79&ENDEV=4&TIME=0&NOWEV=136"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1678,
+                  "qty": 1,
+                  "name": "白星．女戒",
+                  "image": 22053,
+                  "cost": 0,
+                  "description": "白星．女戒",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 136,
+              "type": "REQUEST",
+              "condition": "LV>79&ENDEV=4&TIME=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27807,6 +30321,42 @@ export const WORLD = {
           "script": "file:sa60/newbie/breath",
           "template": "changeevent",
           "graphic": "16001",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/breath",
+              "messages": {
+                "normalMain": "要想到泪之海海底，没有鱼腮草的帮助是不行的…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1721"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/breath",
+              "messages": {
+                "itemFull": "你身上的物品满了耶…要整理一下吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1721,
+                  "qty": 1,
+                  "name": "鱼鳃草",
+                  "image": 23028,
+                  "cost": 0,
+                  "description": "食用後可在水底呼吸一小时",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM!=1721"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -27836,6 +30386,90 @@ export const WORLD = {
           "script": "file:sa80/gloves/gloves_2",
           "template": "changeevent",
           "graphic": "16353",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa80/gloves/gloves_2",
+              "messages": {
+                "normalMain": "加鲁卡好像没有贩卖手部防具的样子······"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=11848&ITEM!=1726&ITEM!=11887&ITEM!=12025&ITEM!=11903"
+            },
+            {
+              "source": "gmsv-data/npc/sa80/gloves/gloves_2",
+              "messages": {
+                "accept": "唔～？你带来了啊，那等我一下。",
+                "thanks": "这一个防具比较锐利，但是比较脆弱！ 不你跟说这么多了，有需要再来找我吧，我去萨伊那斯找我哥哥，看他有没有找到好材料。",
+                "itemFull": "虽然想交给你但你已经无法再收下。"
+              },
+              "getItems": [
+                {
+                  "id": 2739,
+                  "qty": 1,
+                  "name": "水蓝皮甲手套",
+                  "image": 21202,
+                  "cost": 0,
+                  "description": "以碎珊瑚与软皮甲做成的手套 攻+15 防+8",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 11848,
+                  "qty": 1,
+                  "name": "点不燃的皮",
+                  "image": 24128,
+                  "cost": 15900,
+                  "description": "皮的成分 9",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1726,
+                  "qty": 1,
+                  "name": "蓝色珊瑚",
+                  "image": 22419,
+                  "cost": 10,
+                  "description": "蓝色的珊瑚材料",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11887,
+                  "qty": 1,
+                  "name": "强的绳",
+                  "image": 24104,
+                  "cost": 7920,
+                  "description": "线的成分 8",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12025,
+                  "qty": 1,
+                  "name": "蒸馏水的水滴",
+                  "image": 24144,
+                  "cost": 298,
+                  "description": "水的成分 6",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11903,
+                  "qty": 1,
+                  "name": "柔软的黏土",
+                  "image": 24062,
+                  "cost": 285,
+                  "description": "黏土的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=11848&ITEM=1726&ITEM=11887&ITEM=12025&ITEM=11903"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -30694,6 +33328,273 @@ export const WORLD = {
           "script": "file:jaruga/event/bait_03a2",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "normalMain": "那边的洞窟，有加工品材料的恐龙出没啊，我以为牧场场主在募集打工人员啊…",
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-560*5&ITEM=2590*1&ITEM=2594,PET>0-560*4&ITEM=2590*1&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2590*1&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2590*1&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2590*1&ITEM=2589*4&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2590,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-560*5&ITEM=2594,PET>0-560*4&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2589*4&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-560*4&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 3,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-560*3&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-560*2&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-560*1&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你要把你身上的证明书 整理成一张吗？ 有证明书的话，牧场场主",
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2591,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你要把你身上的证明书整理成一张吗？ 有证明书的话，牧场场主",
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*1&ITEM=2590*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {
+                "accept": "你要把你身上的证明书整理成一张吗？ 有证明书的话，牧场场主",
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2590*4"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03a2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2594,ITEM=2595,ITEM=2596"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -30729,6 +33630,273 @@ export const WORLD = {
           "script": "file:jaruga/event/bait_03b2",
           "template": "changeevent",
           "graphic": "16036",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "normalMain": "那边的洞窟，有加工品材料的恐龙出没啊，我以为牧场场主在募集打工人员啊…",
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-559*5&ITEM=2590*1&ITEM=2595,PET>0-559*4&ITEM=2590*1&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2590*1&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2590*1&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2590*1&ITEM=2589*4&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2590,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-559*5&ITEM=2595,PET>0-559*4&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2589*4&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-559*4&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 3,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-559*3&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-559*2&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-559*1&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你要把你身上的证明书 整理成一张吗？ 有证明书的话，牧场场主",
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2591,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你要把你身上的证明书 整理成一张吗？ 有证明书的话，牧场场主",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*1&ITEM=2590*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {
+                "accept": "你要把你身上的证明书 整理成一张吗？ 有证明书的话，牧场场主",
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2590*4"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03b2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2594,ITEM=2595,ITEM=2596"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -30764,6 +33932,265 @@ export const WORLD = {
           "script": "file:jaruga/event/bait_03c2",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "normalMain": "那边的洞窟，有加工品材料的恐龙出没啊，我以为牧场场主在募集打工人员啊…",
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。ItemFullMsg: 你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-558*5&ITEM=2590*1&ITEM=2596,PET>0-558*4&ITEM=2590*1&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2590*1&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2590*1&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2590*1&ITEM=2589*4&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。ItemFullMsg: 你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2590,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-558*5&ITEM=2596,PET>0-558*4&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2589*4&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。ItemFullMsg: 你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-558*4&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。ItemFullMsg: 你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 3,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-558*3&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。ItemFullMsg: 你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-558*2&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "accept": "你所有的材料恐龙 要换成证明书吗？ 有这个证明书的话，牧场场主",
+                "thanks": "是的，这就是证明书 5你收集5张的话，就可以帮你整理成1张哦。 证明书有1张.5张.10张.20张五种。 在去牧场场主的那边之前 要妥善保管哦。ItemFullMsg: 你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2589,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "PET>0-558*1&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2591,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*1&ITEM=2590*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {
+                "thanks": "这是整理过的证明书。 在去牧场场主的那边之前 要妥善保管哦。",
+                "itemFull": "你道具太多了，“调教证明书” 也没有的样子啊。 请你把身上的东西弄少一点再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2590*4"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_03c2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2594,ITEM=2595,ITEM=2596"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -30799,6 +34226,377 @@ export const WORLD = {
           "script": "file:jaruga/event/bait_01",
           "template": "changeevent",
           "graphic": "16017",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "normalMain": "欢迎光临卡鲁它那牧场！这里可以利用恐龙的毛跟骨骼来制造加工用品哦。",
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2592*1&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*1&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2590*1&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*4&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 3,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*3&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*2&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*1&ITEM=2596"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2592*1&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*1&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2590,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 700,
+                  "description": "调查5只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2590*1&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 4,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*4&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 3,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*3&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 2,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*2&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2589,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 100,
+                  "description": "调查1只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2589*1&ITEM=2595"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2592,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 3600,
+                  "description": "调查20只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2592*1&ITEM=2594"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/bait_01",
+              "messages": {
+                "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2591,
+                  "qty": 1,
+                  "name": "调查证明书",
+                  "image": 24222,
+                  "cost": 1500,
+                  "description": "调查10只材料恐龙的证明书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2591*1&ITEM=2594"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -33940,6 +37738,60 @@ export const WORLD = {
           "script": "file:scipt_plus/fishshuimo/npc_at_300",
           "template": "changeevent",
           "graphic": "16083",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
+              "messages": {
+                "normalMain": "说实话，我遇到了点麻烦"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2418,
+                  "qty": 1,
+                  "name": "仪之兜",
+                  "image": 21542,
+                  "cost": 5000,
+                  "description": "防 +15 敏 -3 全异常状态防止 +3",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV<45&ITEM=2418"
+            },
+            {
+              "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "TRANS>2"
+            },
+            {
+              "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>35"
+            },
+            {
+              "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": ""
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -33972,6 +37824,154 @@ export const WORLD = {
           "script": "file:giiru/event/sink/sink03",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/giiru/event/sink/sink03",
+              "messages": {
+                "accept": "呵呵呵 想要一点点这个湖的水吗？",
+                "thanks": "嗯，主人好像已经有了吧 贪心的话可是会吃亏的 我来领取吧",
+                "itemFull": "东西太多拿不动的样子"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2708,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "用来装巴那姆湖水的水壶",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2708&ITEM=2709,LV>0&ITEM=2708&ITEM=2710,LV>0&ITEM=2708&ITEM=2711,LV>0&ITEM=2708&ITEM=2712,LV>0&ITEM=2708&ITEM=2713,LV>0&ITEM=2708&ITEM=2714,LV>0&ITEM=2708&ITEM=2715,LV>0&ITEM=2708&ITEM=2716,LV>0&ITEM=2708&ITEM=2717,LV>0&ITEM=2708&ITEM=2718"
+            },
+            {
+              "source": "gmsv-data/npc/giiru/event/sink/sink03",
+              "messages": {
+                "accept": "呵呵呵 想要很多这个湖的水吗？",
+                "thanks": "嗯，那么，要借这个壶吗？ 嗨呦 装得满满的了 不要弄破了喔",
+                "itemFull": "东西太多拿不动的样子"
+              },
+              "getItems": [
+                {
+                  "id": 2709,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "装有巴那姆湖水的水壶 现在的水量：7/7",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2708,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "用来装巴那姆湖水的水壶",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718"
+            },
+            {
+              "source": "gmsv-data/npc/giiru/event/sink/sink03",
+              "messages": {
+                "accept": "呵呵呵 想要一半这个湖的水吗？",
+                "thanks": "嗯，那么，要借这个壶子吗？ 嗨呦 装了一半了 不要弄破了喔",
+                "itemFull": "东西太多拿不动的样子"
+              },
+              "getItems": [
+                {
+                  "id": 2710,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "装有巴那姆湖水的水壶 现在的水量：4/7",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2708,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "用来装巴那姆湖水的水壶",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718"
+            },
+            {
+              "source": "gmsv-data/npc/giiru/event/sink/sink03",
+              "messages": {
+                "accept": "想要一点点这个湖的水吗？",
+                "thanks": "嗯，那么，要借这个壶子吗？ 嗨呦 装了一点点 不要弄破了喔",
+                "itemFull": "东西太多拿不动的样子"
+              },
+              "getItems": [
+                {
+                  "id": 2711,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "装有巴那姆湖水的水壶 现在的水量：3/7",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2708,
+                  "qty": 1,
+                  "name": "巴那姆的水壶",
+                  "image": 12924,
+                  "cost": 500,
+                  "description": "用来装巴那姆湖水的水壶",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718"
+            },
+            {
+              "source": "gmsv-data/npc/giiru/event/sink/sink03",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2708"
+            },
+            {
+              "source": "gmsv-data/npc/giiru/event/sink/sink03",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -45016,6 +49016,113 @@ export const WORLD = {
           "script": "file:sa70/closed/closed1.arg",
           "template": "changeevent",
           "graphic": "101548",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/closed/closed1.arg",
+              "messages": {
+                "normalMain": "吼！！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2414&ITEM=1863"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/closed/closed1.arg",
+              "messages": {
+                "itemFull": "想不到人类这么笨啊！身上东西满了都不知道。"
+              },
+              "getItems": [
+                {
+                  "id": 1863,
+                  "qty": 1,
+                  "name": "碧绿海藻",
+                  "image": 24266,
+                  "cost": 0,
+                  "description": "食用後可在水底呼吸四小时",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1861,
+                  "qty": 1,
+                  "name": "鱼王的鳞片",
+                  "image": 22037,
+                  "cost": 1935,
+                  "description": "鱼王的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1862,
+                  "qty": 1,
+                  "name": "漩涡的污水",
+                  "image": 22391,
+                  "cost": 10,
+                  "description": "漩涡的污水",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2414&ITEM=1862&ITEM=1861"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/closed/closed1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2414&ITEM!=1861&ITEN=1862"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/closed/closed1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2414&ITEM=1861"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/closed/closed1.arg",
+              "messages": {
+                "itemFull": "你这么笨！身上东西满了都不知道，我想要考虑一下你是否有能力移除那股强大的漩涡了。"
+              },
+              "getItems": [
+                {
+                  "id": 1861,
+                  "qty": 1,
+                  "name": "鱼王的鳞片",
+                  "image": 22037,
+                  "cost": 1935,
+                  "description": "鱼王的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2414"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/closed/closed1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46773,6 +50880,202 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_edc",
           "template": "changeevent",
           "graphic": "16027",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edc",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "itemFull": "你身上东西太多了 能不能请你把东西弄少一点在过来一趟？。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2587,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 130,
+                  "description": "第12检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edc",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edc",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 看你的检查项目 你好像还没完成啊··· 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！ 这是参加奖，请收下吧。",
+                "itemFull": "你身上东西太多，放不下参加奖了。 能不能请你东西弄少一点之后，再过来一趟啊？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2580,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 60,
+                  "description": "第5检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2581,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 70,
+                  "description": "第6检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edc",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 看你的检查项目 你好像还没完成啊 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edc",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 ···看你的检查项目 你好像连一个检查点都没通过··· 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2575"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edc",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46808,6 +51111,80 @@ export const WORLD = {
           "script": "file:sa70/dance/dance.arg",
           "template": "changeevent",
           "graphic": "16083",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/dance/dance.arg",
+              "messages": {
+                "normalMain": "最近学校要举办舞会，可是我没有舞衣可以穿，虽然妈妈说要帮我缝一件，可是没有材料，妈妈说如果能拿到贝鲁卡、贝鲁伊卡、格鲁西斯的毛皮，她就能帮我缝一件最漂亮的舞衣。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2013"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/dance/dance.arg",
+              "messages": {
+                "itemFull": "你身上的东西满了喔！"
+              },
+              "getItems": [
+                {
+                  "id": 2013,
+                  "qty": 1,
+                  "name": "莉儿的爱心糖果",
+                  "image": 24533,
+                  "cost": 0,
+                  "description": "全异常状态回复 莉儿的爱心糖果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2010,
+                  "qty": 1,
+                  "name": "贝鲁卡的皮毛",
+                  "image": 24127,
+                  "cost": 0,
+                  "description": "贝鲁卡的皮毛",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2011,
+                  "qty": 1,
+                  "name": "贝鲁伊卡的皮毛",
+                  "image": 24124,
+                  "cost": 0,
+                  "description": "贝鲁伊卡的皮毛",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2012,
+                  "qty": 1,
+                  "name": "格鲁西斯的皮毛",
+                  "image": 24125,
+                  "cost": 0,
+                  "description": "格鲁西斯的皮毛",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2010&ITEM=2011&ITEM=2012"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/dance/dance.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46839,6 +51216,60 @@ export const WORLD = {
           "script": "file:poru/samugiru04",
           "template": "changeevent",
           "graphic": "16001",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/poru/samugiru04",
+              "messages": {
+                "normalMain": "你要听萨姆吉尔故事啊！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=63&ITEM=18538&ITEM18539&ITEM=18340&18541&18542"
+            },
+            {
+              "source": "gmsv-data/npc/poru/samugiru04",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=63&ITEM=18538,ENDEV=63&ITEM=18539,ENDEV=63&ITEM=18540,ENDEV=63&ITEM=18541,ENDEV=63&ITEM=18542"
+            },
+            {
+              "source": "gmsv-data/npc/poru/samugiru04",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=63"
+            },
+            {
+              "source": "gmsv-data/npc/poru/samugiru04",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>79"
+            },
+            {
+              "source": "gmsv-data/npc/poru/samugiru04",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46871,6 +51302,235 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_0cd",
           "template": "changeevent",
           "graphic": "16027",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {
+                "normalMain": "你要不要参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 看你的检查项目 你好像还没完成啊··· 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！ 这是参加奖，请收下吧。",
+                "itemFull": "你身上东西太多，放不下参加奖了。 能不能请你东西弄少一点之后，在过来一趟啊？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2580,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 60,
+                  "description": "第5检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2581,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 70,
+                  "description": "第6检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 看你的检查项目 你好像还没完成啊··· 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 ···看你的检查项目 你好像一个都没收集到啊···’ 第一检查点就在萨姆吉尔附近 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2575"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {
+                "request": "萨伊那斯环岛活动，简称为SOT 这就环绕整个萨伊那斯岛 的活动哦。 希望你务必也来参加。",
+                "thanks": "···经过严格的审查之后 你的SOT环岛活动 是走C路线 请你带着这个检查石 通过12个检查点 收集完之后，请听从检查员的指示。",
+                "stop": "你决定不参加环岛活动吗？",
+                "endStop": "我知道了 希望下次你能参加。",
+                "noStop": "检查点就在这附近 每个检查员都会告诉你 下一个检查点要怎么走。",
+                "itemFull": "你身上东西太多了 好像装不下这个检查石了 能不能请你把东西弄少一点之后 再过来一趟。"
+              },
+              "getItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_0cd",
+              "messages": {
+                "request": "萨伊那斯环岛活动，简称为SOT 这就环绕整个萨伊那斯岛 的活动哦。 希望你务必也来参加。",
+                "thanks": "···经过严格的审查之后 你的SOT环岛活动 是走D路线 请你带着这个检查石 通过12个检查点 收集完之后，请听从检查员的指示。",
+                "stop": "你决定不参加环岛活动吗？",
+                "endStop": "我知道了 希望下次你能参加。",
+                "noStop": "检查点就在这附近 每个检查员都会告诉你 下一个检查点要怎么走。",
+                "itemFull": "你身上东西太多了 好像装不下这个检查石了 能不能请你把东西弄少一点之后 再过来一趟。"
+              },
+              "getItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46919,6 +51579,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/fighter",
           "template": "changeevent",
           "graphic": "16496",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/fighter",
+              "messages": {
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46947,6 +51621,233 @@ export const WORLD = {
           "script": "file:chatroom/ticket1000",
           "template": "changeevent",
           "graphic": "16014",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket1000",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖去斗技场的票。",
+                "accept": "我在卖往斗技场的票。 您的话免费。 能够进入斗技场吗？ 另外，我要回收其他的票，请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV<11,DR<11,DR=77,DR=777"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket1000",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2597"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket1000",
+              "messages": {
+                "accept": "我在卖往斗技场的票。 您的话需要s。 这样可以吗？ 另外，我要回收其他的票、请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>10"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -46978,6 +51879,168 @@ export const WORLD = {
           "script": "file:sa70/treasure/treasure1.arg",
           "template": "changeevent",
           "graphic": "16102",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {
+                "normalMain": "偷偷告诉你一个秘密，在南岛的海中藏着大量的宝物喔！。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1858"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1859"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1860"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1853,
+                  "qty": 1,
+                  "name": "黄金图腾像",
+                  "image": 10904,
+                  "cost": 0,
+                  "description": "黄金做的图腾像",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1854,
+                  "qty": 1,
+                  "name": "古老的勾玉",
+                  "image": 24067,
+                  "cost": 100,
+                  "description": "古老的勾玉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1855,
+                  "qty": 1,
+                  "name": "传说的竖琴",
+                  "image": 24212,
+                  "cost": 3000,
+                  "description": "传说的竖琴",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1856,
+                  "qty": 1,
+                  "name": "金砂",
+                  "image": 22436,
+                  "cost": 0,
+                  "description": "黄金的砂子",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1857,
+                  "qty": 1,
+                  "name": "透明的水晶",
+                  "image": 24170,
+                  "cost": 200,
+                  "description": "透明的水晶",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&ITEM=1853&ITEM=1854&ITEM=1855&ITEM=1856&ITEM=1857"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=1853"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=1854"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=1855"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=1856"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM!=1857"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -47013,6 +52076,220 @@ export const WORLD = {
           "script": "file:sa75/angel/angelitem",
           "template": "changeevent",
           "graphic": "16154",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {
+                "normalMain": "魔兽危害整个大陆的人民，只有勇者才能真正经得起考验，请完成这些考验后再来找我吧！！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OUT=1"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2885,
+                  "qty": 1,
+                  "name": "精灵勇者信物",
+                  "image": 35269,
+                  "cost": 0,
+                  "description": "精灵召唤的勇者信物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_I_OVER=1"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OVER=1"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ANGEL_OUT=1"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2884,
+                  "qty": 1,
+                  "name": "精灵使者信物",
+                  "image": 35268,
+                  "cost": 0,
+                  "description": "精灵召唤的使者信物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ANGEL_I_OVER=1"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OVER=1"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OUT=2"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2885,
+                  "qty": 1,
+                  "name": "精灵勇者信物",
+                  "image": 35269,
+                  "cost": 0,
+                  "description": "精灵召唤的勇者信物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_I_OVER=2"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OVER=2"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ANGEL_OUT=2"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2884,
+                  "qty": 1,
+                  "name": "精灵使者信物",
+                  "image": 35268,
+                  "cost": 0,
+                  "description": "精灵召唤的使者信物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ANGEL_I_OVER=2"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OVER=2"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OUT=3"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2885,
+                  "qty": 1,
+                  "name": "精灵勇者信物",
+                  "image": 35269,
+                  "cost": 0,
+                  "description": "精灵召唤的勇者信物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_I_OVER=3"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&HERO_OVER=3"
+            },
+            {
+              "source": "gmsv-data/npc/sa75/angel/angelitem",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ANGEL_OUT=3"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -47066,6 +52343,81 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_1c",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "itemFull": "你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_1c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -47098,6 +52450,116 @@ export const WORLD = {
           "script": "file:sa70/beers/beers1.arg",
           "template": "changeevent",
           "graphic": "16090",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers1.arg",
+              "messages": {
+                "normalMain": "小心喔！在水世界里有很多旋涡和一些凶猛的鲨鱼。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=11968"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers1.arg",
+              "messages": {
+                "itemFull": "你身上的东西是不是满了呢？"
+              },
+              "getItems": [
+                {
+                  "id": 1602,
+                  "qty": 1,
+                  "name": "魅力橘子",
+                  "image": 23003,
+                  "cost": 1500,
+                  "description": "吃了以後会很有魅力 魅+99",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2021,
+                  "qty": 1,
+                  "name": "发酵完成的水果",
+                  "image": 24084,
+                  "cost": 10,
+                  "description": "能萃取出酒的水果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2021"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 11968,
+                  "qty": 1,
+                  "name": "酩酊草",
+                  "image": 23025,
+                  "cost": 1620,
+                  "description": "酒醉的成分 9",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2023,
+                  "qty": 1,
+                  "name": "高级烧酒",
+                  "image": 24079,
+                  "cost": 0,
+                  "description": "蒸馏酒",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2023"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2020"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers1.arg",
+              "messages": {
+                "itemFull": "你身上的东西是不是满了呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2020,
+                  "qty": 1,
+                  "name": "酸坏的水果酒",
+                  "image": 24443,
+                  "cost": 0,
+                  "description": "酸坏的水果酒",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -47150,6 +52612,188 @@ export const WORLD = {
           "script": "file:sa70/meat/meat1.arg",
           "template": "changeevent",
           "graphic": "16022",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {
+                "normalMain": "肉！香喷喷的肉！想到我就流口水！",
+                "itemFull": "你身上太多东西了喔！"
+              },
+              "getItems": [
+                {
+                  "id": 1816,
+                  "qty": 1,
+                  "name": "超级补的肉",
+                  "image": 24042,
+                  "cost": 5000,
+                  "description": "我方全体体力回复 每回合回复100体力 持续4回合",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1820,
+                  "qty": 1,
+                  "name": "合约书",
+                  "image": 24176,
+                  "cost": 160,
+                  "description": "料理肉的合约书",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12889,
+                  "qty": 1,
+                  "name": "一口肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "description": "耐久力35回复(1人) 大又容易吃的肉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12890,
+                  "qty": 1,
+                  "name": "小的肉",
+                  "image": 24032,
+                  "cost": 10,
+                  "description": "耐久力65回复(1体) 携带方便的肉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12891,
+                  "qty": 1,
+                  "name": "丸丸肉",
+                  "image": 24490,
+                  "cost": 10,
+                  "description": "耐久力80回复(1人) 团子状的肉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12892,
+                  "qty": 1,
+                  "name": "大块的肉",
+                  "image": 24017,
+                  "cost": 10,
+                  "description": "耐久力130回复(1人) 巨大的肉块",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12893,
+                  "qty": 1,
+                  "name": "满腹肉",
+                  "image": 24026,
+                  "cost": 10,
+                  "description": "耐久力180回复(1体) 可以吃饱的肉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&ITEM=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM!=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM!=12893&ITEM=1820"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM!=12892&ITEM=1820"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM!=12891&ITEM=1820"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM!=12890&ITEM=1820"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM!=12889&ITEM=1820"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM=1820"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {
+                "itemFull": "你身上太多东西了喔！"
+              },
+              "getItems": [
+                {
+                  "id": 1820,
+                  "qty": 1,
+                  "name": "合约书",
+                  "image": 24176,
+                  "cost": 160,
+                  "description": "料理肉的合约书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/meat/meat1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -47185,6 +52829,83 @@ export const WORLD = {
           "script": "file:sainasu/event/event02_2",
           "template": "changeevent",
           "graphic": "16030",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event02_2",
+              "messages": {
+                "normalMain": "今天天气也不错呢！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=2&ITEM!=2415&SP=1,ENDEV=2&ITEM!=2415&SP=2"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event02_2",
+              "messages": {
+                "accept": "咦？这是玛丽娜斯的弥生要给我的吗？",
+                "thanks": "谢谢你、这朵花作为谢礼。 如果能有更好的东西就好了…",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 2415,
+                  "qty": 1,
+                  "name": "仙尼亚的花",
+                  "image": 24173,
+                  "cost": 40,
+                  "description": "在萨姆吉尔花圃上摘的花",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                2
+              ],
+              "eventNo": 2,
+              "type": "ACCEPT",
+              "condition": "NOWEV=2&ITEM=2414"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event02_2",
+              "messages": {
+                "request": "有些事情想拜托你 不知道你愿不愿意听我说呢？",
+                "thanks": "这朵花，是我今天早上摘的。 我希望你能帮我把这朵花， 交给住在玛丽娜斯一位叫弥生的朋友。小心别让花枯了唷。",
+                "stop": "是不是不太可能把花送到住在玛丽娜斯的弥生手上呢？",
+                "endStop": "这样啊！那么，我再请别人帮忙。",
+                "noStop": "谢谢你。路上要小心喔！ 你只要从这里穿过森林， 往西边走，就可以到达玛丽娜斯了。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 2415,
+                  "qty": 1,
+                  "name": "仙尼亚的花",
+                  "image": 24173,
+                  "cost": 40,
+                  "description": "在萨姆吉尔花圃上摘的花",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 2,
+              "type": "REQUEST",
+              "condition": "LV>0&SP=0,LV>0&SP=3"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -49676,6 +55397,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/petmaster",
           "template": "changeevent",
           "graphic": "16122",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/petmaster",
+              "messages": {
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -50222,6 +55957,45 @@ export const WORLD = {
           "script": "file:genout/msg_1005_11_13",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/genout/msg_1005_11_13",
+              "messages": {
+                "normalMain": "嗯！昨天是不是喝多了？不行不行，啊！",
+                "normal": "身上有药之后就快点出发吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1983"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1005_11_13",
+              "messages": {
+                "request": "我这里是有特效药没错，不过你得找哈罗山的医生磨成药粉喔。",
+                "thanks": "那爱困草你就拿去吧。",
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1983,
+                  "qty": 1,
+                  "name": "爱困草",
+                  "image": 23024,
+                  "cost": 0,
+                  "description": "制作安眠药的药材",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=1982"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -53192,6 +58966,404 @@ export const WORLD = {
           "script": "file:extra/event/M_1000",
           "template": "changeevent",
           "graphic": "16200",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
+                "accept": "哦？你将宠物任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20001,
+                  "qty": 1,
+                  "name": "萨村宠物委托书Ａ",
+                  "image": 24176,
+                  "cost": 40,
+                  "description": "昆伊和凯比特各两只，报酬400。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20001&PET>0-113*2&PET>0-114*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20002,
+                  "qty": 1,
+                  "name": "萨村宠物委托书Ｂ",
+                  "image": 24176,
+                  "cost": 80,
+                  "description": "乌力和乌力斯坦各两只，报酬800。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20002&PET>0-1*2&PET>0-3*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20003,
+                  "qty": 1,
+                  "name": "萨村宠物委托书Ｃ",
+                  "image": 24176,
+                  "cost": 150,
+                  "description": "呼拔拔和鲁尼帖斯各一只，报酬1500。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20003&PET>0-72*1&PET>0-74*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20004,
+                  "qty": 1,
+                  "name": "萨村宠物委托书Ｄ",
+                  "image": 24176,
+                  "cost": 320,
+                  "description": "特洛昆和达克尔各两只，报酬3200。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20004&PET>0-63*2&PET>0-64*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20005,
+                  "qty": 1,
+                  "name": "萨村宠物委托书Ｅ",
+                  "image": 24176,
+                  "cost": 400,
+                  "description": "龟之盾、绿龟、卡梅兰恩、石龟各一只，报酬精灵的羽毛一根。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20005&PET>0-51*1&PET>0-52*1&PET>0-53*1&PET>0-54*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20006,
+                  "qty": 1,
+                  "name": "萨村宠物委托书Ｆ",
+                  "image": 24176,
+                  "cost": 1500,
+                  "description": "柯伊达、柯洛加斯、多洛加、加克拉、海主人各一只，报酬?",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20006&PET>0-82*1&PET>0-83*1&PET>0-174*1&PET>0-222*1&PET>0-243*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将料理任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20021,
+                  "qty": 1,
+                  "name": "萨村料理委托书Ａ",
+                  "image": 24176,
+                  "cost": 35,
+                  "description": "五个硬掉的荷包蛋，报酬350。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12583,
+                  "qty": 5,
+                  "name": "硬掉的荷包蛋",
+                  "image": 24448,
+                  "cost": 10,
+                  "description": "耐50回复(自己) 已经硬掉的白煮蛋",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20021&ITEM=12583*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20022,
+                  "qty": 1,
+                  "name": "萨村料理委托书Ｂ",
+                  "image": 24176,
+                  "cost": 80,
+                  "description": "十二个香喷喷面包，报酬800。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12636,
+                  "qty": 12,
+                  "name": "香喷喷面包",
+                  "image": 24438,
+                  "cost": 10,
+                  "description": "耐70回复(1体) 刚出炉的香喷喷面包",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20022&ITEM=12636*12"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20023,
+                  "qty": 1,
+                  "name": "萨村料理委托书Ｃ",
+                  "image": 24176,
+                  "cost": 120,
+                  "description": "六种水果酱汁牛排各一客，报酬1200。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12874,
+                  "qty": 1,
+                  "name": "苹果酱汁牛排",
+                  "image": 24450,
+                  "cost": 10,
+                  "description": "耐久力100回复(我方全体) 都是苹果的牛排",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12875,
+                  "qty": 1,
+                  "name": "蜜桃酱汁牛排",
+                  "image": 24522,
+                  "cost": 10,
+                  "description": "耐久力100回复(我方全体) 蜜桃酱的味道很香",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12876,
+                  "qty": 1,
+                  "name": "草莓酱汁牛排",
+                  "image": 24451,
+                  "cost": 10,
+                  "description": "耐久力100回复(我方全体) 草莓酱汁带有点甜味",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12877,
+                  "qty": 1,
+                  "name": "梨子酱汁牛排",
+                  "image": 24522,
+                  "cost": 10,
+                  "description": "耐久力100回复(我方全体) 轻淡的烤肉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12878,
+                  "qty": 1,
+                  "name": "葡萄酱汁牛排",
+                  "image": 24450,
+                  "cost": 10,
+                  "description": "耐久力100回复(我方全体) 美食家非吃不可的逸品",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12879,
+                  "qty": 1,
+                  "name": "樱桃酱汁牛排",
+                  "image": 24451,
+                  "cost": 10,
+                  "description": "耐久力100回复(我方全体) 有淡淡的樱桃香味",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20023&ITEM=12874*1&ITEM=12875*1&ITEM=12876*1&ITEM=12877*1&ITEM=12878*1&ITEM=12879*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20024,
+                  "qty": 1,
+                  "name": "萨村料理委托书Ｄ",
+                  "image": 24176,
+                  "cost": 200,
+                  "description": "六个什锦叁明治，报酬2000。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12643,
+                  "qty": 6,
+                  "name": "什锦叁明治",
+                  "image": 24412,
+                  "cost": 10,
+                  "description": "气30回复(1人) 叁明治里放入了各种东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20024&ITEM=12643*6"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20025,
+                  "qty": 2,
+                  "name": "萨村料理委托书Ｅ",
+                  "image": 24176,
+                  "cost": 250,
+                  "description": "两份萨姆吉尔英雄套餐，报酬2500。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12667,
+                  "qty": 2,
+                  "name": "烤猪排",
+                  "image": 24451,
+                  "cost": 10,
+                  "description": "耐300回复(1体) 烤猪排",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12507,
+                  "qty": 2,
+                  "name": "味道爽口的肉汤",
+                  "image": 24422,
+                  "cost": 10,
+                  "description": "气30耐50回复(1体) 味道不是很重的肉汤",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12849,
+                  "qty": 2,
+                  "name": "威力上升蘑菇",
+                  "image": 24406,
+                  "cost": 10,
+                  "description": "耐久力200回复(1人) 蘑菇的力量涌现",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20025&ITEM=12667*2&ITEM=12507*2&ITEM=12849*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_1000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20026,
+                  "qty": 1,
+                  "name": "萨村料理委托书Ｆ",
+                  "image": 24176,
+                  "cost": 480,
+                  "description": "五个加了酱汁的粽子，报酬4800。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12927,
+                  "qty": 5,
+                  "name": "加了酱汁的粽子",
+                  "image": 24562,
+                  "cost": 10,
+                  "description": "气35耐250回复(1体) 加了酱汁的粽子",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20026&ITEM=12927*5"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -53598,6 +59770,127 @@ export const WORLD = {
           "script": "file:chatroom/ticket1012",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket1012",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖去聊天室的票。",
+                "accept": "交付前往聊天室的门票。 但是、持有其他村的门票或是斗技场的 门票的人，会在这里回收。 这样可以吗？",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket1012",
+              "messages": {
+                "normal": "已经、有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2521"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -53778,6 +60071,262 @@ export const WORLD = {
           "script": "file:poru/girl",
           "template": "changeevent",
           "graphic": "16009",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {
+                "normalMain": "爷爷说不可以跟陌生人说话....",
+                "accept": "啊～你身上带有五块萨姆吉尔的勾玉啊？",
+                "itemFull": "你的道具好像已经满了哦！需要拿掉一些哦！"
+              },
+              "getItems": [
+                {
+                  "id": 18537,
+                  "qty": 1,
+                  "name": "萨姆吉尔的首饰",
+                  "image": 22038,
+                  "cost": 0,
+                  "description": "萨姆吉尔的首饰 魅 +5 复活光精灵 Lv1",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 18543,
+                  "qty": 5,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 18538,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24067,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第一块勾玉 回避率上升 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 18539,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24066,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第二块勾玉 运 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 18540,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24065,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第叁块勾玉 魅 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 18541,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24064,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第四块勾玉 复活精灵 Lv1",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 18542,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24068,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第五块勾玉 光的精灵",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=63&ITEM=18538&ITEM=18539&ITEM=18540&ITEM=18541&ITEM=18542"
+            },
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {
+                "accept": "啊～你身上带有萨姆吉尔的勾玉啊？",
+                "itemFull": "你的道具好像已经满了哦！需要拿掉一些！"
+              },
+              "getItems": [
+                {
+                  "id": 18543,
+                  "qty": 1,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 18538,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24067,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第一块勾玉 回避率上升 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=63&ITEM=18538"
+            },
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {
+                "accept": "啊～你身上带有萨姆吉尔的勾玉啊？",
+                "itemFull": "你的道具好像已经满了哦！需要拿掉一些！"
+              },
+              "getItems": [
+                {
+                  "id": 18543,
+                  "qty": 1,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 18539,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24066,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第二块勾玉 运 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=63&ITEM=18539"
+            },
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {
+                "accept": "啊～你身上带有萨姆吉尔的勾玉啊？",
+                "itemFull": "你的道具好像已经满了哦！需要拿掉一些！"
+              },
+              "getItems": [
+                {
+                  "id": 18543,
+                  "qty": 1,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 18540,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24065,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第叁块勾玉 魅 +5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=63&ITEM=18540"
+            },
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {
+                "accept": "啊～你身上带有萨姆吉尔的勾玉啊？",
+                "itemFull": "你的道具好像已经满了哦！需要拿掉一些！"
+              },
+              "getItems": [
+                {
+                  "id": 18543,
+                  "qty": 1,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 18541,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24064,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第四块勾玉 复活精灵 Lv1",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=63&ITEM=18541"
+            },
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {
+                "accept": "啊～你身上带有萨姆吉尔的勾玉啊？",
+                "itemFull": "你的道具好像已经满了哦！需要拿掉一些！"
+              },
+              "getItems": [
+                {
+                  "id": 18543,
+                  "qty": 1,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 18542,
+                  "qty": 1,
+                  "name": "萨姆吉尔的勾玉",
+                  "image": 24068,
+                  "cost": 0,
+                  "description": "萨姆吉尔首饰的第五块勾玉 光的精灵",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=63&ITEM=18542"
+            },
+            {
+              "source": "gmsv-data/npc/poru/girl",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=63"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -66440,6 +72989,158 @@ export const WORLD = {
           "script": "file:sa70/risk/risk1.arg",
           "template": "changeevent",
           "graphic": "16092",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {
+                "normalMain": "完蛋了啦！今天家里有盛大的宴会，但是那位大厨师却在一早的时候病倒了，该怎么辨啊？！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1840"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1840,
+                  "qty": 1,
+                  "name": "陈年葡萄酒",
+                  "image": 24079,
+                  "cost": 10,
+                  "description": "气70耐500回复(1体)",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 12745,
+                  "qty": 1,
+                  "name": "清脆沙拉",
+                  "image": 24440,
+                  "cost": 10,
+                  "description": "气10回复(1体) 口感很好的沙拉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12550,
+                  "qty": 1,
+                  "name": "豪迈的炒青菜",
+                  "image": 24528,
+                  "cost": 10,
+                  "description": "气30回复(1人) 充满魄力的炒青菜",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12571,
+                  "qty": 1,
+                  "name": "豪华肉拼盘",
+                  "image": 24521,
+                  "cost": 10,
+                  "description": "耐100回复(我方全体) 很豪华丰盛的肉拼盘",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12708,
+                  "qty": 1,
+                  "name": "照烧煮鱼",
+                  "image": 24515,
+                  "cost": 10,
+                  "description": "耐200回复(1体) 把照烧过的鱼拿去煮的食品",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12719,
+                  "qty": 1,
+                  "name": "美食汤",
+                  "image": 24418,
+                  "cost": 10,
+                  "description": "气100回复(1体) 使用精选食材的汤",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=12745&ITEM=12550&ITEM=12571&ITEM=12708&ITEM=12719"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=12719"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=12708"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=12571"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=12550"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=12745"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/risk/risk1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -66475,6 +73176,513 @@ export const WORLD = {
           "script": "file:sa60/gift/gift1.arg",
           "template": "changeevent",
           "graphic": "16030",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "normalMain": "好想念我的男朋友啊…。",
+                "accept": "哇！！这是多吉尔托你拿回来的吗？！他对我真是太好了，之前已经送给我一个结婚戒指了呢。好开心唷…也谢谢你帮我们的忙，真是太感谢了。",
+                "thanks": "这是我们结婚时要发给朋友们的结婚蛋糕，就先送给你来表达我们的谢意，也祝你早日找到结婚的对象喔…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1232,
+                  "qty": 1,
+                  "name": "结婚蛋糕",
+                  "image": 22366,
+                  "cost": 1200,
+                  "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10700,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22050,
+                  "cost": 400,
+                  "description": "魅+1? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                139
+              ],
+              "eventNo": 139,
+              "type": "ACCEPT",
+              "condition": "NOWEV=139&ITEM=1754&ITEM=10700"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "accept": "哇！！这是多吉尔托你拿回来的吗？！他对我真是太好了，之前已经送给我一个结婚戒指了呢。好开心唷…也谢谢你帮我们的忙，真是太感谢了。",
+                "thanks": "这是我们结婚时要发给朋友们的结婚蛋糕，就先送给你来表达我们的谢意，也祝你早日找到结婚的对象喔…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1232,
+                  "qty": 1,
+                  "name": "结婚蛋糕",
+                  "image": 22366,
+                  "cost": 1200,
+                  "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10701,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22100,
+                  "cost": 450,
+                  "description": "魅+2? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                139
+              ],
+              "eventNo": 139,
+              "type": "ACCEPT",
+              "condition": "NOWEV=139&ITEM=1754&ITEM=10701"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "accept": "哇！！这是多吉尔托你拿回来的吗？！他对我真是太好了，之前已经送给我一个结婚戒指了呢。好开心唷…也谢谢你帮我们的忙，真是太感谢了。",
+                "thanks": "这是我们结婚时要发给朋友们的结婚蛋糕，就先送给你来表达我们的谢意，也祝你早日找到结婚的对象喔…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1232,
+                  "qty": 1,
+                  "name": "结婚蛋糕",
+                  "image": 22366,
+                  "cost": 1200,
+                  "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10702,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22109,
+                  "cost": 500,
+                  "description": "魅+3? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                139
+              ],
+              "eventNo": 139,
+              "type": "ACCEPT",
+              "condition": "NOWEV=139&ITEM=1754&ITEM=10702"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "accept": "哇！！这是多吉尔托你拿回来的吗？！他对我真是太好了，之前已经送给我一个结婚戒指了呢。好开心唷…也谢谢你帮我们的忙，真是太感谢了。",
+                "thanks": "这是我们结婚时要发给朋友们的结婚蛋糕，就先送给你来表达我们的谢意，也祝你早日找到结婚的对象喔…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1232,
+                  "qty": 1,
+                  "name": "结婚蛋糕",
+                  "image": 22366,
+                  "cost": 1200,
+                  "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10703,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22121,
+                  "cost": 550,
+                  "description": "魅+4? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                139
+              ],
+              "eventNo": 139,
+              "type": "ACCEPT",
+              "condition": "NOWEV=139&ITEM=1754&ITEM=10703"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "accept": "哇！！这是多吉尔托你拿回来的吗？！他对我真是太好了，之前已经送给我一个结婚戒指了呢。好开心唷…也谢谢你帮我们的忙，真是太感谢了。",
+                "thanks": "这是我们结婚时要发给朋友们的结婚蛋糕，就先送给你来表达我们的谢意，也祝你早日找到结婚的对象喔…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1232,
+                  "qty": 1,
+                  "name": "结婚蛋糕",
+                  "image": 22366,
+                  "cost": 1200,
+                  "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10704,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22124,
+                  "cost": 600,
+                  "description": "魅+5? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                139
+              ],
+              "eventNo": 139,
+              "type": "ACCEPT",
+              "condition": "NOWEV=139&ITEM=1754&ITEM=10704"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "request": "哇！！这是多吉尔托你拿来的吗？！他对我真是太好了，才刚刚买一个结婚戒指送给我而已呢。好开心唷…真是太感谢了。其实我一直想亲手做一个他最爱吃的饭团给他，可是我一直都做不出来，好难过唷～。可以请你帮我这个忙吗？？",
+                "thanks": "那就麻烦你了，另外这封信也请你连同饭团一起帮我交给他好吗？？谢谢你…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10700,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22050,
+                  "cost": 400,
+                  "description": "魅+1? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 139,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=1754&ITEM=10700"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "request": "哇！！这是多吉尔托你拿来的吗？！他对我真是太好了，才刚刚买一个结婚戒指送给我而已呢。好开心唷…真是太感谢了。其实我一直想亲手做一个他最爱吃的饭团给他，可是我一直都做不出来，好难过唷～。可以请你帮我这个忙吗？？",
+                "thanks": "那就麻烦你了，另外这封信也请你连同饭团一起帮我交给他好吗？？谢谢你…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10701,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22100,
+                  "cost": 450,
+                  "description": "魅+2? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 139,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=1754&ITEM=10701"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "request": "哇！！这是多吉尔托你拿来的吗？！他对我真是太好了，才刚刚买一个结婚戒指送给我而已呢。好开心唷…真是太感谢了。其实我一直想亲手做一个他最爱吃的饭团给他，可是我一直都做不出来，好难过唷～。可以请你帮我这个忙吗？？",
+                "thanks": "那就麻烦你了，另外这封信也请你连同饭团一起帮我交给他好吗？？谢谢你…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10702,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22109,
+                  "cost": 500,
+                  "description": "魅+3? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 139,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=1754&ITEM=10702"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "request": "哇！！这是多吉尔托你拿来的吗？！他对我真是太好了，才刚刚买一个结婚戒指送给我而已呢。好开心唷…真是太感谢了。其实我一直想亲手做一个他最爱吃的饭团给他，可是我一直都做不出来，好难过唷～。可以请你帮我这个忙吗？？",
+                "thanks": "那就麻烦你了，另外这封信也请你连同饭团一起帮我交给他好吗？？谢谢你…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10703,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22121,
+                  "cost": 550,
+                  "description": "魅+4? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 139,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=1754&ITEM=10703"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "request": "哇！！这是多吉尔托你拿来的吗？！他对我真是太好了，才刚刚买一个结婚戒指送给我而已呢。好开心唷…真是太感谢了。其实我一直想亲手做一个他最爱吃的饭团给他，可是我一直都做不出来，好难过唷～。可以请你帮我这个忙吗？？",
+                "thanks": "那就麻烦你了，另外这封信也请你连同饭团一起帮我交给他好吗？？谢谢你…。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 10704,
+                  "qty": 1,
+                  "name": "合成戒指 1",
+                  "image": 22124,
+                  "cost": 600,
+                  "description": "魅+5? 会心一击率上升 +1?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 139,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=1754&ITEM=10704"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1754"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1755"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=139"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "LV>0&NOWEV=139"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift1.arg",
+              "messages": {
+                "request": "我的男朋友住在卡坦村，他的名字叫做多吉尔。我一直想做个爱情御饭团给他来表达我对他的爱意，可是我一直都做不出来，好难过唷～。可以请你帮我这个忙吗？？",
+                "thanks": "那么就麻烦你了，多吉尔住在卡坦村，如果你成功做出来的话，就帮我连同这封信一起交给他吧，我会答谢你这个恩惠的。",
+                "itemFull": "哎呀！道具好像已经满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -66510,6 +73718,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_2c",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2576&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2576&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_2c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -66561,6 +73854,20 @@ export const WORLD = {
           "script": "file:sainasu/event/event13_2",
           "template": "changeevent",
           "graphic": "16048",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event13_2",
+              "messages": {
+                "normalMain": "在离这不远的前方，有住着老人啊…。,我是一见到老人就不能不管他们。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=13"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -69398,6 +76705,131 @@ export const WORLD = {
           "script": "file:sainasu/event/event13_1",
           "template": "changeevent",
           "graphic": "16000",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event13_1",
+              "messages": {
+                "normalMain": "有没有能帮我把遭窃的家宝取回来的强者啊…。",
+                "accept": "喂喂喂喂喂喂！ 那不正是我们遭窃的三件传家之宝 被拿回来了吗？",
+                "thanks": "该怎么跟您说谢谢呢… 这是我诚心诚意地 请您一定要收下。",
+                "itemFull": "喂喂！这是怎么一回事呢… 您的道具袋已经满了啊！ 可是不能不向您道谢啊… 请您减轻一些重量，再来一趟吧。"
+              },
+              "getItems": [
+                {
+                  "id": 2450,
+                  "qty": 1,
+                  "name": "萨顿家的秘药",
+                  "image": 24169,
+                  "cost": 1000,
+                  "description": "从气绝回复成500的耐久力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2428,
+                  "qty": 1,
+                  "name": "萨顿家的衣服",
+                  "image": 21028,
+                  "cost": 10,
+                  "description": "防 +3 萨顿家的传家之宝",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2429,
+                  "qty": 1,
+                  "name": "萨顿家的斧头",
+                  "image": 20018,
+                  "cost": 10,
+                  "description": "攻 +10 防 -5 敏 -5 萨顿家的传家之宝",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2430,
+                  "qty": 1,
+                  "name": "萨顿家的头盔",
+                  "image": 21540,
+                  "cost": 10,
+                  "description": "防 +3 萨顿家的传家之宝",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2431,
+                  "qty": 1,
+                  "name": "盗贼们的足迹",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "盗贼们潜入的证据",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                13
+              ],
+              "eventNo": 13,
+              "type": "ACCEPT",
+              "condition": "NOWEV=13&ITEM=2428&ITEM=2429&ITEM=2430"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event13_1",
+              "messages": {
+                "itemFull": "道具栏已经满了喔！ 不知 到能不能麻烦你挪出空间来呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2431,
+                  "qty": 1,
+                  "name": "盗贼们的足迹",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "盗贼们潜入的证据",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 13,
+              "type": "MESSAGE",
+              "condition": "NOWEV=13&ITEM!=2431"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event13_1",
+              "messages": {
+                "request": "呜呜呜… 传家宝被盗贼偷走了…。 实在很想把它拿回来啊…。 不过以我这样的身子， 虽然我知道这是无理的请求， 但还是请您 一定要帮我取回家传的三种神器。",
+                "thanks": "喂喂喂喂喂喂！ 你愿不愿意帮我啊？ 嗯嗯嗯、不是在这个世界上不见的啊！？ 这是留在我家里盗贼的足迹。 只要跟着这个走的话， 我想他们一定逃不掉。 请把这个带去吧！ 盗贼们都在柯尔克山的洞窟里呢！",
+                "stop": "怎么啦？你没有信心抓到盗贼吗？",
+                "endStop": "…原来如此。真抱歉，太勉强你了。 那请你把我这可怜老人家传家宝遭窃的事忘了吧…。",
+                "noStop": "这样啊！那我等你的好消息喔！ 但也不要太勉强喔！",
+                "itemFull": "你的道具袋 好像已经装不下 这个可以足以成为证据， 让盗贼百口莫辩的东西了…。 请把道具袋清出空位，再来一次吧！"
+              },
+              "getItems": [
+                {
+                  "id": 2431,
+                  "qty": 1,
+                  "name": "盗贼们的足迹",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "盗贼们潜入的证据",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 13,
+              "type": "REQUEST",
+              "condition": "LV>15"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event13_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=13"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -69536,6 +76968,20 @@ export const WORLD = {
           "script": "file:sa70/sleep/sleep2.arg",
           "template": "changeevent",
           "graphic": "16049",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/sleep/sleep2.arg",
+              "messages": {
+                "normalMain": "小鬼＞＠＜！！我想你没见过我吧！我制造特殊宝箱锁和特殊钥匙的功力可是没人比我的过我喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -69564,6 +77010,92 @@ export const WORLD = {
           "script": "file:sa70/sleep/sleep1.arg",
           "template": "changeevent",
           "graphic": "16105",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
+              "messages": {
+                "normalMain": "要小心海主人，他身上的毒素很强喔！",
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1796,
+                  "qty": 1,
+                  "name": "毒蛇的肉",
+                  "image": 24042,
+                  "cost": 10,
+                  "description": "前後10回合中毒 含有剧毒的蛇肉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1797,
+                  "qty": 1,
+                  "name": "百年海主人的肉",
+                  "image": 24036,
+                  "cost": 140,
+                  "description": "百年海主人的肉 耐久力140前後回复",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1795,
+                  "qty": 1,
+                  "name": "海主人爱吃的草",
+                  "image": 23026,
+                  "cost": 400,
+                  "description": "海主人爱吃的草",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=1797"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1795"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
+              "messages": {
+                "itemFull": "你身上太多东西了喔！引出百年海主人是需要特殊的草，它可是很聪明的，没那么容易就出现。"
+              },
+              "getItems": [
+                {
+                  "id": 1795,
+                  "qty": 1,
+                  "name": "海主人爱吃的草",
+                  "image": 23026,
+                  "cost": 400,
+                  "description": "海主人爱吃的草",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -69613,6 +77145,63 @@ export const WORLD = {
           "script": "file:sainasu/event/event09",
           "template": "changeevent",
           "graphic": "16205",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event09",
+              "messages": {
+                "normalMain": "你好啊！今天天气真是不错呢！,从柯尔克山一路看过来的风景，总是很漂亮呢！,我的朋友遭到盗贼袭击，不知道有没有人伸出援手啊…。",
+                "accept": "听说您帮了那两人的忙啊！ 真的是谢谢您啊！",
+                "thanks": "您是我们的骄傲。 您为我们在卡坦、霍特尔、柯尔克的人民， 带来了希望之光。 从现在起，我们一定会好好加油， 不会败给盗贼的。 请您，务必要把这个收下。",
+                "itemFull": "哎呀！东西已经装满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 1357,
+                  "qty": 1,
+                  "name": "黄色大首饰",
+                  "image": 22024,
+                  "cost": 5200,
+                  "description": "魅 +5 睡眠耐性 +30",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [
+                9
+              ],
+              "eventNo": 9,
+              "type": "ACCEPT",
+              "condition": "ENDEV=12&ENDEV=10&ENDEV=11"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event09",
+              "messages": {
+                "request": "如此说来，我那两个朋友在卡坦的沙漠， 遇到了盗贼啊！总想， 有没有那个人可以帮他们的忙呢？",
+                "thanks": "这样啊…那你能不能帮忙呢？真是谢谢你了呢。详情请问我那住在卡坦和霍特尔的朋友吧。",
+                "stop": "你无法帮我的忙啊？",
+                "endStop": "这样啊… 那我再找能帮我的人好了。 真是不好意思。",
+                "noStop": "啊！那真是太谢谢你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 9,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event09",
+              "messages": {
+                "normal": "希望能有精灵保佑你。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=9"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -69643,6 +77232,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_8c",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2582&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2582&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -72617,6 +80291,18 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent03_6",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent03_6",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -72645,6 +80331,38 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent03_5",
           "template": "changeevent",
           "graphic": "16025",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent03_5",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2472,LV>0&ITEM=2473,LV>0&ITEM=2474"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent03_5",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2469,LV>0&ITEM=2470,LV>0&ITEM=2471"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent03_5",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -73468,6 +81186,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_9c",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2583&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2583&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -73501,6 +81304,61 @@ export const WORLD = {
           "script": "file:sainasu/event/event03_1",
           "template": "changeevent",
           "graphic": "16048",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event03_1",
+              "messages": {
+                "normalMain": "今天天气也不错呢！",
+                "accept": "叔叔说要把这把斧头交给我吗？",
+                "thanks": "谢谢你特地大老远送来给我。 可以的话，能不能听听我的请求呢？ 如果可以的话， 待会要不要来我住的地方坐坐呢？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2416,
+                  "qty": 1,
+                  "name": "亚姆亚姆的斧头",
+                  "image": 20041,
+                  "cost": 10,
+                  "description": "亚姆亚姆做的 一掉落就会消失的神秘斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                3
+              ],
+              "eventNo": 3,
+              "type": "ACCEPT",
+              "condition": "NOWEV=3&ITEM=2416"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event03_1",
+              "messages": {
+                "request": "关于之前收到的斧头，我已经写了感谢函了。 因为就凭我的力量，并不是那么容易就能办到的， 所以希望你能帮我把这封信转交给叔叔。 你能不能帮我这个忙呢？",
+                "thanks": "谢谢你。 如果太麻烦的话，把它丢掉也没关系啦！",
+                "stop": "还是不太可能帮我交给他是不是呢？",
+                "endStop": "也罢！不要太勉强了，那就先谢谢你啰！",
+                "noStop": "如果我有能越过那一片沙漠的能力 我就能自己去。 实在很抱歉。",
+                "itemFull": "好像装不下我的信了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 2423,
+                  "qty": 1,
+                  "name": "马提的信",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "马提写给亚姆亚姆的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 5,
+              "type": "REQUEST",
+              "condition": "ENDEV=3"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -73531,6 +81389,123 @@ export const WORLD = {
           "script": "file:sa70/romance/romance1.arg",
           "template": "changeevent",
           "graphic": "16048",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/romance/romance1.arg",
+              "messages": {
+                "normalMain": "我想要送我心爱的女朋友海里的珊瑚，可是空手又无法挖，我需要一个合成爪七来挖珊瑚，你能帮我吗？！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1872"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/romance/romance1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1872,
+                  "qty": 1,
+                  "name": "家传的烤香菇",
+                  "image": 24406,
+                  "cost": 165,
+                  "description": "耐久力1000前後回复",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1871,
+                  "qty": 1,
+                  "name": "鲜 的红珊瑚",
+                  "image": 22417,
+                  "cost": 0,
+                  "description": "鲜 的红珊瑚",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1870,
+                  "qty": 1,
+                  "name": "挖珊瑚用的爪",
+                  "image": 20231,
+                  "cost": 0,
+                  "description": "挖珊瑚用的爪",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=1871&ITEM=1870"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/romance/romance1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1871&ITEM!=1870"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/romance/romance1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1870"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/romance/romance1.arg",
+              "messages": {
+                "itemFull": "你身上的东西满了喔！"
+              },
+              "getItems": [
+                {
+                  "id": 1870,
+                  "qty": 1,
+                  "name": "挖珊瑚用的爪",
+                  "image": 20231,
+                  "cost": 0,
+                  "description": "挖珊瑚用的爪",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 4980,
+                  "qty": 1,
+                  "name": "合成爪 7",
+                  "image": 20231,
+                  "cost": 1000,
+                  "description": "攻+21? (x3)",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=4980"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/romance/romance1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -73566,6 +81541,62 @@ export const WORLD = {
           "script": "file:extra/event/marju",
           "template": "changeevent",
           "graphic": "16046",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/marju",
+              "messages": {
+                "normalMain": "去卡坦村的时候如果不小心呼拔拔的话是不行的。",
+                "request": "我在帮萨伊那斯的邮件递送 打工 我叫做马祖。 不知道谁能够帮我打 邮件递送的工呢？ 诺鲁玛很像还没有结束（T_T）",
+                "thanks": "啊？你愿意帮我吗？ 那么这封信的递送就拜托你啰。 这个叫做卡伊特的人、很像住在某个迷宫 的深处。 如果能帮我送的话我就把珍藏的道具 当成谢礼送给你喔！",
+                "stop": "这封信、很像无法送到吗？",
+                "endStop": "是这样啊、在那果然还是会迷路呀。 如果能去卡伊特的地方的话 再到我这里来喔。",
+                "noStop": "是吗、那真是太好了！ 如果能帮我送的话我就把珍藏的道具 当成谢礼送给你喔！ 加油帮我送到卡伊特的地方去喔。",
+                "itemFull": "道具已经满了无法收下这封信喔。 能否把手中的行李减少之后再到我这里来一次呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2687,
+                  "qty": 1,
+                  "name": "邮寄物",
+                  "image": 24314,
+                  "cost": 0,
+                  "description": "被拜托转交的邮寄物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 37,
+              "type": "REQUEST",
+              "condition": "LV>49&ENDEV!=38"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju",
+              "messages": {
+                "accept": "哎呀、你就是帮我送邮件 的人吧！ 能够平安的送达 真的非常的谢谢你！",
+                "thanks": "给你那个时候跟你约好的 道具喔！好的、请收下。",
+                "itemFull": "所持物太多了无法收下。 能否把手中的行李减少之后再到我这里来一次呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [
+                38
+              ],
+              "eventNo": 38,
+              "type": "ACCEPT",
+              "condition": "ENDEV=37&LV>49"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/marju",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=38&LV>49"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -73596,6 +81627,126 @@ export const WORLD = {
           "script": "file:sainasu/event/event10",
           "template": "changeevent",
           "graphic": "16206",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event10",
+              "messages": {
+                "normalMain": "你好。今天天气真好啊！,霍特尔某个洞窟因为地震而崩塌了…",
+                "accept": "是的。就是这个。 这就是我的守护石。",
+                "thanks": "谢谢你。有这个，村子就得救了。 就以这个作为谢礼吧。 我想，这个拿去换钱的话， 可以换到２０００Ｓ。",
+                "itemFull": "哎呀！东西已经装满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 2421,
+                  "qty": 1,
+                  "name": "勾玉",
+                  "image": 24071,
+                  "cost": 10000,
+                  "description": "美丽的勾玉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2419,
+                  "qty": 1,
+                  "name": "霍特尔的保护石",
+                  "image": 24057,
+                  "cost": 100,
+                  "description": "霍特尔村的保护石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                10,
+                12
+              ],
+              "eventNo": 10,
+              "type": "ACCEPT",
+              "condition": "ENDEV=11&NOWEV=10&ITEM=2419"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event10",
+              "messages": {
+                "accept": "是的。就是这个。 这就是我的守护石。",
+                "thanks": "谢谢你。有这个， 村子就得救了。就以这个作为谢礼吧！ 我想，这个拿去换钱的话， 可以换到２０００Ｓ。",
+                "itemFull": "哎呀！东西已经装满了呢！"
+              },
+              "getItems": [
+                {
+                  "id": 2421,
+                  "qty": 1,
+                  "name": "勾玉",
+                  "image": 24071,
+                  "cost": 10000,
+                  "description": "美丽的勾玉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2419,
+                  "qty": 1,
+                  "name": "霍特尔的保护石",
+                  "image": 24057,
+                  "cost": 100,
+                  "description": "霍特尔村的保护石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                10
+              ],
+              "eventNo": 10,
+              "type": "ACCEPT",
+              "condition": "ENDEV=12&ITEM=2419"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event10",
+              "messages": {
+                "request": "这是从我柯尔克和卡坦的朋友 那听来的。请你务必要帮忙。",
+                "thanks": "不知道你有没有听说，关于我们也被盗贼偷窃这个村庄 重要的守护石的事？ 在这样下去，我实在没有脸 见我们村长。请您务必要帮我拿回来。\\听说盗贼的地下城，是在霍尔特山西边的 水井。听说暗号是‘在卡坦有梦德’ 的样子。",
+                "stop": "果然还是无理的请求吗…",
+                "endStop": "这样啊… 那我找再别人帮忙好了。 真是抱歉。",
+                "noStop": "真是不好意思…那就拜托你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 10,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4&NOWEV=9&NOWEV=11"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event10",
+              "messages": {
+                "request": "这是从我那在柯尔克的朋友听来的。 请你务必要帮忙。 村庄的守护石，是被在卡坦沙漠的盗贼、 梦德一族偷走了。",
+                "thanks": "盗贼在卡坦沙漠中心一带出没， 偷走了这个村庄的守护石。 而且不只这样，少了那个的话， 好像还会发生不好的事。此外， 我那在卡坦的友人也遭盗贼袭击， 不知道你能不能帮我去看他呢？",
+                "stop": "果然还是无理的请求吧…",
+                "endStop": "这样啊… 那我再找可以帮我的人好了。 真是抱歉。",
+                "noStop": "真是不好意思。那就拜托你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 10,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4&NOWEV=9"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event10",
+              "messages": {
+                "normal": "谢谢你帮我把守护石拿回来。一生都不会忘了您的恩惠。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=10"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -77393,6 +85544,124 @@ export const WORLD = {
           "script": "file:sa70/true/true1.arg",
           "template": "changeevent",
           "graphic": "16047",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {
+                "normalMain": "不晓得克莱姆的伤有没有好一点。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM=1819"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1819,
+                  "qty": 1,
+                  "name": "疯狂药草",
+                  "image": 24191,
+                  "cost": 10,
+                  "description": "混乱10回合前後",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1818,
+                  "qty": 1,
+                  "name": "特效药",
+                  "image": 23013,
+                  "cost": 25,
+                  "description": "对什麽伤都有用的药",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&ITEM=1818"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM=1817&ITEM=1940&ITEM=2231"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM=1817&ITEM=1940"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM=1817&ITEM=2231"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ITEM=1817"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1817,
+                  "qty": 1,
+                  "name": "治愈之水",
+                  "image": 24144,
+                  "cost": 15,
+                  "description": "有治愈力量的水",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&ITEM!=1817"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/true/true1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -77428,6 +85697,126 @@ export const WORLD = {
           "script": "file:sainasu/event/event11",
           "template": "changeevent",
           "graphic": "16203",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event11",
+              "messages": {
+                "normalMain": "你好啊！最近太阳还真是大啊！就连卡坦也是。",
+                "accept": "这样啊…不知道你能不能帮我拿回来呢？ 真的非常谢谢你。",
+                "thanks": "这点礼物不诚敬意。请您收下。",
+                "itemFull": "哎呀！东西装不下了啊！"
+              },
+              "getItems": [
+                {
+                  "id": 1052,
+                  "qty": 1,
+                  "name": "芙雷雅Lv1铠6",
+                  "image": 21025,
+                  "cost": 14685,
+                  "description": "防 +20 敏 -6 滋润的精灵 Lv1",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2420,
+                  "qty": 1,
+                  "name": "卡坦的保护石",
+                  "image": 24058,
+                  "cost": 100,
+                  "description": "卡坦村的保护石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                11,
+                12
+              ],
+              "eventNo": 11,
+              "type": "ACCEPT",
+              "condition": "ENDEV=10&NOWEV=11&ITEM=2420"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event11",
+              "messages": {
+                "accept": "这样啊…不知道你能不能帮我拿回来呢？ 真的非常谢谢你。",
+                "thanks": "这是不成敬意的礼物。请您收下。",
+                "itemFull": "哎呀！东西装不下了啊！"
+              },
+              "getItems": [
+                {
+                  "id": 1052,
+                  "qty": 1,
+                  "name": "芙雷雅Lv1铠6",
+                  "image": 21025,
+                  "cost": 14685,
+                  "description": "防 +20 敏 -6 滋润的精灵 Lv1",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2420,
+                  "qty": 1,
+                  "name": "卡坦的保护石",
+                  "image": 24058,
+                  "cost": 100,
+                  "description": "卡坦村的保护石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                11
+              ],
+              "eventNo": 11,
+              "type": "ACCEPT",
+              "condition": "NOWEV=11&ITEM=2420"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event11",
+              "messages": {
+                "request": "这是从我那在柯尔克和霍特尔的朋友那 听来的。请您务必要帮忙。",
+                "thanks": "不知道您有没有听说，关于我们村庄重要的守护石也遭窃 的事呢？如果 没有了守护石的话，这一次村庄的祭典就无法 举行了。请您务必要帮我们取回来。 盗贼的地下城听说是在霍特尔山西边 的水井。暗号好像是‘在卡坦有梦德’ 的样子。",
+                "stop": "无论如何都无法帮我们的忙吗？",
+                "endStop": "我知道了。那我再找找可以帮我的人好了。 真是抱歉打扰您了。",
+                "noStop": "真是不好意思…我知道这对您来说 很为难， 但现在就只有您能帮我的忙了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 11,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4&NOWEV=9&NOWEV=10"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event11",
+              "messages": {
+                "request": "这是我从我那在柯尔克的朋友听来的。 请您务必要帮忙。 事实上，那名为梦德一族的盗贼 偷了我们重要的 守护石。",
+                "thanks": "前几天，村庄里重要的守护石 被偷了。而且不只如此， 好像还会发生一些不好的 事情。此外，我那在霍特尔的友人，他的村庄 据说守护石也遭窃。能否 请您去看看他呢？",
+                "stop": "真抱歉…这是不是无理的请求呢？",
+                "endStop": "这样啊.… 我知道了…那我再找别人帮忙好了。",
+                "noStop": "就拜托你了。一切就只有靠你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 11,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4&NOWEV=9"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event11",
+              "messages": {
+                "normal": "谢谢你帮我们把守护石 拿回来。您的恩惠我们一生都难忘。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=11"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -77461,6 +85850,161 @@ export const WORLD = {
           "script": "file:sa60/gift/gift2.arg",
           "template": "changeevent",
           "graphic": "16049",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {
+                "normalMain": "稱├и狟ね摆",
+                "accept": "珃硂琌レ腞癠ㄓ盾癸и痷琌び笵и程稲碞琌逗刮秨み谅谅腊иΓ痷琌び稰谅",
+                "thanks": "硂琌и挡盉璶祇倒狟ね挡盉矹縷碞癳倒笷и谅種Νらт挡盉癸禜翅",
+                "itemFull": "玼笵ㄣ钩竒骸㎡"
+              },
+              "getItems": [
+                {
+                  "id": 1232,
+                  "qty": 1,
+                  "name": "结婚蛋糕",
+                  "image": 22366,
+                  "cost": 1200,
+                  "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 12744,
+                  "qty": 1,
+                  "name": "爱情御饭团",
+                  "image": 24400,
+                  "cost": 10,
+                  "description": "耐50回复(1体) 包含真心的御饭团",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                139
+              ],
+              "eventNo": 139,
+              "type": "ACCEPT",
+              "condition": "LV>0&NOWEV=139&ITEM=1755&ITEM=12744"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {
+                "request": "珃硂琌レ腞癠ㄓ盾癸и痷琌び笵и程稲碞琌逗刮秨み痷琌び稰谅ㄤ龟и稱克も籹硑Θзㄓ倒笷и癸稲種琌и常暗ぃㄓ螟筁°叫腊и硂Γ盾",
+                "thanks": "ê碞陈沸硂獺叫硈з癬腊иユ倒盾谅谅",
+                "itemFull": "玼笵ㄣ钩竒骸㎡"
+              },
+              "getItems": [
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 12744,
+                  "qty": 1,
+                  "name": "爱情御饭团",
+                  "image": 24400,
+                  "cost": 10,
+                  "description": "耐50回复(1体) 包含真心的御饭团",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1755,
+                  "qty": 1,
+                  "name": "给多吉尔的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "伊芙丽写给多吉尔的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 139,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=12744&ITEM=1755"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1755"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1754"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=139"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "LV>0&NOWEV=139"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/gift/gift2.arg",
+              "messages": {
+                "request": "и狟ね︘而暗レ腞и稱克も籹硑Θзㄓ倒笷и癸稲種琌и常暗ぃㄓ螟筁°叫腊и硂Γ盾",
+                "thanks": "ê或碞陈沸レ腞︘而狦Θ暗ㄓ杠碞腊и硈硂獺癬ユ倒и穦氮谅硂磃",
+                "itemFull": "玼笵ㄣ钩竒骸㎡"
+              },
+              "getItems": [
+                {
+                  "id": 1754,
+                  "qty": 1,
+                  "name": "给伊芙丽的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "多吉尔写给伊芙丽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -77496,6 +86040,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_12c",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "itemFull": "你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2587,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 130,
+                  "description": "第12检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2586&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2586&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_12c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -77529,6 +86158,84 @@ export const WORLD = {
           "script": "file:sainasu/event/event03_2",
           "template": "changeevent",
           "graphic": "16057",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event03_2",
+              "messages": {
+                "normalMain": "最近似乎没什么体力来越过沙漠…。",
+                "accept": "喂！ 你是不是有帮我带来我孙子的来信啊？",
+                "thanks": "真是谢谢你了呢！ 为了答谢您，我想把这把斧头送给您。 对了对了！这把跟给我孙子的那一把不同是改良过的 而且威力较强的唷！即使掉了， 也不消失。如何？ 高不高兴呢？",
+                "itemFull": "好像已经装不下我的斧头了呢…。"
+              },
+              "getItems": [
+                {
+                  "id": 2448,
+                  "qty": 1,
+                  "name": "亚姆亚姆的斧头",
+                  "image": 20041,
+                  "cost": 5000,
+                  "description": "攻 +35 防 -10 敏 -10 亚姆亚姆制作的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2423,
+                  "qty": 1,
+                  "name": "马提的信",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "马提写给亚姆亚姆的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                5
+              ],
+              "eventNo": 5,
+              "type": "ACCEPT",
+              "condition": "NOWEV=5&ITEM=2423"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event03_2",
+              "messages": {
+                "request": "你能不能听听我的请求呢？",
+                "thanks": "这把我所做的一松手就消失，不可思议的斧头， 希望你能帮我把它， 交给我那住在霍特尔的孙子马提。 最近突然一下子老了很多， 无法横越沙漠…。 真是拜托你了呢！",
+                "stop": "还是不行吗？",
+                "endStop": "嗯、还是找别人好呢…。",
+                "noStop": "这样吧！由衷地拜托你了。",
+                "itemFull": "好像已经装不下我的斧头了呢…。"
+              },
+              "getItems": [
+                {
+                  "id": 2416,
+                  "qty": 1,
+                  "name": "亚姆亚姆的斧头",
+                  "image": 20041,
+                  "cost": 10,
+                  "description": "亚姆亚姆做的 一掉落就会消失的神秘斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 3,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event03_2",
+              "messages": {
+                "normal": "这一阵子真是谢谢你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=3,ENDEV=5"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -77578,6 +86285,115 @@ export const WORLD = {
           "script": "file:sa60/desert/desert1.arg",
           "template": "changeevent",
           "graphic": "16103",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/desert/desert1.arg",
+              "messages": {
+                "normalMain": "最近出现了一批盗贼，客户要运送的货物都被抢走了，唉！生意越来越难做。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=4&ENDEV=137"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/desert/desert1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1694,
+                  "qty": 1,
+                  "name": "盗贼的悔过书",
+                  "image": 24362,
+                  "cost": 40,
+                  "description": "沙漠之鹰盗贼的悔过书。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1693,
+                  "qty": 1,
+                  "name": "假的货物",
+                  "image": 16071,
+                  "cost": 50,
+                  "description": "引出沙漠之鹰的假货物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                137
+              ],
+              "eventNo": 137,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=137&ITEM=1694"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/desert/desert1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=4&ITEM=1693&NOWEV=137"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/desert/desert1.arg",
+              "messages": {
+                "itemFull": "请你将身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1693,
+                  "qty": 1,
+                  "name": "假的货物",
+                  "image": 16071,
+                  "cost": 50,
+                  "description": "引出沙漠之鹰的假货物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=137&ITEM!=1693"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/desert/desert1.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1693,
+                  "qty": 1,
+                  "name": "假的货物",
+                  "image": 16071,
+                  "cost": 50,
+                  "description": "引出沙漠之鹰的假货物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 137,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/desert/desert1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -81933,6 +90749,266 @@ export const WORLD = {
           "script": "file:king/event69_7",
           "template": "changeevent",
           "graphic": "16021",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "normalMain": "年轻人怎么老是喜欢让长辈担心啊？,我的孙子愿藏好像在通往沙漠途中的桥上做坏事。可否请你代我劝他回头是岸呢？",
+                "itemFull": "你的道具袋满了喔，先整理一下吧？"
+              },
+              "getItems": [
+                {
+                  "id": 19624,
+                  "qty": 1,
+                  "name": "项链",
+                  "image": 24323,
+                  "cost": 10,
+                  "description": "玛蕾菲雅喜欢的项链",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&ENDEV=180&ITEM!=19624,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV=180&ITEM!=19624"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&NOWEV=72&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&NOW=72&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV=72&ENDEV!=180"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "accept": "哎呀，你怎么这么粗心，把项炼弄丢了呢？ 幸好我是作项炼的，可以再给你一个，不过这次可要小心保管喔？",
+                "thanks": "交给你了喔，这次不要再弄丢了喔。",
+                "itemFull": "你的道具袋满了喔，先整理一下吧？"
+              },
+              "getItems": [
+                {
+                  "id": 19624,
+                  "qty": 1,
+                  "name": "项链",
+                  "image": 24323,
+                  "cost": 10,
+                  "description": "玛蕾菲雅喜欢的项链",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM!=19624"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19629,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19672,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19673,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19674,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19675"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19630,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19676,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19677,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19678,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19679"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19631,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19680,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19681,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19682,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19683"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19632,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19684,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19685,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19686,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19687"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "accept": "哇，你带来了很漂亮的宝石呢。 喔，这就是地灵石吗，如果镶在这条项炼上会很漂亮喔。 要我帮你镶起来吗？",
+                "thanks": "好啦，地灵石镶上去了喔，灵石项炼就还给你了喔。",
+                "itemFull": "你的道具袋满了喔，先整理一下吧？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 19625,
+                  "qty": 1,
+                  "name": "地灵石",
+                  "image": 24324,
+                  "cost": 105,
+                  "description": "带有地灵力之美丽宝石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19624&ITEM=19625"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "accept": "哇，你带来了很漂亮的宝石呢。 喔，这就是水灵石吗，如果镶在这条项炼上会很漂亮喔。 要我帮你镶起来吗？",
+                "thanks": "好啦，水灵石镶上去了喔，灵石项炼就还给你了喔。",
+                "itemFull": "你的道具袋满了喔，先整理一下吧？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 19626,
+                  "qty": 1,
+                  "name": "水灵石",
+                  "image": 24325,
+                  "cost": 125,
+                  "description": "带有水灵力之美丽宝石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19624&ITEM=19626"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "accept": "哇，你带来了很漂亮的宝石呢。 喔，这就是火灵石吗，如果镶在这条项炼上会很漂亮喔。 要我帮你镶起来吗？",
+                "thanks": "好啦，火灵石镶上去了喔，灵石项炼就还给你了喔。",
+                "itemFull": "你的道具袋满了喔，先整理一下吧？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 19627,
+                  "qty": 1,
+                  "name": "火灵石",
+                  "image": 24326,
+                  "cost": 125,
+                  "description": "带有火灵力之美丽宝石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19624&ITEM=19627"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "accept": "哇，你带来了很漂亮的宝石呢。 喔，这就是风灵石吗，如果镶在这条项炼上会很漂亮喔。 要我帮你镶起来吗？",
+                "thanks": "好啦，风灵石镶上去了喔，灵石项炼就还给你了喔。",
+                "itemFull": "你的道具袋满了喔，先整理一下吧？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 19628,
+                  "qty": 1,
+                  "name": "风灵石",
+                  "image": 24327,
+                  "cost": 125,
+                  "description": "带有风灵力之美丽宝石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19624&ITEM=19628"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19624"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {
+                "accept": "谢谢你救了新藏，他已经回来和我们说过你会回来接走玛蕾菲雅了。 她以前的记忆都没有了，只记得自己叫玛蕾菲雅，好可怜喔。 你要好好照顾玛蕾菲雅喔？",
+                "itemFull": "你身上没空位放这条项炼了，不管怎么说还是让她带着这条项炼比较好呢。 先请你整理一下道具袋吧？"
+              },
+              "getItems": [
+                {
+                  "id": 19624,
+                  "qty": 1,
+                  "name": "项链",
+                  "image": 24323,
+                  "cost": 10,
+                  "description": "玛蕾菲雅喜欢的项链",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [
+                70
+              ],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ENDEV=69&NOWEV=70"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&NOWEV=69&NOWEV=70"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&NOWEV=69"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -81968,6 +91044,123 @@ export const WORLD = {
           "script": "file:king/event69_3",
           "template": "changeevent",
           "graphic": "16017",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {
+                "normalMain": "我就是新藏和愿藏的祖父。,老太婆，你怎么可以这样麻烦人家呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV!=180"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19629,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19630,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19631,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19632"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19672,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19676,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19680,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19684"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19673,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19677,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19681,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19685"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19674,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19678,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19682,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19686"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19675,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19679,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19683,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19687"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&ENDEV=70"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ENDEV=69&NOWEV=70"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&NOWEV=69&NOWEV=70"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&NOWEV=69"
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_3",
+              "messages": {
+                "request": "新藏这次出去冒险好久了，怎么都没回来啊？ 这孩子就是爱冒险，一点都不会衡量一下自己的实力… 好心的勇者，可以帮我找找新藏吗？",
+                "thanks": "真的吗？你真是个伟大又好心的勇者！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 69,
+              "type": "REQUEST",
+              "condition": "ENDEV=4"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82021,6 +91214,175 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent01_1",
           "template": "changeevent",
           "graphic": "16064",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {
+                "normalMain": "我白天常常在钓鱼唷！不知道能不能钓到大鱼啊…。",
+                "accept": "啊！这正是我梦想已久的钓竿啊！",
+                "thanks": "嗯、这个是不错的钓竿 钓竿职人依据材料、可以做出 非常好的钓竿。 为了报答你 刚刚在鱼网上抓到的鱼就当成礼物送你吧。 从今以后用这个钓竿 要钓更多更大的鱼。",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2437,
+                  "qty": 1,
+                  "name": "腐烂的鱼",
+                  "image": 24089,
+                  "cost": 10,
+                  "description": "腐烂的鱼 宠物的忠诚度前後+3",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11872,
+                  "qty": 2,
+                  "name": "有裂痕的壳",
+                  "image": 24150,
+                  "cost": 468,
+                  "description": "壳的成分 3",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11863,
+                  "qty": 1,
+                  "name": "红色的贝壳",
+                  "image": 24131,
+                  "cost": 1368,
+                  "description": "贝壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2434"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {
+                "accept": "啊！这正是我梦想已久的钓竿啊！",
+                "thanks": "嗯、这个钓竿是职人的心血结晶··· 钓竿职人依据材料、可以做出 非常好的钓竿。 。这么麻烦你真是非常感激 为了报答你刚刚在鱼网上抓到的鱼 就当成礼物送你吧。 从今以后用这个钓竿 要钓更多更大的鱼。",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2436,
+                  "qty": 1,
+                  "name": "普通的鱼",
+                  "image": 24091,
+                  "cost": 20,
+                  "description": "在海里被钓的普通的鱼 宠物的忠诚度前後+5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11873,
+                  "qty": 1,
+                  "name": "薄的壳",
+                  "image": 24149,
+                  "cost": 1368,
+                  "description": "壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11863,
+                  "qty": 1,
+                  "name": "红色的贝壳",
+                  "image": 24131,
+                  "cost": 1368,
+                  "description": "贝壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2433"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {
+                "accept": "啊！这正是我梦想已久的钓竿啊！",
+                "thanks": "嗯、这是非常不错的钓竿！ 是用非常很好的材料做的吧。 这么麻烦你真是非常感激。 为了报答你 刚刚在鱼网上抓到的鱼就当成礼物送你吧。 从今以后用这个钓竿 要钓更多的鱼。",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2435,
+                  "qty": 1,
+                  "name": "有气势的鱼",
+                  "image": 24088,
+                  "cost": 30,
+                  "description": "在海中被钓到气势不错的鱼 宠物的忠诚度+10上升",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11874,
+                  "qty": 1,
+                  "name": "褪色的壳",
+                  "image": 24149,
+                  "cost": 2700,
+                  "description": "壳的成分 5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11863,
+                  "qty": 1,
+                  "name": "红色的贝壳",
+                  "image": 24131,
+                  "cost": 1368,
+                  "description": "贝壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2432,
+                  "qty": 1,
+                  "name": "仙人钓竿",
+                  "image": 24123,
+                  "cost": 1000,
+                  "description": "神仙好像用过的钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2432"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&TIME!=0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82055,6 +91417,52 @@ export const WORLD = {
           "script": "file:sa70/crisis/crisis1.arg",
           "template": "changeevent",
           "graphic": "16096",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/crisis/crisis1.arg",
+              "messages": {
+                "normalMain": "我好喜欢养宠物喔！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1821"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/crisis/crisis1.arg",
+              "messages": {
+                "itemFull": "你身上东西都满了，那我给你的东西你要装在那里啊！"
+              },
+              "getItems": [
+                {
+                  "id": 1821,
+                  "qty": 1,
+                  "name": "铁壁之石",
+                  "image": 24059,
+                  "cost": 0,
+                  "description": "复活守精灵 气绝回复500耐久力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&PET<2-331*1"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/crisis/crisis1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82085,6 +91493,233 @@ export const WORLD = {
           "script": "file:chatroom/ticket2000",
           "template": "changeevent",
           "graphic": "16014",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket2000",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖往斗技场的票。",
+                "accept": "贩卖往斗技场的票。 你的话免费喔。 能够进入竞技场吗？ 还有、其他的票全部都要回收 、请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV<11,DR<11,DR=77,DR=777"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket2000",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2598"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket2000",
+              "messages": {
+                "accept": "贩卖往斗技场的票。 你的话要s。 可以吗？ 还有、因为其他的票全部都要回收 、请原谅。",
+                "thanks": "那么、请交给我吧。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>10"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82116,6 +91751,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/fighter",
           "template": "changeevent",
           "graphic": "16496",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/fighter",
+              "messages": {
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82144,6 +91793,18 @@ export const WORLD = {
           "script": "file:sa50/petfusion/petfusion",
           "template": "changeevent",
           "graphic": "16091",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa50/petfusion/petfusion",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82200,6 +91861,83 @@ export const WORLD = {
           "script": "file:sainasu/event/event02_1",
           "template": "changeevent",
           "graphic": "16027",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event02_1",
+              "messages": {
+                "normalMain": "你好啊！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=2&ITEM!=2414&SP=0,ENDEV=2&ITEM!=2414&SP=3"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event02_1",
+              "messages": {
+                "accept": "咦？这是住在萨姆吉尔的日美子要你交给我的吗？",
+                "thanks": "谢谢你、这个贝壳送你作为谢礼。 我懂得某个地方动物的语言， 不知道有没有我能帮得上忙的地方呢？",
+                "itemFull": "哎呀！道具好像已经满了呢。"
+              },
+              "getItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2415,
+                  "qty": 1,
+                  "name": "仙尼亚的花",
+                  "image": 24173,
+                  "cost": 40,
+                  "description": "在萨姆吉尔花圃上摘的花",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                2
+              ],
+              "eventNo": 2,
+              "type": "ACCEPT",
+              "condition": "NOWEV=2&ITEM=2415"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event02_1",
+              "messages": {
+                "request": "有点事情想拜托你 不知道你愿不愿意听我说呢？",
+                "thanks": "希望你能帮我把这个贝壳 交给住在萨姆吉尔的一位叫日美子的朋友。 因为贝壳很小，掉了就会找不到 请小心保管喔！",
+                "stop": "是不是不太可能把那个贝壳 送到萨姆吉尔的日美子所住的地方啊？",
+                "endStop": "我知道了。那我请别人帮忙。",
+                "noStop": "一切就拜托你了。 我想，萨姆吉尔位在穿过这片森林之后 东北角的地方。",
+                "itemFull": "哎呀！道具好像已经满了耶。"
+              },
+              "getItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 2,
+              "type": "REQUEST",
+              "condition": "LV>0&SP=1,LV>0&SP=2"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82231,6 +91969,176 @@ export const WORLD = {
           "script": "file:sa70/collect/collect1.arg",
           "template": "changeevent",
           "graphic": "16056",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/collect/collect1.arg",
+              "messages": {
+                "normalMain": "我是一个喜爱收集各式各样武器的工匠，我也会自己改造武器。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2005"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/collect/collect1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2004"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/collect/collect1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 2005,
+                  "qty": 1,
+                  "name": "乱射弓",
+                  "image": 20357,
+                  "cost": 10000,
+                  "description": "攻+23 防-24 （10） 毒雾的精灵Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2439,
+                  "qty": 1,
+                  "name": "近藏的棍棒",
+                  "image": 20100,
+                  "cost": 10,
+                  "description": "攻+8?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 5610,
+                  "qty": 1,
+                  "name": "合成弓箭 8",
+                  "image": 20337,
+                  "cost": 1000,
+                  "description": "攻+16? 防-15? (3-5)",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 6810,
+                  "qty": 1,
+                  "name": "合成投掷斧头 8",
+                  "image": 20532,
+                  "cost": 1000,
+                  "description": "攻+32?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 6210,
+                  "qty": 1,
+                  "name": "合成回旋标 8",
+                  "image": 20524,
+                  "cost": 1000,
+                  "description": "攻+21? 魅+5?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 7410,
+                  "qty": 1,
+                  "name": "合成石 8",
+                  "image": 24061,
+                  "cost": 1000,
+                  "description": "攻+24? 防-4?",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2439&ITEM=5610&ITEM=6810&ITEM=6210&ITEM=7410"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/collect/collect1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 2004,
+                  "qty": 1,
+                  "name": "双尖枪",
+                  "image": 20457,
+                  "cost": 10000,
+                  "description": "攻+53 敏-12 魅+6 混迷的精灵Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2438,
+                  "qty": 1,
+                  "name": "愿藏的斧头",
+                  "image": 20003,
+                  "cost": 10,
+                  "description": "攻+14? 防-6? 敏-8?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 3210,
+                  "qty": 1,
+                  "name": "合成斧头 8",
+                  "image": 20042,
+                  "cost": 1000,
+                  "description": "攻+49? 防-16? 敏-16?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 4410,
+                  "qty": 1,
+                  "name": "合成枪 8",
+                  "image": 20443,
+                  "cost": 1000,
+                  "description": "攻+40? 敏-8? 魅+4?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 3810,
+                  "qty": 1,
+                  "name": "合成棍棒 8",
+                  "image": 20048,
+                  "cost": 1000,
+                  "description": "攻+32?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 5010,
+                  "qty": 1,
+                  "name": "合成爪 8",
+                  "image": 20232,
+                  "cost": 1000,
+                  "description": "攻+24? (x3)",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2438&ITEM=3210&ITEM=4410&ITEM=3810&ITEM=5010"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/collect/collect1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82265,6 +92173,493 @@ export const WORLD = {
           "script": "file:genout/msg_1200_58_43",
           "template": "changeevent",
           "graphic": "16209",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "normalMain": "嗯～～我居住的柯尔克村可以看到全部的萨伊那斯岛喔。",
+                "thanks": "发现奇怪矿石的地方就在恐龙博士研究室下面的楼层，不过好像从乌龟身上才拿的到！",
+                "stop": "不想去了吗？",
+                "endStop": "好吧！那我再看看有没有人可以帮我吧！",
+                "noStop": "奇怪矿石可以在恐龙博士研究室下面的楼层找到，记得别去打扰到博士！",
+                "itemFull": "所持物太多了无法收下。"
+              },
+              "getItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4&ITEM!=2785&ITEM!=2786"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=4&ITEM=2785&ITEM!=2786"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "啊！你带了这么多来啊！那真够我研究好一阵子了！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。 你真是一个得力的助手！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*14"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*13"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*12"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*11"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*10"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "怎么没放满呢？感觉上有点少，不过也足够我研究一阵子了啦！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*9"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "怎么没放满呢？感觉上有点少，不过也足够我研究一阵子了啦！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*8"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "怎么没放满呢？感觉上有点少，不过也足够我研究一阵子了啦！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*7"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "怎么没放满呢？这些数量我大概只足够我研究几次，不过也好啦！寥胜于无！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*6"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "怎么没放满呢？这些数量我大概只足够我研究几次，不过也好啦！寥胜于无！",
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*5"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "这～～～～～ 会不会太少了点啊？不过既然你坚持只找到这些我当然也只好收下啰！（真是少的可以）",
+                "thanks": "辛苦了！ 来～～～～这个是给你的，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*4"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "这～～～～～ 会不会太少了点啊？不过既然你坚持只找到这些我当然也只好收下啰！（真是少的可以）",
+                "thanks": "辛苦了！ 来～～～～这个是给你的，顺便把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*3"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "这～～～～～ 你确定只有这一些？我想我自己去找反而会好一点！（不知道当初答应我是怎样的一个心态？）",
+                "thanks": "拿去吧！ 你的付出就值这些，另外把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*2"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1200_58_43",
+              "messages": {
+                "accept": "这～～～～～ 你确定只有这一些？我想我自己去找反而会好一点！（不知道当初答应我是怎样的一个心态？）",
+                "thanks": "拿去吧！ 你的付出就值这些，另外把我给你的指引地图还我吧。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2785,
+                  "qty": 1,
+                  "name": "指引地图",
+                  "image": 24222,
+                  "cost": 0,
+                  "description": "指引特殊石头出现地点的地图",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2786,
+                  "qty": 1,
+                  "name": "奇怪的石头",
+                  "image": 14659,
+                  "cost": 0,
+                  "description": "散发阴暗气息的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2785&ITEM=2786*1"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82300,6 +92695,396 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent01_2",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "normalMain": "只要有木头跟绳子就能做出好钓竿唷！,嗯…工作只能在白天作啊！晚上黑漆漆的很难做事呢！",
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2432,
+                  "qty": 1,
+                  "name": "仙人钓竿",
+                  "image": 24123,
+                  "cost": 1000,
+                  "description": "神仙好像用过的钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2569,
+                  "qty": 1,
+                  "name": "曼模竿",
+                  "image": 24113,
+                  "cost": 300,
+                  "description": "可以做成钓竿的树",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2572,
+                  "qty": 1,
+                  "name": "超级姆依",
+                  "image": 24106,
+                  "cost": 250,
+                  "description": "钓到姆依 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2569*1&ITEM=2572*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2432,
+                  "qty": 1,
+                  "name": "仙人钓竿",
+                  "image": 24123,
+                  "cost": 1000,
+                  "description": "神仙好像用过的钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2569,
+                  "qty": 1,
+                  "name": "曼模竿",
+                  "image": 24113,
+                  "cost": 300,
+                  "description": "可以做成钓竿的树",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2573,
+                  "qty": 1,
+                  "name": "超级海主人",
+                  "image": 24104,
+                  "cost": 250,
+                  "description": "钓到海主人 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2569*1&ITEM=2573*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2569,
+                  "qty": 1,
+                  "name": "曼模竿",
+                  "image": 24113,
+                  "cost": 300,
+                  "description": "可以做成钓竿的树",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2574,
+                  "qty": 1,
+                  "name": "超级加克拉",
+                  "image": 24105,
+                  "cost": 250,
+                  "description": "钓到加克拉 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2569*1&ITEM=2574*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2570,
+                  "qty": 1,
+                  "name": "特沙金竿",
+                  "image": 24116,
+                  "cost": 300,
+                  "description": "很像可以变成钓鱼竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2572,
+                  "qty": 1,
+                  "name": "超级姆依",
+                  "image": 24106,
+                  "cost": 250,
+                  "description": "钓到姆依 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2570*1&ITEM=2572*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2570,
+                  "qty": 1,
+                  "name": "特沙金竿",
+                  "image": 24116,
+                  "cost": 300,
+                  "description": "很像可以变成钓鱼竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2573,
+                  "qty": 1,
+                  "name": "超级海主人",
+                  "image": 24104,
+                  "cost": 250,
+                  "description": "钓到海主人 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2570*1&ITEM=2573*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2571,
+                  "qty": 1,
+                  "name": "卡库尔竿",
+                  "image": 24115,
+                  "cost": 300,
+                  "description": "有可能做成钓竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2572,
+                  "qty": 1,
+                  "name": "超级姆依",
+                  "image": 24106,
+                  "cost": 250,
+                  "description": "钓到姆依 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2571*1&ITEM=2572*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2570,
+                  "qty": 1,
+                  "name": "特沙金竿",
+                  "image": 24116,
+                  "cost": 300,
+                  "description": "很像可以变成钓鱼竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2574,
+                  "qty": 1,
+                  "name": "超级加克拉",
+                  "image": 24105,
+                  "cost": 250,
+                  "description": "钓到加克拉 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2570*1&ITEM=2574*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2571,
+                  "qty": 1,
+                  "name": "卡库尔竿",
+                  "image": 24115,
+                  "cost": 300,
+                  "description": "有可能做成钓竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2573,
+                  "qty": 1,
+                  "name": "超级海主人",
+                  "image": 24104,
+                  "cost": 250,
+                  "description": "钓到海主人 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2571*1&ITEM=2573*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2571,
+                  "qty": 1,
+                  "name": "卡库尔竿",
+                  "image": 24115,
+                  "cost": 300,
+                  "description": "有可能做成钓竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2574,
+                  "qty": 1,
+                  "name": "超级加克拉",
+                  "image": 24105,
+                  "cost": 250,
+                  "description": "钓到加克拉 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2571*1&ITEM=2574*1&TIME!=0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82335,6 +93120,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_4c",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在加加报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2578&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2578&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -82368,6 +93238,203 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_edd",
           "template": "changeevent",
           "graphic": "16033",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edd",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edd",
+              "messages": {
+                "itemFull": "你身上东西太多了 能不能请你把东西弄少一点在过来一趟？。 PetFullMsg: 你的宠物数满了，没把法带宠物。 能不能请你把宠物弄少一点再过来一下啊？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2587,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 130,
+                  "description": "第12检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edd",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 看你的检查项目 你好像还没完成耶··· 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！ 这是参加奖，请收下吧。",
+                "itemFull": "你身上东西太多，放不下参加奖了。 能不能请你东西弄少一点之后，再过来一趟啊？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2580,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 60,
+                  "description": "第5检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2581,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 70,
+                  "description": "第6检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edd",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 看你的检查项目 你好像还没完成啊 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2576,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 20,
+                  "description": "第1检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edd",
+              "messages": {
+                "accept": "你是SOT的参加者啊。 ···看你的检查项目 你好像连一个检查点都没通过··· 你要退出了吗？",
+                "thanks": "这样啊，那真是太可惜了 要是你下次可以通过 所有的检查点就好了！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2575,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 10,
+                  "description": "环岛活动的 检查石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2575"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_edd",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -84892,6 +95959,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/petmaster",
           "template": "changeevent",
           "graphic": "16127",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/petmaster",
+              "messages": {
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -85750,6 +96831,99 @@ export const WORLD = {
           "script": "file:genout/msg_2006_23_14",
           "template": "changeevent",
           "graphic": "16203",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/genout/msg_2006_23_14",
+              "messages": {
+                "normalMain": "父亲还是希望我能得到仪之兜，可是我好虚弱……",
+                "itemFull": "哎呦。好像你的口袋有点满，清理一下吧。"
+              },
+              "getItems": [
+                {
+                  "id": 20913,
+                  "qty": 1,
+                  "name": "宠技罐头",
+                  "image": 24047,
+                  "cost": 10,
+                  "description": "浴血狂袭 特别的技能",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 12761,
+                  "qty": 10,
+                  "name": "俄式宠物食物2",
+                  "image": 24047,
+                  "cost": 10,
+                  "description": "忠诚度前後加5 满是营养的宠物食物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30&TRANS>1&ITEM=12761*10"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_2006_23_14",
+              "messages": {
+                "request": "哎！我们又见面了，你看起来不一样了嘛。 你的佩露夏怎么样了？其实我有办法让它更强大 想知道么？",
+                "thanks": "我需要10只《俄式宠物食物2》 你能帮我吧 我会报答你的",
+                "stop": "怎么啦！很困难的么？",
+                "endStop": "不想帮我的话，算了吧……",
+                "noStop": "要10只《俄式宠物食物2》，加油吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>30&TRANS>1"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_2006_23_14",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2418,
+                  "qty": 1,
+                  "name": "仪之兜",
+                  "image": 21542,
+                  "cost": 5000,
+                  "description": "防 +15 敏 -3 全异常状态防止 +3",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 18543,
+                  "qty": 10,
+                  "name": "英雄的祝福",
+                  "image": 24053,
+                  "cost": 0,
+                  "description": "使用後可提升基本能力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV=140&ITEM=2418&TRANS=1&ITEM=18543*10"
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_2006_23_14",
+              "messages": {
+                "accept": "看来你是一个值得信赖的人呢 父亲希望我变得强大，听说仪之兜和英雄的祝福可以做到这一点…… 你能在140级的时候把他们带给我么？",
+                "thanks": "谢谢你，如果能够实现我的愿望，我会奖赏你的，记住英雄的祝福要10粒。你要在140级的时候来 嗯……努力吧"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV<140&TRANS=1"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -88909,6 +100083,358 @@ export const WORLD = {
           "script": "file:extra/event/M_2000",
           "template": "changeevent",
           "graphic": "16200",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
+                "accept": "哦？你将宠物任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20031,
+                  "qty": 1,
+                  "name": "玛村宠物委托书Ａ",
+                  "image": 24176,
+                  "cost": 50,
+                  "description": "乌力、乌力斯坦、贝恩达斯和多利凯拉各一只，报酬500。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20031&PET>0-1*1&PET>0-3*1&PET>0-212*1&PET>0-213*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20032,
+                  "qty": 1,
+                  "name": "玛村宠物委托书Ｂ",
+                  "image": 24176,
+                  "cost": 80,
+                  "description": "昆伊和凯比特各两只，报酬800。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20032&PET>0-113*2&PET>0-114*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20033,
+                  "qty": 1,
+                  "name": "玛村宠物委托书Ｃ",
+                  "image": 24176,
+                  "cost": 150,
+                  "description": "贝洛恩和贝洛洛克各一只，报酬1500。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20033&PET>0-41*1&PET>0-42*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20034,
+                  "qty": 1,
+                  "name": "玛村宠物委托书Ｄ",
+                  "image": 24176,
+                  "cost": 320,
+                  "description": "奇宝、火鸡、布伊、布比各一只，报酬3200。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20034&PET>0-11*1&PET>0-13*1&PET>0-291*1&PET>0-294*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20035,
+                  "qty": 1,
+                  "name": "玛村宠物委托书Ｅ",
+                  "image": 24176,
+                  "cost": 400,
+                  "description": "昆伊、凯比、凯比特、卡比特各一只，报酬4000。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20035&PET>0-111*1&PET>0-112*1&PET>0-113*1&PET>0-114*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20036,
+                  "qty": 1,
+                  "name": "玛村宠物委托书Ｆ",
+                  "image": 24176,
+                  "cost": 1500,
+                  "description": "卡达鲁卡斯、兰贝鲁斯、贝洛宝利、加格、姆伊各一只，报酬?",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20036&PET>0-81*1&PET>0-332*1&PET>0-44*1&PET>0-223*1&PET>0-242*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将料理任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20051,
+                  "qty": 1,
+                  "name": "玛村料理委托书Ａ",
+                  "image": 24176,
+                  "cost": 35,
+                  "description": "五个破了的荷包蛋，报酬350。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12582,
+                  "qty": 5,
+                  "name": "破了的荷包蛋",
+                  "image": 24446,
+                  "cost": 10,
+                  "description": "耐50回复(自己) 破了的荷包蛋",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20051&ITEM=12582*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20052,
+                  "qty": 1,
+                  "name": "玛村料理委托书Ｂ",
+                  "image": 24176,
+                  "cost": 100,
+                  "description": "一份高级生鱼片，报酬1000。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12807,
+                  "qty": 1,
+                  "name": "高级生鱼片",
+                  "image": 24439,
+                  "cost": 10,
+                  "description": "耐250回复(我方全体) 高级的生鱼片",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20052&ITEM=12807*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20053,
+                  "qty": 1,
+                  "name": "玛村料理委托书Ｃ",
+                  "image": 24176,
+                  "cost": 130,
+                  "description": "五个水果叁明治，报酬1300。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12644,
+                  "qty": 5,
+                  "name": "水果叁明治",
+                  "image": 24541,
+                  "cost": 10,
+                  "description": "气25回复(1人) 叁明治内放入各种水果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20053&ITEM=12644*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20054,
+                  "qty": 1,
+                  "name": "玛村料理委托书Ｄ",
+                  "image": 24176,
+                  "cost": 240,
+                  "description": "一份豪华海鲜串烧，报酬2400。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12596,
+                  "qty": 1,
+                  "name": "豪华海鲜串烧",
+                  "image": 24463,
+                  "cost": 10,
+                  "description": "7回合左右中毒 由很多海产做成的串烧",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20054&ITEM=12596*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20055,
+                  "qty": 1,
+                  "name": "玛村料理委托书Ｅ",
+                  "image": 24176,
+                  "cost": 250,
+                  "description": "海星梨、胡椒海星、海星饼乾各四个，报酬2500。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12872,
+                  "qty": 4,
+                  "name": "海星梨",
+                  "image": 24247,
+                  "cost": 10,
+                  "description": "气15回复(1人) 受欢迎的水果",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12884,
+                  "qty": 4,
+                  "name": "胡椒海星",
+                  "image": 24483,
+                  "cost": 10,
+                  "description": "耐久力120回复(1体) 加胡椒的海星",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12925,
+                  "qty": 4,
+                  "name": "海星饼乾",
+                  "image": 24247,
+                  "cost": 10,
+                  "description": "气25回复（自己） 海星型的饼乾",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20055&ITEM=12872*4&ITEM=12884*4&ITEM=12925*4"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_2000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20056,
+                  "qty": 1,
+                  "name": "玛村料理委托书Ｆ",
+                  "image": 24176,
+                  "cost": 480,
+                  "description": "四个肉粽，报酬4800。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12926,
+                  "qty": 4,
+                  "name": "肉粽",
+                  "image": 24561,
+                  "cost": 10,
+                  "description": "气30耐200回复(1体) 包肉的粽子",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20056&ITEM=12926*4"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -88944,6 +100470,65 @@ export const WORLD = {
           "script": "file:eden2/fight/fight-authu",
           "template": "changeevent",
           "graphic": "16910",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-authu",
+              "messages": {
+                "normalMain": "呵呵呵～～～今天又赚了一笔，看来卖特产是很不错的工作呢～～",
+                "itemFull": "你身上东西太多了，等你整理一下再来找我吧～～"
+              },
+              "getItems": [
+                {
+                  "id": 20167,
+                  "qty": 1,
+                  "name": "尼斯特产",
+                  "image": 22247,
+                  "cost": 0,
+                  "description": "一大堆尼斯大陆的料理 素材包在一起",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM!=20167&LV>90&EVPET>0-914&ENDEV=100"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-authu",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=100"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-authu",
+              "messages": {
+                "itemFull": "你身上东西太多了，等你整理一下再来找我吧～～"
+              },
+              "getItems": [
+                {
+                  "id": 20167,
+                  "qty": 1,
+                  "name": "尼斯特产",
+                  "image": 22247,
+                  "cost": 0,
+                  "description": "一大堆尼斯大陆的料理 素材包在一起",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [
+                100
+              ],
+              "eventNo": 100,
+              "type": "ACCEPT",
+              "condition": "LV>90&EVPET>0-914&NOWEV=100"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -89345,6 +100930,127 @@ export const WORLD = {
           "script": "file:chatroom/ticket2012",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket2012",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖去聊天室的票。",
+                "accept": "交付往聊天室的门票。 但是、持有其他村的门票或是斗技场的 门票的人、会在这里回收。 这样可以吗？",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket2012",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2522"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -89789,6 +101495,78 @@ export const WORLD = {
           "script": "file:quiz/uketuke",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {
+                "normalMain": "你也以成为猜谜大师而在努力着呀！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>69"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {
+                "accept": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV50以上拿着“入场券B”进去吧。 收下参加费stone 。这样子可以吗？",
+                "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导B的人 帮你介绍吧。",
+                "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2756,
+                  "qty": 1,
+                  "name": "入场卷 B",
+                  "image": 24314,
+                  "cost": 500,
+                  "description": "进入问题叁兄弟家 所需要的入场卷",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>49"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {
+                "accept": "欢迎来到玛丽娜丝的道场。 ?在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV30以上拿着“入场券A”进去吧。 收下参加费stone 。这样子可以吗？",
+                "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导A的人 帮你介绍吧。",
+                "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2755,
+                  "qty": 1,
+                  "name": "入场卷 A",
+                  "image": 24314,
+                  "cost": 500,
+                  "description": "进入问题叁兄弟家 所需要的入场卷",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -89820,6 +101598,78 @@ export const WORLD = {
           "script": "file:quiz/uketuke",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {
+                "normalMain": "你也以成为猜谜大师而在努力着呀！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>69"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {
+                "accept": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV50以上拿着“入场券B”进去吧。 收下参加费stone 。这样子可以吗？",
+                "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导B的人 帮你介绍吧。",
+                "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2756,
+                  "qty": 1,
+                  "name": "入场卷 B",
+                  "image": 24314,
+                  "cost": 500,
+                  "description": "进入问题叁兄弟家 所需要的入场卷",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>49"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {
+                "accept": "欢迎来到玛丽娜丝的道场。 ?在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV30以上拿着“入场券A”进去吧。 收下参加费stone 。这样子可以吗？",
+                "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导A的人 帮你介绍吧。",
+                "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2755,
+                  "qty": 1,
+                  "name": "入场卷 A",
+                  "image": 24314,
+                  "cost": 500,
+                  "description": "进入问题叁兄弟家 所需要的入场卷",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92129,6 +103979,42 @@ export const WORLD = {
           "script": "file:sa50/bone1.arg",
           "template": "changeevent",
           "graphic": "16926",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa50/bone1.arg",
+              "messages": {
+                "normalMain": "现在的恐龙实在太多了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1622"
+            },
+            {
+              "source": "gmsv-data/npc/sa50/bone1.arg",
+              "messages": {
+                "itemFull": "身上道具太多了喔！"
+              },
+              "getItems": [
+                {
+                  "id": 1622,
+                  "qty": 1,
+                  "name": "龙骨",
+                  "image": 24111,
+                  "cost": 10,
+                  "description": "合成药剂的材料",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM!=1622"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92158,6 +104044,52 @@ export const WORLD = {
           "script": "file:eden3/gan/hoggies",
           "template": "changeevent",
           "graphic": "16103",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/eden3/gan/hoggies",
+              "messages": {
+                "normalMain": "好吓人呀…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ITEM=20215"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/hoggies",
+              "messages": {
+                "itemFull": "要拿这东西之前，得先把身上多的东西清掉才行。"
+              },
+              "getItems": [
+                {
+                  "id": 20215,
+                  "qty": 1,
+                  "name": "手电筒",
+                  "image": 22309,
+                  "cost": 0,
+                  "description": "会发出亮光的奇异道具似乎是 不属於这世界的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "ENDEV=4&ITEM!=20215"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/hoggies",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92188,6 +104120,81 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_1",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92220,6 +104227,93 @@ export const WORLD = {
           "script": "file:sa70/evening/evening1.arg",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/evening/evening1.arg",
+              "messages": {
+                "normalMain": "ぱ＋何ぃ帝痷琌礹璚＋"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1985"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/evening/evening1.arg",
+              "messages": {
+                "itemFull": "ō狥﹁搭ぶ翴盾"
+              },
+              "getItems": [
+                {
+                  "id": 1985,
+                  "qty": 1,
+                  "name": "安眠药",
+                  "image": 23006,
+                  "cost": 0,
+                  "description": "催眠10回合前後 吃了会令人想睡的药",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1982,
+                  "qty": 1,
+                  "name": "哈尔利的委托信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "哈尔利的委托信",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1984,
+                  "qty": 1,
+                  "name": "研磨好的药粉",
+                  "image": 22410,
+                  "cost": 0,
+                  "description": "用爱困草研磨成的药粉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=1982&ITEM=1984"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/evening/evening1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1982"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/evening/evening1.arg",
+              "messages": {
+                "itemFull": "ō狥﹁骸翅"
+              },
+              "getItems": [
+                {
+                  "id": 1982,
+                  "qty": 1,
+                  "name": "哈尔利的委托信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "哈尔利的委托信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92252,6 +104346,619 @@ export const WORLD = {
           "script": "file:jaruga/event/20501ev5",
           "template": "changeevent",
           "graphic": "16000",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "normalMain": "有没有工读生啊…。,不过我可不用来路不明的家伙。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM!=2478&ITEM=2468"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "啊！你带了这么多来啊！ 那我要 买这些！",
+                "thanks": "真是辛苦你了！ 这个是说好的酬劳。 还有这是特别的奖赏。 真是没想到 你会拿这么多来。",
+                "itemFull": "唉呀！你的道具袋已经满了 这样不就不能装 特别的奖赏了吗？ 先挪出个空位再来。"
+              },
+              "getItems": [
+                {
+                  "id": 2481,
+                  "qty": 1,
+                  "name": "杉的手环",
+                  "image": 22050,
+                  "cost": 10,
+                  "description": "攻 +8 防 +5 敏 -5 魅 -5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*14"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "还真是多啊！ 你真是厉害！ 佩服佩服！ 来来来！拿到这边来放。",
+                "thanks": "辛苦了！ 这是你的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*13"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "还真是多啊！ 你真是厉害！ 佩服佩服！ 来来来！拿到这边来放。",
+                "thanks": "这是酬劳！ 下次还请多帮忙喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*12"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "还真是多啊！ 你真是厉害！ 佩服佩服！ 来来来！拿到这边来放。",
+                "thanks": "这是酬劳！ 下次还请多帮忙喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*11"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
+                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*10"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
+                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*9"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
+                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*8"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
+                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*7"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
+                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*6"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "你只有拿这些来吗？",
+                "thanks": "并没有想像中的多。 下次要加油喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*5"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "你只有拿这些来吗？",
+                "thanks": "并没有想像中的多。 下次要加油喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*4"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "你只有拿这些来吗？",
+                "thanks": "并没有想像中的多。 下次要加油喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*3"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "你只有拿这些来吗？",
+                "thanks": "并没有想像中的多。 下次要加油喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "什么啊！只有这样喔？ 真是的…害我 还小小地期待了一下…。 真的只有这样吗？",
+                "thanks": "拿去！你的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2468,
+                  "qty": 1,
+                  "name": "良质的木材",
+                  "image": 24182,
+                  "cost": 10,
+                  "description": "木材商看了会高兴的良质木材",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM=2468*1"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev5",
+              "messages": {
+                "accept": "搞什么！ 怎么连一根都没有啊！ 你是不是不想干了？！",
+                "thanks": "对你有所期待的我还真是笨啊…。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2478,
+                  "qty": 1,
+                  "name": "采伐许可证",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "砍伐木材的许可证",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2478&ITEM!=2468"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92300,6 +105007,233 @@ export const WORLD = {
           "script": "file:chatroom/ticket3000",
           "template": "changeevent",
           "graphic": "16014",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket3000",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖往斗技场的票。",
+                "accept": "贩卖往斗技场的票。 你的话免费喔。 能够进入竞技场吗？ 还有、其他的票全部都要回收 、请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV<11,DR<11,DR=77,DR=777"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket3000",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2599"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket3000",
+              "messages": {
+                "accept": "贩卖往斗技场的票。 你的话要s。 可以吗？ 还有、其他的票全部都要回收 、请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>10"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92331,6 +105265,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/fighter",
           "template": "changeevent",
           "graphic": "16496",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/fighter",
+              "messages": {
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92359,6 +105307,235 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_0",
           "template": "changeevent",
           "graphic": "16027",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {
+                "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {
+                "accept": "你是ＪＯＴ的参加者吧？ 看你的检查项目 好像还在半途中嘛！ 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。 来！这是你的参加奖。",
+                "itemFull": "你的道具好像太多了，装不下耶… 你可以把它整理一下再来吗？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2557,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 60,
+                  "description": "通过第5检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2559,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 80,
+                  "description": "通过第7检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2560,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 90,
+                  "description": "通过第8检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2561,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 100,
+                  "description": "通过第9检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2562,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 110,
+                  "description": "通过第10检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2563,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 120,
+                  "description": "通过第11检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {
+                "accept": "你是ＪＯＴ的参加者吧？ 看你的检查项目 好像还在半途中嘛！ 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2554,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 30,
+                  "description": "通过第2检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2555,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 40,
+                  "description": "通过第3检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2556,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 50,
+                  "description": "通过第4检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {
+                "accept": "你是ＪＯＴ的参加者吧？ 看你的检查项目 好像完全还没开始嘛！第一检查站就在加加的附近。 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2552"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {
+                "request": "加鲁卡巡回全岛活动，略称ＪＯＴ 就是在这个加鲁卡全岛上 所举行的巡回活动。 你也来参加看看吧！",
+                "thanks": "…根据公正审查的结果 你参加的是“Ｂ方案”的 巡回活动。 带着你的１２个检查证明石 到12个检查站去吧！ 收集完了以后，要听从检查人员的指示喔！",
+                "stop": "你要退出巡回全岛的活动吗？",
+                "endStop": "我知道了。 希望下次你能参加。",
+                "noStop": "检查站就在这附近 每一个检查人员都会给你有关 下一个地点的暗示喔！",
+                "itemFull": "道具已满。 你不能拿检查证明石。 可不可以请你先减少道具数 再来呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_0",
+              "messages": {
+                "request": "加鲁卡巡回全岛活动，略称JOT 就是在这个加鲁卡全岛上 所举行的巡回活动。 你也来参加看看吧！",
+                "thanks": "…根据公正审查的结果 你参加的是“Ａ方案”的 巡回活动。 带着你的１２个检查证明石 到１２个检查站去吧！ 收集完了以后，请再回到这里来。",
+                "stop": "你要退出巡回全岛的活动吗？",
+                "endStop": "我知道了。 希望下次你能参加。",
+                "noStop": "检查站就在这附近 每一个检查人员都会给你有关 下一个地点的暗示喔！",
+                "itemFull": "道具已满。 你不能拿检查证明石。 可不可以请你先减少道具数 再来呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92412,6 +105589,202 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_edb",
           "template": "changeevent",
           "graphic": "16033",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_edb",
+              "messages": {
+                "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！",
+                "itemFull": "你的道具太多了，没有办法给你。 你可以清除一些道具再来吗？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2564,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 130,
+                  "description": "通过第12检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_edb",
+              "messages": {
+                "accept": "你是JOT的参加者吧？ 看你的检查项目 好像还在半途中嘛！ 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。 来！这是你的参加奖。",
+                "itemFull": "你的道具好像太多了，装不下耶.... 你可以把它整理一下再来吗？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2557,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 60,
+                  "description": "通过第5检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2559,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 80,
+                  "description": "通过第7检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2560,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 90,
+                  "description": "通过第8检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2561,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 100,
+                  "description": "通过第9检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2562,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 110,
+                  "description": "通过第10检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2563,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 120,
+                  "description": "通过第11检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_edb",
+              "messages": {
+                "accept": "你是JOT的参加者吧？ 看你的检查项目 好像还在半途中嘛！ 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2554,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 30,
+                  "description": "通过第2检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2555,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 40,
+                  "description": "通过第3检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2556,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 50,
+                  "description": "通过第4检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_edb",
+              "messages": {
+                "accept": "你是JOT的参加者吧？ 看你的检查项目 好像完全还没开始嘛！第一检查站就在加加的附近。 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2552"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_edb",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_edb",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92447,6 +105820,135 @@ export const WORLD = {
           "script": "file:sa60/mouse/mouse2.arg",
           "template": "changeevent",
           "graphic": "16103",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {
+                "normalMain": "最近在村子里面出现了一只又大又肥的老鼠，经常把一些粮食给吃光了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=140"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1698,
+                  "qty": 1,
+                  "name": "老鼠的骨",
+                  "image": 24108,
+                  "cost": 0,
+                  "description": "老鼠的骨",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1697,
+                  "qty": 1,
+                  "name": "老鼠的牙",
+                  "image": 24109,
+                  "cost": 0,
+                  "description": "老鼠的牙",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                140
+              ],
+              "eventNo": 140,
+              "type": "ACCEPT",
+              "condition": "LV>0&NOWEV=140&ITEM=1698&ITEM=1697"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&NOWEV=140&ITEM=1697"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&NOWEV=140&ITEM=1750"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&NOWEV=140&ITEM=1696"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {
+                "itemFull": "请你将身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1696,
+                  "qty": 1,
+                  "name": "老鼠爱吃的大福",
+                  "image": 24534,
+                  "cost": 0,
+                  "description": "老鼠爱吃的大福",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&NOWEV=140&ITEM!=1696"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1696,
+                  "qty": 1,
+                  "name": "老鼠爱吃的大福",
+                  "image": 24534,
+                  "cost": 0,
+                  "description": "老鼠爱吃的大福",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 140,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -92482,6 +105984,51 @@ export const WORLD = {
           "script": "file:sa50/bone.arg",
           "template": "changeevent",
           "graphic": "16346",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa50/bone.arg",
+              "messages": {
+                "normalMain": "给我一个龙的骨头，我帮你合成出一个龙骨粉末的道具。",
+                "itemFull": "你物品太多了喔！"
+              },
+              "getItems": [
+                {
+                  "id": 1586,
+                  "qty": 1,
+                  "name": "龙骨粉末",
+                  "image": 22408,
+                  "cost": 1,
+                  "description": "磨药必备材料",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1622,
+                  "qty": 1,
+                  "name": "龙骨",
+                  "image": 24111,
+                  "cost": 10,
+                  "description": "合成药剂的材料",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=1622"
+            },
+            {
+              "source": "gmsv-data/npc/sa50/bone.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -94863,6 +108410,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/petmaster",
           "template": "changeevent",
           "graphic": "16122",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/petmaster",
+              "messages": {
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -96242,6 +109803,72 @@ export const WORLD = {
           "script": "file:eden2/fight/fight-osma",
           "template": "changeevent",
           "graphic": "16909",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-osma",
+              "messages": {
+                "normalMain": "年轻人，功夫不错哦～～"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "EVPET>0-914&ENDEV=100"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-osma",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=100"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-osma",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "EVPET>0-914&NOWEV=100"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-osma",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "NOWEV=100"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-osma",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=99"
+            },
+            {
+              "source": "gmsv-data/npc/eden2/fight/fight-osma",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [
+                99
+              ],
+              "eventNo": 99,
+              "type": "ACCEPT",
+              "condition": "LV>100&PET>0-913&NOWEV=99"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -98438,6 +112065,317 @@ export const WORLD = {
           "script": "file:extra/event/M_3000",
           "template": "changeevent",
           "graphic": "16200",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
+                "accept": "哦？你将宠物任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20061,
+                  "qty": 1,
+                  "name": "加村宠物委托书Ａ",
+                  "image": 24176,
+                  "cost": 40,
+                  "description": "威威和乌宝宝各两只，报酬400。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20061&PET>0-31*2&PET>0-32*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20062,
+                  "qty": 1,
+                  "name": "加村宠物委托书Ｂ",
+                  "image": 24176,
+                  "cost": 80,
+                  "description": "尼可斯和乌卡鲁各两只，报酬800。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20062&PET>0-62*2&PET>0-33*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20063,
+                  "qty": 1,
+                  "name": "加村宠物委托书Ｃ",
+                  "image": 24176,
+                  "cost": 150,
+                  "description": "克克洛斯和霍尔克各两只，报酬1500。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20063&PET>0-292*2&PET>0-293*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20065,
+                  "qty": 1,
+                  "name": "加村宠物委托书Ｅ",
+                  "image": 24176,
+                  "cost": 600,
+                  "description": "加美、加比、加比奥、加斯各一只，报酬6000。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20065&PET>0-21*1&PET>0-22*1&PET>0-23*1&PET>0-24*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20066,
+                  "qty": 1,
+                  "name": "加村宠物委托书Ｆ",
+                  "image": 24176,
+                  "cost": 1800,
+                  "description": "邦洛洛克斯、卡拉卡利、卡拉宝斯、海主人、加比各一只，报酬?",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20066&PET>0-331*1&PET>0-184*1&PET>0-172*1&PET>0-243*1&PET>0-22*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将料理任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20081,
+                  "qty": 1,
+                  "name": "加村料理委托书Ａ",
+                  "image": 24176,
+                  "cost": 35,
+                  "description": "五个半熟的荷包蛋，报酬350。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12581,
+                  "qty": 5,
+                  "name": "半熟的荷包蛋",
+                  "image": 24445,
+                  "cost": 10,
+                  "description": "耐100回复(1体) 半熟的荷包蛋",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20081&ITEM=12581*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20082,
+                  "qty": 1,
+                  "name": "加村料理委托书Ｂ",
+                  "image": 24176,
+                  "cost": 80,
+                  "description": "六个蔬菜叁明治，报酬800。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12646,
+                  "qty": 6,
+                  "name": "蔬菜叁明治",
+                  "image": 24412,
+                  "cost": 10,
+                  "description": "气10回复(1人) 夹了很多蔬菜的叁明治",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20082&ITEM=12646*6"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20083,
+                  "qty": 1,
+                  "name": "加村料理委托书Ｃ",
+                  "image": 24176,
+                  "cost": 130,
+                  "description": "十个沾糖吃的粽子，报酬1300。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12928,
+                  "qty": 10,
+                  "name": "沾糖吃的粽子",
+                  "image": 24563,
+                  "cost": 10,
+                  "description": "气15耐120回复(1体) 沾糖吃的甜粽",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20083&ITEM=12928*10"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20084,
+                  "qty": 1,
+                  "name": "加村料理委托书Ｄ",
+                  "image": 24176,
+                  "cost": 220,
+                  "description": "十二个石烤地瓜，报酬2200。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12630,
+                  "qty": 12,
+                  "name": "石烤地瓜",
+                  "image": 24485,
+                  "cost": 10,
+                  "description": "气18回复(1体) 用热石头烤成的地瓜",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20084&ITEM=12630*12"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20085,
+                  "qty": 1,
+                  "name": "加村料理委托书Ｅ",
+                  "image": 24176,
+                  "cost": 300,
+                  "description": "两份铁人关东煮，报酬3000。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12799,
+                  "qty": 2,
+                  "name": "铁人关东煮",
+                  "image": 24459,
+                  "cost": 10,
+                  "description": "气100耐300回复(自己) 料理铁人有所坚持的高级关东煮",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20085&ITEM=12799*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_3000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20086,
+                  "qty": 1,
+                  "name": "加村料理委托书Ｆ",
+                  "image": 24176,
+                  "cost": 480,
+                  "description": "叁份豪华船生鱼片，报酬4800。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12808,
+                  "qty": 3,
+                  "name": "豪华船生鱼片",
+                  "image": 24439,
+                  "cost": 10,
+                  "description": "耐500回复(我方全体) 究极生鱼片",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20086&ITEM=12808*3"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -99740,6 +113678,127 @@ export const WORLD = {
           "script": "file:chatroom/ticket3012",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket3012",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖去聊天室的票。",
+                "accept": "交付往聊天室的门票 。 但是、持有其他村的门票或是斗技场的 门票的人、会在这里回收。 这样可以吗？",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket3012",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2523"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -100346,6 +114405,282 @@ export const WORLD = {
           "script": "file:eden3/gan/wuwan",
           "template": "changeevent",
           "graphic": "16946",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "normalMain": "我正忙着呢，讦谯龙和雷诛吵起来了，哎…",
+                "thanks": "既然你答应的话，那这本指南先给你。这是我一个同伴艾蜜上次回来所留下的，我猜她到这个地方去了。",
+                "itemFull": "你的东西太多了啦…哎…"
+              },
+              "getItems": [
+                {
+                  "id": 20216,
+                  "qty": 1,
+                  "name": "加加村旅游指南",
+                  "image": 22313,
+                  "cost": 0,
+                  "description": "加加村的观光旅游指南",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 20215,
+                  "qty": 1,
+                  "name": "手电筒",
+                  "image": 22309,
+                  "cost": 0,
+                  "description": "会发出亮光的奇异道具似乎是 不属於这世界的东西",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ITEM=20215&ITEM!=20216"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦…哎…"
+              },
+              "getItems": [
+                {
+                  "id": 20222,
+                  "qty": 1,
+                  "name": "收据",
+                  "image": 24176,
+                  "cost": 160,
+                  "description": "帮讦谯龙还完钱的证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 20221,
+                  "qty": 1,
+                  "name": "借据",
+                  "image": 24222,
+                  "cost": 200,
+                  "description": "讦谯龙向邬万年借钱的证明",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 20220,
+                  "qty": 1,
+                  "name": "讦谯龙写的信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "讦谯龙写给邬万年的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&ITEM=20220&ITEM=20221"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ITEM=20220"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ITEM=20221"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦…哎…"
+              },
+              "getItems": [
+                {
+                  "id": 20221,
+                  "qty": 1,
+                  "name": "借据",
+                  "image": 24222,
+                  "cost": 200,
+                  "description": "讦谯龙向邬万年借钱的证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 20223,
+                  "qty": 1,
+                  "name": "布伊比的牙",
+                  "image": 24109,
+                  "cost": 2476,
+                  "description": "布伊比的牙齿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&PET>0-953&ITEM=20223"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦…哎…"
+              },
+              "getItems": [
+                {
+                  "id": 20221,
+                  "qty": 1,
+                  "name": "借据",
+                  "image": 24222,
+                  "cost": 200,
+                  "description": "讦谯龙向邬万年借钱的证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&PET>0-953"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦…哎…"
+              },
+              "getItems": [
+                {
+                  "id": 20223,
+                  "qty": 1,
+                  "name": "布伊比的牙",
+                  "image": 24109,
+                  "cost": 2476,
+                  "description": "布伊比的牙齿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 20216,
+                  "qty": 1,
+                  "name": "加加村旅游指南",
+                  "image": 22313,
+                  "cost": 0,
+                  "description": "加加村的观光旅游指南",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 20217,
+                  "qty": 1,
+                  "name": "乌鲁力村旅游指南",
+                  "image": 22313,
+                  "cost": 0,
+                  "description": "乌鲁力村的观光旅游指南",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 20218,
+                  "qty": 1,
+                  "name": "柯奥海底隧道通行指南",
+                  "image": 22313,
+                  "cost": 0,
+                  "description": "柯奥海底隧道通行指南",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 20219,
+                  "qty": 1,
+                  "name": "玛丽娜丝庄园旅游指南",
+                  "image": 22313,
+                  "cost": 0,
+                  "description": "玛丽娜丝庄园观光旅游指南",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&PET>0-961&ITEM=20216"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦…哎…"
+              },
+              "getItems": [
+                {
+                  "id": 20223,
+                  "qty": 1,
+                  "name": "布伊比的牙",
+                  "image": 24109,
+                  "cost": 2476,
+                  "description": "布伊比的牙齿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&PET>0-961"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4&ITEM=20216"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20222,
+                  "qty": 1,
+                  "name": "收据",
+                  "image": 24176,
+                  "cost": 160,
+                  "description": "帮讦谯龙还完钱的证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&PET>0-962&ITEM=20222"
+            },
+            {
+              "source": "gmsv-data/npc/eden3/gan/wuwan",
+              "messages": {
+                "itemFull": "你的东西太多了啦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=4&PET>0-962"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -112606,6 +126941,62 @@ export const WORLD = {
           "script": "file:sa70/holy/holy1.arg",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/holy/holy1.arg",
+              "messages": {
+                "normalMain": "我是一个旅行于各地的石匠，我以寻找稀奇珍贵的石头为目标。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2003"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/holy/holy1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 2003,
+                  "qty": 1,
+                  "name": "光之石",
+                  "image": 23900,
+                  "cost": 0,
+                  "description": "单体气力回复 每回合回复50气力 持续3回合",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2002,
+                  "qty": 1,
+                  "name": "光之圣石的碎片",
+                  "image": 24056,
+                  "cost": 26,
+                  "description": "光之圣石的碎片",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2002"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/holy/holy1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -112637,6 +127028,134 @@ export const WORLD = {
           "script": "file:sa70/apple/apple1.arg",
           "template": "changeevent",
           "graphic": "16082",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {
+                "normalMain": "不知她现在过的怎么样？！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1792,
+                  "qty": 1,
+                  "name": "灵气帽",
+                  "image": 21550,
+                  "cost": 16000,
+                  "description": "防+7 全异常状态防止 +10",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1793,
+                  "qty": 1,
+                  "name": "信",
+                  "image": 22265,
+                  "cost": 0,
+                  "description": "给小泽的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                142
+              ],
+              "eventNo": 142,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=1793&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1794,
+                  "qty": 1,
+                  "name": "香甜的苹果",
+                  "image": 24085,
+                  "cost": 10,
+                  "description": "香甜多汁的苹果",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=1791&NOWEV=142&ITEM=1794"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=1791&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=1794&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=12860&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&NOWEV=142"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 142,
+              "type": "REQUEST",
+              "condition": "LV>29"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/apple/apple1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -112690,6 +127209,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_2",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2554,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 30,
+                  "description": "通过第2检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2553"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2553"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -112723,6 +127327,101 @@ export const WORLD = {
           "script": "file:sa70/beers/beers2.arg",
           "template": "changeevent",
           "graphic": "16093",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers2.arg",
+              "messages": {
+                "normalMain": "我可以制造出很好喝的酒喔，就算酒因为时间的关系氧化了，我也是有办法让他起死回升喔！",
+                "itemFull": "你身上的东西是不是满了呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2023,
+                  "qty": 1,
+                  "name": "高级烧酒",
+                  "image": 24079,
+                  "cost": 0,
+                  "description": "蒸馏酒",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2020,
+                  "qty": 1,
+                  "name": "酸坏的水果酒",
+                  "image": 24443,
+                  "cost": 0,
+                  "description": "酸坏的水果酒",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2022,
+                  "qty": 1,
+                  "name": "香味扑鼻的花",
+                  "image": 24173,
+                  "cost": 6,
+                  "description": "给布鲁斯交换高级烧酒",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2027,
+                  "qty": 1,
+                  "name": "花卉用小铲子",
+                  "image": 24352,
+                  "cost": 0,
+                  "description": "挖花用",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2020&ITEM=2022&ITEM=2027"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2020&ITEM=2027"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers2.arg",
+              "messages": {
+                "itemFull": "你身上的东西是不是满了呢？"
+              },
+              "getItems": [
+                {
+                  "id": 2027,
+                  "qty": 1,
+                  "name": "花卉用小铲子",
+                  "image": 24352,
+                  "cost": 0,
+                  "description": "挖花用",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2020"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers2.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -114064,6 +128763,62 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent02_2",
           "template": "changeevent",
           "graphic": "16057",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+              "messages": {
+                "accept": "喂喂！听说可以用这个做成特效药啊？",
+                "thanks": "嗯嗯…只要这样的量就够了！ 扑噜扑噜…好了！制成了！ 这就是治疗麻痹的特效药“麻痹灵药”啦！",
+                "itemFull": "咦？东西已经装不下了…。"
+              },
+              "getItems": [
+                {
+                  "id": 2449,
+                  "qty": 1,
+                  "name": "麻痹解药",
+                  "image": 24189,
+                  "cost": 250,
+                  "description": "解除麻痹的药",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2446,
+                  "qty": 1,
+                  "name": "逃走呼拔拔的骨",
+                  "image": 24108,
+                  "cost": 50,
+                  "description": "制造麻痹解药的材料",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2446*10"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2446"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -114095,6 +128850,52 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent02_3",
           "template": "changeevent",
           "graphic": "16017",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_3",
+              "messages": {
+                "accept": "这个…不就是专治麻痹蜘蛛的特效药吗？ 难不成…你是专门为了我儿子 送来的？",
+                "thanks": "啊…真是亲切的人啊！ 有了这个，我儿子应该就可以复原了。 真是谢谢你的帮忙啊！ 那么，就以这个作为谢礼吧！",
+                "itemFull": "啊…你的东西已经装不下了啊！"
+              },
+              "getItems": [
+                {
+                  "id": 1264,
+                  "qty": 1,
+                  "name": "阿萨Lv3鸣子",
+                  "image": 24208,
+                  "cost": 1200,
+                  "description": "魅 +3 大地的精灵 Lv3",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2449,
+                  "qty": 1,
+                  "name": "麻痹解药",
+                  "image": 24189,
+                  "cost": 250,
+                  "description": "解除麻痹的药",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2449"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -115379,6 +130180,73 @@ export const WORLD = {
           "script": "file:jaruga/event/event01_1",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event01_1",
+              "messages": {
+                "normalMain": "你好",
+                "accept": "啊！这个草药。 太感激你了，替我送过来 真是麻烦你了 你真是我父亲的救命恩人",
+                "thanks": "真的很谢谢你 为了表示我的心意，请你收下这个护身符",
+                "itemFull": "啊呀！我的道具袋已经满了"
+              },
+              "getItems": [
+                {
+                  "id": 2427,
+                  "qty": 1,
+                  "name": "老爷爷的护身符",
+                  "image": 22002,
+                  "cost": 0,
+                  "description": "魅 -1 全部状态异常耐性 +2",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2401,
+                  "qty": 1,
+                  "name": "哈罗的香草",
+                  "image": 23030,
+                  "cost": 100,
+                  "description": "吃下去後耐久力回复100 生长在哈罗山上的高山植物",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                1
+              ],
+              "eventNo": 1,
+              "type": "ACCEPT",
+              "condition": "NOWEV=1&ITEM=2401"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event01_1",
+              "messages": {
+                "request": "你好 不好意思，可否请你帮我 一个忙 家父因病卧倒在床 想请你去一趟哈罗山顶拿回草药 你愿意助我一臂之力吗？",
+                "thanks": "谢谢你 这种药草只有哈罗山上的医生有 那就万事拜托了",
+                "stop": "要上哈罗山顶似乎不是件容易的事…",
+                "endStop": "这样的话 我实在是无计可施了，这个要求太困难了 所以…",
+                "noStop": "请你务必要答应我,你是我唯一的希望"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 1,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event01_1",
+              "messages": {
+                "normal": "你的大恩大德，我一辈子都不会忘记的"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=1"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -115646,6 +130514,192 @@ export const WORLD = {
           "script": "file:sa70/weapon/weapon.arg",
           "template": "changeevent",
           "graphic": "16128",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {
+                "normalMain": "唉…天下间还有我做不出来的武器吗？",
+                "itemFull": "你的身上好像没有空间置放了？！"
+              },
+              "getItems": [
+                {
+                  "id": 1807,
+                  "qty": 1,
+                  "name": "吉岩枪",
+                  "image": 20452,
+                  "cost": 75000,
+                  "description": "攻+44 敏-10 魅+5 昏睡的精灵 Lv5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1812,
+                  "qty": 1,
+                  "name": "吉岩枪",
+                  "image": 20452,
+                  "cost": 75000,
+                  "description": "攻+44 敏-10 魅+5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1809,
+                  "qty": 1,
+                  "name": "精灵草",
+                  "image": 23025,
+                  "cost": 540,
+                  "description": "带有精灵力量的草",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>39&ENDEV=4&ENDEV=143&ITEM=1812&ITEM=1809"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>39&ENDEV=4&ENDEV=143&ITEM=1812"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>39&ENDEV=4&ENDEV=143&ITEM=1809"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {
+                "itemFull": "你的身上好像没有空间置放了？！"
+              },
+              "getItems": [
+                {
+                  "id": 1812,
+                  "qty": 1,
+                  "name": "吉岩枪",
+                  "image": 20452,
+                  "cost": 75000,
+                  "description": "攻+44 敏-10 魅+5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1808,
+                  "qty": 1,
+                  "name": "吉岩矿",
+                  "image": 24198,
+                  "cost": 5000,
+                  "description": "吉岩矿石",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1813,
+                  "qty": 1,
+                  "name": "开采用的小斧头",
+                  "image": 20033,
+                  "cost": 0,
+                  "description": "开采吉岩矿用的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                143
+              ],
+              "eventNo": 143,
+              "type": "ACCEPT",
+              "condition": "LV>39&ENDEV=4&NOWEV=143&ITEM=1808*2"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>39&ENDEV=4&NOWEV=143&ITEM=1808*1"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {
+                "accept": "啊～斧头不见了吗…只好再给你一把了。",
+                "thanks": "这次可得小心保管",
+                "itemFull": "你的身上好像没有空间置放了？！"
+              },
+              "getItems": [
+                {
+                  "id": 1813,
+                  "qty": 1,
+                  "name": "开采用的小斧头",
+                  "image": 20033,
+                  "cost": 0,
+                  "description": "开采吉岩矿用的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>39&ENDEV=4&NOWEV=143&ITEM!=1813"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {
+                "accept": "还没找到吗？就在阿斯玛鲁矿山的某一层，不过不好找喔…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>39&ENDEV=4&NOWEV=143"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {
+                "thanks": "嗯嗯…答应的话，那就记得带二个石头过来，一个我的，一个你的。另外给你这把小斧头，只有这把小斧头的硬度，才能顺利开采吉岩矿。记得身上要有空位喔…。",
+                "itemFull": "哎呀！道具已经满了！"
+              },
+              "getItems": [
+                {
+                  "id": 1813,
+                  "qty": 1,
+                  "name": "开采用的小斧头",
+                  "image": 20033,
+                  "cost": 0,
+                  "description": "开采吉岩矿用的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 143,
+              "type": "REQUEST",
+              "condition": "LV>39&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -115716,6 +130770,52 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent02_4",
           "template": "changeevent",
           "graphic": "16057",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_4",
+              "messages": {
+                "accept": "哈哈哈！真是干得好啊！ 你…想知道猎逃走的呼拔拔 的方法啊？",
+                "thanks": "好吧！把我这把竖琴拿到悬崖边弹弹看吧！ 弹琴的话，就可以看到 逃走的呼拔拔了唷！ 只是那些家伙正如其名一般 逃得很快唷！要多加留意才行喔！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2447,
+                  "qty": 1,
+                  "name": "克萨拉奇的竖琴",
+                  "image": 24213,
+                  "cost": 10,
+                  "description": "可以引来逃走呼拔拔的竖琴",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM!=2447"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_4",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2447"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_4",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -115746,6 +130846,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_8",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_8",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2560,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 90,
+                  "description": "通过第8检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2559,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 80,
+                  "description": "通过第7检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2559"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_8",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_8",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_8",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2559"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_8",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_8",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -118227,6 +133412,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_9",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2561,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 100,
+                  "description": "通过第9检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2560,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 90,
+                  "description": "通过第8检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2560"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2560"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -118278,6 +133548,20 @@ export const WORLD = {
           "script": "file:jaruga/event/20501ev4",
           "template": "changeevent",
           "graphic": "16047",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev4",
+              "messages": {
+                "normalMain": "有没有劲爆一点的八卦啊…！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=18"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -118306,6 +133590,266 @@ export const WORLD = {
           "script": "file:sa60/snake/snake1.arg",
           "template": "changeevent",
           "graphic": "16105",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {
+                "normalMain": "那几只蛇真的很凶悍，每次我去追捕它们都一无所获。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=4&ENDEV=138"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1703,
+                  "qty": 1,
+                  "name": "地蛇之鳞",
+                  "image": 22035,
+                  "cost": 0,
+                  "description": "地蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1704,
+                  "qty": 1,
+                  "name": "水蛇之鳞",
+                  "image": 22033,
+                  "cost": 0,
+                  "description": "水蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1705,
+                  "qty": 1,
+                  "name": "火蛇之鳞",
+                  "image": 22034,
+                  "cost": 0,
+                  "description": "火蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1706,
+                  "qty": 1,
+                  "name": "风蛇之鳞",
+                  "image": 22036,
+                  "cost": 0,
+                  "description": "风蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                138
+              ],
+              "eventNo": 138,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1703&ITEM=1704&ITEM=1705&ITEM=1706"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1703,
+                  "qty": 1,
+                  "name": "地蛇之鳞",
+                  "image": 22035,
+                  "cost": 0,
+                  "description": "地蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                138
+              ],
+              "eventNo": 138,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1703"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1704,
+                  "qty": 1,
+                  "name": "水蛇之鳞",
+                  "image": 22033,
+                  "cost": 0,
+                  "description": "水蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                138
+              ],
+              "eventNo": 138,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1704"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1705,
+                  "qty": 1,
+                  "name": "火蛇之鳞",
+                  "image": 22034,
+                  "cost": 0,
+                  "description": "火蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                138
+              ],
+              "eventNo": 138,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1705"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 1706,
+                  "qty": 1,
+                  "name": "风蛇之鳞",
+                  "image": 22036,
+                  "cost": 0,
+                  "description": "风蛇的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                138
+              ],
+              "eventNo": 138,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM=1706"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=4&ITEM=1702&NOWEV=138"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4&NOWEV=138&ITEM!=1702"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {
+                "itemFull": "请你将你身上的东西减少一些好吗？"
+              },
+              "getItems": [
+                {
+                  "id": 1702,
+                  "qty": 1,
+                  "name": "唤蛇之石",
+                  "image": 24062,
+                  "cost": 0,
+                  "description": "引出蛇的石头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 138,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa60/snake/snake1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -118341,6 +133885,94 @@ export const WORLD = {
           "script": "file:sa70/coin/coin1.arg",
           "template": "changeevent",
           "graphic": "16220",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/coin/coin1.arg",
+              "messages": {
+                "normalMain": "Чир產柑窥絚芲巴倒耞и產玻常柑"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1839"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/coin/coin1.arg",
+              "messages": {
+                "itemFull": "ō狥﹁搭ぶ翴盾"
+              },
+              "getItems": [
+                {
+                  "id": 1839,
+                  "qty": 1,
+                  "name": "回魂之玉",
+                  "image": 22320,
+                  "cost": 1000,
+                  "description": "从气绝回复成600的耐久力",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1838,
+                  "qty": 1,
+                  "name": "修好的钥匙",
+                  "image": 24111,
+                  "cost": 0,
+                  "description": "修好的钥匙",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&ITEM=1838"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/coin/coin1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=1837"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/coin/coin1.arg",
+              "messages": {
+                "itemFull": "ê痷琌谅谅ō┮盿狥﹁ぃ璶び翅芲巴单单狥﹁びтぃ硂や芲巴ê碞陈沸"
+              },
+              "getItems": [
+                {
+                  "id": 1837,
+                  "qty": 1,
+                  "name": "断掉的钥匙",
+                  "image": 24112,
+                  "cost": 0,
+                  "description": "断掉的钥匙",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&ITEM!=1837&ITEM!=1838"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/coin/coin1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -118374,6 +134006,169 @@ export const WORLD = {
           "script": "file:jaruga/event/20501ev3",
           "template": "changeevent",
           "graphic": "16018",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev3",
+              "messages": {
+                "normalMain": "我重要的斧头断掉了…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=18"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2467"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev3",
+              "messages": {
+                "accept": "哦！这不是哈恩做的石斧吗？ 这是为了我 而取来的吗？",
+                "thanks": "是吗！真是太感谢了！ 为了答谢你 就介绍个好工作给你吧！ 你带着这个去加加 找一个叫赛尚的木材商人吧。 啊！这把断掉的斧头顺便送你。",
+                "itemFull": "那个…你的道具袋满了喔… 这样就不能给你介绍信了！ 等你把道具袋清出个空位之后再来找我吧！"
+              },
+              "getItems": [
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2484,
+                  "qty": 1,
+                  "name": "折断的斧头",
+                  "image": 20054,
+                  "cost": 10,
+                  "description": "折断而无法使用的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2465,
+                  "qty": 1,
+                  "name": "哈恩的斧头",
+                  "image": 20020,
+                  "cost": 10,
+                  "description": "攻 +35 防 -15 敏 -15 斧职人哈恩所锻 的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                18
+              ],
+              "eventNo": 18,
+              "type": "ACCEPT",
+              "condition": "NOWEV=18&ITEM=2465"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev3",
+              "messages": {
+                "accept": "哦！这不是哈恩做的石斧吗？ 我在砍材的时候把斧头给折断了 真伤脑筋！ 怎样？你要不要把它送给我呢？",
+                "thanks": "是吗！真是太感谢了！ 为了答谢你 就介绍个好工作给你吧！ 你带着这个去加加 找一个叫赛尚的木材商人吧。 啊！这把断掉的斧头顺便送你。",
+                "itemFull": "喂喂！道具袋满了喔！ 这样我就不能送你礼物了！ 等你把道具袋清出个空位之后再来找我吧！"
+              },
+              "getItems": [
+                {
+                  "id": 2467,
+                  "qty": 1,
+                  "name": "巴尔的推荐书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给木材商赛尚的打工制作书",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2484,
+                  "qty": 1,
+                  "name": "折断的斧头",
+                  "image": 20054,
+                  "cost": 10,
+                  "description": "折断而无法使用的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2465,
+                  "qty": 1,
+                  "name": "哈恩的斧头",
+                  "image": 20020,
+                  "cost": 10,
+                  "description": "攻 +35 防 -15 敏 -15 斧职人哈恩所锻 的斧头",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                18
+              ],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=2465"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev3",
+              "messages": {
+                "itemFull": "喂喂！ 你的道具袋 装不下委托书嘛！ 丢掉一些东西之后再来！"
+              },
+              "getItems": [
+                {
+                  "id": 2466,
+                  "qty": 1,
+                  "name": "斧头制作依赖书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给哈恩的斧头制作依赖书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 18,
+              "type": "MESSAGE",
+              "condition": "NOWEV=18&ITEM!=2466"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/20501ev3",
+              "messages": {
+                "request": "可以说是樵夫第二条命的斧头 被我在工作的时候折断了。 如果你有空的话 可以帮我拿来吗？ 如果你帮我拿来的话 我介绍个好工作给你",
+                "thanks": "哦哦！你愿意帮我吗？ 一直帮我做斧头的 叫做哈恩的造斧专家住在阿鲁姆山 就靠你帮我跑一趟了。 这是委托书 在还没拿到斧头之前 千万别把委托书弄丢喔！",
+                "stop": "喂喂！你该不会说你完全做不到吧？",
+                "endStop": "什么嘛！让我期待了一下！ 真是不可靠的家伙…",
+                "noStop": "对啊！你一定没问题的啦。 快去快回喔！",
+                "itemFull": "喂喂！你这道具袋 根本装不下委托书嘛。 先放下一些东西 再来找我。"
+              },
+              "getItems": [
+                {
+                  "id": 2466,
+                  "qty": 1,
+                  "name": "斧头制作依赖书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "给哈恩的斧头制作依赖书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 18,
+              "type": "REQUEST",
+              "condition": "LV>14"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -119686,6 +135481,62 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent02_2",
           "template": "changeevent",
           "graphic": "16215",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+              "messages": {
+                "accept": "喂喂！听说可以用这个做成特效药啊？",
+                "thanks": "嗯嗯…只要这样的量就够了！ 扑噜扑噜…好了！制成了！ 这就是治疗麻痹的特效药“麻痹灵药”啦！",
+                "itemFull": "咦？东西已经装不下了…。"
+              },
+              "getItems": [
+                {
+                  "id": 2449,
+                  "qty": 1,
+                  "name": "麻痹解药",
+                  "image": 24189,
+                  "cost": 250,
+                  "description": "解除麻痹的药",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2446,
+                  "qty": 1,
+                  "name": "逃走呼拔拔的骨",
+                  "image": 24108,
+                  "cost": 50,
+                  "description": "制造麻痹解药的材料",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2446*10"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2446"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -119717,6 +135568,52 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent02_3",
           "template": "changeevent",
           "graphic": "16016",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_3",
+              "messages": {
+                "accept": "这个…不就是专治麻痹蜘蛛的特效药吗？ 难不成…你是专门为了我儿子 送来的？",
+                "thanks": "啊…真是亲切的人啊！ 有了这个，我儿子应该就可以复原了。 真是谢谢你的帮忙啊！ 那么，就以这个作为谢礼吧！",
+                "itemFull": "啊…你的东西已经装不下了啊！"
+              },
+              "getItems": [
+                {
+                  "id": 1264,
+                  "qty": 1,
+                  "name": "阿萨Lv3鸣子",
+                  "image": 24208,
+                  "cost": 1200,
+                  "description": "魅 +3 大地的精灵 Lv3",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2449,
+                  "qty": 1,
+                  "name": "麻痹解药",
+                  "image": 24189,
+                  "cost": 250,
+                  "description": "解除麻痹的药",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2449"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent02_3",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -120773,6 +136670,84 @@ export const WORLD = {
           "script": "file:sa70/sound/sound1.arg",
           "template": "changeevent",
           "graphic": "16017",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/sound/sound1.arg",
+              "messages": {
+                "normalMain": "经过泪之海的史东尔洞窟要小心点喔！听到奇怪的声音不要笨笨的进去一探究竟，很多人进去洞窟之后都一去不回了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ENDEV=4&ENDEV=144"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sound/sound1.arg",
+              "messages": {
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [
+                {
+                  "id": 1845,
+                  "qty": 1,
+                  "name": "珊瑚耳饰",
+                  "image": 22216,
+                  "cost": 52800,
+                  "description": "魅+10 回避率上升 +9",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1873,
+                  "qty": 1,
+                  "name": "洛克侨的鳞片",
+                  "image": 22037,
+                  "cost": 0,
+                  "description": "洛克侨的鳞片",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                144
+              ],
+              "eventNo": 144,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&NOWEV=144&ITEM=1873"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sound/sound1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV=4&NOWEV=144"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sound/sound1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 144,
+              "type": "REQUEST",
+              "condition": "LV>29&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/sound/sound1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -120824,6 +136799,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_12",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_12",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2564,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 130,
+                  "description": "通过第12检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2563,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 120,
+                  "description": "通过第11检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2563"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_12",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_12",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_12",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2563"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_12",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_12",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -120857,6 +136917,97 @@ export const WORLD = {
           "script": "file:jaruga/event/event20_1",
           "template": "changeevent",
           "graphic": "16030",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event20_1",
+              "messages": {
+                "normalMain": "我是吉德的朋友",
+                "accept": "谢谢你，你帮我到吉德的女儿 那边去了吧？ 可是，他并女儿没有回来…",
+                "thanks": "可是还是要很有精神对吧！ 来！快点去吉德那边吧！ 你是拿信来的吧？ 来来来！快去快去！",
+                "itemFull": "真是对不起…"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 21,
+              "type": "ACCEPT",
+              "condition": "ENDEV=20&ENDEV=22&NOWEV=21&ITEM=2488"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event20_1",
+              "messages": {
+                "accept": "谢谢！我真应该好好谢谢你！这样一来那个人也能回复精神了吧！",
+                "thanks": "吉德的女儿吗… 我好想见一次喔！",
+                "itemFull": "真是对不起…"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=20&ENDEV=22&ENDEV=21"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event20_1",
+              "messages": {
+                "accept": "我是吉德的朋友，我叫做凯伊。 吉德一直在等待，看他１６年前被绑架的女儿 会不会再回来，就这样一直到今天。 你能不能去跟他讲讲话呢？ 他应该在村长家。",
+                "thanks": "谢谢你！吉德在１６年前 为了将物资从村里运到乌鲁力村 而从阿尔鲁山的南侧通过的时候 遇到了山贼的袭击。那时候坐在货车上的女儿 也就跟着…。 你可以戴着这朵花吗？ 我想这样他也许能振作…",
+                "itemFull": "真不好意思！你的道具太多了 我无法把它交给你…"
+              },
+              "getItems": [
+                {
+                  "id": 2486,
+                  "qty": 1,
+                  "name": "开在奇喀喀的花",
+                  "image": 24175,
+                  "cost": 10,
+                  "description": "开在奇喀喀附近小小的红花",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM!=2486"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event20_1",
+              "messages": {
+                "accept": "什么？你不想帮我吗？",
+                "thanks": "好吧…那我只好去拜托别人了。",
+                "itemFull": "不好意思…你道具太多了 我无法把它交给你。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2486,
+                  "qty": 1,
+                  "name": "开在奇喀喀的花",
+                  "image": 24175,
+                  "cost": 10,
+                  "description": "开在奇喀喀附近小小的红花",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": 21,
+              "type": "ACCEPT",
+              "condition": "ITEM=2486"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event20_1",
+              "messages": {
+                "normal": "谢谢！我真应该好好谢谢你！这样一来那个人也能回复精神了吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=20&ENDEV=21"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -120890,6 +137041,76 @@ export const WORLD = {
           "script": "file:jaruga/event/hekisei",
           "template": "changeevent",
           "graphic": "100195",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/hekisei",
+              "messages": {
+                "request": "你有接受‘大地的加护’啊 如果是接受过大地女神加护的人的话 说不定你可以达成我主人的愿望 能不能请你听 我说一件事呢？",
+                "thanks": "非常谢谢你。 其实这几年全世界的水都变的非常肮脏 所以我掌控水的主人觉得很困扰 从这里往北走有个“碧青洞窟” 我主人在那里的地底湖，详情请去问他。",
+                "stop": "你还是不愿意听我主人的愿望啊？",
+                "endStop": "’’’这样啊、真是太可惜了。",
+                "noStop": "真是不好意思 那一切就拜托你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 46,
+              "type": "REQUEST",
+              "condition": "LV>64&ENDEV=4&ENDEV=39"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/hekisei",
+              "messages": {
+                "request": "你有接受‘火的加护’啊 如果是接受过火的女神加护的人的话 说不定你可以达成我主人的愿望 能不能请你听 我说一件事呢？",
+                "thanks": "非常谢谢你。 其实这几年全世界的水都变的非常肮脏 所以我掌控水的主人觉得很困扰 从这里往北走有个“碧青洞窟” 我主人在那里的地底湖，详情请去问他。",
+                "stop": "你还是不愿意听我主人的愿望啊？",
+                "endStop": "’’’这样啊、真是太可惜了。",
+                "noStop": "真是不好意思 那一切就拜托你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 46,
+              "type": "REQUEST",
+              "condition": "LV>64&ENDEV=4&ENDEV=40"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/hekisei",
+              "messages": {
+                "request": "你有接受‘风的加护’啊 如果是接受过风的女神加护的人的话 说不定你可以达成我主人的愿望 能不能请你听 我说一件事呢？",
+                "thanks": "非常谢谢你。 其实这几年全世界的水都变的非常肮脏 所以我掌控水的主人觉得很困扰 从这里往北走有个“碧青洞窟” 我主人在那里的地底湖，详情请去问他。",
+                "stop": "你还是不愿意听我主人的愿望啊？",
+                "endStop": "’’’这样啊、真是太可惜了。",
+                "noStop": "真是不好意思 那一切就拜托你了。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 46,
+              "type": "REQUEST",
+              "condition": "LV>64&ENDEV=4&ENDEV=42"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/hekisei",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>64&ENDEV=46"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/hekisei",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -120922,6 +137143,18 @@ export const WORLD = {
           "script": "file:sa60/tear/tear7.arg",
           "template": "changeevent",
           "graphic": "16105",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/tear/tear7.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -121415,6 +137648,79 @@ export const WORLD = {
           "script": "file:jaruga/event/ruri02",
           "template": "changeevent",
           "graphic": "100436",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri02",
+              "messages": {
+                "accept": "我交给你的项炼不见了吗？",
+                "thanks": "再给你一次吧。 （不知道靠不靠的住）",
+                "itemFull": "所持物品太多了 无法受下项炼的样子。"
+              },
+              "getItems": [
+                {
+                  "id": 2699,
+                  "qty": 1,
+                  "name": "拉鲁的项链",
+                  "image": 22039,
+                  "cost": 0,
+                  "description": "魅力 +2 回避率上升 +2 充满了拉鲁的思念",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "NOWEV=39&ITEM!=2699"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri02",
+              "messages": {
+                "request": "你的“成人的仪式”应该已经完成了吧。 请你无论如何一定要听听我的请求。",
+                "thanks": "两个星期前、我儿子伊布 在整理家里的时后他发现了 14年前 在屋后他母亲的日记。 我只有对他说 他母亲去世的事情",
+                "stop": "果然去琉璃洞窟找寻我儿子 是不可能的事吗？",
+                "endStop": "是这样子吗、我们也有受到你的帮助。 我们会设法帮你的。",
+                "noStop": "真是不好意思。 就请你们帮忙了。",
+                "itemFull": "所持物品太多 无法收下项炼的样子。"
+              },
+              "getItems": [
+                {
+                  "id": 2699,
+                  "qty": 1,
+                  "name": "拉鲁的项链",
+                  "image": 22039,
+                  "cost": 0,
+                  "description": "魅力 +2 回避率上升 +2 充满了拉鲁的思念",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 39,
+              "type": "REQUEST",
+              "condition": "LV>0&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri02",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=39"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/ruri02",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -121923,6 +138229,202 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_ed1",
           "template": "changeevent",
           "graphic": "16027",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_ed1",
+              "messages": {
+                "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！",
+                "itemFull": "你的道具太多了，没有办法给你。 你可以清除一些道具再来吗？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2564,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 130,
+                  "description": "通过第12检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_ed1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_ed1",
+              "messages": {
+                "accept": "你是JOT的参加者吧？ 看你的检查项目 好像还在半途中嘛！ 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。 来！这是你的参加奖。",
+                "itemFull": "你的道具好像太多了，装不下耶.... 你可以把它整理一下再来吗？"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2557,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 60,
+                  "description": "通过第5检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2559,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 80,
+                  "description": "通过第7检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2560,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 90,
+                  "description": "通过第8检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2561,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 100,
+                  "description": "通过第9检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2562,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 110,
+                  "description": "通过第10检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2563,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 120,
+                  "description": "通过第11检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_ed1",
+              "messages": {
+                "accept": "你是JOT的参加者吧？ 看你的检查项目 好像还在半途中嘛！ 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2553,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 20,
+                  "description": "通过第1检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2554,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 30,
+                  "description": "通过第2检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2555,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 40,
+                  "description": "通过第3检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2556,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 50,
+                  "description": "通过第4检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_ed1",
+              "messages": {
+                "accept": "你是JOT的参加者吧？ 看你的检查项目 好像完全还没开始嘛！第一检查站就在加加的附近。 要弃权吗？",
+                "thanks": "是吗？真可惜！ 下次希望你能通过所有的 检查站。"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2552,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 10,
+                  "description": "全岛巡回活动的证明石",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2552"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_ed1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -121989,6 +138491,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/fighter",
           "template": "changeevent",
           "graphic": "16496",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/fighter",
+              "messages": {
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122017,6 +138533,175 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent01_1",
           "template": "changeevent",
           "graphic": "16064",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {
+                "normalMain": "我白天常常在钓鱼唷！不知道能不能钓到大鱼啊…。",
+                "accept": "啊！这正是我梦想已久的钓竿啊！",
+                "thanks": "嗯、这个是不错的钓竿 钓竿职人依据材料、可以做出 非常好的钓竿。 为了报答你 刚刚在鱼网上抓到的鱼就当成礼物送你吧。 从今以后用这个钓竿 要钓更多更大的鱼。",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2437,
+                  "qty": 1,
+                  "name": "腐烂的鱼",
+                  "image": 24089,
+                  "cost": 10,
+                  "description": "腐烂的鱼 宠物的忠诚度前後+3",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11872,
+                  "qty": 2,
+                  "name": "有裂痕的壳",
+                  "image": 24150,
+                  "cost": 468,
+                  "description": "壳的成分 3",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11863,
+                  "qty": 1,
+                  "name": "红色的贝壳",
+                  "image": 24131,
+                  "cost": 1368,
+                  "description": "贝壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2434"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {
+                "accept": "啊！这正是我梦想已久的钓竿啊！",
+                "thanks": "嗯、这个钓竿是职人的心血结晶··· 钓竿职人依据材料、可以做出 非常好的钓竿。 。这么麻烦你真是非常感激 为了报答你刚刚在鱼网上抓到的鱼 就当成礼物送你吧。 从今以后用这个钓竿 要钓更多更大的鱼。",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2436,
+                  "qty": 1,
+                  "name": "普通的鱼",
+                  "image": 24091,
+                  "cost": 20,
+                  "description": "在海里被钓的普通的鱼 宠物的忠诚度前後+5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11873,
+                  "qty": 1,
+                  "name": "薄的壳",
+                  "image": 24149,
+                  "cost": 1368,
+                  "description": "壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11863,
+                  "qty": 1,
+                  "name": "红色的贝壳",
+                  "image": 24131,
+                  "cost": 1368,
+                  "description": "贝壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2433"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {
+                "accept": "啊！这正是我梦想已久的钓竿啊！",
+                "thanks": "嗯、这是非常不错的钓竿！ 是用非常很好的材料做的吧。 这么麻烦你真是非常感激。 为了报答你 刚刚在鱼网上抓到的鱼就当成礼物送你吧。 从今以后用这个钓竿 要钓更多的鱼。",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2435,
+                  "qty": 1,
+                  "name": "有气势的鱼",
+                  "image": 24088,
+                  "cost": 30,
+                  "description": "在海中被钓到气势不错的鱼 宠物的忠诚度+10上升",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11874,
+                  "qty": 1,
+                  "name": "褪色的壳",
+                  "image": 24149,
+                  "cost": 2700,
+                  "description": "壳的成分 5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 11863,
+                  "qty": 1,
+                  "name": "红色的贝壳",
+                  "image": 24131,
+                  "cost": 1368,
+                  "description": "贝壳的成分 4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2432,
+                  "qty": 1,
+                  "name": "仙人钓竿",
+                  "image": 24123,
+                  "cost": 1000,
+                  "description": "神仙好像用过的钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2432"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_1",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&TIME!=0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122051,6 +138736,103 @@ export const WORLD = {
           "script": "file:sa70/feast/feast1.arg",
           "template": "changeevent",
           "graphic": "16056",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast1.arg",
+              "messages": {
+                "normalMain": "み翅程此狶柑Τ旱⊿"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=1836"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast1.arg",
+              "messages": {
+                "itemFull": "ō狥﹁搭ぶ翴盾"
+              },
+              "getItems": [
+                {
+                  "id": 1836,
+                  "qty": 3,
+                  "name": "赛家的气力药",
+                  "image": 23007,
+                  "cost": 240,
+                  "description": "全体气力60前後回复",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 1835,
+                  "qty": 1,
+                  "name": "白熊的牙",
+                  "image": 24109,
+                  "cost": 2476,
+                  "description": "白熊卡莉的牙",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 1834,
+                  "qty": 1,
+                  "name": "赛尔的委托书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "赛尔的委托书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ITEM=1834&ITEM=1835&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ITEM=1834&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast1.arg",
+              "messages": {
+                "itemFull": "ō狥﹁琌ぃ琌常杆骸摆"
+              },
+              "getItems": [
+                {
+                  "id": 1834,
+                  "qty": 1,
+                  "name": "赛尔的委托书",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "赛尔的委托书",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>29&ENDEV=4"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/feast/feast1.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122084,6 +138866,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_6",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2557,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 60,
+                  "description": "通过第5检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2557"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2557"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_6",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122117,6 +138984,233 @@ export const WORLD = {
           "script": "file:chatroom/ticket4000",
           "template": "changeevent",
           "graphic": "16026",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket4000",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖往斗技场的票。",
+                "accept": "贩卖往斗技场的票。 你的话免费喔。 能够进入竞技场吗？ 还有、其他的票全部都要回收 、请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV<11,DR<11,DR=77,DR=777"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket4000",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2600"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket4000",
+              "messages": {
+                "accept": "贩卖往斗技场的票。 你的话要s。 可以吗？ 还有、其他的票全部都要回收 、请原谅。",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>10"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122176,6 +139270,18 @@ export const WORLD = {
           "script": "file:sa50/petfusion/petfusion",
           "template": "changeevent",
           "graphic": "16091",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa50/petfusion/petfusion",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122204,6 +139310,396 @@ export const WORLD = {
           "script": "file:sainasu/event/nevent01_2",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "normalMain": "只要有木头跟绳子就能做出好钓竿唷！,嗯…工作只能在白天作啊！晚上黑漆漆的很难做事呢！",
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2432,
+                  "qty": 1,
+                  "name": "仙人钓竿",
+                  "image": 24123,
+                  "cost": 1000,
+                  "description": "神仙好像用过的钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2569,
+                  "qty": 1,
+                  "name": "曼模竿",
+                  "image": 24113,
+                  "cost": 300,
+                  "description": "可以做成钓竿的树",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2572,
+                  "qty": 1,
+                  "name": "超级姆依",
+                  "image": 24106,
+                  "cost": 250,
+                  "description": "钓到姆依 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2569*1&ITEM=2572*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2432,
+                  "qty": 1,
+                  "name": "仙人钓竿",
+                  "image": 24123,
+                  "cost": 1000,
+                  "description": "神仙好像用过的钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2569,
+                  "qty": 1,
+                  "name": "曼模竿",
+                  "image": 24113,
+                  "cost": 300,
+                  "description": "可以做成钓竿的树",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2573,
+                  "qty": 1,
+                  "name": "超级海主人",
+                  "image": 24104,
+                  "cost": 250,
+                  "description": "钓到海主人 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2569*1&ITEM=2573*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2569,
+                  "qty": 1,
+                  "name": "曼模竿",
+                  "image": 24113,
+                  "cost": 300,
+                  "description": "可以做成钓竿的树",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2574,
+                  "qty": 1,
+                  "name": "超级加克拉",
+                  "image": 24105,
+                  "cost": 250,
+                  "description": "钓到加克拉 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2569*1&ITEM=2574*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2570,
+                  "qty": 1,
+                  "name": "特沙金竿",
+                  "image": 24116,
+                  "cost": 300,
+                  "description": "很像可以变成钓鱼竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2572,
+                  "qty": 1,
+                  "name": "超级姆依",
+                  "image": 24106,
+                  "cost": 250,
+                  "description": "钓到姆依 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2570*1&ITEM=2572*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2570,
+                  "qty": 1,
+                  "name": "特沙金竿",
+                  "image": 24116,
+                  "cost": 300,
+                  "description": "很像可以变成钓鱼竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2573,
+                  "qty": 1,
+                  "name": "超级海主人",
+                  "image": 24104,
+                  "cost": 250,
+                  "description": "钓到海主人 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2570*1&ITEM=2573*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2433,
+                  "qty": 1,
+                  "name": "工匠钓竿",
+                  "image": 24123,
+                  "cost": 800,
+                  "description": "工匠精心制造的天然钓竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2571,
+                  "qty": 1,
+                  "name": "卡库尔竿",
+                  "image": 24115,
+                  "cost": 300,
+                  "description": "有可能做成钓竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2572,
+                  "qty": 1,
+                  "name": "超级姆依",
+                  "image": 24106,
+                  "cost": 250,
+                  "description": "钓到姆依 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2571*1&ITEM=2572*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2570,
+                  "qty": 1,
+                  "name": "特沙金竿",
+                  "image": 24116,
+                  "cost": 300,
+                  "description": "很像可以变成钓鱼竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2574,
+                  "qty": 1,
+                  "name": "超级加克拉",
+                  "image": 24105,
+                  "cost": 250,
+                  "description": "钓到加克拉 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2570*1&ITEM=2574*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2571,
+                  "qty": 1,
+                  "name": "卡库尔竿",
+                  "image": 24115,
+                  "cost": 300,
+                  "description": "有可能做成钓竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2573,
+                  "qty": 1,
+                  "name": "超级海主人",
+                  "image": 24104,
+                  "cost": 250,
+                  "description": "钓到海主人 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2571*1&ITEM=2573*1&TIME!=0"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/nevent01_2",
+              "messages": {
+                "accept": "咦？ 你拿那个材料来希望我 把它做成钓竿吗？",
+                "thanks": "嗯…等我一下喔！ 像这样刨木头… 唰唰唰 在木头的先端系上绳子… 好了！完成了！",
+                "itemFull": "咦？东西已经装不下了啊…。"
+              },
+              "getItems": [
+                {
+                  "id": 2434,
+                  "qty": 1,
+                  "name": "名人的钓竿",
+                  "image": 24123,
+                  "cost": 600,
+                  "description": "非常直的钓鱼竿",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2571,
+                  "qty": 1,
+                  "name": "卡库尔竿",
+                  "image": 24115,
+                  "cost": 300,
+                  "description": "有可能做成钓竿的木头",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2574,
+                  "qty": 1,
+                  "name": "超级加克拉",
+                  "image": 24105,
+                  "cost": 250,
+                  "description": "钓到加克拉 钓鱼线",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ITEM=2571*1&ITEM=2574*1&TIME!=0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -122239,6 +139735,91 @@ export const WORLD = {
           "script": "file:jaruga/event/event06_2",
           "template": "changeevent",
           "graphic": "16018",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_2",
+              "messages": {
+                "normalMain": "天气好好喔！玛丽娜丝应该也是好天气吧！",
+                "accept": "我从玛丽娜丝来到这加鲁卡 可是横渡那海洋，千里迢迢而来的 原本是打算在这开家店面 很不幸地遇上暴风雨 只剩下这个小小的贝壳 我看是做生意是没指望了 什么！？你对这贝壳有兴趣？",
+                "thanks": "你的癖好还真是与众不同 你买这个要干嘛？ 这对我来说这东西一点也用处也没有 就免费送给你吧！什么？你想要两个？ 不用跟我客气，仅管拿去吧！",
+                "itemFull": "你的道具袋已经满了 我看等你减少道具后再来拿吧!"
+              },
+              "getItems": [
+                {
+                  "id": 2414,
+                  "qty": 2,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 6,
+              "type": "ACCEPT",
+              "condition": "NOWEV=6&ITEM!=2414"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 6,
+              "type": "MESSAGE",
+              "condition": "NOWEV=6&ITEM=2414*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_2",
+              "messages": {
+                "accept": "我从玛丽娜丝来到这加鲁卡 可是横渡那海洋，千里迢迢而来的 原本是打算在这开家店面 很不幸地遇上暴风雨 只剩下这个小小的贝壳 我看是做生意是没指望了 什么！？你对这贝壳有兴趣？",
+                "thanks": "你的癖好还真是与众不同 你买这个要干嘛？ 这对我来说这东西一点也用处也没有 就免费送给你吧！不用客气，仅管拿去吧！",
+                "itemFull": "你的道具袋已经满了 我看等你减少道具后再来拿吧!"
+              },
+              "getItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 6,
+              "type": "ACCEPT",
+              "condition": "NOWEV=6&ITEM=2414"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_2",
+              "messages": {
+                "accept": "我从玛丽娜丝来到这加鲁卡 可是横渡那海洋，千里迢迢而来的 原本是打算在这开家店面 很不幸地遇上暴风雨 只剩下这个小小的贝壳 我看是做生意是没指望了 什么！？你对这贝壳有兴趣？",
+                "thanks": "你的癖好还真是与众不同 你买这个要干嘛？ 这对我来说这东西一点也用处也没有 就免费送给你吧！不用客气，仅管拿去吧！",
+                "itemFull": "你的道具袋已经满了 我看等你减少道具后再来拿吧!"
+              },
+              "getItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ENDEV=6&ITEM!=2414"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -124420,6 +142001,20 @@ export const WORLD = {
           "script": "file:sa60/newbie/petmaster",
           "template": "changeevent",
           "graphic": "16122",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa60/newbie/petmaster",
+              "messages": {
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -127632,6 +145227,377 @@ export const WORLD = {
           "script": "file:extra/event/M_4000",
           "template": "changeevent",
           "graphic": "16200",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
+                "accept": "哦？你将宠物任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20091,
+                  "qty": 1,
+                  "name": "卡村宠物委托书Ａ",
+                  "image": 24176,
+                  "cost": 40,
+                  "description": "里斯基和克雷尔各两只，报酬400。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20091&PET>0-101*2&PET>0-104*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20092,
+                  "qty": 1,
+                  "name": "卡村宠物委托书Ｂ",
+                  "image": 24176,
+                  "cost": 80,
+                  "description": "威威和乌宝宝各两只，报酬800。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20092&PET>0-31*2&PET>0-32*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20093,
+                  "qty": 1,
+                  "name": "卡村宠物委托书Ｃ",
+                  "image": 24176,
+                  "cost": 150,
+                  "description": "布伊比和多利诺布斯各两只，报酬1500。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20093&PET>0-14*2&PET>0-211*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20094,
+                  "qty": 1,
+                  "name": "卡村宠物委托书Ｄ",
+                  "image": 24176,
+                  "cost": 350,
+                  "description": "加美和加比各两只，报酬3500。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20094&PET>0-21*2&PET>0-22*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20095,
+                  "qty": 1,
+                  "name": "卡村宠物委托书Ｅ",
+                  "image": 24176,
+                  "cost": 400,
+                  "description": "卡克尔、巴克、鲍、卡拉卡利各一只，报酬为精灵的羽毛一根。",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20095&PET>0-181*1&PET>0-182*1&PET>0-183*1&PET>0-184*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将宠物任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20096,
+                  "qty": 1,
+                  "name": "卡村宠物委托书Ｆ",
+                  "image": 24176,
+                  "cost": 1800,
+                  "description": "兰贝鲁斯、贝洛宝克尔、卡拉宝斯、姆伊、鲍各一只，报酬?",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20096&PET>0-332*1&PET>0-43*1&PET>0-172*1&PET>0-242*1&PET>0-183*1"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将料理任务Ａ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20111,
+                  "qty": 1,
+                  "name": "卡村料理委托书Ａ",
+                  "image": 24176,
+                  "cost": 35,
+                  "description": "五个煮过变色的鸡蛋，报酬350。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12580,
+                  "qty": 5,
+                  "name": "煮过变色的鸡蛋",
+                  "image": 24449,
+                  "cost": 10,
+                  "description": "耐久力50回复(自己) 鸡蛋变的有点黑色",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20111&ITEM=12580*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｂ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20112,
+                  "qty": 1,
+                  "name": "卡村料理委托书Ｂ",
+                  "image": 24176,
+                  "cost": 100,
+                  "description": "五个原始粽子，报酬1000。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12929,
+                  "qty": 5,
+                  "name": "原始粽子",
+                  "image": 24564,
+                  "cost": 10,
+                  "description": "气10耐60回复(1体) 充满原始风味的粽子",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20112&ITEM=12929*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｃ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20113,
+                  "qty": 1,
+                  "name": "卡村料理委托书Ｃ",
+                  "image": 24176,
+                  "cost": 140,
+                  "description": "六个叁明治便当，报酬1400。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12648,
+                  "qty": 6,
+                  "name": "叁明治便当",
+                  "image": 24541,
+                  "cost": 10,
+                  "description": "气15回复(1人) 携带方便的叁明治",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20113&ITEM=12648*6"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｄ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20114,
+                  "qty": 1,
+                  "name": "卡村料理委托书Ｄ",
+                  "image": 24176,
+                  "cost": 160,
+                  "description": "蛋蜜汁、果菜汁、绿汁各两份，报酬1600。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12831,
+                  "qty": 2,
+                  "name": "蛋蜜汁",
+                  "image": 24447,
+                  "cost": 10,
+                  "description": "耐久力70回复(1人) 甜甜的蛋饮料",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12833,
+                  "qty": 2,
+                  "name": "果菜汁",
+                  "image": 24443,
+                  "cost": 10,
+                  "description": "气3回复(1体) 酸酸甜甜的果汁",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12836,
+                  "qty": 2,
+                  "name": "绿汁",
+                  "image": 24444,
+                  "cost": 10,
+                  "description": "气10回复(1人) 青涩气味的菜汁…",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20114&ITEM=12831*2&ITEM=12833*2&ITEM=12836*2"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｅ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20115,
+                  "qty": 1,
+                  "name": "卡村料理委托书Ｅ",
+                  "image": 24176,
+                  "cost": 250,
+                  "description": "五份烤超上等香菇，报酬2500。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12817,
+                  "qty": 5,
+                  "name": "烤超上等香菇",
+                  "image": 24407,
+                  "cost": 10,
+                  "description": "耐140回复(我方全体) 珍贵的香菇胡椒烧",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20115&ITEM=12817*5"
+            },
+            {
+              "source": "gmsv-data/npc/extra/event/M_4000",
+              "messages": {
+                "accept": "哦？你将料理任务Ｆ完成了吗？",
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 20116,
+                  "qty": 1,
+                  "name": "卡村料理委托书Ｆ",
+                  "image": 24176,
+                  "cost": 480,
+                  "description": "豪迈的炒青菜、香料沙拉、包心菜卷肉各叁份，报酬4800。",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12550,
+                  "qty": 3,
+                  "name": "豪迈的炒青菜",
+                  "image": 24528,
+                  "cost": 10,
+                  "description": "气30回复(1人) 充满魄力的炒青菜",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12562,
+                  "qty": 3,
+                  "name": "香料沙拉",
+                  "image": 24413,
+                  "cost": 10,
+                  "description": "气22回复(1体) 香料 很多的沙拉",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 12836,
+                  "qty": 3,
+                  "name": "绿汁",
+                  "image": 24444,
+                  "cost": 10,
+                  "description": "气10回复(1人) 青涩气味的菜汁…",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "ITEM=20116&ITEM=12550*3&ITEM=12562*3&ITEM=12836*3"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -128038,6 +146004,127 @@ export const WORLD = {
           "script": "file:chatroom/ticket4012",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/chatroom/ticket4012",
+              "messages": {
+                "normalMain": "欢迎光临。贩卖去聊天室的票。",
+                "accept": "交付往聊天室的门票 。 但是、持有其他村的门票或是斗技场的 门票的人、会在这里回收。 这样可以吗？",
+                "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "itemFull": "道具已满无法交付给你。"
+              },
+              "getItems": [
+                {
+                  "id": 2524,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "卡鲁它那～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2521,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "萨姆吉尔～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2522,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "玛丽娜丝～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2523,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "加加～聊天室 的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2597,
+                  "qty": 1,
+                  "name": "斗技场门票 A",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "萨姆吉尔～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2598,
+                  "qty": 1,
+                  "name": "斗技场门票 B",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "玛丽娜丝～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2599,
+                  "qty": 1,
+                  "name": "斗技场门票 C",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "加加～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2600,
+                  "qty": 1,
+                  "name": "斗技场门票 D",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "卡鲁它那～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2601,
+                  "qty": 1,
+                  "name": "斗技场门票 E",
+                  "image": 24177,
+                  "cost": 0,
+                  "description": "聊天室～斗技场的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2602,
+                  "qty": 1,
+                  "name": "聊天室门票",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "斗技场～聊天室的门票",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/chatroom/ticket4012",
+              "messages": {
+                "normal": "已经有票了喔。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2524"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -128482,6 +146569,53 @@ export const WORLD = {
           "script": "file:quiz/uketuke2",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/quiz/uketuke2",
+              "messages": {
+                "normalMain": "你也以成为猜谜大师而在努力着呀！",
+                "accept": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV70以上拿着“入场券C”进去吧。 收下参加费stone 。这样子可以吗？",
+                "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导C的人 帮你介绍吧。",
+                "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2757,
+                  "qty": 1,
+                  "name": "入场卷 C",
+                  "image": 24314,
+                  "cost": 500,
+                  "description": "进入问题叁兄弟家 所需要的入场卷",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>69"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&LV<70"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -128512,6 +146646,53 @@ export const WORLD = {
           "script": "file:quiz/uketuke2",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/quiz/uketuke2",
+              "messages": {
+                "normalMain": "你也以成为猜谜大师而在努力着呀！",
+                "accept": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV70以上拿着“入场券C”进去吧。 收下参加费stone 。这样子可以吗？",
+                "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导C的人 帮你介绍吧。",
+                "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
+              },
+              "getItems": [
+                {
+                  "id": 2757,
+                  "qty": 1,
+                  "name": "入场卷 C",
+                  "image": 24314,
+                  "cost": 500,
+                  "description": "进入问题叁兄弟家 所需要的入场卷",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>69"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&LV<70"
+            },
+            {
+              "source": "gmsv-data/npc/quiz/uketuke2",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -131649,6 +149830,21 @@ export const WORLD = {
           "script": "file:heroic/heroic.arg",
           "template": "changeevent",
           "graphic": "10069",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/heroic/heroic.arg",
+              "messages": {
+                "normalMain": "你好我是英雄战场解说员。",
+                "itemFull": "你身上的东西可以减少一点吗。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -144529,6 +162725,20 @@ export const WORLD = {
           "script": "file:sa70/class/war3",
           "template": "changeevent",
           "graphic": "16183",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/class/war3",
+              "messages": {
+                "normalMain": "加油吧…未来的白狼勇士。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -144557,6 +162767,91 @@ export const WORLD = {
           "script": "file:sa70/class/clean",
           "template": "changeevent",
           "graphic": "16339",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {
+                "normalMain": "好想念我的男朋友啊…。",
+                "thanks": "好吧，我就受理你的要求了。 现在的年轻人真是没有毅力呀...."
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "CLASS>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=145&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=146&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=147&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=145"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=146"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=147"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -144807,6 +163102,91 @@ export const WORLD = {
           "script": "file:sa70/class/clean",
           "template": "changeevent",
           "graphic": "16339",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {
+                "normalMain": "好想念我的男朋友啊…。",
+                "thanks": "好吧，我就受理你的要求了。 现在的年轻人真是没有毅力呀...."
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "CLASS>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=145&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=146&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=147&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=145"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=146"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=147"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -144842,6 +163222,20 @@ export const WORLD = {
           "script": "file:sa70/class/arch3",
           "template": "changeevent",
           "graphic": "16189",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/class/arch3",
+              "messages": {
+                "normalMain": "看哪！这大自然是多么的美好，我几乎可以嗅到生命的味道。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -145077,6 +163471,91 @@ export const WORLD = {
           "script": "file:sa70/class/clean",
           "template": "changeevent",
           "graphic": "16339",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {
+                "normalMain": "好想念我的男朋友啊…。",
+                "thanks": "好吧，我就受理你的要求了。 现在的年轻人真是没有毅力呀...."
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "CLASS>0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=145&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=146&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "ENDEV=147&CLASS=0"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=145"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=146"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "CLEAN",
+              "condition": "NOWEV=147"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/clean",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -145937,6 +164416,59 @@ export const WORLD = {
           "script": "file:sa70/class/wquest5",
           "template": "changeevent",
           "graphic": "12838",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/class/wquest5",
+              "messages": {
+                "normalMain": "嘶～～嘶嘶～",
+                "itemFull": "嘶～～嘶嘶～"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2087,
+                  "qty": 1,
+                  "name": "熊皮",
+                  "image": 24124,
+                  "cost": 22,
+                  "description": "熊皮",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2088,
+                  "qty": 1,
+                  "name": "熊骨",
+                  "image": 24108,
+                  "cost": 26,
+                  "description": "熊骨",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2089,
+                  "qty": 1,
+                  "name": "钢铁",
+                  "image": 22345,
+                  "cost": 30000,
+                  "description": "钢铁",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "ACCEPT",
+              "condition": "LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2101&ITEM=2102&ITEM=2087&ITEM=2088&ITEM=2089"
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/wquest5",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -148280,6 +166812,20 @@ export const WORLD = {
           "script": "file:sa70/beers/beers4.arg",
           "template": "changeevent",
           "graphic": "100431",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sa70/beers/beers4.arg",
+              "messages": {
+                "normalMain": "水果你都拿了，赶快离开我的地盘！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -149900,6 +168446,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_10d",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10d",
+              "messages": {
+                "itemFull": "什么？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2584"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2584"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -150818,6 +169450,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_6c",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_6c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2581,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 70,
+                  "description": "第6检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2580,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 60,
+                  "description": "第5检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2580&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_6c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_6c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_6c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2580&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_6c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_6c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -150851,6 +169568,98 @@ export const WORLD = {
           "script": "file:sainasu/event/tiger_water.arg",
           "template": "changeevent",
           "graphic": "16170",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/tiger_water.arg",
+              "messages": {
+                "normalMain": "我是查罕族的祭司，负责查罕族的一切祭典。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=19563"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/tiger_water.arg",
+              "messages": {
+                "itemFull": "你身上的带袋子满了。"
+              },
+              "getItems": [
+                {
+                  "id": 19563,
+                  "qty": 1,
+                  "name": "神秘的调和水",
+                  "image": 23012,
+                  "cost": 10,
+                  "description": "能使圣兽[水]潜在能力觉醒的神秘泉水",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2452,
+                  "qty": 1,
+                  "name": "马伦的葡萄",
+                  "image": 24103,
+                  "cost": 10,
+                  "description": "战斗中使用的话就会．．",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2440,
+                  "qty": 1,
+                  "name": "乌鲁夫的铠",
+                  "image": 21022,
+                  "cost": 10,
+                  "description": "防+25? 敏-8?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2400,
+                  "qty": 1,
+                  "name": "阿布的水",
+                  "image": 23012,
+                  "cost": 100,
+                  "description": "气力100前後回复",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2441,
+                  "qty": 1,
+                  "name": "吉尔的枪",
+                  "image": 20433,
+                  "cost": 10,
+                  "description": "攻+30? 敏-8? 魅+2?",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2442,
+                  "qty": 1,
+                  "name": "鲁德的兜",
+                  "image": 21545,
+                  "cost": 10,
+                  "description": "防+13? 敏 -5?",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2452&ITEM=2440&ITEM=2441&ITEM=2442&ITEM=2400"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/tiger_water.arg",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -152841,6 +171650,73 @@ export const WORLD = {
           "script": "file:jaruga/event/event04_1",
           "template": "changeevent",
           "graphic": "16001",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event04_1",
+              "messages": {
+                "normalMain": "所有的原始人若要获得认可都必须要先经过我这一关啦！",
+                "accept": "还挺厉害的嘛！走到这里 让我来为你进阶为成人做见证",
+                "thanks": "这么一来，你也是个顶天立地的成人了 年轻小伙子，为老人尽点力量 可是精进自我程度的捷径",
+                "itemFull": "啊呀！你的道具袋已经满了"
+              },
+              "getItems": [
+                {
+                  "id": 2418,
+                  "qty": 1,
+                  "name": "仪之兜",
+                  "image": 21542,
+                  "cost": 5000,
+                  "description": "防 +15 敏 -3 全异常状态防止 +3",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2417,
+                  "qty": 15,
+                  "name": "仪的玉",
+                  "image": 24064,
+                  "cost": 20,
+                  "description": "举行仪式时使用的勾玉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                4
+              ],
+              "eventNo": 4,
+              "type": "ACCEPT",
+              "condition": "ITEM=2417*15"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event04_1",
+              "messages": {
+                "request": "俺可是来考验你是否通过成人 仪式的审判官 现在就开始举行成人礼吧！",
+                "thanks": "在这条路尽头的一尊石像上 有一块仪之玉的勾玉，请从在仪道中 的守护使者中，取回１５个来 请注意！小心不要让仪玉掉落地面， 否则可是会瞬间消失成云烟 可别粗心大意！",
+                "stop": "怎么啦！想打退堂鼓了吗？",
+                "endStop": "我看你还是回去多练练吧！",
+                "noStop": "俗话说的好“有志者事竟成”好好加油吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 4,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event04_1",
+              "messages": {
+                "normal": "以后也要不断地求进步！才能不愧于成人的身份"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=4"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -152872,6 +171748,33 @@ export const WORLD = {
           "script": "file:jaruga/event/event04_2",
           "template": "changeevent",
           "graphic": "16203",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event04_2",
+              "messages": {
+                "normalMain": "我是审判仪式的使者",
+                "accept": "你可是来举行仪式？",
+                "thanks": "那么，给你１５个仪玉",
+                "itemFull": "如果想要全部的仪玉，就要空出15个空间才可"
+              },
+              "getItems": [
+                {
+                  "id": 2417,
+                  "qty": 15,
+                  "name": "仪的玉",
+                  "image": 24064,
+                  "cost": 20,
+                  "description": "举行仪式时使用的勾玉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 4,
+              "type": "ACCEPT",
+              "condition": "NOWEV=4&ITEM!=2417"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -153481,6 +172384,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_11d",
           "template": "changeevent",
           "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11d",
+              "messages": {
+                "itemFull": "你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2585"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2585"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -153514,6 +172503,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_5c",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2580,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 60,
+                  "description": "第5检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2579&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2579&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_5c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -154822,6 +173896,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_9d",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9d",
+              "messages": {
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2583"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2583"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_9d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -155215,6 +174375,92 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_8d",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8d",
+              "messages": {
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2583,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 90,
+                  "description": "第8检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2582"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2582"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_8d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -155767,6 +175013,91 @@ export const WORLD = {
           "script": "file:sainasu/event/oev_3c",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2577&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2577&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3c",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -156137,6 +175468,21 @@ export const WORLD = {
           "script": "file:sainasu/event/event15_2",
           "template": "changeevent",
           "graphic": "16046",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_2",
+              "messages": {
+                "normalMain": "我是帮博士从事研究工作的人。,我非常喜欢博士的研究。",
+                "normal": "是这样的啦！博士所说名为鲁尼帖斯的恐龙，生长在萨伊那斯的北方。他希望能得到等级１５级以上的恐龙。不过，如果没有的话，帮我们养到１５级也行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "NOWEV=15"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -156165,6 +175511,108 @@ export const WORLD = {
           "script": "file:sainasu/event/event15_1",
           "template": "changeevent",
           "graphic": "16024",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "normalMain": "嗯…你有什么事吗？,我是在这儿研究恐龙的哈鲁。",
+                "accept": "喂喂、就是那一只。要是有两只以上 的话，把可以给我的那一只鲁尼帖斯先拿好， 要不然我就自己挑了唷！",
+                "thanks": "长得真是好的鲁尼帖斯！ 啊！真是谢谢你了。 就以这个作为谢礼吧！",
+                "itemFull": "咦？你的东西装满了唷！丢掉一些什么吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [
+                15
+              ],
+              "eventNo": 15,
+              "type": "ACCEPT",
+              "condition": "NOWEV=15&PET>14-74"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "accept": "喂喂！就是那一只。如果你有两只以上的话， 就把可以给我的那一只先拿着， 不然的话，我就自己挑了唷！",
+                "thanks": "长得真是好的贝鲁卡啊！ 我就给你这只宠物作为谢礼吧！ 这是很稀有的动物， 你要好好珍惜。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [
+                16
+              ],
+              "eventNo": 16,
+              "type": "ACCEPT",
+              "condition": "ENDEV=15&NOWEV=16&PET>29-191"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "request": "我是在这儿研究动物的 哈鲁。 真是抱歉啊！你能不能帮我做一件事呢？ 因为我已经这把年纪了…",
+                "thanks": "是吗？你愿意帮我吗？ 事实上，接下来我要朝另一种恐龙 来做研究，无奈我已经老了啊…。 在渡过贯穿萨伊那斯东西向的河流处，不是有咖啡色的恐龙吗？ 希望你能 帮我抓来。关于详情， 你就去问在那边的助手吧！",
+                "stop": "嗯…没有１５级的鲁尼帖斯啊…。 这样啊…不太可能啊…。 怎么样都没办法吗？",
+                "endStop": "我明白了…太勉强你了真是不好意思。 那我找别人帮忙好了。",
+                "noStop": "那就拜托你了喔！因为这关系到我的研究呢！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 15,
+              "type": "REQUEST",
+              "condition": "LV>9"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "request": "可以的话，能否再帮我一件事呢？",
+                "thanks": "太好了！你肯帮我啊！事实上， 在南边的岛上，有一种叫贝鲁卡的恐龙， 可以的话，也请你抓来。 我希望你能帮我带３０级的贝鲁卡回来。 真是不好意思，麻烦你了。",
+                "stop": "这样啊…不能帮我啊… 再怎么样都不行吗？",
+                "endStop": "真是不好意思啊…要到隔壁的那座岛的确要费一番功夫啊！",
+                "noStop": "那就拜托你了唷！因为这关系到我长久以来的研究啊…"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 16,
+              "type": "REQUEST",
+              "condition": "LV>15&ENDEV=15"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "normal": "谢谢你帮我抓来啊！就把你当作我的助手吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=15&PET>0-74"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "normal": "你好像还没有经过成年的仪式吧！等完成了再来吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=15&NOWEV=16&PET>29-191"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/event15_1",
+              "messages": {
+                "normal": "谢谢你帮我抓来啊！如此一来，就可以开始我的研究了。那么，我教你一些好东西吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=15&ENDEV=16"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -156709,6 +176157,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_9b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2561,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 100,
+                  "description": "通过第9检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2560,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 90,
+                  "description": "通过第8检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2560"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2560"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_9b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -156742,6 +176275,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_7",
           "template": "changeevent",
           "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2559,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 80,
+                  "description": "通过第7检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2558"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2558"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -157150,6 +176768,96 @@ export const WORLD = {
           "script": "file:jaruga/event/event07_1",
           "template": "changeevent",
           "graphic": "100252",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event07_1",
+              "messages": {
+                "normalMain": "噗唏！",
+                "accept": "上回真是谢谢你 已经照你所说的，还搭配着鲜花 你已经帮我传信给她了 真的吗？乌力美有回封信 要转交给我！？",
+                "thanks": "哇～太高兴了，真是太感谢你了 为了表示我的谢意，给你我的宝物",
+                "itemFull": "你的道具袋已经满到装不下去！"
+              },
+              "getItems": [
+                {
+                  "id": 1206,
+                  "qty": 1,
+                  "name": "红玉的手环",
+                  "image": 22068,
+                  "cost": 10000,
+                  "description": "攻 +2 防 +2 敏 -2 魅 +1",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2426,
+                  "qty": 1,
+                  "name": "乌力美的信",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "乌力美写给乌力斯凯的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                8
+              ],
+              "eventNo": 8,
+              "type": "ACCEPT",
+              "condition": "NOWEV=8&ITEM=2414&ITEM=2426"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event07_1",
+              "messages": {
+                "request": "乌力乌力乌力乌力乌力乌力力 啊！初次见面你好 我是最近才来到这洞窟的乌力斯凯 我想写封信给住在这洞窟的 乌力美小姐 希望你能代我送去，最好再附上鲜花 虽然这个要求很无理，但无论如何请你帮我这个忙",
+                "thanks": "谢谢！ 乌力美小姐的特征 还是请教长住于此的居民 应该会比较清楚才是 不妨问问看他们 可千万别把我的信搞丢",
+                "itemFull": "行李已经满到装不下去！",
+                "stop": "没办法去到乌力美小姐住的地方！？",
+                "endStop": "啊～还是死心好了 反正我怎么样都无法上到山顶上面",
+                "noStop": "试试向大家问问乌力美小姐的特征 或许并不是那么的困难 拜托你这么麻烦的事，真是抱歉。"
+              },
+              "getItems": [
+                {
+                  "id": 2425,
+                  "qty": 1,
+                  "name": "乌力斯凯的信",
+                  "image": 24222,
+                  "cost": 10,
+                  "description": "乌力斯凯写给乌力美的信",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 7,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM=2414"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event07_1",
+              "messages": {
+                "normal": "上回真是谢谢你，最近可好？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=7&ENDEV=8&ITEM=2414"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event07_1",
+              "messages": {
+                "normal": "乌力美小姐～"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2414"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -157182,6 +176890,75 @@ export const WORLD = {
           "script": "file:jaruga/event/event06_1",
           "template": "changeevent",
           "graphic": "16203",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_1",
+              "messages": {
+                "normalMain": "嗨！上回谢谢啦！",
+                "accept": "上回托你找的贝壳，有着落了吗？",
+                "thanks": "太感激你了！ 还真的被你找到 真是出乎意料之外 就以我抓到的宠物 来做为谢礼吧！ 你可要好好照顾它喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                6
+              ],
+              "eventNo": 6,
+              "type": "ACCEPT",
+              "condition": "NOWEV=6&ITEM=2414*2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_1",
+              "messages": {
+                "accept": "上回托你找的贝壳，有着落了吗？ 可是！仅此一个而已 真的可以给我吗？",
+                "thanks": "太感激你了！ 将仅有一个的贝壳给我，你真的是个大好人 就以我抓到的宠物 做为谢礼送给你吧！ 你可要用心照顾它喔！"
+              },
+              "getItems": [],
+              "delItems": [
+                {
+                  "id": 2414,
+                  "qty": 1,
+                  "name": "不可思议的贝壳",
+                  "image": 24130,
+                  "cost": 80,
+                  "description": "从某处漂流而来的贝壳",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [
+                6
+              ],
+              "eventNo": 6,
+              "type": "ACCEPT",
+              "condition": "NOWEV=6&ITEM=2414*1"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event06_1",
+              "messages": {
+                "request": "想请教你一个问题 如果拥有一种神奇贝壳 就可以了解这个洞窟中所有的宠物 的语言和它们沟通无阻 如果真能将这种贝壳到手 无论如何请你要分一个给我",
+                "thanks": "谢谢，那就麻烦你了 听说， 最近来到卡鲁它那的 玛丽娜丝商人手中好像有 我决定待在这里守着它 以免跑丢",
+                "stop": "找不到贝壳吗？",
+                "endStop": "这样啊！真是可惜 好想和它聊聊天",
+                "noStop": "啊！希望能早点实现和它沟通的愿望"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 6,
+              "type": "REQUEST",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -157213,6 +176990,21 @@ export const WORLD = {
           "script": "file:jaruga/event/event07_4",
           "template": "changeevent",
           "graphic": "100250",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event07_4",
+              "messages": {
+                "normalMain": "乌力力",
+                "normal": "好久没有跟人类聊天了！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ITEM=2414"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -157653,6 +177445,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_11",
           "template": "changeevent",
           "graphic": "16068",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_11",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2563,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 120,
+                  "description": "通过第11检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2562,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 110,
+                  "description": "通过第10检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2562"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_11",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_11",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_11",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2562"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_11",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_11",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -157686,6 +177563,91 @@ export const WORLD = {
           "script": "file:jaruga/event/oev_7b",
           "template": "changeevent",
           "graphic": "16066",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7b",
+              "messages": {
+                "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
+              },
+              "getItems": [
+                {
+                  "id": 2559,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 80,
+                  "description": "通过第7检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2558,
+                  "qty": 1,
+                  "name": "通过证明石",
+                  "image": 24060,
+                  "cost": 70,
+                  "description": "通过第6检查点",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2558"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2558"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/oev_7b",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
@@ -158320,6 +178282,84 @@ export const WORLD = {
           "script": "file:jaruga/event/event17_4",
           "template": "changeevent",
           "graphic": "16208",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/jaruga/event/event17_4",
+              "messages": {
+                "normalMain": "我是这个洞窟的守护者",
+                "accept": "你把龙之魅笛给搞丢了，有何打算？要不要再度接受使命啊？",
+                "thanks": "真拿你没辄，可不要再搞丢了",
+                "itemFull": "你的道具袋已经满了。留下些什么下来吧！"
+              },
+              "getItems": [
+                {
+                  "id": 2505,
+                  "qty": 1,
+                  "name": "龙的魅力之笛",
+                  "image": 24205,
+                  "cost": 10,
+                  "description": "魅 +3 可以媚惑龙的笛子",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 17,
+              "type": "ACCEPT",
+              "condition": "NOWEV=17&ITEM!=2505"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event17_4",
+              "messages": {
+                "request": "这里是龙的巢穴，维持自然界的平衡 是你的使命 你愿意接受这个使命吗？",
+                "thanks": "我现在将这个龙之魅笛就交付给你了 如此一来，你就有机会可以遇见 三匹龙",
+                "stop": "你已经丧失信心了吗？",
+                "endStop": "原来你一点都不关心自然界的平衡 好了，我已经认清你了！",
+                "noStop": "好好加油！",
+                "itemFull": "你的道具袋已经满了，留下些什么下来吧！"
+              },
+              "getItems": [
+                {
+                  "id": 2505,
+                  "qty": 1,
+                  "name": "龙的魅力之笛",
+                  "image": 24205,
+                  "cost": 10,
+                  "description": "魅 +3 可以媚惑龙的笛子",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 17,
+              "type": "REQUEST",
+              "condition": "LV>0&ITEM!=2505"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event17_4",
+              "messages": {
+                "normal": "龙群可是没那么容易就现身的。耐着性子慢慢地找吧！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": 17,
+              "type": "MESSAGE",
+              "condition": "NOWEV=17&ITEM=2505"
+            },
+            {
+              "source": "gmsv-data/npc/jaruga/event/event17_4",
+              "messages": {
+                "normal": "这样啊！已经遇到龙的守护人和三匹龙。从今以后也请尽力保护自然界，维持其平衡。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "ENDEV=17"
+            }
+          ],
           "scriptHints": {
             "actions": [
               "questLead"
