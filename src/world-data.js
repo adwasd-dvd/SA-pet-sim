@@ -46291,7 +46291,6 @@ export const WORLD = {
             "在这个世界，成人之后会被视为已经可以独当一面。经过成人礼之后，许多地方就无法成行了。",
             "成人练习不只是听课。到村外确认一次野外宠物资料，再回来向我报告。",
             "萨伊那斯四村之间的路要自己走一遍，地图、出口和村镇服务才算真正认得。",
-            "竞技场、道场和英雄战场也在地图资料里。进去看看，再回来告诉我入口是否顺畅。",
             "如果遇到坏心眼的愿藏，别光听他说狠话；那是 NPCEnemy 拦路脚本，确认以后要真打赢。",
             "如果遇到危险，记得先让宠物出战；击败或捕获一只野外宠物就足够了。"
           ],
@@ -46307,7 +46306,6 @@ export const WORLD = {
           "questIds": [
             "samugiru-field-practice",
             "samugiru-four-village-route",
-            "samugiru-arena-tour",
             "ganzo-roadblock"
           ],
           "questId": "samugiru-field-practice"
@@ -159090,6 +159088,9 @@ export const WORLD = {
       "id": "samugiru-arena-tour",
       "title": "竞技场与英雄战场见学",
       "description": "确认村内竞技场、道场和英雄战场地图已经加载，并记录这些地图的原始入口资料。",
+      "playerFacing": false,
+      "contentProfile": "full-dev",
+      "stagedReason": "非核心竞技场/英雄战场地图采样任务；按 classic-core 策略不自动给玩家。",
       "steps": [
         "向萨姆吉尔的老师询问竞技场。",
         "进入萨姆吉尔竞技场或道场柜台。",

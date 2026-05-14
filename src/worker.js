@@ -4426,7 +4426,11 @@ function npcQuestIds(npc) {
   return [...new Set([
     npc?.questId,
     ...(Array.isArray(npc?.questIds) ? npc.questIds : [])
-  ].filter((id) => id && WORLD.quests[id]))];
+  ].filter((id) => id && WORLD.quests[id] && isPlayerFacingQuest(WORLD.quests[id])))];
+}
+
+function isPlayerFacingQuest(quest) {
+  return quest?.playerFacing !== false;
 }
 
 function applyNpcHi(game, npc) {
@@ -7055,7 +7059,7 @@ function buildGuideContext(game, map, prompt = "") {
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
     quests: Object.values(game.quests || {}),
-    availableQuests: Object.values(WORLD.quests || {}).map((quest) => ({
+    availableQuests: Object.values(WORLD.quests || {}).filter(isPlayerFacingQuest).map((quest) => ({
       id: quest.id,
       title: quest.title,
       steps: quest.steps,

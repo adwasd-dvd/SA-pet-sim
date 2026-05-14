@@ -576,6 +576,9 @@ function firstPlayableQuests(maps) {
       id: "samugiru-arena-tour",
       title: "竞技场与英雄战场见学",
       description: "确认村内竞技场、道场和英雄战场地图已经加载，并记录这些地图的原始入口资料。",
+      playerFacing: false,
+      contentProfile: "full-dev",
+      stagedReason: "非核心竞技场/英雄战场地图采样任务；按 classic-core 策略不自动给玩家。",
       steps: [
         "向萨姆吉尔的老师询问竞技场。",
         "进入萨姆吉尔竞技场或道场柜台。",
@@ -620,6 +623,7 @@ function firstPlayableQuests(maps) {
 function applyFirstPlayableQuestHooks(maps, quests) {
   const map = maps[String(START_FLOOR)];
   for (const quest of Object.values(quests)) {
+    if (quest.playerFacing === false) continue;
     const npc = map?.npcs?.find((item) => item.id === quest.startNpcId || item.id === quest.returnNpcId);
     if (!npc) continue;
     pushNpcQuestId(npc, quest.id);

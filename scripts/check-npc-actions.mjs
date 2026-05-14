@@ -188,6 +188,8 @@ assert(workspaceRsp.workspace.knowledge.entries.some((entry) => entry.id === "qu
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
+assertEqual(WORLD.quests["samugiru-arena-tour"]?.playerFacing, false, "arena tour remains staged as full-dev content");
+assert(!teacher.questIds?.includes("samugiru-arena-tour"), "teacher default quest chain excludes non-core arena tour");
 await expectApiError(
   "/api/game/dialog",
   { game, npcId: teacher.id },
@@ -283,6 +285,9 @@ questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2
 questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id, message: "hi" });
 assertEqual(questLoopGame.quests[fourVillageQuestId].status, "完成", "four-village route completes through teacher NPC VM reward");
 assert(questLoopGame.player.stone > fourVillageStoneBefore, "four-village completion grants source-style stone reward");
+questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id });
+assert(!questLoopGame.quests["samugiru-arena-tour"], "teacher skips staged arena tour after four-village route");
+assertEqual(questLoopGame.quests["ganzo-roadblock"].status, "进行中", "teacher continues to the next player-facing source NPCEnemy quest");
 const questExpReward = Number(teacherGame.quests[teacher.questId].expReward || 20);
 const questStoneReward = Number(teacherGame.quests[teacher.questId].stoneReward || 80);
 teacherGame.player.exp = Math.max(0, Number(teacherGame.player.nextExp || 1) - questExpReward + 1);
