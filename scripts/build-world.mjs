@@ -804,6 +804,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     messages: {},
     getItems: [],
     delItems: [],
+    getRandItems: [],
+    getStones: [],
+    delStones: [],
+    nowSetFlags: [],
     endSetFlags: []
   };
   const getPets = [];
@@ -835,6 +839,18 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.delItems.push(...parseScriptItemSpecs(value));
       continue;
     }
+    if (key === "getranditem") {
+      event.getRandItems.push(...parseScriptRandomItemSpecs(value));
+      continue;
+    }
+    if (key === "getstone" || key === "getgold") {
+      event.getStones.push(...parseScriptStoneSpecs(value));
+      continue;
+    }
+    if (key === "delstone" || key === "delgold") {
+      event.delStones.push(...parseScriptStoneSpecs(value));
+      continue;
+    }
     if (key === "getpet") {
       getPets.push(...parseScriptGetPetSpecs(value));
       continue;
@@ -847,6 +863,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.endSetFlags.push(...splitNumberList(value));
       continue;
     }
+    if (key === "nowsetflg" || key === "nowsetflag") {
+      event.nowSetFlags.push(...splitNumberList(value));
+      continue;
+    }
     const messageKey = npcScriptMessageKey(key);
     if (messageKey) event.messages[messageKey] = cleanScriptText(value);
   }
@@ -856,8 +876,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     ...event,
     getItems: event.getItems.map(withScriptItemName),
     delItems: event.delItems.map(withScriptItemName),
+    getRandItems: event.getRandItems.map(withScriptRandomItemNames),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
+    nowSetFlags: [...new Set(event.nowSetFlags)].filter((value) => value > 0),
     endSetFlags: [...new Set(event.endSetFlags)].filter((value) => value > 0)
   };
 }
@@ -868,10 +890,15 @@ function npcScriptMessageKey(key) {
     normalmainmsg: "normalMain",
     nomalmsg: "normal",
     normalmsg: "normal",
+    nomalwindowmsg: "normal",
+    normalwindowmsg: "normal",
     requestmsg: "request",
     acceptmsg: "accept",
     thanksmsg: "thanks",
     itemfullmsg: "itemFull",
+    stonefullmsg: "stoneFull",
+    stonelessmsg: "stoneLess",
+    petfullmsg: "petFull",
     stopmsg: "stop",
     endstopmsg: "endStop",
     nostopmsg: "noStop"
@@ -887,6 +914,45 @@ function parseScriptItemSpecs(value = "") {
       return { id: Number(match[1]), qty: Number(match[2] || 1) };
     })
     .filter((item) => item && item.id > 0 && item.qty > 0);
+}
+
+function parseScriptRandomItemSpecs(value = "") {
+  const ids = [];
+  for (const part of String(value || "").split(",")) {
+    const text = part.trim();
+    if (!text) continue;
+    const range = text.match(/^(\d+)\s*-\s*(\d+)$/);
+    if (range) {
+      const start = Number(range[1]);
+      const end = Number(range[2]);
+      const min = Math.min(start, end);
+      const max = Math.max(start, end);
+      if (max - min <= 500) {
+        for (let id = min; id <= max; id += 1) ids.push(id);
+      }
+      continue;
+    }
+    const id = Number(text);
+    if (Number.isFinite(id) && id > 0) ids.push(id);
+  }
+  if (!ids.length) return [];
+  // gmsv keeps duplicate ids in GetRandItem as weighted random choices.
+  return [{ ids, qty: 1, source: "GetRandItem" }];
+}
+
+function parseScriptStoneSpecs(value = "") {
+  return String(value || "")
+    .split(",")
+    .map((part) => {
+      const text = part.trim();
+      if (!text) return null;
+      const levelCost = text.match(/^LV\s*\*\s*(\d+)$/i);
+      if (levelCost) return { expr: `LV*${Number(levelCost[1])}`, multiplier: Number(levelCost[1]), source: text };
+      const amount = Number(text);
+      if (Number.isFinite(amount) && amount > 0) return { amount, source: text };
+      return null;
+    })
+    .filter(Boolean);
 }
 
 function parseScriptGetPetSpecs(value = "") {
@@ -932,6 +998,21 @@ function withScriptItemName(item) {
     cost: sourceItem?.cost || 0,
     description: sourceItem?.description || "",
     source: `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
+}
+
+function withScriptRandomItemNames(spec) {
+  const ids = (spec.ids || []).map((id) => Number(id)).filter((id) => id > 0);
+  const uniqueIds = [...new Set(ids)];
+  const names = uniqueIds
+    .slice(0, 8)
+    .map((id) => itemDb.get(id)?.name || `item ${id}`);
+  return {
+    ...spec,
+    ids,
+    names,
+    sample: uniqueIds.slice(0, 8).map((id) => withScriptItemName({ id, qty: 1 })),
+    source: spec.source || "GetRandItem"
   };
 }
 

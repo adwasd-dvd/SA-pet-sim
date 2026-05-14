@@ -6002,10 +6002,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6014,6 +6019,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第5检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是东柯尔克的坑道。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -6038,6 +6044,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6045,9 +6055,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 东柯尔克的坑道。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6055,9 +6071,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6065,9 +6087,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6075,9 +6103,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6123,7 +6157,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "我想收集世界中的恐龙。",
                 "accept": "我拜托你捕抓类似鱼状的恐龙你已经全部帮我抓来了！",
-                "thanks": "真的非常谢谢你！ 作梦都没想到能够收集齐全，依照最初的约定，这只金色的恐龙就给你吧。 要好好的养育它喔。"
+                "thanks": "真的非常谢谢你！ 作梦都没想到能够收集齐全，依照最初的约定，这只金色的恐龙就给你吧。 要好好的养育它喔。",
+                "petFull": "哎呀、宠物的数量太多了无法收下耶 可以把宠物的数量减少之后再到我这里来吗？"
               },
               "getItems": [],
               "delItems": [
@@ -6137,6 +6172,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 35
               ],
@@ -6171,9 +6210,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
-              "messages": {},
+              "messages": {
+                "normal": "寻找恐龙的事进行的还顺利吗？ 还剩下克邦凯斯和加克拉这2只没有捕获 就拜托你啰。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6198,6 +6243,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6230,6 +6279,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 35,
               "type": "REQUEST",
@@ -6239,7 +6292,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/seimu/event/event02_1",
               "messages": {
                 "accept": "我所拜托你的恐龙已经 全部收集齐全了呀！",
-                "thanks": "真的非常谢谢你！作梦都没想到能够收集齐全。 依照最初的约定我将捡到的金色的恐龙给你吧。 要好好养育它喔。"
+                "thanks": "真的非常谢谢你！作梦都没想到能够收集齐全。 依照最初的约定我将捡到的金色的恐龙给你吧。 要好好养育它喔。",
+                "petFull": "哎呀、宠物的数量太多了无法收下耶 可以把宠物的数量减少之后再到我这里来吗？"
               },
               "getItems": [],
               "delItems": [
@@ -6253,6 +6307,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6275,9 +6333,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/seimu/event/event02_1",
-              "messages": {},
+              "messages": {
+                "normal": "寻找恐龙的事进行的还顺利吗？ 还剩下霍尔克和克克洛斯这2只还没有捕获，就拜托你啰。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6302,6 +6366,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6334,6 +6402,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6381,7 +6453,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "最近日子不太好过啊……",
                 "accept": "你带来了高级肉！ 真的是要谢谢你 这个宠物，能帮助你 送你吧........................作为回报！ 这东西长大了会值点钱的！ 谢谢！",
-                "thanks": "年轻小伙子，以后努力吧 嗯……"
+                "thanks": "年轻小伙子，以后努力吧 嗯……",
+                "petFull": "你的宠物太多了，没有办法给你。 你可以减少宠物的数量再来吗？"
               },
               "getItems": [],
               "delItems": [
@@ -6395,6 +6468,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6420,6 +6497,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -6461,10 +6542,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6473,6 +6559,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第2检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是盗贼的大本营。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -6497,6 +6584,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6504,9 +6595,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 盗贼的大本营。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6514,9 +6611,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6524,9 +6627,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6534,9 +6643,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6611,10 +6726,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/genou_3",
               "messages": {
-                "normalMain": "啊啊，谢谢你在我危急的时候救我。"
+                "normalMain": "啊啊，谢谢你在我危急的时候救我。",
+                "normal": "真的非常感谢你。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6631,6 +6751,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 42,
               "type": "REQUEST",
@@ -6638,9 +6762,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/genou_3",
-              "messages": {},
+              "messages": {
+                "normal": "谢谢你在我危急的时候救我 真的非常感谢你。 刚才那些人吗？ 这个我也不太清楚啊 就是突然被他们包围住···为什么会这样呢。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -6683,7 +6813,8 @@ export const WORLD = {
               "messages": {
                 "accept": "哇！被发现了！已经是第十次了，嗯……我输了！ 依照约定，给你奖品吧！ 如果还有时间的话再一起玩吧。",
                 "thanks": "下次我绝对不会输给你的！",
-                "itemFull": "因为道具太多了，没办法收下我的礼物的样子呢……"
+                "itemFull": "因为道具太多了，没办法收下我的礼物的样子呢……",
+                "petFull": "宠物太多了没有办法交给你喔，可以想办法减少宠物的数量吗？"
               },
               "getItems": [],
               "delItems": [
@@ -6697,6 +6828,109 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    11876,
+                    11887,
+                    11907,
+                    11927,
+                    11987,
+                    11995,
+                    2705,
+                    13082
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "硬的壳",
+                    "强的绳",
+                    "上等的黏土",
+                    "灵木的叶",
+                    "出水草",
+                    "追灯草",
+                    "魔术笔 (油性)",
+                    "最坚实的绳"
+                  ],
+                  "sample": [
+                    {
+                      "id": 11876,
+                      "qty": 1,
+                      "name": "硬的壳",
+                      "image": 24148,
+                      "cost": 7740,
+                      "description": "壳的成分 7",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 11887,
+                      "qty": 1,
+                      "name": "强的绳",
+                      "image": 24104,
+                      "cost": 7920,
+                      "description": "线的成分 8",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 11907,
+                      "qty": 1,
+                      "name": "上等的黏土",
+                      "image": 24062,
+                      "cost": 2475,
+                      "description": "黏土的成分 8",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 11927,
+                      "qty": 1,
+                      "name": "灵木的叶",
+                      "image": 24178,
+                      "cost": 2228,
+                      "description": "叶的成分 8",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 11987,
+                      "qty": 1,
+                      "name": "出水草",
+                      "image": 24178,
+                      "cost": 2400,
+                      "description": "回复的成分 8",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 11995,
+                      "qty": 1,
+                      "name": "追灯草",
+                      "image": 23026,
+                      "cost": 1200,
+                      "description": "复活的成分 6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2705,
+                      "qty": 1,
+                      "name": "魔术笔 (油性)",
+                      "image": 10904,
+                      "cost": 300,
+                      "description": "被加工的道具的名称 可以变更 (使用次数一次)",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13082,
+                      "qty": 1,
+                      "name": "最坚实的绳",
+                      "image": 23908,
+                      "cost": 25000,
+                      "description": "线的成分 11",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6744,6 +6978,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6778,6 +7016,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6812,6 +7054,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6846,6 +7092,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6880,6 +7130,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6914,6 +7168,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6948,6 +7206,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -6982,6 +7244,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -7008,6 +7274,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -7084,10 +7354,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa80/gloves/gloves_1",
               "messages": {
-                "normalMain": "萨伊那斯好像没有贩卖手部防具的样子······"
+                "normalMain": "萨伊那斯好像没有贩卖手部防具的样子······",
+                "normal": "萨伊那斯岛的风景真漂亮啊！你问我是谁？我是来自伊甸大陆的特殊素材开发者，我至各大陆找寻可以使用的材料，以便做出更好的物品，最近发明了一种手部的防御道具，如果你需要就来找我，由于我欠缺旅费，所以会跟你收一定的费用。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7098,7 +7373,8 @@ export const WORLD = {
               "messages": {
                 "accept": "唔～？你带来了啊，那等我一下。",
                 "thanks": "这一个防具的特性就是比较重了点，所以会让你速度稍微降低！ 不跟你说这么多了，有需要再来找我吧，我要继续我的旅程，顺道去加鲁卡海边找我弟弟。",
-                "itemFull": "虽然想交给你但你已经无法再收下。"
+                "itemFull": "虽然想交给你但你已经无法再收下。",
+                "stoneLess": "喂，你没给钱，东西不能给你！"
               },
               "getItems": [
                 {
@@ -7158,6 +7434,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "amount": 50000,
+                  "source": "50000"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -7198,10 +7483,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7210,6 +7500,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第12检查点了。 你已经通过所有的检查点了！ 拿这个去玛丽娜丝村 报到吧！",
                 "itemFull": "你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -7234,6 +7525,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7241,9 +7536,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
-              "messages": {},
+              "messages": {
+                "normal": "你已经通过所有的检查点了！ 拿这个去玛丽娜丝村 报到吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7251,9 +7552,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7261,9 +7568,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7271,9 +7584,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7317,10 +7636,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7329,6 +7653,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第1检查点了。 来，请拿去。请继续加油哦。 下一个检查点是 霍特尔东南沿岸。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -7353,6 +7678,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7360,9 +7689,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 霍尔特东南沿岸。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7370,9 +7705,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7380,9 +7721,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7425,10 +7772,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7437,6 +7789,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第7检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是柯奥山的小洞窟。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -7461,6 +7814,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7468,9 +7825,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 柯奥山的小洞窟。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7478,9 +7841,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7488,9 +7857,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -7498,9 +7873,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_7d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -10447,6 +10828,137 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    32,
+                    44,
+                    59,
+                    156,
+                    164,
+                    169,
+                    243,
+                    254,
+                    260,
+                    339,
+                    343,
+                    360,
+                    439,
+                    444,
+                    457,
+                    532,
+                    544,
+                    560,
+                    643,
+                    650,
+                    668,
+                    742,
+                    752,
+                    760,
+                    32,
+                    156,
+                    243,
+                    254,
+                    339,
+                    439,
+                    532,
+                    643,
+                    742,
+                    2694,
+                    2695,
+                    2696
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威金娜斯Lv2斧头",
+                    "莱伊卡Lv3斧头",
+                    "特洛金Lv3斧头",
+                    "特洛金Lv3棍棒",
+                    "莱伊卡Lv4棍棒",
+                    "特洛西Lv4棍棒",
+                    "迪所斯Lv3枪",
+                    "莱伊萨Lv3枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 32,
+                      "qty": 1,
+                      "name": "威金娜斯Lv2斧头",
+                      "image": 20007,
+                      "cost": 3990,
+                      "description": "攻 +24 防 -8 敏 -8 石化的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 44,
+                      "qty": 1,
+                      "name": "莱伊卡Lv3斧头",
+                      "image": 20017,
+                      "cost": 7300,
+                      "description": "攻 +30 防 -10 敏 -10 酒的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 156,
+                      "qty": 1,
+                      "name": "特洛金Lv3棍棒",
+                      "image": 20109,
+                      "cost": 12100,
+                      "description": "攻 +23 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 164,
+                      "qty": 1,
+                      "name": "莱伊卡Lv4棍棒",
+                      "image": 20105,
+                      "cost": 14680,
+                      "description": "攻 +27 酒的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 169,
+                      "qty": 1,
+                      "name": "特洛西Lv4棍棒",
+                      "image": 20105,
+                      "cost": 15520,
+                      "description": "攻 +27 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 243,
+                      "qty": 1,
+                      "name": "迪所斯Lv3枪",
+                      "image": 20510,
+                      "cost": 6800,
+                      "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 254,
+                      "qty": 1,
+                      "name": "莱伊萨Lv3枪",
+                      "image": 20415,
+                      "cost": 12600,
+                      "description": "攻 +28 敏 -6 魅 +3 酩酊的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -10459,6 +10971,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -10516,6 +11032,150 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    957,
+                    964,
+                    1034,
+                    1045,
+                    1141,
+                    1154,
+                    1357,
+                    1358,
+                    11805,
+                    11804,
+                    11814,
+                    11834,
+                    11835,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    957,
+                    964,
+                    970,
+                    1034,
+                    1045,
+                    1056,
+                    1141,
+                    1154,
+                    1159,
+                    1357,
+                    1358,
+                    1367,
+                    11805,
+                    11804,
+                    11814,
+                    11815,
+                    11834,
+                    11835,
+                    11836,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    2691,
+                    2692,
+                    2693
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "米鲁菲Lv2帽子6",
+                    "渥鲁菲Lv2帽子7",
+                    "哈鲁Lv2铠4",
+                    "芙雷雅Lv2铠5",
+                    "哈鲁Lv1服5",
+                    "哈鲁Lv2服6",
+                    "黄色大首饰",
+                    "黑色大首饰"
+                  ],
+                  "sample": [
+                    {
+                      "id": 957,
+                      "qty": 1,
+                      "name": "米鲁菲Lv2帽子6",
+                      "image": 21505,
+                      "cost": 8096,
+                      "description": "防 +5 净化精灵(昏睡) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 964,
+                      "qty": 1,
+                      "name": "渥鲁菲Lv2帽子7",
+                      "image": 21536,
+                      "cost": 11576,
+                      "description": "防 +6 净化精灵(酒醉) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1034,
+                      "qty": 1,
+                      "name": "哈鲁Lv2铠4",
+                      "image": 21047,
+                      "cost": 3850,
+                      "description": "防 +15 敏 -4 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1045,
+                      "qty": 1,
+                      "name": "芙雷雅Lv2铠5",
+                      "image": 21023,
+                      "cost": 9350,
+                      "description": "防 +18 敏 -5 滋润的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1141,
+                      "qty": 1,
+                      "name": "哈鲁Lv1服5",
+                      "image": 21006,
+                      "cost": 6250,
+                      "description": "防 +10 治愈的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1154,
+                      "qty": 1,
+                      "name": "哈鲁Lv2服6",
+                      "image": 21005,
+                      "cost": 10800,
+                      "description": "防 +13 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1357,
+                      "qty": 1,
+                      "name": "黄色大首饰",
+                      "image": 22024,
+                      "cost": 5200,
+                      "description": "魅 +5 睡眠耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1358,
+                      "qty": 1,
+                      "name": "黑色大首饰",
+                      "image": 22026,
+                      "cost": 8000,
+                      "description": "魅 +5 混乱耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -10528,6 +11188,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -10585,6 +11249,150 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    957,
+                    964,
+                    1034,
+                    1045,
+                    1141,
+                    1154,
+                    1357,
+                    1358,
+                    11805,
+                    11804,
+                    11814,
+                    11834,
+                    11835,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    957,
+                    964,
+                    970,
+                    1034,
+                    1045,
+                    1056,
+                    1141,
+                    1154,
+                    1159,
+                    1357,
+                    1358,
+                    1367,
+                    11805,
+                    11804,
+                    11814,
+                    11815,
+                    11834,
+                    11835,
+                    11836,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    2691,
+                    2692,
+                    2693
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "米鲁菲Lv2帽子6",
+                    "渥鲁菲Lv2帽子7",
+                    "哈鲁Lv2铠4",
+                    "芙雷雅Lv2铠5",
+                    "哈鲁Lv1服5",
+                    "哈鲁Lv2服6",
+                    "黄色大首饰",
+                    "黑色大首饰"
+                  ],
+                  "sample": [
+                    {
+                      "id": 957,
+                      "qty": 1,
+                      "name": "米鲁菲Lv2帽子6",
+                      "image": 21505,
+                      "cost": 8096,
+                      "description": "防 +5 净化精灵(昏睡) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 964,
+                      "qty": 1,
+                      "name": "渥鲁菲Lv2帽子7",
+                      "image": 21536,
+                      "cost": 11576,
+                      "description": "防 +6 净化精灵(酒醉) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1034,
+                      "qty": 1,
+                      "name": "哈鲁Lv2铠4",
+                      "image": 21047,
+                      "cost": 3850,
+                      "description": "防 +15 敏 -4 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1045,
+                      "qty": 1,
+                      "name": "芙雷雅Lv2铠5",
+                      "image": 21023,
+                      "cost": 9350,
+                      "description": "防 +18 敏 -5 滋润的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1141,
+                      "qty": 1,
+                      "name": "哈鲁Lv1服5",
+                      "image": 21006,
+                      "cost": 6250,
+                      "description": "防 +10 治愈的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1154,
+                      "qty": 1,
+                      "name": "哈鲁Lv2服6",
+                      "image": 21005,
+                      "cost": 10800,
+                      "description": "防 +13 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1357,
+                      "qty": 1,
+                      "name": "黄色大首饰",
+                      "image": 22024,
+                      "cost": 5200,
+                      "description": "魅 +5 睡眠耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1358,
+                      "qty": 1,
+                      "name": "黑色大首饰",
+                      "image": 22026,
+                      "cost": 8000,
+                      "description": "魅 +5 混乱耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -10597,6 +11405,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -10654,6 +11466,137 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    32,
+                    44,
+                    59,
+                    156,
+                    164,
+                    169,
+                    243,
+                    254,
+                    260,
+                    339,
+                    343,
+                    360,
+                    439,
+                    444,
+                    457,
+                    532,
+                    544,
+                    560,
+                    643,
+                    650,
+                    668,
+                    742,
+                    752,
+                    760,
+                    32,
+                    156,
+                    243,
+                    254,
+                    339,
+                    439,
+                    532,
+                    643,
+                    742,
+                    2694,
+                    2695,
+                    2696
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威金娜斯Lv2斧头",
+                    "莱伊卡Lv3斧头",
+                    "特洛金Lv3斧头",
+                    "特洛金Lv3棍棒",
+                    "莱伊卡Lv4棍棒",
+                    "特洛西Lv4棍棒",
+                    "迪所斯Lv3枪",
+                    "莱伊萨Lv3枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 32,
+                      "qty": 1,
+                      "name": "威金娜斯Lv2斧头",
+                      "image": 20007,
+                      "cost": 3990,
+                      "description": "攻 +24 防 -8 敏 -8 石化的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 44,
+                      "qty": 1,
+                      "name": "莱伊卡Lv3斧头",
+                      "image": 20017,
+                      "cost": 7300,
+                      "description": "攻 +30 防 -10 敏 -10 酒的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 156,
+                      "qty": 1,
+                      "name": "特洛金Lv3棍棒",
+                      "image": 20109,
+                      "cost": 12100,
+                      "description": "攻 +23 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 164,
+                      "qty": 1,
+                      "name": "莱伊卡Lv4棍棒",
+                      "image": 20105,
+                      "cost": 14680,
+                      "description": "攻 +27 酒的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 169,
+                      "qty": 1,
+                      "name": "特洛西Lv4棍棒",
+                      "image": 20105,
+                      "cost": 15520,
+                      "description": "攻 +27 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 243,
+                      "qty": 1,
+                      "name": "迪所斯Lv3枪",
+                      "image": 20510,
+                      "cost": 6800,
+                      "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 254,
+                      "qty": 1,
+                      "name": "莱伊萨Lv3枪",
+                      "image": 20415,
+                      "cost": 12600,
+                      "description": "攻 +28 敏 -6 魅 +3 酩酊的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -10666,6 +11609,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -11064,6 +12011,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 37
               ],
@@ -11074,6 +12025,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/extra/event/marju01",
               "messages": {
+                "normal": "什么？切断“宝袋”的绳子的石头 不见了吗？真是没办法呀···。 不要随随便便就搞丢了。 如果掉了的话是无法跟周围的石头做区别的喔。",
                 "itemFull": "所持物太多了无法收下。 能否把手中的行李减少之后再到我这里来一次呢？"
               },
               "getItems": [
@@ -11088,6 +12040,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -11112,6 +12068,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -11119,9 +12079,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/extra/event/marju01",
-              "messages": {},
+              "messages": {
+                "normal": "能够来到这里、真的是很不简单 在这个迷路里面有很多 “宝袋”喔。 来这里的途中没有看到吗？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -12042,6 +13008,137 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    32,
+                    44,
+                    59,
+                    156,
+                    164,
+                    169,
+                    243,
+                    254,
+                    260,
+                    339,
+                    343,
+                    360,
+                    439,
+                    444,
+                    457,
+                    532,
+                    544,
+                    560,
+                    643,
+                    650,
+                    668,
+                    742,
+                    752,
+                    760,
+                    32,
+                    156,
+                    243,
+                    254,
+                    339,
+                    439,
+                    532,
+                    643,
+                    742,
+                    2694,
+                    2695,
+                    2696
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威金娜斯Lv2斧头",
+                    "莱伊卡Lv3斧头",
+                    "特洛金Lv3斧头",
+                    "特洛金Lv3棍棒",
+                    "莱伊卡Lv4棍棒",
+                    "特洛西Lv4棍棒",
+                    "迪所斯Lv3枪",
+                    "莱伊萨Lv3枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 32,
+                      "qty": 1,
+                      "name": "威金娜斯Lv2斧头",
+                      "image": 20007,
+                      "cost": 3990,
+                      "description": "攻 +24 防 -8 敏 -8 石化的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 44,
+                      "qty": 1,
+                      "name": "莱伊卡Lv3斧头",
+                      "image": 20017,
+                      "cost": 7300,
+                      "description": "攻 +30 防 -10 敏 -10 酒的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 156,
+                      "qty": 1,
+                      "name": "特洛金Lv3棍棒",
+                      "image": 20109,
+                      "cost": 12100,
+                      "description": "攻 +23 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 164,
+                      "qty": 1,
+                      "name": "莱伊卡Lv4棍棒",
+                      "image": 20105,
+                      "cost": 14680,
+                      "description": "攻 +27 酒的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 169,
+                      "qty": 1,
+                      "name": "特洛西Lv4棍棒",
+                      "image": 20105,
+                      "cost": 15520,
+                      "description": "攻 +27 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 243,
+                      "qty": 1,
+                      "name": "迪所斯Lv3枪",
+                      "image": 20510,
+                      "cost": 6800,
+                      "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 254,
+                      "qty": 1,
+                      "name": "莱伊萨Lv3枪",
+                      "image": 20415,
+                      "cost": 12600,
+                      "description": "攻 +28 敏 -6 魅 +3 酩酊的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -12054,6 +13151,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -12111,6 +13212,150 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    957,
+                    964,
+                    1034,
+                    1045,
+                    1141,
+                    1154,
+                    1357,
+                    1358,
+                    11805,
+                    11804,
+                    11814,
+                    11834,
+                    11835,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    957,
+                    964,
+                    970,
+                    1034,
+                    1045,
+                    1056,
+                    1141,
+                    1154,
+                    1159,
+                    1357,
+                    1358,
+                    1367,
+                    11805,
+                    11804,
+                    11814,
+                    11815,
+                    11834,
+                    11835,
+                    11836,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    2691,
+                    2692,
+                    2693
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "米鲁菲Lv2帽子6",
+                    "渥鲁菲Lv2帽子7",
+                    "哈鲁Lv2铠4",
+                    "芙雷雅Lv2铠5",
+                    "哈鲁Lv1服5",
+                    "哈鲁Lv2服6",
+                    "黄色大首饰",
+                    "黑色大首饰"
+                  ],
+                  "sample": [
+                    {
+                      "id": 957,
+                      "qty": 1,
+                      "name": "米鲁菲Lv2帽子6",
+                      "image": 21505,
+                      "cost": 8096,
+                      "description": "防 +5 净化精灵(昏睡) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 964,
+                      "qty": 1,
+                      "name": "渥鲁菲Lv2帽子7",
+                      "image": 21536,
+                      "cost": 11576,
+                      "description": "防 +6 净化精灵(酒醉) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1034,
+                      "qty": 1,
+                      "name": "哈鲁Lv2铠4",
+                      "image": 21047,
+                      "cost": 3850,
+                      "description": "防 +15 敏 -4 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1045,
+                      "qty": 1,
+                      "name": "芙雷雅Lv2铠5",
+                      "image": 21023,
+                      "cost": 9350,
+                      "description": "防 +18 敏 -5 滋润的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1141,
+                      "qty": 1,
+                      "name": "哈鲁Lv1服5",
+                      "image": 21006,
+                      "cost": 6250,
+                      "description": "防 +10 治愈的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1154,
+                      "qty": 1,
+                      "name": "哈鲁Lv2服6",
+                      "image": 21005,
+                      "cost": 10800,
+                      "description": "防 +13 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1357,
+                      "qty": 1,
+                      "name": "黄色大首饰",
+                      "image": 22024,
+                      "cost": 5200,
+                      "description": "魅 +5 睡眠耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1358,
+                      "qty": 1,
+                      "name": "黑色大首饰",
+                      "image": 22026,
+                      "cost": 8000,
+                      "description": "魅 +5 混乱耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -12123,6 +13368,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -12180,6 +13429,137 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    32,
+                    44,
+                    59,
+                    156,
+                    164,
+                    169,
+                    243,
+                    254,
+                    260,
+                    339,
+                    343,
+                    360,
+                    439,
+                    444,
+                    457,
+                    532,
+                    544,
+                    560,
+                    643,
+                    650,
+                    668,
+                    742,
+                    752,
+                    760,
+                    32,
+                    156,
+                    243,
+                    254,
+                    339,
+                    439,
+                    532,
+                    643,
+                    742,
+                    2694,
+                    2695,
+                    2696
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威金娜斯Lv2斧头",
+                    "莱伊卡Lv3斧头",
+                    "特洛金Lv3斧头",
+                    "特洛金Lv3棍棒",
+                    "莱伊卡Lv4棍棒",
+                    "特洛西Lv4棍棒",
+                    "迪所斯Lv3枪",
+                    "莱伊萨Lv3枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 32,
+                      "qty": 1,
+                      "name": "威金娜斯Lv2斧头",
+                      "image": 20007,
+                      "cost": 3990,
+                      "description": "攻 +24 防 -8 敏 -8 石化的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 44,
+                      "qty": 1,
+                      "name": "莱伊卡Lv3斧头",
+                      "image": 20017,
+                      "cost": 7300,
+                      "description": "攻 +30 防 -10 敏 -10 酒的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 156,
+                      "qty": 1,
+                      "name": "特洛金Lv3棍棒",
+                      "image": 20109,
+                      "cost": 12100,
+                      "description": "攻 +23 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 164,
+                      "qty": 1,
+                      "name": "莱伊卡Lv4棍棒",
+                      "image": 20105,
+                      "cost": 14680,
+                      "description": "攻 +27 酒的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 169,
+                      "qty": 1,
+                      "name": "特洛西Lv4棍棒",
+                      "image": 20105,
+                      "cost": 15520,
+                      "description": "攻 +27 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 243,
+                      "qty": 1,
+                      "name": "迪所斯Lv3枪",
+                      "image": 20510,
+                      "cost": 6800,
+                      "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 254,
+                      "qty": 1,
+                      "name": "莱伊萨Lv3枪",
+                      "image": 20415,
+                      "cost": 12600,
+                      "description": "攻 +28 敏 -6 魅 +3 酩酊的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -12192,6 +13572,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -12249,6 +13633,150 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    957,
+                    964,
+                    1034,
+                    1045,
+                    1141,
+                    1154,
+                    1357,
+                    1358,
+                    11805,
+                    11804,
+                    11814,
+                    11834,
+                    11835,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    957,
+                    964,
+                    970,
+                    1034,
+                    1045,
+                    1056,
+                    1141,
+                    1154,
+                    1159,
+                    1357,
+                    1358,
+                    1367,
+                    11805,
+                    11804,
+                    11814,
+                    11815,
+                    11834,
+                    11835,
+                    11836,
+                    11845,
+                    11846,
+                    11855,
+                    11865,
+                    11875,
+                    11884,
+                    11904,
+                    2691,
+                    2692,
+                    2693
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "米鲁菲Lv2帽子6",
+                    "渥鲁菲Lv2帽子7",
+                    "哈鲁Lv2铠4",
+                    "芙雷雅Lv2铠5",
+                    "哈鲁Lv1服5",
+                    "哈鲁Lv2服6",
+                    "黄色大首饰",
+                    "黑色大首饰"
+                  ],
+                  "sample": [
+                    {
+                      "id": 957,
+                      "qty": 1,
+                      "name": "米鲁菲Lv2帽子6",
+                      "image": 21505,
+                      "cost": 8096,
+                      "description": "防 +5 净化精灵(昏睡) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 964,
+                      "qty": 1,
+                      "name": "渥鲁菲Lv2帽子7",
+                      "image": 21536,
+                      "cost": 11576,
+                      "description": "防 +6 净化精灵(酒醉) Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1034,
+                      "qty": 1,
+                      "name": "哈鲁Lv2铠4",
+                      "image": 21047,
+                      "cost": 3850,
+                      "description": "防 +15 敏 -4 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1045,
+                      "qty": 1,
+                      "name": "芙雷雅Lv2铠5",
+                      "image": 21023,
+                      "cost": 9350,
+                      "description": "防 +18 敏 -5 滋润的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1141,
+                      "qty": 1,
+                      "name": "哈鲁Lv1服5",
+                      "image": 21006,
+                      "cost": 6250,
+                      "description": "防 +10 治愈的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1154,
+                      "qty": 1,
+                      "name": "哈鲁Lv2服6",
+                      "image": 21005,
+                      "cost": 10800,
+                      "description": "防 +13 治愈的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1357,
+                      "qty": 1,
+                      "name": "黄色大首饰",
+                      "image": 22024,
+                      "cost": 5200,
+                      "description": "魅 +5 睡眠耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1358,
+                      "qty": 1,
+                      "name": "黑色大首饰",
+                      "image": 22026,
+                      "cost": 8000,
+                      "description": "魅 +5 混乱耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -12261,6 +13789,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -12318,6 +13850,137 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    32,
+                    44,
+                    59,
+                    156,
+                    164,
+                    169,
+                    243,
+                    254,
+                    260,
+                    339,
+                    343,
+                    360,
+                    439,
+                    444,
+                    457,
+                    532,
+                    544,
+                    560,
+                    643,
+                    650,
+                    668,
+                    742,
+                    752,
+                    760,
+                    32,
+                    156,
+                    243,
+                    254,
+                    339,
+                    439,
+                    532,
+                    643,
+                    742,
+                    2694,
+                    2695,
+                    2696
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威金娜斯Lv2斧头",
+                    "莱伊卡Lv3斧头",
+                    "特洛金Lv3斧头",
+                    "特洛金Lv3棍棒",
+                    "莱伊卡Lv4棍棒",
+                    "特洛西Lv4棍棒",
+                    "迪所斯Lv3枪",
+                    "莱伊萨Lv3枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 32,
+                      "qty": 1,
+                      "name": "威金娜斯Lv2斧头",
+                      "image": 20007,
+                      "cost": 3990,
+                      "description": "攻 +24 防 -8 敏 -8 石化的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 44,
+                      "qty": 1,
+                      "name": "莱伊卡Lv3斧头",
+                      "image": 20017,
+                      "cost": 7300,
+                      "description": "攻 +30 防 -10 敏 -10 酒的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 156,
+                      "qty": 1,
+                      "name": "特洛金Lv3棍棒",
+                      "image": 20109,
+                      "cost": 12100,
+                      "description": "攻 +23 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 164,
+                      "qty": 1,
+                      "name": "莱伊卡Lv4棍棒",
+                      "image": 20105,
+                      "cost": 14680,
+                      "description": "攻 +27 酒的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 169,
+                      "qty": 1,
+                      "name": "特洛西Lv4棍棒",
+                      "image": 20105,
+                      "cost": 15520,
+                      "description": "攻 +27 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 243,
+                      "qty": 1,
+                      "name": "迪所斯Lv3枪",
+                      "image": 20510,
+                      "cost": 6800,
+                      "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 254,
+                      "qty": 1,
+                      "name": "莱伊萨Lv3枪",
+                      "image": 20415,
+                      "cost": 12600,
+                      "description": "攻 +28 敏 -6 魅 +3 酩酊的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -12330,6 +13993,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -12387,6 +14054,137 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    32,
+                    44,
+                    59,
+                    156,
+                    164,
+                    169,
+                    243,
+                    254,
+                    260,
+                    339,
+                    343,
+                    360,
+                    439,
+                    444,
+                    457,
+                    532,
+                    544,
+                    560,
+                    643,
+                    650,
+                    668,
+                    742,
+                    752,
+                    760,
+                    32,
+                    156,
+                    243,
+                    254,
+                    339,
+                    439,
+                    532,
+                    643,
+                    742,
+                    2694,
+                    2695,
+                    2696
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威金娜斯Lv2斧头",
+                    "莱伊卡Lv3斧头",
+                    "特洛金Lv3斧头",
+                    "特洛金Lv3棍棒",
+                    "莱伊卡Lv4棍棒",
+                    "特洛西Lv4棍棒",
+                    "迪所斯Lv3枪",
+                    "莱伊萨Lv3枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 32,
+                      "qty": 1,
+                      "name": "威金娜斯Lv2斧头",
+                      "image": 20007,
+                      "cost": 3990,
+                      "description": "攻 +24 防 -8 敏 -8 石化的精灵 Lv2",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 44,
+                      "qty": 1,
+                      "name": "莱伊卡Lv3斧头",
+                      "image": 20017,
+                      "cost": 7300,
+                      "description": "攻 +30 防 -10 敏 -10 酒的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 156,
+                      "qty": 1,
+                      "name": "特洛金Lv3棍棒",
+                      "image": 20109,
+                      "cost": 12100,
+                      "description": "攻 +23 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 164,
+                      "qty": 1,
+                      "name": "莱伊卡Lv4棍棒",
+                      "image": 20105,
+                      "cost": 14680,
+                      "description": "攻 +27 酒的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 169,
+                      "qty": 1,
+                      "name": "特洛西Lv4棍棒",
+                      "image": 20105,
+                      "cost": 15520,
+                      "description": "攻 +27 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 243,
+                      "qty": 1,
+                      "name": "迪所斯Lv3枪",
+                      "image": 20510,
+                      "cost": 6800,
+                      "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 254,
+                      "qty": 1,
+                      "name": "莱伊萨Lv3枪",
+                      "image": 20415,
+                      "cost": 12600,
+                      "description": "攻 +28 敏 -6 魅 +3 酩酊的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -12399,6 +14197,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -14642,6 +16444,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -14654,6 +16460,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29104,6 +30914,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第二检查站的证明。 来！还你！请继续加油。 下一个检查站好像是在卡鲁它那的西北方的森林的附近喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -29128,6 +30939,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29135,9 +30950,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站好像是在卡鲁它那的西北方的森林的附近。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29145,9 +30966,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29155,9 +30982,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29165,9 +30998,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29175,9 +31014,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29253,6 +31098,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_1b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第一检查站的证明。 来！还你！请继续加油。 下一个检查站是在 哈罗山和哥亚山之间的孤岛喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -29277,6 +31123,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29284,9 +31134,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在 哈罗山和哥亚山之间的孤岛。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29294,9 +31150,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29304,9 +31166,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29314,9 +31182,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29359,10 +31233,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/feast/feast2.arg",
               "messages": {
-                "normalMain": ""
+                "normalMain": "",
+                "normal": "临Τぐ或ㄆ盾е翴摸硂琿丁ㄓゴ耑и"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29385,6 +31264,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -29392,9 +31275,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "Τぐ或ㄆ盾ぃ礛綼и"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29402,9 +31291,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast2.arg",
-              "messages": {},
+              "messages": {
+                "normal": ""
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29447,6 +31342,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第三检查站的证明。 来！还你！请继续加油。 下一个检查站好像是在卡鲁它那的北北东方的岩石山附近喔！ 从这边往东方走的话也许会比较快喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -29471,6 +31367,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29478,9 +31378,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29488,9 +31394,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站好像是在卡鲁它那的北北东方的岩石山附近喔！ 从这边往东方走的话也许会比较快喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29498,9 +31410,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29508,9 +31426,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29518,9 +31442,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_3b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29565,6 +31495,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第四检查站的证明。 来！还你！请继续加油。 下一个检查站好像是在 乌鲁力的西边的洞窟旁喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -29589,6 +31520,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29596,9 +31531,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站好像是在 乌鲁力的西边的洞窟旁喔。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29606,9 +31547,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29616,9 +31563,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29626,9 +31579,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29636,9 +31595,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_4b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29682,10 +31647,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
               "messages": {
-                "normalMain": "你觉得苹果好吃吗？我超爱吃苹果的！！"
+                "normalMain": "你觉得苹果好吃吗？我超爱吃苹果的！！",
+                "normal": "我想为了报答你，最好的礼物就是好好和他在一起，你真是我们的月下老人。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29693,9 +31663,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我的身体好多了，谢谢你们。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29737,6 +31713,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -29744,9 +31724,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你还来干什么呢？走吧！我不想看见你！那一颗有毒的苹果也一起远离我的视线。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29769,6 +31755,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -29801,6 +31791,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -29808,9 +31802,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你找我有事吗？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29818,9 +31818,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple3.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你觉得苹果好吃吗？我超爱吃苹果的！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29867,6 +31873,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第五检查站的证明。 来！还你！请继续加油。 下一个检查站好像是在 奇喀喀的北边的森林中！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -29891,6 +31898,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29898,9 +31909,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站好像是在 奇喀喀的北边的森林中！ 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29908,9 +31925,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29918,9 +31941,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29928,9 +31957,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29938,9 +31973,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_5b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -29985,6 +32026,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第六检查站的证明。 来！还你！请继续加油。 下一个检查站是在 东边的强恩一族洞窟里。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -30009,6 +32051,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30016,9 +32062,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站好像是在 西边的强恩一族洞。！ 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30026,9 +32078,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30036,9 +32094,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30046,9 +32110,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30056,9 +32126,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30132,9 +32208,15 @@ export const WORLD = {
           "scriptEvents": [
             {
               "source": "gmsv-data/npc/jaruga/event/ruri03",
-              "messages": {},
+              "messages": {
+                "normal": "母亲竟然…。 我为了能去见我母亲 一定会努力变强的！ 真的是非常谢谢你。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30159,6 +32241,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -30166,9 +32252,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/ruri03",
-              "messages": {},
+              "messages": {
+                "normal": "请转告我母亲有一天 我一定会用我自己的力量去见她的。一切都麻烦你了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30176,9 +32268,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/ruri03",
-              "messages": {},
+              "messages": {
+                "normal": "虽然正在寻找大地的女神 但是却不知道她在何处 我为了调查这本日记的真相 而想要去见大地的精灵??? 不知道场所就只能 顺其自然的找了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30220,10 +32318,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
               "messages": {
-                "normalMain": "（咦！这里什么时候冒出了一个石像啊！回去问问看村民有什么线索！）"
+                "normalMain": "（咦！这里什么时候冒出了一个石像啊！回去问问看村民有什么线索！）",
+                "normal": "我亲爱的洛林～你到底是被谁抓走了，呜～呜～"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30266,6 +32369,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 136
               ],
@@ -30275,9 +32382,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
-              "messages": {},
+              "messages": {
+                "normal": "这封信请你好好保存，千万不要不见。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30310,6 +32423,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -30317,9 +32434,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我深爱的人～他的名字叫做洛林，能不能再见他一次面就拜托你了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30342,6 +32465,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -30364,6 +32491,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 136,
               "type": "REQUEST",
@@ -30371,9 +32502,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/tear/tear.arg",
-              "messages": {},
+              "messages": {
+                "normal": "（咦！这个海边什么时候出现了一个石像啊！）"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30419,10 +32556,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/breath",
               "messages": {
-                "normalMain": "要想到泪之海海底，没有鱼腮草的帮助是不行的…。"
+                "normalMain": "要想到泪之海海底，没有鱼腮草的帮助是不行的…。",
+                "normal": "这鱼腮草用法是直接点二下就可以服用了。记得它的时效性，时效过了的话人可是会受不了的。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30445,6 +32587,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -30484,10 +32630,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa80/gloves/gloves_2",
               "messages": {
-                "normalMain": "加鲁卡好像没有贩卖手部防具的样子······"
+                "normalMain": "加鲁卡好像没有贩卖手部防具的样子······",
+                "normal": "这个海洋可非常深奥！你问我是谁？我是来自伊甸大陆的特殊素材开发者，我至各大陆找寻可以使用的材料，以便做出更好的物品，最近我跟我哥哥发明了一种手部的防御道具，如果你需要就来找我。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -30498,7 +32649,8 @@ export const WORLD = {
               "messages": {
                 "accept": "唔～？你带来了啊，那等我一下。",
                 "thanks": "这一个防具比较锐利，但是比较脆弱！ 不你跟说这么多了，有需要再来找我吧，我去萨伊那斯找我哥哥，看他有没有找到好材料。",
-                "itemFull": "虽然想交给你但你已经无法再收下。"
+                "itemFull": "虽然想交给你但你已经无法再收下。",
+                "stoneLess": "喂，你没给钱，东西不能给你！"
               },
               "getItems": [
                 {
@@ -30558,6 +32710,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "amount": 50000,
+                  "source": "50000"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33443,6 +35604,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33473,6 +35638,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33503,6 +35672,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33536,6 +35709,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33569,6 +35746,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33601,6 +35782,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33644,6 +35829,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33687,6 +35876,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33721,6 +35914,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33728,9 +35925,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03a2",
-              "messages": {},
+              "messages": {
+                "normal": "装备“调教手环”的话 应该就可以遇到材料恐龙 你要巧妙的把恐龙抓来哦！ 当然头数不一样，换钱比率也不一样。 \\要是材料恐龙带不走的话 在这里换成证明书会比较轻松哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -33793,6 +35996,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33823,6 +36030,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33853,6 +36064,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33886,6 +36101,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33919,6 +36138,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33952,6 +36175,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -33995,6 +36222,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34037,6 +36268,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34071,6 +36306,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34078,9 +36317,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03b2",
-              "messages": {},
+              "messages": {
+                "normal": "装备“调教手环”的话 应该就可以遇到材料恐龙 你要巧妙的把恐龙抓来哦！ 当然头数不一样，换钱比率也不一样。 \\要是材料恐龙带不走的话 在这里换成证明书会比较轻松哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -34142,6 +36387,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34171,6 +36420,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34200,6 +36453,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34232,6 +36489,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34264,6 +36525,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34296,6 +36561,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34338,6 +36607,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34380,6 +36653,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34413,6 +36690,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34420,9 +36701,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/bait_03c2",
-              "messages": {},
+              "messages": {
+                "normal": "装备“调教手环”的话 应该就可以遇到材料恐龙 你要巧妙的把恐龙抓来哦！ 当然头数不一样，换钱比率也不一样。 \\要是材料恐龙带不走的话 在这里换成证明书会比较轻松哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -34470,7 +36757,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "欢迎光临卡鲁它那牧场！这里可以利用恐龙的毛跟骨骼来制造加工用品哦。",
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34484,6 +36772,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 14400,
+                  "source": "14400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34493,7 +36790,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34507,6 +36805,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 6300,
+                  "source": "6300"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34516,7 +36823,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你身上钱太多了，所以不给你。"
               },
               "getItems": [],
               "delItems": [
@@ -34530,6 +36838,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2860,
+                  "source": "2860"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34539,7 +36856,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34553,6 +36871,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2160,
+                  "source": "2160"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34562,7 +36889,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34576,6 +36904,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1620,
+                  "source": "1620"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34585,7 +36922,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34599,6 +36937,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 990,
+                  "source": "990"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34608,7 +36955,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34622,6 +36970,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 450,
+                  "source": "450"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34631,7 +36988,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34645,6 +37003,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 11200,
+                  "source": "11200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34654,7 +37021,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34668,6 +37036,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4900,
+                  "source": "4900"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34677,7 +37054,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦，所以钱不给你了。"
               },
               "getItems": [],
               "delItems": [
@@ -34691,6 +37069,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2275,
+                  "source": "2275"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34700,7 +37087,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34714,6 +37102,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1680,
+                  "source": "1680"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34723,7 +37120,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34737,6 +37135,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1260,
+                  "source": "1260"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34746,7 +37153,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34760,6 +37168,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 770,
+                  "source": "770"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34769,7 +37186,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34783,6 +37201,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 350,
+                  "source": "350"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34792,7 +37219,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34806,6 +37234,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 6400,
+                  "source": "6400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -34815,7 +37252,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/bait_01",
               "messages": {
                 "accept": "你就是来帮忙抓恐龙的人啊。辛苦你了。你要把这张调教证明书上的恐龙数量换成钱吗？",
-                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。"
+                "thanks": "这个证明书上…可以领这么多钱。 要是你有时间的话，再拜托你来打工哦。 只要你有介绍信，随时都可以来。",
+                "stoneFull": "你好像有很多钱哦。"
               },
               "getItems": [],
               "delItems": [
@@ -34829,6 +37267,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2800,
+                  "source": "2800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -37980,7 +40427,9 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
               "messages": {
-                "normalMain": "说实话，我遇到了点麻烦"
+                "normalMain": "说实话，我遇到了点麻烦",
+                "normal": "谢谢你带来了仪之兜！ 真的是要谢谢你 这个宠物，能帮助你 送你吧........................作为回报！ 我自己养的呢！ 辛苦你了，谢谢！",
+                "petFull": "你的宠物太多了，没有办法给你。 你可以减少宠物的数量再来吗？"
               },
               "getItems": [],
               "delItems": [
@@ -37994,6 +40443,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -38010,9 +40463,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
-              "messages": {},
+              "messages": {
+                "normal": "仪之兜又丢掉了，这次不麻烦你了……"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -38020,9 +40479,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
-              "messages": {},
+              "messages": {
+                "normal": "小孩子的事情，你这个成人是不会理解的。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -38030,9 +40495,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/scipt_plus/fishshuimo/npc_at_300",
-              "messages": {},
+              "messages": {
+                "normal": "还好你是个孩子，告诉你吧 我答应爸爸要带回仪之兜的，可是丢掉了，我会感谢你的…… 你要在45级之前来。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -38077,7 +40548,8 @@ export const WORLD = {
               "messages": {
                 "accept": "呵呵呵 想要一点点这个湖的水吗？",
                 "thanks": "嗯，主人好像已经有了吧 贪心的话可是会吃亏的 我来领取吧",
-                "itemFull": "东西太多拿不动的样子"
+                "itemFull": "东西太多拿不动的样子",
+                "stoneFull": "好像有很多钱"
               },
               "getItems": [],
               "delItems": [
@@ -38091,6 +40563,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1149,
+                  "source": "1149"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -38125,6 +40606,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -38159,6 +40644,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -38193,6 +40682,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -38200,9 +40693,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/giiru/event/sink/sink03",
-              "messages": {},
+              "messages": {
+                "normal": "我在这里将巴那姆的湖水 分给旅客们 需要水的话 告诉我需要多少"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -38210,9 +40709,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/giiru/event/sink/sink03",
-              "messages": {},
+              "messages": {
+                "normal": "我在这里将巴那姆的湖水 分给旅客们 需要水的话 带着巴那姆的壶 来这里 等着你喔，呵呵呵"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -49267,10 +51772,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/closed/closed1.arg",
               "messages": {
-                "normalMain": "吼！！"
+                "normalMain": "吼！！",
+                "normal": "海藻本身就有很多养份是可以吸收的喔！不说了我要赶快去觅食了。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -49312,6 +51822,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -49319,9 +51833,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/closed/closed1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我之前借给你的护身符呢？不会不见了吧！请你把它找我来，它对我说很重要。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -49329,9 +51849,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/closed/closed1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你快点上路吧！我们肚子都很饿了，再不外出觅食是会饿死的。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -49354,6 +51880,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -49361,9 +51891,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/closed/closed1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "吼吼！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51132,7 +53668,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_edc",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
-                "itemFull": "你身上东西太多了 能不能请你把东西弄少一点在过来一趟？。"
+                "normal": "辛苦你了！ 你已经把SOT所有的检查点\\都通过一圈了！ 我们要把这个奖品···送给你！ 期待你下次再来参加。 辛苦你了。",
+                "itemFull": "你身上东西太多了 能不能请你把东西弄少一点在过来一趟？。",
+                "petFull": "你的宠物数满了，没把法带宠物。 能不能请你把宠物弄少一点再过来一下啊？"
               },
               "getItems": [],
               "delItems": [
@@ -51146,6 +53684,112 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    20210,
+                    20211,
+                    20212,
+                    20213,
+                    1062,
+                    69,
+                    59,
+                    269,
+                    2565,
+                    2566,
+                    20889
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威士忌",
+                    "白兰地",
+                    "高梁酒",
+                    "伏特加",
+                    "芙雷雅Lv1铠7",
+                    "特洛西Lv4斧头",
+                    "特洛金Lv3斧头",
+                    "特洛西Lv4枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 20210,
+                      "qty": 1,
+                      "name": "威士忌",
+                      "image": 22310,
+                      "cost": 0,
+                      "description": "未来世界的酒 体力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20211,
+                      "qty": 1,
+                      "name": "白兰地",
+                      "image": 22312,
+                      "cost": 0,
+                      "description": "未来世界的酒 腕力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20212,
+                      "qty": 1,
+                      "name": "高梁酒",
+                      "image": 22311,
+                      "cost": 0,
+                      "description": "未来世界的酒 耐力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20213,
+                      "qty": 1,
+                      "name": "伏特加",
+                      "image": 22314,
+                      "cost": 0,
+                      "description": "未来世界的酒 敏捷力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1062,
+                      "qty": 1,
+                      "name": "芙雷雅Lv1铠7",
+                      "image": 21017,
+                      "cost": 22220,
+                      "description": "防 +24 敏 -7 滋润的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 69,
+                      "qty": 1,
+                      "name": "特洛西Lv4斧头",
+                      "image": 20019,
+                      "cost": 19420,
+                      "description": "攻 +41 防 -13 敏 -13 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 269,
+                      "qty": 1,
+                      "name": "特洛西Lv4枪",
+                      "image": 20431,
+                      "cost": 18120,
+                      "description": "攻 +33 敏 -7 魅 +4 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51167,9 +53811,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edc",
-              "messages": {},
+              "messages": {
+                "normal": "这里是SOT“C路线”的最后集合地点。 “D路线”的最后集合地点··· 好像是在加加啊。 就差一点点了，请继续加油啊！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51248,6 +53898,56 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    12644,
+                    12635,
+                    12635,
+                    12641,
+                    12641
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水果叁明治",
+                    "硬的面包",
+                    "热腾腾的饭团"
+                  ],
+                  "sample": [
+                    {
+                      "id": 12644,
+                      "qty": 1,
+                      "name": "水果叁明治",
+                      "image": 24541,
+                      "cost": 10,
+                      "description": "气25回复(1人) 叁明治内放入各种水果",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12635,
+                      "qty": 1,
+                      "name": "硬的面包",
+                      "image": 24538,
+                      "cost": 10,
+                      "description": "耐久力120回复(1人) 非常时刻用硬的面包",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12641,
+                      "qty": 1,
+                      "name": "热腾腾的饭团",
+                      "image": 24400,
+                      "cost": 140,
+                      "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51298,6 +53998,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51321,6 +54025,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51328,9 +54036,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edc",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51376,10 +54090,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/dance/dance.arg",
               "messages": {
-                "normalMain": "最近学校要举办舞会，可是我没有舞衣可以穿，虽然妈妈说要帮我缝一件，可是没有材料，妈妈说如果能拿到贝鲁卡、贝鲁伊卡、格鲁西斯的毛皮，她就能帮我缝一件最漂亮的舞衣。"
+                "normalMain": "最近学校要举办舞会，可是我没有舞衣可以穿，虽然妈妈说要帮我缝一件，可是没有材料，妈妈说如果能拿到贝鲁卡、贝鲁伊卡、格鲁西斯的毛皮，她就能帮我缝一件最漂亮的舞衣。",
+                "normal": "谢谢你了！我有漂漂亮亮的舞衣可以穿了，这一切都要感谢你。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51430,6 +54149,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51437,9 +54160,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/dance/dance.arg",
-              "messages": {},
+              "messages": {
+                "normal": "最近学校要举办舞会，可是我没有舞衣可以穿，虽然妈妈说要帮我缝一件，可是没有材料，妈妈说如果能拿到贝鲁卡、贝鲁伊卡、格鲁西斯的毛皮，她就能帮我缝一件最漂亮的舞衣。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51481,10 +54210,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/poru/samugiru04",
               "messages": {
-                "normalMain": "你要听萨姆吉尔故事啊！"
+                "normalMain": "你要听萨姆吉尔故事啊！",
+                "normal": "哦～～你全程参与了英雄萨姆吉尔的故事，并且拿到五颗萨姆吉尔的勾玉， 呵呵呵呵～～真的是不简单耶！ 那你拿这些勾玉去找我的孙女，你就知道这些勾玉实际的功用了..."
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51492,9 +54226,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/poru/samugiru04",
-              "messages": {},
+              "messages": {
+                "normal": "哦～～你参与了英雄萨姆吉尔的故事，并且拿到萨姆吉尔的勾玉， 呵呵呵呵～～不错～不错～ 那你拿这些勾玉去找我的孙女，你就知道这些勾玉实际的功用了..."
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51502,9 +54242,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/poru/samugiru04",
-              "messages": {},
+              "messages": {
+                "normal": "嗯～你相当的不错，亲身参与了英雄萨姆吉尔的故事，呵呵～呵呵～ 的确不简单...不简单..."
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51512,9 +54258,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/poru/samugiru04",
-              "messages": {},
+              "messages": {
+                "normal": "你想听萨姆吉尔的故事啊！？ 不过...我老了，记忆力变差了...就让黑乌力来跟你说好了。 千万小看他！黑乌力已经跟了我很久啰，搞不好比我还有清楚呢！ 想要听懂动物的语言，有一个方法，那就是去找不可思议的贝壳。 你试试看吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51522,9 +54274,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/poru/samugiru04",
-              "messages": {},
+              "messages": {
+                "normal": "你想听萨姆吉尔的故事啊！？ 不过...我老了，记忆力变差了..."
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51567,10 +54325,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_0cd",
               "messages": {
-                "normalMain": "你要不要参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是SOT的参加者吧！ 唉呀，你的收集点已经集满啦 C路线的最后集合地是萨姆吉尔 就在这附近。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51578,9 +54341,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_0cd",
-              "messages": {},
+              "messages": {
+                "normal": "你是SOT的参加者吧！ 唉呀，你的收集点已经集满啦 D路线的最后集合地在玛丽娜丝村哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51659,6 +54428,56 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    12644,
+                    12635,
+                    12635,
+                    12641,
+                    12641
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水果叁明治",
+                    "硬的面包",
+                    "热腾腾的饭团"
+                  ],
+                  "sample": [
+                    {
+                      "id": 12644,
+                      "qty": 1,
+                      "name": "水果叁明治",
+                      "image": 24541,
+                      "cost": 10,
+                      "description": "气25回复(1人) 叁明治内放入各种水果",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12635,
+                      "qty": 1,
+                      "name": "硬的面包",
+                      "image": 24538,
+                      "cost": 10,
+                      "description": "耐久力120回复(1人) 非常时刻用硬的面包",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12641,
+                      "qty": 1,
+                      "name": "热腾腾的饭团",
+                      "image": 24400,
+                      "cost": 140,
+                      "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51709,6 +54528,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51732,6 +54555,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51759,6 +54586,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -51786,6 +54617,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -51844,10 +54679,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/fighter",
               "messages": {
-                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。",
+                "normal": "嗨…想开始学习战斗技巧了吗？那找我就对了。要在石器时代中生存，学会如何战斗是很重要的事。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -51985,6 +54825,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -51997,6 +54841,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52007,6 +54855,7 @@ export const WORLD = {
               "messages": {
                 "accept": "我在卖往斗技场的票。 您的话需要s。 这样可以吗？ 另外，我要回收其他的票、请原谅。",
                 "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "stoneLess": "不好意思钱不够喔。",
                 "itemFull": "道具已满无法交付给你。"
               },
               "getItems": [
@@ -52103,6 +54952,16 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*3",
+                  "multiplier": 3,
+                  "source": "LV*3"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52144,10 +55003,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
               "messages": {
-                "normalMain": "偷偷告诉你一个秘密，在南岛的海中藏着大量的宝物喔！。"
+                "normalMain": "偷偷告诉你一个秘密，在南岛的海中藏着大量的宝物喔！。",
+                "normal": "你别吵我啦！我们不是已经交换宝物了吗？"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52155,9 +55019,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你别吵我啦！我们不是已经交换宝物了吗？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52165,9 +55035,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你别吵我啦！我们不是已经交换宝物了吗？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52226,6 +55102,54 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1858,
+                    1859,
+                    1860
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "和弦的首饰",
+                    "力击之戒",
+                    "静心手环"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1858,
+                      "qty": 1,
+                      "name": "和弦的首饰",
+                      "image": 22196,
+                      "cost": 21560,
+                      "description": "魅+4 睡眠、石化耐性 +85",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1859,
+                      "qty": 1,
+                      "name": "力击之戒",
+                      "image": 22166,
+                      "cost": 52800,
+                      "description": "魅+10 会心一击率上升 +9",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1860,
+                      "qty": 1,
+                      "name": "静心手环",
+                      "image": 22135,
+                      "cost": 90000,
+                      "description": "攻+10 防+10 敏+10",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52233,9 +55157,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦！怎么没有黄金图腾像呢？少了它我是不愿和你交换的喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52243,9 +55173,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦！怎么没有古老的勾玉呢？少了它我是不愿和你交换的喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52253,9 +55189,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦！怎么没有传说的竖琴呢？少了它我是不愿和你交换的喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52263,9 +55205,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦！怎么没有金砂呢？少了它我是不愿和你交换的喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52273,9 +55221,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦！怎么没有透明的水晶呢？少了它我是不愿和你交换的喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52286,6 +55240,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52293,9 +55251,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "偷偷告诉你一个秘密，在南岛的海中藏着大量的宝物喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52341,10 +55305,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
               "messages": {
-                "normalMain": "魔兽危害整个大陆的人民，只有勇者才能真正经得起考验，请完成这些考验后再来找我吧！！"
+                "normalMain": "魔兽危害整个大陆的人民，只有勇者才能真正经得起考验，请完成这些考验后再来找我吧！！",
+                "normal": "能在时间内完成任务，才能成为真正的勇者，希望当下次机会再次来临时，你能把握得住。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52352,7 +55321,9 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "果真你是真正的勇者，感谢你为所有人除去魔兽的威胁，希望你能秉持着善良的心，继续为大家服务。"
+              },
               "getItems": [],
               "delItems": [
                 {
@@ -52365,6 +55336,76 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2903,
+                    2904,
+                    2905,
+                    2906,
+                    2907
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "强化的柳牙弓箭",
+                    "强化的柳牙棍棒",
+                    "强化的柳牙之枪",
+                    "强化的柳牙之兜",
+                    "强化的柳牙之服"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2903,
+                      "qty": 1,
+                      "name": "强化的柳牙弓箭",
+                      "image": 35291,
+                      "cost": 10000,
+                      "description": "攻+180(6-8) 防-50 毒雾的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2904,
+                      "qty": 1,
+                      "name": "强化的柳牙棍棒",
+                      "image": 35292,
+                      "cost": 10000,
+                      "description": "攻+230? 毒雾的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2905,
+                      "qty": 1,
+                      "name": "强化的柳牙之枪",
+                      "image": 35290,
+                      "cost": 10000,
+                      "description": "攻+280? 敏-40 毒雾的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2906,
+                      "qty": 1,
+                      "name": "强化的柳牙之兜",
+                      "image": 35288,
+                      "cost": 10000,
+                      "description": "防+100 敏-24 电抗性精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2907,
+                      "qty": 1,
+                      "name": "强化的柳牙之服",
+                      "image": 35289,
+                      "cost": 10000,
+                      "description": "防+160 体+200 电抗性+100 治愈的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52372,9 +55413,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "虽然你通过勇者的考验，但是没有信物还是不能代表你是个成熟的勇者，请把信物带来给我吧！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52382,9 +55429,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "能在时间内完成任务，才能成为真正的勇者，希望当下次机会再次来临时，你能与勇者一起努力。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52392,7 +55445,9 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "感谢你寻找勇者为所有人除去魔兽的威胁，希望你能秉持着善良的心，继续为大家服务。"
+              },
               "getItems": [],
               "delItems": [
                 {
@@ -52405,6 +55460,87 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2386,
+                    20130,
+                    20128,
+                    18548,
+                    19692,
+                    19549
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "宠技罐头",
+                    "驯兽戒指",
+                    "月亮首饰 Lv 3",
+                    "太阳神的首饰 Lv 3",
+                    "变身镜 Lv3",
+                    "#驯兽手环"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2386,
+                      "qty": 1,
+                      "name": "宠技罐头",
+                      "image": 24047,
+                      "cost": 10,
+                      "description": "可习得宠技-手下留情的罐头",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20130,
+                      "qty": 1,
+                      "name": "驯兽戒指",
+                      "image": 24703,
+                      "cost": 10,
+                      "description": "能带比自己等级高的宠物",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20128,
+                      "qty": 1,
+                      "name": "月亮首饰 Lv 3",
+                      "image": 24709,
+                      "cost": 120000,
+                      "description": "降低遇敌机率",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 18548,
+                      "qty": 1,
+                      "name": "太阳神的首饰 Lv 3",
+                      "image": 22030,
+                      "cost": 120000,
+                      "description": "在特定的地点可以隐藏行踪， 不遇到敌人",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19692,
+                      "qty": 1,
+                      "name": "变身镜 Lv3",
+                      "image": 22069,
+                      "cost": 10,
+                      "description": "能变身成自己的宠物叁分钟",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19549,
+                      "qty": 1,
+                      "name": "#驯兽手环",
+                      "image": 22256,
+                      "cost": 30000,
+                      "description": "使用前方战斗宠物额外获得30倍经验值 魅+5",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52412,9 +55548,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "虽然勇者已经通过考验，但是你没有使者信物也代表着你并没有成熟到当一个尽职使者，请把信物带来给我吧！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52422,9 +55564,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "能在时间内完成任务，才能成为真正的勇者，希望当下次机会再次来临时，你能把握得住。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52432,7 +55580,9 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "果真你是真正的勇者，感谢你为所有人除去魔兽的威胁，希望你能秉持着善良的心，继续为大家服务。"
+              },
               "getItems": [],
               "delItems": [
                 {
@@ -52445,6 +55595,76 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2908,
+                    2909,
+                    2910,
+                    2911,
+                    2912
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "强化的雪泪弓箭",
+                    "强化的雪泪棍棒",
+                    "强化的雪泪之枪",
+                    "强化的雪泪之兜",
+                    "强化的雪泪之服"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2908,
+                      "qty": 1,
+                      "name": "强化的雪泪弓箭",
+                      "image": 35281,
+                      "cost": 10000,
+                      "description": "攻+170(6-8) 防-40 石化的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2909,
+                      "qty": 1,
+                      "name": "强化的雪泪棍棒",
+                      "image": 35282,
+                      "cost": 10000,
+                      "description": "攻+220? 石化的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2910,
+                      "qty": 1,
+                      "name": "强化的雪泪之枪",
+                      "image": 35280,
+                      "cost": 10000,
+                      "description": "攻+270 敏-35 石化的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2911,
+                      "qty": 1,
+                      "name": "强化的雪泪之兜",
+                      "image": 35278,
+                      "cost": 10000,
+                      "description": "防+105 敏-28 冰抗性精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2912,
+                      "qty": 1,
+                      "name": "强化的雪泪之服",
+                      "image": 35279,
+                      "cost": 10000,
+                      "description": "防+166 体+220 冰抗性+100 恩惠的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52452,9 +55672,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "虽然你通过勇者的考验，但是没有信物还是不能代表你是个成熟的勇者，请把信物带来给我吧！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52462,9 +55688,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "能在时间内完成任务，才能成为真正的勇者，希望当下次机会再次来临时，你能与勇者一起努力。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52472,7 +55704,9 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "感谢你寻找勇者为所有人除去魔兽的威胁，希望你能秉持着善良的心，继续为大家服务。"
+              },
               "getItems": [],
               "delItems": [
                 {
@@ -52485,6 +55719,87 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2386,
+                    20130,
+                    20128,
+                    18548,
+                    19692,
+                    19549
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "宠技罐头",
+                    "驯兽戒指",
+                    "月亮首饰 Lv 3",
+                    "太阳神的首饰 Lv 3",
+                    "变身镜 Lv3",
+                    "#驯兽手环"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2386,
+                      "qty": 1,
+                      "name": "宠技罐头",
+                      "image": 24047,
+                      "cost": 10,
+                      "description": "可习得宠技-手下留情的罐头",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20130,
+                      "qty": 1,
+                      "name": "驯兽戒指",
+                      "image": 24703,
+                      "cost": 10,
+                      "description": "能带比自己等级高的宠物",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20128,
+                      "qty": 1,
+                      "name": "月亮首饰 Lv 3",
+                      "image": 24709,
+                      "cost": 120000,
+                      "description": "降低遇敌机率",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 18548,
+                      "qty": 1,
+                      "name": "太阳神的首饰 Lv 3",
+                      "image": 22030,
+                      "cost": 120000,
+                      "description": "在特定的地点可以隐藏行踪， 不遇到敌人",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19692,
+                      "qty": 1,
+                      "name": "变身镜 Lv3",
+                      "image": 22069,
+                      "cost": 10,
+                      "description": "能变身成自己的宠物叁分钟",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19549,
+                      "qty": 1,
+                      "name": "#驯兽手环",
+                      "image": 22256,
+                      "cost": 30000,
+                      "description": "使用前方战斗宠物额外获得30倍经验值 魅+5",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52492,9 +55807,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "虽然勇者已经通过考验，但是你没有使者信物也代表着你并没有成熟到当一个尽职使者，请把信物带来给我吧！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52502,9 +55823,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "能在时间内完成任务，才能成为真正的勇者，希望当下次机会再次来临时，你能把握得住。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52512,7 +55839,9 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "果真你是真正的勇者，感谢你为所有人除去魔兽的威胁，希望你能秉持着善良的心，继续为大家服务。"
+              },
               "getItems": [],
               "delItems": [
                 {
@@ -52525,6 +55854,76 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2913,
+                    2914,
+                    2915,
+                    2916,
+                    2917
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "强化的阳炽弓箭",
+                    "强化的阳炽棍棒",
+                    "强化的阳炽之枪",
+                    "强化的阳炽之兜",
+                    "强化的阳炽之服"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2913,
+                      "qty": 1,
+                      "name": "强化的阳炽弓箭",
+                      "image": 35286,
+                      "cost": 10000,
+                      "description": "攻+165(6-8) 防-35 混迷的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2914,
+                      "qty": 1,
+                      "name": "强化的阳炽棍棒",
+                      "image": 35287,
+                      "cost": 10000,
+                      "description": "攻+212? 混迷的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2915,
+                      "qty": 1,
+                      "name": "强化的阳炽之枪",
+                      "image": 35285,
+                      "cost": 10000,
+                      "description": "攻+260 敏-30 混迷的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2916,
+                      "qty": 1,
+                      "name": "强化的阳炽之兜",
+                      "image": 35283,
+                      "cost": 10000,
+                      "description": "防+110 敏-32 火抗性精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2917,
+                      "qty": 1,
+                      "name": "强化的阳炽之服",
+                      "image": 35284,
+                      "cost": 10000,
+                      "description": "防+170 体+235 火抗性+100 治愈的精灵 Lv6",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52532,9 +55931,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "虽然你通过勇者的考验，但是没有信物还是不能代表你是个成熟的勇者，请把信物带来给我吧！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52542,9 +55947,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa75/angel/angelitem",
-              "messages": {},
+              "messages": {
+                "normal": "能在时间内完成任务，才能成为真正的勇者，希望当下次机会再次来临时，你能与勇者一起努力。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52609,6 +56020,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_1c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第1检查点了。 来，请拿去。请继续加油哦。 下一个检查点是柯奥村。",
                 "itemFull": "你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -52633,6 +56045,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52640,9 +56056,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是柯奥村。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52650,9 +56072,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52660,9 +56088,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52670,9 +56104,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_1c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52715,10 +56155,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/beers/beers1.arg",
               "messages": {
-                "normalMain": "小心喔！在水世界里有很多旋涡和一些凶猛的鲨鱼。"
+                "normalMain": "小心喔！在水世界里有很多旋涡和一些凶猛的鲨鱼。",
+                "normal": "村长一定会很高兴的！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52751,6 +56196,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52783,6 +56232,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52790,9 +56243,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "求求你快点出发吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52815,6 +56274,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52947,6 +56410,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -52954,9 +56421,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦？！你的合约书呢！？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52964,9 +56437,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "想骗我啊！合约书上明明写着要收集５种肉，分别是一口肉、小的肉、丸丸肉、大块的肉、满腹肉你根本没有收集完成。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52974,9 +56453,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "想骗我啊！合约书上明明写着要收集５种肉，分别是一口肉、小的肉、丸丸肉、大块的肉、满腹肉你根本没有收集完成。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52984,9 +56469,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "想骗我啊！合约书上明明写着要收集５种肉，分别是一口肉、小的肉、丸丸肉、大块的肉、满腹肉你根本没有收集完成。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -52994,9 +56485,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "想骗我啊！合约书上明明写着要收集５种肉，分别是一口肉、小的肉、丸丸肉、大块的肉、满腹肉你根本没有收集完成。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -53004,9 +56501,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "想骗我啊！合约书上明明写着要收集５种肉，分别是一口肉、小的肉、丸丸肉、大块的肉、满腹肉你根本没有收集完成。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -53014,9 +56517,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "快点快点喔！香喷喷的肉！我想到就流口水啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -53039,6 +56548,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -53046,9 +56559,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/meat/meat1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "肉！香喷喷的肉！想到我就流口水！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -53098,6 +56617,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -53132,6 +56655,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 2
               ],
@@ -53161,6 +56688,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 2,
               "type": "REQUEST",
@@ -55662,10 +59193,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/petmaster",
               "messages": {
-                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。",
+                "normal": "嗨～我会告诉你有关宠物的知识，这对石器这个世界来说，是绝对重要的，所以请你注意听下去…。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -56227,6 +59763,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -56251,6 +59791,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -59233,7 +62777,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
                 "accept": "哦？你将宠物任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59247,6 +62792,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 400,
+                  "source": "400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59272,7 +62826,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59286,6 +62841,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 800,
+                  "source": "800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59311,7 +62875,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59325,6 +62890,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1500,
+                  "source": "1500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59350,7 +62924,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｄ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59364,6 +62939,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 3200,
+                  "source": "3200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59404,6 +62988,114 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    13061,
+                    13062,
+                    13063,
+                    13064,
+                    13065,
+                    13066,
+                    13067,
+                    13068,
+                    13069,
+                    13070,
+                    13071,
+                    13072,
+                    13073
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛"
+                  ],
+                  "sample": [
+                    {
+                      "id": 13061,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24074,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至萨姆吉尔村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13062,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24075,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至玛丽娜丝渔村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13063,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至加加村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13064,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24077,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至卡鲁它那村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13065,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至福尔德村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13066,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至奇喀喀村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13067,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至达那村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13068,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至柯奥村",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59443,7 +63135,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｆ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59457,6 +63150,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 15000,
+                  "source": "15000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59503,7 +63205,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将料理任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59526,6 +63229,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 350,
+                  "source": "350"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59535,7 +63247,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将料理任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59558,6 +63271,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 800,
+                  "source": "800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59567,7 +63289,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将料理任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59635,6 +63358,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1200,
+                  "source": "1200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59644,7 +63376,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将料理任务Ｄ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59667,6 +63400,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2000,
+                  "source": "2000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59677,7 +63419,8 @@ export const WORLD = {
               "messages": {
                 "accept": "哦？你将料理任务Ｅ完成了吗？",
                 "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
-                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+                "itemFull": "你的道具满了，我无法给你酬劳喔！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59718,6 +63461,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2500,
+                  "source": "2500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -59727,7 +63479,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_1000",
               "messages": {
                 "accept": "哦？你将料理任务Ｆ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -59750,6 +63503,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4800,
+                  "source": "4800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60265,6 +64027,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60277,6 +64043,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -60538,6 +64308,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60571,6 +64345,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60604,6 +64382,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60637,6 +64419,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60670,6 +64456,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60703,6 +64493,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -60710,9 +64504,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/poru/girl",
-              "messages": {},
+              "messages": {
+                "normal": "哇～～你好棒啊！爷爷已经跟我说过你的冒险了～"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73385,10 +77185,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
               "messages": {
-                "normalMain": "完蛋了啦！今天家里有盛大的宴会，但是那位大厨师却在一早的时候病倒了，该怎么辨啊？！"
+                "normalMain": "完蛋了啦！今天家里有盛大的宴会，但是那位大厨师却在一早的时候病倒了，该怎么辨啊？！",
+                "normal": "今晚可以大吃大喝一番了！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73397,7 +77202,8 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
               "messages": {
-                "itemFull": "你身上的东西可以减少一点吗。"
+                "itemFull": "你身上的东西可以减少一点吗。",
+                "stoneFull": "哇！你有那么多钱喔！想要一万块就把身上的钱减少一点。"
               },
               "getItems": [
                 {
@@ -73457,6 +77263,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 10000,
+                  "source": "10000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -73464,9 +77279,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "今天所需要的菜，我之前不是有告诉你了，你都没有注意听吗？少一样菜都不行喔！怕你又忘了我再和你说一次，分别是清脆沙拉、豪迈的炒青菜、豪华肉拼盘、照烧煮鱼、美食汤要记起来啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73474,9 +77295,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "今天所需要的菜，我之前不是有告诉你了，你都没有注意听吗？少一样菜都不行喔！怕你又忘了我再和你说一次，分别是清脆沙拉、豪迈的炒青菜、豪华肉拼盘、照烧煮鱼、美食汤要记起来啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73484,9 +77311,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "今天所需要的菜，我之前不是有告诉你了，你都没有注意听吗？少一样菜都不行喔！怕你又忘了我再和你说一次，分别是清脆沙拉、豪迈的炒青菜、豪华肉拼盘、照烧煮鱼、美食汤要记起来啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73494,9 +77327,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "今天所需要的菜，我之前不是有告诉你了，你都没有注意听吗？少一样菜都不行喔！怕你又忘了我再和你说一次，分别是清脆沙拉、豪迈的炒青菜、豪华肉拼盘、照烧煮鱼、美食汤要记起来啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73504,9 +77343,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "今天所需要的菜，我之前不是有告诉你了，你都没有注意听吗？少一样菜都不行喔！怕你又忘了我再和你说一次，分别是清脆沙拉、豪迈的炒青菜、豪华肉拼盘、照烧煮鱼、美食汤要记起来啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73517,6 +77362,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -73524,9 +77373,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/risk/risk1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "完蛋了啦！今天家里有盛大的宴会，但是那位大厨师却在一早的时候病倒了，该怎么辨啊？！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -73608,6 +77463,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 139
               ],
@@ -73653,6 +77512,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 139
               ],
@@ -73698,6 +77561,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 139
               ],
@@ -73743,6 +77610,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 139
               ],
@@ -73788,6 +77659,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 139
               ],
@@ -73833,6 +77708,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 139,
               "type": "REQUEST",
@@ -73876,6 +77755,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 139,
               "type": "REQUEST",
@@ -73919,6 +77802,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 139,
               "type": "REQUEST",
@@ -73962,6 +77849,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 139,
               "type": "REQUEST",
@@ -74005,6 +77896,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 139,
               "type": "REQUEST",
@@ -74012,9 +77907,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/gift/gift1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "嗯嗯，谢谢你…但是多吉尔信上有提到关于合成戒指的事，你没带过来吗？？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74022,9 +77923,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/gift/gift1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "一切就拜托你了…。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74035,6 +77942,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -74045,6 +77956,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -74069,6 +77984,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -74115,6 +78034,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第2检查点了。 来，请拿去。请继续加油哦。 下一个检查点是柯奥山的小洞窟",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -74139,6 +78059,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74146,9 +78070,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 柯奥山的小洞窟，请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74156,9 +78086,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74166,9 +78102,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74176,9 +78118,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74186,9 +78134,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_2c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -74254,6 +78208,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -77155,6 +81113,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 13
               ],
@@ -77165,6 +81127,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/event13_1",
               "messages": {
+                "normal": "啊…足以为证的脚印消失了啊… 我会再做一次， 这一回请不要消失。",
                 "itemFull": "道具栏已经满了喔！ 不知 到能不能麻烦你挪出空间来呢？"
               },
               "getItems": [
@@ -77179,6 +81142,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 13,
               "type": "MESSAGE",
@@ -77206,6 +81173,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 13,
               "type": "REQUEST",
@@ -77213,9 +81184,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/event13_1",
-              "messages": {},
+              "messages": {
+                "normal": "那阵子真多亏您的关照啊。 我已经把那三种神器 小心翼翼地安置起来了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77364,10 +81341,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/sleep/sleep2.arg",
               "messages": {
-                "normalMain": "小鬼＞＠＜！！我想你没见过我吧！我制造特殊宝箱锁和特殊钥匙的功力可是没人比我的过我喔。"
+                "normalMain": "小鬼＞＠＜！！我想你没见过我吧！我制造特殊宝箱锁和特殊钥匙的功力可是没人比我的过我喔。",
+                "normal": "Ｚ～Ｚ～Ｚ～Ｚ～～～～"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77440,6 +81422,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -77447,9 +81433,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "好了！好了！快点出发吧。我可不想哥哥一直长睡不起啊！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77472,6 +81464,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -77479,9 +81475,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/sleep/sleep1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "要小心海主人，他身上的毒素很强喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77558,6 +81560,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 9
               ],
@@ -77576,6 +81582,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 9,
               "type": "REQUEST",
@@ -77588,6 +81598,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77629,6 +81643,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第8检查点了。 来，请拿去。请继续加油哦。 下一个检查点是霍特尔村。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -77653,6 +81668,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77660,9 +81679,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是霍特尔村。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77670,9 +81695,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77680,9 +81711,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77690,9 +81727,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -77700,9 +81743,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -80686,9 +84735,15 @@ export const WORLD = {
           "scriptEvents": [
             {
               "source": "gmsv-data/npc/sainasu/event/nevent03_6",
-              "messages": {},
+              "messages": {
+                "normal": "要不要试试采矿的工作啊？ 如果你在柯尔克坑道的第五层 买采矿权利书的话， 就无限制可以开采。 将在柯尔克坑道内所采的矿石， 拿到第五层的鉴定所去， 取得鉴定书之后，到这个办事处的兑币处，就可以换到现金喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -80726,9 +84781,15 @@ export const WORLD = {
           "scriptEvents": [
             {
               "source": "gmsv-data/npc/sainasu/event/nevent03_5",
-              "messages": {},
+              "messages": {
+                "normal": "这里是柯尔克坑道管理处。 嗯…你把鉴定书带来了啊？ 不好意思…要换钱的话，请你到隔壁。 征求矿工的消息会刊在 里面那间房间的看板上， 可以的话， 你要不要去试试看呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -80736,9 +84797,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent03_5",
-              "messages": {},
+              "messages": {
+                "normal": "这里是柯尔克坑道管理处。 嗯…你把鉴定书带来了啊？ 不好意思…要换钱的话，请你到隔壁。 征求矿工的消息会刊在 里面那间房间的看板上， 可以的话， 你要不要去试试看呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -80746,9 +84813,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent03_5",
-              "messages": {},
+              "messages": {
+                "normal": "这里是柯尔克坑道管理处。 也就是在坑道里工作的 矿工们的联络处。 征求矿工的情报随时都会 刊登在里面那间房间的看板上。 可以的话， 你要不要去试试看呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81583,6 +85656,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第9检查点了。 来，请拿去。请继续加油哦。 下一个检查点是盗贼的大本营。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -81607,6 +85681,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81614,9 +85692,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是盗贼的大本营。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81624,9 +85708,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81634,9 +85724,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81644,9 +85740,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81654,9 +85756,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81716,6 +85824,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 3
               ],
@@ -81745,6 +85857,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 5,
               "type": "REQUEST",
@@ -81785,10 +85901,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/romance/romance1.arg",
               "messages": {
-                "normalMain": "我想要送我心爱的女朋友海里的珊瑚，可是空手又无法挖，我需要一个合成爪七来挖珊瑚，你能帮我吗？！"
+                "normalMain": "我想要送我心爱的女朋友海里的珊瑚，可是空手又无法挖，我需要一个合成爪七来挖珊瑚，你能帮我吗？！",
+                "normal": "我的爱人说那些红珊瑚很漂亮喔！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81830,6 +85951,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -81837,9 +85962,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/romance/romance1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "咦！我借你的那一支专门挖挖珊瑚的爪呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81847,9 +85978,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/romance/romance1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "这一支爪是挖珊瑚最好的工具喔，我可是研究了很久呢！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81882,6 +86019,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -81889,9 +86030,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/romance/romance1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我想要送我心爱的女朋友海里的珊瑚，可是空手又无法挖，我需要一个合成爪七来挖珊瑚，你能帮我吗？！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -81957,6 +86104,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 37,
               "type": "REQUEST",
@@ -81971,6 +86122,54 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2688,
+                    2689,
+                    2690
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "马祖的斧头",
+                    "马祖的矛",
+                    "马祖的棍棒"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2688,
+                      "qty": 1,
+                      "name": "马祖的斧头",
+                      "image": 20042,
+                      "cost": 5000,
+                      "description": "攻击 +50 防御 -20 敏捷 -20 滋润的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2689,
+                      "qty": 1,
+                      "name": "马祖的矛",
+                      "image": 20452,
+                      "cost": 5000,
+                      "description": "攻击 +45 敏捷 -10 魅力 +4 治愈的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2690,
+                      "qty": 1,
+                      "name": "马祖的棍棒",
+                      "image": 20116,
+                      "cost": 5000,
+                      "description": "攻击 +35 恩惠的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 38
               ],
@@ -81980,9 +86179,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/extra/event/marju",
-              "messages": {},
+              "messages": {
+                "normal": "喔、之前真的是非常的谢谢你！ 下次又有邮件积存的话 不知道你是否还可以帮我的忙呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -82050,6 +86255,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 10,
                 12
@@ -82087,6 +86296,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 10
               ],
@@ -82105,6 +86318,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 10,
               "type": "REQUEST",
@@ -82121,6 +86338,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 10,
               "type": "REQUEST",
@@ -82133,6 +86354,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -85940,10 +90165,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
               "messages": {
-                "normalMain": "不晓得克莱姆的伤有没有好一点。"
+                "normalMain": "不晓得克莱姆的伤有没有好一点。",
+                "normal": "多谢你的帮忙，克莱姆现在的伤势也好多了。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -85976,6 +90206,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -85983,9 +90217,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "想不到你真的收集到了所有的材料，真是辛苦你了，但是就算你给我材料也没有用，制造特效药的那个人我实在是打不赢他。帮人帮到底嘛！请你帮我去找他，现在也只有你能帮我了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -85993,9 +90233,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你找到格尔顿的肉了，加油！加油！还缺奇宝的肉。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86003,9 +90249,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你找到奇宝的肉了，加油！加油！还缺格尔顿的肉。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86013,9 +90265,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "记得还要收只另外二种材料喔，分别是奇宝的肉和格尔顿的肉。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86038,6 +90296,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -86045,9 +90307,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/true/true1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "不晓得克莱姆的伤有没有好一点。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86120,6 +90388,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 11,
                 12
@@ -86157,6 +90429,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 11
               ],
@@ -86175,6 +90451,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 11,
               "type": "REQUEST",
@@ -86191,6 +90471,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 11,
               "type": "REQUEST",
@@ -86203,6 +90487,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86282,6 +90570,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 139
               ],
@@ -86327,6 +90619,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 139,
               "type": "REQUEST",
@@ -86334,9 +90630,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/gift/gift2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "垛垛谅谅琌レ腞獺Τ矗闽逗刮ㄆ⊿盿筁ㄓ盾"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86344,9 +90646,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/gift/gift2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "ち碞癠"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86357,6 +90665,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -86367,6 +90679,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -86391,6 +90707,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -86437,6 +90757,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第12检查点了。 你已经通过所有的检查点了！ 拿这个去萨姆吉尔 报到吧！",
                 "itemFull": "你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -86461,6 +90782,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86468,9 +90793,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
-              "messages": {},
+              "messages": {
+                "normal": "你已经通过所有的检查点了！ 拿这个去萨姆吉尔 报到吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86478,9 +90809,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86488,9 +90825,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86498,9 +90841,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86508,9 +90857,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_12c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86581,6 +90936,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 5
               ],
@@ -86610,6 +90969,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 3,
               "type": "REQUEST",
@@ -86622,6 +90985,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86681,10 +91048,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/desert/desert1.arg",
               "messages": {
-                "normalMain": "最近出现了一批盗贼，客户要运送的货物都被抢走了，唉！生意越来越难做。"
+                "normalMain": "最近出现了一批盗贼，客户要运送的货物都被抢走了，唉！生意越来越难做。",
+                "normal": "你真是我们的英雄啊！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86714,6 +91086,32 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1695
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "卡坦的旋风"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1695,
+                      "qty": 1,
+                      "name": "卡坦的旋风",
+                      "image": 20545,
+                      "cost": 75000,
+                      "description": "攻+24 魅+3 毒雾的精灵 Lv5",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 137
               ],
@@ -86723,9 +91121,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/desert/desert1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "路上请小心，那些盗贼可是很凶悍的。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -86748,6 +91152,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -86770,6 +91178,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 137,
               "type": "REQUEST",
@@ -86777,9 +91189,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/desert/desert1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "最近出现了一批盗贼，客户要运送的货物都被抢走了，唉！生意越来越难做。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91146,6 +95564,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/king/event69_7",
               "messages": {
                 "normalMain": "年轻人怎么老是喜欢让长辈担心啊？,我的孙子愿藏好像在通往沙漠途中的桥上做坏事。可否请你代我劝他回头是岸呢？",
+                "normal": "ㄟ～～？玛蕾菲雅不是已经回到精灵王的身边了吗？原来这只是她残存的部分灵体，虽然是如此你也是要好好照顾她。 这条她喜欢的项炼给她，戴起来一定很漂亮。",
                 "itemFull": "你的道具袋满了喔，先整理一下吧？"
               },
               "getItems": [
@@ -91160,6 +95579,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91167,9 +95590,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "原来玛蕾菲雅是那么重要的人啊，幸好有你才让她又和光明精灵王见面了呢。 有你这么细心照顾她，我相信玛蕾菲雅现在一定过得很好。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91194,6 +95623,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91201,9 +95634,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "你已经有一条灵石项炼了，不要再跟我要了啦。 戴了灵石项炼，玛蕾菲雅也漂亮多了呢！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91211,9 +95650,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "你已经有一条灵石项炼了，不要再跟我要了啦。 戴了灵石项炼，玛蕾菲雅也漂亮多了呢！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91221,9 +95666,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "你已经有一条灵石项炼了，不要再跟我要了啦。 戴了灵石项炼，玛蕾菲雅也漂亮多了呢！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91231,9 +95682,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "你已经有一条灵石项炼了，不要再跟我要了啦。 戴了灵石项炼，玛蕾菲雅也漂亮多了呢！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91258,6 +95715,80 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    19629,
+                    19672,
+                    19673,
+                    19674,
+                    19675,
+                    19674,
+                    19673,
+                    19672,
+                    19673
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "地灵项链",
+                    "地灵项链",
+                    "地灵项链",
+                    "地灵项链",
+                    "地灵项链"
+                  ],
+                  "sample": [
+                    {
+                      "id": 19629,
+                      "qty": 1,
+                      "name": "地灵项链",
+                      "image": 24328,
+                      "cost": 125,
+                      "description": "镶有地灵石的项",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19672,
+                      "qty": 1,
+                      "name": "地灵项链",
+                      "image": 24328,
+                      "cost": 125,
+                      "description": "镶有地灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19673,
+                      "qty": 1,
+                      "name": "地灵项链",
+                      "image": 24328,
+                      "cost": 125,
+                      "description": "镶有地灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19674,
+                      "qty": 1,
+                      "name": "地灵项链",
+                      "image": 24328,
+                      "cost": 260,
+                      "description": "镶有地灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19675,
+                      "qty": 1,
+                      "name": "地灵项链",
+                      "image": 24328,
+                      "cost": 560,
+                      "description": "镶有地灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91282,6 +95813,80 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    19630,
+                    19676,
+                    19677,
+                    19678,
+                    19679,
+                    19678,
+                    19677,
+                    19676,
+                    19677
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水灵项链",
+                    "水灵项链",
+                    "水灵项链",
+                    "水灵项链",
+                    "水灵项链"
+                  ],
+                  "sample": [
+                    {
+                      "id": 19630,
+                      "qty": 1,
+                      "name": "水灵项链",
+                      "image": 24329,
+                      "cost": 125,
+                      "description": "镶有水灵石的项",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19676,
+                      "qty": 1,
+                      "name": "水灵项链",
+                      "image": 24329,
+                      "cost": 125,
+                      "description": "镶有水灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19677,
+                      "qty": 1,
+                      "name": "水灵项链",
+                      "image": 24329,
+                      "cost": 125,
+                      "description": "镶有水灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19678,
+                      "qty": 1,
+                      "name": "水灵项链",
+                      "image": 24329,
+                      "cost": 260,
+                      "description": "镶有水灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19679,
+                      "qty": 1,
+                      "name": "水灵项链",
+                      "image": 24329,
+                      "cost": 560,
+                      "description": "镶有水灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91306,6 +95911,80 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    19631,
+                    19680,
+                    19681,
+                    19682,
+                    19683,
+                    19682,
+                    19681,
+                    19680,
+                    19681
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "火灵项链",
+                    "火灵项链",
+                    "火灵项链",
+                    "火灵项链",
+                    "火灵项链"
+                  ],
+                  "sample": [
+                    {
+                      "id": 19631,
+                      "qty": 1,
+                      "name": "火灵项链",
+                      "image": 24330,
+                      "cost": 260,
+                      "description": "镶有火灵石的项",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19680,
+                      "qty": 1,
+                      "name": "火灵项链",
+                      "image": 24330,
+                      "cost": 125,
+                      "description": "镶有火灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19681,
+                      "qty": 1,
+                      "name": "火灵项链",
+                      "image": 24330,
+                      "cost": 125,
+                      "description": "镶有火灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19682,
+                      "qty": 1,
+                      "name": "火灵项链",
+                      "image": 24330,
+                      "cost": 260,
+                      "description": "镶有火灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19683,
+                      "qty": 1,
+                      "name": "火灵项链",
+                      "image": 24330,
+                      "cost": 560,
+                      "description": "镶有火灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91330,6 +96009,80 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    19632,
+                    19684,
+                    19685,
+                    19686,
+                    19687,
+                    19686,
+                    19685,
+                    19684,
+                    19685
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "风灵项链",
+                    "风灵项链",
+                    "风灵项链",
+                    "风灵项链",
+                    "风灵项链"
+                  ],
+                  "sample": [
+                    {
+                      "id": 19632,
+                      "qty": 1,
+                      "name": "风灵项链",
+                      "image": 24331,
+                      "cost": 560,
+                      "description": "镶有风灵石的项",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19684,
+                      "qty": 1,
+                      "name": "风灵项链",
+                      "image": 24331,
+                      "cost": 125,
+                      "description": "镶有风灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19685,
+                      "qty": 1,
+                      "name": "风灵项链",
+                      "image": 24331,
+                      "cost": 125,
+                      "description": "镶有风灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19686,
+                      "qty": 1,
+                      "name": "风灵项链",
+                      "image": 24331,
+                      "cost": 260,
+                      "description": "镶有风灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 19687,
+                      "qty": 1,
+                      "name": "风灵项链",
+                      "image": 24331,
+                      "cost": 560,
+                      "description": "镶有风灵石的项链",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91337,9 +96090,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "请好好照顾玛蕾菲雅喔，不可以让她挨饿受冻喔。 有捡到漂亮石头的话就尽量拿来给我吧，像我家那死鬼就经常捡了石头拿回来让我做成项炼呢！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91349,7 +96108,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/king/event69_7",
               "messages": {
                 "accept": "谢谢你救了新藏，他已经回来和我们说过你会回来接走玛蕾菲雅了。 她以前的记忆都没有了，只记得自己叫玛蕾菲雅，好可怜喔。 你要好好照顾玛蕾菲雅喔？",
-                "itemFull": "你身上没空位放这条项炼了，不管怎么说还是让她带着这条项炼比较好呢。 先请你整理一下道具袋吧？"
+                "itemFull": "你身上没空位放这条项炼了，不管怎么说还是让她带着这条项炼比较好呢。 先请你整理一下道具袋吧？",
+                "petFull": "哎呀，你身边已经没有让玛蕾菲雅待着的空间了耶。 请你招呼一下自己的宠物再过来带她好吗？"
               },
               "getItems": [
                 {
@@ -91363,6 +96123,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 70
               ],
@@ -91381,9 +96145,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "新藏平安无事啊，真是谢天谢地。 可是他怎么还没有回家啊，可不可以帮我再看看他是不是又跑去冒险了呢？拜托你了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91391,9 +96161,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "我那个宝贝孙子就拜托你了。 如果他遇上了什么麻烦，请你一定要尽力帮他喔。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91401,9 +96177,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_7",
-              "messages": {},
+              "messages": {
+                "normal": "新藏不知道现在过得怎么样了？一天到晚就只知道出外冒险，万一出了事怎么办啊？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91449,10 +96231,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/king/event69_3",
               "messages": {
-                "normalMain": "我就是新藏和愿藏的祖父。,老太婆，你怎么可以这样麻烦人家呢？"
+                "normalMain": "我就是新藏和愿藏的祖父。,老太婆，你怎么可以这样麻烦人家呢？",
+                "normal": "真是辛苦你让玛蕾菲雅和光明精灵王重聚了。 应该让我那些孙子向你好好学习如何当个伟大的勇者才对。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91460,9 +96247,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "喔？你这条项炼上的宝石… 我看看喔… 这是很好的宝石呢！能得到这么好的宝石，你的运气真的不错喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91470,9 +96263,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "喔？你这条项炼上的宝石… 我看看喔… 还好嘛，害我以为是很稀奇的珍宝呢…"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91480,9 +96279,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "喔？你这条项炼上的宝石… 我看看喔… 普普通通的嘛，真让我失望啊。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91490,9 +96295,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "喔？你这条项炼上的宝石… 我看看喔… 质地有点差，差强人意啦！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91500,9 +96311,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "喔？你这条项炼上的宝石… 我看看喔… 呃…虽然不好明讲，不过质地很差呢…"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91510,9 +96327,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "如果是由你来照顾玛蕾菲雅的话我就放心了。 不然精灵发起怒来可是很可怕的呢。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91520,9 +96343,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "谢谢你帮助了新藏，我就知道拜托你准没错！ 玛蕾菲雅现在跟老太婆在一起，快去接她吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91530,9 +96359,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "真的吗，你已经找到新藏了吗？可是新藏还没有回来呢，是不是又发生意外了啊？ 拜托你好人做到底，帮我再找一下好吗？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91540,9 +96375,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/king/event69_3",
-              "messages": {},
+              "messages": {
+                "normal": "新藏的事就拜托你了。 请快点动身吧，我们夫妇俩可担心的呢。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91556,6 +96397,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 69,
               "type": "REQUEST",
@@ -91664,6 +96509,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91716,6 +96565,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91768,6 +96621,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91775,9 +96632,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent01_1",
-              "messages": {},
+              "messages": {
+                "normal": "天气真好！真想去钓鱼啊！ 刚刚钓竿才被水冲走了说… 对了！这村子里 不是有一个有名的钓竿专家吗？ 真想用他做的钓竿来钓鱼啊！ 我可没有特别要你 帮忙拿来唷！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91822,10 +96685,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/crisis/crisis1.arg",
               "messages": {
-                "normalMain": "我好喜欢养宠物喔！"
+                "normalMain": "我好喜欢养宠物喔！",
+                "normal": "邦洛洛克斯它很乖喔，又很听话，我真很好喜欢它喔！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -91848,6 +96716,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -91864,9 +96736,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/crisis/crisis1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我在收集邦洛洛克斯喔！对了？邦洛洛克斯我要纯种的喔！纯种的意思就是要一级的啦，不是纯种的我就不收喔。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92006,6 +96884,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92018,6 +96900,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92028,6 +96914,7 @@ export const WORLD = {
               "messages": {
                 "accept": "贩卖往斗技场的票。 你的话要s。 可以吗？ 还有、因为其他的票全部都要回收 、请原谅。",
                 "thanks": "那么、请交给我吧。还有、这张票若是登出、或是放置于地面都会消失请注意。",
+                "stoneLess": "不好意思钱不够喔。",
                 "itemFull": "道具已满无法交付给你。"
               },
               "getItems": [
@@ -92124,6 +97011,16 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*3",
+                  "multiplier": 3,
+                  "source": "LV*3"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92165,10 +97062,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/fighter",
               "messages": {
-                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。",
+                "normal": "嗨…想开始学习战斗技巧了吗？那找我就对了。要在石器时代中生存，学会如何战斗是很重要的事。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92206,9 +97108,15 @@ export const WORLD = {
           "scriptEvents": [
             {
               "source": "gmsv-data/npc/sa50/petfusion/petfusion",
-              "messages": {},
+              "messages": {
+                "normal": "听说魔族即将大举入侵，恐龙博士为了维护人类的生存而专注研究神秘的恐龙融合法，将恐龙进化为更强悍以对付魔族。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92279,6 +97187,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -92313,6 +97225,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 2
               ],
@@ -92342,6 +97258,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 2,
               "type": "REQUEST",
@@ -92383,10 +97303,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/collect/collect1.arg",
               "messages": {
-                "normalMain": "我是一个喜爱收集各式各样武器的工匠，我也会自己改造武器。"
+                "normalMain": "我是一个喜爱收集各式各样武器的工匠，我也会自己改造武器。",
+                "normal": "乱射弓的威力很强喔！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92394,9 +97319,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/collect/collect1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "双尖枪的威力很强喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92465,6 +97396,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92533,6 +97468,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92543,6 +97482,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92606,6 +97549,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -92613,9 +97560,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
-              "messages": {},
+              "messages": {
+                "normal": "奇怪矿石可以在恐龙博士研究室下面楼层的乌龟身上找到，记得别去打扰到博士！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -92625,7 +97578,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "啊！你带了这么多来啊！那真够我研究好一阵子了！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。 你真是一个得力的助手！"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。 你真是一个得力的助手！",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多！"
               },
               "getItems": [],
               "delItems": [
@@ -92648,6 +97602,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 50000,
+                  "source": "50000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92657,7 +97620,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92680,6 +97644,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 30000,
+                  "source": "30000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92689,7 +97662,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92712,6 +97686,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 20000,
+                  "source": "20000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92721,7 +97704,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92744,6 +97728,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 15000,
+                  "source": "15000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92753,7 +97746,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "啊！你带了这么多来啊！不过怎么没放满呢？不过有这些仍旧足够我研究一阵子了！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92776,6 +97770,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 10000,
+                  "source": "10000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92785,7 +97788,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "怎么没放满呢？感觉上有点少，不过也足够我研究一阵子了啦！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92808,6 +97812,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 9000,
+                  "source": "9000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92817,7 +97830,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "怎么没放满呢？感觉上有点少，不过也足够我研究一阵子了啦！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92840,6 +97854,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 8000,
+                  "source": "8000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92849,7 +97872,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "怎么没放满呢？感觉上有点少，不过也足够我研究一阵子了啦！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92872,6 +97896,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 7000,
+                  "source": "7000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92881,7 +97914,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "怎么没放满呢？这些数量我大概只足够我研究几次，不过也好啦！寥胜于无！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92904,6 +97938,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 6000,
+                  "source": "6000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92913,7 +97956,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "怎么没放满呢？这些数量我大概只足够我研究几次，不过也好啦！寥胜于无！",
-                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。"
+                "thanks": "真是辛苦你了！ 来～～～～这个是说好的酬劳，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92936,6 +97980,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 5000,
+                  "source": "5000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92945,7 +97998,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "这～～～～～ 会不会太少了点啊？不过既然你坚持只找到这些我当然也只好收下啰！（真是少的可以）",
-                "thanks": "辛苦了！ 来～～～～这个是给你的，顺便把我给你的指引地图还我吧。"
+                "thanks": "辛苦了！ 来～～～～这个是给你的，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -92968,6 +98022,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4000,
+                  "source": "4000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -92977,7 +98040,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "这～～～～～ 会不会太少了点啊？不过既然你坚持只找到这些我当然也只好收下啰！（真是少的可以）",
-                "thanks": "辛苦了！ 来～～～～这个是给你的，顺便把我给你的指引地图还我吧。"
+                "thanks": "辛苦了！ 来～～～～这个是给你的，顺便把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -93000,6 +98064,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 3000,
+                  "source": "3000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93009,7 +98082,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "这～～～～～ 你确定只有这一些？我想我自己去找反而会好一点！（不知道当初答应我是怎样的一个心态？）",
-                "thanks": "拿去吧！ 你的付出就值这些，另外把我给你的指引地图还我吧。"
+                "thanks": "拿去吧！ 你的付出就值这些，另外把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -93032,6 +98106,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2000,
+                  "source": "2000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93041,7 +98124,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1200_58_43",
               "messages": {
                 "accept": "这～～～～～ 你确定只有这一些？我想我自己去找反而会好一点！（不知道当初答应我是怎样的一个心态？）",
-                "thanks": "拿去吧！ 你的付出就值这些，另外把我给你的指引地图还我吧。"
+                "thanks": "拿去吧！ 你的付出就值这些，另外把我给你的指引地图还我吧。",
+                "stoneFull": "原来你不缺钱，身上的钱还比我多哩！要不要拿一些去放？不然你带不了那么多"
               },
               "getItems": [],
               "delItems": [
@@ -93064,6 +98148,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1000,
+                  "source": "1000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93145,6 +98238,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93188,6 +98285,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93231,6 +98332,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93274,6 +98379,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93317,6 +98426,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93360,6 +98473,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93403,6 +98520,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93446,6 +98567,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93489,6 +98614,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93535,6 +98664,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以在加加报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第4检查点了。 来，请拿去。请继续加油哦。 下一个检查点是盗贼的洞窟。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -93559,6 +98689,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93566,9 +98700,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是盗贼的洞窟。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93576,9 +98716,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93586,9 +98732,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93596,9 +98748,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93606,9 +98764,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_4c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93652,10 +98816,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edd",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "这里是SOT“D路线”的最后集合地点。 “C路线”的最后集合地点··· 好像是在萨姆吉尔啊。 就差一点点了，请继续加油啊！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93664,6 +98833,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edd",
               "messages": {
+                "normal": "辛苦你了！ 你已经把SOT所有的检查点\\都通过一圈了！ 我们要把这个奖品···送给你！ 期待你下次再来参加。 辛苦你了。",
                 "itemFull": "你身上东西太多了 能不能请你把东西弄少一点在过来一趟？。 PetFullMsg: 你的宠物数满了，没把法带宠物。 能不能请你把宠物弄少一点再过来一下啊？"
               },
               "getItems": [],
@@ -93678,6 +98848,111 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    20805,
+                    20801,
+                    20594,
+                    20569,
+                    68,
+                    1063,
+                    58,
+                    68,
+                    2565,
+                    20801
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "运气戒指",
+                    "运气戒指",
+                    "智慧之果3",
+                    "幸福的花圈",
+                    "特洛西Lv4斧头",
+                    "提欧Lv1铠7",
+                    "特洛金Lv3斧头",
+                    "迷人香草"
+                  ],
+                  "sample": [
+                    {
+                      "id": 20805,
+                      "qty": 1,
+                      "name": "运气戒指",
+                      "image": 22171,
+                      "cost": 100,
+                      "description": "使用该戒指运气可更改为大吉",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20801,
+                      "qty": 1,
+                      "name": "运气戒指",
+                      "image": 22171,
+                      "cost": 100,
+                      "description": "使用该戒指运气可更改为凶",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20594,
+                      "qty": 1,
+                      "name": "智慧之果3",
+                      "image": 24236,
+                      "cost": 5000,
+                      "description": "使用後获得经验值上升100% 使用时间3小时",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20569,
+                      "qty": 1,
+                      "name": "幸福的花圈",
+                      "image": 22262,
+                      "cost": 10000,
+                      "description": "祝福别人的花圈 会带来好运唷 运+2 魅+20",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 68,
+                      "qty": 1,
+                      "name": "特洛西Lv4斧头",
+                      "image": 20019,
+                      "cost": 19420,
+                      "description": "攻 +41 防 -13 敏 -13 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1063,
+                      "qty": 1,
+                      "name": "提欧Lv1铠7",
+                      "image": 21017,
+                      "cost": 22374,
+                      "description": "防 +24 敏 -7 恩惠的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 58,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2565,
+                      "qty": 1,
+                      "name": "迷人香草",
+                      "image": 23024,
+                      "cost": 1500,
+                      "description": "使用後你也会变得更迷人",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -93768,6 +99043,76 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    12644,
+                    12641,
+                    12635,
+                    12656,
+                    12643
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水果叁明治",
+                    "热腾腾的饭团",
+                    "硬的面包",
+                    "洋芋片",
+                    "什锦叁明治"
+                  ],
+                  "sample": [
+                    {
+                      "id": 12644,
+                      "qty": 1,
+                      "name": "水果叁明治",
+                      "image": 24541,
+                      "cost": 10,
+                      "description": "气25回复(1人) 叁明治内放入各种水果",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12641,
+                      "qty": 1,
+                      "name": "热腾腾的饭团",
+                      "image": 24400,
+                      "cost": 140,
+                      "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12635,
+                      "qty": 1,
+                      "name": "硬的面包",
+                      "image": 24538,
+                      "cost": 10,
+                      "description": "耐久力120回复(1人) 非常时刻用硬的面包",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12656,
+                      "qty": 1,
+                      "name": "洋芋片",
+                      "image": 24151,
+                      "cost": 10,
+                      "description": "捕获率10上升 异世界的炸马铃薯",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12643,
+                      "qty": 1,
+                      "name": "什锦叁明治",
+                      "image": 24412,
+                      "cost": 10,
+                      "description": "气30回复(1人) 叁明治里放入了各种东西",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93818,6 +99163,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93841,6 +99190,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -93848,9 +99201,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_edd",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -96385,10 +101744,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/petmaster",
               "messages": {
-                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。",
+                "normal": "嗨～我会告诉你有关宠物的知识，这对石器这个世界来说，是绝对重要的，所以请你注意听下去…。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -97258,6 +102622,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_2006_23_14",
               "messages": {
                 "normalMain": "父亲还是希望我能得到仪之兜，可是我好虚弱……",
+                "normal": "哎！我们又见面了，你看起来不一样了嘛。 这段时间里，我开发了佩露夏的潜能，集合到一只罐头里 这个只罐头，能帮助你宠物更强大 送你吧........................作为回报！ 我自己养的呢！ 辛苦你了，谢谢！",
                 "itemFull": "哎呦。好像你的口袋有点满，清理一下吧。"
               },
               "getItems": [
@@ -97282,6 +102647,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -97298,6 +102667,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -97305,7 +102678,10 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/genout/msg_2006_23_14",
-              "messages": {},
+              "messages": {
+                "normal": "你这么强悍的人也就不需要仪之兜了吧！ 这样的话，我也可以向父亲大人炫耀 这个宠物，能帮助你 送你吧........................作为回报！ 我自己养的呢！ 辛苦你了，谢谢！",
+                "petFull": "你的宠物太多了，没有办法给你。 你可以减少宠物的数量再来吗？"
+              },
               "getItems": [],
               "delItems": [
                 {
@@ -97327,6 +102703,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -97349,6 +102729,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100520,7 +105904,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
                 "accept": "哦？你将宠物任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100534,6 +105919,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 500,
+                  "source": "500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100573,7 +105967,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100587,6 +105982,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 800,
+                  "source": "800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100612,7 +106016,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100626,6 +106031,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1500,
+                  "source": "1500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100651,7 +106065,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｄ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100665,6 +106080,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 3200,
+                  "source": "3200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100704,7 +106128,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｅ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100718,6 +106143,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4000,
+                  "source": "4000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100757,7 +106191,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｆ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100771,6 +106206,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 15000,
+                  "source": "15000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100817,7 +106261,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将料理任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100840,6 +106285,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 350,
+                  "source": "350"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100849,7 +106303,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将料理任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100872,6 +106327,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1000,
+                  "source": "1000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100881,7 +106345,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将料理任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100904,6 +106369,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1300,
+                  "source": "1300"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100914,7 +106388,8 @@ export const WORLD = {
               "messages": {
                 "accept": "哦？你将料理任务Ｄ完成了吗？",
                 "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
-                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+                "itemFull": "你的道具满了，我无法给你酬劳喔！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100937,6 +106412,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2400,
+                  "source": "2400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100946,7 +106430,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将料理任务Ｅ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -100987,6 +106472,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2500,
+                  "source": "2500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -100996,7 +106490,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_2000",
               "messages": {
                 "accept": "哦？你将料理任务Ｆ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -101019,6 +106514,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4800,
+                  "source": "4800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -101065,7 +106569,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/eden2/fight/fight-authu",
               "messages": {
                 "normalMain": "呵呵呵～～～今天又赚了一笔，看来卖特产是很不错的工作呢～～",
-                "itemFull": "你身上东西太多了，等你整理一下再来找我吧～～"
+                "itemFull": "你身上东西太多了，等你整理一下再来找我吧～～",
+                "stoneLess": "你带的钱不够啦～～～想诳我哦～～"
               },
               "getItems": [
                 {
@@ -101079,6 +106584,15 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "amount": 100000,
+                  "source": "100000"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -101086,9 +106600,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden2/fight/fight-authu",
-              "messages": {},
+              "messages": {
+                "normal": "呵呵呵～～～今天又赚了一笔，看来卖特产是很不错的工作呢～～"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -101097,7 +106617,8 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/eden2/fight/fight-authu",
               "messages": {
-                "itemFull": "你身上东西太多了，等你整理一下再来找我吧～～"
+                "itemFull": "你身上东西太多了，等你整理一下再来找我吧～～",
+                "stoneLess": "你带的钱不够啦～～～想诳我哦～～"
               },
               "getItems": [
                 {
@@ -101111,6 +106632,15 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "amount": 100000,
+                  "source": "100000"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [
                 100
               ],
@@ -101623,6 +107153,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -101635,6 +107169,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -102089,10 +107627,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/quiz/uketuke",
               "messages": {
-                "normalMain": "你也以成为猜谜大师而在努力着呀！"
+                "normalMain": "你也以成为猜谜大师而在努力着呀！",
+                "normal": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 这个道场接受LV70以下的人进来。 LV70以上的人请往 卡鲁它那的道场去。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -102103,6 +107646,7 @@ export const WORLD = {
               "messages": {
                 "accept": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV50以上拿着“入场券B”进去吧。 收下参加费stone 。这样子可以吗？",
                 "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导B的人 帮你介绍吧。",
+                "stoneLess": "非常的不好意思 钱不够喔。",
                 "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
               },
               "getItems": [
@@ -102117,6 +107661,16 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*40",
+                  "multiplier": 40,
+                  "source": "LV*40"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -102127,6 +107681,7 @@ export const WORLD = {
               "messages": {
                 "accept": "欢迎来到玛丽娜丝的道场。 ?在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV30以上拿着“入场券A”进去吧。 收下参加费stone 。这样子可以吗？",
                 "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导A的人 帮你介绍吧。",
+                "stoneLess": "非常的不好意思 钱不够喔。",
                 "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
               },
               "getItems": [
@@ -102141,6 +107696,16 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*20",
+                  "multiplier": 20,
+                  "source": "LV*20"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -102148,9 +107713,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/quiz/uketuke",
-              "messages": {},
+              "messages": {
+                "normal": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为LV30以下的客人非常的危险 决定不让你入场。 请变成LV30以上之后再来吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -102192,10 +107763,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/quiz/uketuke",
               "messages": {
-                "normalMain": "你也以成为猜谜大师而在努力着呀！"
+                "normalMain": "你也以成为猜谜大师而在努力着呀！",
+                "normal": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 这个道场接受LV70以下的人进来。 LV70以上的人请往 卡鲁它那的道场去。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -102206,6 +107782,7 @@ export const WORLD = {
               "messages": {
                 "accept": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV50以上拿着“入场券B”进去吧。 收下参加费stone 。这样子可以吗？",
                 "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导B的人 帮你介绍吧。",
+                "stoneLess": "非常的不好意思 钱不够喔。",
                 "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
               },
               "getItems": [
@@ -102220,6 +107797,16 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*40",
+                  "multiplier": 40,
+                  "source": "LV*40"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -102230,6 +107817,7 @@ export const WORLD = {
               "messages": {
                 "accept": "欢迎来到玛丽娜丝的道场。 ?在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV30以上拿着“入场券A”进去吧。 收下参加费stone 。这样子可以吗？",
                 "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导A的人 帮你介绍吧。",
+                "stoneLess": "非常的不好意思 钱不够喔。",
                 "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
               },
               "getItems": [
@@ -102244,6 +107832,16 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*20",
+                  "multiplier": 20,
+                  "source": "LV*20"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -102251,9 +107849,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/quiz/uketuke",
-              "messages": {},
+              "messages": {
+                "normal": "欢迎来到玛丽娜丝的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为LV30以下的客人非常的危险 决定不让你入场。 请变成LV30以上之后再来吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104573,10 +110177,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa50/bone1.arg",
               "messages": {
-                "normalMain": "现在的恐龙实在太多了。"
+                "normalMain": "现在的恐龙实在太多了。",
+                "normal": "你身上已经有骨头了喔，而且我暂时也没有了。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104599,6 +110208,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -104638,10 +110251,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/eden3/gan/hoggies",
               "messages": {
-                "normalMain": "好吓人呀…。"
+                "normalMain": "好吓人呀…。",
+                "normal": "井就在旁边。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104664,6 +110282,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -104671,9 +110293,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden3/gan/hoggies",
-              "messages": {},
+              "messages": {
+                "normal": "你看起来还不够成熟的样子，我还是找村长好了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104715,6 +110343,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_1",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第一检查站的证明。 来！还你！请继续加油。 下一个检查站是在 塔姆塔姆村喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -104739,6 +110368,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104746,9 +110379,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站在塔姆塔姆村。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104756,9 +110395,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站适用“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104766,9 +110411,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104776,9 +110427,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_1",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104821,10 +110478,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/evening/evening1.arg",
               "messages": {
-                "normalMain": "ぱ＋何ぃ帝痷琌礹璚＋"
+                "normalMain": "ぱ＋何ぃ帝痷琌礹璚＋",
+                "normal": "㈣㈣㈣°°°㈣㈣㈣°°°"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104866,6 +110528,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -104873,9 +110539,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/evening/evening1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "弧е祇"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104898,6 +110570,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -104940,10 +110616,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
-                "normalMain": "有没有工读生啊…。,不过我可不用来路不明的家伙。"
+                "normalMain": "有没有工读生啊…。,不过我可不用来路不明的家伙。",
+                "normal": "你有很好的木材嘛。 可是不可以跟 没有采伐许可证的人有来往喔…。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -104954,6 +110635,7 @@ export const WORLD = {
               "messages": {
                 "accept": "啊！你带了这么多来啊！ 那我要 买这些！",
                 "thanks": "真是辛苦你了！ 这个是说好的酬劳。 还有这是特别的奖赏。 真是没想到 你会拿这么多来。",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！",
                 "itemFull": "唉呀！你的道具袋已经满了 这样不就不能装 特别的奖赏了吗？ 先挪出个空位再来。"
               },
               "getItems": [
@@ -104996,6 +110678,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 20000,
+                  "source": "20000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105005,7 +110696,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "还真是多啊！ 你真是厉害！ 佩服佩服！ 来来来！拿到这边来放。",
-                "thanks": "辛苦了！ 这是你的酬劳！"
+                "thanks": "辛苦了！ 这是你的酬劳！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105037,6 +110729,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 16000,
+                  "source": "16000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105046,7 +110747,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "还真是多啊！ 你真是厉害！ 佩服佩服！ 来来来！拿到这边来放。",
-                "thanks": "这是酬劳！ 下次还请多帮忙喔！"
+                "thanks": "这是酬劳！ 下次还请多帮忙喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105069,6 +110771,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 12000,
+                  "source": "12000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105078,7 +110789,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "还真是多啊！ 你真是厉害！ 佩服佩服！ 来来来！拿到这边来放。",
-                "thanks": "这是酬劳！ 下次还请多帮忙喔！"
+                "thanks": "这是酬劳！ 下次还请多帮忙喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105110,6 +110822,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 10000,
+                  "source": "10000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105119,7 +110840,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
-                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+                "thanks": "辛苦了！下次也要像这次一样努力喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105151,6 +110873,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 8000,
+                  "source": "8000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105160,7 +110891,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
-                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+                "thanks": "辛苦了！下次也要像这次一样努力喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105192,6 +110924,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 7200,
+                  "source": "7200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105201,7 +110942,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
-                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+                "thanks": "辛苦了！下次也要像这次一样努力喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105233,6 +110975,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 6400,
+                  "source": "6400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105242,7 +110993,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
-                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+                "thanks": "辛苦了！下次也要像这次一样努力喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105274,6 +111026,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 5600,
+                  "source": "5600"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105283,7 +111044,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "啊！帮我拿来啦！ 嗯…数量还过得去啦…！这个！我要这个。",
-                "thanks": "辛苦了！下次也要像这次一样努力喔！"
+                "thanks": "辛苦了！下次也要像这次一样努力喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105315,6 +111077,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4800,
+                  "source": "4800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105324,7 +111095,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "你只有拿这些来吗？",
-                "thanks": "并没有想像中的多。 下次要加油喔！"
+                "thanks": "并没有想像中的多。 下次要加油喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105356,6 +111128,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4000,
+                  "source": "4000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105365,7 +111146,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "你只有拿这些来吗？",
-                "thanks": "并没有想像中的多。 下次要加油喔！"
+                "thanks": "并没有想像中的多。 下次要加油喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105397,6 +111179,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 3200,
+                  "source": "3200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105406,7 +111197,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "你只有拿这些来吗？",
-                "thanks": "并没有想像中的多。 下次要加油喔！"
+                "thanks": "并没有想像中的多。 下次要加油喔！",
+                "stoneFull": "哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105438,6 +111230,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2400,
+                  "source": "2400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105447,7 +111248,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "你只有拿这些来吗？",
-                "thanks": "并没有想像中的多。 下次要加油喔！"
+                "thanks": "并没有想像中的多。 下次要加油喔！",
+                "stoneFull": ":哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105479,6 +111281,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1600,
+                  "source": "1600"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105488,7 +111299,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/20501ev5",
               "messages": {
                 "accept": "什么啊！只有这样喔？ 真是的…害我 还小小地期待了一下…。 真的只有这样吗？",
-                "thanks": "拿去！你的酬劳！"
+                "thanks": "拿去！你的酬劳！",
+                "stoneFull": ":哦！拿这么多来啊？ 缺钱的时候再来喔！"
               },
               "getItems": [],
               "delItems": [
@@ -105520,6 +111332,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 400,
+                  "source": "400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105543,6 +111364,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105700,6 +111525,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105712,6 +111541,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -105722,6 +111555,7 @@ export const WORLD = {
               "messages": {
                 "accept": "贩卖往斗技场的票。 你的话要s。 可以吗？ 还有、其他的票全部都要回收 、请原谅。",
                 "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注。",
+                "stoneLess": "不好意思钱不够喔。",
                 "itemFull": "道具已满无法交付给你。"
               },
               "getItems": [
@@ -105818,6 +111652,16 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*3",
+                  "multiplier": 3,
+                  "source": "LV*3"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -105859,10 +111703,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/fighter",
               "messages": {
-                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。",
+                "normal": "嗨…想开始学习战斗技巧了吗？那找我就对了。要在石器时代中生存，学会如何战斗是很重要的事。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -105901,10 +111750,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/jaruga/event/oev_0",
               "messages": {
-                "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！"
+                "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！",
+                "normal": "你是JOT的参加者吧？ 你已经全部都收集到了嘛！ A路线的最终集合场所是在卡鲁它那"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -105912,9 +111766,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_0",
-              "messages": {},
+              "messages": {
+                "normal": "你是ＪＯＴ的参加者吧？ 你已经全部都收集到了嘛！ B路线的最终集合场所是在加加 也就是本村的附近。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -105993,6 +111853,56 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    12644,
+                    12635,
+                    12635,
+                    12641,
+                    12641
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水果叁明治",
+                    "硬的面包",
+                    "热腾腾的饭团"
+                  ],
+                  "sample": [
+                    {
+                      "id": 12644,
+                      "qty": 1,
+                      "name": "水果叁明治",
+                      "image": 24541,
+                      "cost": 10,
+                      "description": "气25回复(1人) 叁明治内放入各种水果",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12635,
+                      "qty": 1,
+                      "name": "硬的面包",
+                      "image": 24538,
+                      "cost": 10,
+                      "description": "耐久力120回复(1人) 非常时刻用硬的面包",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12641,
+                      "qty": 1,
+                      "name": "热腾腾的饭团",
+                      "image": 24400,
+                      "cost": 140,
+                      "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106043,6 +111953,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106066,6 +111980,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106093,6 +112011,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -106120,6 +112042,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "REQUEST",
@@ -106184,7 +112110,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_edb",
               "messages": {
                 "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！",
-                "itemFull": "你的道具太多了，没有办法给你。 你可以清除一些道具再来吗？"
+                "normal": "真是辛苦你了！ 恭喜你完成了JOT 所有的路程！ 我们要送你........................这个奖品！ 竭诚希望你能再度参加！ 辛苦你了，谢谢！",
+                "itemFull": "你的道具太多了，没有办法给你。 你可以清除一些道具再来吗？",
+                "petFull": "你的宠物太多了，没有办法给你。 你可以减少宠物的数量再来吗？"
               },
               "getItems": [],
               "delItems": [
@@ -106198,6 +112126,123 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    20807,
+                    20624,
+                    20593,
+                    20148,
+                    68,
+                    1063,
+                    58,
+                    68,
+                    2565,
+                    2566,
+                    68,
+                    1063,
+                    58,
+                    68,
+                    2565,
+                    2566,
+                    68,
+                    1063,
+                    58,
+                    68,
+                    2565,
+                    2566
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "十万石币",
+                    "宠物魔术笔",
+                    "金飞航空机票",
+                    "金飞航空机票",
+                    "特洛西Lv4斧头",
+                    "提欧Lv1铠7",
+                    "特洛金Lv3斧头",
+                    "迷人香草"
+                  ],
+                  "sample": [
+                    {
+                      "id": 20807,
+                      "qty": 1,
+                      "name": "十万石币",
+                      "image": 24052,
+                      "cost": 100,
+                      "description": "使用该石币可获得十万石币",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20624,
+                      "qty": 1,
+                      "name": "宠物魔术笔",
+                      "image": 10904,
+                      "cost": 1000,
+                      "description": "宠物姓名回复原设定(使用次数一次)",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20593,
+                      "qty": 1,
+                      "name": "金飞航空机票",
+                      "image": 24076,
+                      "cost": 0,
+                      "description": "可全体直达伊甸大陆的机票",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20148,
+                      "qty": 1,
+                      "name": "金飞航空机票",
+                      "image": 24076,
+                      "cost": 0,
+                      "description": "可直达伊甸大陆的机票",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 68,
+                      "qty": 1,
+                      "name": "特洛西Lv4斧头",
+                      "image": 20019,
+                      "cost": 19420,
+                      "description": "攻 +41 防 -13 敏 -13 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1063,
+                      "qty": 1,
+                      "name": "提欧Lv1铠7",
+                      "image": 21017,
+                      "cost": 22374,
+                      "description": "防 +24 敏 -7 恩惠的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 58,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2565,
+                      "qty": 1,
+                      "name": "迷人香草",
+                      "image": 23024,
+                      "cost": 1500,
+                      "description": "使用後你也会变得更迷人",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106307,6 +112352,76 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    12644,
+                    12641,
+                    12635,
+                    12656,
+                    12643
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水果叁明治",
+                    "热腾腾的饭团",
+                    "硬的面包",
+                    "洋芋片",
+                    "什锦叁明治"
+                  ],
+                  "sample": [
+                    {
+                      "id": 12644,
+                      "qty": 1,
+                      "name": "水果叁明治",
+                      "image": 24541,
+                      "cost": 10,
+                      "description": "气25回复(1人) 叁明治内放入各种水果",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12641,
+                      "qty": 1,
+                      "name": "热腾腾的饭团",
+                      "image": 24400,
+                      "cost": 140,
+                      "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12635,
+                      "qty": 1,
+                      "name": "硬的面包",
+                      "image": 24538,
+                      "cost": 10,
+                      "description": "耐久力120回复(1人) 非常时刻用硬的面包",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12656,
+                      "qty": 1,
+                      "name": "洋芋片",
+                      "image": 24151,
+                      "cost": 10,
+                      "description": "捕获率10上升 异世界的炸马铃薯",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12643,
+                      "qty": 1,
+                      "name": "什锦叁明治",
+                      "image": 24412,
+                      "cost": 10,
+                      "description": "气30回复(1人) 叁明治里放入了各种东西",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106357,6 +112472,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106380,6 +112499,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106387,9 +112510,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_edb",
-              "messages": {},
+              "messages": {
+                "normal": "这里是JOT“B方案”的终点集合场所。 “A方案”的终点集合场所............ 是在卡鲁它那喔！ 路程所剩不多了，请加油喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106397,9 +112526,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_edb",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106445,10 +112580,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
               "messages": {
-                "normalMain": "最近在村子里面出现了一只又大又肥的老鼠，经常把一些粮食给吃光了。"
+                "normalMain": "最近在村子里面出现了一只又大又肥的老鼠，经常把一些粮食给吃光了。",
+                "normal": "以后不怕粮食再被老鼠给偷吃了。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106478,6 +112618,54 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1699,
+                    1700,
+                    1701
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "珍珠手环[红]",
+                    "珍珠手环[绿]",
+                    "珍珠手环[蓝]"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1699,
+                      "qty": 1,
+                      "name": "珍珠手环[红]",
+                      "image": 22126,
+                      "cost": 25000,
+                      "description": "攻+15 防+15 敏-15 魅+6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1700,
+                      "qty": 1,
+                      "name": "珍珠手环[绿]",
+                      "image": 22130,
+                      "cost": 25000,
+                      "description": "攻+15 防-15 敏+15 魅+6",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1701,
+                      "qty": 1,
+                      "name": "珍珠手环[蓝]",
+                      "image": 22131,
+                      "cost": 25000,
+                      "description": "攻-15 防+15 敏+15 魅+6",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 140
               ],
@@ -106487,9 +112675,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "怎么只有老鼠的牙呢？你还没抓到它喔！快去抓它，不然等等又跑去吃仓库的食粮！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106497,9 +112691,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "被那只老鼠跑了喔！还有一半的大福，应该可以抓到它，加油加油。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106507,9 +112707,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "那只老鼠不是你想像的那么简单。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106532,6 +112738,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106554,6 +112764,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 140,
               "type": "REQUEST",
@@ -106561,9 +112775,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "最近在村子里面出现了一只又大又肥的老鼠，经常把一些粮食给吃光了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -106634,6 +112854,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -106641,9 +112865,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa50/bone.arg",
-              "messages": {},
+              "messages": {
+                "normal": "如果你能给我一个龙的骨头的话，我就帮你合成出一个龙骨粉末的道具。不知道那里有骨头的话，这个村里的猎人可能知道喔。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -109035,10 +115265,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/petmaster",
               "messages": {
-                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。",
+                "normal": "嗨～我会告诉你有关宠物的知识，这对石器这个世界来说，是绝对重要的，所以请你注意听下去…。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -110428,10 +116663,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/eden2/fight/fight-osma",
               "messages": {
-                "normalMain": "年轻人，功夫不错哦～～"
+                "normalMain": "年轻人，功夫不错哦～～",
+                "normal": "呵呵～～～看来古瓜你已经学会了百人拳的真意啦～～"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -110439,9 +116679,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden2/fight/fight-osma",
-              "messages": {},
+              "messages": {
+                "normal": "年轻人，你好像有什么忘了是吧～～～"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -110449,9 +116695,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden2/fight/fight-osma",
-              "messages": {},
+              "messages": {
+                "normal": "呵呵～～～看来古瓜你已经学会了百人拳的真意啦～～"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -110459,9 +116711,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden2/fight/fight-osma",
-              "messages": {},
+              "messages": {
+                "normal": "年轻人，你好像有什么忘了是吧～～～"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -110469,9 +116727,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden2/fight/fight-osma",
-              "messages": {},
+              "messages": {
+                "normal": "年轻人，就麻烦你到猜谜道场那里找姆罗伊接古瓜吧！！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -110482,6 +116746,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 99
               ],
@@ -112701,7 +118969,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
                 "accept": "哦？你将宠物任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112715,6 +118984,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 400,
+                  "source": "400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112740,7 +119018,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112754,6 +119033,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 800,
+                  "source": "800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112779,7 +119067,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112793,6 +119082,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1500,
+                  "source": "1500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112818,7 +119116,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｅ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112832,6 +119131,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 6000,
+                  "source": "6000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112871,7 +119179,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｆ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112885,6 +119194,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 18000,
+                  "source": "18000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112931,7 +119249,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将料理任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112954,6 +119273,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 350,
+                  "source": "350"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112963,7 +119291,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将料理任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -112986,6 +119315,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 800,
+                  "source": "800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -112995,7 +119333,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将料理任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -113018,6 +119357,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1300,
+                  "source": "1300"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -113027,7 +119375,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将料理任务Ｄ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -113050,6 +119399,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2200,
+                  "source": "2200"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -113059,7 +119417,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_3000",
               "messages": {
                 "accept": "哦？你将料理任务Ｅ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -113082,6 +119441,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 3000,
+                  "source": "3000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -113092,7 +119460,8 @@ export const WORLD = {
               "messages": {
                 "accept": "哦？你将料理任务Ｆ完成了吗？",
                 "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
-                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+                "itemFull": "你的道具满了，我无法给你酬劳喔！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -113115,6 +119484,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4800,
+                  "source": "4800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -114526,6 +120904,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -114538,6 +120920,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -115180,6 +121566,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115188,7 +121578,8 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
               "messages": {
-                "itemFull": "你的东西太多了啦…哎…"
+                "itemFull": "你的东西太多了啦…哎…",
+                "stoneLess": "你身上不够钱耶…要去领吗？"
               },
               "getItems": [
                 {
@@ -115221,6 +121612,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "amount": 20000,
+                  "source": "20000"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115228,9 +121628,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
-              "messages": {},
+              "messages": {
+                "normal": "什么？！借据不见了吗…那可口说无凭了呢……。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -115238,9 +121644,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
-              "messages": {},
+              "messages": {
+                "normal": "拜托你了…。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -115273,6 +121685,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115304,6 +121720,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115372,6 +121792,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115403,6 +121827,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115419,9 +121847,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/eden3/gan/wuwan",
-              "messages": {},
+              "messages": {
+                "normal": "拜托你了…。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -115444,6 +121878,87 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    20210,
+                    20211,
+                    20212,
+                    20213,
+                    20599,
+                    20600
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威士忌",
+                    "白兰地",
+                    "高梁酒",
+                    "伏特加",
+                    "尚青啤酒",
+                    "鸡尾酒"
+                  ],
+                  "sample": [
+                    {
+                      "id": 20210,
+                      "qty": 1,
+                      "name": "威士忌",
+                      "image": 22310,
+                      "cost": 0,
+                      "description": "未来世界的酒 体力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20211,
+                      "qty": 1,
+                      "name": "白兰地",
+                      "image": 22312,
+                      "cost": 0,
+                      "description": "未来世界的酒 腕力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20212,
+                      "qty": 1,
+                      "name": "高梁酒",
+                      "image": 22311,
+                      "cost": 0,
+                      "description": "未来世界的酒 耐力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20213,
+                      "qty": 1,
+                      "name": "伏特加",
+                      "image": 22314,
+                      "cost": 0,
+                      "description": "未来世界的酒 敏捷力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20599,
+                      "qty": 1,
+                      "name": "尚青啤酒",
+                      "image": 35263,
+                      "cost": 0,
+                      "description": "未来世界的酒 人物属性反向改变1点",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20600,
+                      "qty": 1,
+                      "name": "鸡尾酒",
+                      "image": 35264,
+                      "cost": 0,
+                      "description": "未来世界的酒 人物属性正向改变1点",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -115465,6 +121980,87 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [
+                {
+                  "ids": [
+                    20210,
+                    20211,
+                    20212,
+                    20213,
+                    20599,
+                    20600
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "威士忌",
+                    "白兰地",
+                    "高梁酒",
+                    "伏特加",
+                    "尚青啤酒",
+                    "鸡尾酒"
+                  ],
+                  "sample": [
+                    {
+                      "id": 20210,
+                      "qty": 1,
+                      "name": "威士忌",
+                      "image": 22310,
+                      "cost": 0,
+                      "description": "未来世界的酒 体力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20211,
+                      "qty": 1,
+                      "name": "白兰地",
+                      "image": 22312,
+                      "cost": 0,
+                      "description": "未来世界的酒 腕力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20212,
+                      "qty": 1,
+                      "name": "高梁酒",
+                      "image": 22311,
+                      "cost": 0,
+                      "description": "未来世界的酒 耐力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20213,
+                      "qty": 1,
+                      "name": "伏特加",
+                      "image": 22314,
+                      "cost": 0,
+                      "description": "未来世界的酒 敏捷力10点重新分配",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20599,
+                      "qty": 1,
+                      "name": "尚青啤酒",
+                      "image": 35263,
+                      "cost": 0,
+                      "description": "未来世界的酒 人物属性反向改变1点",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 20600,
+                      "qty": 1,
+                      "name": "鸡尾酒",
+                      "image": 35264,
+                      "cost": 0,
+                      "description": "未来世界的酒 人物属性正向改变1点",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -127744,10 +134340,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/holy/holy1.arg",
               "messages": {
-                "normalMain": "我是一个旅行于各地的石匠，我以寻找稀奇珍贵的石头为目标。"
+                "normalMain": "我是一个旅行于各地的石匠，我以寻找稀奇珍贵的石头为目标。",
+                "normal": "我相信那股力量一定非常的强大。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -127780,6 +134381,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -127790,6 +134395,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -127831,10 +134440,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
               "messages": {
-                "normalMain": "不知她现在过的怎么样？！"
+                "normalMain": "不知她现在过的怎么样？！",
+                "normal": "我想为了报答你，最好的礼物就是好好和她在一起，你真是我们的月下老人。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -127867,6 +134481,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 142
               ],
@@ -127889,6 +134507,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -127896,9 +134518,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "你快去料理烤焦的兽肉串烧，她吃了之后应该就会没事了，我不想看着她一直痛苦着。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -127906,9 +134534,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "听说她吃了那颗苹果之后就生病了，你再去帮我看看她好吗！？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -127916,9 +134550,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "这颗就是白雪苹果啊！看起来好像很好吃的样子呢？对了！我同学说她好像住在多多村里面。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -127926,9 +134566,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "不知道她收到苹果之后，会不会很感动！？嘻～～～。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -127939,6 +134585,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 142,
               "type": "REQUEST",
@@ -127946,9 +134596,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/apple/apple1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "不知她现在过的怎么样？！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128013,6 +134669,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第二检查站的证明。 来！还你！请继续加油。 下一个检查站是在哈罗山的森林洞窟。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -128037,6 +134694,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128044,9 +134705,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在哈罗山的森林洞窟。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128054,9 +134721,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128064,9 +134737,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128074,9 +134753,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128084,9 +134769,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_2",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128173,6 +134864,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -128180,9 +134875,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "铲子不是给你了吗？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -128205,6 +134906,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -128212,9 +134917,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/beers/beers2.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我可以制造出很好喝的酒喔，就算酒因为时间的关系氧化了，我也是有办法让他起死回生喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -129592,6 +136303,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -129599,9 +136314,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_2",
-              "messages": {},
+              "messages": {
+                "normal": "嗯…以这样骨头的量 好像做不成特效药呢！ 还需要更多“逃走的呼拔拔”才行呢！ 赶快再去多搜集一点来吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -129609,9 +136330,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_2",
-              "messages": {},
+              "messages": {
+                "normal": "我是这个村子理的药剂师。 为了制成专治麻痹蜘蛛的特效药， 必须要有一种叫做“逃走的呼拔拔”的 稀有野兽的骨头才行。 最近都拿不到手， 所以无法马上帮你调配，事情就是这样的…。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -129679,6 +136406,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -129686,9 +136417,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_3",
-              "messages": {},
+              "messages": {
+                "normal": "在来这里的途中，我儿子 被麻痹蜘蛛咬到了。 我很努力的把这小孩背来这…。 拜托你了！能不能麻烦你 给我可以致麻痹的特效药呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131010,6 +137747,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 1
               ],
@@ -131028,6 +137769,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 1,
               "type": "REQUEST",
@@ -131040,6 +137785,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131351,6 +138100,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -131358,9 +138111,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
-              "messages": {},
+              "messages": {
+                "normal": "还没找到精灵草吗？加油了，毕竟这是你需要的东西。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131368,9 +138127,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
-              "messages": {},
+              "messages": {
+                "normal": "只有带回精灵草是没有用的，你的枪呢？？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131412,6 +138177,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 143
               ],
@@ -131421,9 +138190,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
-              "messages": {},
+              "messages": {
+                "normal": "只带回来一个石头…你不想要了吗？那我会不好意思的耶…。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131448,6 +138223,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -131460,6 +138239,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -131483,6 +138266,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 143,
               "type": "REQUEST",
@@ -131490,9 +138277,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/weapon/weapon.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我的手艺虽然被别人所认同…但是没有好的材料也没有用呢。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131589,6 +138382,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -131596,9 +138393,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_4",
-              "messages": {},
+              "messages": {
+                "normal": "咦？你好像拿着我的竖琴 的样子啊？ 你把那把竖琴带到多多和 乌鲁力的悬崖边去看看。 一定能见看到 逃走的呼拔拔的唷！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131606,9 +138409,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_4",
-              "messages": {},
+              "messages": {
+                "normal": "我啊！就是梦幻的，猎捕逃走的呼拔拔 的大行家唷！ 想知道方法的话，就告诉我 这个村子里 最有价值的东西是什么。 如果说得出来的话，我就教你喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131650,6 +138459,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第八检查站的证明。 来！还你！请继续加油。 下一个检查站是在乌鲁力村。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -131674,6 +138484,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131681,9 +138495,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在乌鲁力村。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131691,9 +138511,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131701,9 +138527,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131711,9 +138543,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -131721,9 +138559,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_8",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134216,6 +141060,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第九检查站的证明。 来！还你！请继续加油。 下一个检查站是在阿鲁姆山的洞窟。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -134240,6 +141085,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134247,9 +141096,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在阿鲁姆山的洞窟。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134257,9 +141112,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134267,9 +141128,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134277,9 +141144,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134287,9 +141160,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134355,6 +141234,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -134393,10 +141276,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
               "messages": {
-                "normalMain": "那几只蛇真的很凶悍，每次我去追捕它们都一无所获。"
+                "normalMain": "那几只蛇真的很凶悍，每次我去追捕它们都一无所获。",
+                "normal": "剩下的鳞片我想把它做成手炼呢！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134453,6 +141341,32 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1707
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "蛇之铠"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1707,
+                      "qty": 1,
+                      "name": "蛇之铠",
+                      "image": 21044,
+                      "cost": 86900,
+                      "description": "防+37 敏-10 滋润的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 138
               ],
@@ -134484,6 +141398,32 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1402
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "红色小耳环"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1402,
+                      "qty": 1,
+                      "name": "红色小耳环",
+                      "image": 22103,
+                      "cost": 500,
+                      "description": "魅 +3 回避率上升 +1",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 138
               ],
@@ -134515,6 +141455,32 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1379
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "牙十字首饰"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1379,
+                      "qty": 1,
+                      "name": "牙十字首饰",
+                      "image": 22022,
+                      "cost": 9800,
+                      "description": "魅 +2 睡眠石化耐性 +30",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 138
               ],
@@ -134546,6 +141512,32 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1309
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "赤骨的手镯"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1309,
+                      "qty": 1,
+                      "name": "赤骨的手镯",
+                      "image": 22123,
+                      "cost": 2400,
+                      "description": "魅力 +5 会心一击率上升+2",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 138
               ],
@@ -134577,6 +141569,32 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1217
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "青石手环"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1217,
+                      "qty": 1,
+                      "name": "青石手环",
+                      "image": 22078,
+                      "cost": 39000,
+                      "description": "攻 -2 防 -2 敏 +8 魅 +4",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 138
               ],
@@ -134586,9 +141604,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "记得那颗唤蛇之石不要丢掉喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134611,6 +141635,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -134633,6 +141661,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 138,
               "type": "REQUEST",
@@ -134640,9 +141672,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa60/snake/snake1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "那几只蛇真的很凶悍，每次我去追捕它们都一无所获。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134688,10 +141726,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/coin/coin1.arg",
               "messages": {
-                "normalMain": "Чир產柑窥絚芲巴倒耞и產玻常柑"
+                "normalMain": "Чир產柑窥絚芲巴倒耞и產玻常柑",
+                "normal": "ぱぃノ緅▄舘箉"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134724,6 +141767,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -134731,9 +141778,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/coin/coin1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "еぃ礛иぱ痷穦緅▄"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134756,6 +141809,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -134763,9 +141820,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/coin/coin1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "Чир產柑窥絚芲巴倒耞и產玻常柑"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134809,10 +141872,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/jaruga/event/20501ev3",
               "messages": {
-                "normalMain": "我重要的斧头断掉了…。"
+                "normalMain": "我重要的斧头断掉了…。",
+                "normal": "啊！斧头的事情真是太谢谢你了。 我现在用那把斧头每天辛勤地工作着呢！ 我会注意不要再让它折断了！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134820,9 +141888,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/20501ev3",
-              "messages": {},
+              "messages": {
+                "normal": "要好好的努力喔。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -134866,6 +141940,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 18
               ],
@@ -134911,6 +141989,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 18
               ],
@@ -134921,6 +142003,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/jaruga/event/20501ev3",
               "messages": {
+                "normal": "委托书不见了吗？ 真拿你没办法… 那我再写一张你等一下。 是阿鲁姆山的哈恩对吧。",
                 "itemFull": "喂喂！ 你的道具袋 装不下委托书嘛！ 丢掉一些东西之后再来！"
               },
               "getItems": [
@@ -134935,6 +142018,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 18,
               "type": "MESSAGE",
@@ -134962,6 +142049,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 18,
               "type": "REQUEST",
@@ -136310,6 +143401,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -136317,9 +143412,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_2",
-              "messages": {},
+              "messages": {
+                "normal": "嗯…以这样骨头的量 好像做不成特效药呢！ 还需要更多“逃走的呼拔拔”才行呢！ 赶快再去多搜集一点来吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -136327,9 +143428,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_2",
-              "messages": {},
+              "messages": {
+                "normal": "我是这个村子理的药剂师。 为了制成专治麻痹蜘蛛的特效药， 必须要有一种叫做“逃走的呼拔拔”的 稀有野兽的骨头才行。 最近都拿不到手， 所以无法马上帮你调配，事情就是这样的…。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -136397,6 +143504,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -136404,9 +143515,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent02_3",
-              "messages": {},
+              "messages": {
+                "normal": "在来这里的途中，我儿子 被麻痹蜘蛛咬到了。 我很努力的把这小孩背来这…。 拜托你了！能不能麻烦你 给我可以致麻痹的特效药呢？"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137473,10 +144590,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/sound/sound1.arg",
               "messages": {
-                "normalMain": "经过泪之海的史东尔洞窟要小心点喔！听到奇怪的声音不要笨笨的进去一探究竟，很多人进去洞窟之后都一去不回了。"
+                "normalMain": "经过泪之海的史东尔洞窟要小心点喔！听到奇怪的声音不要笨笨的进去一探究竟，很多人进去洞窟之后都一去不回了。",
+                "normal": "渔夫们现在都学乖了，不会再因为听到奇怪的声音就乱跑了。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137485,6 +144607,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/sound/sound1.arg",
               "messages": {
+                "petFull": "你身上的宠物太多了，赶快去宠物店里寄放吧！",
                 "itemFull": "你身上的东西可以减少一点吗。"
               },
               "getItems": [
@@ -137509,6 +144632,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 144
               ],
@@ -137527,9 +144654,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/sound/sound1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我们的希望都建筑在你的身上了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137540,6 +144673,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 144,
               "type": "REQUEST",
@@ -137547,9 +144684,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/sound/sound1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "经过泪之海的史东尔洞窟要小心点喔！听到奇怪的声音不要笨笨的进去一探究竟，很多人进去洞窟之后都一去不回了。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137612,6 +144755,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第十二检查站的证明。 全部的证明都收集到了嘛！ 来！带着这个到 卡鲁它那去吧！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -137636,6 +144780,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137643,9 +144791,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
-              "messages": {},
+              "messages": {
+                "normal": "全部的证明都收集到了嘛！ 来！带着这个到 卡鲁它那去吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137653,9 +144807,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137663,9 +144823,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137673,9 +144839,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137683,9 +144855,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_12",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137736,6 +144914,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 21,
               "type": "ACCEPT",
@@ -137750,6 +144932,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -137774,6 +144960,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -137798,6 +144988,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 21,
               "type": "ACCEPT",
@@ -137810,6 +145004,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137861,6 +145059,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 46,
               "type": "REQUEST",
@@ -137877,6 +145079,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 46,
               "type": "REQUEST",
@@ -137893,6 +145099,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 46,
               "type": "REQUEST",
@@ -137900,9 +145110,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/hekisei",
-              "messages": {},
+              "messages": {
+                "normal": "你愿意实现水精灵艾尼基大人的愿望 实在太感谢你了 我在这里祈祷 全世界的水可以快一点 变回以前那样的澄净。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137910,9 +145126,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/hekisei",
-              "messages": {},
+              "messages": {
+                "normal": "最近全世界的水都变的很肮脏。 这样下去，再过几年 水就会变的无法让动物栖息 有没有人可以解决这个问题啊…"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -137954,9 +145176,15 @@ export const WORLD = {
           "scriptEvents": [
             {
               "source": "gmsv-data/npc/sa60/tear/tear7.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我记得在前一年吧！有一位女孩子等着他心爱的另一半！迟迟没有回来，那位女孩子不停的哭泣，当大家发现她的时候已经不幸死了。之后在每一个夜晚村子附近都会出现女孩子的哭泣声，好恐怖啊！害我晚上都不敢出门。经过大家讨论之后，同意盖了一座雕像希望她能因此安息。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -138476,6 +145704,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -138503,6 +145735,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 39,
               "type": "REQUEST",
@@ -138510,9 +145746,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/ruri02",
-              "messages": {},
+              "messages": {
+                "normal": "我非常了解我老婆的心情。 真的是非常的谢谢你。 我也会跟伊布一起为妻子祈祷 在下一个宿身被选定 妻子的使命完成之前 决定一直在这里等下去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -138520,9 +145762,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/ruri02",
-              "messages": {},
+              "messages": {
+                "normal": "我儿子伊布把他母亲雅哈奴的日记 从这个家拿了出去并离家出走了。 一定是去找寻他母亲 雅哈奴的行踪吧。 那小子连我说的话都没听…"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139042,7 +146290,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_ed1",
               "messages": {
                 "normalMain": "你要不要参加巡回全岛活动啊？可以在加加报名喔！",
-                "itemFull": "你的道具太多了，没有办法给你。 你可以清除一些道具再来吗？"
+                "normal": "真是辛苦你了！ 恭喜你完成了JOT 所有的路程！ 我们要送你........................这个奖品！ 竭诚希望你能再度参加！ 辛苦你了，谢谢！",
+                "itemFull": "你的道具太多了，没有办法给你。 你可以清除一些道具再来吗？",
+                "petFull": "你的宠物太多了，没有办法给你。 你可以减少宠物的数量再来吗？"
               },
               "getItems": [],
               "delItems": [
@@ -139056,6 +146306,116 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    20128,
+                    18557,
+                    2109,
+                    2110,
+                    2111,
+                    69,
+                    59,
+                    269,
+                    2565,
+                    2566,
+                    69,
+                    59,
+                    269,
+                    2565,
+                    2566
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "月亮首饰 Lv 3",
+                    "涛之圣石",
+                    "白石盾牌",
+                    "白石腰带",
+                    "白石鞋",
+                    "特洛西Lv4斧头",
+                    "特洛金Lv3斧头",
+                    "特洛西Lv4枪"
+                  ],
+                  "sample": [
+                    {
+                      "id": 20128,
+                      "qty": 1,
+                      "name": "月亮首饰 Lv 3",
+                      "image": 24709,
+                      "cost": 120000,
+                      "description": "降低遇敌机率",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 18557,
+                      "qty": 1,
+                      "name": "涛之圣石",
+                      "image": 24055,
+                      "cost": 0,
+                      "description": "传说中波拉岛水属性的宝石，具有神奇的力量",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2109,
+                      "qty": 1,
+                      "name": "白石盾牌",
+                      "image": 21259,
+                      "cost": 8000,
+                      "description": "防+8 格挡率+2%",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2110,
+                      "qty": 1,
+                      "name": "白石腰带",
+                      "image": 21401,
+                      "cost": 6000,
+                      "description": "防+6 负重+1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2111,
+                      "qty": 1,
+                      "name": "白石鞋",
+                      "image": 21703,
+                      "cost": 7000,
+                      "description": "敏+8 增加攻击顺序5%",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 69,
+                      "qty": 1,
+                      "name": "特洛西Lv4斧头",
+                      "image": 20019,
+                      "cost": 19420,
+                      "description": "攻 +41 防 -13 敏 -13 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 59,
+                      "qty": 1,
+                      "name": "特洛金Lv3斧头",
+                      "image": 20014,
+                      "cost": 14650,
+                      "description": "攻 +35 防 -12 敏 -12 昏睡的精灵 Lv3",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 269,
+                      "qty": 1,
+                      "name": "特洛西Lv4枪",
+                      "image": 20431,
+                      "cost": 18120,
+                      "description": "攻 +33 敏 -7 魅 +4 睡眠的精灵 Lv4",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139095,9 +146455,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_ed1",
-              "messages": {},
+              "messages": {
+                "normal": "这里是JOT“A方案”的终点集合场所。 “B方案”的终点集合场所............ 是在加加喔！ 路程所剩不多了，请加油喔！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139176,6 +146542,56 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    12644,
+                    12635,
+                    12635,
+                    12641,
+                    12641
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "水果叁明治",
+                    "硬的面包",
+                    "热腾腾的饭团"
+                  ],
+                  "sample": [
+                    {
+                      "id": 12644,
+                      "qty": 1,
+                      "name": "水果叁明治",
+                      "image": 24541,
+                      "cost": 10,
+                      "description": "气25回复(1人) 叁明治内放入各种水果",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12635,
+                      "qty": 1,
+                      "name": "硬的面包",
+                      "image": 24538,
+                      "cost": 10,
+                      "description": "耐久力120回复(1人) 非常时刻用硬的面包",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 12641,
+                      "qty": 1,
+                      "name": "热腾腾的饭团",
+                      "image": 24400,
+                      "cost": 140,
+                      "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139226,6 +146642,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139249,6 +146669,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139256,9 +146680,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_ed1",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139335,10 +146765,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/fighter",
               "messages": {
-                "normalMain": "加油…祝你早日学会所有的战斗技巧。"
+                "normalMain": "加油…祝你早日学会所有的战斗技巧。",
+                "normal": "嗨…想开始学习战斗技巧了吗？那找我就对了。要在石器时代中生存，学会如何战斗是很重要的事。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139422,6 +146857,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139474,6 +146913,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139526,6 +146969,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139533,9 +146980,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/nevent01_1",
-              "messages": {},
+              "messages": {
+                "normal": "天气真好！真想去钓鱼啊！ 刚刚钓竿才被水冲走了说… 对了！这村子里 不是有一个有名的钓竿专家吗？ 真想用他做的钓竿来钓鱼啊！ 我可没有特别要你 帮忙拿来唷！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139580,10 +147033,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/feast/feast1.arg",
               "messages": {
-                "normalMain": "み翅程此狶柑Τ旱⊿"
+                "normalMain": "み翅程此狶柑Τ旱⊿",
+                "normal": "媚狦ぃ岿"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139625,6 +147083,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139632,9 +147094,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "︑璶み翴ê唉フ旱ぃ琌稴"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139657,6 +147125,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139664,9 +147136,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/feast/feast1.arg",
-              "messages": {},
+              "messages": {
+                "normal": "み翅程此狶柑Τ旱⊿τ常穦ю阑摸"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139711,6 +147189,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第六检查站的证明。 来！还你！请继续加油。 下一个检查站是在拉多拉回廊。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -139735,6 +147214,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139742,9 +147225,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在拉多拉回廊。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139752,9 +147241,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139762,9 +147257,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139772,9 +147273,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139782,9 +147289,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_6",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139927,6 +147440,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -139939,6 +147456,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -139949,6 +147470,7 @@ export const WORLD = {
               "messages": {
                 "accept": "贩卖往斗技场的票。 你的话要s。 可以吗？ 还有、其他的票全部都要回收 、请原谅。",
                 "thanks": "那么、我就把票交给你啰。还有、这张票若是登出、或是放置于地面都会消失请注。",
+                "stoneLess": "不好意思钱不够喔。",
                 "itemFull": "道具已满无法交付给你。"
               },
               "getItems": [
@@ -140045,6 +147567,16 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*3",
+                  "multiplier": 3,
+                  "source": "LV*3"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140113,9 +147645,15 @@ export const WORLD = {
           "scriptEvents": [
             {
               "source": "gmsv-data/npc/sa50/petfusion/petfusion",
-              "messages": {},
+              "messages": {
+                "normal": "听说魔族即将大举入侵，恐龙博士为了维护人类的生存而专注研究神秘的恐龙融合法，将恐龙进化为更强悍以对付魔族。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -140190,6 +147728,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140233,6 +147775,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140276,6 +147822,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140319,6 +147869,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140362,6 +147916,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140405,6 +147963,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140448,6 +148010,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140491,6 +148057,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140534,6 +148104,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -140596,6 +148170,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 6,
               "type": "ACCEPT",
@@ -140603,9 +148181,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/event06_2",
-              "messages": {},
+              "messages": {
+                "normal": "你不是已经有贝壳了吗？ 那就已经不需要了"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 6,
               "type": "MESSAGE",
@@ -140630,6 +148214,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 6,
               "type": "ACCEPT",
@@ -140654,6 +148242,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -142845,10 +150437,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa60/newbie/petmaster",
               "messages": {
-                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。"
+                "normalMain": "宠物可以说是我们的第二生命，所以千万要好好善待它们啊…。",
+                "normal": "嗨～我会告诉你有关宠物的知识，这对石器这个世界来说，是绝对重要的，所以请你注意听下去…。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -146073,7 +153670,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "如果您完成了委托书上所述的任务，就可以过来找我领取酬劳喔！",
                 "accept": "哦？你将宠物任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146087,6 +153685,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 400,
+                  "source": "400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146112,7 +153719,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146126,6 +153734,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 800,
+                  "source": "800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146151,7 +153768,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146165,6 +153783,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1500,
+                  "source": "1500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146190,7 +153817,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｄ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146204,6 +153832,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 3500,
+                  "source": "3500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146244,6 +153881,114 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    13061,
+                    13062,
+                    13063,
+                    13064,
+                    13065,
+                    13066,
+                    13067,
+                    13068,
+                    13069,
+                    13070,
+                    13071,
+                    13072,
+                    13073
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛",
+                    "精灵的羽毛"
+                  ],
+                  "sample": [
+                    {
+                      "id": 13061,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24074,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至萨姆吉尔村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13062,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24075,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至玛丽娜丝渔村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13063,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至加加村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13064,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24077,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至卡鲁它那村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13065,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至福尔德村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13066,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至奇喀喀村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13067,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至达那村",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 13068,
+                      "qty": 1,
+                      "name": "精灵的羽毛",
+                      "image": 24076,
+                      "cost": 2000,
+                      "description": "可单人瞬间飞行至柯奥村",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146283,7 +154028,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将宠物任务Ｆ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146297,6 +154043,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 18000,
+                  "source": "18000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146343,7 +154098,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将料理任务Ａ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146366,6 +154122,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 350,
+                  "source": "350"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146375,7 +154140,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将料理任务Ｂ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146398,6 +154164,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1000,
+                  "source": "1000"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146407,7 +154182,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将料理任务Ｃ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146430,6 +154206,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1400,
+                  "source": "1400"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146439,7 +154224,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将料理任务Ｄ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146480,6 +154266,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 1600,
+                  "source": "1600"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146489,7 +154284,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/extra/event/M_4000",
               "messages": {
                 "accept": "哦？你将料理任务Ｅ完成了吗？",
-                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！"
+                "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146512,6 +154308,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 2500,
+                  "source": "2500"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -146522,7 +154327,8 @@ export const WORLD = {
               "messages": {
                 "accept": "哦？你将料理任务Ｆ完成了吗？",
                 "thanks": "恭喜你完成任务！！！这是你应得的酬劳！",
-                "itemFull": "你的道具满了，我无法给你酬劳喔！"
+                "itemFull": "你的道具满了，我无法给你酬劳喔！",
+                "stoneFull": "你的钱太多了，这样我无法给你喔！"
               },
               "getItems": [],
               "delItems": [
@@ -146563,6 +154369,15 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [
+                {
+                  "amount": 4800,
+                  "source": "4800"
+                }
+              ],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -147078,6 +154893,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -147090,6 +154909,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -147547,6 +155370,7 @@ export const WORLD = {
                 "normalMain": "你也以成为猜谜大师而在努力着呀！",
                 "accept": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV70以上拿着“入场券C”进去吧。 收下参加费stone 。这样子可以吗？",
                 "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导C的人 帮你介绍吧。",
+                "stoneLess": "非常的不好意思 钱不够喔。",
                 "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
               },
               "getItems": [
@@ -147561,6 +155385,16 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*40",
+                  "multiplier": 40,
+                  "source": "LV*40"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -147568,9 +155402,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/quiz/uketuke2",
-              "messages": {},
+              "messages": {
+                "normal": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 这个道场接受LV70以上的人进来。 非此对象的话请往 玛丽娜丝道场前进吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -147578,9 +155418,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/quiz/uketuke2",
-              "messages": {},
+              "messages": {
+                "normal": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为LV30以下的客人非常的危险 决定不让你入场。 请变成LV30以上之后再来吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -147624,6 +155470,7 @@ export const WORLD = {
                 "normalMain": "你也以成为猜谜大师而在努力着呀！",
                 "accept": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为你是LV70以上拿着“入场券C”进去吧。 收下参加费stone 。这样子可以吗？",
                 "thanks": "非常的谢谢你。 确实收到了。 那么往前走请引导C的人 帮你介绍吧。",
+                "stoneLess": "非常的不好意思 钱不够喔。",
                 "itemFull": "道具已经满了。 可以把道具减少之后 再入场来吗？"
               },
               "getItems": [
@@ -147638,6 +155485,16 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [
+                {
+                  "expr": "LV*40",
+                  "multiplier": 40,
+                  "source": "LV*40"
+                }
+              ],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -147645,9 +155502,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/quiz/uketuke2",
-              "messages": {},
+              "messages": {
+                "normal": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 这个道场接受LV70以上的人进来。 非此对象的话请往 玛丽娜丝道场前进吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -147655,9 +155518,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/quiz/uketuke2",
-              "messages": {},
+              "messages": {
+                "normal": "欢迎来到卡鲁它那的道场。 在这里贩卖着往前面的‘猜谜三兄弟的家’的入场券。 因为LV30以下的客人非常的危险 决定不让你入场。 请变成LV30以上之后再来吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -150810,6 +158679,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -163700,10 +171573,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/class/war3",
               "messages": {
-                "normalMain": "加油吧…未来的白狼勇士。"
+                "normalMain": "加油吧…未来的白狼勇士。",
+                "normal": "年轻人，曾经听过白狼勇士的名号吗？没有的话，就让我来告诉你吧；白狼勇士这个名号是由拉尔一手建立的。他的战斗技艺已经到了炉火纯青的境界。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -163747,6 +171625,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -163757,6 +171639,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -163767,6 +171653,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -163777,6 +171667,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -163787,6 +171681,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -163797,6 +171695,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -163807,6 +171709,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -163814,9 +171720,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/class/clean",
-              "messages": {},
+              "messages": {
+                "normal": "问我吗？喔，我的工作是帮一些草率下决定的人，当他们后悔所选择的职业，重新让他们有选择的机会。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -164082,6 +171994,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -164092,6 +172008,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164102,6 +172022,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164112,6 +172036,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164122,6 +172050,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164132,6 +172064,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164142,6 +172078,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164149,9 +172089,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/class/clean",
-              "messages": {},
+              "messages": {
+                "normal": "问我吗？喔，我的工作是帮一些草率下决定的人，当他们后悔所选择的职业，重新让他们有选择的机会。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -164197,10 +172143,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/class/arch3",
               "messages": {
-                "normalMain": "看哪！这大自然是多么的美好，我几乎可以嗅到生命的味道。"
+                "normalMain": "看哪！这大自然是多么的美好，我几乎可以嗅到生命的味道。",
+                "normal": "什么？没想到你不知追猎者这三个字所代表的意义。那么就让我来告诉你，追猎者是这个世界上最顶尖的猎人的统称。"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -164451,6 +172402,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -164461,6 +172416,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164471,6 +172430,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164481,6 +172444,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164491,6 +172458,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164501,6 +172472,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164511,6 +172486,10 @@ export const WORLD = {
               "messages": {},
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "CLEAN",
@@ -164518,9 +172497,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/class/clean",
-              "messages": {},
+              "messages": {
+                "normal": "问我吗？喔，我的工作是帮一些草率下决定的人，当他们后悔所选择的职业，重新让他们有选择的机会。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -165424,6 +173409,65 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [
+                {
+                  "ids": [
+                    2087,
+                    2088,
+                    2089,
+                    2099
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "熊皮",
+                    "熊骨",
+                    "钢铁",
+                    "匕首"
+                  ],
+                  "sample": [
+                    {
+                      "id": 2087,
+                      "qty": 1,
+                      "name": "熊皮",
+                      "image": 24124,
+                      "cost": 22,
+                      "description": "熊皮",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2088,
+                      "qty": 1,
+                      "name": "熊骨",
+                      "image": 24108,
+                      "cost": 26,
+                      "description": "熊骨",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2089,
+                      "qty": 1,
+                      "name": "钢铁",
+                      "image": 22345,
+                      "cost": 30000,
+                      "description": "钢铁",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 2099,
+                      "qty": 1,
+                      "name": "匕首",
+                      "image": 20685,
+                      "cost": 0,
+                      "description": "匕首",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "ACCEPT",
@@ -165431,9 +173475,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest5",
-              "messages": {},
+              "messages": {
+                "normal": "嘶～～嘶嘶～"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -167787,10 +175837,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sa70/beers/beers4.arg",
               "messages": {
-                "normalMain": "水果你都拿了，赶快离开我的地盘！"
+                "normalMain": "水果你都拿了，赶快离开我的地盘！",
+                "normal": "水果你都拿了，赶快离开我的地盘！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -169421,10 +177476,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -169433,6 +177493,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第10检查点了。 来，请拿去。请继续努力！ 下一个地方好像是盗贼的洞窟哦。",
                 "itemFull": "什么？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -169457,6 +177518,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -169464,9 +177529,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经来过 这个检查点了。 下一个检查点 好像是盗贼的洞窟。请多加油啊。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -169474,9 +177545,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -169484,9 +177561,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线的哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -169494,9 +177577,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_10d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170426,6 +178515,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第6检查点了。 来，请拿去。请继续加油哦。 下一个检查点是柯尔克的大坑道。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -170450,6 +178540,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170457,9 +178551,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是柯尔克的大坑道。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170467,9 +178567,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170477,9 +178583,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170487,9 +178599,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170497,9 +178615,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_6c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170543,10 +178667,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/tiger_water.arg",
               "messages": {
-                "normalMain": "我是查罕族的祭司，负责查罕族的一切祭典。"
+                "normalMain": "我是查罕族的祭司，负责查罕族的一切祭典。",
+                "normal": "这调制出来的泉水可以给哪一种宠物使用呢？"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170555,6 +178684,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/tiger_water.arg",
               "messages": {
+                "normal": "没想到你还真是英勇，能击倒我们查罕族的三勇士，那我就帮你调制特殊的泉水。",
                 "itemFull": "你身上的带袋子满了。"
               },
               "getItems": [
@@ -170615,6 +178745,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -170622,9 +178756,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/tiger_water.arg",
-              "messages": {},
+              "messages": {
+                "normal": "我曾在那位旅行的年轻人身上学习到，利用此处的泉水以及带有属性的水果可以调制出可以激发具有神圣灵魂宠物能力的泉水，如果你想要我为你调制你就带着必要的东西来吧。 不过，除了那两项物品之外，你还需要带来击倒我们查罕族三勇士的证明，我才会承认你，帮你调制。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -172652,6 +180792,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 4
               ],
@@ -172670,6 +180814,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 4,
               "type": "REQUEST",
@@ -172682,6 +180830,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -172740,6 +180892,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 4,
               "type": "ACCEPT",
@@ -173359,10 +181515,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173371,6 +181532,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第11检查点了。 来，请拿去。请继续努力！ 下一个在从玛丽娜丝村北方出口前的树 开始，往西走8步、往北走127步的地方。",
                 "itemFull": "你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -173395,6 +181557,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173402,9 +181568,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经来过 这个检查点了。 下一个检查点 是从玛丽娜丝北方出口前的树开始 往西走8步、往北走127步的地方。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173412,9 +181584,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173422,9 +181600,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173432,9 +181616,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_11d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173479,6 +181669,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第5检查点了。 来，请拿去。请继续加油哦。 下一个检查点是阿布的洞窟。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -173503,6 +181694,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173510,9 +181705,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是阿布的洞窟。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173520,9 +181721,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173530,9 +181737,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173540,9 +181753,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -173550,9 +181769,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_5c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -174871,10 +183096,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -174883,6 +183113,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第9检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是阿布的洞窟，继续再接再厉哦。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -174907,6 +183138,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -174914,9 +183149,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是阿布的洞窟。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -174924,9 +183165,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -174934,9 +183181,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -174944,9 +183197,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_9d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175350,10 +183609,15 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
               "messages": {
-                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。"
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175362,6 +183626,7 @@ export const WORLD = {
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
               "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第2检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是柯尔克的大坑道。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -175386,6 +183651,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175393,9 +183662,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 科克尔的大坑道。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175403,9 +183678,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175413,9 +183694,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175423,9 +183710,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_8d",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -175989,6 +184282,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
               "messages": {
                 "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第3检查点了。 来，请拿去。请继续加油哦。 下一个检查点是玛丽娜丝村。",
                 "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
               },
               "getItems": [
@@ -176013,6 +184307,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176020,9 +184318,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
-              "messages": {},
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是玛丽娜丝村。 请继续加油哦。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176030,9 +184334,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
-              "messages": {},
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176040,9 +184350,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
-              "messages": {},
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176050,9 +184366,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
-              "messages": {},
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176060,9 +184382,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/sainasu/event/oev_3c",
-              "messages": {},
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176448,6 +184776,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176493,6 +184825,109 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [
+                {
+                  "ids": [
+                    1350,
+                    1351,
+                    1352,
+                    1354,
+                    700,
+                    1455,
+                    1102,
+                    1122
+                  ],
+                  "qty": 1,
+                  "source": "GetRandItem",
+                  "names": [
+                    "黑色小首饰",
+                    "红色小首饰",
+                    "小骨首饰",
+                    "青色小首饰",
+                    "小的石",
+                    "阿西美拉护身符1",
+                    "芙雷雅Lv1服1",
+                    "芙雷雅Lv1服3"
+                  ],
+                  "sample": [
+                    {
+                      "id": 1350,
+                      "qty": 1,
+                      "name": "黑色小首饰",
+                      "image": 22010,
+                      "cost": 3400,
+                      "description": "魅 +1 毒耐性 +10",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1351,
+                      "qty": 1,
+                      "name": "红色小首饰",
+                      "image": 22008,
+                      "cost": 3000,
+                      "description": "魅 +1 石化耐性 +10",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1352,
+                      "qty": 1,
+                      "name": "小骨首饰",
+                      "image": 22016,
+                      "cost": 2600,
+                      "description": "魅 +1 睡眠耐性 +10",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1354,
+                      "qty": 1,
+                      "name": "青色小首饰",
+                      "image": 22001,
+                      "cost": 2000,
+                      "description": "魅 +1 酒醉耐性 +10",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 700,
+                      "qty": 1,
+                      "name": "小的石",
+                      "image": 20503,
+                      "cost": 55,
+                      "description": "攻 +3 防 -1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1455,
+                      "qty": 1,
+                      "name": "阿西美拉护身符1",
+                      "image": 22013,
+                      "cost": 4800,
+                      "description": "魅 +1 光的精灵",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1102,
+                      "qty": 1,
+                      "name": "芙雷雅Lv1服1",
+                      "image": 21039,
+                      "cost": 176,
+                      "description": "防 +1 滋润的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    },
+                    {
+                      "id": 1122,
+                      "qty": 1,
+                      "name": "芙雷雅Lv1服3",
+                      "image": 21034,
+                      "cost": 1386,
+                      "description": "防 +5 滋润的精灵 Lv1",
+                      "source": "gmsv-data/itemset6.txt"
+                    }
+                  ]
+                }
+              ],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 15
               ],
@@ -176513,10 +184948,15 @@ export const WORLD = {
               "source": "gmsv-data/npc/sainasu/event/event15_1",
               "messages": {
                 "accept": "喂喂！就是那一只。如果你有两只以上的话， 就把可以给我的那一只先拿着， 不然的话，我就自己挑了唷！",
-                "thanks": "长得真是好的贝鲁卡啊！ 我就给你这只宠物作为谢礼吧！ 这是很稀有的动物， 你要好好珍惜。"
+                "thanks": "长得真是好的贝鲁卡啊！ 我就给你这只宠物作为谢礼吧！ 这是很稀有的动物， 你要好好珍惜。",
+                "petFull": "你的宠物带太多了唷！ 你要丢掉哪一只？"
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 16
               ],
@@ -176553,6 +184993,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 15,
               "type": "REQUEST",
@@ -176569,6 +185013,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 16,
               "type": "REQUEST",
@@ -176581,6 +185029,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176593,6 +185045,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -176605,6 +185061,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177160,6 +185620,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第九检查站的证明。 来！还你！请继续加油。 下一个检查站是在 哥亚山的洞窟喔。接下来的路程也请继续努力喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -177184,6 +185645,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177191,9 +185656,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在 下一个检查站是在 哥亚山的洞窟喔。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177201,9 +185672,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177211,9 +185688,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177221,9 +185704,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177231,9 +185720,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_9b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177278,6 +185773,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第七检查站的证明。 来！还你！请继续加油。 下一个检查站是在多多村。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -177302,6 +185798,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177309,9 +185809,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在多多村。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177319,9 +185825,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177329,9 +185841,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177339,9 +185857,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177349,9 +185873,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177797,6 +186327,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 8
               ],
@@ -177826,6 +186360,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 7,
               "type": "REQUEST",
@@ -177838,6 +186376,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177850,6 +186392,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -177894,7 +186440,8 @@ export const WORLD = {
               "messages": {
                 "normalMain": "嗨！上回谢谢啦！",
                 "accept": "上回托你找的贝壳，有着落了吗？",
-                "thanks": "太感激你了！ 还真的被你找到 真是出乎意料之外 就以我抓到的宠物 来做为谢礼吧！ 你可要好好照顾它喔！"
+                "thanks": "太感激你了！ 还真的被你找到 真是出乎意料之外 就以我抓到的宠物 来做为谢礼吧！ 你可要好好照顾它喔！",
+                "petFull": "看情形，我的宠物 你大概是很难带走 你的道具袋已经满了"
               },
               "getItems": [],
               "delItems": [
@@ -177908,6 +186455,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 6
               ],
@@ -177928,7 +186479,8 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/event06_1",
               "messages": {
                 "accept": "上回托你找的贝壳，有着落了吗？ 可是！仅此一个而已 真的可以给我吗？",
-                "thanks": "太感激你了！ 将仅有一个的贝壳给我，你真的是个大好人 就以我抓到的宠物 做为谢礼送给你吧！ 你可要用心照顾它喔！"
+                "thanks": "太感激你了！ 将仅有一个的贝壳给我，你真的是个大好人 就以我抓到的宠物 做为谢礼送给你吧！ 你可要用心照顾它喔！",
+                "petFull": "看情形，我的宠物 你大概是很难带走 你的道具袋已经满了"
               },
               "getItems": [],
               "delItems": [
@@ -177942,6 +186494,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [
                 6
               ],
@@ -177969,6 +186525,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 6,
               "type": "REQUEST",
@@ -178015,6 +186575,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178466,6 +187030,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第十一检查站的证明。 来！还你！ 下一个检查站好像是在奇喀喀村，快要完成了 要加油喔！",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -178490,6 +187055,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178497,9 +187066,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站好像是在奇喀喀村，已经快结束了，加油喔！。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178507,9 +187082,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178517,9 +187098,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“A方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178527,9 +187114,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
-              "messages": {},
+              "messages": {
+                "normal": "你是“B方案”的参赛者吧？ 这边是“A方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178537,9 +187130,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_11",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178584,6 +187183,7 @@ export const WORLD = {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",
               "messages": {
                 "normalMain": "你要不要参加全岛巡回活动啊？可以在加加报名喔！",
+                "normal": "正确答案！ 那我就在你的证明石上 帮你盖上通过第七检查站的证明。 来！还你！请继续加油。 下一个检查站是在 阿鲁姆山的洞窟喔。",
                 "itemFull": "咦？你的道具太多了 而不能拿证明石耶...."
               },
               "getItems": [
@@ -178608,6 +187208,10 @@ export const WORLD = {
                   "source": "gmsv-data/itemset6.txt"
                 }
               ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178615,9 +187219,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",
-              "messages": {},
+              "messages": {
+                "normal": "这个检查站你已经 通过了喔！ 下一个检查站是在 阿鲁姆山的洞窟喔。 那么请继续努力吧。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178625,9 +187235,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",
-              "messages": {},
+              "messages": {
+                "normal": "你好像太早 来到这个检查站了耶.... 请按照顺序一个一个来。 那么请加油吧！"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178635,9 +187251,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",
-              "messages": {},
+              "messages": {
+                "normal": "请回答写在隔壁看板上的 问题。 这个检查站是“B方案”的路线 “方案”不同的话 路线也不尽相同。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178645,9 +187267,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",
-              "messages": {},
+              "messages": {
+                "normal": "你是“A方案”的参赛者吧？ 这边是“B方案”的路线。 加油！请回到您的路线上。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -178655,9 +187283,15 @@ export const WORLD = {
             },
             {
               "source": "gmsv-data/npc/jaruga/event/oev_7b",
-              "messages": {},
+              "messages": {
+                "normal": "加鲁卡全岛巡回活动，略称JOT 是在这个加鲁卡全岛 举行的全岛巡回活动。 你要不要也来参加看看啊？ 我是JOT的检查员。 要报名的话请到加加去。"
+              },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",
@@ -179319,6 +187953,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 17,
               "type": "ACCEPT",
@@ -179346,6 +187984,10 @@ export const WORLD = {
                 }
               ],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 17,
               "type": "REQUEST",
@@ -179358,6 +188000,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": 17,
               "type": "MESSAGE",
@@ -179370,6 +188016,10 @@ export const WORLD = {
               },
               "getItems": [],
               "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "nowSetFlags": [],
               "endSetFlags": [],
               "eventNo": -1,
               "type": "MESSAGE",

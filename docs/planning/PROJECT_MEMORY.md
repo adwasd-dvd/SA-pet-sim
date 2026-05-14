@@ -105,6 +105,17 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - Flags are available as `flags.endEvents`, `flags.nowEvents`, `flags.bits`, and `flags.npcTalkCounts`.
 - Upcoming NPC/runtime work should expand this toward original character `field`/flag/state semantics rather than inventing web-only quest state.
 
+## Source NPC Runtime Notes
+
+- The Worker deterministic NPC VM now handles several `changeevent` source actions directly:
+  - `GetItem` / `DelItem`
+  - `GetPet` / `DelPet`, including `EVDEL` pet-condition resolution
+  - `GetRandItem`, preserving duplicate source IDs as weighted random reward candidates
+  - `GetStone` / `DelStone`, including source-style dynamic costs such as `LV*3`
+- Source NPC full/shortage messages are parsed into runtime messages, including `ItemFullMsg`, `PetFullMsg`, `StoneFullMsg`, and `StoneLessMsg`.
+- Stone changes still go through `runNpcVmAction`, sync the inventory stone row, and are checked against the original max carried-stone scale (`CHAR_MAXGOLDHAVE = 10000 * 10000`).
+- NPC task summaries and AI/debug context should prefer these compact parsed actions over dumping raw source lines, so token use stays low and numeric item IDs can be resolved before reaching the model.
+
 ## Current Done Tasks
 
 - `client-ui-001`

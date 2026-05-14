@@ -1045,6 +1045,7 @@ const dinoDoctor = WORLD.maps["11006"]?.npcs.find((npc) => npc.name === "恐龙�
 if (!dinoDoctor) throw new Error("missing dinosaur doctor source task fixture");
 assert(dinoDoctor.scriptEvents?.some((event) => event.type === "ACCEPT" && event.delPets?.some((pet) => pet.petId === 74 && pet.op === ">" && pet.level === 14)), "dinosaur doctor parses source DelPet PET>level-pet-id condition");
 assert(dinoDoctor.scriptEvents?.some((event) => event.type === "ACCEPT" && event.getPets?.some((pet) => pet.enemyIds?.includes(95))), "dinosaur doctor parses source GetPet reward");
+assert(dinoDoctor.scriptEvents?.some((event) => event.type === "ACCEPT" && event.getRandItems?.some((spec) => spec.ids?.includes(1350))), "dinosaur doctor parses source GetRandItem reward pool");
 let dinoGame = await api("/api/game/new", { name: "source-task-dino-pet-test" });
 dinoGame.location = { mapId: "11006", x: dinoDoctor.x + 1, y: dinoDoctor.y };
 setTestEventFlag(dinoGame, 15, "now");
@@ -1058,6 +1059,7 @@ dinoGame = await api("/api/game/dialog", { game: dinoGame, npcId: dinoDoctor.id 
 assert(dinoGame.flags.bits["end:15"], "dinosaur doctor accepts PET>14 when the pet is Lv.15");
 assert(!dinoGame.pets.some((pet) => Number(pet.PetId) === 74), "dinosaur doctor deletes the submitted source pet");
 assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "takePet" && event.detail?.reason === "source-changeevent-delpet" && event.detail?.petId === 74), "source DelPet runs through NPC VM");
+assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-getitem" && [1350, 1351, 1352, 1354, 700, 1455, 1102, 1122].includes(Number(event.detail?.itemId))), "source GetRandItem reward runs through NPC VM item give");
 setTestEventFlag(dinoGame, 16, "now");
 dinoGame.player.level = 16;
 dinoGame.pets.push({ ...dinoGame.pets[0], PetId: 191, Name: "贝鲁卡", Lv: 30, Hp: 10, WorkMaxHp: 10 });
@@ -1067,6 +1069,39 @@ assert(dinoGame.flags.bits["end:16"], "dinosaur doctor second source pet task co
 assert(!dinoGame.pets.some((pet) => Number(pet.PetId) === 191), "dinosaur doctor removes submitted Beluka source pet");
 assertEqual(dinoGame.pets.length, dinoPetCountBeforeReward, "dinosaur doctor removes one pet and gives one source reward pet");
 assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "givePet" && event.detail?.reason === "source-changeevent-getpet" && event.detail?.givenPets?.some((pet) => pet.enemyId === 95)), "source GetPet reward runs through NPC VM");
+
+const commissionNpc = WORLD.maps["1009"]?.npcs.find((npc) => npc.name === "委托管理员" && npc.scriptEvents?.some((event) => event.getStones?.some((stone) => Number(stone.amount) === 350)));
+if (!commissionNpc) throw new Error("missing commission source GetStone fixture");
+assert(commissionNpc.scriptEvents?.some((event) => event.getStones?.some((stone) => Number(stone.amount) === 350)), "commission manager parses source GetStone reward");
+let commissionGame = await api("/api/game/new", { name: "source-script-stone-reward-test" });
+commissionGame.location = { mapId: "1009", x: commissionNpc.x + 1, y: commissionNpc.y };
+commissionGame.player.stone = 100;
+commissionGame.inventory = [
+  { id: "stone", name: "石币", qty: 100 },
+  { id: 20021, name: "萨村料理委托书Ａ", qty: 1 },
+  { id: 12583, name: "硬掉的荷包蛋", qty: 5 }
+];
+commissionGame = await api("/api/game/dialog", { game: commissionGame, npcId: commissionNpc.id });
+assertEqual(inventoryQty(commissionGame, 20021), 0, "source commission consumes commission ticket");
+assertEqual(inventoryQty(commissionGame, 12583), 0, "source commission consumes submitted food stack");
+assertEqual(commissionGame.player.stone, 450, "source GetStone reward adds stone through NPC VM");
+assert(commissionGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-getstone" && event.detail?.stone === 350), "source GetStone records NPC VM stone give");
+
+const ticketNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "门票贩卖员" && npc.scriptEvents?.some((event) => event.delStones?.some((stone) => stone.expr === "LV*3")));
+if (!ticketNpc) throw new Error("missing source DelStone ticket fixture");
+assert(ticketNpc.scriptEvents?.some((event) => event.delStones?.some((stone) => stone.expr === "LV*3")), "ticket seller parses source DelStone LV* multiplier");
+let ticketGame = await api("/api/game/new", { name: "source-script-stone-cost-test" });
+ticketGame.location = { mapId: "1000", x: ticketNpc.x + 1, y: ticketNpc.y };
+ticketGame.player.level = 12;
+ticketGame.player.stone = 100;
+ticketGame.inventory = [
+  { id: "stone", name: "石币", qty: 100 },
+  ...[2521, 2522, 2523, 2524, 2598, 2599, 2600, 2601, 2602].map((id) => ({ id, name: `旧票${id}`, qty: 1 }))
+];
+ticketGame = await api("/api/game/dialog", { game: ticketGame, npcId: ticketNpc.id });
+assertEqual(ticketGame.player.stone, 64, "source DelStone LV*3 charges player level times multiplier");
+assertEqual(inventoryQty(ticketGame, 2597), 1, "ticket seller gives source arena ticket after DelStone payment");
+assert(ticketGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-delstone" && event.detail?.qty === 36), "source DelStone records NPC VM stone take");
 
 const petEventWarp = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))

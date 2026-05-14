@@ -62,6 +62,7 @@ const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
 const PET_CAPACITY = 5;
+const CHAR_MAXGOLDHAVE = 10000 * 10000;
 const BATTLE_ENTRY_MAX = 10;
 const BATTLE_PLAYER_MAX = 5;
 const BATTLE_SIDE_OFFSET = 10;
@@ -4544,7 +4545,17 @@ function runNpcScriptRequest(game, npc, event, detail) {
       ...detail
     });
   }
-  recordNpcVmEvent(game, npc, "quest", "ok", { ...detail, phase: "request", getItems: event.getItems, delItems: event.delItems, getPets: event.getPets, delPets: event.delPets });
+  recordNpcVmEvent(game, npc, "quest", "ok", {
+    ...detail,
+    phase: "request",
+    getItems: event.getItems,
+    delItems: event.delItems,
+    getRandItems: event.getRandItems,
+    getStones: event.getStones,
+    delStones: event.delStones,
+    getPets: event.getPets,
+    delPets: event.delPets
+  });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["request", "thanks", "normalMain"]);
   const rewardLine = scriptEventRewardLine(event);
@@ -4569,7 +4580,18 @@ function runNpcScriptAccept(game, npc, event, detail) {
       reason: "source-changeevent-end"
     });
   }
-  recordNpcVmEvent(game, npc, "quest", "ok", { ...detail, phase: "accept", getItems: event.getItems, delItems: event.delItems, getPets: event.getPets, delPets: event.delPets, endSetFlags: event.endSetFlags });
+  recordNpcVmEvent(game, npc, "quest", "ok", {
+    ...detail,
+    phase: "accept",
+    getItems: event.getItems,
+    delItems: event.delItems,
+    getRandItems: event.getRandItems,
+    getStones: event.getStones,
+    delStones: event.delStones,
+    getPets: event.getPets,
+    delPets: event.delPets,
+    endSetFlags: event.endSetFlags
+  });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"]);
   const rewardLine = scriptEventRewardLine(event);
@@ -4604,8 +4626,28 @@ function runNpcScriptMessage(game, npc, event, detail) {
       reason: "source-changeevent-message-end"
     });
   }
-  const hasMutation = (event.getItems || []).length || (event.delItems || []).length || (event.getPets || []).length || (event.delPets || []).length || (event.endSetFlags || []).length || (event.nowSetFlags || []).length;
-  recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", { ...detail, phase: "message", getItems: event.getItems, delItems: event.delItems, getPets: event.getPets, delPets: event.delPets, endSetFlags: event.endSetFlags, nowSetFlags: event.nowSetFlags });
+  const hasMutation = (event.getItems || []).length
+    || (event.delItems || []).length
+    || (event.getRandItems || []).length
+    || (event.getStones || []).length
+    || (event.delStones || []).length
+    || (event.getPets || []).length
+    || (event.delPets || []).length
+    || (event.endSetFlags || []).length
+    || (event.nowSetFlags || []).length;
+  recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", {
+    ...detail,
+    phase: "message",
+    getItems: event.getItems,
+    delItems: event.delItems,
+    getRandItems: event.getRandItems,
+    getStones: event.getStones,
+    delStones: event.delStones,
+    getPets: event.getPets,
+    delPets: event.delPets,
+    endSetFlags: event.endSetFlags,
+    nowSetFlags: event.nowSetFlags
+  });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"]);
   const rewardLine = scriptEventRewardLine(event);
@@ -4615,18 +4657,31 @@ function runNpcScriptMessage(game, npc, event, detail) {
 
 function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
   const phase = options.phase || "script";
-  const runtimeEvent = {
-    ...event,
-    delPets: sourceScriptRuntimeDelPets(game, event)
-  };
+  const runtimeEvent = sourceScriptRuntimeEvent(game, event);
   const preflight = npcScriptEventPreflight(game, runtimeEvent);
   if (!preflight.ok) {
-    recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: preflight.reason, itemId: preflight.itemId, itemName: preflight.itemName, petId: preflight.petId, petName: preflight.petName });
+    recordNpcVmEvent(game, npc, "quest", "blocked", {
+      ...detail,
+      phase,
+      reason: preflight.reason,
+      itemId: preflight.itemId,
+      itemName: preflight.itemName,
+      petId: preflight.petId,
+      petName: preflight.petName,
+      stone: preflight.stone
+    });
+    const blockedMessage = preflight.reason === "inventory-full"
+      ? runtimeEvent.messages?.itemFull
+      : preflight.reason === "pet-full"
+        ? runtimeEvent.messages?.petFull
+        : preflight.reason === "stone-full"
+          ? runtimeEvent.messages?.stoneFull
+          : preflight.reason === "missing-stone"
+            ? runtimeEvent.messages?.stoneLess
+            : "";
     return {
       ok: false,
-      reply: runtimeEvent.messages?.itemFull && preflight.reason === "inventory-full"
-        ? runtimeEvent.messages.itemFull
-        : `${npc.name}：${preflight.message || "条件还没有准备好。"}。`
+      reply: blockedMessage || `${npc.name}：${preflight.message || "条件还没有准备好。"}。`
     };
   }
   for (const item of runtimeEvent.delItems || []) {
@@ -4660,6 +4715,20 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       return { ok: false, reply: `${npc.name}：${taken.error || "需要的宠物不符合条件"}。` };
     }
   }
+  for (const stone of runtimeEvent.delStones || []) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      item: "stone",
+      qty: stone.amount,
+      sourceExpression: stone.source || stone.expr || "",
+      ...detail,
+      reason: options.takeStoneReason || "source-changeevent-delstone"
+    });
+    if (!taken.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: taken.error || "take-stone-failed", stone: stone.amount });
+      return { ok: false, reply: runtimeEvent.messages?.stoneLess || `${npc.name}：${taken.error || "石币不够"}。` };
+    }
+  }
   for (const item of runtimeEvent.getItems || []) {
     const given = runNpcVmAction(game, npc, {
       type: "give",
@@ -4686,7 +4755,63 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       return { ok: false, reply: runtimeEvent.messages?.itemFull || `${npc.name}：${given.error || "宠物栏放不下任务宠物"}。` };
     }
   }
+  for (const stone of runtimeEvent.getStones || []) {
+    const given = runNpcVmAction(game, npc, {
+      type: "give",
+      stone: stone.amount,
+      sourceExpression: stone.source || stone.expr || "",
+      ...detail,
+      reason: options.giveStoneReason || "source-changeevent-getstone"
+    });
+    if (!given.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: given.error || "give-stone-failed", stone: stone.amount });
+      return { ok: false, reply: runtimeEvent.messages?.stoneFull || `${npc.name}：${given.error || "石币无法放下"}。` };
+    }
+  }
   return { ok: true };
+}
+
+function sourceScriptRuntimeEvent(game, event) {
+  const randomItems = sourceScriptRuntimeRandItems(event);
+  return {
+    ...event,
+    getItems: [...(event.getItems || []), ...randomItems],
+    getStones: sourceScriptRuntimeStones(game, event.getStones),
+    delStones: sourceScriptRuntimeStones(game, event.delStones),
+    delPets: sourceScriptRuntimeDelPets(game, event)
+  };
+}
+
+function sourceScriptRuntimeRandItems(event) {
+  const items = [];
+  for (const spec of event.getRandItems || []) {
+    const ids = (spec.ids || []).map((id) => Number(id)).filter((id) => id > 0);
+    if (!ids.length) continue;
+    const id = ids.length === 1 ? ids[0] : ids[randInt(ids.length)];
+    items.push(sourceScriptItem({
+      id,
+      qty: Math.max(1, Number(spec.qty || 1)),
+      source: spec.source || "GetRandItem"
+    }));
+  }
+  return items;
+}
+
+function sourceScriptRuntimeStones(game, specs = []) {
+  return (specs || [])
+    .map((spec) => {
+      const amount = sourceScriptStoneAmount(game, spec);
+      return amount > 0 ? { ...spec, amount } : null;
+    })
+    .filter(Boolean);
+}
+
+function sourceScriptStoneAmount(game, spec = {}) {
+  if (Number(spec.multiplier || 0) > 0 || /^LV\s*\*/i.test(String(spec.expr || spec.source || ""))) {
+    const multiplier = Number(spec.multiplier || String(spec.expr || spec.source || "").match(/LV\s*\*\s*(\d+)/i)?.[1] || 0);
+    return Math.max(0, Number(game.player?.level || 1) * multiplier);
+  }
+  return Math.max(0, Number(spec.amount || 0));
 }
 
 function sourceScriptRuntimeDelPets(game, event) {
@@ -4720,6 +4845,28 @@ function parseSourceScriptPetConditionSpecs(source = "") {
 }
 
 function npcScriptEventPreflight(game, event) {
+  for (const stone of event.delStones || []) {
+    const amount = Number(stone.amount || 0);
+    if (amount > Number(game.player?.stone || 0)) {
+      return {
+        ok: false,
+        reason: "missing-stone",
+        stone: amount,
+        message: `需要石币 ${amount}`
+      };
+    }
+  }
+  for (const stone of event.getStones || []) {
+    const amount = Number(stone.amount || 0);
+    if (amount > 0 && Number(game.player?.stone || 0) + amount >= CHAR_MAXGOLDHAVE) {
+      return {
+        ok: false,
+        reason: "stone-full",
+        stone: amount,
+        message: `身上的石币太多，无法再获得 ${amount}`
+      };
+    }
+  }
   for (const item of event.delItems || []) {
     const qty = inventoryQty(game, item.id);
     if (qty < Number(item.qty || 1)) {
@@ -4811,10 +4958,14 @@ function scriptEventMessages(event, keys) {
 
 function scriptEventRewardLine(event) {
   const gets = (event.getItems || []).map((item) => `${item.name || `item ${item.id}`} x${item.qty || 1}`);
+  const randGets = (event.getRandItems || []).map(sourceScriptRandomItemLabel).filter(Boolean);
   const petGets = (event.getPets || []).map(sourceScriptGetPetLabel).filter(Boolean);
+  const stoneGets = (event.getStones || []).map(sourceScriptStoneLabel).filter(Boolean);
   const parts = [];
   if (gets.length) parts.push(gets.join("、"));
+  if (randGets.length) parts.push(`随机道具 ${randGets.join("、")}`);
   if (petGets.length) parts.push(`宠物 ${petGets.join("、")}`);
+  if (stoneGets.length) parts.push(`石币 ${stoneGets.join("、")}`);
   if (!parts.length) return "";
   return `获得：${parts.join("；")}。`;
 }
@@ -4837,6 +4988,21 @@ function sourceScriptGetPetLabel(spec = {}) {
   if (names.length === 1 && ids.length === 1) return names[0];
   if (names.length) return `${names.slice(0, 3).join(" / ")}${names.length > 3 ? "..." : ""}之一`;
   return ids.length === 1 ? `enemy ${ids[0]}` : `enemy ${ids.slice(0, 3).join(" / ")}之一`;
+}
+
+function sourceScriptRandomItemLabel(spec = {}) {
+  const names = (spec.names || [])
+    .filter(Boolean)
+    .slice(0, 3);
+  if (names.length) return `${names.join(" / ")}${(spec.ids || []).length > names.length ? "..." : ""}之一`;
+  const ids = (spec.ids || []).map((id) => Number(id)).filter((id) => id > 0);
+  return ids.length ? `${ids.slice(0, 3).join(" / ")}${ids.length > 3 ? "..." : ""}之一` : "";
+}
+
+function sourceScriptStoneLabel(spec = {}) {
+  if (Number(spec.amount || 0) > 0) return String(spec.amount);
+  if (spec.expr) return spec.expr;
+  return spec.source || "";
 }
 
 function sourceScriptEnemyPetName(enemyId) {
@@ -4867,6 +5033,8 @@ function buildSourceScriptTaskIndex(world) {
           acceptNpcs: [],
           requiredItems: new Map(),
           rewardItems: new Map(),
+          requiredStones: [],
+          rewardStones: [],
           requiredPets: new Map(),
           rewardPets: new Map()
         };
@@ -4889,7 +5057,10 @@ function buildSourceScriptTaskIndex(world) {
           task.acceptNpcs.push({
             ...ref,
             getItems: (event.getItems || []).map(sourceScriptTaskItem),
+            getRandItems: (event.getRandItems || []).map(sourceScriptTaskRandItem),
             delItems: (event.delItems || []).map(sourceScriptTaskItem),
+            getStones: event.getStones || [],
+            delStones: event.delStones || [],
             getPets: (event.getPets || []).map(sourceScriptTaskGetPet),
             delPets: (event.delPets || []).map(sourceScriptTaskPet).filter(Boolean),
             endSetFlags: [...(event.endSetFlags || [])]
@@ -4897,6 +5068,9 @@ function buildSourceScriptTaskIndex(world) {
         }
         for (const item of event.delItems || []) upsertSourceScriptTaskItem(task.requiredItems, item);
         for (const item of event.getItems || []) upsertSourceScriptTaskItem(task.rewardItems, item);
+        for (const item of event.getRandItems || []) upsertSourceScriptTaskItem(task.rewardItems, sourceScriptTaskRandItem(item));
+        for (const stone of event.delStones || []) task.requiredStones.push(stone);
+        for (const stone of event.getStones || []) task.rewardStones.push(stone);
         for (const pet of event.delPets || []) upsertSourceScriptTaskPet(task.requiredPets, sourceScriptTaskPet(pet));
         for (const pet of event.getPets || []) upsertSourceScriptTaskPet(task.rewardPets, sourceScriptTaskGetPet(pet));
         tasks.set(taskKey, task);
@@ -4910,6 +5084,8 @@ function buildSourceScriptTaskIndex(world) {
       sources: [...task.sources].filter(Boolean).slice(0, 4),
       requiredItems: [...task.requiredItems.values()],
       rewardItems: [...task.rewardItems.values()],
+      requiredStones: task.requiredStones.slice(0, 4),
+      rewardStones: task.rewardStones.slice(0, 4),
       requiredPets: [...task.requiredPets.values()],
       rewardPets: [...task.rewardPets.values()],
       npcs: task.npcs.slice(0, 8),
@@ -4939,6 +5115,22 @@ function sourceScriptTaskItem(item) {
     id: Number(item.id),
     name: item.name || `item ${item.id}`,
     qty: Math.max(1, Number(item.qty || 1))
+  };
+}
+
+function sourceScriptTaskRandItem(spec = {}) {
+  const sample = (spec.sample || [])
+    .map(sourceScriptTaskItem)
+    .filter((item) => item.id > 0);
+  const first = sample[0];
+  return {
+    id: first?.id || 0,
+    name: sample.length > 1
+      ? `${sample.slice(0, 3).map((item) => item.name).join(" / ")}${sample.length > 3 ? "..." : ""}之一`
+      : first?.name || "随机道具",
+    qty: Math.max(1, Number(spec.qty || 1)),
+    random: true,
+    candidates: sample.slice(0, 8)
   };
 }
 
@@ -4976,7 +5168,14 @@ function sourceScriptTaskTitle(task) {
   const npc = task.requestNpcs[0] || task.acceptNpcs.find((item) => item.delItems?.length || item.delPets?.length) || task.acceptNpcs[0] || task.npcs[0];
   const reward = [...task.rewardItems.values()].find((item) => item.name);
   const rewardPet = [...(task.rewardPets?.values?.() || [])].find((pet) => pet.name);
-  return reward ? `${npc?.name || "事件"}：${reward.name}` : rewardPet ? `${npc?.name || "事件"}：${rewardPet.name}` : (npc?.name || `事件 ${task.eventNo}`);
+  const rewardStone = (task.rewardStones || [])[0];
+  return reward
+    ? `${npc?.name || "事件"}：${reward.name}`
+    : rewardPet
+      ? `${npc?.name || "事件"}：${rewardPet.name}`
+      : rewardStone
+        ? `${npc?.name || "事件"}：石币`
+        : (npc?.name || `事件 ${task.eventNo}`);
 }
 
 function sourceScriptTaskState(game) {
@@ -5015,11 +5214,14 @@ function compactSourceScriptTask(game, task, recentClusters = new Map()) {
   const missingPets = (task.requiredPets || [])
     .map((pet) => ({ ...pet, have: petQtyInPartyMatching(game, pet), needed: Number(pet.qty || 1) }))
     .filter((pet) => pet.have < pet.needed);
-  const phase = readyTurnIns.length && !missingItems.length && !missingPets.length
+  const missingStones = (task.requiredStones || [])
+    .map((stone) => ({ ...stone, amount: sourceScriptStoneAmount(game, stone), have: Number(game.player?.stone || 0) }))
+    .filter((stone) => stone.amount > stone.have);
+  const phase = readyTurnIns.length && !missingItems.length && !missingPets.length && !missingStones.length
     ? "turn-in"
     : readyProviders.length
       ? "collect"
-      : (missingItems.length || missingPets.length)
+      : (missingItems.length || missingPets.length || missingStones.length)
         ? "collect"
         : "in-progress";
   const nextNpcs = (phase === "turn-in" ? readyTurnIns : readyProviders.length ? readyProviders : task.requestNpcs)
@@ -5034,9 +5236,11 @@ function compactSourceScriptTask(game, task, recentClusters = new Map()) {
     title: task.title,
     status: "进行中",
     phase,
-    next: sourceScriptTaskNextText(phase, missingItems, missingPets, nextNpcs, task),
+    next: sourceScriptTaskNextText(phase, missingItems, missingPets, missingStones, nextNpcs, task),
     requiredItems: task.requiredItems.map((item) => ({ ...item, have: inventoryQty(game, item.id) })),
     rewardItems: task.rewardItems,
+    requiredStones: (task.requiredStones || []).map((stone) => ({ ...stone, amount: sourceScriptStoneAmount(game, stone), have: Number(game.player?.stone || 0) })),
+    rewardStones: (task.rewardStones || []).map((stone) => ({ ...stone, amount: sourceScriptStoneAmount(game, stone) })),
     requiredPets: (task.requiredPets || []).map((pet) => ({ ...pet, have: petQtyInPartyMatching(game, pet) })),
     rewardPets: task.rewardPets || [],
     nextNpcs,
@@ -5070,15 +5274,16 @@ function sourceScriptTaskNpc(game, npc) {
   };
 }
 
-function sourceScriptTaskNextText(phase, missingItems, missingPets, nextNpcs, task) {
+function sourceScriptTaskNextText(phase, missingItems, missingPets, missingStones, nextNpcs, task) {
   if (phase === "turn-in") {
     const target = nextNpcs[0];
     return target ? `回到 ${target.mapName} 的 ${target.name} 交付任务需求。` : "回到任务 NPC 交付需求。";
   }
-  if (missingItems.length || missingPets.length) {
+  if (missingItems.length || missingPets.length || missingStones.length) {
     const itemNeeds = missingItems.map((item) => `${item.name} ${item.have}/${item.needed}`);
     const petNeeds = missingPets.map((pet) => `${pet.name} Lv${pet.op}${pet.level} ${pet.have}/${pet.needed}`);
-    const needs = [...itemNeeds, ...petNeeds].join("、");
+    const stoneNeeds = missingStones.map((stone) => `石币 ${stone.have}/${stone.amount}`);
+    const needs = [...itemNeeds, ...petNeeds, ...stoneNeeds].join("、");
     const target = nextNpcs[0];
     return target ? `收集 ${needs}；可先找 ${target.mapName} 的 ${target.name}。` : `收集 ${needs}。`;
   }
@@ -9277,6 +9482,9 @@ function compactScriptEventSummary(scriptEvents) {
     pushUniqueCompact(types, event.type, 8);
     if (event.getItems?.length) pushUniqueCompact(actions, "GetItem", 8);
     if (event.delItems?.length) pushUniqueCompact(actions, "DelItem", 8);
+    if (event.getRandItems?.length) pushUniqueCompact(actions, "GetRandItem", 8);
+    if (event.getStones?.length) pushUniqueCompact(actions, "GetStone", 8);
+    if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
