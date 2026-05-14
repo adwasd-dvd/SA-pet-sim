@@ -3804,7 +3804,7 @@ async function guideGame(env, request, game, prompt) {
         content: [
           "你是单人版石器时代网页运行时的向导，不是万能 GM。",
           "必须只根据给定 JSON 回答；把“当前能做的事”和“需要找对应 NPC/脚本的事”说清楚。",
-          "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、原 gmsv 脚本线索。",
+          "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、sourceTasks 原 gmsv 事件目标和原脚本线索。",
           "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的石器时代资料库条目；条目只是索引时要说明不能补编完整流程。",
           "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
@@ -3834,6 +3834,7 @@ async function callOpenAiGuide(env, context, prompt) {
     "只根据当前 JSON 状态回答；不要编不存在的地点、NPC、道具、任务或奖励。",
     "如果请求会改变游戏状态，说明应由 Worker 的确定性逻辑执行；你只负责解释和提出下一步。",
     "优先引用当前地图、附近 NPC、出口、任务进度、背包、宠物、战斗和临时状态。",
+    "如果 context.sourceTasks 有内容，那是当前已经触发的原 gmsv changeevent 事件目标，优先告诉玩家下一步，而不是只列可接任务。",
     "context.knowledge 是从石器时代资料库压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
     "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
@@ -5627,6 +5628,7 @@ async function aiNpcReply(env, request, game, npc, text) {
       knowledge,
       workspace: compactAiWorkspaceMemory(game),
       quests: game.quests,
+      sourceTasks: sourceScriptTaskState(game),
       pets: game.pets.map(petSummary),
       inventory: inventoryState(game),
       effects: game.effects || {},
@@ -5701,6 +5703,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
       nearbyNpcs: nearbyState(game, map).npcs
     },
     quests: game.quests,
+    sourceTasks: sourceScriptTaskState(game),
     pets: game.pets.map(petSummary),
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
@@ -5713,7 +5716,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
   const system = [
     "你正在扮演石器时代单人网页版里的当前 NPC，不是旁白，也不是万能 GM。",
     "必须保持 NPC 的姓名、职业、地图、脚本来源和行为范围；只能根据 JSON 上下文说话。",
-    "NPC 可以解释任务、地图、交易、传送和战斗线索；也可以在自己力所能及的角色范围内提出帮助、优待或交涉意图，但不能直接改状态。",
+    "NPC 可以解释任务、地图、交易、传送和战斗线索；如果 context.sourceTasks 有内容，要优先按原脚本事件目标回答下一步；也可以在自己力所能及的角色范围内提出帮助、优待或交涉意图，但不能直接改状态。",
     "knowledge 是从石器时代资料库压缩检索出的相关条目；只引用和玩家问题、当前地图或当前 NPC 相关的条目，不要把索引扩写成不存在的完整攻略。",
     "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前地图、背包、任务、flag 为准。",
     "所有交易、传送、奖励、flag、避敌、开战、折扣、赠品和角色帮助都必须交给 Worker 的 NPC VM 校验执行。",
@@ -6127,6 +6130,10 @@ function npcCanOfferAiFavor(npc) {
 function localNpcAiFallback(game, npc, text, error = null) {
   const intro = error ? `${npc.name} 低声说：我现在只能按本地规则回答。` : `${npc.name} 想了想：`;
   const role = npcActionProfile(npc);
+  const sourceTask = sourceScriptTaskState(game)[0];
+  if (sourceTask && hasAny(String(text || "").toLowerCase(), ["任务", "下一步", "委托", "攻略", "做什么", "怎么做"])) {
+    return `${intro}你现在有原脚本事件「${sourceTask.title}」。${sourceTask.next}`;
+  }
   if (isNpcEnemy(npc)) {
     return `${intro}我是守路的 NPCEnemy。你可以按原版方式选“是”开战；也可以试着贿赂或威胁，但是否让路会看你的等级、石币和临时状态。`;
   }
@@ -7397,6 +7404,7 @@ function buildGuideContext(game, map, prompt = "") {
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
     quests: Object.values(game.quests || {}),
+    sourceTasks: sourceScriptTaskState(game),
     availableQuests: Object.values(WORLD.quests || {}).filter(isPlayerFacingQuest).map((quest) => ({
       id: quest.id,
       title: quest.title,
@@ -7842,7 +7850,8 @@ function buildAiWorkspace(env, game, prompt = "") {
       activePet: getActivePet(game) ? petSummary(getActivePet(game)) : null,
       inventory: inventoryState(game),
       petState: petState(game),
-      effects: guideEffectSummary(game)
+      effects: guideEffectSummary(game),
+      sourceTasks: sourceScriptTaskState(game)
     },
     actionSurface: {
       guideCanMutate: ["heal", "item-use", "item-drop", "pet-switch", "pet-release", "ai-training-battle", "encounter", "teleport", "noEncounter"],
@@ -7941,6 +7950,7 @@ function fallbackGuide(context, prompt = "", error = null) {
   const lower = String(prompt || "").toLowerCase();
   const active = context.quests.find((item) => item.status === "进行中");
   const reportable = context.quests.find((item) => item.status === "可回报");
+  const sourceTask = context.sourceTasks?.[0] || null;
   const nearbyNpc = context.map.nearby.npcs.map((npc) => npc.name).join("、");
   const exits = context.map.exits.slice(0, 5).map((exit) => `${exit.label}${exit.distance <= 2 ? "(附近)" : ""}`).join("、") || "暂无出口";
   const effects = context.effects.map((item) => {
@@ -7957,6 +7967,7 @@ function fallbackGuide(context, prompt = "", error = null) {
   }
   if (hasAny(lower, ["任务", "quest"])) {
     if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」可以回报了，回到对应 NPC 双击/hi 结算。附近 NPC：${nearbyNpc || "无"}。`;
+    if (sourceTask) return `${aiNote}你现在在${context.location.name}。原脚本事件「${sourceTask.title}」进行中：${sourceTask.next} 出口：${exits}。`;
     if (active) return `${aiNote}你现在在${context.location.name}。继续「${active.title}」：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。出口：${exits}。`;
     return `${aiNote}你现在在${context.location.name}。当前可接任务有：${context.availableQuests.map((quest) => quest.title).join("、")}。先找带 quest 动作的 NPC，通常是老师或剧情 NPC。`;
   }
@@ -7976,6 +7987,7 @@ function fallbackGuide(context, prompt = "", error = null) {
     return `${aiNote}${context.location.canWildEncounter ? "这里可以按 encount.txt 触发野外遇敌。" : context.location.wildEncounterReason} ${effects ? `当前状态：${effects}。` : ""}`;
   }
   if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」已经可回报。附近 NPC：${nearbyNpc || "无"}。`;
+  if (sourceTask) return `${aiNote}你现在在${context.location.name}。建议继续原脚本事件「${sourceTask.title}」：${sourceTask.next}`;
   if (active) return `${aiNote}你现在在${context.location.name}。建议继续「${active.title}」：${active.steps[Math.min(active.progress || 0, active.steps.length - 1)]}。出口：${exits}。`;
   return `${aiNote}你现在在${context.location.name}。附近 NPC：${nearbyNpc || "无"}；出口：${exits}。${effects ? `当前状态：${effects}。` : ""}`;
 }

@@ -460,12 +460,18 @@ assert(adultJudgePayload.scriptEventSummary?.count >= 1, "client map payload kee
 assert(!adultGame.npc?.scriptEvents, "client dialog payload strips raw NPC changeevent scripts");
 assert(!JSON.stringify(adultJudgePayload).includes("取回１５个"), "client NPC payload does not include raw source dialogue script text");
 assert(adultGame.progression.sourceTasks.some((task) => task.eventNo === 4 && task.phase === "collect" && task.nextNpcs.some((npc) => npc.name === "仪式审判的差使")), "adult ceremony NOWEV=4 exposes source task collection target");
+let adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
+assert(adultGuideRsp.text.includes("仪式审判的差使"), "AI guide prioritizes active source task collection target");
+let adultWorkspaceRsp = await api("/api/ai/workspace", { game: adultGame, prompt: "任务下一步" });
+assert(adultWorkspaceRsp.workspace.current.sourceTasks.some((task) => task.eventNo === 4), "AI workspace exposes active source task state");
 adultGame.location = { mapId: "10204", x: adultMessenger.x + 1, y: adultMessenger.y };
 adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultMessenger.id });
 assertEqual(inventoryQty(adultGame, 2417), 15, "adult ceremony messenger gives exactly 15 source ritual jades");
 assert(adultGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("给你１５个仪玉")), "adult ceremony messenger uses source thanks text");
 assert(adultGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-getitem" && event.detail?.itemId === 2417), "adult ceremony messenger gives item through NPC VM");
 assert(adultGame.progression.sourceTasks.some((task) => task.eventNo === 4 && task.phase === "turn-in" && task.requiredItems.some((item) => item.id === 2417 && item.have === 15)), "adult ceremony source task switches to turn-in after ritual jades are collected");
+adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
+assert(adultGuideRsp.text.includes("仪式的审判"), "AI guide switches active source task to turn-in target");
 adultGame.location = { mapId: "10204", x: adultJudge.x + 1, y: adultJudge.y };
 adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultJudge.id });
 assertEqual(inventoryQty(adultGame, 2417), 0, "adult ceremony judge removes all ritual jades through source DelItem");
