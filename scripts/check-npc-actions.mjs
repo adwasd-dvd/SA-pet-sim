@@ -454,6 +454,11 @@ adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultJudge.i
 assert(adultGame.flags.bits["now:4"], "adult ceremony judge REQUEST sets source NOWEV=4");
 assert(adultGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("取回１５个")), "adult ceremony judge explains source request text");
 assert(adultGame.dialog.debug.actions.includes("give") && adultGame.dialog.debug.actions.includes("take"), "changeevent debug profiles deterministic item actions");
+const adultJudgePayload = adultGame.world.map.npcs.find((npc) => npc.id === adultJudge.id);
+assert(!adultJudgePayload.scriptEvents, "client map payload strips raw changeevent scripts");
+assert(adultJudgePayload.scriptEventSummary?.count >= 1, "client map payload keeps compact changeevent summary");
+assert(!adultGame.npc?.scriptEvents, "client dialog payload strips raw NPC changeevent scripts");
+assert(!JSON.stringify(adultJudgePayload).includes("取回１５个"), "client NPC payload does not include raw source dialogue script text");
 adultGame.location = { mapId: "10204", x: adultMessenger.x + 1, y: adultMessenger.y };
 adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultMessenger.id });
 assertEqual(inventoryQty(adultGame, 2417), 15, "adult ceremony messenger gives exactly 15 source ritual jades");

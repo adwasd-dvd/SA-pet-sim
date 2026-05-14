@@ -8637,6 +8637,7 @@ function clampInt(value, min, max, fallback) {
 
 function withMap(game, extra = {}) {
   const map = currentMap(game);
+  const responseMap = clientMapForResponse(map);
   ensureSaveIdentity(game);
   ensureFlags(game);
   setCharacterDir(game, game.player?.dir ?? game.location?.dir);
@@ -8648,14 +8649,69 @@ function withMap(game, extra = {}) {
     petState: petState(game),
     progression: progressionState(game),
     world: {
-      map,
+      map: responseMap,
       quests: WORLD.quests,
       mapCount: Object.keys(WORLD.maps || {}).length,
       questLeadCount: Object.values(WORLD.maps || {})
         .reduce((sum, item) => sum + (item.npcs || []).filter((npc) => npc.questLead).length, 0)
     },
-    ...extra
+    ...clientExtraForResponse(extra)
   };
+}
+
+function clientExtraForResponse(extra = {}) {
+  if (!extra || typeof extra !== "object") return extra;
+  const cleaned = { ...extra };
+  if (cleaned.npc) cleaned.npc = clientNpcForResponse(cleaned.npc);
+  if (cleaned.map) cleaned.map = clientMapForResponse(cleaned.map);
+  return cleaned;
+}
+
+function clientMapForResponse(map) {
+  if (!map?.npcs?.length) return map;
+  let changed = false;
+  const npcs = map.npcs.map((npc) => {
+    const cleaned = clientNpcForResponse(npc);
+    if (cleaned !== npc) changed = true;
+    return cleaned;
+  });
+  return changed ? { ...map, npcs } : map;
+}
+
+function clientNpcForResponse(npc) {
+  if (!npc || !Array.isArray(npc.scriptEvents) || !npc.scriptEvents.length) return npc;
+  const { scriptEvents, ...rest } = npc;
+  return {
+    ...rest,
+    scriptEventSummary: compactScriptEventSummary(scriptEvents)
+  };
+}
+
+function compactScriptEventSummary(scriptEvents) {
+  const eventNos = [];
+  const types = [];
+  const actions = [];
+  for (const event of scriptEvents || []) {
+    pushUniqueCompact(eventNos, event.eventNo, 8);
+    pushUniqueCompact(types, event.type, 8);
+    if (event.getItems?.length) pushUniqueCompact(actions, "GetItem", 8);
+    if (event.delItems?.length) pushUniqueCompact(actions, "DelItem", 8);
+    if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
+    if (event.condition) pushUniqueCompact(actions, "condition", 8);
+  }
+  return {
+    count: scriptEvents.length,
+    ...(eventNos.length ? { eventNos } : {}),
+    ...(types.length ? { types } : {}),
+    ...(actions.length ? { actions } : {})
+  };
+}
+
+function pushUniqueCompact(list, value, limit) {
+  if (value === undefined || value === null || value === "") return;
+  const compact = typeof value === "number" ? value : String(value).slice(0, 32);
+  if (list.includes(compact) || list.length >= limit) return;
+  list.push(compact);
 }
 
 function currentMap(game) {
