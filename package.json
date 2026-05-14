@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "build:world": "node scripts/build-world.mjs && node scripts/extract-client-tiles.mjs",
+    "build:world:dry-run": "SA_BUILD_WORLD_DRY_RUN=1 node scripts/build-world.mjs",
+    "build:world:classic-core:dry-run": "SA_CONTENT_PROFILE=classic-core SA_BUILD_WORLD_DRY_RUN=1 node scripts/build-world.mjs",
+    "build:world:classic-core": "SA_CONTENT_PROFILE=classic-core node scripts/build-world.mjs && node scripts/extract-client-tiles.mjs",
     "check:resources": "node scripts/check-resources.mjs",
     "check:maps": "node scripts/check-map-atlas.mjs",
     "check:movement": "node scripts/check-movement-collision.mjs",

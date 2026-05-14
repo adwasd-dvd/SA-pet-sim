@@ -10,9 +10,13 @@ const clientMapRoot = path.join(clientRoot, "map");
 const publicMapRoot = path.join(appRoot, "public", "data", "maps");
 const publicClientMapRoot = path.join(appRoot, "public", "data", "client-maps");
 const worldOut = path.join(appRoot, "src", "world-data.js");
+const closureManifestPath = path.join(appRoot, "docs", "planning", "classic-core-closure-manifest.json");
 const gb18030 = new TextDecoder("gb18030");
 const GMSV_DATA_SOURCE = "gmsv-data";
 const CLIENT_ASSET_SOURCE = "client-assets";
+const CONTENT_PROFILE = process.env.SA_CONTENT_PROFILE || "full-dev";
+const CONTENT_PROFILE_INCLUDE_SOURCE_ONLY = process.env.SA_CONTENT_PROFILE_INCLUDE_SOURCE_ONLY === "1";
+const DRY_RUN = process.env.SA_BUILD_WORLD_DRY_RUN === "1";
 
 const START_FLOOR = 1000;
 const MAX_MAPS = 260;
@@ -58,13 +62,16 @@ const enemyGroups = parseEnemyGroups(path.join(refRoot, "group1.txt"), enemySpec
 const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"), enemyGroups);
 const itemDb = parseItems(path.join(refRoot, "itemset6.txt"));
 const npcsByFloor = parseNpcs();
+const contentProfile = loadContentProfile();
 const selectedFloors = selectFloors();
 const maps = {};
 
-rmSync(publicMapRoot, { recursive: true, force: true });
-rmSync(publicClientMapRoot, { recursive: true, force: true });
-mkdirSync(publicMapRoot, { recursive: true });
-mkdirSync(publicClientMapRoot, { recursive: true });
+if (!DRY_RUN) {
+  rmSync(publicMapRoot, { recursive: true, force: true });
+  rmSync(publicClientMapRoot, { recursive: true, force: true });
+  mkdirSync(publicMapRoot, { recursive: true });
+  mkdirSync(publicClientMapRoot, { recursive: true });
+}
 
 for (const floor of selectedFloors) {
   const mapInfo = mapFiles.get(floor);
@@ -72,8 +79,10 @@ for (const floor of selectedFloors) {
   const id = String(floor);
   const mapFile = `/data/maps/${floor}.ls2map`;
   const clientMapInfo = clientMapFile(floor);
-  cpSync(mapInfo.file, path.join(publicMapRoot, `${floor}.ls2map`));
-  if (clientMapInfo) cpSync(clientMapInfo.file, path.join(publicClientMapRoot, `${floor}.dat`));
+  if (!DRY_RUN) {
+    cpSync(mapInfo.file, path.join(publicMapRoot, `${floor}.ls2map`));
+    if (clientMapInfo) cpSync(clientMapInfo.file, path.join(publicClientMapRoot, `${floor}.dat`));
+  }
   const encounterAreas = encounterByFloor.get(floor) || [];
   maps[id] = {
     id,
@@ -129,6 +138,8 @@ for (const floor of selectedFloors) {
   }
 }
 
+applyProfileClosedExits(maps);
+
 const quests = firstPlayableQuests(maps);
 applyFirstPlayableQuestHooks(maps, quests);
 
@@ -139,17 +150,27 @@ const world = {
     clientMaps: "公益石器时代/map/*.dat",
     npcs: `${GMSV_DATA_SOURCE}/npc/**/*.create + .template + args/config`,
     warps: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`,
-    encounters: `${GMSV_DATA_SOURCE}/encount.txt`
+    encounters: `${GMSV_DATA_SOURCE}/encount.txt`,
+    contentProfile: contentProfile ? {
+      id: contentProfile.id,
+      closureManifest: "docs/planning/classic-core-closure-manifest.json",
+      includeSourceOnly: CONTENT_PROFILE_INCLUDE_SOURCE_ONLY
+    } : null
   },
   startMap: String(START_FLOOR),
   maps,
   quests
 };
 
-writeFileSync(worldOut, `export const WORLD = ${JSON.stringify(world, null, 2)};\n`);
-console.log(`Generated ${Object.keys(maps).length} maps into ${path.relative(appRoot, worldOut)}`);
-console.log(`Copied LS2MAP files into ${path.relative(appRoot, publicMapRoot)}`);
-console.log(`Copied client DAT maps into ${path.relative(appRoot, publicClientMapRoot)}`);
+if (!DRY_RUN) writeFileSync(worldOut, `export const WORLD = ${JSON.stringify(world, null, 2)};\n`);
+console.log(`${DRY_RUN ? "[dry-run] " : ""}Generated ${Object.keys(maps).length} maps${DRY_RUN ? "" : ` into ${path.relative(appRoot, worldOut)}`}`);
+if (contentProfile) {
+  console.log(`${DRY_RUN ? "[dry-run] " : ""}Content profile ${contentProfile.id}: manifest floors=${contentProfile.floorSet.size}, closed warps=${contentProfile.closedWarps.length}, includeSourceOnly=${CONTENT_PROFILE_INCLUDE_SOURCE_ONLY}`);
+}
+if (!DRY_RUN) {
+  console.log(`Copied LS2MAP files into ${path.relative(appRoot, publicMapRoot)}`);
+  console.log(`Copied client DAT maps into ${path.relative(appRoot, publicClientMapRoot)}`);
+}
 
 function scanMapFiles() {
   const files = new Map();
@@ -183,6 +204,28 @@ function clientMapFile(floor) {
     width,
     height,
     source: `公益石器时代/map/${floor}.dat`
+  };
+}
+
+function loadContentProfile() {
+  if (!CONTENT_PROFILE || CONTENT_PROFILE === "full-dev") return null;
+  if (!exists(closureManifestPath)) {
+    throw new Error(`SA_CONTENT_PROFILE=${CONTENT_PROFILE} requires ${path.relative(appRoot, closureManifestPath)}. Run npm run closure:classic-core first.`);
+  }
+  const manifest = JSON.parse(readFileSync(closureManifestPath, "utf8"));
+  const profile = (manifest.profiles || []).find((item) => item.id === CONTENT_PROFILE);
+  if (!profile) {
+    const known = (manifest.profiles || []).map((item) => item.id).join(", ");
+    throw new Error(`Unknown SA_CONTENT_PROFILE=${CONTENT_PROFILE}. Known profiles: ${known || "(none)"}`);
+  }
+  const floors = [
+    ...(profile.floors || []).map((item) => Number(item.floor)),
+    ...(CONTENT_PROFILE_INCLUDE_SOURCE_ONLY ? (profile.sourceOnlyFloors || []).map((item) => Number(item.floor)) : [])
+  ].filter((value) => Number.isFinite(value));
+  return {
+    id: profile.id,
+    floorSet: new Set(floors),
+    closedWarps: profile.closedWarps || []
   };
 }
 
@@ -406,6 +449,12 @@ function parseTemplates() {
 }
 
 function selectFloors() {
+  if (contentProfile) {
+    return [...contentProfile.floorSet, START_FLOOR]
+      .filter((floor) => mapFiles.has(floor))
+      .filter((floor, index, list) => list.indexOf(floor) === index)
+      .sort((a, b) => a - b);
+  }
   const selected = [];
   const addFloor = (floor) => {
     if (selected.length >= MAX_MAPS) return false;
@@ -427,6 +476,29 @@ function selectFloors() {
     }
   }
   return selected;
+}
+
+function applyProfileClosedExits(maps) {
+  if (!contentProfile) return;
+  const selected = new Set(Object.keys(maps));
+  const byFloor = new Map();
+  for (const warp of contentProfile.closedWarps) {
+    const floor = Number(warp.floor);
+    const to = Number(warp.to);
+    if (!Number.isFinite(floor) || !Number.isFinite(to) || !selected.has(String(floor)) || selected.has(String(to))) continue;
+    const list = byFloor.get(String(floor)) || [];
+    list.push({
+      label: warp.label || `去 ${warp.toName || `floor ${to}`}`,
+      to: String(to),
+      toName: warp.toName || cleanName(mapFiles.get(to)?.name) || `floor ${to}`,
+      source: warp.source || `${GMSV_DATA_SOURCE}/map/mapwarp.txt`,
+      status: "closed-or-hidden-until-profile-enabled"
+    });
+    byFloor.set(String(floor), list);
+  }
+  for (const [floor, closedExits] of byFloor) {
+    if (maps[floor]) maps[floor].profileClosedExits = closedExits;
+  }
 }
 
 function firstPlayableQuests(maps) {
