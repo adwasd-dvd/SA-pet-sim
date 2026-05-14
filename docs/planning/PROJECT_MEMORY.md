@@ -67,6 +67,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - 2.5 content such as 玛蕾菲雅 / 精灵王线 should be staged after 2.0 as an advanced optional profile.
 - Unopened maps should not be packaged. Disabled content should close or hide entrances. A quest line is included complete or disabled complete.
 - Pet family trimming is allowed only as staging; classic families and iconic targets must remain original and should not be replaced with custom variants.
+- Classic-core closure now distinguishes script-runnable tasks from reachable tasks. `成人仪式` has a runnable local source task cluster on floor 10204, but no verified generated `mapwarp` route from core start floors into 10204 yet; next work should find the original NPC/script entry path instead of adding a custom shortcut.
 
 ## Map Rendering Conclusions
 

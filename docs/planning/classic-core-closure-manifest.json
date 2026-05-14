@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T14:19:22.052Z",
+  "generatedAt": "2026-05-14T14:45:29.530Z",
   "sourcePolicy": "Closure is computed from local ref___data, generated world-data, and client resource evidence. It is a build-planning manifest, not a runtime filter yet.",
   "profiles": [
     {
@@ -60833,6 +60833,23 @@
           "status": "outbound-needs-profile-decision"
         }
       ],
+      "route": {
+        "status": "needs-entry-path",
+        "evidence": "Generated WORLD exits derived from local ref___data/map/mapwarp.txt.",
+        "startFloors": [
+          100,
+          200,
+          1000,
+          1100,
+          2000,
+          3000,
+          4000
+        ],
+        "reachableFloors": [],
+        "unreachableFloors": [
+          10204
+        ]
+      },
       "items": [
         {
           "id": 2417,
@@ -60967,8 +60984,10 @@
         "outboundWarpCount": 1
       },
       "validation": {
-        "status": "playable-source-script-draft",
-        "warnings": []
+        "status": "script-playable-needs-entry",
+        "warnings": [
+          "1 generated floor(s) have no verified mapwarp route from core starts: 10204."
+        ]
       }
     },
     {

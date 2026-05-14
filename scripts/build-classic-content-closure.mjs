@@ -59,6 +59,7 @@ const CONTENT_LINES = [
     seedFloors: [],
     includeScriptText: true,
     preferRunnableSourceTaskClosure: true,
+    validateRouteFromCoreStarts: true,
     required: true
   },
   {
@@ -140,6 +141,7 @@ const clientTileFrames = readClientFrames();
 const audit = existsSync(auditPath) ? JSON.parse(readFileSync(auditPath, "utf8")) : null;
 const generatedMapIds = new Set(Object.keys(WORLD.maps || {}));
 const npcScriptTextCache = new Map();
+const CORE_ROUTE_START_FLOORS = [100, 200, 1000, 1100, 2000, 3000, 4000];
 
 const lineClosures = CONTENT_LINES.map((line) => buildLineClosure(line));
 const profiles = buildProfiles(lineClosures);
@@ -201,6 +203,7 @@ function buildLineClosure(line) {
     ...matchingEnemyTempNos(terms)
   ]);
   const petResources = enemyTempNos.map((tempNo) => petResourceFor(tempNo)).filter(Boolean);
+  const route = routeEvidenceForLine(generatedFloors, line);
 
   return {
     id: line.id,
@@ -221,6 +224,7 @@ function buildLineClosure(line) {
     sourceTaskClusters,
     scripts: uniqueStrings(npcs.flatMap((npc) => [npc.source, npc.script]).filter(Boolean)).sort(),
     warps: warpsForLine,
+    ...(route ? { route } : {}),
     items,
     encounters,
     enemies: enemyTempNos.map((tempNo) => enemyRecord(tempNo)).filter(Boolean),
@@ -240,7 +244,7 @@ function buildLineClosure(line) {
       petResourceCount: petResources.length,
       outboundWarpCount: warpsForLine.length
     },
-    validation: validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters)
+    validation: validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters, route)
   };
 }
 
@@ -651,15 +655,55 @@ function sourceEvidenceFor(terms) {
     }));
 }
 
-function validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters = []) {
+function routeEvidenceForLine(generatedFloors, line = {}) {
+  if (!line.validateRouteFromCoreStarts) return null;
+  const targetFloors = uniqueNumbers(generatedFloors).filter((floor) => generatedMapIds.has(String(floor)));
+  const startFloors = uniqueNumbers(line.routeStartFloors || CORE_ROUTE_START_FLOORS)
+    .filter((floor) => generatedMapIds.has(String(floor)));
+  const reachable = reachableFloorsFrom(startFloors);
+  const reachableFloors = targetFloors.filter((floor) => reachable.has(String(floor)));
+  const unreachableFloors = targetFloors.filter((floor) => !reachable.has(String(floor)));
+  return {
+    status: unreachableFloors.length ? "needs-entry-path" : "reachable-from-core-starts",
+    evidence: "Generated WORLD exits derived from local ref___data/map/mapwarp.txt.",
+    startFloors,
+    reachableFloors,
+    unreachableFloors
+  };
+}
+
+function reachableFloorsFrom(startFloors) {
+  const queue = startFloors.map(String);
+  const seen = new Set(queue);
+  while (queue.length) {
+    const floor = queue.shift();
+    const map = WORLD.maps[floor];
+    for (const exit of map?.exits || []) {
+      const next = String(exit.to);
+      if (!generatedMapIds.has(next) || seen.has(next)) continue;
+      seen.add(next);
+      queue.push(next);
+    }
+  }
+  return seen;
+}
+
+function validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters = [], route = null) {
   const warnings = [];
   const runnableSourceTasks = sourceTaskClusters.filter((cluster) => cluster.runnable);
   if (!requiredFloors.length) warnings.push("No local floor was pulled into this line yet; use script/NPC evidence before enabling.");
   if (sourceOnlyFloors.length) warnings.push(`${sourceOnlyFloors.length} source map floors are not in current generated WORLD and must be added before this line is playable.`);
   if (petResources.some((pet) => !pet.hasClientFrame)) warnings.push("Some enemy/pet bitmap ids are not in the current client tile atlas.");
   if (line.includeScriptText && !runnableSourceTasks.length) warnings.push("NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable.");
+  if (route?.unreachableFloors?.length) {
+    warnings.push(`${route.unreachableFloors.length} generated floor(s) have no verified mapwarp route from core starts: ${route.unreachableFloors.slice(0, 8).join(", ")}.`);
+  }
+  const hasUnreachableRoute = Boolean(route?.unreachableFloors?.length);
+  const status = warnings.length
+    ? (runnableSourceTasks.length && hasUnreachableRoute ? "script-playable-needs-entry" : "needs-closure-work")
+    : (runnableSourceTasks.length ? "playable-source-script-draft" : "closure-draft");
   return {
-    status: warnings.length ? "needs-closure-work" : runnableSourceTasks.length ? "playable-source-script-draft" : "closure-draft",
+    status,
     warnings
   };
 }
@@ -824,6 +868,7 @@ function renderMarkdown(manifest) {
   lines.push("", "## Important Notes", "");
   lines.push("- `sourceOnlyFloors` means local original LS2MAP data exists, but the current generated Worker `WORLD` does not include the floor yet.");
   lines.push("- `sourceTaskClusters` are parsed `EventNo`/`TYPE` changeevent groups with their source required/reward items. They are used to keep task resources in profile closure instead of trusting text matches alone.");
+  lines.push("- `script-playable-needs-entry` means the local NPC script task cluster looks runnable, but the generated floor is not yet reachable from the core start maps through verified original mapwarp data.");
   lines.push("- `closedWarps` are not bugs by themselves. They are the list of exits that need source-style close/hide behavior if a smaller profile ships without the target map.");
   lines.push("- Rebirth remains gated until the four proof cave lines and dark cave line have no missing generated floors and have battle/NPC rewards validated.");
   lines.push("- This draft intentionally avoids new art, renamed content, shortened cave chains, and arbitrary map caps.");
