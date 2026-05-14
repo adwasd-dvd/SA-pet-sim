@@ -159,12 +159,15 @@ const results = candidates.map((candidate) => {
 
 const summary = summarize(results);
 const packageImpact = summarizePackageImpact();
-const report = {
-  generatedAt: new Date().toISOString(),
+const reportBody = {
   policy: "External guides are advisory only; release profile entries require local ref___data, world-data, or client-resource evidence.",
   summary,
   packageImpact,
   candidates: results
+};
+const report = {
+  generatedAt: stableGeneratedAt(auditJsonOut, reportBody),
+  ...reportBody
 };
 
 writeFileSync(auditJsonOut, `${JSON.stringify(report, null, 2)}\n`);
@@ -582,4 +585,16 @@ function dirSize(dir) {
   let total = 0;
   for (const file of walk(dir)) total += fileSize(file);
   return total;
+}
+
+function stableGeneratedAt(file, body) {
+  if (!existsSync(file)) return new Date().toISOString();
+  try {
+    const previous = JSON.parse(readFileSync(file, "utf8"));
+    const { generatedAt: _previousGeneratedAt, ...previousBody } = previous;
+    if (JSON.stringify(previousBody) === JSON.stringify(body)) return previous.generatedAt || new Date().toISOString();
+  } catch {
+    // Fall through and regenerate the timestamp when the previous file is not valid JSON.
+  }
+  return new Date().toISOString();
 }

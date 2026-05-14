@@ -1,6 +1,6 @@
 # Classic Core Source Audit
 
-Generated: 2026-05-14T01:31:45.656Z
+Generated: 2026-05-14T01:49:44.118Z
 
 This is a local-source evidence report for the classic content profile. It does not prune resources yet.
 
