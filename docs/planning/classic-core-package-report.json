@@ -1,0 +1,235 @@
+{
+  "generatedAt": "2026-05-14T02:54:23.072Z",
+  "sourcePolicy": "Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.",
+  "currentPublic": {
+    "fileCount": 565,
+    "bytes": 70836251,
+    "gzipBytes": 28048521
+  },
+  "sharedPublic": {
+    "fileCount": 46,
+    "bytes": 34020878,
+    "gzipBytes": 23847821
+  },
+  "profiles": [
+    {
+      "id": "full-dev-current",
+      "floorCount": 260,
+      "npcCount": 2353,
+      "activeExitCount": 774,
+      "profileClosedExitCount": 0,
+      "mapAssets": {
+        "fileCount": 260,
+        "bytes": 14806585,
+        "gzipBytes": 2252711
+      },
+      "clientMapAssets": {
+        "fileCount": 260,
+        "bytes": 22008788,
+        "gzipBytes": 1947989
+      },
+      "worldModel": {
+        "bytes": 4583656,
+        "gzipBytes": 333597,
+        "activeExitCount": 774,
+        "profileClosedExitCount": 0
+      },
+      "profileRawBytes": 41399029,
+      "profileGzipBytes": 4534297,
+      "missing": [
+        {
+          "floor": 1408,
+          "name": "卡坦的道场",
+          "missingMap": false,
+          "missingClientMap": true
+        }
+      ]
+    },
+    {
+      "id": "classic-core",
+      "floorCount": 131,
+      "npcCount": 1560,
+      "activeExitCount": 318,
+      "profileClosedExitCount": 63,
+      "mapAssets": {
+        "fileCount": 131,
+        "bytes": 9137704,
+        "gzipBytes": 1431402
+      },
+      "clientMapAssets": {
+        "fileCount": 131,
+        "bytes": 13711558,
+        "gzipBytes": 1173896
+      },
+      "worldModel": {
+        "bytes": 2798420,
+        "gzipBytes": 224627,
+        "activeExitCount": 318,
+        "profileClosedExitCount": 54
+      },
+      "profileRawBytes": 25647682,
+      "profileGzipBytes": 2829925,
+      "missing": []
+    }
+  ],
+  "comparison": {
+    "floorSavings": 129,
+    "npcDelta": -793,
+    "estimatedRawBytes": {
+      "fullDev": 75419907,
+      "classicCore": 59668560
+    },
+    "estimatedGzipBytes": {
+      "fullDev": 28382118,
+      "classicCore": 26677746
+    },
+    "estimatedRawSavings": {
+      "bytes": 15751347,
+      "percent": 20.88486664402808
+    },
+    "estimatedGzipSavings": {
+      "bytes": 1704372,
+      "percent": 6.005090951986036
+    },
+    "mapAssetSavings": {
+      "bytes": 13966111,
+      "percent": 37.93554122078296
+    },
+    "worldModelSavings": {
+      "bytes": 1785236,
+      "percent": 38.947861706899474
+    },
+    "unchangedSharedAssets": {
+      "bytes": 34020878,
+      "gzipBytes": 23847821,
+      "note": "Shared assets include the current monolithic client tile atlas and data tables; these require later resource-pack extraction to shrink further."
+    }
+  },
+  "omittedLargestFloors": [
+    {
+      "floor": 300,
+      "name": "吉鲁岛",
+      "bytes": 3600052,
+      "gzipBytes": 343436
+    },
+    {
+      "floor": 817,
+      "name": "泪之海海底",
+      "bytes": 2400052,
+      "gzipBytes": 448486
+    },
+    {
+      "floor": 122,
+      "name": "迷宫",
+      "bytes": 600052,
+      "gzipBytes": 74829
+    },
+    {
+      "floor": 1021,
+      "name": "百人联手道场",
+      "bytes": 586132,
+      "gzipBytes": 98854
+    },
+    {
+      "floor": 3021,
+      "name": "百人联手道场",
+      "bytes": 586132,
+      "gzipBytes": 7350
+    },
+    {
+      "floor": 118,
+      "name": "迷宫",
+      "bytes": 450052,
+      "gzipBytes": 57332
+    },
+    {
+      "floor": 20301,
+      "name": "拉多拉的回廊",
+      "bytes": 450052,
+      "gzipBytes": 44764
+    },
+    {
+      "floor": 119,
+      "name": "迷宫",
+      "bytes": 400052,
+      "gzipBytes": 31697
+    },
+    {
+      "floor": 8202,
+      "name": "英雄战场 10",
+      "bytes": 352052,
+      "gzipBytes": 25091
+    },
+    {
+      "floor": 8205,
+      "name": "英雄战场 6",
+      "bytes": 352052,
+      "gzipBytes": 20291
+    },
+    {
+      "floor": 8207,
+      "name": "英雄战场 14",
+      "bytes": 352052,
+      "gzipBytes": 24138
+    },
+    {
+      "floor": 8209,
+      "name": "英雄战场 7",
+      "bytes": 352052,
+      "gzipBytes": 23488
+    },
+    {
+      "floor": 8211,
+      "name": "英雄战场 2",
+      "bytes": 352052,
+      "gzipBytes": 22640
+    },
+    {
+      "floor": 8213,
+      "name": "英雄战场 1",
+      "bytes": 352052,
+      "gzipBytes": 22716
+    },
+    {
+      "floor": 400,
+      "name": "沙姆岛A 10",
+      "bytes": 223552,
+      "gzipBytes": 33319
+    },
+    {
+      "floor": 8219,
+      "name": "白狼勇士试练洞窟",
+      "bytes": 160052,
+      "gzipBytes": 9140
+    },
+    {
+      "floor": 8220,
+      "name": "追猎者试练洞窟",
+      "bytes": 160052,
+      "gzipBytes": 10005
+    },
+    {
+      "floor": 147,
+      "name": "瑞尔亚斯大陆",
+      "bytes": 135052,
+      "gzipBytes": 27465
+    },
+    {
+      "floor": 3007,
+      "name": "加加的竞技场",
+      "bytes": 100052,
+      "gzipBytes": 5807
+    },
+    {
+      "floor": 4007,
+      "name": "卡鲁它那的竞技场",
+      "bytes": 100052,
+      "gzipBytes": 5352
+    }
+  ],
+  "followUps": [
+    "Switching the deployed build to classic-core would remove map/client-map files outside the profile, but the shared client tile atlas is still monolithic.",
+    "Next asset-pipeline work should split UI, map tiles, pet portraits, field sprites, and battle sprites into lazy packs before moving optional packs to R2.",
+    "Do not delete source-only floors or advanced lines; keep them staged behind profile closure until their complete quest dependencies are enabled."
+  ]
+}

@@ -14,6 +14,7 @@
     "check:npc": "node scripts/check-npc-actions.mjs",
     "audit:classic-core": "node scripts/audit-classic-core-content.mjs",
     "closure:classic-core": "node scripts/build-classic-content-closure.mjs",
+    "report:classic-core": "node scripts/report-classic-core-package.mjs",
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
