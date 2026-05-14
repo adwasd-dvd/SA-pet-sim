@@ -454,6 +454,27 @@ if (!himikoSp || !yayoiSp) throw new Error("missing Himiko/Yayoi source task fix
 assert(himikoSp.scriptEvents?.some((event) => event.type === "REQUEST" && /SP=0/.test(event.condition || "")), "Himiko parses source SP-gated request branch");
 assert(yayoiSp.scriptEvents?.some((event) => event.type === "REQUEST" && /SP=1/.test(event.condition || "")), "Yayoi parses source SP-gated request branch");
 
+let sourceStopGame = await api("/api/game/new", { name: "source-stopmsg-test" });
+sourceStopGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
+sourceStopGame = await api("/api/game/dialog", { game: sourceStopGame, npcId: himikoSp.id });
+assert(sourceStopGame.flags.bits["now:2"], "source REQUEST sets NOWEV before StopMsg flow");
+assertEqual(inventoryQty(sourceStopGame, 2415), 1, "source REQUEST gives the item before StopMsg flow");
+const sourceStopCharmBefore = Number(sourceStopGame.player.charm || 0);
+sourceStopGame = await api("/api/game/dialog", { game: sourceStopGame, npcId: himikoSp.id, message: "取消任务" });
+assert(sourceStopGame.dialog.messages.at(-1)?.text.includes("弥生"), "source StopMsg prompt is shown before cancelling an in-progress request");
+assert(sourceStopGame.flags.bits["now:2"], "source StopMsg prompt keeps NOWEV until confirmed");
+assertEqual(inventoryQty(sourceStopGame, 2415), 1, "source StopMsg prompt keeps the request item until confirmed");
+assert(sourceStopGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.reason === "source-changeevent-stop-prompt"), "source StopMsg prompt records source NOWEVENT window");
+sourceStopGame = await api("/api/game/dialog", { game: sourceStopGame, npcId: himikoSp.id, message: "确定" });
+assert(!testEventFlagSet(sourceStopGame, 2, "now"), "source EndStopMsg clears NOWEV through NPC VM");
+assertEqual(inventoryQty(sourceStopGame, 2415), 0, "source EndStopMsg removes the REQUEST GetItem through NPC VM");
+assertEqual(sourceStopGame.player.charm, Math.max(0, sourceStopCharmBefore - 1), "source EndStopMsg decreases CHAR_CHARM by one");
+assert(sourceStopGame.dialog.messages.at(-1)?.text.includes("再请别人帮忙"), "source EndStopMsg reply is shown after confirmation");
+assert(sourceStopGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-endstop-getitem" && event.detail?.itemId === 2415), "source EndStopMsg request-item return runs through NPC VM");
+assert(sourceStopGame.dialog.debug.vmTrace.some((event) => event.action === "clearFlag" && event.detail?.reason === "source-changeevent-endstop" && event.detail?.shiftbit === 2), "source EndStopMsg clear NOWEV records clearFlag VM action");
+assert(sourceStopGame.dialog.debug.vmTrace.some((event) => event.action === "adjustCharm" && event.detail?.reason === "source-changeevent-endstop" && event.detail?.charmAfter === sourceStopGame.player.charm), "source EndStopMsg charm loss records adjustCharm VM action");
+assert(sourceStopGame.world.map.npcs.find((npc) => npc.id === himikoSp.id)?.scriptEventSummary?.actions?.includes("StopMsg"), "client payload exposes compact StopMsg summary");
+
 const battleTutor = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "战斗技巧指导员");
 if (!battleTutor) throw new Error("missing battle tutor source message fixture");
 const battleTutorEvent = battleTutor.scriptEvents?.find((event) => event.type === "MESSAGE" && event.messagePages?.normal?.length >= 8);
@@ -1845,7 +1866,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

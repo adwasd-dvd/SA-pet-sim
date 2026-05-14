@@ -4345,6 +4345,7 @@ async function npcReply(env, request, game, npc, text) {
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasNpcScriptEvents(npc) && hasAny(lower, ["任务", "委托", "攻略", "quest", "仪式", "儀式", "领取", "领", "給", "给", "交付", "完成"])) return sourceScriptEventReply(game, npc, text);
+  if (hasNpcScriptEvents(npc) && (hasPendingSourceStop(game, npc) || isSourceScriptStopText(lower))) return sourceScriptEventReply(game, npc, text);
   if (hasNpcScriptEvents(npc) && npcHasKeywordBranches(npc)) return sourceScriptEventReply(game, npc, text);
   if (hasAny(lower, ["任务", "委托", "攻略", "quest"])) return questReply(game, npc, text);
   if (hasAny(lower, ["抓宠", "捕获"]) || (hasAny(lower, ["宠物", "pet"]) && !isStoneAgeKnowledgeQuestion(lower))) return captureReply(env, request, game, npc);
@@ -4553,6 +4554,29 @@ function chooseNpcScriptEvent(game, npc, text = "") {
 
 function sourceScriptEventConditionStatus(game, event) {
   return characterConditionStatus(game, event?.condition || "", { petName: event?.petName || "" });
+}
+
+function hasPendingSourceStop(game, npc, event = null) {
+  const pending = game?.flags?.pendingSourceStop;
+  if (!pending || String(pending.npcId || "") !== String(npc?.id || "")) return false;
+  if (!event) return true;
+  return Number(pending.eventNo || 0) === Number(event.eventNo || 0);
+}
+
+function isSourceScriptStopText(text = "") {
+  const raw = String(text || "").toLowerCase();
+  const compact = guideSearchText(raw);
+  return hasAny(raw, ["stop", "cancel", "quit"])
+    || hasAny(compact, ["取消任务", "取消委托", "放弃任务", "放棄任務", "放弃委托", "放棄委託", "停止任务", "停止任務", "终止任务", "終止任務", "结束任务", "結束任務", "不做了", "不要了"]);
+}
+
+function isSourceScriptStopConfirmText(text = "") {
+  const raw = String(text || "").trim().toLowerCase();
+  const compact = guideSearchText(raw);
+  return /^(y|yes|ok|okay|confirm)$/i.test(raw)
+    || ["是", "是的", "确定", "確定", "确认", "確認", "好", "好的", "可以"].includes(compact)
+    || hasAny(compact, ["确认取消", "確認取消", "确定取消", "確定取消", "确认放弃", "確認放棄", "确定放弃", "確定放棄"])
+    || isSourceScriptStopText(raw);
 }
 
 function npcHasKeywordBranches(npc) {
@@ -5137,8 +5161,7 @@ function sourceScriptEventBlockedReply(game, npc, text = "") {
     !eventFlagSet(game, Number(event.eventNo), "end")
   ));
   if (inProgress) {
-    recordNpcVmEvent(game, npc, "quest", "noop", { reason: "source-changeevent-in-progress", eventNo: inProgress.event.eventNo });
-    return scriptEventMessages(inProgress.event, ["noStop", "stop", "thanks", "request", "normalMain"]).join("\n") || `${npc.name}：这件事还在进行中。`;
+    return sourceScriptInProgressReply(game, npc, inProgress.event, text);
   }
   const keywordBlocked = statuses.find(({ condition, keyword }) => condition.ok && keyword.required && !keyword.ok);
   if (keywordBlocked) {
@@ -5167,6 +5190,94 @@ function sourceScriptEventBlockedReply(game, npc, text = "") {
   });
   const base = npc.dialogue && !String(npc.dialogue).startsWith("脚本入口") ? npc.dialogue : npcDefaultLine(npc);
   return unmet.length ? `${base}\n还缺：${unmet.join("、")}。` : base;
+}
+
+function sourceScriptInProgressReply(game, npc, event, text = "") {
+  const detail = {
+    reason: "source-changeevent-in-progress",
+    eventNo: event.eventNo,
+    eventType: event.type,
+    source: event.source || npc.script || npc.source || ""
+  };
+  const pending = hasPendingSourceStop(game, npc, event);
+  const directConfirm = hasAny(guideSearchText(text), ["确认取消", "確認取消", "确定取消", "確定取消", "确认放弃", "確認放棄", "确定放弃", "確定放棄"]);
+  if ((pending && isSourceScriptStopConfirmText(text)) || directConfirm) {
+    return runNpcScriptEndStop(game, npc, event, { ...detail, reason: "source-changeevent-endstop" });
+  }
+  if (isSourceScriptStopText(text)) {
+    ensureFlags(game);
+    game.flags.pendingSourceStop = {
+      npcId: npc.id,
+      eventNo: Number(event.eventNo || 0),
+      source: event.source || npc.script || npc.source || ""
+    };
+    runNpcVmAction(game, npc, {
+      type: "window",
+      windowType: "CHAR_WINDOWTYPE_WINDOWEVENT_NOWEVENT",
+      ...detail,
+      reason: "source-changeevent-stop-prompt"
+    });
+    const lines = scriptEventMessages(event, ["stop", "noStop"], game);
+    return lines.join("\n") || `${npc.name}：要放弃这件正在进行的事吗？输入“确定”后会结束任务。`;
+  }
+  recordNpcVmEvent(game, npc, "quest", "noop", detail);
+  return scriptEventMessages(event, ["noStop", "stop", "thanks", "request", "normalMain"], game).join("\n") || `${npc.name}：这件事还在进行中。`;
+}
+
+function runNpcScriptEndStop(game, npc, event, detail = {}) {
+  ensureFlags(game);
+  delete game.flags.pendingSourceStop;
+  for (const item of event.getItems || []) {
+    const qty = Math.max(1, Number(item.qty || 1));
+    if (inventoryQty(game, item.id) < qty) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", {
+        ...detail,
+        phase: "endstop",
+        reason: "source-changeevent-endstop-missing-request-item",
+        itemId: item.id,
+        itemName: item.name,
+        qty
+      });
+      continue;
+    }
+    runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty,
+      ...detail,
+      phase: "endstop",
+      reason: "source-changeevent-endstop-getitem"
+    });
+  }
+  const eventNo = Number(event.eventNo || 0);
+  if (eventNo > 0) {
+    runNpcVmAction(game, npc, {
+      type: "clearFlag",
+      kind: "now",
+      shiftbit: eventNo,
+      key: `now:${eventNo}`,
+      ...detail,
+      phase: "endstop"
+    });
+  }
+  if (Number(game.player?.charm || 0) > 0) {
+    runNpcVmAction(game, npc, {
+      type: "adjustCharm",
+      amount: -1,
+      ...detail,
+      phase: "endstop"
+    });
+  }
+  recordNpcVmEvent(game, npc, "quest", "ok", {
+    ...detail,
+    phase: "endstop",
+    requestItems: event.getItems,
+    eventNo
+  });
+  syncCharacterFields(game);
+  const lines = scriptEventMessages(event, ["endStop", "noStop", "normalMain"], game);
+  return lines.join("\n") || `${npc.name}：这件事已经取消。`;
 }
 
 function scriptEventMessages(event, keys, game) {
@@ -7387,6 +7498,7 @@ function npcActionProfile(npc) {
   if (hasNpcScriptEvents(npc)) {
     actions.push("quest", "window", "give", "take", "setFlag");
     if ((npc.scriptEvents || []).some((event) => event.cleanFlags?.length)) actions.push("clearFlag");
+    if ((npc.scriptEvents || []).some((event) => event.messages?.endStop)) actions.push("clearFlag", "adjustCharm");
     if ((npc.scriptEvents || []).some((event) => event.npcWarps?.length)) actions.push("moveNpc");
     if ((npc.scriptEvents || []).some((event) => event.charms?.length)) actions.push("adjustCharm");
     if ((npc.scriptEvents || []).some((event) => event.getPets?.length)) actions.push("givePet");
@@ -10007,6 +10119,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
     if (event.cleanFlags?.length) pushUniqueCompact(actions, "CleanFlg", 8);
+    if (event.messages?.stop || event.messages?.noStop || event.messages?.endStop) pushUniqueCompact(actions, "StopMsg", 8);
     if (Number(event.missionOver || 0) > 0) pushUniqueCompact(actions, "MISSIONOVER", 8);
     if (Number(event.missionClean || 0) > 0) pushUniqueCompact(actions, "MISSIONCLEAN", 8);
     if (event.messagePages && Object.keys(event.messagePages).length) pushUniqueCompact(actions, "MessagePages", 8);
