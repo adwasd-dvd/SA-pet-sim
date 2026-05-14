@@ -3341,12 +3341,18 @@ function renderMapStatusHtml() {
 
 function renderMapQuestLeadHtml(map) {
   const activeQuests = Object.values(game.quests || {});
+  const sourceTasks = game.progression?.sourceTasks || [];
   const mapLeads = (map.npcs || [])
     .filter((npc) => npc.questLead)
     .slice()
     .sort((a, b) => pointDistance(a.x, a.y) - pointDistance(b.x, b.y))
     .slice(0, 5);
-  if (!activeQuests.length && !mapLeads.length) return "";
+  const scriptLeads = (map.npcs || [])
+    .filter((npc) => npc.scriptStatus && !npc.questLead)
+    .slice()
+    .sort((a, b) => Number(b.scriptStatus?.hasReadyBranch || 0) - Number(a.scriptStatus?.hasReadyBranch || 0) || pointDistance(a.x, a.y) - pointDistance(b.x, b.y))
+    .slice(0, 5);
+  if (!activeQuests.length && !sourceTasks.length && !mapLeads.length && !scriptLeads.length) return "";
   return `
     <section class="assist-lead-panel" aria-label="任务与脚本线索">
       ${activeQuests.length ? `
@@ -3356,6 +3362,17 @@ function renderMapQuestLeadHtml(map) {
             <article>
               <b>${escapeHtml(quest.title)}</b>
               <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
+            </article>
+          `).join("")}
+        </div>
+      ` : ""}
+      ${sourceTasks.length ? `
+        <div class="assist-lead-group">
+          <strong>原脚本事件</strong>
+          ${sourceTasks.slice(0, 4).map((task) => `
+            <article>
+              <b>${escapeHtml(task.title)}</b>
+              <span>${escapeHtml(task.next || task.status)}${task.nextNpcs?.[0]?.distance < 9999 ? ` | 距离 ${Number(task.nextNpcs[0].distance)} 格` : ""}</span>
             </article>
           `).join("")}
         </div>
@@ -3371,8 +3388,39 @@ function renderMapQuestLeadHtml(map) {
           `).join("")}
         </div>
       ` : ""}
+      ${scriptLeads.length ? `
+        <div class="assist-lead-group">
+          <strong>本地图可问 NPC</strong>
+          ${scriptLeads.map((npc) => `
+            <button class="assist-lead-row" type="button" data-npc="${escapeHtml(npc.id)}">
+              <b>${escapeHtml(npc.name)}</b>
+              <span>${escapeHtml(scriptLeadText(npc))} | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
+            </button>
+          `).join("")}
+        </div>
+      ` : ""}
     </section>
   `;
+}
+
+function scriptLeadText(npc) {
+  const status = npc.scriptStatus || {};
+  if (status.hasReadyBranch) return "可触发原脚本";
+  const unmet = (status.conditions || [])
+    .flatMap((condition) => condition.unmet || [])
+    .map(scriptCheckLabel)
+    .filter(Boolean)
+    .slice(0, 2);
+  if (unmet.length) return `缺 ${unmet.join("、")}`;
+  const count = Number(npc.scriptEventSummary?.count || 0);
+  return count ? `${count} 段原脚本` : "脚本条件待确认";
+}
+
+function scriptCheckLabel(check) {
+  if (check.itemName) return `${check.itemName} x${Number(check.needed || check.qty || 1)}`;
+  if (check.petName) return check.petName;
+  if (check.token) return check.token;
+  return "";
 }
 
 function renderAssistPets() {
@@ -4193,14 +4241,21 @@ function clientItemSlot(item) {
 
 function clientQuestWindow() {
   const quests = Object.values(game.quests || {});
+  const sourceTasks = game.progression?.sourceTasks || [];
   return {
     title: "QUEST",
-    html: quests.length ? `
+    html: quests.length || sourceTasks.length ? `
       <div class="client-list-window">
         ${quests.map((quest) => `
           <article>
             <strong>${escapeHtml(quest.title)}</strong>
             <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
+          </article>
+        `).join("")}
+        ${sourceTasks.map((task) => `
+          <article>
+            <strong>${escapeHtml(task.title)}</strong>
+            <span>${escapeHtml(task.status)} | ${escapeHtml(task.next || "继续推进原脚本事件")}</span>
           </article>
         `).join("")}
       </div>
@@ -4505,7 +4560,8 @@ function battleHasRecoverableTarget() {
 
 function renderQuests() {
   const quests = Object.values(game.quests || {});
-  els.questList.innerHTML = quests.map((quest) => `
+  const sourceTasks = game.progression?.sourceTasks || [];
+  const questHtml = quests.map((quest) => `
     <article class="result-item quest-card">
       <div><strong>${escapeHtml(quest.title)}</strong><span>${escapeHtml(quest.status)}</span></div>
       <p>${escapeHtml(quest.description)}</p>
@@ -4517,7 +4573,19 @@ function renderQuests() {
       <p class="muted">下一步：${escapeHtml(nextQuestStep(quest))}</p>
       <p class="muted">奖励：${escapeHtml(quest.reward)} | 来源：${escapeHtml(quest.source)}</p>
     </article>
-  `).join("") || `<p class="empty">还没有接任务，先和 NPC 聊聊。</p>`;
+  `).join("");
+  const sourceTaskHtml = sourceTasks.map((task) => `
+      <article class="result-item quest-card">
+        <div><strong>${escapeHtml(task.title)}</strong><span>${escapeHtml(task.status)}</span></div>
+        <p>${escapeHtml(task.next || "继续推进原脚本事件。")}</p>
+        ${task.requiredItems?.length ? `<p class="muted">道具：${escapeHtml(task.requiredItems.map((item) => `${item.name} ${Number(item.have || 0)}/${Number(item.qty || 1)}`).join("、"))}</p>` : ""}
+        ${task.rewardItems?.length ? `<p class="muted">可能奖励：${escapeHtml(task.rewardItems.map((item) => `${item.name} x${Number(item.qty || 1)}`).join("、"))}</p>` : ""}
+        <p class="muted">来源：${escapeHtml(task.source || "gmsv-data changeevent")} | EventNo ${Number(task.eventNo || 0)}</p>
+      </article>
+    `).join("");
+  els.questList.innerHTML = questHtml || sourceTaskHtml
+    ? `${questHtml}${sourceTaskHtml}`
+    : `<p class="empty">还没有接任务，先和 NPC 聊聊。</p>`;
 }
 
 function nextQuestStep(quest) {

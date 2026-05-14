@@ -78,6 +78,7 @@ const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_OPENAI_MODEL = "gpt-5.4-mini";
 const NPC_INTERACTION_RANGE = 2;
 const NPC_WINDOW_ACTION_RANGE = 3;
+const SOURCE_SCRIPT_TASKS = Object.freeze(buildSourceScriptTaskIndex(WORLD));
 const ROUTE_MAX_STEPS = 160;
 const ROUTE_MAX_VISITS = 12000;
 const DEFAULT_CHAR_DIR = 5;
@@ -4661,6 +4662,160 @@ function sourceScriptItem(item) {
   };
 }
 
+function buildSourceScriptTaskIndex(world) {
+  const tasks = new Map();
+  for (const map of Object.values(world.maps || {})) {
+    for (const npc of map.npcs || []) {
+      for (const event of npc.scriptEvents || []) {
+        const eventNo = Number(event.eventNo || 0);
+        if (eventNo <= 0) continue;
+        const task = tasks.get(eventNo) || {
+          eventNo,
+          title: "",
+          sources: new Set(),
+          npcs: [],
+          requestNpcs: [],
+          acceptNpcs: [],
+          requiredItems: new Map(),
+          rewardItems: new Map()
+        };
+        const ref = {
+          id: npc.id,
+          name: npc.name,
+          mapId: map.id,
+          mapName: map.name,
+          x: npc.x,
+          y: npc.y,
+          source: event.source || npc.script || npc.source || "",
+          condition: event.condition || "",
+          eventType: event.type
+        };
+        task.sources.add(ref.source);
+        task.npcs.push(ref);
+        if (event.type === "REQUEST") task.requestNpcs.push(ref);
+        if (event.type === "ACCEPT") {
+          task.acceptNpcs.push({
+            ...ref,
+            getItems: (event.getItems || []).map(sourceScriptTaskItem),
+            delItems: (event.delItems || []).map(sourceScriptTaskItem),
+            endSetFlags: [...(event.endSetFlags || [])]
+          });
+        }
+        for (const item of event.delItems || []) upsertSourceScriptTaskItem(task.requiredItems, item);
+        for (const item of event.getItems || []) upsertSourceScriptTaskItem(task.rewardItems, item);
+        tasks.set(eventNo, task);
+      }
+    }
+  }
+  return [...tasks.values()]
+    .map((task) => ({
+      ...task,
+      title: sourceScriptTaskTitle(task),
+      sources: [...task.sources].filter(Boolean).slice(0, 4),
+      requiredItems: [...task.requiredItems.values()],
+      rewardItems: [...task.rewardItems.values()],
+      npcs: task.npcs.slice(0, 8),
+      requestNpcs: task.requestNpcs.slice(0, 4),
+      acceptNpcs: task.acceptNpcs.slice(0, 8)
+    }))
+    .sort((a, b) => a.eventNo - b.eventNo);
+}
+
+function upsertSourceScriptTaskItem(map, item) {
+  const key = Number(item.id);
+  if (!key) return;
+  const existing = map.get(key);
+  const next = sourceScriptTaskItem(item);
+  map.set(key, existing ? { ...existing, qty: Math.max(Number(existing.qty || 1), Number(next.qty || 1)) } : next);
+}
+
+function sourceScriptTaskItem(item) {
+  return {
+    id: Number(item.id),
+    name: item.name || `item ${item.id}`,
+    qty: Math.max(1, Number(item.qty || 1))
+  };
+}
+
+function sourceScriptTaskTitle(task) {
+  const npc = task.requestNpcs[0] || task.acceptNpcs.find((item) => item.delItems?.length) || task.acceptNpcs[0] || task.npcs[0];
+  const reward = [...task.rewardItems.values()].find((item) => item.name);
+  return reward ? `${npc?.name || "事件"}：${reward.name}` : (npc?.name || `事件 ${task.eventNo}`);
+}
+
+function sourceScriptTaskState(game) {
+  ensureFlags(game);
+  const tasks = [];
+  for (const task of SOURCE_SCRIPT_TASKS) {
+    if (!eventFlagSet(game, task.eventNo, "now") || eventFlagSet(game, task.eventNo, "end")) continue;
+    tasks.push(compactSourceScriptTask(game, task));
+    if (tasks.length >= 8) break;
+  }
+  return tasks;
+}
+
+function compactSourceScriptTask(game, task) {
+  const readyTurnIns = task.acceptNpcs
+    .filter((npc) => npc.delItems?.length)
+    .filter((npc) => characterConditionStatus(game, npc.condition || "").ok);
+  const readyProviders = task.acceptNpcs
+    .filter((npc) => npc.getItems?.length)
+    .filter((npc) => characterConditionStatus(game, npc.condition || "").ok);
+  const missingItems = task.requiredItems
+    .map((item) => ({ ...item, have: inventoryQty(game, item.id), needed: Number(item.qty || 1) }))
+    .filter((item) => item.have < item.needed);
+  const phase = readyTurnIns.length && !missingItems.length
+    ? "turn-in"
+    : readyProviders.length
+      ? "collect"
+      : missingItems.length
+        ? "collect"
+        : "in-progress";
+  const nextNpcs = (phase === "turn-in" ? readyTurnIns : readyProviders.length ? readyProviders : task.requestNpcs)
+    .map((npc) => sourceScriptTaskNpc(game, npc))
+    .sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name, "zh-Hans"))
+    .slice(0, 3);
+  return {
+    eventNo: task.eventNo,
+    title: task.title,
+    status: "进行中",
+    phase,
+    next: sourceScriptTaskNextText(phase, missingItems, nextNpcs, task),
+    requiredItems: task.requiredItems.map((item) => ({ ...item, have: inventoryQty(game, item.id) })),
+    rewardItems: task.rewardItems,
+    nextNpcs,
+    source: task.sources[0] || ""
+  };
+}
+
+function sourceScriptTaskNpc(game, npc) {
+  const sameMap = String(game.location?.mapId || "") === String(npc.mapId);
+  return {
+    id: npc.id,
+    name: npc.name,
+    mapId: npc.mapId,
+    mapName: npc.mapName,
+    x: npc.x,
+    y: npc.y,
+    distance: sameMap ? distance(npc.x, npc.y, Number(game.location.x || 0), Number(game.location.y || 0)) : 9999,
+    source: npc.source
+  };
+}
+
+function sourceScriptTaskNextText(phase, missingItems, nextNpcs, task) {
+  if (phase === "turn-in") {
+    const target = nextNpcs[0];
+    return target ? `回到 ${target.mapName} 的 ${target.name} 交付任务道具。` : "回到任务 NPC 交付道具。";
+  }
+  if (missingItems.length) {
+    const needs = missingItems.map((item) => `${item.name} ${item.have}/${item.needed}`).join("、");
+    const target = nextNpcs[0];
+    return target ? `收集 ${needs}；可先找 ${target.mapName} 的 ${target.name}。` : `收集 ${needs}。`;
+  }
+  if (nextNpcs[0]) return `继续找 ${nextNpcs[0].mapName} 的 ${nextNpcs[0].name}。`;
+  return `继续推进事件 ${task.eventNo}。`;
+}
+
 function npcDialogueLines(npc) {
   if (Array.isArray(npc.dialogueLines) && npc.dialogueLines.length) return npc.dialogueLines.filter(Boolean);
   if (!npc.dialogue) return [];
@@ -8376,7 +8531,8 @@ function progressionState(game) {
       name: pet.Name,
       petId: pet.PetId,
       limitLevel: petLimitLevel(pet)
-    }))
+    })),
+    sourceTasks: sourceScriptTaskState(game)
   };
 }
 
