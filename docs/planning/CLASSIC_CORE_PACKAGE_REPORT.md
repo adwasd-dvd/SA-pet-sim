@@ -1,6 +1,6 @@
 # Classic Core Package Report
 
-Generated at: 2026-05-14T04:28:57.776Z
+Generated at: 2026-05-14T14:09:21.946Z
 
 Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.
 
@@ -8,7 +8,7 @@ Package estimates are computed from local WORLD data, the classic-core closure m
 
 Current public directory: 539 files, 63.53 MiB raw, 25.90 MiB gzip-estimated.
 
-Shared assets not yet profile-filtered: 20 files, 28.42 MiB raw, 21.89 MiB gzip-estimated.
+Shared assets not yet profile-filtered: 20 files, 28.42 MiB raw, 21.90 MiB gzip-estimated.
 
 | Metric | Full-dev current | Classic-core estimate | Difference |
 | --- | ---: | ---: | ---: |
@@ -18,9 +18,9 @@ Shared assets not yet profile-filtered: 20 files, 28.42 MiB raw, 21.89 MiB gzip-
 | Profile-closed exits | 0 | 65 | 65 |
 | LS2MAP raw | 14.12 MiB | 8.77 MiB | 5.36 MiB |
 | Client DAT raw | 20.99 MiB | 13.15 MiB | 7.84 MiB |
-| WORLD model raw | 4.37 MiB | 2.71 MiB | 1.66 MiB |
-| Estimated raw package | 67.90 MiB | 53.05 MiB | 14.85 MiB (21.9%) |
-| Estimated gzip package | 26.22 MiB | 24.61 MiB | 1.61 MiB (6.1%) |
+| WORLD model raw | 5.11 MiB | 3.33 MiB | 1.78 MiB |
+| Estimated raw package | 68.64 MiB | 53.67 MiB | 14.97 MiB (21.8%) |
+| Estimated gzip package | 26.29 MiB | 24.67 MiB | 1.62 MiB (6.2%) |
 
 ## Largest Omitted Current Floors
 

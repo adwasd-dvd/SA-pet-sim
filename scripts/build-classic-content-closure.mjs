@@ -176,9 +176,11 @@ function buildLineClosure(line) {
   const oneHopTransitFloors = collectOneHopTransit(generatedFloors, requiredFloors);
   const enabledFloors = generatedFloors;
   const npcs = collectNpcs(enabledFloors, terms, line);
+  const scriptEvents = collectScriptEvents(npcs);
   const warpsForLine = collectWarps(enabledFloors);
   const encounters = collectEncounters(enabledFloors);
-  const items = collectItems(npcs);
+  const items = collectItems(npcs, scriptEvents);
+  const sourceTaskClusters = collectSourceTaskClusters(scriptEvents);
   const enemyTempNos = uniqueNumbers([
     ...encounters.flatMap((area) => area.enemyTempNos),
     ...matchingEnemyTempNos(terms)
@@ -201,6 +203,7 @@ function buildLineClosure(line) {
       missingSeedFloors: seedFloors.filter((floor) => !sourceMaps.has(floor) && !generatedMapIds.has(String(floor)))
     },
     npcs,
+    sourceTaskClusters,
     scripts: uniqueStrings(npcs.flatMap((npc) => [npc.source, npc.script]).filter(Boolean)).sort(),
     warps: warpsForLine,
     items,
@@ -214,13 +217,15 @@ function buildLineClosure(line) {
       transitFloorCount: oneHopTransitFloors.length,
       npcCount: npcs.length,
       scriptCount: uniqueStrings(npcs.flatMap((npc) => [npc.source, npc.script]).filter(Boolean)).length,
+      scriptEventCount: scriptEvents.length,
+      sourceTaskClusterCount: sourceTaskClusters.length,
       itemCount: items.length,
       encounterAreaCount: encounters.length,
       enemyTempNoCount: enemyTempNos.length,
       petResourceCount: petResources.length,
       outboundWarpCount: warpsForLine.length
     },
-    validation: validationForLine(line, requiredFloors, sourceOnlyFloors, petResources)
+    validation: validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters)
   };
 }
 
@@ -377,7 +382,96 @@ function collectEncounters(floors) {
   return out.sort((a, b) => a.floor - b.floor || a.id - b.id);
 }
 
-function collectItems(npcs) {
+function collectScriptEvents(npcs) {
+  const out = [];
+  for (const npc of npcs) {
+    const map = WORLD.maps[String(npc.floor)];
+    const sourceNpc = (map?.npcs || []).find((item) => item.id === npc.id);
+    for (const event of sourceNpc?.scriptEvents || []) {
+      const eventNo = Number(event.eventNo || 0);
+      const getItems = (event.getItems || []).map(scriptEventItemRecord);
+      const delItems = (event.delItems || []).map(scriptEventItemRecord);
+      const endSetFlags = uniqueNumbers(event.endSetFlags || []);
+      if (eventNo <= 0 && !getItems.length && !delItems.length && !endSetFlags.length) continue;
+      out.push({
+        npcId: npc.id,
+        npcName: npc.name,
+        floor: npc.floor,
+        mapName: npc.mapName,
+        eventNo,
+        type: event.type || "",
+        condition: event.condition || "",
+        source: event.source || sourceNpc.script || sourceNpc.source || "",
+        sourceCluster: sourceScriptCluster(event.source || sourceNpc.script || sourceNpc.source || ""),
+        getItems,
+        delItems,
+        endSetFlags
+      });
+    }
+  }
+  return out.sort((a, b) => a.floor - b.floor || a.eventNo - b.eventNo || a.npcName.localeCompare(b.npcName, "zh-Hans"));
+}
+
+function scriptEventItemRecord(item) {
+  return {
+    id: Number(item.id),
+    name: item.name || `item ${item.id}`,
+    qty: Math.max(1, Number(item.qty || 1)),
+    source: item.source || "gmsv-data/itemset6.txt"
+  };
+}
+
+function collectSourceTaskClusters(scriptEvents) {
+  const clusters = new Map();
+  for (const event of scriptEvents) {
+    const eventNo = Number(event.eventNo || 0);
+    if (eventNo <= 0) continue;
+    const key = `${eventNo}:${event.sourceCluster}`;
+    const cluster = clusters.get(key) || {
+      eventNo,
+      sourceCluster: event.sourceCluster,
+      eventTypes: new Set(),
+      npcs: new Map(),
+      requiredItems: new Map(),
+      rewardItems: new Map(),
+      endSetFlags: new Set(),
+      sources: new Set()
+    };
+    if (event.type) cluster.eventTypes.add(event.type);
+    cluster.npcs.set(event.npcId, {
+      id: event.npcId,
+      name: event.npcName,
+      floor: event.floor,
+      mapName: event.mapName
+    });
+    for (const item of event.delItems || []) upsertClosureItem(cluster.requiredItems, item);
+    for (const item of event.getItems || []) upsertClosureItem(cluster.rewardItems, item);
+    for (const flag of event.endSetFlags || []) cluster.endSetFlags.add(Number(flag));
+    if (event.source) cluster.sources.add(event.source);
+    clusters.set(key, cluster);
+  }
+  return [...clusters.values()]
+    .map((cluster) => {
+      const eventTypes = [...cluster.eventTypes].sort();
+      const requiredItems = [...cluster.requiredItems.values()].sort((a, b) => a.id - b.id);
+      const rewardItems = [...cluster.rewardItems.values()].sort((a, b) => a.id - b.id);
+      const endSetFlags = uniqueNumbers([...cluster.endSetFlags]);
+      return {
+        eventNo: cluster.eventNo,
+        sourceCluster: cluster.sourceCluster,
+        eventTypes,
+        npcs: [...cluster.npcs.values()].sort((a, b) => a.floor - b.floor || a.name.localeCompare(b.name, "zh-Hans")),
+        requiredItems,
+        rewardItems,
+        endSetFlags,
+        sources: [...cluster.sources].sort(),
+        runnable: eventTypes.includes("REQUEST") && eventTypes.includes("ACCEPT") && Boolean(requiredItems.length || rewardItems.length || endSetFlags.length)
+      };
+    })
+    .sort((a, b) => a.eventNo - b.eventNo || a.sourceCluster.localeCompare(b.sourceCluster));
+}
+
+function collectItems(npcs, scriptEvents = []) {
   const out = [];
   for (const npc of npcs) {
     const map = WORLD.maps[String(npc.floor)];
@@ -387,6 +481,7 @@ function collectItems(npcs) {
         id: Number(item.id),
         name: item.name,
         type: item.type,
+        dependency: "shop",
         price: item.price,
         npcId: npc.id,
         npcName: npc.name,
@@ -395,7 +490,46 @@ function collectItems(npcs) {
       });
     }
   }
+  for (const event of scriptEvents) {
+    for (const item of event.delItems || []) {
+      out.push({
+        ...item,
+        dependency: "script-del",
+        eventNo: event.eventNo,
+        npcId: event.npcId,
+        npcName: event.npcName,
+        floor: event.floor,
+        source: item.source || event.source
+      });
+    }
+    for (const item of event.getItems || []) {
+      out.push({
+        ...item,
+        dependency: "script-get",
+        eventNo: event.eventNo,
+        npcId: event.npcId,
+        npcName: event.npcName,
+        floor: event.floor,
+        source: item.source || event.source
+      });
+    }
+  }
   return dedupeBy(out, (item) => `${item.id}:${item.floor}:${item.npcId}`).sort((a, b) => a.id - b.id);
+}
+
+function upsertClosureItem(map, item) {
+  const key = Number(item.id);
+  if (!key) return;
+  const next = scriptEventItemRecord(item);
+  const existing = map.get(key);
+  map.set(key, existing ? { ...existing, qty: Math.max(Number(existing.qty || 1), Number(next.qty || 1)) } : next);
+}
+
+function sourceScriptCluster(source) {
+  const cleaned = String(source || "").replace(/^gmsv-data\/npc\//, "");
+  const parts = cleaned.split(/[\\/]+/).filter(Boolean);
+  if (parts.length >= 2) return parts.slice(0, 2).join("/");
+  return cleaned || "unknown";
 }
 
 function matchingEnemyTempNos(terms) {
@@ -479,14 +613,15 @@ function sourceEvidenceFor(terms) {
     }));
 }
 
-function validationForLine(line, requiredFloors, sourceOnlyFloors, petResources) {
+function validationForLine(line, requiredFloors, sourceOnlyFloors, petResources, sourceTaskClusters = []) {
   const warnings = [];
+  const runnableSourceTasks = sourceTaskClusters.filter((cluster) => cluster.runnable);
   if (!requiredFloors.length) warnings.push("No local floor was pulled into this line yet; use script/NPC evidence before enabling.");
   if (sourceOnlyFloors.length) warnings.push(`${sourceOnlyFloors.length} source map floors are not in current generated WORLD and must be added before this line is playable.`);
   if (petResources.some((pet) => !pet.hasClientFrame)) warnings.push("Some enemy/pet bitmap ids are not in the current client tile atlas.");
-  if (line.includeScriptText) warnings.push("NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable.");
+  if (line.includeScriptText && !runnableSourceTasks.length) warnings.push("NPC script-text matches are dependency candidates; validate source actions, flags, rewards, and warps before marking this line playable.");
   return {
-    status: warnings.length ? "needs-closure-work" : "closure-draft",
+    status: warnings.length ? "needs-closure-work" : runnableSourceTasks.length ? "playable-source-script-draft" : "closure-draft",
     warnings
   };
 }
@@ -644,12 +779,13 @@ function renderMarkdown(manifest) {
   for (const profile of manifest.profiles) {
     lines.push(`| ${profile.id} | ${profile.lineIds.length} | ${profile.counts.floorCount} | ${profile.counts.sourceOnlyFloorCount} | ${profile.counts.npcCount} | ${profile.counts.itemCount} | ${profile.counts.enemyTempNoCount} | ${profile.counts.petResourceCount} | ${profile.counts.closedWarpCount} | ${profile.packageImpact.mapBytes} | ${profile.packageImpact.clientMapBytes} |`);
   }
-  lines.push("", "## Line Summary", "", "| Line | Profile | Stage | Floors | Source-Only | NPCs | Items | Enemies | Status | Warnings |", "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- |");
+  lines.push("", "## Line Summary", "", "| Line | Profile | Stage | Floors | Source-Only | NPCs | Source Tasks | Items | Enemies | Status | Warnings |", "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |");
   for (const line of manifest.lines) {
-    lines.push(`| ${line.title} | ${line.profile} | ${line.stage} | ${line.counts.generatedFloorCount} | ${line.counts.sourceOnlyFloorCount} | ${line.counts.npcCount} | ${line.counts.itemCount} | ${line.counts.enemyTempNoCount} | ${line.validation.status} | ${line.validation.warnings.join("<br>") || ""} |`);
+    lines.push(`| ${line.title} | ${line.profile} | ${line.stage} | ${line.counts.generatedFloorCount} | ${line.counts.sourceOnlyFloorCount} | ${line.counts.npcCount} | ${line.counts.sourceTaskClusterCount} | ${line.counts.itemCount} | ${line.counts.enemyTempNoCount} | ${line.validation.status} | ${line.validation.warnings.join("<br>") || ""} |`);
   }
   lines.push("", "## Important Notes", "");
   lines.push("- `sourceOnlyFloors` means local original LS2MAP data exists, but the current generated Worker `WORLD` does not include the floor yet.");
+  lines.push("- `sourceTaskClusters` are parsed `EventNo`/`TYPE` changeevent groups with their source required/reward items. They are used to keep task resources in profile closure instead of trusting text matches alone.");
   lines.push("- `closedWarps` are not bugs by themselves. They are the list of exits that need source-style close/hide behavior if a smaller profile ships without the target map.");
   lines.push("- Rebirth remains gated until the four proof cave lines and dark cave line have no missing generated floors and have battle/NPC rewards validated.");
   lines.push("- This draft intentionally avoids new art, renamed content, shortened cave chains, and arbitrary map caps.");
