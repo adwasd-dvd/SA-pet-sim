@@ -116,6 +116,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - `GetStone` / `DelStone`, including source-style dynamic costs such as `LV*3`
   - `CleanFlg`, clearing both NOWEV and ENDEV for the source event id through the VM `clearFlag` action
   - `NpcWarp`, moving the NPC's runtime position through the VM `moveNpc` action without editing the original map data
+  - `MISSIONOVER` / `MISSIONCLEAN`, using a compact source-style angel/hero mission table state; `HERO_*` / `ANGEL_*` / `HEROCNT` conditions now gate branches and `MISSIONOVER` marks the active hero mission complete while incrementing `CHAR_HEROCNT`
 - Source NPC full/shortage messages are parsed into runtime messages, including `ItemFullMsg`, `PetFullMsg`, `StoneFullMsg`, and `StoneLessMsg`.
 - Source `TYPE:CLEAN`, `CleanMainMsg`, and `CleanFlgMsg` branches are parsed so reset/cancel style NPCs can show their original text and clear task flags.
 - Numbered source dialogue pages such as `RequestMsg1/2`, `AcceptMsg1/2`, `ThanksMsg1/2`, and `NormalWindowMsg1/2` are preserved as `messagePages` and joined at runtime, while client map payloads still get only compact `scriptEventSummary` metadata.

@@ -85,6 +85,15 @@ const ROUTE_MAX_VISITS = 12000;
 const DEFAULT_CHAR_DIR = 5;
 const AI_WORKSPACE_SCHEMA = "stoneage-ai-workspace-v1";
 const AI_WORKSPACE_MAX_MEMORIES = 60;
+const ANGEL_ITEM_ID = 2884;
+const HERO_ITEM_ID = 2885;
+const ANGEL_MISSION_FLAGS = Object.freeze({
+  NONE: 0,
+  WAIT_ANSWER: 1,
+  DOING: 2,
+  HERO_COMPLETE: 3,
+  TIMEOVER: 4
+});
 const SAFE_WILD_ENCOUNTER_MAP_RE = /村|庄园|店|医院|道场|柜台|商店|房屋|之家|的家|宠物店|肉店|武器店|防具店|便利|竞技场|競技場|斗技场|鬥技場|PK竞技|武斗场/i;
 const SA_DIRECTION_DELTAS = Object.freeze([
   [0, -1],
@@ -109,6 +118,8 @@ const NPC_VM_ACTIONS = new Set([
   "takePet",
   "setFlag",
   "clearFlag",
+  "missionOver",
+  "missionClean",
   "moveNpc",
   "adjustCharm",
   "effect",
@@ -4579,6 +4590,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
   runNpcScriptNpcWarps(game, npc, event, detail, "request");
   runNpcScriptCharmActions(game, npc, event, detail, "request");
   runNpcScriptCleanFlags(game, npc, event, detail, "request");
+  runNpcScriptMissionActions(game, npc, event, detail, "request");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "request",
@@ -4590,6 +4602,8 @@ function runNpcScriptRequest(game, npc, event, detail) {
     npcWarps: event.npcWarps,
     charms: event.charms,
     cleanFlags: event.cleanFlags,
+    missionOver: event.missionOver,
+    missionClean: event.missionClean,
     getPets: event.getPets,
     delPets: event.delPets
   });
@@ -4620,6 +4634,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
   runNpcScriptNpcWarps(game, npc, event, detail, "accept");
   runNpcScriptCharmActions(game, npc, event, detail, "accept");
   runNpcScriptCleanFlags(game, npc, event, detail, "accept");
+  runNpcScriptMissionActions(game, npc, event, detail, "accept");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "accept",
@@ -4633,7 +4648,9 @@ function runNpcScriptAccept(game, npc, event, detail) {
     getPets: event.getPets,
     delPets: event.delPets,
     cleanFlags: event.cleanFlags,
-    endSetFlags: event.endSetFlags
+    endSetFlags: event.endSetFlags,
+    missionOver: event.missionOver,
+    missionClean: event.missionClean
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"], game);
@@ -4672,6 +4689,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
   runNpcScriptNpcWarps(game, npc, event, detail, "message");
   runNpcScriptCharmActions(game, npc, event, detail, "message");
   runNpcScriptCleanFlags(game, npc, event, detail, "message");
+  runNpcScriptMissionActions(game, npc, event, detail, "message");
   const hasMutation = (event.getItems || []).length
     || (event.delItems || []).length
     || (event.getRandItems || []).length
@@ -4683,7 +4701,9 @@ function runNpcScriptMessage(game, npc, event, detail) {
     || (event.delPets || []).length
     || (event.cleanFlags || []).length
     || (event.endSetFlags || []).length
-    || (event.nowSetFlags || []).length;
+    || (event.nowSetFlags || []).length
+    || Number(event.missionOver || 0) > 0
+    || Number(event.missionClean || 0) > 0;
   recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", {
     ...detail,
     phase: "message",
@@ -4700,7 +4720,9 @@ function runNpcScriptMessage(game, npc, event, detail) {
     delPets: event.delPets,
     cleanFlags: event.cleanFlags,
     endSetFlags: event.endSetFlags,
-    nowSetFlags: event.nowSetFlags
+    nowSetFlags: event.nowSetFlags,
+    missionOver: event.missionOver,
+    missionClean: event.missionClean
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"], game);
@@ -4719,6 +4741,7 @@ function runNpcScriptClean(game, npc, event, detail) {
   runNpcScriptNpcWarps(game, npc, event, detail, "clean");
   runNpcScriptCharmActions(game, npc, event, detail, "clean");
   runNpcScriptCleanFlags(game, npc, event, detail, "clean");
+  runNpcScriptMissionActions(game, npc, event, detail, "clean");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "clean",
@@ -4733,7 +4756,9 @@ function runNpcScriptClean(game, npc, event, detail) {
     npcWarps: event.npcWarps,
     charms: event.charms,
     getPets: event.getPets,
-    delPets: event.delPets
+    delPets: event.delPets,
+    missionOver: event.missionOver,
+    missionClean: event.missionClean
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["cleanMain", "cleanFlag", "normalMain", "normal", "thanks"], game);
@@ -4778,6 +4803,27 @@ function runNpcScriptCleanFlags(game, npc, event, detail, phase) {
       ...detail,
       phase,
       reason: "source-changeevent-cleanflag"
+    });
+  }
+}
+
+function runNpcScriptMissionActions(game, npc, event, detail, phase) {
+  if (Number(event.missionOver || 0) > 0) {
+    runNpcVmAction(game, npc, {
+      type: "missionOver",
+      mission: Number(event.missionOver),
+      ...detail,
+      phase,
+      reason: "source-changeevent-missionover"
+    });
+  }
+  if (Number(event.missionClean || 0) > 0) {
+    runNpcVmAction(game, npc, {
+      type: "missionClean",
+      mission: Number(event.missionClean),
+      ...detail,
+      phase,
+      reason: "source-changeevent-missionclean"
     });
   }
 }
@@ -5110,6 +5156,7 @@ function sourceScriptEventBlockedReply(game, npc, text = "") {
     .map((check) => {
       if (check.itemName) return `${check.itemName} x${check.needed || 1}`;
       if (check.petName) return `${check.petName} Lv${check.op || ""}${check.expected ?? ""} x${check.needed || 1}`;
+      if (check.type === "angelMission") return `勇者任务 ${check.mission} ${check.role === "angel" ? "天使" : "勇者"}状态`;
       return check.token;
     })
     .filter(Boolean);
@@ -5255,7 +5302,9 @@ function buildSourceScriptTaskIndex(world) {
             delStones: event.delStones || [],
             getPets: (event.getPets || []).map(sourceScriptTaskGetPet),
             delPets: (event.delPets || []).map((pet) => sourceScriptTaskPet({ ...pet, petName: event.petName || "" })).filter(Boolean),
-            endSetFlags: [...(event.endSetFlags || [])]
+            endSetFlags: [...(event.endSetFlags || [])],
+            missionOver: Number(event.missionOver || 0),
+            missionClean: Number(event.missionClean || 0)
           });
         }
         for (const item of event.delItems || []) upsertSourceScriptTaskItem(task.requiredItems, item);
@@ -5920,6 +5969,27 @@ function characterConditionMet(game, part, options = {}) {
       op: petCount[1]
     };
   }
+  const angelMission = token.match(/^(ANGEL|HERO)(_I)?_(NOW|OVER|OUT)\s*=\s*(\d+)$/i);
+  if (angelMission) {
+    const role = angelMission[1].toLowerCase();
+    const status = angelMission[3].toUpperCase();
+    const mission = Number(angelMission[4]);
+    const requireToken = Boolean(angelMission[2]);
+    return angelMissionConditionMet(game, { token, role, status, mission, requireToken });
+  }
+  const heroCount = token.match(/^HEROCNT\s*(>=|<=|>|<|=)\s*(\d+)$/i);
+  if (heroCount) {
+    const actual = Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0);
+    const expected = Number(heroCount[2]);
+    return {
+      ok: compareNumber(actual, heroCount[1], expected),
+      token,
+      type: "heroCount",
+      actual,
+      expected,
+      op: heroCount[1]
+    };
+  }
   const numericField = token.match(/^(MANOR|CLASS|TRANS|SP)\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
   if (numericField) {
     const field = numericField[1].toLowerCase();
@@ -6022,6 +6092,75 @@ function conditionNumericFieldValue(game, field) {
   if (field === "trans") return Number(game.player?.transmigration ?? game.player?.Trans ?? game.player?.trans ?? 0);
   if (field === "sp") return sourceStartPoint(game);
   return 0;
+}
+
+function angelMissionConditionMet(game, spec) {
+  const state = activeAngelMission(game);
+  const expectedFlag = angelMissionFlagForStatus(spec.status);
+  const missionOk = state && Number(state.mission || 0) === Number(spec.mission || 0);
+  const roleOk = missionOk && angelMissionRoleMatches(state, spec.role);
+  const flagOk = roleOk && Number(state.flag ?? ANGEL_MISSION_FLAGS.NONE) === expectedFlag;
+  const tokenOk = !spec.requireToken || angelMissionTokenOk(game, spec.role, state);
+  return {
+    ok: Boolean(missionOk && roleOk && flagOk && tokenOk),
+    token: spec.token,
+    type: "angelMission",
+    role: spec.role,
+    mission: Number(spec.mission || 0),
+    expectedFlag,
+    actualFlag: state ? Number(state.flag ?? ANGEL_MISSION_FLAGS.NONE) : ANGEL_MISSION_FLAGS.NONE,
+    requireToken: Boolean(spec.requireToken),
+    tokenOk,
+    missionState: compactAngelMissionState(state)
+  };
+}
+
+function activeAngelMission(game) {
+  const state = game?.flags?.angelMission || game?.player?.angelMission || game?.characterFields?.mission?.angelMission;
+  if (!state || Number(state.mission || 0) <= 0) return null;
+  return state;
+}
+
+function compactAngelMissionState(state) {
+  if (!state) return null;
+  return {
+    mission: Number(state.mission || 0),
+    role: String(state.role || state.playerRole || ""),
+    flag: Number(state.flag ?? ANGEL_MISSION_FLAGS.NONE),
+    status: state.status || angelMissionStatusForFlag(state.flag),
+    hasAngelToken: Boolean(state.hasAngelToken || state.angelToken || state.hasToken),
+    hasHeroToken: Boolean(state.hasHeroToken || state.heroToken || state.hasToken)
+  };
+}
+
+function angelMissionRoleMatches(state, role) {
+  const actual = String(state?.role || state?.playerRole || "hero").toLowerCase();
+  return actual === String(role || "").toLowerCase();
+}
+
+function angelMissionTokenOk(game, role, state) {
+  const normalizedRole = String(role || "").toLowerCase();
+  if (normalizedRole === "angel") {
+    return Boolean(state?.hasAngelToken || state?.angelToken || state?.hasToken || inventoryQty(game, ANGEL_ITEM_ID) > 0);
+  }
+  return Boolean(state?.hasHeroToken || state?.heroToken || state?.hasToken || inventoryQty(game, HERO_ITEM_ID) > 0);
+}
+
+function angelMissionFlagForStatus(status) {
+  const key = String(status || "").toUpperCase();
+  if (key === "NOW") return ANGEL_MISSION_FLAGS.DOING;
+  if (key === "OVER") return ANGEL_MISSION_FLAGS.HERO_COMPLETE;
+  if (key === "OUT") return ANGEL_MISSION_FLAGS.TIMEOVER;
+  return ANGEL_MISSION_FLAGS.NONE;
+}
+
+function angelMissionStatusForFlag(flag) {
+  const value = Number(flag ?? ANGEL_MISSION_FLAGS.NONE);
+  if (value === ANGEL_MISSION_FLAGS.DOING) return "DOING";
+  if (value === ANGEL_MISSION_FLAGS.HERO_COMPLETE) return "HERO_COMPLETE";
+  if (value === ANGEL_MISSION_FLAGS.TIMEOVER) return "TIMEOVER";
+  if (value === ANGEL_MISSION_FLAGS.WAIT_ANSWER) return "WAIT_ANSWER";
+  return "NONE";
 }
 
 function sourceStartPoint(game) {
@@ -6163,6 +6302,12 @@ function compactConditionCheck(check) {
     petName: check.petName,
     petNameRequired: check.petNameRequired,
     petLevel: check.petLevel,
+    mission: check.mission,
+    role: check.role,
+    expectedFlag: check.expectedFlag,
+    actualFlag: check.actualFlag,
+    requireToken: check.requireToken,
+    tokenOk: check.tokenOk,
     op: check.op
   }).filter(([, value]) => value !== undefined && value !== ""));
 }
@@ -7246,6 +7391,8 @@ function npcActionProfile(npc) {
     if ((npc.scriptEvents || []).some((event) => event.charms?.length)) actions.push("adjustCharm");
     if ((npc.scriptEvents || []).some((event) => event.getPets?.length)) actions.push("givePet");
     if ((npc.scriptEvents || []).some((event) => event.delPets?.length)) actions.push("takePet");
+    if ((npc.scriptEvents || []).some((event) => Number(event.missionOver || 0) > 0)) actions.push("missionOver");
+    if ((npc.scriptEvents || []).some((event) => Number(event.missionClean || 0) > 0)) actions.push("missionClean");
   }
   if (npcQuestIds(npc).length || npc.questLead) actions.push("quest");
   if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
@@ -7302,6 +7449,8 @@ function applyNpcVmMutation(game, type, action) {
     clearEventFlag(game, action.shiftbit, action.kind || "now-end");
     return { ok: true, mutated: true };
   }
+  if (type === "missionOver") return applyNpcVmMissionOver(game, action);
+  if (type === "missionClean") return applyNpcVmMissionClean(game, action);
   if (type === "moveNpc") return applyNpcVmMoveNpc(game, action);
   if (type === "adjustCharm") return applyNpcVmAdjustCharm(game, action);
   if (type === "take") return applyNpcVmTake(game, action);
@@ -7533,6 +7682,65 @@ function applyNpcVmBattleAction(game, action) {
   }
 }
 
+function applyNpcVmMissionOver(game, action) {
+  const mission = Number(action.mission ?? action.missionOver ?? 0);
+  if (!mission) return { ok: true, mutated: false };
+  const state = activeAngelMission(game);
+  if (!state || Number(state.mission || 0) !== mission) {
+    return {
+      ok: false,
+      mutated: false,
+      error: "当前没有匹配的勇者任务",
+      mission,
+      missionState: compactAngelMissionState(state)
+    };
+  }
+  const before = compactAngelMissionState(state);
+  state.flag = ANGEL_MISSION_FLAGS.HERO_COMPLETE;
+  state.status = "HERO_COMPLETE";
+  state.completedAt = new Date().toISOString();
+  state.completedBy = game.player?.name || "";
+  game.flags.angelMission = state;
+  const heroCount = Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0) + 1;
+  game.player.heroCompleteCount = heroCount;
+  game.player.HeroCnt = heroCount;
+  game.player.CHAR_HEROCNT = heroCount;
+  syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated: true,
+    mission,
+    missionBefore: before,
+    missionAfter: compactAngelMissionState(state),
+    heroCompleteCount: heroCount
+  };
+}
+
+function applyNpcVmMissionClean(game, action) {
+  const mission = Number(action.mission ?? action.missionClean ?? 0);
+  const state = activeAngelMission(game);
+  if (mission && state && Number(state.mission || 0) !== mission) {
+    return {
+      ok: false,
+      mutated: false,
+      error: "当前没有匹配的天使任务可清理",
+      mission,
+      missionState: compactAngelMissionState(state)
+    };
+  }
+  if (!state) return { ok: true, mutated: false, mission };
+  const before = compactAngelMissionState(state);
+  game.flags.angelMission = null;
+  syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated: true,
+    mission: mission || Number(state.mission || 0),
+    missionBefore: before,
+    missionAfter: null
+  };
+}
+
 function applyNpcVmMoveNpc(game, action) {
   if (!action.npcId) return { ok: false, mutated: false, error: "moveNpc 缺少 npcId" };
   ensureFlags(game);
@@ -7643,6 +7851,9 @@ function npcVmActionDetail(action, mutation) {
   if (mutation.playerLevel != null) out.playerLevel = mutation.playerLevel;
   if (mutation.playerExp != null) out.playerExp = mutation.playerExp;
   if (mutation.skillUpPoint != null) out.skillUpPoint = mutation.skillUpPoint;
+  if (mutation.missionBefore !== undefined) out.missionBefore = mutation.missionBefore;
+  if (mutation.missionAfter !== undefined) out.missionAfter = mutation.missionAfter;
+  if (mutation.heroCompleteCount != null) out.heroCompleteCount = mutation.heroCompleteCount;
   if (mutation.error) out.error = mutation.error;
   return out;
 }
@@ -9048,7 +9259,8 @@ function buildCharacterFields(game) {
     winCount: Number(game.player?.winCount || 0),
     loseCount: Number(game.player?.loseCount || 0),
     duelPoint: Number(game.player?.duelPoint || 0),
-    skillUpPoint: Number(game.player?.skillUpPoint || 0)
+    skillUpPoint: Number(game.player?.skillUpPoint || 0),
+    heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0)
     },
     attributes: {
     Vital: Number(game.player?.Vital || 0),
@@ -9083,6 +9295,7 @@ function buildCharacterFields(game) {
       nowEvents: [...(game.flags.nowEvents || [])],
       bitsCount: trueBits.length,
       recentBits: trueBits.slice(-20),
+      angelMission: compactAngelMissionState(activeAngelMission(game)),
       npcTalkCounts: Object.fromEntries(Object.entries(game.flags.npcTalkCounts || {}).slice(-20)),
       npcEnemyDefeats: Object.fromEntries(Object.entries(game.flags.npcEnemyDefeats || {}).slice(-12))
     },
@@ -9433,6 +9646,8 @@ function compactPlayerContext(game) {
     dir: normalizeDir(game.player?.dir ?? game.location?.dir),
     charm: Number(game.player?.charm || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0),
+    heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0),
+    angelMission: compactAngelMissionState(activeAngelMission(game)),
     baseStats: {
       Vital: fields.attributes?.Vital || 0,
       Str: fields.attributes?.Str || 0,
@@ -9574,7 +9789,8 @@ function buildSaveJson(game) {
       nowEvents: [...(game.flags?.nowEvents || [])],
       bits: { ...(game.flags?.bits || {}) },
       npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) },
-      npcEnemyDefeats: { ...(game.flags?.npcEnemyDefeats || {}) }
+      npcEnemyDefeats: { ...(game.flags?.npcEnemyDefeats || {}) },
+      angelMission: game.flags?.angelMission ? { ...game.flags.angelMission } : null
     },
     effects: { ...(game.effects || {}) },
     aiWorkspace: normalizeAiWorkspace(game.aiWorkspace),
@@ -9639,6 +9855,8 @@ function buildCharInfo(game) {
     `KILLPETCOUNT=${game.player.killPetCount}`,
     `DEADCOUNT=${game.player.deadCount}`,
     `BATTLECOUNT=${game.player.battleCount}`,
+    `HEROCNT=${game.player.heroCompleteCount ?? game.player.HeroCnt ?? game.player.CHAR_HEROCNT ?? 0}`,
+    `ANGEL_MISSION=${safeJson(compactAngelMissionState(activeAngelMission(game)))}`,
     `STARTPOINT=${sourceStartPoint(game)}`,
     `SAVEPOINT=${game.player.savePointMask ?? game.player.SavePoint ?? 0}`,
     `FLOOR=${game.location.mapId}`,
@@ -9789,6 +10007,8 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
     if (event.cleanFlags?.length) pushUniqueCompact(actions, "CleanFlg", 8);
+    if (Number(event.missionOver || 0) > 0) pushUniqueCompact(actions, "MISSIONOVER", 8);
+    if (Number(event.missionClean || 0) > 0) pushUniqueCompact(actions, "MISSIONCLEAN", 8);
     if (event.messagePages && Object.keys(event.messagePages).length) pushUniqueCompact(actions, "MessagePages", 8);
     if (event.condition) pushUniqueCompact(actions, "condition", 8);
   }

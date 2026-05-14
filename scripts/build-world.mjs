@@ -896,6 +896,14 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.cleanFlags.push(...splitNumberList(value));
       continue;
     }
+    if (key === "missionover") {
+      event.missionOver = Number(value) || 0;
+      continue;
+    }
+    if (key === "missionclean") {
+      event.missionClean = Number(value) || 0;
+      continue;
+    }
     const messageSpec = npcScriptMessageSpec(key);
     if (messageSpec) {
       const message = cleanScriptText(value);
@@ -924,6 +932,8 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     ...(event.npcWarps.length ? { npcWarps: event.npcWarps } : {}),
     ...(event.charms.length ? { charms: event.charms } : {}),
     ...(event.notDelItems.length ? { notDelItems: [...new Set(event.notDelItems)].filter((value) => value > 0) } : {}),
+    ...(Number(event.missionOver || 0) > 0 ? { missionOver: Number(event.missionOver) } : {}),
+    ...(Number(event.missionClean || 0) > 0 ? { missionClean: Number(event.missionClean) } : {}),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
     cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),

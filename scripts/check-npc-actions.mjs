@@ -678,6 +678,57 @@ assert(petNameOkGame.dialog.debug.vmTrace.some((event) => event.action === "take
 const petNameSummary = petNameOkGame.world.map.npcs.find((npc) => npc.id === petNameFixture.id)?.scriptEventSummary?.actions || [];
 assert(petNameSummary.includes("Pet_Name"), "client payload exposes compact Pet_Name summary");
 
+const missionFixture = {
+  id: "source-missionover-fixture",
+  name: "源码 MISSIONOVER 测试",
+  type: "changeevent",
+  template: "npcgen_man",
+  x: 45,
+  y: 40,
+  source: "gmsv-data/npc/eden2/kraken/kraken88_01",
+  script: "file:eden2/kraken/kraken88_01",
+  scriptEvents: [{
+    type: "ACCEPT",
+    eventNo: 227,
+    condition: "HERO_I_NOW=2&ITEM=2895",
+    messages: { accept: "水之勇者任务完成。" },
+    delItems: [{ id: 2895, qty: 1, name: "测试水精灵证明" }],
+    endSetFlags: [227],
+    missionOver: 2
+  }, {
+    type: "CLEAN",
+    eventNo: -1,
+    condition: "HERO_OVER=2",
+    messages: { cleanMain: "勇者任务记录已经清理。" },
+    missionClean: 2
+  }]
+};
+WORLD.maps["1000"].npcs.push(missionFixture);
+let missionGame = await api("/api/game/new", { name: "source-missionover-test" });
+missionGame.location = { mapId: "1000", x: 44, y: 40 };
+missionGame.flags.angelMission = {
+  mission: 2,
+  role: "hero",
+  flag: 2,
+  status: "DOING",
+  hasHeroToken: true
+};
+missionGame.inventory.push(
+  { id: 2885, name: "测试勇者证明", qty: 1, source: "test hero token" },
+  { id: 2895, name: "测试水精灵证明", qty: 1, source: "test mission item" }
+);
+missionGame = await api("/api/game/dialog", { game: missionGame, npcId: missionFixture.id });
+assertEqual(inventoryQty(missionGame, 2895), 0, "source MISSIONOVER branch consumes the turn-in item");
+assert(missionGame.flags.bits["end:227"], "source MISSIONOVER branch still sets EndSetFlg");
+assertEqual(missionGame.flags.angelMission?.flag, 3, "source MISSIONOVER marks the active hero mission complete");
+assertEqual(missionGame.player.heroCompleteCount, 1, "source MISSIONOVER increments CHAR_HEROCNT");
+assert(missionGame.dialog.debug.vmTrace.some((event) => event.action === "missionOver" && event.detail?.reason === "source-changeevent-missionover" && event.detail?.missionAfter?.status === "HERO_COMPLETE"), "source MISSIONOVER runs through the NPC VM");
+const missionSummary = missionGame.world.map.npcs.find((npc) => npc.id === missionFixture.id)?.scriptEventSummary?.actions || [];
+assert(missionSummary.includes("MISSIONOVER") && missionSummary.includes("MISSIONCLEAN"), "client payload exposes compact mission action summaries");
+missionGame = await api("/api/game/dialog", { game: missionGame, npcId: missionFixture.id });
+assertEqual(missionGame.flags.angelMission, null, "source MISSIONCLEAN clears the active angel mission table entry");
+assert(missionGame.dialog.debug.vmTrace.some((event) => event.action === "missionClean" && event.detail?.reason === "source-changeevent-missionclean"), "source MISSIONCLEAN runs through the NPC VM");
+
 let flowerShellGame = await api("/api/game/new", { name: "source-task-sp0-test" });
 flowerShellGame.location = { mapId: "1000", x: himikoSp.x + 1, y: himikoSp.y };
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
@@ -1794,7 +1845,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
