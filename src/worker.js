@@ -4615,6 +4615,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
   runNpcScriptCharmActions(game, npc, event, detail, "request");
   runNpcScriptCleanFlags(game, npc, event, detail, "request");
   runNpcScriptMissionActions(game, npc, event, detail, "request");
+  runNpcScriptProgressActions(game, npc, event, detail, "request");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "request",
@@ -4628,6 +4629,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     cleanFlags: event.cleanFlags,
     missionOver: event.missionOver,
     missionClean: event.missionClean,
+    addExps: event.addExps,
     getPets: event.getPets,
     delPets: event.delPets
   });
@@ -4659,6 +4661,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
   runNpcScriptCharmActions(game, npc, event, detail, "accept");
   runNpcScriptCleanFlags(game, npc, event, detail, "accept");
   runNpcScriptMissionActions(game, npc, event, detail, "accept");
+  runNpcScriptProgressActions(game, npc, event, detail, "accept");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "accept",
@@ -4674,7 +4677,8 @@ function runNpcScriptAccept(game, npc, event, detail) {
     cleanFlags: event.cleanFlags,
     endSetFlags: event.endSetFlags,
     missionOver: event.missionOver,
-    missionClean: event.missionClean
+    missionClean: event.missionClean,
+    addExps: event.addExps
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"], game);
@@ -4714,6 +4718,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
   runNpcScriptCharmActions(game, npc, event, detail, "message");
   runNpcScriptCleanFlags(game, npc, event, detail, "message");
   runNpcScriptMissionActions(game, npc, event, detail, "message");
+  runNpcScriptProgressActions(game, npc, event, detail, "message");
   const hasMutation = (event.getItems || []).length
     || (event.delItems || []).length
     || (event.getRandItems || []).length
@@ -4727,7 +4732,8 @@ function runNpcScriptMessage(game, npc, event, detail) {
     || (event.endSetFlags || []).length
     || (event.nowSetFlags || []).length
     || Number(event.missionOver || 0) > 0
-    || Number(event.missionClean || 0) > 0;
+    || Number(event.missionClean || 0) > 0
+    || Number(event.addExps || 0) > 0;
   recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", {
     ...detail,
     phase: "message",
@@ -4746,7 +4752,8 @@ function runNpcScriptMessage(game, npc, event, detail) {
     endSetFlags: event.endSetFlags,
     nowSetFlags: event.nowSetFlags,
     missionOver: event.missionOver,
-    missionClean: event.missionClean
+    missionClean: event.missionClean,
+    addExps: event.addExps
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"], game);
@@ -4766,6 +4773,7 @@ function runNpcScriptClean(game, npc, event, detail) {
   runNpcScriptCharmActions(game, npc, event, detail, "clean");
   runNpcScriptCleanFlags(game, npc, event, detail, "clean");
   runNpcScriptMissionActions(game, npc, event, detail, "clean");
+  runNpcScriptProgressActions(game, npc, event, detail, "clean");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "clean",
@@ -4782,7 +4790,8 @@ function runNpcScriptClean(game, npc, event, detail) {
     getPets: event.getPets,
     delPets: event.delPets,
     missionOver: event.missionOver,
-    missionClean: event.missionClean
+    missionClean: event.missionClean,
+    addExps: event.addExps
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["cleanMain", "cleanFlag", "normalMain", "normal", "thanks"], game);
@@ -4850,6 +4859,18 @@ function runNpcScriptMissionActions(game, npc, event, detail, phase) {
       reason: "source-changeevent-missionclean"
     });
   }
+}
+
+function runNpcScriptProgressActions(game, npc, event, detail, phase) {
+  const exp = Number(event.addExps || 0);
+  if (exp <= 0) return;
+  runNpcVmAction(game, npc, {
+    type: "give",
+    exp,
+    ...detail,
+    phase,
+    reason: "source-eventaction-addexps"
+  });
 }
 
 function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
@@ -4958,7 +4979,7 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       stone: stone.amount,
       sourceExpression: stone.source || stone.expr || "",
       ...detail,
-      reason: options.giveStoneReason || "source-changeevent-getstone"
+      reason: options.giveStoneReason || (stone.source === "AddGold" ? "source-eventaction-addgold" : "source-changeevent-getstone")
     });
     if (!given.ok) {
       recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: given.error || "give-stone-failed", stone: stone.amount });
@@ -5310,11 +5331,13 @@ function scriptEventRewardLine(event) {
   const randGets = (event.getRandItems || []).map(sourceScriptRandomItemLabel).filter(Boolean);
   const petGets = (event.getPets || []).map(sourceScriptGetPetLabel).filter(Boolean);
   const stoneGets = (event.getStones || []).map(sourceScriptStoneLabel).filter(Boolean);
+  const exp = Number(event.addExps || 0);
   const parts = [];
   if (gets.length) parts.push(gets.join("、"));
   if (randGets.length) parts.push(`随机道具 ${randGets.join("、")}`);
   if (petGets.length) parts.push(`宠物 ${petGets.join("、")}`);
   if (stoneGets.length) parts.push(`石币 ${stoneGets.join("、")}`);
+  if (exp > 0) parts.push(`经验 ${exp}`);
   if (!parts.length) return "";
   return `获得：${parts.join("；")}。`;
 }
@@ -10110,6 +10133,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.notDelItems?.length) pushUniqueCompact(actions, "NotDel", 8);
     if (event.getRandItems?.length) pushUniqueCompact(actions, "GetRandItem", 8);
     if (event.getStones?.length) pushUniqueCompact(actions, "GetStone", 8);
+    if (event.getStones?.some((stone) => stone?.source === "AddGold")) pushUniqueCompact(actions, "AddGold", 8);
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
     if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
     if (event.charms?.length) pushUniqueCompact(actions, "Charm", 8);
@@ -10123,6 +10147,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (Number(event.missionOver || 0) > 0) pushUniqueCompact(actions, "MISSIONOVER", 8);
     if (Number(event.missionClean || 0) > 0) pushUniqueCompact(actions, "MISSIONCLEAN", 8);
     if (event.messagePages && Object.keys(event.messagePages).length) pushUniqueCompact(actions, "MessagePages", 8);
+    if (Number(event.addExps || 0) > 0) pushUniqueCompact(actions, "AddExps", 8);
     if (event.condition) pushUniqueCompact(actions, "condition", 8);
   }
   return {

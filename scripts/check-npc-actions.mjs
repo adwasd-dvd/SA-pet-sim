@@ -475,6 +475,26 @@ assert(sourceStopGame.dialog.debug.vmTrace.some((event) => event.action === "cle
 assert(sourceStopGame.dialog.debug.vmTrace.some((event) => event.action === "adjustCharm" && event.detail?.reason === "source-changeevent-endstop" && event.detail?.charmAfter === sourceStopGame.player.charm), "source EndStopMsg charm loss records adjustCharm VM action");
 assert(sourceStopGame.world.map.npcs.find((npc) => npc.id === himikoSp.id)?.scriptEventSummary?.actions?.includes("StopMsg"), "client payload exposes compact StopMsg summary");
 
+const mammothBoss = WORLD.maps["1011"]?.npcs.find((npc) => npc.name === "长毛象快递老板" && String(npc.script || "").includes("worksell_1014"));
+if (!mammothBoss) throw new Error("missing mammoth delivery boss FREE script fixture");
+assert(mammothBoss.scriptEvents?.some((event) => Number(event.addExps || 0) === 16000 && event.getStones?.some((stone) => stone.source === "AddGold")), "mammoth delivery FREE script parses AddExps and AddGold rewards");
+let mammothGame = await api("/api/game/new", { name: "source-addexps-free-test" });
+mammothGame.location = { mapId: "1011", x: mammothBoss.x + 1, y: mammothBoss.y };
+mammothGame.player.level = 10;
+mammothGame.player.Lv = 10;
+mammothGame.inventory.push({ id: 12879, name: "樱桃酱汁牛排", qty: 1, source: "test mammoth delivery item" });
+const mammothExpBefore = Number(mammothGame.player.exp || 0);
+const mammothStoneBefore = Number(mammothGame.player.stone || 0);
+mammothGame = await api("/api/game/dialog", { game: mammothGame, npcId: mammothBoss.id });
+assertEqual(inventoryQty(mammothGame, 12879), 0, "mammoth FREE script consumes the matched delivery item");
+assertEqual(mammothGame.player.exp, mammothExpBefore + 16000, "source AddExps grants player EXP through NPC VM");
+assertEqual(mammothGame.player.stone, mammothStoneBefore + 2000, "source AddGold grants stone through NPC VM");
+assert(/酱汁牛排|精进/.test(mammothGame.dialog.messages.at(-1)?.text || ""), "mammoth FREE script replies with source FreeMsg");
+assert(mammothGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-eventaction-addexps" && event.detail?.exp === 16000), "source AddExps records give VM action");
+assert(mammothGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-eventaction-addgold" && event.detail?.stone === 2000), "source AddGold records give VM action");
+const mammothSummary = mammothGame.world.map.npcs.find((npc) => npc.id === mammothBoss.id)?.scriptEventSummary?.actions || [];
+assert(mammothSummary.includes("AddExps") && mammothSummary.includes("AddGold"), "client payload exposes compact AddExps/AddGold summary");
+
 const battleTutor = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "战斗技巧指导员");
 if (!battleTutor) throw new Error("missing battle tutor source message fixture");
 const battleTutorEvent = battleTutor.scriptEvents?.find((event) => event.type === "MESSAGE" && event.messagePages?.normal?.length >= 8);
@@ -1866,7 +1886,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

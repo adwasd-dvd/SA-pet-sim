@@ -786,14 +786,17 @@ function readNpcScriptEvents(argPath, createFile, functionset) {
   const file = resolveNpcArg(argPath, createFile);
   if (!file) return [];
   const text = readText(file);
-  if (!/^\s*EventNo\s*:/im.test(text) || !/^\s*TYPE\s*:/im.test(text)) return [];
   const isChangeEvent = /changeevent|exchange|event/i.test(`${functionset} ${argPath} ${text.slice(0, 240)}`);
-  if (!isChangeEvent) return [];
   const events = [];
-  for (const rawBlock of text.split(/^\s*EventEnd\s*$/gim)) {
-    const event = parseNpcScriptEventBlock(rawBlock, file);
-    if (event) events.push(event);
-    if (events.length >= 16) break;
+  if (isChangeEvent && /^\s*EventNo\s*:/im.test(text) && /^\s*TYPE\s*:/im.test(text)) {
+    for (const rawBlock of text.split(/^\s*EventEnd\s*$/gim)) {
+      const event = parseNpcScriptEventBlock(rawBlock, file);
+      if (event) events.push(event);
+      if (events.length >= 16) break;
+    }
+  }
+  if (events.length < 16 && /^\s*FREE\s*:/im.test(text) && /^\s*OVER\s*$/im.test(text)) {
+    events.push(...parseNpcFreeScriptEvents(text, file).slice(0, 16 - events.length));
   }
   return events;
 }
@@ -813,7 +816,8 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     notDelItems: [],
     cleanFlags: [],
     nowSetFlags: [],
-    endSetFlags: []
+    endSetFlags: [],
+    addExps: 0
   };
   const getPets = [];
   const rawDelPetSpecs = [];
@@ -862,6 +866,14 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     }
     if (key === "delstone" || key === "delgold") {
       event.delStones.push(...parseScriptStoneSpecs(value));
+      continue;
+    }
+    if (key === "addgold") {
+      event.getStones.push(...parseScriptStoneSpecs(value).map((stone) => ({ ...stone, source: "AddGold" })));
+      continue;
+    }
+    if (key === "addexps" || key === "addexp") {
+      event.addExps = Number(value) || 0;
       continue;
     }
     if (key === "npcwarp") {
@@ -915,6 +927,124 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       }
     }
   }
+  return finalizeNpcScriptEvent(event, getPets, rawDelPetSpecs);
+}
+
+function parseNpcFreeScriptEvents(text, file) {
+  const events = [];
+  let event = null;
+  let getPets = [];
+  let rawDelPetSpecs = [];
+
+  const startEvent = () => {
+    event = {
+      source: relativeRef(file),
+      eventNo: -1,
+      type: "MESSAGE",
+      condition: "",
+      messages: {},
+      messagePages: {},
+      getItems: [],
+      delItems: [],
+      getRandItems: [],
+      getStones: [],
+      delStones: [],
+      npcWarps: [],
+      charms: [],
+      notDelItems: [],
+      cleanFlags: [],
+      nowSetFlags: [],
+      endSetFlags: [],
+      addExps: 0
+    };
+    getPets = [];
+    rawDelPetSpecs = [];
+  };
+
+  const finishEvent = () => {
+    if (!event) return;
+    const out = finalizeNpcScriptEvent(event, getPets, rawDelPetSpecs);
+    if (out) events.push(out);
+    event = null;
+    getPets = [];
+    rawDelPetSpecs = [];
+  };
+
+  for (const raw of String(text || "").split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    if (/^OVER$/i.test(line)) {
+      finishEvent();
+      continue;
+    }
+    if (/^(?:NOFREE|TALKEVENT\d*|EVENTRUN\d*|EVENT\d*)$/i.test(line)) {
+      finishEvent();
+      startEvent();
+      continue;
+    }
+    if (!event) continue;
+    const index = line.indexOf(":");
+    if (index < 0) continue;
+    const key = line.slice(0, index).trim().toLowerCase();
+    const value = line.slice(index + 1).trim();
+    if (key === "freemsg") {
+      event.messages.normal = cleanScriptText(value);
+      continue;
+    }
+    if (key === "free" || key.startsWith("free")) {
+      event.condition = cleanName(value);
+      continue;
+    }
+    if (key === "getitem" || key === "giveitem") {
+      event.getItems.push(...parseScriptItemSpecs(value));
+      continue;
+    }
+    if (key === "delitem") {
+      event.delItems.push(...parseScriptItemSpecs(value));
+      continue;
+    }
+    if (key === "getranditem") {
+      event.getRandItems.push(...parseScriptRandomItemSpecs(value));
+      continue;
+    }
+    if (key === "getstone" || key === "getgold" || key === "addgold") {
+      const isAddGold = key === "addgold";
+      event.getStones.push(...parseScriptStoneSpecs(value).map((stone) => isAddGold ? { ...stone, source: "AddGold" } : stone));
+      continue;
+    }
+    if (key === "delstone" || key === "delgold") {
+      event.delStones.push(...parseScriptStoneSpecs(value));
+      continue;
+    }
+    if (key === "addexps" || key === "addexp") {
+      event.addExps = Number(value) || 0;
+      continue;
+    }
+    if (key === "getpet") {
+      getPets.push(...parseScriptGetPetSpecs(value));
+      continue;
+    }
+    if (key === "delpet") {
+      rawDelPetSpecs.push(value);
+      continue;
+    }
+    const messageSpec = npcScriptMessageSpec(key);
+    if (messageSpec) {
+      const message = cleanScriptText(value);
+      if (messageSpec.page > 0) {
+        event.messagePages[messageSpec.key] ||= [];
+        event.messagePages[messageSpec.key][messageSpec.page - 1] = message;
+      } else {
+        event.messages[messageSpec.key] = message;
+      }
+    }
+  }
+
+  finishEvent();
+  return events;
+}
+
+function finalizeNpcScriptEvent(event, getPets = [], rawDelPetSpecs = []) {
   const delPets = rawDelPetSpecs.flatMap((value) => parseScriptDelPetSpecs(value, event.condition));
   const messagePages = Object.fromEntries(
     Object.entries(event.messagePages)
@@ -922,7 +1052,14 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       .filter(([, pages]) => pages.length)
   );
   if (!event.type && !Object.keys(event.messages).length && !Object.keys(messagePages).length) return null;
-  const { messagePages: _rawMessagePages, npcWarps: _rawNpcWarps, charms: _rawCharms, notDelItems: _rawNotDelItems, ...eventOut } = event;
+  const {
+    messagePages: _rawMessagePages,
+    npcWarps: _rawNpcWarps,
+    charms: _rawCharms,
+    notDelItems: _rawNotDelItems,
+    addExps: _rawAddExps,
+    ...eventOut
+  } = event;
   return {
     ...eventOut,
     ...(Object.keys(messagePages).length ? { messagePages } : {}),
@@ -934,6 +1071,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
     ...(event.notDelItems.length ? { notDelItems: [...new Set(event.notDelItems)].filter((value) => value > 0) } : {}),
     ...(Number(event.missionOver || 0) > 0 ? { missionOver: Number(event.missionOver) } : {}),
     ...(Number(event.missionClean || 0) > 0 ? { missionClean: Number(event.missionClean) } : {}),
+    ...(Number(event.addExps || 0) > 0 ? { addExps: Number(event.addExps) } : {}),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
     cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),
@@ -960,6 +1098,7 @@ function npcScriptMessageSpec(key) {
     requestmsg: "request",
     acceptmsg: "accept",
     thanksmsg: "thanks",
+    freemsg: "normal",
     itemfullmsg: "itemFull",
     stonefullmsg: "stoneFull",
     stonelessmsg: "stoneLess",
