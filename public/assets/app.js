@@ -9,6 +9,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=battle-sprites-v1";
+const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
 const PET_CAPACITY_FALLBACK = 5;
@@ -132,6 +133,12 @@ let routeInFlight = false;
 let routeToken = 0;
 let tileAtlasPromise = null;
 let loadedTileAtlas = null;
+let profilePackPlanPromise = null;
+const profileAtlasState = {
+  disabled: false,
+  loadedPacks: new Set(),
+  frames: Object.create(null)
+};
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
 let activeTab = "ai";
@@ -1183,7 +1190,7 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
       view.getUint16(eventOffset, true)
     ];
   };
-  const atlas = await loadTileAtlas();
+  const atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
     drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "client DAT viewport", renderVersion);
@@ -1196,7 +1203,116 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
   drawTilePreview(canvas, width, height, tileAt);
 }
 
-async function loadTileAtlas() {
+async function loadTileAtlas(map = null) {
+  const profileAtlas = await loadProfileTileAtlasForMap(map);
+  if (profileAtlas) return profileAtlas;
+  return loadMonolithicTileAtlas();
+}
+
+async function loadProfileTileAtlasForMap(map) {
+  if (profileAtlasState.disabled) return null;
+  const plan = await loadProfilePackPlan();
+  if (!plan?.runtimeManifestSketch) return null;
+  const floor = Number(map?.floorId);
+  if (!Number.isFinite(floor)) return null;
+  const packPaths = requiredPackPathsForFloor(plan, floor);
+  if (!packPaths.length) return null;
+  try {
+    await ensureProfilePacksLoaded(packPaths);
+    return {
+      mode: "profile packs",
+      frames: profileAtlasState.frames
+    };
+  } catch {
+    profileAtlasState.disabled = true;
+    return null;
+  }
+}
+
+async function loadProfilePackPlan() {
+  if (!profilePackPlanPromise) {
+    profilePackPlanPromise = (async () => {
+      const rsp = await fetch(PROFILE_PACK_PLAN_PATH);
+      if (!rsp.ok) return null;
+      const plan = await rsp.json();
+      return {
+        ...plan,
+        __url: new URL(PROFILE_PACK_PLAN_PATH, window.location.origin).toString()
+      };
+    })().catch(() => null);
+  }
+  return profilePackPlanPromise;
+}
+
+function requiredPackPathsForFloor(plan, floor) {
+  const sketch = plan.runtimeManifestSketch || {};
+  const floorKey = String(floor);
+  const floorPacks = sketch.floors?.[floorKey]?.packs || [];
+  const all = [
+    ...(sketch.bootPacks || []),
+    ...(sketch.sharedPacks || []),
+    ...floorPacks
+  ];
+  return [...new Set(all
+    .map((entry) => String(entry || "").trim())
+    .filter(Boolean)
+    .map((entry) => resolvePackUrl(plan.__url, entry)))];
+}
+
+function resolvePackUrl(planUrl, ref) {
+  if (!planUrl) return ref;
+  return new URL(ref, planUrl).toString();
+}
+
+async function ensureProfilePacksLoaded(packManifestUrls) {
+  for (const manifestUrl of packManifestUrls) {
+    if (profileAtlasState.loadedPacks.has(manifestUrl)) continue;
+    const rsp = await fetch(manifestUrl);
+    if (!rsp.ok) throw new Error(`pack manifest missing: ${manifestUrl}`);
+    const manifest = await rsp.json();
+    const imageUrl = new URL(manifest.image || "", manifestUrl).toString();
+    const image = new Image();
+    image.decoding = "async";
+    image.src = imageUrl;
+    await image.decode();
+    const frames = parsePackFrames(manifest, image);
+    for (const frame of frames) {
+      profileAtlasState.frames[frame.id] = frame;
+    }
+    profileAtlasState.loadedPacks.add(manifestUrl);
+  }
+}
+
+function parsePackFrames(manifest, image) {
+  const fields = manifest.fields || [];
+  const index = Object.fromEntries(fields.map((field, i) => [field, i]));
+  const frames = [];
+  for (const row of manifest.frames || []) {
+    const id = Number(row[index.id]);
+    const x = Number(row[index.x]);
+    const y = Number(row[index.y]);
+    const width = Number(row[index.w]);
+    const height = Number(row[index.h]);
+    if (!Number.isFinite(id) || !Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) continue;
+    frames.push({
+      id,
+      x,
+      y,
+      width,
+      height,
+      xoffset: Number(row[index.xo] ?? 0),
+      yoffset: Number(row[index.yo] ?? 0),
+      hit: Number(row[index.hit] ?? 0),
+      prioType: Number(row[index.prio] ?? 0),
+      bitmapNo: Number(row[index.bitmap] ?? 0),
+      graphicNo: Number(row[index.graphic] ?? 0),
+      image
+    });
+  }
+  return frames;
+}
+
+async function loadMonolithicTileAtlas() {
   if (!tileAtlasPromise) {
     tileAtlasPromise = (async () => {
       const rsp = await fetch(TILE_ATLAS_MANIFEST);
@@ -1213,7 +1329,7 @@ async function loadTileAtlas() {
         image.addEventListener("load", resolve, { once: true });
         image.addEventListener("error", reject, { once: true });
       }));
-      loadedTileAtlas = { ...manifest, image };
+      loadedTileAtlas = { ...manifest, mode: "monolithic atlas", image };
       hydrateAtlasSprites(loadedTileAtlas);
       return loadedTileAtlas;
     })().catch(() => null);
@@ -1335,7 +1451,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     );
   }));
   drawDepthSprites(ctx, atlas, sprites);
-  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + real atlas`;
+  els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + ${atlas.mode || "real atlas"}`;
   syncMapMarkers(game.world.map);
   centerMapOnPlayer();
   clampMapPan();
@@ -1592,13 +1708,15 @@ function includeTileBounds(bounds, frame, x, y) {
 function drawAtlasTile(ctx, atlas, tileId, x, y) {
   const frame = atlas.frames?.[tileId];
   if (!frame) return;
+  const sourceImage = frame.image || atlas.image;
+  if (!sourceImage) return;
   const dx = Math.round(x + frame.xoffset);
   const dy = Math.round(y + frame.yoffset);
   ctx.save();
   ctx.translate(dx, dy + frame.height);
   ctx.scale(1, -1);
   ctx.drawImage(
-    atlas.image,
+    sourceImage,
     frame.x,
     frame.y,
     frame.width,
@@ -1626,7 +1744,7 @@ async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRe
       0
     ];
   };
-  const atlas = await loadTileAtlas();
+  const atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
     drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "LS2MAP viewport", renderVersion);

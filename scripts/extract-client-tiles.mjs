@@ -17,6 +17,7 @@ const ATLAS_VERSION = "battle-sprites-v1";
 const RECORD_SIZE = 80;
 const ATLAS_W = 4096;
 const COLOR_KEY = 0;
+const ATLAS_MODE = (process.env.SA_TILE_ATLAS_MODE || "indexed").toLowerCase();
 const FIELD_UI_GRAPHIC_IDS = [
   // Original field/mouse UI resources from client-source/systeminc/anim_tbl.h
   25000, 25001,
@@ -59,10 +60,9 @@ function main() {
       if (!record) continue;
       const decoded = decodeRecord(realFd, record);
       if (!decoded) continue;
-      const image = indexedImageToRgba(decoded, palette);
       entries.push({
         tileId,
-        image,
+        pixels: decoded.pixels,
         width: decoded.width,
         height: decoded.height,
         bitmapNo: record.bitmapNo,
@@ -75,26 +75,31 @@ function main() {
         hitX: record.hitX,
         hitY: record.hitY,
         heightFlag: record.heightFlag,
-        color: averageColor(image)
+        color: averageColor(decoded.pixels, palette)
       });
     }
   } finally {
     fs.closeSync(realFd);
   }
 
-  const atlas = buildAtlas(entries);
+  const atlas = buildAtlas(entries, palette, ATLAS_MODE);
   const atlasPath = path.join(outputRoot, "tiles-atlas.png");
   const manifestPath = path.join(outputRoot, "tiles.json");
-  fs.writeFileSync(atlasPath, encodePng(atlas.width, atlas.height, atlas.rgba));
+  if (atlas.pixelFormat === "indexed8") {
+    fs.writeFileSync(atlasPath, encodeIndexedPng(atlas.width, atlas.height, atlas.indexes, palette));
+  } else {
+    fs.writeFileSync(atlasPath, encodePng(atlas.width, atlas.height, atlas.rgba));
+  }
   fs.writeFileSync(manifestPath, `${JSON.stringify({
     image: `/data/client-tiles/tiles-atlas.png?v=${ATLAS_VERSION}`,
     atlasWidth: atlas.width,
     atlasHeight: atlas.height,
+    pixelFormat: atlas.pixelFormat,
     count: entries.length,
     frames: Object.fromEntries(atlas.frames.map((frame) => [frame.tileId, frame])),
     colors: Object.fromEntries(entries.map((entry) => [entry.tileId, entry.color]))
   })}\n`);
-  console.log(`wrote ${entries.length} real client tile sprites to ${path.relative(projectRoot, atlasPath)}`);
+  console.log(`wrote ${entries.length} real client tile sprites to ${path.relative(projectRoot, atlasPath)} (${atlas.pixelFormat})`);
 }
 
 function collectTileIds(dir) {
@@ -293,22 +298,7 @@ function unpackRle(data, out) {
   }
 }
 
-function indexedImageToRgba(image, palette) {
-  const rgba = Buffer.alloc(image.width * image.height * 4);
-  for (let y = 0; y < image.height; y += 1) {
-    for (let x = 0; x < image.width; x += 1) {
-      const color = palette[image.pixels[y * image.width + x]];
-      const out = (y * image.width + x) * 4;
-      rgba[out] = color[0];
-      rgba[out + 1] = color[1];
-      rgba[out + 2] = color[2];
-      rgba[out + 3] = color[3];
-    }
-  }
-  return rgba;
-}
-
-function buildAtlas(entries) {
+function buildAtlas(entries, palette, mode) {
   let x = 0;
   let y = 0;
   let rowH = 0;
@@ -341,25 +331,36 @@ function buildAtlas(entries) {
   }
   const width = ATLAS_W;
   const height = Math.max(1, y + rowH);
-  const rgba = Buffer.alloc(width * height * 4);
+  const indexes = Buffer.alloc(width * height);
+  indexes.fill(COLOR_KEY);
   for (let i = 0; i < entries.length; i += 1) {
     const frame = frames[i];
-    blit(entries[i].image, entries[i].width, entries[i].height, rgba, width, frame.x, frame.y);
+    blitIndexed(entries[i].pixels, entries[i].width, entries[i].height, indexes, width, frame.x, frame.y);
   }
-  return { width, height, rgba, frames };
+  if (mode === "rgba") {
+    return {
+      width,
+      height,
+      rgba: indexedToRgba(indexes, palette),
+      frames,
+      pixelFormat: "rgba32"
+    };
+  }
+  return { width, height, indexes, frames, pixelFormat: "indexed8" };
 }
 
-function averageColor(rgba) {
+function averageColor(indexes, palette) {
   let r = 0;
   let g = 0;
   let b = 0;
   let n = 0;
-  for (let i = 0; i < rgba.length; i += 4) {
-    const alpha = rgba[i + 3];
+  for (let i = 0; i < indexes.length; i += 1) {
+    const color = palette[indexes[i]];
+    const alpha = color[3];
     if (alpha < 16) continue;
-    r += rgba[i];
-    g += rgba[i + 1];
-    b += rgba[i + 2];
+    r += color[0];
+    g += color[1];
+    b += color[2];
     n += 1;
   }
   if (!n) return "#000000";
@@ -376,14 +377,27 @@ function hex(value) {
   return value.toString(16).padStart(2, "0");
 }
 
-function blit(src, srcW, srcH, dest, destW, dx, dy) {
+function blitIndexed(src, srcW, srcH, dest, destW, dx, dy) {
   for (let y = 0; y < srcH; y += 1) {
     for (let x = 0; x < srcW; x += 1) {
-      const si = (y * srcW + x) * 4;
-      const di = ((dy + y) * destW + dx + x) * 4;
-      src.copy(dest, di, si, si + 4);
+      const si = y * srcW + x;
+      const di = (dy + y) * destW + dx + x;
+      dest[di] = src[si];
     }
   }
+}
+
+function indexedToRgba(indexes, palette) {
+  const rgba = Buffer.alloc(indexes.length * 4);
+  for (let i = 0; i < indexes.length; i += 1) {
+    const color = palette[indexes[i]];
+    const out = i * 4;
+    rgba[out] = color[0];
+    rgba[out + 1] = color[1];
+    rgba[out + 2] = color[2];
+    rgba[out + 3] = color[3];
+  }
+  return rgba;
 }
 
 function encodePng(width, height, rgba) {
@@ -395,6 +409,23 @@ function encodePng(width, height, rgba) {
   }
   const chunks = [
     chunk("IHDR", Buffer.concat([u32(width), u32(height), Buffer.from([8, 6, 0, 0, 0])])),
+    chunk("IDAT", zlib.deflateSync(raw, { level: 9 })),
+    chunk("IEND", Buffer.alloc(0))
+  ];
+  return Buffer.concat([Buffer.from("89504e470d0a1a0a", "hex"), ...chunks]);
+}
+
+function encodeIndexedPng(width, height, indexes, palette) {
+  const raw = Buffer.alloc((width + 1) * height);
+  for (let y = 0; y < height; y += 1) {
+    const row = y * (width + 1);
+    raw[row] = 0;
+    indexes.copy(raw, row + 1, y * width, (y + 1) * width);
+  }
+  const chunks = [
+    chunk("IHDR", Buffer.concat([u32(width), u32(height), Buffer.from([8, 3, 0, 0, 0])])),
+    chunk("PLTE", Buffer.from(palette.flatMap(([r, g, b]) => [r, g, b]))),
+    chunk("tRNS", Buffer.from(palette.map(([, , , a]) => a))),
     chunk("IDAT", zlib.deflateSync(raw, { level: 9 })),
     chunk("IEND", Buffer.alloc(0))
   ];
