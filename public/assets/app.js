@@ -137,6 +137,7 @@ let profilePackPlanPromise = null;
 const profileAtlasState = {
   disabled: false,
   loadedPacks: new Set(),
+  loadingPacks: new Map(),
   frames: Object.create(null)
 };
 let largeMapRenderer = null;
@@ -1265,8 +1266,16 @@ function resolvePackUrl(planUrl, ref) {
 }
 
 async function ensureProfilePacksLoaded(packManifestUrls) {
-  for (const manifestUrl of packManifestUrls) {
-    if (profileAtlasState.loadedPacks.has(manifestUrl)) continue;
+  await Promise.all(packManifestUrls.map((manifestUrl) => loadProfilePackManifest(manifestUrl)));
+}
+
+async function loadProfilePackManifest(manifestUrl) {
+  if (profileAtlasState.loadedPacks.has(manifestUrl)) return;
+  if (profileAtlasState.loadingPacks.has(manifestUrl)) {
+    await profileAtlasState.loadingPacks.get(manifestUrl);
+    return;
+  }
+  const task = (async () => {
     const rsp = await fetch(manifestUrl);
     if (!rsp.ok) throw new Error(`pack manifest missing: ${manifestUrl}`);
     const manifest = await rsp.json();
@@ -1274,12 +1283,18 @@ async function ensureProfilePacksLoaded(packManifestUrls) {
     const image = new Image();
     image.decoding = "async";
     image.src = imageUrl;
-    await image.decode();
+    await decodeImageWithFallback(image);
     const frames = parsePackFrames(manifest, image);
     for (const frame of frames) {
       profileAtlasState.frames[frame.id] = frame;
     }
     profileAtlasState.loadedPacks.add(manifestUrl);
+  })();
+  profileAtlasState.loadingPacks.set(manifestUrl, task);
+  try {
+    await task;
+  } finally {
+    profileAtlasState.loadingPacks.delete(manifestUrl);
   }
 }
 
@@ -1312,6 +1327,17 @@ function parsePackFrames(manifest, image) {
   return frames;
 }
 
+async function decodeImageWithFallback(image) {
+  await image.decode().catch(() => new Promise((resolve, reject) => {
+    if (image.complete && image.naturalWidth > 0) {
+      resolve();
+      return;
+    }
+    image.addEventListener("load", resolve, { once: true });
+    image.addEventListener("error", reject, { once: true });
+  }));
+}
+
 async function loadMonolithicTileAtlas() {
   if (!tileAtlasPromise) {
     tileAtlasPromise = (async () => {
@@ -1321,14 +1347,7 @@ async function loadMonolithicTileAtlas() {
       const image = new Image();
       image.decoding = "async";
       image.src = manifest.image;
-      await image.decode().catch(() => new Promise((resolve, reject) => {
-        if (image.complete && image.naturalWidth > 0) {
-          resolve();
-          return;
-        }
-        image.addEventListener("load", resolve, { once: true });
-        image.addEventListener("error", reject, { once: true });
-      }));
+      await decodeImageWithFallback(image);
       loadedTileAtlas = { ...manifest, mode: "monolithic atlas", image };
       hydrateAtlasSprites(loadedTileAtlas);
       return loadedTileAtlas;

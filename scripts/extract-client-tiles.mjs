@@ -15,9 +15,12 @@ const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
 const ATLAS_VERSION = "battle-sprites-v1";
 
 const RECORD_SIZE = 80;
-const ATLAS_W = 4096;
+const ATLAS_W_DEFAULT = 4096;
 const COLOR_KEY = 0;
 const ATLAS_MODE = (process.env.SA_TILE_ATLAS_MODE || "indexed").toLowerCase();
+const ATLAS_PACK_STRATEGY = (process.env.SA_TILE_ATLAS_PACK_STRATEGY || "auto").toLowerCase();
+const PNG_FILTER_MODE = (process.env.SA_PNG_FILTER_MODE || "auto").toLowerCase();
+const ATLAS_W = parsePositiveInt(process.env.SA_TILE_ATLAS_WIDTH, ATLAS_W_DEFAULT);
 const FIELD_UI_GRAPHIC_IDS = [
   // Original field/mouse UI resources from client-source/systeminc/anim_tbl.h
   25000, 25001,
@@ -86,7 +89,7 @@ function main() {
   const atlasPath = path.join(outputRoot, "tiles-atlas.png");
   const manifestPath = path.join(outputRoot, "tiles.json");
   if (atlas.pixelFormat === "indexed8") {
-    fs.writeFileSync(atlasPath, encodeIndexedPng(atlas.width, atlas.height, atlas.indexes, palette));
+    fs.writeFileSync(atlasPath, atlas.preEncodedPng || encodeIndexedPng(atlas.width, atlas.height, atlas.indexes, palette));
   } else {
     fs.writeFileSync(atlasPath, encodePng(atlas.width, atlas.height, atlas.rgba));
   }
@@ -99,7 +102,10 @@ function main() {
     frames: Object.fromEntries(atlas.frames.map((frame) => [frame.tileId, frame])),
     colors: Object.fromEntries(entries.map((entry) => [entry.tileId, entry.color]))
   })}\n`);
-  console.log(`wrote ${entries.length} real client tile sprites to ${path.relative(projectRoot, atlasPath)} (${atlas.pixelFormat})`);
+  console.log(
+    `wrote ${entries.length} real client tile sprites to ${path.relative(projectRoot, atlasPath)} `
+    + `(${atlas.pixelFormat}, ${atlas.width}x${atlas.height}, pack=${atlas.packStrategyUsed}, filter=${atlas.filterModeUsed || PNG_FILTER_MODE})`
+  );
 }
 
 function collectTileIds(dir) {
@@ -299,12 +305,73 @@ function unpackRle(data, out) {
 }
 
 function buildAtlas(entries, palette, mode) {
+  const strategy = resolvePackStrategy(ATLAS_PACK_STRATEGY);
+  const candidates = strategy === "auto" ? ["height", "area", "tileid"] : [strategy];
+  const packedCandidates = candidates.map((candidate) => packEntries(entries, candidate));
+  let selected = packedCandidates[0];
+
+  if (mode === "indexed") {
+    const filterModes = resolveFilterModes(PNG_FILTER_MODE);
+    for (const packed of packedCandidates) {
+      for (const filterMode of filterModes) {
+        const encoded = encodeIndexedPng(packed.width, packed.height, packed.indexes, palette, filterMode);
+        if (!packed.indexedPng || encoded.length < packed.indexedPngBytes) {
+          packed.indexedPng = encoded;
+          packed.indexedPngBytes = encoded.length;
+          packed.filterMode = filterMode;
+        }
+      }
+    }
+    selected = packedCandidates.reduce((best, next) => {
+      if (!best) return next;
+      if ((next.indexedPngBytes ?? Number.POSITIVE_INFINITY) < (best.indexedPngBytes ?? Number.POSITIVE_INFINITY)) return next;
+      if ((next.indexedPngBytes ?? Number.POSITIVE_INFINITY) > (best.indexedPngBytes ?? Number.POSITIVE_INFINITY)) return best;
+      if (next.height < best.height) return next;
+      if (next.height > best.height) return best;
+      return next.width < best.width ? next : best;
+    }, null);
+  } else {
+    selected = packedCandidates.reduce((best, next) => {
+      if (!best) return next;
+      if (next.height < best.height) return next;
+      if (next.height > best.height) return best;
+      return next.width < best.width ? next : best;
+    }, null);
+  }
+
+  if (!selected) throw new Error("No atlas packing candidate selected");
+  if (mode === "rgba") {
+    return {
+      width: selected.width,
+      height: selected.height,
+      rgba: indexedToRgba(selected.indexes, palette),
+      frames: selected.frames,
+      pixelFormat: "rgba32",
+      packStrategyUsed: selected.strategy
+    };
+  }
+  return {
+    width: selected.width,
+    height: selected.height,
+    indexes: selected.indexes,
+    frames: selected.frames,
+    pixelFormat: "indexed8",
+    preEncodedPng: selected.indexedPng,
+    packStrategyUsed: selected.strategy,
+    filterModeUsed: selected.filterMode || "none"
+  };
+}
+
+function packEntries(entries, strategy) {
+  const sortedEntries = sortEntriesForPacking(entries, strategy);
+  const atlasWidth = Math.max(1, ATLAS_W, ...sortedEntries.map((entry) => entry.width));
   let x = 0;
   let y = 0;
   let rowH = 0;
   const frames = [];
-  for (const entry of entries) {
-    if (x > 0 && x + entry.width > ATLAS_W) {
+  const packedEntries = [];
+  for (const entry of sortedEntries) {
+    if (x > 0 && x + entry.width > atlasWidth) {
       x = 0;
       y += rowH;
       rowH = 0;
@@ -326,27 +393,55 @@ function buildAtlas(entries, palette, mode) {
       hitY: entry.hitY,
       heightFlag: entry.heightFlag
     });
+    packedEntries.push(entry);
     x += entry.width;
     rowH = Math.max(rowH, entry.height);
   }
-  const width = ATLAS_W;
+  const width = atlasWidth;
   const height = Math.max(1, y + rowH);
   const indexes = Buffer.alloc(width * height);
   indexes.fill(COLOR_KEY);
-  for (let i = 0; i < entries.length; i += 1) {
+  for (let i = 0; i < packedEntries.length; i += 1) {
     const frame = frames[i];
-    blitIndexed(entries[i].pixels, entries[i].width, entries[i].height, indexes, width, frame.x, frame.y);
+    const entry = packedEntries[i];
+    blitIndexed(entry.pixels, entry.width, entry.height, indexes, width, frame.x, frame.y);
   }
-  if (mode === "rgba") {
-    return {
-      width,
-      height,
-      rgba: indexedToRgba(indexes, palette),
-      frames,
-      pixelFormat: "rgba32"
-    };
+  return { strategy, width, height, indexes, frames };
+}
+
+function sortEntriesForPacking(entries, strategy) {
+  if (strategy === "tileid") {
+    return entries.slice().sort((a, b) => a.tileId - b.tileId);
   }
-  return { width, height, indexes, frames, pixelFormat: "indexed8" };
+  if (strategy === "area") {
+    return entries.slice().sort((a, b) => {
+      const areaDiff = (b.width * b.height) - (a.width * a.height);
+      if (areaDiff) return areaDiff;
+      const hDiff = b.height - a.height;
+      if (hDiff) return hDiff;
+      const wDiff = b.width - a.width;
+      if (wDiff) return wDiff;
+      return a.tileId - b.tileId;
+    });
+  }
+  return entries.slice().sort((a, b) => {
+    const hDiff = b.height - a.height;
+    if (hDiff) return hDiff;
+    const wDiff = b.width - a.width;
+    if (wDiff) return wDiff;
+    const areaDiff = (b.width * b.height) - (a.width * a.height);
+    if (areaDiff) return areaDiff;
+    return a.tileId - b.tileId;
+  });
+}
+
+function resolvePackStrategy(value) {
+  return ["auto", "height", "area", "tileid"].includes(value) ? value : "auto";
+}
+
+function resolveFilterModes(mode) {
+  if (mode === "auto") return ["none", "adaptive"];
+  return mode === "none" ? ["none"] : ["adaptive"];
 }
 
 function averageColor(indexes, palette) {
@@ -400,13 +495,9 @@ function indexedToRgba(indexes, palette) {
   return rgba;
 }
 
-function encodePng(width, height, rgba) {
-  const raw = Buffer.alloc((width * 4 + 1) * height);
-  for (let y = 0; y < height; y += 1) {
-    const row = y * (width * 4 + 1);
-    raw[row] = 0;
-    rgba.copy(raw, row + 1, y * width * 4, (y + 1) * width * 4);
-  }
+function encodePng(width, height, rgba, filterMode = PNG_FILTER_MODE) {
+  const mode = filterMode === "auto" ? "adaptive" : filterMode;
+  const raw = buildFilteredRaw(rgba, width, height, 4, mode);
   const chunks = [
     chunk("IHDR", Buffer.concat([u32(width), u32(height), Buffer.from([8, 6, 0, 0, 0])])),
     chunk("IDAT", zlib.deflateSync(raw, { level: 9 })),
@@ -415,13 +506,9 @@ function encodePng(width, height, rgba) {
   return Buffer.concat([Buffer.from("89504e470d0a1a0a", "hex"), ...chunks]);
 }
 
-function encodeIndexedPng(width, height, indexes, palette) {
-  const raw = Buffer.alloc((width + 1) * height);
-  for (let y = 0; y < height; y += 1) {
-    const row = y * (width + 1);
-    raw[row] = 0;
-    indexes.copy(raw, row + 1, y * width, (y + 1) * width);
-  }
+function encodeIndexedPng(width, height, indexes, palette, filterMode = PNG_FILTER_MODE) {
+  const mode = filterMode === "auto" ? "adaptive" : filterMode;
+  const raw = buildFilteredRaw(indexes, width, height, 1, mode);
   const chunks = [
     chunk("IHDR", Buffer.concat([u32(width), u32(height), Buffer.from([8, 3, 0, 0, 0])])),
     chunk("PLTE", Buffer.from(palette.flatMap(([r, g, b]) => [r, g, b]))),
@@ -453,6 +540,112 @@ function crc32(buf) {
   let c = 0xffffffff;
   for (const byte of buf) c = crcTable[(c ^ byte) & 0xff] ^ (c >>> 8);
   return (c ^ 0xffffffff) >>> 0;
+}
+
+function parsePositiveInt(value, fallback) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function buildFilteredRaw(pixels, width, height, bytesPerPixel, mode = "adaptive") {
+  const rowBytes = width * bytesPerPixel;
+  const raw = Buffer.alloc((rowBytes + 1) * height);
+  const normalized = mode === "none" ? "none" : "adaptive";
+  let prevRow = null;
+  for (let y = 0; y < height; y += 1) {
+    const src = pixels.subarray(y * rowBytes, (y + 1) * rowBytes);
+    const outOffset = y * (rowBytes + 1);
+    if (normalized === "none") {
+      raw[outOffset] = 0;
+      src.copy(raw, outOffset + 1);
+      prevRow = src;
+      continue;
+    }
+
+    const candidates = [
+      { filter: 0, data: filterNone(src) },
+      { filter: 1, data: filterSub(src, bytesPerPixel) },
+      { filter: 2, data: filterUp(src, prevRow) },
+      { filter: 3, data: filterAverage(src, prevRow, bytesPerPixel) },
+      { filter: 4, data: filterPaeth(src, prevRow, bytesPerPixel) }
+    ];
+    let best = candidates[0];
+    let bestScore = scoreFilteredRow(best.data);
+    for (let i = 1; i < candidates.length; i += 1) {
+      const candidate = candidates[i];
+      const score = scoreFilteredRow(candidate.data);
+      if (score < bestScore) {
+        best = candidate;
+        bestScore = score;
+      }
+    }
+    raw[outOffset] = best.filter;
+    best.data.copy(raw, outOffset + 1);
+    prevRow = src;
+  }
+  return raw;
+}
+
+function filterNone(src) {
+  return Buffer.from(src);
+}
+
+function filterSub(src, bytesPerPixel) {
+  const out = Buffer.alloc(src.length);
+  for (let i = 0; i < src.length; i += 1) {
+    const left = i >= bytesPerPixel ? src[i - bytesPerPixel] : 0;
+    out[i] = (src[i] - left + 256) & 0xff;
+  }
+  return out;
+}
+
+function filterUp(src, prevRow) {
+  const out = Buffer.alloc(src.length);
+  for (let i = 0; i < src.length; i += 1) {
+    const up = prevRow ? prevRow[i] : 0;
+    out[i] = (src[i] - up + 256) & 0xff;
+  }
+  return out;
+}
+
+function filterAverage(src, prevRow, bytesPerPixel) {
+  const out = Buffer.alloc(src.length);
+  for (let i = 0; i < src.length; i += 1) {
+    const left = i >= bytesPerPixel ? src[i - bytesPerPixel] : 0;
+    const up = prevRow ? prevRow[i] : 0;
+    out[i] = (src[i] - ((left + up) >> 1) + 256) & 0xff;
+  }
+  return out;
+}
+
+function filterPaeth(src, prevRow, bytesPerPixel) {
+  const out = Buffer.alloc(src.length);
+  for (let i = 0; i < src.length; i += 1) {
+    const left = i >= bytesPerPixel ? src[i - bytesPerPixel] : 0;
+    const up = prevRow ? prevRow[i] : 0;
+    const upLeft = prevRow && i >= bytesPerPixel ? prevRow[i - bytesPerPixel] : 0;
+    out[i] = (src[i] - paethPredictor(left, up, upLeft) + 256) & 0xff;
+  }
+  return out;
+}
+
+function paethPredictor(left, up, upLeft) {
+  const p = left + up - upLeft;
+  const pa = Math.abs(p - left);
+  const pb = Math.abs(p - up);
+  const pc = Math.abs(p - upLeft);
+  if (pa <= pb && pa <= pc) return left;
+  if (pb <= pc) return up;
+  return upLeft;
+}
+
+function scoreFilteredRow(data) {
+  let score = 0;
+  for (let i = 0; i < data.length; i += 1) {
+    const value = data[i];
+    score += value < 128 ? value : 256 - value;
+  }
+  return score;
 }
 
 main();
