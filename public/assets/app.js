@@ -3565,10 +3565,11 @@ function renderBattleFormation() {
     const targetAttr = unit.kind === "enemy" ? `data-battle-target="${Math.max(0, Number(unit.slot || 0))}"` : "";
     const buttonTag = unit.kind === "enemy" ? "button" : "div";
     const typeAttr = unit.kind === "enemy" ? `type="button"` : "";
+    const imgNo = battleFormationUnitImageNo(unit);
     const spriteId = unit.kind === "player"
       ? playerFrameTileId(loadedTileAtlas)
-      : sourceFieldSpriteTileId(unit.imgNo, { fallback: Number(unit.imgNo || 0) });
-    const spriteAttrs = unit.kind === "player" ? "" : sourceSpriteAttrs(unit.imgNo, spriteId);
+      : sourceFieldSpriteTileId(imgNo, { fallback: Number(imgNo || 0) });
+    const spriteAttrs = unit.kind === "player" ? "" : sourceSpriteAttrs(imgNo, spriteId);
     return `
       <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${Number(unit.battleNo || 0)}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
         <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
@@ -3582,14 +3583,32 @@ function renderBattleFormation() {
     node.classList.toggle("targetable", targetMode && !battlePendingAction);
     node.dataset.targetMode = targetMode ? battleSelectedAction : "";
   });
-  els.battleFormationLayer.querySelectorAll("[data-atlas-sprite]").forEach((node) => {
-    if (loadedTileAtlas) applyAtlasSprite(node, loadedTileAtlas, node.dataset.atlasSprite);
-  });
-  if (!loadedTileAtlas) {
-    loadTileAtlas().then((atlas) => {
-      if (atlas && isBattleOpen()) renderBattlePanel();
-    });
+  hydrateBattleSprites(els.battleFormationLayer);
+}
+
+function battleFormationUnitImageNo(unit = {}) {
+  const direct = Number(unit.imgNo || unit.ImgNo || 0);
+  if (Number.isFinite(direct) && direct > 0) return direct;
+  if (unit.kind === "enemy") {
+    const enemy = battleEnemyParty(game?.battle || {}, game?.encounter || null)[Math.max(0, Number(unit.slot || 0))];
+    return Number(enemy?.ImgNo || enemy?.imgNo || 0);
   }
+  if (unit.kind === "pet") {
+    const byIndex = game?.pets?.[Number(unit.petIndex)];
+    const active = getActivePet();
+    return Number(byIndex?.ImgNo || active?.ImgNo || 0);
+  }
+  return 0;
+}
+
+function hydrateBattleSprites(root) {
+  if (loadedTileAtlas) {
+    hydrateAtlasSprites(loadedTileAtlas, root);
+    return;
+  }
+  loadTileAtlas().then((atlas) => {
+    if (atlas && isBattleOpen()) hydrateAtlasSprites(atlas, root);
+  });
 }
 
 function battleFormationUnitPosition(unit) {
@@ -3647,7 +3666,7 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
     `;
   }).join("");
   els.battleEnemyParty.querySelectorAll("[data-atlas-sprite]").forEach((node) => {
-    if (loadedTileAtlas) applyAtlasSprite(node, loadedTileAtlas, node.dataset.atlasSprite);
+    hydrateBattleSprites(node);
   });
 }
 
@@ -3662,8 +3681,11 @@ function setBattleSprite(el, tileId) {
     delete el.dataset.sourceSprite;
     delete el.dataset.atlasFallback;
   }
-  if (loadedTileAtlas) applyAtlasSprite(el, loadedTileAtlas, el.dataset.atlasSprite);
-  else el.hidden = id <= 0;
+  if (id <= 0) {
+    el.hidden = true;
+    return;
+  }
+  hydrateBattleSprites(el);
 }
 
 function battleFieldState() {

@@ -1959,6 +1959,14 @@ assertEqual(
   sourceEncounterGame.battle.enemyParty.length,
   "battle character fields mirror source enemy party size"
 );
+assert(
+  sourceEncounterGame.characterFields.battle.formation.enemySide.every((unit, index) => Number(unit.imgNo || 0) === Number(sourceEncounterGame.battle.enemyParty[index]?.ImgNo || 0) && Number(unit.imgNo || 0) > 0),
+  "battle formation enemy units expose source ImgNo for browser sprite rendering"
+);
+assert(
+  sourceEncounterGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "pet" && Number(unit.imgNo || 0) === Number(sourceEncounterGame.pets[0]?.ImgNo || 0)),
+  "battle formation pet unit exposes active pet ImgNo for browser sprite rendering"
+);
 
 let workAliasBattleGame = await api("/api/game/new", { name: "source-work-alias-battle-test" });
 workAliasBattleGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
