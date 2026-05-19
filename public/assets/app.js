@@ -509,7 +509,10 @@ function renderMap(map) {
   const content = els.mapCanvas.querySelector(".map-content");
   const sameMap = mapView.mapId === map.id && content;
   if (sameMap) {
-    if (largeMapRenderer) largeMapRenderer.map = map;
+    if (largeMapRenderer) {
+      largeMapRenderer.map = map;
+      if (loadedTileAtlas) largeMapRenderer.atlas = loadedTileAtlas;
+    }
     syncMapMarkers(map);
     if (mapView.centerOnNextRender) {
       centerMapOnPlayer();
@@ -1610,7 +1613,7 @@ async function loadProfileTileAtlasForMap(map) {
   try {
     await ensureProfilePacksLoaded(packPaths);
     const atlas = atlasWithProfileFrames(null, "profile packs");
-    loadedTileAtlas = atlas;
+    setLoadedTileAtlas(atlas);
     hydrateAtlasSprites(atlas);
     return atlas;
   } catch {
@@ -1731,6 +1734,19 @@ function atlasWithProfileFrames(baseAtlas = loadedTileAtlas, modeSuffix = "profi
   };
 }
 
+function setLoadedTileAtlas(atlas, options = {}) {
+  loadedTileAtlas = atlas || null;
+  if (!largeMapRenderer || !loadedTileAtlas) return loadedTileAtlas;
+  largeMapRenderer.atlas = loadedTileAtlas;
+  if (options.spritesOnly) {
+    scheduleLargeMapSpriteRender();
+  } else {
+    largeMapRenderer.lastKey = "";
+    scheduleLargeMapRender();
+  }
+  return loadedTileAtlas;
+}
+
 async function decodeImageWithFallback(image) {
   await image.decode().catch(() => new Promise((resolve, reject) => {
     if (image.complete && image.naturalWidth > 0) {
@@ -1752,7 +1768,7 @@ async function loadMonolithicTileAtlas() {
       image.decoding = "async";
       image.src = manifest.image;
       await decodeImageWithFallback(image);
-      loadedTileAtlas = { ...manifest, mode: "monolithic atlas", image };
+      setLoadedTileAtlas({ ...manifest, mode: "monolithic atlas", image });
       hydrateAtlasSprites(loadedTileAtlas);
       return loadedTileAtlas;
     })().catch(() => null);
@@ -1764,6 +1780,10 @@ function hydrateAtlasSprites(atlas = loadedTileAtlas, root = document) {
   if (!atlas) return;
   const missingIds = new Set();
   atlasSpriteNodes(root).forEach((el) => {
+    const resolvedId = resolvedAtlasSpriteId(el);
+    if (resolvedId > 0 && String(resolvedId) !== String(el.dataset.atlasSprite || "")) {
+      el.dataset.atlasSprite = String(resolvedId);
+    }
     const frame = applyAtlasSprite(el, atlas, el.dataset.atlasSprite);
     const id = Number(el.dataset.atlasSprite || 0);
     if (!frame && Number.isFinite(id) && id > 0) missingIds.add(id);
@@ -1773,7 +1793,7 @@ function hydrateAtlasSprites(atlas = loadedTileAtlas, root = document) {
     void ensureProfileAtlasFramesLoaded([...missingIds]).then((loaded) => {
       if (!loaded) return;
       const nextAtlas = atlasWithProfileFrames(atlas || loadedTileAtlas);
-      loadedTileAtlas = nextAtlas;
+      setLoadedTileAtlas(nextAtlas, { spritesOnly: true });
       hydrateAtlasSprites(nextAtlas, root);
     });
   }
@@ -1784,6 +1804,23 @@ function atlasSpriteNodes(root = document) {
   if (root?.matches?.("[data-atlas-sprite]")) nodes.push(root);
   root?.querySelectorAll?.("[data-atlas-sprite]").forEach((el) => nodes.push(el));
   return nodes;
+}
+
+function resolvedAtlasSpriteId(el) {
+  const sourceSprite = Number(el?.dataset?.sourceSprite || 0);
+  if (Number.isFinite(sourceSprite) && sourceSprite >= SPR_START) {
+    return sourceFieldSpriteTileId(sourceSprite, {
+      fallback: Number(el.dataset.atlasFallback || el.dataset.atlasSprite || sourceSprite)
+    });
+  }
+  return Number(el?.dataset?.atlasSprite || 0);
+}
+
+function sourceSpriteAttrs(spriteNo, fallback = spriteNo) {
+  const source = Number(spriteNo || 0);
+  if (!Number.isFinite(source) || source < SPR_START) return "";
+  const safeFallback = Number(fallback || source);
+  return ` data-source-sprite="${source}" data-atlas-fallback="${Number.isFinite(safeFallback) ? safeFallback : source}"`;
 }
 
 function refreshAtlasButtonSprites(atlas = loadedTileAtlas) {
@@ -1848,7 +1885,7 @@ async function ensurePetFieldAnimationsLoaded() {
     const packUrl = resolvePackUrl(manifestUrl, manifest.pack?.manifest || "");
     if (packUrl) await ensureProfilePacksLoaded([packUrl]);
     petFieldAnimationState.manifest = { ...manifest, __url: manifestUrl };
-    loadedTileAtlas = atlasWithProfileFrames(loadedTileAtlas, "pet field animation");
+    setLoadedTileAtlas(atlasWithProfileFrames(loadedTileAtlas, "pet field animation"), { spritesOnly: true });
     hydrateAtlasSprites(loadedTileAtlas);
     invalidatePlayerSpriteRender();
     if (game) render();
@@ -1875,7 +1912,7 @@ async function ensurePetFieldSpritePackLoaded(spriteNo) {
   const packUrl = resolvePackUrl(manifest.__url || PET_FIELD_ANIMATION_MANIFEST, packRef);
   try {
     await ensureProfilePacksLoaded([packUrl]);
-    loadedTileAtlas = atlasWithProfileFrames(loadedTileAtlas, "pet field animation");
+    setLoadedTileAtlas(atlasWithProfileFrames(loadedTileAtlas, "pet field animation"), { spritesOnly: true });
     hydrateAtlasSprites(loadedTileAtlas);
     invalidatePlayerSpriteRender();
     if (game) render();
@@ -1975,11 +2012,13 @@ function uniqueNumbers(values) {
 }
 
 function petSpriteMarkup(tileId, label = "", className = "") {
-  const id = sourceFieldSpriteTileId(tileId);
+  const source = Number(tileId || 0);
+  const id = sourceFieldSpriteTileId(source, { fallback: source });
   const aria = label ? `role="img" aria-label="${escapeHtml(label)}"` : `aria-hidden="true"`;
+  const missingLabel = source >= SPR_START ? `SpriteNo ${source}` : `ImgNo ${id || "-"}`;
   return `
-    <span class="atlas-sprite-frame ${className}" data-imgno="${id}" data-missing="ImgNo ${id || "-"}" ${aria}>
-      <span class="client-atlas-sprite ui-atlas-sprite" data-atlas-sprite="${id}" aria-hidden="true"></span>
+    <span class="atlas-sprite-frame ${className}" data-imgno="${source || id}" data-missing="${missingLabel}" ${aria}>
+      <span class="client-atlas-sprite ui-atlas-sprite" data-atlas-sprite="${id}"${sourceSpriteAttrs(source, id)} aria-hidden="true"></span>
     </span>
   `;
 }
@@ -3353,11 +3392,12 @@ function renderBattleFormation() {
     const spriteId = unit.kind === "player"
       ? playerFrameTileId(loadedTileAtlas)
       : sourceFieldSpriteTileId(unit.imgNo, { fallback: Number(unit.imgNo || 0) });
+    const spriteAttrs = unit.kind === "player" ? "" : sourceSpriteAttrs(unit.imgNo, spriteId);
     return `
       <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${Number(unit.battleNo || 0)}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
         <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
         ${unit.kind === "player" ? `<em class="battle-role-label">PLAYER</em>` : unit.kind === "pet" ? `<em class="battle-role-label">PET</em>` : ""}
-        <span class="battle-unit-sprite client-atlas-sprite" data-atlas-sprite="${Number(spriteId || 0)}" aria-hidden="true"></span>
+        <span class="battle-unit-sprite client-atlas-sprite" data-atlas-sprite="${Number(spriteId || 0)}"${spriteAttrs} aria-hidden="true"></span>
         <strong>${escapeHtml(unit.name || unit.kind || "unit")}</strong>
       </${buttonTag}>
     `;
@@ -3420,9 +3460,10 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
     const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
     const status = battleStatusText(field || enemy);
     const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}%${status ? ` | 状态 ${status}` : ""} | ${elementText(field || enemy)}`;
+    const spriteId = sourceFieldSpriteTileId(enemy.ImgNo, { fallback: Number(enemy.ImgNo || 0) });
     return `
       <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !canTarget ? "disabled" : ""} title="${escapeHtml(title)}">
-        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${sourceFieldSpriteTileId(enemy.ImgNo, { fallback: Number(enemy.ImgNo || 0) })}" aria-hidden="true"></span></span>
+        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${spriteId}"${sourceSpriteAttrs(enemy.ImgNo, spriteId)} aria-hidden="true"></span></span>
         <b>${index + 1}</b>
         <em>${escapeHtml(enemy.Name || "敌人")}</em>
         <i><strong style="width:${clampPercent(hp, maxHp)}%"></strong></i>
@@ -3435,8 +3476,16 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
 }
 
 function setBattleSprite(el, tileId) {
-  const id = sourceFieldSpriteTileId(tileId, { fallback: Number(tileId || 0) });
+  const source = Number(tileId || 0);
+  const id = sourceFieldSpriteTileId(source, { fallback: source });
   el.dataset.atlasSprite = id > 0 ? String(id) : "";
+  if (Number.isFinite(source) && source >= SPR_START) {
+    el.dataset.sourceSprite = String(source);
+    el.dataset.atlasFallback = String(source);
+  } else {
+    delete el.dataset.sourceSprite;
+    delete el.dataset.atlasFallback;
+  }
   if (loadedTileAtlas) applyAtlasSprite(el, loadedTileAtlas, el.dataset.atlasSprite);
   else el.hidden = id <= 0;
 }
