@@ -116,6 +116,8 @@ const SCREEN_VECTOR_DIRECTIONS = Object.freeze({
   "-1,-1": 0
 });
 const DEFAULT_PLAYER_DIRECTION = 5;
+const BATTLE_ENEMY_FACE_DIRECTION = 2;
+const BATTLE_ALLY_FACE_DIRECTION = 6;
 const PLAYER_WALK_FRAME_MS = 95;
 const PLAYER_WALK_ANIM_MS = 720;
 const PLAYER_WALK_MOVE_MS = 190;
@@ -2009,18 +2011,22 @@ function atlasSpriteNodes(root = document) {
 function resolvedAtlasSpriteId(el) {
   const sourceSprite = Number(el?.dataset?.sourceSprite || 0);
   if (Number.isFinite(sourceSprite) && sourceSprite >= SPR_START) {
+    const sourceDir = Number(el.dataset.sourceDir);
     return sourceFieldSpriteTileId(sourceSprite, {
-      fallback: Number(el.dataset.atlasFallback || el.dataset.atlasSprite || sourceSprite)
+      fallback: Number(el.dataset.atlasFallback || el.dataset.atlasSprite || sourceSprite),
+      dir: Number.isFinite(sourceDir) ? sourceDir : undefined
     });
   }
   return Number(el?.dataset?.atlasSprite || 0);
 }
 
-function sourceSpriteAttrs(spriteNo, fallback = spriteNo) {
+function sourceSpriteAttrs(spriteNo, fallback = spriteNo, options = {}) {
   const source = Number(spriteNo || 0);
   if (!Number.isFinite(source) || source < SPR_START) return "";
   const safeFallback = Number(fallback || source);
-  return ` data-source-sprite="${source}" data-atlas-fallback="${Number.isFinite(safeFallback) ? safeFallback : source}"`;
+  const sourceDir = Number(options.dir);
+  const dirAttr = Number.isFinite(sourceDir) ? ` data-source-dir="${normalizeDirection(sourceDir)}"` : "";
+  return ` data-source-sprite="${source}" data-atlas-fallback="${Number.isFinite(safeFallback) ? safeFallback : source}"${dirAttr}`;
 }
 
 function refreshAtlasButtonSprites(atlas = loadedTileAtlas) {
@@ -2328,10 +2334,11 @@ function collectPlayerSprites(map, atlas, locate) {
   return [locate(tileId)];
 }
 
-function playerFrameTileId(atlas = loadedTileAtlas) {
+function playerFrameTileId(atlas = loadedTileAtlas, options = {}) {
   const now = performance.now();
-  const moving = now < playerAnimState.walkUntil;
-  const frames = (moving ? PLAYER_WALK_FRAMES : PLAYER_STAND_FRAMES)[playerAnimState.dir]
+  const dir = Number.isFinite(Number(options.dir)) ? normalizeDirection(Number(options.dir)) : playerAnimState.dir;
+  const moving = !options.forceStand && now < playerAnimState.walkUntil;
+  const frames = (moving ? PLAYER_WALK_FRAMES : PLAYER_STAND_FRAMES)[dir]
     || PLAYER_STAND_FRAMES[DEFAULT_PLAYER_DIRECTION];
   const frameIndex = moving ? Math.floor((now - playerAnimState.startedAt) / PLAYER_WALK_FRAME_MS) % frames.length : 0;
   return firstAvailablePlayerFrame(frames.slice(frameIndex).concat(frames.slice(0, frameIndex)), atlas)
@@ -3474,7 +3481,7 @@ function renderBattlePanel() {
   els.battlePanel.classList.toggle("battle-busy", Boolean(battlePendingAction));
   updateBattleTargetPrompt(formation);
   updateBattleCountdownDisplay();
-  setBattleSprite(els.battleEnemyImg, enemy.ImgNo);
+  setBattleSprite(els.battleEnemyImg, enemy.ImgNo, { dir: BATTLE_ENEMY_FACE_DIRECTION });
   els.battleEnemyName.textContent = `${enemy.Name || "野外宠物"} Lv.${Number(enemy.Lv || 1)}`;
   els.battleEnemyStats.textContent = battleEnemyStatsText(enemy, activeEnemyField, enemyHp, enemyMax);
   els.battleEnemyHpBar.style.width = `${clampPercent(enemyHp, enemyMax)}%`;
@@ -3483,7 +3490,7 @@ function renderBattlePanel() {
   if (activePet) {
     const petProgress = progressionForPet(activePetIndex(), activePet);
     const petStatus = battleStatusText(activePet);
-    setBattleSprite(els.battlePetImg, activePet.ImgNo);
+    setBattleSprite(els.battlePetImg, activePet.ImgNo, { dir: BATTLE_ALLY_FACE_DIRECTION });
     els.battlePetName.textContent = `${activePet.Name} Lv.${Number(activePet.Lv || 1)}`;
     els.battlePetStats.textContent = `HP ${petHp}/${petMax} | ${expLabel(petProgress)} | ${workStatsText(activePet, null, " ")}${petStatus ? ` | 状态 ${petStatus}` : ""} | ${elementText(activePet)}`;
     els.battlePetHpBar.style.width = `${clampPercent(petHp, petMax)}%`;
@@ -3603,10 +3610,11 @@ function renderBattleFormation() {
     const buttonTag = unit.kind === "enemy" ? "button" : "div";
     const typeAttr = unit.kind === "enemy" ? `type="button"` : "";
     const imgNo = battleFormationUnitImageNo(unit);
+    const faceDir = battleFormationUnitDirection(unit);
     const spriteId = unit.kind === "player"
-      ? playerFrameTileId(loadedTileAtlas)
-      : sourceFieldSpriteTileId(imgNo, { fallback: Number(imgNo || 0) });
-    const spriteAttrs = unit.kind === "player" ? "" : sourceSpriteAttrs(imgNo, spriteId);
+      ? playerFrameTileId(loadedTileAtlas, { dir: faceDir, forceStand: true })
+      : sourceFieldSpriteTileId(imgNo, { fallback: Number(imgNo || 0), dir: faceDir });
+    const spriteAttrs = unit.kind === "player" ? "" : sourceSpriteAttrs(imgNo, spriteId, { dir: faceDir });
     return `
       <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${Number(unit.battleNo || 0)}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
         <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
@@ -3621,6 +3629,12 @@ function renderBattleFormation() {
     node.dataset.targetMode = targetMode ? battleSelectedAction : "";
   });
   hydrateBattleSprites(els.battleFormationLayer);
+}
+
+function battleFormationUnitDirection(unit = {}) {
+  return unit.kind === "enemy" || Number(unit.side || 0) === 1
+    ? BATTLE_ENEMY_FACE_DIRECTION
+    : BATTLE_ALLY_FACE_DIRECTION;
 }
 
 function battleFormationUnitImageNo(unit = {}) {
@@ -3692,10 +3706,13 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
     const captureRate = Number(field?.captureRate ?? enemy.CaptureRate ?? 0);
     const status = battleStatusText(field || enemy);
     const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}%${status ? ` | 状态 ${status}` : ""} | ${elementText(field || enemy)}`;
-    const spriteId = sourceFieldSpriteTileId(enemy.ImgNo, { fallback: Number(enemy.ImgNo || 0) });
+    const spriteId = sourceFieldSpriteTileId(enemy.ImgNo, {
+      fallback: Number(enemy.ImgNo || 0),
+      dir: BATTLE_ENEMY_FACE_DIRECTION
+    });
     return `
       <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !canTarget ? "disabled" : ""} title="${escapeHtml(title)}">
-        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${spriteId}"${sourceSpriteAttrs(enemy.ImgNo, spriteId)} aria-hidden="true"></span></span>
+        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${spriteId}"${sourceSpriteAttrs(enemy.ImgNo, spriteId, { dir: BATTLE_ENEMY_FACE_DIRECTION })} aria-hidden="true"></span></span>
         <b>${index + 1}</b>
         <em>${escapeHtml(enemy.Name || "敌人")}</em>
         <i><strong style="width:${clampPercent(hp, maxHp)}%"></strong></i>
@@ -3707,16 +3724,19 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
   });
 }
 
-function setBattleSprite(el, tileId) {
+function setBattleSprite(el, tileId, options = {}) {
   const source = Number(tileId || 0);
-  const id = sourceFieldSpriteTileId(source, { fallback: source });
+  const id = sourceFieldSpriteTileId(source, { fallback: source, dir: options.dir });
   el.dataset.atlasSprite = id > 0 ? String(id) : "";
   if (Number.isFinite(source) && source >= SPR_START) {
     el.dataset.sourceSprite = String(source);
     el.dataset.atlasFallback = String(source);
+    if (Number.isFinite(Number(options.dir))) el.dataset.sourceDir = String(normalizeDirection(Number(options.dir)));
+    else delete el.dataset.sourceDir;
   } else {
     delete el.dataset.sourceSprite;
     delete el.dataset.atlasFallback;
+    delete el.dataset.sourceDir;
   }
   if (id <= 0) {
     el.hidden = true;

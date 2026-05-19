@@ -6,6 +6,9 @@ const profileRoot = path.join(projectRoot, "public/data/profiles/classic-core");
 const staticPackPath = path.join(profileRoot, "packs/pets-static-all.json");
 const texturePlanPath = path.join(profileRoot, "profile-texture-pack-plan.json");
 const fieldManifestPath = path.join(profileRoot, "pet-field-animations.json");
+const appJsPath = path.join(projectRoot, "public/assets/app.js");
+const battleEnemyFaceDir = 2;
+const battleAllyFaceDir = 6;
 
 const importantPets = [
   { spriteNo: 100250, name: "乌力" },
@@ -19,9 +22,20 @@ const missing = [];
 const staticPack = readJson(staticPackPath);
 const texturePlan = readJson(texturePlanPath);
 const fieldManifest = readJson(fieldManifestPath);
+const appJs = fs.readFileSync(appJsPath, "utf8");
 const staticFrames = frameIdSet(staticPack);
 const keepSetStaticIds = profilePackIds(texturePlan, "pets-static-all");
 const packCache = new Map();
+
+if (!appJs.includes(`BATTLE_ENEMY_FACE_DIRECTION = ${battleEnemyFaceDir}`)) {
+  missing.push(`battle formation: missing enemy facing dir ${battleEnemyFaceDir} in public/assets/app.js`);
+}
+if (!appJs.includes(`BATTLE_ALLY_FACE_DIRECTION = ${battleAllyFaceDir}`)) {
+  missing.push(`battle formation: missing ally facing dir ${battleAllyFaceDir} in public/assets/app.js`);
+}
+if (!appJs.includes("data-source-dir")) {
+  missing.push("battle formation: lazy source sprite hydration does not preserve data-source-dir");
+}
 
 for (const pet of importantPets) {
   if (!staticFrames.has(pet.spriteNo)) {
@@ -59,6 +73,12 @@ for (const pet of importantPets) {
       if (!packFrames.has(firstBitmapNo)) {
         missing.push(`${pet.name} ${pet.spriteNo}: ${actionName} dir ${dir} first bitmap ${firstBitmapNo} not in ${sprite.pack}`);
       }
+    }
+  }
+  for (const dir of [battleEnemyFaceDir, battleAllyFaceDir]) {
+    const firstStand = Number(sprite.actions?.stand?.[String(dir)]?.[2]?.[0]?.[0]);
+    if (!packFrames.has(firstStand)) {
+      missing.push(`${pet.name} ${pet.spriteNo}: battle-facing stand dir ${dir} frame ${firstStand || "-"} missing from ${sprite.pack}`);
     }
   }
 }
