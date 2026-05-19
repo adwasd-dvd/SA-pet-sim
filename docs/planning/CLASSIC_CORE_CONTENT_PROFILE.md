@@ -8,6 +8,12 @@ The project should shrink by enabling a smaller original-content graph, not by i
 
 External guides are useful for memory, naming, and player expectations, but they are not authoritative build data.
 
+The resource-slimming guide at <https://github.com/adwasd-dvd/slim-SA-Game-Guide>
+is now an approved implementation guide for profile/pack tooling. Its imported
+revision is `b1239ae`, mirrored under `docs/reference/slim-SA-Game-Guide/`, and
+wired into `scripts/resource-tools/`. It still follows the same authority order:
+local source data and generated evidence beat external claims.
+
 Use this authority order:
 
 1. Local source data in `external/sources/ref___data`.
@@ -62,11 +68,28 @@ It should include the source-complete progression spine:
 - First-pet capture flow.
 - Core village shops, equipment, heal/save, and capture/training loops.
 - 成人仪式.
-- Four proof caves required by rebirth when those lines are enabled: 琉璃 / 玄黄 / 碧青 / 深红.
-- Rebirth path only if the complete 四洞 + 漆黑洞窟 flow is included.
+- Adult ceremony and the first-session village/capture/training/service loop.
+- Four proof caves and rebirth are not part of the default boot graph until the
+  complete chain is source-complete; they live in `classic-rebirth`.
 - Classic pet families and iconic battle targets needed by this profile.
 
 The default boot package should not include later regions just because they are present in source data.
+
+### `classic-rebirth`
+
+Optional faithful rebirth pack after `classic-core`.
+
+Keep only when source-complete:
+
+- 琉璃洞窟.
+- 玄黄洞窟.
+- 碧青洞窟.
+- 深红洞窟.
+- 漆黑洞窟 / 人物转生.
+
+Do not shorten cave floors in this profile. If a future lightweight remix wants
+shortened caves, it must be labeled `classic-lite-remix`, not `classic-core` or
+`classic-rebirth`.
 
 ### `classic-side`
 
@@ -157,6 +180,10 @@ Delay event pets, holiday pets, GP pets, "改" variants, fusion-era pets, and la
 ## Build Rules
 
 - A content profile owns the enabled quest lines, regions, maps, NPCs, enemy groups, pets, items, scripts, and resource packs.
+- `profiles/content-profiles.json` is the machine-readable profile guardrail.
+  It prevents broad terms such as shop/hospital/NPC service names from pulling
+  EDEN, 瑞尔亚斯, longzoro, family/manor, casino, race, quiz, profession, cooking,
+  fusion, or other late systems into the default core package.
 - World generation should compute a closure graph from enabled quest lines:
   - required floors and transit floors
   - source warps and entrances

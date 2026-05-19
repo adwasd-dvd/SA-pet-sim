@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-05-14T15:35:41.532Z",
+  "generatedAt": "2026-05-19T01:28:39.515Z",
   "sourcePolicy": "Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.",
   "currentPublic": {
-    "fileCount": 539,
-    "bytes": 66618490,
-    "gzipBytes": 27159328
+    "fileCount": 722,
+    "bytes": 96416906,
+    "gzipBytes": 55221022
   },
   "sharedPublic": {
     "fileCount": 20,
-    "bytes": 29803117,
-    "gzipBytes": 22958628
+    "bytes": 29851164,
+    "gzipBytes": 23003234
   },
   "profiles": [
     {
@@ -29,13 +29,13 @@
         "gzipBytes": 1947989
       },
       "worldModel": {
-        "bytes": 5354912,
-        "gzipBytes": 411533,
+        "bytes": 6254697,
+        "gzipBytes": 519427,
         "activeExitCount": 774,
         "profileClosedExitCount": 0
       },
-      "profileRawBytes": 42170285,
-      "profileGzipBytes": 4612233,
+      "profileRawBytes": 43070070,
+      "profileGzipBytes": 4720127,
       "missing": [
         {
           "floor": 1408,
@@ -47,65 +47,71 @@
     },
     {
       "id": "classic-core",
-      "floorCount": 134,
-      "npcCount": 1590,
-      "activeExitCount": 327,
-      "profileClosedExitCount": 63,
+      "floorCount": 93,
+      "npcCount": 1138,
+      "activeExitCount": 164,
+      "profileClosedExitCount": 61,
       "mapAssets": {
-        "fileCount": 134,
-        "bytes": 9200637,
-        "gzipBytes": 1440767
+        "fileCount": 93,
+        "bytes": 3916892,
+        "gzipBytes": 635118
       },
       "clientMapAssets": {
-        "fileCount": 134,
-        "bytes": 13805782,
-        "gzipBytes": 1183862
+        "fileCount": 93,
+        "bytes": 5869944,
+        "gzipBytes": 560578
       },
       "worldModel": {
-        "bytes": 3499915,
-        "gzipBytes": 295380,
-        "activeExitCount": 327,
-        "profileClosedExitCount": 53
+        "bytes": 2635165,
+        "gzipBytes": 267571,
+        "activeExitCount": 164,
+        "profileClosedExitCount": 55
       },
-      "profileRawBytes": 26506334,
-      "profileGzipBytes": 2920009,
+      "profileRawBytes": 12422001,
+      "profileGzipBytes": 1463267,
       "missing": []
     }
   ],
   "comparison": {
-    "floorSavings": 126,
-    "npcDelta": -763,
+    "floorSavings": 167,
+    "npcDelta": -1215,
     "estimatedRawBytes": {
-      "fullDev": 71973402,
-      "classicCore": 56309451
+      "fullDev": 72921234,
+      "classicCore": 42273165
     },
     "estimatedGzipBytes": {
-      "fullDev": 27570861,
-      "classicCore": 25878637
+      "fullDev": 27723361,
+      "classicCore": 24466501
     },
     "estimatedRawSavings": {
-      "bytes": 15663951,
-      "percent": 21.763527309713663
+      "bytes": 30648069,
+      "percent": 42.02900488491459
     },
     "estimatedGzipSavings": {
-      "bytes": 1692224,
-      "percent": 6.137726348118036
+      "bytes": 3256860,
+      "percent": 11.747709810509628
     },
     "mapAssetSavings": {
-      "bytes": 13808954,
-      "percent": 37.50866248183877
+      "bytes": 27028537,
+      "percent": 73.41644209336138
     },
     "worldModelSavings": {
-      "bytes": 1854997,
-      "percent": 34.64103611786711
+      "bytes": 3619532,
+      "percent": 57.86902227238186
     },
     "unchangedSharedAssets": {
-      "bytes": 29803117,
-      "gzipBytes": 22958628,
+      "bytes": 29851164,
+      "gzipBytes": 23003234,
       "note": "Shared assets include the current monolithic client tile atlas and data tables; these require later resource-pack extraction to shrink further."
     }
   },
   "omittedLargestFloors": [
+    {
+      "floor": 200,
+      "name": "加鲁卡",
+      "bytes": 9600052,
+      "gzipBytes": 1113415
+    },
     {
       "floor": 300,
       "name": "吉鲁岛",
@@ -155,10 +161,34 @@
       "gzipBytes": 31697
     },
     {
+      "floor": 8200,
+      "name": "英雄战场 8",
+      "bytes": 352052,
+      "gzipBytes": 21732
+    },
+    {
+      "floor": 8201,
+      "name": "英雄战场 14",
+      "bytes": 352052,
+      "gzipBytes": 23087
+    },
+    {
       "floor": 8202,
       "name": "英雄战场 10",
       "bytes": 352052,
       "gzipBytes": 25091
+    },
+    {
+      "floor": 8203,
+      "name": "英雄战场 12",
+      "bytes": 352052,
+      "gzipBytes": 22652
+    },
+    {
+      "floor": 8204,
+      "name": "英雄战场 11",
+      "bytes": 352052,
+      "gzipBytes": 22570
     },
     {
       "floor": 8205,
@@ -167,10 +197,22 @@
       "gzipBytes": 20291
     },
     {
+      "floor": 8206,
+      "name": "英雄战场 4",
+      "bytes": 352052,
+      "gzipBytes": 23076
+    },
+    {
       "floor": 8207,
       "name": "英雄战场 14",
       "bytes": 352052,
       "gzipBytes": 24138
+    },
+    {
+      "floor": 8208,
+      "name": "英雄战场 8",
+      "bytes": 352052,
+      "gzipBytes": 22628
     },
     {
       "floor": 8209,
@@ -179,52 +221,10 @@
       "gzipBytes": 23488
     },
     {
-      "floor": 8211,
-      "name": "英雄战场 2",
-      "bytes": 352052,
-      "gzipBytes": 22640
-    },
-    {
-      "floor": 8213,
+      "floor": 8210,
       "name": "英雄战场 1",
       "bytes": 352052,
-      "gzipBytes": 22716
-    },
-    {
-      "floor": 400,
-      "name": "沙姆岛A 10",
-      "bytes": 223552,
-      "gzipBytes": 33319
-    },
-    {
-      "floor": 8219,
-      "name": "白狼勇士试练洞窟",
-      "bytes": 160052,
-      "gzipBytes": 9140
-    },
-    {
-      "floor": 8220,
-      "name": "追猎者试练洞窟",
-      "bytes": 160052,
-      "gzipBytes": 10005
-    },
-    {
-      "floor": 147,
-      "name": "瑞尔亚斯大陆",
-      "bytes": 135052,
-      "gzipBytes": 27465
-    },
-    {
-      "floor": 3007,
-      "name": "加加的竞技场",
-      "bytes": 100052,
-      "gzipBytes": 5807
-    },
-    {
-      "floor": 4007,
-      "name": "卡鲁它那的竞技场",
-      "bytes": 100052,
-      "gzipBytes": 5352
+      "gzipBytes": 22973
     }
   ],
   "followUps": [

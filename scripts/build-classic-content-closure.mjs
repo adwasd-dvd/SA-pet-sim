@@ -9,9 +9,11 @@ const mapRoot = path.join(refRoot, "map");
 const publicRoot = path.join(appRoot, "public");
 const publicDataRoot = path.join(publicRoot, "data");
 const auditPath = path.join(appRoot, "docs", "planning", "classic-core-source-audit.json");
+const profilesConfigPath = path.join(appRoot, "profiles", "content-profiles.json");
 const manifestOut = path.join(appRoot, "docs", "planning", "classic-core-closure-manifest.json");
 const markdownOut = path.join(appRoot, "docs", "planning", "CLASSIC_CORE_CLOSURE_MANIFEST.md");
 const gb18030 = new TextDecoder("gb18030");
+const contentProfiles = loadContentProfiles();
 
 const CONTENT_LINES = [
   {
@@ -64,7 +66,7 @@ const CONTENT_LINES = [
   },
   {
     id: "glass-cave-proof",
-    profile: "classic-core",
+    profile: "classic-rebirth",
     title: "琉璃洞窟",
     stage: "rebirth-proof",
     terms: ["琉璃洞窟", "琉璃的洞窟", "琉璃"],
@@ -74,7 +76,7 @@ const CONTENT_LINES = [
   },
   {
     id: "yellow-cave-proof",
-    profile: "classic-core",
+    profile: "classic-rebirth",
     title: "玄黄洞窟",
     stage: "rebirth-proof",
     terms: ["玄黄洞窟", "岚黄", "玄黄"],
@@ -84,7 +86,7 @@ const CONTENT_LINES = [
   },
   {
     id: "blue-cave-proof",
-    profile: "classic-core",
+    profile: "classic-rebirth",
     title: "碧青洞窟",
     stage: "rebirth-proof",
     terms: ["碧青洞窟", "碧青的洞窟", "碧青"],
@@ -94,7 +96,7 @@ const CONTENT_LINES = [
   },
   {
     id: "red-cave-proof",
-    profile: "classic-core",
+    profile: "classic-rebirth",
     title: "深红洞窟",
     stage: "rebirth-proof",
     terms: ["深红洞窟", "深红的洞窟", "深红"],
@@ -104,7 +106,7 @@ const CONTENT_LINES = [
   },
   {
     id: "dark-cave-rebirth",
-    profile: "classic-core",
+    profile: "classic-rebirth",
     title: "漆黑洞窟 / 人物转生",
     stage: "rebirth",
     terms: ["漆黑洞窟", "漆黑的洞窟", "漆黑", "人物转生", "转生地", "漆黑的守护兽"],
@@ -147,7 +149,17 @@ const lineClosures = CONTENT_LINES.map((line) => buildLineClosure(line));
 const profiles = buildProfiles(lineClosures);
 
 const manifestBody = {
-  sourcePolicy: "Closure is computed from local ref___data, generated world-data, and client resource evidence. It is a build-planning manifest, not a runtime filter yet.",
+  sourcePolicy: "Closure is computed from local ref___data, generated world-data, client resource evidence, and profiles/content-profiles.json guardrails. It is a build-planning manifest, not a runtime filter yet.",
+  profileConfig: {
+    source: "profiles/content-profiles.json",
+    profiles: Object.fromEntries(Object.entries(contentProfiles).map(([id, profile]) => [id, {
+      allowedRegions: profile.allowedRegions || [],
+      blockedRegions: profile.blockedRegions || [],
+      allowedFloorRanges: profile.allowedFloorRanges || [],
+      blockedSystems: profile.blockedSystems || [],
+      extends: profile.extends || null
+    }]))
+  },
   profiles,
   lines: lineClosures
 };
@@ -167,7 +179,7 @@ for (const profile of profiles) {
 function buildLineClosure(line) {
   const terms = normalizeTerms(line.terms);
   const generatedMatches = findGeneratedMatches(terms, line);
-  const sourceMapMatches = findSourceMapMatches(terms);
+  const sourceMapMatches = findSourceMapMatches(terms, line);
   const seedFloors = uniqueNumbers(line.seedFloors || []);
   let requiredFloors = uniqueNumbers([
     ...seedFloors,
@@ -258,13 +270,13 @@ function buildProfiles(lines) {
     list.push(line);
     byProfile.set(line.profile, list);
   }
-  return [...byProfile.entries()].map(([id, profileLines]) => {
+  return expandProfileEntries(byProfile).map(([id, profileLines]) => {
     const floorIds = uniqueNumbers(profileLines.flatMap((line) => [
       ...line.maps.generatedFloors.map((floor) => floor.floor),
       ...((line.maps.routeTransitFloors || []).map((floor) => floor.floor))
     ]));
     const closedWarps = collectClosedWarps(floorIds);
-    const npcs = collectNpcs(floorIds, []);
+    const npcs = collectNpcs(floorIds, [], { profile: id });
     const encounters = collectEncounters(floorIds);
     const itemIds = uniqueNumbers(collectItems(npcs).map((item) => item.id));
     const enemyTempNos = uniqueNumbers(encounters.flatMap((area) => area.enemyTempNos));
@@ -298,15 +310,34 @@ function buildProfiles(lines) {
   });
 }
 
+function expandProfileEntries(byProfile) {
+  const out = new Map(byProfile);
+  for (const [id, config] of Object.entries(contentProfiles)) {
+    if (!config?.extends) continue;
+    const inherited = [];
+    const seen = new Set();
+    let cursor = id;
+    while (cursor && !seen.has(cursor)) {
+      seen.add(cursor);
+      const lines = byProfile.get(cursor) || [];
+      inherited.push(...lines);
+      cursor = contentProfiles[cursor]?.extends;
+    }
+    if (inherited.length) out.set(id, dedupeBy(inherited, (line) => line.id));
+  }
+  return [...out.entries()];
+}
+
 function findGeneratedMatches(terms, line = {}) {
   const mapFloors = new Set();
   const npcMatches = [];
   for (const map of Object.values(WORLD.maps || {})) {
     const mapText = [map.id, map.name, map.summary, map.clientMapSource].filter(Boolean).join(" ");
-    if (matchesAny(mapText, terms)) mapFloors.add(Number(map.id));
+    if (matchesAny(mapText, terms) && profileAllowsMap(map, line) && profileAllowsText(mapText, line)) mapFloors.add(Number(map.id));
     for (const npc of map.npcs || []) {
       const npcText = npcSearchText(npc, line);
       if (!matchesAny(npcText, terms)) continue;
+      if (!profileAllowsMap(map, line) || !profileAllowsText(npcText, line)) continue;
       mapFloors.add(Number(map.id));
       npcMatches.push(npcRecord(map, npc));
     }
@@ -314,11 +345,13 @@ function findGeneratedMatches(terms, line = {}) {
   return { mapFloors: [...mapFloors], npcMatches };
 }
 
-function findSourceMapMatches(terms) {
+function findSourceMapMatches(terms, line = {}) {
   const out = [];
   for (const map of sourceMaps.values()) {
     const text = [map.floor, map.name, map.path].join(" ");
     if (!matchesAny(text, terms)) continue;
+    if (!profileAllowsMap({ id: map.floor, floorId: map.floor, name: map.name, summary: map.path }, line)) continue;
+    if (!profileAllowsText(text, line)) continue;
     out.push(sourceMapRecord(map));
   }
   return out.sort((a, b) => a.floor - b.floor);
@@ -343,9 +376,11 @@ function collectNpcs(floors, terms, line = {}) {
   for (const floor of floors) {
     const map = WORLD.maps[String(floor)];
     if (!map) continue;
+    if (!profileAllowsMap(map, line)) continue;
     for (const npc of map.npcs || []) {
+      const npcText = npcSearchText(npc, line);
+      if (!profileAllowsText(npcText, line)) continue;
       if (terms.length) {
-        const npcText = npcSearchText(npc, line);
         if (!matchesAny(npcText, terms) && !terms.some((term) => map.name.includes(term))) continue;
       }
       out.push(npcRecord(map, npc));
@@ -933,6 +968,73 @@ function renderMarkdown(manifest) {
   lines.push("- Rebirth remains gated until the four proof cave lines and dark cave line have no missing generated floors and have battle/NPC rewards validated.");
   lines.push("- This draft intentionally avoids new art, renamed content, shortened cave chains, and arbitrary map caps.");
   return `${lines.join("\n")}\n`;
+}
+
+function loadContentProfiles() {
+  if (!existsSync(profilesConfigPath)) return {};
+  try {
+    return JSON.parse(readFileSync(profilesConfigPath, "utf8"));
+  } catch (error) {
+    throw new Error(`Cannot read ${relative(profilesConfigPath)}: ${error.message}`);
+  }
+}
+
+function resolvedProfileConfig(profileId, seen = new Set()) {
+  const profile = contentProfiles[profileId];
+  if (!profile || seen.has(profileId)) return profile || {};
+  seen.add(profileId);
+  const parent = profile.extends ? resolvedProfileConfig(profile.extends, seen) : {};
+  return {
+    ...parent,
+    ...profile,
+    allowedRegions: uniqueStrings([...(parent.allowedRegions || []), ...(profile.allowedRegions || [])]),
+    blockedRegions: uniqueStrings([...(parent.blockedRegions || []), ...(profile.blockedRegions || [])]),
+    allowedFloorRanges: profile.allowedFloorRanges || parent.allowedFloorRanges || [],
+    blockedSystems: uniqueStrings([...(parent.blockedSystems || []), ...(profile.blockedSystems || [])])
+  };
+}
+
+function profileAllowsMap(map, line = {}) {
+  const config = resolvedProfileConfig(line.profile);
+  if (!config || config.includeAllGeneratedContent) return true;
+  const floor = Number(map?.id ?? map?.floorId ?? map?.floor);
+  if (line.profile === "classic-core" && Array.isArray(config.allowedFloorRanges) && config.allowedFloorRanges.length) {
+    const allowed = config.allowedFloorRanges.some((range) => {
+      const [start, end] = range.map(Number);
+      return Number.isFinite(start) && Number.isFinite(end) && floor >= start && floor <= end;
+    });
+    if (!allowed) return false;
+  }
+  const text = [map?.id, map?.name, map?.summary, map?.clientMapSource].filter(Boolean).join(" ");
+  return profileAllowsText(text, line);
+}
+
+function profileAllowsText(text, line = {}) {
+  const config = resolvedProfileConfig(line.profile);
+  if (!config || config.includeAllGeneratedContent) return true;
+  const haystack = String(text || "").toLowerCase();
+  for (const token of config.blockedRegions || []) {
+    if (token && haystack.includes(String(token).toLowerCase())) return false;
+  }
+  for (const system of config.blockedSystems || []) {
+    for (const token of blockedSystemTerms(system)) {
+      if (token && haystack.includes(String(token).toLowerCase())) return false;
+    }
+  }
+  return true;
+}
+
+function blockedSystemTerms(system) {
+  const map = {
+    profession: ["profession", "职业", "高科技"],
+    petfusion: ["petfusion", "fusion", "融合", "合成宠"],
+    cook: ["cook", "cooking", "料理", "烹饪"],
+    family: ["family", "manor", "家族", "庄园"],
+    casino: ["casino", "gamble", "赌场", "赌博"],
+    race: ["race", "racing", "赛宠", "竞赛"],
+    quiz: ["quiz", "猜谜", "问答"]
+  };
+  return map[String(system || "").toLowerCase()] || [String(system || "")];
 }
 
 function matchesAny(text, terms) {

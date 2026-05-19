@@ -20,6 +20,7 @@ This file is the durable memory for continuing development on another machine or
 - Cloud/runtime strategy: `docs/planning/CLOUD_RUNTIME_STRATEGY.md`.
 - Worker-native port plan: `docs/planning/WORKER_NATIVE_GMSV_PORT.md`.
 - Classic core content profile: `docs/planning/CLASSIC_CORE_CONTENT_PROFILE.md`.
+- Slim resource guide adoption: `docs/planning/SLIM_SA_GAME_GUIDE_ADOPTION.md` from `https://github.com/adwasd-dvd/slim-SA-Game-Guide` revision `b1239ae`.
 - Original server entry point map: `docs/planning/GMSV_SAAC_WORKER_PORT_MAP.md`.
 - Runtime map assets:
   - `public/data/maps/*.ls2map`
@@ -50,6 +51,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - core UI windows, field menus, battle panels, and buttons from `anim_tbl.h` and client UI source
 - Avoid one giant atlas. Use separate boot UI, map tile, pet-static, pet-field, and pet-battle packs, then lazy-load the optional packs needed by the current map, pet window, or battle.
 - Keep the default `public/` boot package small enough for Cloudflare Workers/Pages static asset limits; large optional original-resource packs should be split or served through R2 with cache-versioned manifests.
+- The imported slim guide is now part of the development stack. Use `profiles/content-profiles.json` and `scripts/resource-tools/*` to generate texture keep-sets, pack plans, pack PNG/JSON outputs, and pixel-diff validation before switching runtime loading away from the current monolithic atlas.
 
 ## Content Slimming Strategy
 
@@ -201,6 +203,7 @@ See `docs/planning/tasks.jsonl` for the full backlog.
 - Source changeevent Charm slice 2026-05-14: `scripts/build-world.mjs` now parses `Charm:` into compact script metadata, and the Worker NPC VM executes it as `adjustCharm` only for positive source EventNo branches, matching the gmsv `CHAR_CHARM` cap behavior without adding render work. The mutation syncs `player.charm`, `Charm`, `CHARM`, `WorkFixCharm`, `characterFields`, and SAAC-like save info, while the client receives only compact `scriptEventSummary.actions=["Charm"]`.
 - Source changeevent KeyWord slice 2026-05-14: `KeyWord:` now stays in server-side script event metadata and gates matching source branches before condition/action execution, matching the gmsv exact-message behavior. Normal player payloads only see compact `KeyWord` action metadata; blocked replies say a correct keyword is needed without revealing the answer, while matched keywords can run DelItem/GetItem and other VM-backed actions.
 - Source FREE/TALKEVENT reward slice 2026-05-14: `scripts/build-world.mjs` now parses non-EventNo `FREE`/`TALKEVENT` npcgen-style scripts into compact MESSAGE branches, including `FreeMsg`, `DelItem`, `AddGold`, and `AddExps`. Worker executes `AddGold` and `AddExps` through deterministic VM `give` actions, so source delivery/reward NPCs can grant stone and battle-progress EXP without client-side shortcuts or extra render work.
+- Slim guide resource pipeline adoption 2026-05-18: `profiles/content-profiles.json` and `scripts/resource-tools/*` are imported from `slim-SA-Game-Guide@b1239ae`; `classic-core` closure now treats rebirth as separate `classic-rebirth` content and applies profile guardrails so generic service terms do not pull late-region NPCs into the core resource graph. The immediate resource path is keep-set -> pack-plan -> pack-build -> pack-validate, then runtime lazy-loading after reports are stable.
 - Multiplayer direction accepted 2026-05-13: first target is a Durable Object/WebSocket online-presence MVP, not full MMO systems. Same-map players should see names, positions, facing direction, and movement updates; chat, party, trade, PvP, and authoritative cloud saves come after the presence layer.
 - Resource direction accepted 2026-05-12: maximize use of original client assets by extracting web-sized packs from the local source bundle, especially pets and original UI, while avoiding raw multi-GB client files in the Cloudflare publish package.
 - Map rendering now uses real client DAT viewport rendering for large maps such as floor `100` / `萨伊那斯`; same-map walking updates markers/viewport without rebuilding `.map-content` or `.ls2-map`, avoiding step flicker.

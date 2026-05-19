@@ -148,6 +148,13 @@ function collectEncounterPetBitmapIds(ids) {
       petNos.add(Number(id[0]));
     }
   }
+  // Full source encounter groups now expose enemy tempNo records, not only the
+  // older compact encounterPets arrays. Include those tempNos so field/battle
+  // pet images such as 加比奥/加斯/鲁尼帖斯 are not silently omitted from the
+  // original atlas and later shown as wrong placeholder sprites.
+  for (const match of worldText.matchAll(/"(?:tempNo|EnemyTempNo|PetId)":\s*(\d+)/g)) {
+    petNos.add(Number(match[1]));
+  }
   for (const line of fs.readFileSync(enemyBasePath, "utf8").split(/\r?\n/)) {
     const rows = line.split(",");
     if (rows.length < 37) continue;

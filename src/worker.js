@@ -4953,7 +4953,7 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       item: sourceScriptItem(item),
       qty: item.qty,
       ...detail,
-      reason: options.giveReason || "source-changeevent-getitem"
+      reason: item.scriptAction === "AddItem" ? "source-eventaction-additem" : (options.giveReason || "source-changeevent-getitem")
     });
     if (!given.ok) {
       recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: given.error || "give-failed", itemId: item.id, itemName: item.name });
@@ -10128,6 +10128,7 @@ function compactScriptEventSummary(scriptEvents) {
     pushUniqueCompact(eventNos, event.eventNo, 8);
     pushUniqueCompact(types, event.type, 8);
     if (event.getItems?.length) pushUniqueCompact(actions, "GetItem", 8);
+    if (event.getItems?.some((item) => item?.scriptAction === "AddItem")) pushUniqueCompact(actions, "AddItem", 8);
     if (event.delItems?.length) pushUniqueCompact(actions, "DelItem", 8);
     if (event.delItems?.some((item) => item?.evdel)) pushUniqueCompact(actions, "DelItemEVDEL", 8);
     if (event.notDelItems?.length) pushUniqueCompact(actions, "NotDel", 8);

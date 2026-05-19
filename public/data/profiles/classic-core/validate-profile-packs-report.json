@@ -1,0 +1,33 @@
+{
+  "v": 1,
+  "source": {
+    "atlasManifestPath": "public/data/client-tiles/tiles.json",
+    "keepSetPath": "public/data/profiles/classic-core/texture-keep-set.json",
+    "packPlanPath": "public/data/profiles/classic-core/profile-texture-pack-plan.json",
+    "packsDir": "public/data/profiles/classic-core/packs",
+    "onlyPackIds": null,
+    "allowMissingPackFiles": false,
+    "failOn": "error"
+  },
+  "summary": {
+    "atlasFrames": 5807,
+    "planPacks": 89,
+    "keepFloors": 93,
+    "floorCoverage": {
+      "checked": 93,
+      "ok": 93,
+      "failed": 0,
+      "missingByFloor": {}
+    },
+    "packFiles": {
+      "checked": 89,
+      "withJson": 89,
+      "withPng": 89
+    },
+    "issues": {
+      "error": 0,
+      "warning": 0
+    }
+  },
+  "issues": []
+}

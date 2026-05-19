@@ -495,6 +495,22 @@ assert(mammothGame.dialog.debug.vmTrace.some((event) => event.action === "give" 
 const mammothSummary = mammothGame.world.map.npcs.find((npc) => npc.id === mammothBoss.id)?.scriptEventSummary?.actions || [];
 assert(mammothSummary.includes("AddExps") && mammothSummary.includes("AddGold"), "client payload exposes compact AddExps/AddGold summary");
 
+const riderTrainer = WORLD.maps["1040"]?.npcs.find((npc) => npc.name === "驯兽机暴" && String(npc.script || "").includes("eden3/rider.arg"));
+if (!riderTrainer) throw new Error("missing rider trainer AddItem fixture");
+assert(riderTrainer.scriptEvents?.[0]?.condition.includes("ITEM=20296"), "NOFREE fallback is sorted behind matching TALKEVENT branches");
+assert(riderTrainer.scriptEvents?.some((event) => event.getItems?.some((item) => item.id === 20296 && item.scriptAction === "AddItem")), "rider trainer parses source AddItem reward");
+let riderGame = await api("/api/game/new", { name: "source-additem-free-test" });
+riderGame.location = { mapId: "1040", x: riderTrainer.x + 1, y: riderTrainer.y };
+riderGame.player.transmigration = 5;
+riderGame.player.Trans = 5;
+riderGame.player.trans = 5;
+assertEqual(inventoryQty(riderGame, 20296), 0, "rider test starts without riding consent item");
+riderGame = await api("/api/game/dialog", { game: riderGame, npcId: riderTrainer.id });
+assertEqual(inventoryQty(riderGame, 20296), 1, "source AddItem grants riding consent item");
+assert(riderGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-eventaction-additem" && event.detail?.itemId === 20296), "source AddItem records give VM action");
+const riderSummary = riderGame.world.map.npcs.find((npc) => npc.id === riderTrainer.id)?.scriptEventSummary?.actions || [];
+assert(riderSummary.includes("AddItem"), "client payload exposes compact AddItem summary");
+
 const battleTutor = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "战斗技巧指导员");
 if (!battleTutor) throw new Error("missing battle tutor source message fixture");
 const battleTutorEvent = battleTutor.scriptEvents?.find((event) => event.type === "MESSAGE" && event.messagePages?.normal?.length >= 8);
@@ -1886,7 +1902,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

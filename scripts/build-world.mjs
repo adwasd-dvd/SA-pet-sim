@@ -852,6 +852,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.getItems.push(...parseScriptItemSpecs(value));
       continue;
     }
+    if (key === "additem") {
+      event.getItems.push(...parseScriptItemSpecs(value).map((item) => ({ ...item, scriptAction: "AddItem" })));
+      continue;
+    }
     if (key === "delitem") {
       event.delItems.push(...parseScriptItemSpecs(value));
       continue;
@@ -936,7 +940,7 @@ function parseNpcFreeScriptEvents(text, file) {
   let getPets = [];
   let rawDelPetSpecs = [];
 
-  const startEvent = () => {
+  const startEvent = (label = "") => {
     event = {
       source: relativeRef(file),
       eventNo: -1,
@@ -955,7 +959,8 @@ function parseNpcFreeScriptEvents(text, file) {
       cleanFlags: [],
       nowSetFlags: [],
       endSetFlags: [],
-      addExps: 0
+      addExps: 0,
+      fallback: /^NOFREE$/i.test(label)
     };
     getPets = [];
     rawDelPetSpecs = [];
@@ -977,9 +982,10 @@ function parseNpcFreeScriptEvents(text, file) {
       finishEvent();
       continue;
     }
-    if (/^(?:NOFREE|TALKEVENT\d*|EVENTRUN\d*|EVENT\d*)$/i.test(line)) {
+    const eventStart = line.match(/^(?:NOFREE|TALKEVENT\d*|TALKRUN\d*|EVENTRUN\d*|EVENT\d*)$/i);
+    if (eventStart) {
       finishEvent();
-      startEvent();
+      startEvent(eventStart[0]);
       continue;
     }
     if (!event) continue;
@@ -997,6 +1003,10 @@ function parseNpcFreeScriptEvents(text, file) {
     }
     if (key === "getitem" || key === "giveitem") {
       event.getItems.push(...parseScriptItemSpecs(value));
+      continue;
+    }
+    if (key === "additem") {
+      event.getItems.push(...parseScriptItemSpecs(value).map((item) => ({ ...item, scriptAction: "AddItem" })));
       continue;
     }
     if (key === "delitem") {
@@ -1041,7 +1051,10 @@ function parseNpcFreeScriptEvents(text, file) {
   }
 
   finishEvent();
-  return events;
+  return [
+    ...events.filter((item) => !item.fallback),
+    ...events.filter((item) => item.fallback)
+  ];
 }
 
 function finalizeNpcScriptEvent(event, getPets = [], rawDelPetSpecs = []) {
@@ -1058,6 +1071,7 @@ function finalizeNpcScriptEvent(event, getPets = [], rawDelPetSpecs = []) {
     charms: _rawCharms,
     notDelItems: _rawNotDelItems,
     addExps: _rawAddExps,
+    fallback: _rawFallback,
     ...eventOut
   } = event;
   return {
@@ -1072,6 +1086,7 @@ function finalizeNpcScriptEvent(event, getPets = [], rawDelPetSpecs = []) {
     ...(Number(event.missionOver || 0) > 0 ? { missionOver: Number(event.missionOver) } : {}),
     ...(Number(event.missionClean || 0) > 0 ? { missionClean: Number(event.missionClean) } : {}),
     ...(Number(event.addExps || 0) > 0 ? { addExps: Number(event.addExps) } : {}),
+    ...(event.fallback ? { fallback: true } : {}),
     ...(getPets.length ? { getPets } : {}),
     ...(delPets.length ? { delPets } : {}),
     cleanFlags: [...new Set(event.cleanFlags)].filter((value) => value > 0),

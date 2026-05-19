@@ -1,0 +1,649 @@
+{
+  "v": 1,
+  "source": {
+    "atlasPngPath": "public/data/client-tiles/tiles-atlas.png",
+    "atlasManifestPath": "public/data/client-tiles/tiles.json",
+    "packPlanPath": "public/data/profiles/classic-core/profile-texture-pack-plan.json",
+    "packsDir": "public/data/profiles/classic-core/packs",
+    "only": null,
+    "limitFrames": 0,
+    "sampleLimit": 20,
+    "failOnDiff": true
+  },
+  "summary": {
+    "packsChecked": 89,
+    "checkedFrames": 7568,
+    "exactFrames": 7568,
+    "mismatchedFrames": 0,
+    "exactRatio": 1,
+    "missingSourceFrames": 0,
+    "missingPackFrames": 0,
+    "mismatchSamples": 0
+  },
+  "results": [
+    {
+      "id": "boot-ui-field",
+      "status": "checked",
+      "framesChecked": 36,
+      "exactFrames": 36,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "boot-player-core",
+      "status": "checked",
+      "framesChecked": 72,
+      "exactFrames": 72,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "npc-field-core",
+      "status": "checked",
+      "framesChecked": 165,
+      "exactFrames": 165,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "pets-encounter-core",
+      "status": "checked",
+      "framesChecked": 34,
+      "exactFrames": 34,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "map-tiles-shared-core",
+      "status": "checked",
+      "framesChecked": 56,
+      "exactFrames": 56,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "map-tiles-region-1000",
+      "status": "checked",
+      "framesChecked": 438,
+      "exactFrames": 438,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "map-tiles-region-2000",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "map-tiles-region-3000",
+      "status": "checked",
+      "framesChecked": 472,
+      "exactFrames": 472,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "map-tiles-region-4000",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "map-tiles-region-10000",
+      "status": "checked",
+      "framesChecked": 114,
+      "exactFrames": 114,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-100-map-delta",
+      "status": "checked",
+      "framesChecked": 1977,
+      "exactFrames": 1977,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1000-map-delta",
+      "status": "checked",
+      "framesChecked": 433,
+      "exactFrames": 433,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1001-map-delta",
+      "status": "checked",
+      "framesChecked": 2,
+      "exactFrames": 2,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1002-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1003-map-delta",
+      "status": "checked",
+      "framesChecked": 4,
+      "exactFrames": 4,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1004-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1005-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1006-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1007-map-delta",
+      "status": "checked",
+      "framesChecked": 68,
+      "exactFrames": 68,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1008-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1009-map-delta",
+      "status": "checked",
+      "framesChecked": 20,
+      "exactFrames": 20,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1020-map-delta",
+      "status": "checked",
+      "framesChecked": 54,
+      "exactFrames": 54,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1022-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1100-map-delta",
+      "status": "checked",
+      "framesChecked": 99,
+      "exactFrames": 99,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1101-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1105-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1106-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1108-map-delta",
+      "status": "checked",
+      "framesChecked": 7,
+      "exactFrames": 7,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1112-map-delta",
+      "status": "checked",
+      "framesChecked": 12,
+      "exactFrames": 12,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1200-map-delta",
+      "status": "checked",
+      "framesChecked": 280,
+      "exactFrames": 280,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1201-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1202-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1205-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1206-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1212-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1300-map-delta",
+      "status": "checked",
+      "framesChecked": 152,
+      "exactFrames": 152,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1304-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1305-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1306-map-delta",
+      "status": "checked",
+      "framesChecked": 7,
+      "exactFrames": 7,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1400-map-delta",
+      "status": "checked",
+      "framesChecked": 238,
+      "exactFrames": 238,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1402-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1403-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1405-map-delta",
+      "status": "checked",
+      "framesChecked": 6,
+      "exactFrames": 6,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-1406-map-delta",
+      "status": "checked",
+      "framesChecked": 41,
+      "exactFrames": 41,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2000-map-delta",
+      "status": "checked",
+      "framesChecked": 742,
+      "exactFrames": 742,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2001-map-delta",
+      "status": "checked",
+      "framesChecked": 4,
+      "exactFrames": 4,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2002-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2003-map-delta",
+      "status": "checked",
+      "framesChecked": 4,
+      "exactFrames": 4,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2004-map-delta",
+      "status": "checked",
+      "framesChecked": 9,
+      "exactFrames": 9,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2005-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2006-map-delta",
+      "status": "checked",
+      "framesChecked": 14,
+      "exactFrames": 14,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2007-map-delta",
+      "status": "checked",
+      "framesChecked": 138,
+      "exactFrames": 138,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2008-map-delta",
+      "status": "checked",
+      "framesChecked": 18,
+      "exactFrames": 18,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-2009-map-delta",
+      "status": "checked",
+      "framesChecked": 45,
+      "exactFrames": 45,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3000-map-delta",
+      "status": "checked",
+      "framesChecked": 625,
+      "exactFrames": 625,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3001-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3002-map-delta",
+      "status": "checked",
+      "framesChecked": 2,
+      "exactFrames": 2,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3003-map-delta",
+      "status": "checked",
+      "framesChecked": 2,
+      "exactFrames": 2,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3004-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3005-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3006-map-delta",
+      "status": "checked",
+      "framesChecked": 4,
+      "exactFrames": 4,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3009-map-delta",
+      "status": "checked",
+      "framesChecked": 6,
+      "exactFrames": 6,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3022-map-delta",
+      "status": "checked",
+      "framesChecked": 24,
+      "exactFrames": 24,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3100-map-delta",
+      "status": "checked",
+      "framesChecked": 161,
+      "exactFrames": 161,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3103-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3106-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3109-map-delta",
+      "status": "checked",
+      "framesChecked": 22,
+      "exactFrames": 22,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3200-map-delta",
+      "status": "checked",
+      "framesChecked": 206,
+      "exactFrames": 206,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3203-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3205-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3206-map-delta",
+      "status": "checked",
+      "framesChecked": 6,
+      "exactFrames": 6,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3209-map-delta",
+      "status": "checked",
+      "framesChecked": 15,
+      "exactFrames": 15,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3300-map-delta",
+      "status": "checked",
+      "framesChecked": 11,
+      "exactFrames": 11,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3303-map-delta",
+      "status": "checked",
+      "framesChecked": 2,
+      "exactFrames": 2,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3305-map-delta",
+      "status": "checked",
+      "framesChecked": 2,
+      "exactFrames": 2,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3306-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3309-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3400-map-delta",
+      "status": "checked",
+      "framesChecked": 75,
+      "exactFrames": 75,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4000-map-delta",
+      "status": "checked",
+      "framesChecked": 429,
+      "exactFrames": 429,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4001-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4002-map-delta",
+      "status": "checked",
+      "framesChecked": 7,
+      "exactFrames": 7,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4003-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4004-map-delta",
+      "status": "checked",
+      "framesChecked": 8,
+      "exactFrames": 8,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4005-map-delta",
+      "status": "checked",
+      "framesChecked": 9,
+      "exactFrames": 9,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-4006-map-delta",
+      "status": "checked",
+      "framesChecked": 16,
+      "exactFrames": 16,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10007-map-delta",
+      "status": "checked",
+      "framesChecked": 34,
+      "exactFrames": 34,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10202-map-delta",
+      "status": "checked",
+      "framesChecked": 25,
+      "exactFrames": 25,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10203-map-delta",
+      "status": "checked",
+      "framesChecked": 24,
+      "exactFrames": 24,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10204-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    }
+  ],
+  "mismatches": []
+}

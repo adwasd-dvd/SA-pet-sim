@@ -126,7 +126,7 @@ function compareProfiles(full, classic, shared) {
 
 function sharedPublicStats() {
   const files = walk(publicRoot)
-    .filter((file) => !isMapAsset(file) && !isClientMapAsset(file));
+    .filter((file) => !isMapAsset(file) && !isClientMapAsset(file) && !isProfileOutputAsset(file));
   return sumAssetStats(files.map(fileAssetStats));
 }
 
@@ -377,6 +377,10 @@ function isMapAsset(file) {
 
 function isClientMapAsset(file) {
   return path.dirname(file) === publicClientMapRoot && file.endsWith(".dat");
+}
+
+function isProfileOutputAsset(file) {
+  return relative(file).startsWith("public/data/profiles/");
 }
 
 function relative(file) {

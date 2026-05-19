@@ -174,23 +174,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/king/event69_9",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "…"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/king/event69_9",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71,ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&NOWEV=72",
               "messages": {
                 "normal": "轰隆隆…OVER"
@@ -220,6 +203,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/king/event69_9",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "…"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -53477,28 +53478,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/treasure/treasure2.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "卡～卡～卡"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/treasure/treasure2.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=1852",
               "messages": {
                 "normal": "卡！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1853,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "黄金图腾像",
+                  "image": 10904,
+                  "cost": 0,
+                  "description": "黄金做的图腾像",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1852,
@@ -53516,6 +53511,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure2.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "卡～卡～卡"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -53554,28 +53567,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/treasure/treasure3.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "卡～卡～卡"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/treasure/treasure3.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=1852",
               "messages": {
                 "normal": "卡！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1854,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "古老的勾玉",
+                  "image": 24067,
+                  "cost": 100,
+                  "description": "古老的勾玉",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1852,
@@ -53593,6 +53600,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure3.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "卡～卡～卡"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -53631,28 +53656,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/treasure/treasure4.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "卡～卡～卡"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/treasure/treasure4.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=1852",
               "messages": {
                 "normal": "卡！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1855,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "传说的竖琴",
+                  "image": 24212,
+                  "cost": 3000,
+                  "description": "传说的竖琴",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1852,
@@ -53670,6 +53689,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure4.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "卡～卡～卡"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -53708,28 +53745,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/treasure/treasure5.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "卡～卡～卡"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/treasure/treasure5.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=1852",
               "messages": {
                 "normal": "卡！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1856,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "金砂",
+                  "image": 22436,
+                  "cost": 0,
+                  "description": "黄金的砂子",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1852,
@@ -53747,6 +53778,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure5.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "卡～卡～卡"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -53785,28 +53834,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/treasure/treasure6.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "卡～卡～卡"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/treasure/treasure6.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=1852",
               "messages": {
                 "normal": "卡！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1857,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "透明的水晶",
+                  "image": 24170,
+                  "cost": 200,
+                  "description": "透明的水晶",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1852,
@@ -53824,6 +53867,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/treasure/treasure6.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "卡～卡～卡"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -65702,28 +65763,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1014_14_17",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "在中午前送达酬劳比较高喔！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_1014_14_17",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给玛丽娜丝村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2622,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "顶级的红宝石",
+                  "image": 22322,
+                  "cost": 0,
+                  "description": "赠予玛丽娜丝长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -65758,7 +65813,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -65834,6 +65900,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1014_14_17",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "在中午前送达酬劳比较高喔！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -65872,23 +65956,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16018",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
               "eventNo": -1,
@@ -66028,6 +66095,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -67053,28 +67138,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_1014_14_17",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "在中午前送达酬劳比较高喔！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_1014_14_17",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给玛丽娜丝村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2622,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "顶级的红宝石",
+                  "image": 22322,
+                  "cost": 0,
+                  "description": "赠予玛丽娜丝长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -67109,7 +67188,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -67185,6 +67275,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_1014_14_17",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "在中午前送达酬劳比较高喔！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -67223,23 +67331,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16018",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
               "eventNo": -1,
@@ -67379,6 +67470,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -77710,23 +77819,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/eden3/rider.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "你还没五转耶。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/eden3/rider.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&TRANS=5&ITEM=20296,LV>0&TRANS=6&ITEM=20296",
               "messages": {
                 "normal": "这个…你刚领过了吧…"
@@ -77748,7 +77840,18 @@ export const WORLD = {
               "messages": {
                 "normal": "想骑机暴…找我就对了啦。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20296,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "机暴骑乘学习同意书",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "机暴的骑乘学习同意书限五转 人使用",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -77756,6 +77859,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/eden3/rider.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "你还没五转耶。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -77832,23 +77953,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm1_2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/family/npc/wpm1_2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=0",
               "messages": {
                 "normal": "我是商店警卫！你要进入吗？"
@@ -77915,6 +78019,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm1_2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -77978,23 +78100,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm1_1",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是庄园族长的家，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/family/npc/wpm1_1",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=0",
               "messages": {
                 "normal": "我是家族守护警卫！这里是族长的家，你要进入吗？"
@@ -78034,6 +78139,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm1_1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是庄园族长的家，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -78071,23 +78194,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16354",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "骑乘的宠物在训练的时候要运用巧妙的技巧让它乖乖驯服。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
               "eventNo": -1,
@@ -78342,6 +78448,23 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&BBI>100999",
+              "messages": {
+                "normal": "你座骑挺不错的嘛！ 要记住！骑乘的宠物可要好好训练才能在战场上配合主人发挥最大的威力。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": []
             }
           ],
           "scriptHints": {
@@ -78404,9 +78527,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm1_4",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
+              "condition": "LV>0&MANOR=0",
               "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有此庄园家族的族人才可以通行。"
+                "normal": "我是商店警卫！你要进入吗？"
               },
               "getItems": [],
               "delItems": [],
@@ -78421,9 +78544,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm1_4",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&MANOR=0",
+              "condition": "LV>0",
               "messages": {
-                "normal": "我是商店警卫！你要进入吗？"
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有此庄园家族的族人才可以通行。"
               },
               "getItems": [],
               "delItems": [],
@@ -78432,7 +78555,8 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -78488,23 +78612,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm1_3"
           },
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/family/npc/wpm1_3",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/family/npc/wpm1_3",
               "eventNo": -1,
@@ -78575,6 +78682,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm1_3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -79140,23 +79265,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_1043_4_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_1043_4_3",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=0",
               "messages": {
                 "normal": "我是家族守护警卫！你要进入吗？"
@@ -79196,6 +79304,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_1043_4_3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -103257,23 +103383,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/cat/cat.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": ""
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/cat/cat.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=12180",
               "messages": {
                 "normal": "我说过不玩躲猫猫了了啦！你再来烦我，我要哭了喔！"
@@ -103295,7 +103404,18 @@ export const WORLD = {
               "messages": {
                 "normal": "不和你玩躲猫猫了啦！这些盐你拿去算是你陪我玩躲猫猫的代价。你那么厉害，不好玩！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 12180,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "美丽的盐",
+                  "image": 24158,
+                  "cost": 20,
+                  "description": "盐3",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2026,
@@ -103322,7 +103442,18 @@ export const WORLD = {
               "messages": {
                 "normal": "好好玩喔！可是？你有没有作弊啊！怎么那么快就找到我了！真是的～～！贝壳拿去啦！！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2026,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "贝壳碎片3",
+                  "image": 24132,
+                  "cost": 0,
+                  "description": "贝壳碎片3",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2025,
@@ -103349,7 +103480,18 @@ export const WORLD = {
               "messages": {
                 "normal": "呵呵！你怎么那么厉害啊！下次我一定要找一个别人找不到的地方躲起来才行！！贝壳你拿去吧！这是你第二次找到我喔！嘻嘻！！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2025,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "贝壳碎片2",
+                  "image": 24131,
+                  "cost": 0,
+                  "description": "贝壳碎片2",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2024,
@@ -103376,7 +103518,18 @@ export const WORLD = {
               "messages": {
                 "normal": "爸爸妈妈都出门去了，好无聊！你愿意和我玩躲猫猫吗？我先给你第一颗贝壳，加油喔！再找到我之后我们再交换贝壳。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2024,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "贝壳碎片1",
+                  "image": 24130,
+                  "cost": 0,
+                  "description": "贝壳碎片1",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -103384,6 +103537,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/cat/cat.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": ""
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -110720,28 +110891,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_2014_15_16",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "在中午前送达酬劳比较高喔！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_2014_15_16",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给萨姆吉尔村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2623,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "顶级的贝壳",
+                  "image": 24131,
+                  "cost": 0,
+                  "description": "赠予萨姆吉尔长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -110776,7 +110941,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -110852,6 +111028,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_2014_15_16",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "在中午前送达酬劳比较高喔！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -110890,23 +111084,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16092",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
               "eventNo": -1,
@@ -111046,6 +111223,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -111620,28 +111815,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_2014_15_16",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "在中午前送达酬劳比较高喔！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_2014_15_16",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给萨姆吉尔村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2623,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "顶级的贝壳",
+                  "image": 24131,
+                  "cost": 0,
+                  "description": "赠予萨姆吉尔长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -111676,7 +111865,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -111752,6 +111952,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_2014_15_16",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "在中午前送达酬劳比较高喔！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -111790,23 +112008,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16092",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
               "eventNo": -1,
@@ -111946,6 +112147,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -112694,23 +112913,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "骑乘的宠物在训练的时候要运用巧妙的技巧让它乖乖驯服。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100000,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100001,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100002,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100003,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100004,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100025,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100026,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100027,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100028,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100029,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100055,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100056,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100057,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100058,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100059,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100060,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100061,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100062,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100063,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100064,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100095,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100096,LV>29&ENDEV=4&NOWEV!=166&TRANS=0&BBI=100097",
               "messages": {
                 "normal": "我是虎的训练师。 我在这里训练适合村民骑乘的老虎。 村长给了我一道命令，只要完成成人的村民都可以领取一只骑乘的老虎，你是来领取的吗？ 记得～～老虎只能给你一次！ 如果你要骑乘的话记得去旁边找骑乘训练师学习骑乘的方法！"
@@ -112961,6 +113163,23 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&BBI>100999",
+              "messages": {
+                "normal": "你座骑挺不错的嘛！ 要记住！骑乘的宠物可要好好训练才能在战场上配合主人发挥最大的威力。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": []
             }
           ],
           "scriptHints": {
@@ -113023,23 +113242,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_2030_56_27",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_2030_56_27",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=1",
               "messages": {
                 "normal": "我是家族守护警卫！这里是族长的家，你要进入吗？"
@@ -113079,6 +113281,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_2030_56_27",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -113158,9 +113378,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm2_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
+              "condition": "LV>0&MANOR=1",
               "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是持有此庄园家族的族人才可以通行。"
+                "normal": "我是商店警卫！你要进入吗？"
               },
               "getItems": [],
               "delItems": [],
@@ -113175,9 +113395,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm2_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&MANOR=1",
+              "condition": "LV>0",
               "messages": {
-                "normal": "我是商店警卫！你要进入吗？"
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是持有此庄园家族的族人才可以通行。"
               },
               "getItems": [],
               "delItems": [],
@@ -113186,7 +113406,8 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -113242,23 +113463,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm2_1"
           },
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/family/npc/wpm2_1",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/family/npc/wpm2_1",
               "eventNo": -1,
@@ -113329,6 +113533,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm2_1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -113392,23 +113614,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm2_2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/family/npc/wpm2_2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=1",
               "messages": {
                 "normal": "我是商店警卫！你要进入吗？"
@@ -113475,6 +113680,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm2_2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -114082,23 +114305,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_2033_4_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_2033_4_3",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=1",
               "messages": {
                 "normal": "我是家族守护警卫！你要进入吗？"
@@ -114138,6 +114344,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_2033_4_3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -118543,28 +118767,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa60/mouse/mouse1.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "吱！吱！吱！吱！吱！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa60/mouse/mouse1.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ITEM=1696&NOWEV=140&ITEM=2414",
               "messages": {
                 "normal": "吱！吱！吱！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1750,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "老鼠爱吃的大福",
+                  "image": 24534,
+                  "cost": 0,
+                  "description": "已经被咬一半的大福",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1696,
@@ -118591,7 +118809,18 @@ export const WORLD = {
               "messages": {
                 "normal": "吱！吱！吱！我的牙齿，好痛喔！吱！吱！吱！快跑去村长家的屋子里躲起来。用假的老鼠来骗他，嘻～嘻。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 1697,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "老鼠的牙",
+                  "image": 24109,
+                  "cost": 0,
+                  "description": "老鼠的牙",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 1750,
@@ -118609,6 +118838,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa60/mouse/mouse1.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "吱！吱！吱！吱！吱！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -125943,28 +126190,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_3014_14_16",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "货物在中午前送达酬劳会比较高。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_3014_14_16",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给卡鲁他那村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2624,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "特级的红桧",
+                  "image": 24182,
+                  "cost": 0,
+                  "description": "赠予加鲁卡长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -125999,7 +126240,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -126075,6 +126327,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_3014_14_16",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "货物在中午前送达酬劳会比较高。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -126113,23 +126383,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16092",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
               "eventNo": -1,
@@ -126269,6 +126522,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -126856,28 +127127,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_3014_14_16",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "货物在中午前送达酬劳会比较高。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_3014_14_16",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给卡鲁他那村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2624,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "特级的红桧",
+                  "image": 24182,
+                  "cost": 0,
+                  "description": "赠予加鲁卡长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -126912,7 +127177,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -126988,6 +127264,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_3014_14_16",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "货物在中午前送达酬劳会比较高。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -127026,23 +127320,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16092",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
               "eventNo": -1,
@@ -127182,6 +127459,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -138445,23 +138740,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm3_1",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/family/npc/wpm3_1",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=2",
               "messages": {
                 "normal": "我是商店警卫！你要进入吗？"
@@ -138528,6 +138806,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm3_1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -138567,23 +138863,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16354",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "骑乘的宠物在训练的时候要运用巧妙的技巧让它乖乖驯服。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
               "eventNo": -1,
@@ -138838,6 +139117,23 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&BBI>100999",
+              "messages": {
+                "normal": "你座骑挺不错的嘛！ 要记住！骑乘的宠物可要好好训练才能在战场上配合主人发挥最大的威力。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": []
             }
           ],
           "scriptHints": {
@@ -138900,23 +139196,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_3030_56_22",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_3030_56_22",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=2",
               "messages": {
                 "normal": "我是家族守护警卫！这里是族长的家，你要进入吗？"
@@ -138956,6 +139235,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_3030_56_22",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -139035,9 +139332,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm3_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
+              "condition": "LV>0&MANOR=2",
               "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有此庄园家族的族人才可以通行。"
+                "normal": "我是商店警卫！你要进入吗？"
               },
               "getItems": [],
               "delItems": [],
@@ -139052,9 +139349,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm3_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&MANOR=2",
+              "condition": "LV>0",
               "messages": {
-                "normal": "我是商店警卫！你要进入吗？"
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有此庄园家族的族人才可以通行。"
               },
               "getItems": [],
               "delItems": [],
@@ -139063,7 +139360,8 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -139119,23 +139417,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm3_2"
           },
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/family/npc/wpm3_2",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/family/npc/wpm3_2",
               "eventNo": -1,
@@ -139206,6 +139487,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm3_2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -139829,23 +140128,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_3033_4_2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_3033_4_2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=2",
               "messages": {
                 "normal": "我是家族守护警卫！你要进入吗？"
@@ -139885,6 +140167,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_3033_4_2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -161660,23 +161960,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa60/newbie/worksell_4014.conf",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_4014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<30&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625&ITEM!=4224&ITEM!=4212&ITEM!=12874&ITEM!=12879&PET!=1-13&PET!=1-292",
               "messages": {
                 "normal": "最近伙计好像太忙了，我需要帮他找一个帮手吗？"
@@ -161812,6 +162095,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_4014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -161854,28 +162155,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_4014_17_19",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "如何使货物快速送达是我们一直在研究的。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_4014_17_19",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给加加村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2625,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "特级的钓竿",
+                  "image": 24123,
+                  "cost": 0,
+                  "description": "赠予加加长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -161910,7 +162205,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -161986,6 +162292,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_4014_17_19",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "如何使货物快速送达是我们一直在研究的。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -162560,23 +162884,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa60/newbie/worksell_4014.conf",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa60/newbie/worksell_4014.conf",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<30&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625&ITEM!=4224&ITEM!=4212&ITEM!=12874&ITEM!=12879&PET!=1-13&PET!=1-292",
               "messages": {
                 "normal": "最近伙计好像太忙了，我需要帮他找一个帮手吗？"
@@ -162712,6 +163019,24 @@ export const WORLD = {
               "nowSetFlags": [],
               "endSetFlags": [],
               "addExps": 81000
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/worksell_4014.conf",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "目前我们长毛象快递遍及整个尼斯大陆喔,如果需要一些零用金可以来找我们打工！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -162754,28 +163079,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/msg_4014_17_19",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>30",
-              "messages": {
-                "normal": "如何使货物快速送达是我们一直在研究的。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/msg_4014_17_19",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV<10&TRANS=0&ITEM!=2622&ITEM!=2623&ITEM!=2624&ITEM!=2625",
               "messages": {
                 "normal": "真是糟糕！老板托给我礼物要送去给加加村的长毛象快递老板，但是我现在身边一堆事抽不出身来，你愿意帮我一个忙吗？"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2625,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "特级的钓竿",
+                  "image": 24123,
+                  "cost": 0,
+                  "description": "赠予加加长毛象老板的物品",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -162810,7 +163129,18 @@ export const WORLD = {
                 "itemFull": "啊呀！你的道具袋已经满了",
                 "normal": "现在工作不好找，这个给你…… 对了，我们老板居然养起宠物来了，他现在正在四处找寻一种叫布伊的绿色猪，如果你有抓到送给他的话或许可以得到不少好处（这类的猪好像在霍特尔村附近出没。）！记得必须要一级的，不然就没有价值啰！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 20911,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "工作证明",
+                  "image": 24362,
+                  "cost": 0,
+                  "description": "在长毛象公司工作过的工作证明",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -162886,6 +163216,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/msg_4014_17_19",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>30",
+              "messages": {
+                "normal": "如何使货物快速送达是我们一直在研究的。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -163559,23 +163907,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm4_2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/family/npc/wpm4_2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=3",
               "messages": {
                 "normal": "我是商店警卫！你要进入吗？"
@@ -163642,6 +163973,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm4_2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -163681,23 +164030,6 @@ export const WORLD = {
           "template": "npcgen_warpman",
           "graphic": "16354",
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "骑乘的宠物在训练的时候要运用巧妙的技巧让它乖乖驯服。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
               "eventNo": -1,
@@ -163952,6 +164284,23 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa60/newbie/m_tiger",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&BBI>100999",
+              "messages": {
+                "normal": "你座骑挺不错的嘛！ 要记住！骑乘的宠物可要好好训练才能在战场上配合主人发挥最大的威力。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": []
             }
           ],
           "scriptHints": {
@@ -164014,23 +164363,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_4030_20_35",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_4030_20_35",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=3",
               "messages": {
                 "normal": "我是家族守护警卫！这里是族长的家，你要进入吗？"
@@ -164070,6 +164402,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_4030_20_35",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是族长的家，想通过这里见族长，身分必须是家族正式成员或拥有邀请函才可进入。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -164127,23 +164477,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm4_1"
           },
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/family/npc/wpm4_1",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/family/npc/wpm4_1",
               "eventNo": -1,
@@ -164214,6 +164547,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/family/npc/wpm4_1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -164277,9 +164628,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm4_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
+              "condition": "LV>0&MANOR=3",
               "messages": {
-                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有此庄园家族的族人才可以通行。"
+                "normal": "我是商店警卫！你要进入吗？"
               },
               "getItems": [],
               "delItems": [],
@@ -164294,9 +164645,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/family/npc/wpm4_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&MANOR=3",
+              "condition": "LV>0",
               "messages": {
-                "normal": "我是商店警卫！你要进入吗？"
+                "normal": "我是商店警卫！这里是庄园封闭式商店，想进入必须是拥有此庄园家族的族人才可以通行。"
               },
               "getItems": [],
               "delItems": [],
@@ -164305,7 +164656,8 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -164778,23 +165130,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/genout/wpm_4033_4_3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/genout/wpm_4033_4_3",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&MANOR=3",
               "messages": {
                 "normal": "我是家族守护警卫！你要进入吗？"
@@ -164834,6 +165169,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/genout/wpm_4033_4_3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "我是家族守护警卫！这里是家族专用聊天室，想进入必须是拥有通行证或者是持有此庄园家族的族人才可以通行。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -179745,11 +180098,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/heroic/heroic_133.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
+              "condition": "LV>0&ENDEV=154",
               "messages": {
-                "normal": "天外有天人外有人，我一直以为我的力量是无人可敌。"
+                "normal": "天外有天人外有人，我一直以为我的力量是无人可敌，今天才知道，原来你才是真正的英雄，我会将你打败我的事迹召告天下。这双手套是我在这层地洞所发现的，它的质料非常特殊，我想你才是他的主人。现在就送你回去吧！"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2056,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "流星手套",
+                  "image": 21205,
+                  "cost": 125000,
+                  "description": "攻+28 防+50 敏+20",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -179762,9 +180126,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/heroic/heroic_133.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ENDEV=154",
+              "condition": "LV>0",
               "messages": {
-                "normal": "天外有天人外有人，我一直以为我的力量是无人可敌，今天才知道，原来你才是真正的英雄，我会将你打败我的事迹召告天下。这双手套是我在这层地洞所发现的，它的质料非常特殊，我想你才是他的主人。现在就送你回去吧！"
+                "normal": "天外有天人外有人，我一直以为我的力量是无人可敌。"
               },
               "getItems": [],
               "delItems": [],
@@ -179773,7 +180137,8 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -180167,23 +180532,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/war.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/war.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>79&ENDEV=4&CLASS=1",
               "messages": {
                 "normal": "又见面了，看来你又变得更强了。"
@@ -180499,6 +180847,23 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/war.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>29&ENDEV!=4",
+              "messages": {
+                "normal": "还没通过成人礼的试炼就想来就职，你也未免太自满了？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": []
             }
           ],
           "scriptHints": {
@@ -180542,28 +180907,72 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/war2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "想加入我们成为一名真正的勇士吗？问问我旁边的拉斐尔吧，一旦通过考验，就来找我。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/war2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=145&CLASS=0&reITEM>5",
               "messages": {
                 "normal": "已经做好心理准备要当一名白狼勇士了吗？记得身上要有六个空间，我会给你基本的白狼勇士装备喔。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2038,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "巨熊头盔",
+                  "image": 20680,
+                  "cost": 5000,
+                  "description": "防+32 敏-7 体力+30 净化精灵(石化) Lv2",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2039,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "巨熊之铠",
+                  "image": 20681,
+                  "cost": 5000,
+                  "description": "防+64 敏-16 体力+30 滋润的精灵 Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2040,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "巨熊皮带",
+                  "image": 20683,
+                  "cost": 5000,
+                  "description": "回避率上升 +10 体力+30",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2041,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "巨熊之靴",
+                  "image": 20682,
+                  "cost": 5000,
+                  "description": "敏+10 防+15 体力+30",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2042,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "巨熊石剑",
+                  "image": 20684,
+                  "cost": 5000,
+                  "description": "攻+85 敏-20 反击率+5 猛毒的精灵 Lv4 体力+30",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2043,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "巨熊匕首",
+                  "image": 20685,
+                  "cost": 5000,
+                  "description": "攻+40 反击率+5",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -180639,6 +181048,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/war2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "想加入我们成为一名真正的勇士吗？问问我旁边的拉斐尔吧，一旦通过考验，就来找我。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -181083,23 +181510,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/arch.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/arch.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>79&ENDEV=4&ENDEV=147&CLASS=0",
               "messages": {
                 "normal": "找不到可叶吗？先去就职吧。"
@@ -181327,6 +181737,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/arch.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -181370,28 +181798,62 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/arch2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "找我有什么事呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/arch2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=147&CLASS=0&reITEM>4",
               "messages": {
                 "normal": "这一刻来临了，你紧张吗？我将正式赋予你追猎者的头衔。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2033,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "森林头盔",
+                  "image": 20686,
+                  "cost": 5000,
+                  "description": "防+26 体力+20 净化精灵(昏睡) Lv2",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2034,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "森林 甲",
+                  "image": 20687,
+                  "cost": 5000,
+                  "description": "防+53 体力+20 恩惠的精灵Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2035,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "森林皮带",
+                  "image": 20689,
+                  "cost": 5000,
+                  "description": "回避率上升 +15 体力+20",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2036,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "森林之靴",
+                  "image": 20688,
+                  "cost": 5000,
+                  "description": "敏+15 防+5 体力+20 闪避+5",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2037,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "森林木弓",
+                  "image": 20690,
+                  "cost": 5000,
+                  "description": "攻+28（4-6） 体力+20 昏睡的精灵 Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -181450,6 +181912,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/arch2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "找我有什么事呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -181825,23 +182305,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/mag.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/mag.arg",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>79&ENDEV=4&ENDEV=146&CLASS=0",
               "messages": {
                 "normal": "怎么还不去就职呢？卡拉特正等着你呢。"
@@ -182079,6 +182542,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/mag.arg",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -182122,28 +182603,62 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/mag2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "这里是闇灵法师公会，不相关的人请尊重这里的规矩。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/mag2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=146&CLASS=0&reITEM>4",
               "messages": {
                 "normal": "已经做好心理准备要当一名清心的闇灵法师了吗？另外我会给你一些闇灵的基本装备，记得清出一些空间喔。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2028,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "蟒蛇之冠",
+                  "image": 21600,
+                  "cost": 5000,
+                  "description": "防+15 气力+40 毒耐性 +60 净化精灵(混乱)Lv2",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2029,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "双头蛇之铠",
+                  "image": 21113,
+                  "cost": 5000,
+                  "description": "防+40 回避率+6 气力+40 滋润的精灵 Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2030,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "灵蛇扣带",
+                  "image": 21402,
+                  "cost": 5000,
+                  "description": "会心一击率上升 +6 气力+40",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2031,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "响尾蛇之靴",
+                  "image": 21704,
+                  "cost": 5000,
+                  "description": "敏+20 气力+40",
+                  "source": "gmsv-data/itemset6.txt"
+                },
+                {
+                  "id": 2032,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "青蛇之杖",
+                  "image": 20702,
+                  "cost": 5000,
+                  "description": "气力+40 混迷的精灵 Lv4",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -182202,6 +182717,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/mag2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "这里是闇灵法师公会，不相关的人请尊重这里的规矩。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -183154,28 +183687,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/wquest2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/wquest2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2086*3&ITEM!=2101",
               "messages": {
                 "normal": "没错，我要的就是三支，看来这一关你也通过了，往下一关去吧。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2101,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "白狼信物二",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "白狼信物二",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2086,
@@ -183295,6 +183822,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/wquest2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -183360,28 +183905,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/wquest3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/wquest3",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&NOWEV=145&ITEM=2090&ITEM=2100&ITEM=2101&ITEM!=2102",
               "messages": {
                 "normal": "被花现了…再来…"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2091,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "信物二",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "信物二",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2090,
@@ -183408,7 +183947,18 @@ export const WORLD = {
               "messages": {
                 "normal": "可恶啊…再来…"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2092,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "信物叁",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "信物叁",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2091,
@@ -183435,7 +183985,18 @@ export const WORLD = {
               "messages": {
                 "normal": "加油…剩最后一次了喔…。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2093,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "信物四",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "信物四",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2092,
@@ -183462,7 +184023,18 @@ export const WORLD = {
               "messages": {
                 "normal": "好吧…你赢了，去下一层吧…。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2102,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "白狼信物叁",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "白狼信物叁",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2093,
@@ -183489,7 +184061,18 @@ export const WORLD = {
               "messages": {
                 "normal": "这一关是考验你的耐心了，每次你找到我，我都会给你一个信物，找到我五次之后就算你过关喔。记得身上留个空间给我…。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2090,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "信物一",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "信物一",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -183599,6 +184182,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/wquest3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -183662,23 +184263,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/wquest1",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/wquest1",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=145&CLASS=1",
               "messages": {
                 "normal": "这里你已经不需要再来了…"
@@ -183734,7 +184318,18 @@ export const WORLD = {
               "messages": {
                 "normal": "很好…第一关通过…带着这个信物吧，可别弄丢了，那我就送你到下一层了。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2100,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "白狼信物一",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "白狼信物一",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2085,
@@ -183820,6 +184415,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/wquest1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -183879,23 +184492,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa70/class/wquest4"
           },
           "scriptEvents": [
-            {
-              "source": "gmsv-data/npc/sa70/class/wquest4",
-              "eventNo": -1,
-              "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教呢？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
             {
               "source": "gmsv-data/npc/sa70/class/wquest4",
               "eventNo": -1,
@@ -184048,6 +184644,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/wquest4",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教呢？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -184701,28 +185315,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/aquest3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/aquest3",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&NOWEV=147&ITEM=2074&ITEM=2075&ITEM=2076&ITEM=2077&ITEM=2078&ITEM=2079&ITEM=2096&ITEM=2097&ITEM!=2098",
               "messages": {
                 "normal": "嗯，全找到了吗，恭喜你通过了考验，快去就职吧。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2098,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "猎人信物叁",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "猎人信物叁",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2074,
@@ -184870,6 +185478,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/aquest3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -184933,28 +185559,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/aquest2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/aquest2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&NOWEV=147&PET>0-97&ITEM=2096&ITEM!=2097",
               "messages": {
                 "normal": "这么快就抓到了？好吧…这个东西给你，过关…。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2097,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "猎人信物二",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "猎人信物二",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -185030,6 +185650,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/aquest2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -185095,23 +185733,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/aquest1",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/aquest1",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=147&CLASS=3",
               "messages": {
                 "normal": "这里你已经不需要再来了…"
@@ -185150,7 +185771,18 @@ export const WORLD = {
               "messages": {
                 "normal": "不错喔，被你找到了，这个信物就送给你，往下一层去吧。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2096,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "猎人信物一",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "猎人信物一",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2073,
@@ -185219,6 +185851,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/aquest1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -185933,23 +186583,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/mquest1",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/mquest1",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=146&CLASS=2",
               "messages": {
                 "normal": "这里你已经不需要再来了…"
@@ -186013,6 +186646,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/mquest1",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -186081,28 +186732,22 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/mquest3",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "有何指教？"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/mquest3",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&NOWEV=146&ITEM=2080&ITEM=2081&ITEM=2082&ITEM=2083&ITEM=2084&ITEM=2104&ITEM!=2105&ITEM!=2095",
               "messages": {
                 "normal": "太好了，就是这五种药草，好吧…算你过关。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2105,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "灵信物二",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "灵信物二",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2080,
@@ -186335,7 +186980,18 @@ export const WORLD = {
               "messages": {
                 "normal": "太好了，就是这五种药草，既然你连下一层都完成了，那我就送你上去吧。"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2105,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "灵信物二",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "灵信物二",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [
                 {
                   "id": 2080,
@@ -186389,6 +187045,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/mquest3",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "有何指教？"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -186452,23 +187126,6 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/class/mquest2",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
-              "messages": {
-                "normal": "告诉我…刚刚导师教你的咒语吧。"
-              },
-              "getItems": [],
-              "delItems": [],
-              "getRandItems": [],
-              "getStones": [],
-              "delStones": [],
-              "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
-            },
-            {
-              "source": "gmsv-data/npc/sa70/class/mquest2",
-              "eventNo": -1,
-              "type": "MESSAGE",
               "condition": "LV>0&ENDEV=4&ENDEV=146&CLASS=2",
               "messages": {
                 "normal": "这里你已经不需要再来了…"
@@ -186507,7 +187164,18 @@ export const WORLD = {
               "messages": {
                 "normal": "很好…到下一关去吧"
               },
-              "getItems": [],
+              "getItems": [
+                {
+                  "id": 2104,
+                  "qty": 1,
+                  "scriptAction": "AddItem",
+                  "name": "灵信物一",
+                  "image": 24176,
+                  "cost": 0,
+                  "description": "灵信物一",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
               "delItems": [],
               "getRandItems": [],
               "getStones": [],
@@ -186566,6 +187234,24 @@ export const WORLD = {
               "cleanFlags": [],
               "nowSetFlags": [],
               "endSetFlags": []
+            },
+            {
+              "source": "gmsv-data/npc/sa70/class/mquest2",
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0",
+              "messages": {
+                "normal": "告诉我…刚刚导师教你的咒语吧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
@@ -186903,9 +187589,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/beers/beers3.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0",
+              "condition": "LV>0&ITEM=2020",
               "messages": {
-                "normal": "这里不是你说想进去就可以进去的喔！"
+                "normal": "你身上有好浓的酒味！我～～～醉了～～～～～～"
               },
               "getItems": [],
               "delItems": [],
@@ -186920,9 +187606,9 @@ export const WORLD = {
               "source": "gmsv-data/npc/sa70/beers/beers3.arg",
               "eventNo": -1,
               "type": "MESSAGE",
-              "condition": "LV>0&ITEM=2020",
+              "condition": "LV>0",
               "messages": {
-                "normal": "你身上有好浓的酒味！我～～～醉了～～～～～～"
+                "normal": "这里不是你说想进去就可以进去的喔！"
               },
               "getItems": [],
               "delItems": [],
@@ -186931,7 +187617,8 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "fallback": true
             }
           ],
           "scriptHints": {
