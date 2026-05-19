@@ -2185,6 +2185,27 @@ h3 {
   font-size: 12px;
 }
 
+.ai-status-panel .assist-lead-panel {
+  max-height: 210px;
+  overflow: auto;
+  border-color: var(--line);
+  padding: 9px;
+  background: rgb(255 255 255 / 92%);
+}
+
+.ai-status-panel .assist-lead-group {
+  gap: 5px;
+}
+
+.ai-status-panel .assist-lead-group > strong {
+  font-size: 13px;
+}
+
+.ai-status-panel .assist-lead-group article,
+.ai-status-panel .assist-lead-row {
+  padding: 6px 7px;
+}
+
 .quest-guidance {
   display: grid;
   gap: 3px;
@@ -3814,6 +3835,51 @@ h3 {
 .ai-status-grid b,
 .ai-effect-row b {
   font-size: 12px;
+}
+
+.ai-current-card {
+  gap: 9px;
+}
+
+.ai-current-list {
+  display: grid;
+  gap: 5px;
+}
+
+.ai-current-list article {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  min-width: 0;
+  border: 1px solid #e4dac6;
+  border-radius: 5px;
+  padding: 5px 7px;
+  background: #fffaf0;
+}
+
+.ai-current-list article.strong {
+  border-color: #cfa65b;
+  background: #fff3c8;
+}
+
+.ai-current-list b {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-current-list span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ai-effect-list {

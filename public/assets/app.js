@@ -401,6 +401,7 @@ function bindEvents() {
   els.assistPanelBody.addEventListener("dblclick", onAssistPanelDoubleClick);
   els.assistPanelBody.addEventListener("keydown", onAssistPanelKeyDown);
   els.aiStatusPanel?.addEventListener("click", onAssistPanelClick);
+  els.aiStatusPanel?.addEventListener("dblclick", onAssistPanelDoubleClick);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   window.addEventListener("keyup", onGameKeyUp);
@@ -3069,8 +3070,6 @@ function renderAssistMap(map) {
           ${renderSortBar("exit", exitSortMode)}
         </div>
         <div class="stack" data-assist-list="exit">
-          ${renderMapStatusHtml()}
-          ${renderMapQuestLeadHtml(map)}
           ${renderExitListHtml(map)}
         </div>
       </div>
@@ -3255,10 +3254,14 @@ function onAssistPanelClick(event) {
 
 function onAssistPanelDoubleClick(event) {
   if (event.target.closest("[data-npc-sort], [data-exit-sort]")) return;
-  const btn = event.target.closest("[data-npc]");
+  const btn = event.target.closest("[data-npc], [data-exit]");
   if (!btn) return;
   event.preventDefault();
-  goToNpc(btn.dataset.npc, { openWhenNear: true });
+  if (btn.dataset.npc) {
+    goToNpc(btn.dataset.npc, { openWhenNear: true });
+    return;
+  }
+  if (btn.dataset.exit) goToExit(btn.dataset.exit);
 }
 
 function onAssistPanelKeyDown(event) {
@@ -4483,7 +4486,8 @@ function formatExitDistance(exit) {
   return distance === 0 ? "脚下" : `${distance} 格`;
 }
 
-function renderMapStatusHtml() {
+function renderRightCurrentSummary() {
+  const map = game.world?.map || currentClientMap();
   const effect = noEncounterEffectText();
   const inventory = inventoryState();
   const pet = getActivePet();
@@ -4492,33 +4496,42 @@ function renderMapStatusHtml() {
   const worldMeta = [
     game.world?.mapCount ? `地图 ${Number(game.world.mapCount)}` : "",
     game.world?.questLeadCount ? `线索 ${Number(game.world.questLeadCount)}` : "",
-    game.world?.map?.canWildEncounter ? "可遇敌" : "安全/无遇敌"
+    map?.canWildEncounter ? "可遇敌" : "安全/无遇敌"
   ].filter(Boolean).join(" | ");
+  const itemText = firstItem ? `${firstItem.name} x${Number(firstItem.qty || 0)}` : "背包还没有道具";
+  const automation = automationState();
+  const automationText = `${automationModeTitle()} | ${automationModeDetail()}`;
+  const petText = pet
+    ? `${pet.Name} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | ${workStatsText(pet)} | ${elementText(pet)}`
+    : "没有宠物";
+  const playerText = `HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 点 ${Number(game.player.skillUpPoint || 0)} | 魅 ${playerCharmValue()} | ${elementText(game.player)} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${effect}` : ""}`;
   return `
-    <section class="assist-status-strip" aria-label="当前状态">
-      <div>
-        <strong>${escapeHtml(game.world.map.name)} floor ${escapeHtml(String(game.world.map.floorId || game.location.mapId))}</strong>
+    <section class="ai-status-card ai-current-card" aria-label="当前地图与状态">
+      <div class="ai-status-head">
+        <strong>${escapeHtml(map?.name || "当前地图")} floor ${escapeHtml(String(map?.floorId || game.location.mapId))}</strong>
         <span>(${Number(game.location.x || 0)}, ${Number(game.location.y || 0)}) | ${escapeHtml(worldMeta || "地图资料已加载")}</span>
       </div>
-      <div>
-        <strong>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</strong>
-        <span>HP ${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)} | 点 ${Number(game.player.skillUpPoint || 0)} | 魅 ${playerCharmValue()} | ${escapeHtml(elementText(game.player))} | 石币 ${Number(game.player.stone || 0)} | 背包 ${inventory.used}/${inventory.capacity}${effect ? ` | ${escapeHtml(effect)}` : ""}</span>
-      </div>
-      <div>
-        <strong>宠物</strong>
-        <span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | ${escapeHtml(workStatsText(pet))} | ${escapeHtml(elementText(pet))}` : "没有宠物"}</span>
-      </div>
-      <div>
-        <strong>道具</strong>
-        <span>${firstItem ? `${escapeHtml(firstItem.name)} x${Number(firstItem.qty || 0)}` : "背包还没有道具"}</span>
-      </div>
-      <div>
-        <strong>战斗</strong>
-        <span>${battle}</span>
-      </div>
-      <div>
-        <strong>自动辅助</strong>
-        <span>${escapeHtml(automationModeTitle())} | ${escapeHtml(automationModeDetail())}</span>
+      <div class="ai-current-list">
+        <article>
+          <b>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</b>
+          <span title="${escapeHtml(playerText)}">${escapeHtml(playerText)}</span>
+        </article>
+        <article>
+          <b>宠物</b>
+          <span title="${escapeHtml(petText)}">${escapeHtml(petText)}</span>
+        </article>
+        <article>
+          <b>道具</b>
+          <span title="${escapeHtml(itemText)}">${escapeHtml(itemText)}</span>
+        </article>
+        <article>
+          <b>战斗</b>
+          <span title="${escapeHtml(battle)}">${escapeHtml(battle)}</span>
+        </article>
+        <article class="${automation.autoLevel || automation.autoEscape ? "strong" : ""}">
+          <b>自动辅助</b>
+          <span title="${escapeHtml(automationText)}">${escapeHtml(automationText)}</span>
+        </article>
       </div>
     </section>
   `;
@@ -5007,25 +5020,15 @@ function noEncounterEffectText() {
 
 function renderAiStatusPanel() {
   if (!els.aiStatusPanel || !game) return;
-  const pet = getActivePet();
   const rows = aiStatusRows();
   const runtime = aiRuntimeLabel();
-  const playerWork = workStatsText(game.player);
-  const petWork = pet ? workStatsText(pet) : "";
   els.aiStatusPanel.innerHTML = `
-    <section class="ai-status-card">
-      <div class="ai-status-head">
-        <strong>${escapeHtml(game.player.name)} Lv.${Number(game.player.level || 1)}</strong>
-        <span>${escapeHtml(game.world.map.name)} (${Number(game.location.x || 0)},${Number(game.location.y || 0)})</span>
-      </div>
-      <div class="ai-status-grid">
-        <article><b>HP</b><span>${Number(game.player.hp || 0)}/${Number(game.player.maxHp || 0)}</span></article>
-        <article><b>EXP</b><span>${escapeHtml(expLabel(progressionForPlayer()))}</span></article>
-        <article><b>石币</b><span>${Number(game.player.stone || 0)}</span></article>
-        <article><b>魅力</b><span>${playerCharmValue()}</span></article>
-        <article><b>战力</b><span>${escapeHtml(playerWork)}</span></article>
-        <article><b>宠物</b><span>${pet ? `${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)} | ${escapeHtml(petWork)}` : "无"}</span></article>
-        <article><b>AI</b><span>${escapeHtml(runtime)}</span></article>
+    ${renderRightCurrentSummary()}
+    ${renderMapQuestLeadHtml(game.world.map)}
+    <section class="ai-status-card ai-state-card" aria-label="AI 与临时状态">
+      <div class="ai-tool-head">
+        <strong>AI / 状态</strong>
+        <span>${escapeHtml(runtime)}</span>
       </div>
       <div class="ai-effect-list">
         ${rows.map((row) => `
