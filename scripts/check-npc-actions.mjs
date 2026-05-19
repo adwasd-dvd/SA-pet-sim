@@ -201,6 +201,57 @@ await expectApiError(
   "还没有可模拟",
   "quest marker item is not consumed as a fake usable item"
 );
+let noEnemyItemGame = await api("/api/game/new", { name: "item-effect-noenemy-test" });
+noEnemyItemGame.inventory.push({ id: 5015, name: "除  剂", qty: 1, description: "使用後可暂时驱散敌人", functionName: "ITEM_useNoenemy" });
+noEnemyItemGame = await api("/api/game/use-item", { game: noEnemyItemGame, itemId: 5015 });
+assert(Number(noEnemyItemGame.effects?.noEncounterUntil || 0) > Date.now(), "ITEM_useNoenemy applies a timed no-encounter effect");
+assertEqual(inventoryQty(noEnemyItemGame, 5015), 0, "ITEM_useNoenemy consumes one item");
+let expBonusItemGame = await api("/api/game/new", { name: "item-effect-addexp-test" });
+expBonusItemGame.inventory.push({ id: 5016, name: "聪明的豆子3", qty: 1, description: "使用後获得经验值上升150% 使用时间1小时", option: "增150分60", functionName: "ITEM_Addexp" });
+expBonusItemGame = await api("/api/game/use-item", { game: expBonusItemGame, itemId: 5016 });
+assertEqual(expBonusItemGame.effects?.expBonus?.power, 150, "ITEM_Addexp records source exp bonus power");
+assertEqual(expBonusItemGame.effects?.expBonus?.multiplier, 4, "ITEM_Addexp uses source battle.c 1 + power*2/100 multiplier");
+assertEqual(inventoryQty(expBonusItemGame, 5016), 0, "ITEM_Addexp consumes one item");
+let chikulaItemGame = await api("/api/game/new", { name: "item-effect-chikula-test" });
+chikulaItemGame.player.hp = 20;
+chikulaItemGame.player.maxHp = 100;
+chikulaItemGame.inventory.push({ id: 5017, name: "奇克拉耐久力之石", qty: 1, description: "非战斗状态自动回复耐久力", option: "hp:50", functionName: "ITEM_ChikulaStone" });
+chikulaItemGame = await api("/api/game/use-item", { game: chikulaItemGame, itemId: 5017 });
+assertEqual(chikulaItemGame.effects?.chikula?.amount, 50, "ITEM_ChikulaStone stores the auto-recovery amount");
+assertEqual(chikulaItemGame.player.hp, 70, "ITEM_ChikulaStone immediately applies one recovery tick for feedback");
+assertEqual(inventoryQty(chikulaItemGame, 5017), 0, "ITEM_ChikulaStone consumes one item");
+let safeGemGame = await api("/api/game/new", { name: "item-effect-safe-gem-test" });
+safeGemGame.inventory.push({ id: 5018, name: "恶魔宝石LV1", qty: 1, description: "使用後可原地遇敌 使用次数3次", functionName: "ITEM_useDeathcounter", damageBreak: 3, maxUses: 3 });
+await expectApiError(
+  "/api/game/use-item",
+  { game: safeGemGame, itemId: 5018 },
+  "不能触发原地遇敌",
+  "ITEM_useDeathcounter refuses to fire inside safe village maps"
+);
+assertEqual(inventoryQty(safeGemGame, 5018), 1, "refused ITEM_useDeathcounter does not consume the item");
+const encounterMap = Object.values(WORLD.maps).find((map) => (
+  map.id === "100"
+  && (map.encounterAreas || []).some((area) => (area.groups || []).some((group) => group.enemies?.length && !group.appearByItemId && !group.notAppearByItemId))
+));
+if (!encounterMap) throw new Error("missing source encounter map fixture");
+const encounterArea = encounterMap.encounterAreas.find((area) => (area.groups || []).some((group) => group.enemies?.length && !group.appearByItemId && !group.notAppearByItemId));
+let deathCounterGame = await api("/api/game/new", { name: "item-effect-deathcounter-test" });
+deathCounterGame.location = {
+  mapId: encounterMap.id,
+  x: Math.trunc((Number(encounterArea.bounds[0]) + Number(encounterArea.bounds[2])) / 2),
+  y: Math.trunc((Number(encounterArea.bounds[1]) + Number(encounterArea.bounds[3])) / 2),
+  dir: 0
+};
+deathCounterGame.inventory.push({ id: 5019, name: "恶魔宝石LV1", qty: 1, description: "使用後可原地遇敌 使用次数3次", functionName: "ITEM_useDeathcounter", damageBreak: 3, maxUses: 3 });
+deathCounterGame = await api("/api/game/use-item", { game: deathCounterGame, itemId: 5019 });
+assert(deathCounterGame.encounter, "ITEM_useDeathcounter starts an immediate source encounter");
+assertEqual(inventoryQty(deathCounterGame, 5019), 1, "ITEM_useDeathcounter keeps the stack while charges remain");
+assertEqual(Number(deathCounterGame.inventory.find((item) => Number(item.id) === 5019)?.usesRemaining), 2, "ITEM_useDeathcounter decrements ITEM_DAMAGEBREAK-style uses");
+let featherGame = await api("/api/game/new", { name: "item-effect-feather-test" });
+featherGame.inventory.push({ id: 20912, name: "精灵的羽毛", qty: 1, description: "可瞬间飞行至伊甸大陆", option: "0 7000 106 49", functionName: "ITEM_useWarp" });
+featherGame = await api("/api/game/use-item", { game: featherGame, itemId: 20912 });
+assertEqual(featherGame.location.mapId, "7000", "ITEM_useWarp can fly to the source Eden floor after world profile includes it");
+assertEqual(inventoryQty(featherGame, 20912), 0, "ITEM_useWarp consumes one feather");
 let equipGame = await api("/api/game/new", { name: "item-equip-test" });
 equipGame.inventory.push({ id: 5020, name: "石斧", qty: 1, description: "武器 攻击力+5", functionName: "ITEM_suitEquip" });
 equipGame = await api("/api/game/equip-item", { game: equipGame, itemId: 5020 });
@@ -1119,6 +1170,9 @@ npcItemBattleGame.inventory.push({ id: 990001, name: "小的肉", qty: 1, descri
 npcItemBattleGame.pets[0].WorkMaxHp = Math.max(80, Number(npcItemBattleGame.pets[0].WorkMaxHp || npcItemBattleGame.pets[0].Hp || 1));
 npcItemBattleGame.pets[0].Hp = Math.max(1, npcItemBattleGame.pets[0].WorkMaxHp - 40);
 npcItemBattleGame.encounter.WorkFixStr = 1;
+npcItemBattleGame.encounter.WorkAttackPower = 1;
+npcItemBattleGame.encounter.Attack = 1;
+npcItemBattleGame.encounter.Str = 1;
 const itemBattleHpBefore = Number(npcItemBattleGame.pets[0].Hp || 0);
 npcItemBattleGame = await api("/api/game/dialog", { game: npcItemBattleGame, npcId: battleNpc.npc.id, message: "道具" });
 assert(inventoryQty(npcItemBattleGame, 990001) === 0, "NPC battle item consumes recovery item");
@@ -1133,6 +1187,9 @@ selectedItemBattleGame.inventory.push({ id: 990003, name: "大的肉", qty: 1, d
 selectedItemBattleGame.pets[0].WorkMaxHp = Math.max(120, Number(selectedItemBattleGame.pets[0].WorkMaxHp || selectedItemBattleGame.pets[0].Hp || 1));
 selectedItemBattleGame.pets[0].Hp = Math.max(1, selectedItemBattleGame.pets[0].WorkMaxHp - 80);
 selectedItemBattleGame.encounter.WorkFixStr = 1;
+selectedItemBattleGame.encounter.WorkAttackPower = 1;
+selectedItemBattleGame.encounter.Attack = 1;
+selectedItemBattleGame.encounter.Str = 1;
 selectedItemBattleGame = await api("/api/game/battle", { game: selectedItemBattleGame, action: "item:990003" });
 assert(inventoryQty(selectedItemBattleGame, 990002) === 1, "selected battle item leaves unselected item untouched");
 assert(inventoryQty(selectedItemBattleGame, 990003) === 0, "selected battle item consumes requested item id");
@@ -1584,7 +1641,7 @@ assistGame = guideRsp.game;
 assistGame = await api("/api/game/sync", { game: assistGame });
 assertEqual(assistGame.world.map.canWildEncounter, false, "village maps with stray encount.txt rows are marked safe");
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "有哪些地图可以探索" });
-assert(guideRsp.text.includes("260"), "right AI guide includes bundled world map count in local context replies");
+assert(guideRsp.text.includes(String(Object.keys(WORLD.maps).length)), "right AI guide includes bundled world map count in local context replies");
 await expectApiError(
   "/api/game/encounter",
   { game: assistGame },

@@ -284,7 +284,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/use-item" && request.method === "POST") {
       const body = await readJson(request);
-      return json(useItemGame(body.game, Number(body.itemId)));
+      return json(await useItemGame(env, request, body.game, Number(body.itemId)));
     }
     if (url.pathname === "/api/game/equip-item" && request.method === "POST") {
       const body = await readJson(request);
@@ -1258,15 +1258,31 @@ function sellGame(game, npcId, itemId, qty = 1) {
   return withMap(game, { npc });
 }
 
-function useItemGame(game, itemId) {
+async function useItemGame(env, request, game, itemId) {
   game = normalizeGame(game);
   const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
   if (itemLooksEquipment(item)) return equipItemGame(game, itemId);
 
   const itemUse = applyUsableItem(game, item);
+  if (itemUse.effects?.some((effect) => effect.kind === "encounter")) {
+    await triggerItemEncounter(env, request, game, itemUse);
+  }
   addLog(game, itemUseLogLine(itemUse));
   return withMap(game, { itemUse });
+}
+
+async function triggerItemEncounter(env, request, game, itemUse) {
+  const map = currentMap(game);
+  assertWildEncounterAllowed(map, game);
+  const enemy = await spawnEncounter(env, request, game, map, itemUse.itemName || "道具");
+  itemUse.encounter = {
+    enemyName: enemy?.Name || "",
+    enemyLevel: Number(enemy?.Lv || 0),
+    enemyPartySize: Number(game.battle?.enemyParty?.length || (enemy ? 1 : 0)),
+    source: game.battle?.source || `${GMSV_DATA_SOURCE}/encount.txt`
+  };
+  return enemy;
 }
 
 function equipItemGame(game, itemId) {
@@ -1445,6 +1461,8 @@ const ITEM_STATUS_RECOVERY_DEFS = [
 ];
 
 const ITEM_BATTLE_EFFECT_KINDS = new Set(["hp", "mp", "status"]);
+const ITEM_NO_ENCOUNTER_SECONDS = 6 * 60;
+const ITEM_CHIKULA_SECONDS = 30 * 60;
 
 function itemEffect(item) {
   const text = itemEffectText(item);
@@ -1457,6 +1475,11 @@ function itemEffect(item) {
   const reviveFunction = /ITEM_useRessurect|ITEM_ResAndDef/i.test(functionName);
   const statusFunction = /ITEM_useStatusRecovery|ITEM_Refresh/i.test(functionName);
   const warpFunction = /ITEM_useWarp/i.test(functionName);
+  const deathCounterFunction = /ITEM_useDeathcounter/i.test(functionName);
+  const encounterFunction = /ITEM_useEncounter/i.test(functionName);
+  const noEnemyFunction = /ITEM_useNoenemy/i.test(functionName);
+  const addExpFunction = /ITEM_Addexp/i.test(functionName);
+  const chikulaFunction = /ITEM_ChikulaStone/i.test(functionName);
 
   const revive = reviveFunction || (fieldConsumable && /复活药|復活藥|气绝|氣絕|回魂|回复成耐力|回復成耐力|从气绝|從氣絕/.test(text));
   const hpAmount = parseItemResourceAmount(text, option, ["体", "耐", "耐久力", "耐力", "HP"], {
@@ -1493,6 +1516,49 @@ function itemEffect(item) {
 
   const warp = warpFunction ? parseItemWarpTarget(option, text, item) : null;
   if (warp) effects.push({ kind: "warp", target: warp, label: "传送" });
+
+  if (deathCounterFunction || encounterFunction) {
+    effects.push({
+      kind: "encounter",
+      counter: deathCounterFunction,
+      uses: deathCounterFunction ? itemUseCount(item) : 1,
+      label: deathCounterFunction ? "原地遇敌" : "强制遇敌",
+      sourceFunction: functionName
+    });
+  }
+
+  if (noEnemyFunction) {
+    effects.push({
+      kind: "noEncounter",
+      seconds: ITEM_NO_ENCOUNTER_SECONDS,
+      label: "避敌",
+      sourceFunction: functionName
+    });
+  }
+
+  const expBonus = addExpFunction ? parseItemExpBonus(option, text) : null;
+  if (expBonus) {
+    effects.push({
+      kind: "expBonus",
+      power: expBonus.power,
+      minutes: expBonus.minutes,
+      multiplier: expBonus.multiplier,
+      label: "经验加成",
+      sourceFunction: functionName
+    });
+  }
+
+  const chikula = chikulaFunction ? parseItemChikula(option, text) : null;
+  if (chikula) {
+    effects.push({
+      kind: "chikula",
+      resource: chikula.resource,
+      amount: chikula.amount,
+      seconds: ITEM_CHIKULA_SECONDS,
+      label: chikula.resource === "mp" ? "奇克拉气力" : "奇克拉耐久力",
+      sourceFunction: functionName
+    });
+  }
 
   return {
     usable: effects.length > 0,
@@ -1579,6 +1645,43 @@ function parseItemWarpTarget(option, text, item) {
     y,
     source: `${item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`} ITEM_useWarp ${option || ""}`.trim()
   };
+}
+
+function itemUseCount(item = {}) {
+  const explicit = Number(item.usesRemaining ?? item.damageBreak ?? item.maxUses ?? item.DamageBreak ?? item.damagebreak);
+  if (Number.isFinite(explicit) && explicit >= 0) return Math.trunc(explicit);
+  const text = itemEffectText(item);
+  const count = text.match(/使用次数\s*(\d+)\s*次/) || text.match(/(?:剩余|剩餘)\s*(\d+)\s*次/);
+  if (count) return Math.max(1, Number(count[1]) || 1);
+  return -1;
+}
+
+function parseItemExpBonus(option, text) {
+  const raw = `${option || ""} ${text || ""}`;
+  const sourceLike = raw.match(/增\s*(\d+)\s*分\s*(\d+)/);
+  if (sourceLike) {
+    const power = Math.max(1, Number(sourceLike[1]) || 1);
+    const minutes = Math.max(1, Number(sourceLike[2]) || 1);
+    return { power, minutes, multiplier: 1 + (power * 2) / 100 };
+  }
+  const readable = raw.match(/经验值上升\s*(\d+)%.*?使用时间\s*(\d+)\s*小时/);
+  if (readable) {
+    const power = Math.max(1, Number(readable[1]) || 1);
+    const minutes = Math.max(1, Number(readable[2]) || 1) * 60;
+    return { power, minutes, multiplier: 1 + (power * 2) / 100 };
+  }
+  return null;
+}
+
+function parseItemChikula(option, text) {
+  const raw = `${option || ""} ${text || ""}`;
+  const hp = raw.match(/hp\s*:\s*(\d+)/i);
+  if (hp) return { resource: "hp", amount: Math.max(1, Number(hp[1]) || 1) };
+  const mp = raw.match(/mp\s*:\s*(\d+)/i);
+  if (mp) return { resource: "mp", amount: Math.max(1, Number(mp[1]) || 1) };
+  if (/耐久力/.test(raw)) return { resource: "hp", amount: 1 };
+  if (/气力|氣力/.test(raw)) return { resource: "mp", amount: 1 };
+  return null;
 }
 
 function itemPartyTargets(game) {
@@ -1682,7 +1785,28 @@ function previewItemUse(game, item, options = {}) {
     actions.push({ kind: "warp", target: warp.target, mapName: targetMap.name || `floor ${targetMap.id}` });
   }
 
-  const partyEffects = contextEffects.filter((entry) => entry.kind !== "warp");
+  for (const encounter of contextEffects.filter((entry) => entry.kind === "encounter")) {
+    if (game.encounter) return { usable: false, effect, reason: "encounter-active" };
+    const map = currentMap(game);
+    if (!wildEncounterAllowed(map, game)) {
+      return { usable: false, effect, reason: "encounter-blocked", map };
+    }
+    actions.push({
+      kind: "encounter",
+      counter: encounter.counter,
+      usesBefore: encounter.uses,
+      usesAfter: encounter.uses > 0 ? encounter.uses - 1 : encounter.uses,
+      targetName: map.name || `floor ${map.id}`,
+      mapId: map.id,
+      sourceFunction: encounter.sourceFunction
+    });
+  }
+
+  for (const entry of contextEffects.filter((item) => ["noEncounter", "expBonus", "chikula"].includes(item.kind))) {
+    actions.push({ ...entry, targetName: "自己" });
+  }
+
+  const partyEffects = contextEffects.filter((entry) => !["warp", "encounter", "noEncounter", "expBonus", "chikula"].includes(entry.kind));
   const targets = itemPartyTargets(game);
   if (partyEffects.length) {
     const targetList = effect.scope === "all"
@@ -1764,7 +1888,7 @@ function applyUsableItem(game, item, options = {}) {
 
   const applied = [];
   for (const action of preview.actions) applyItemUseAction(game, action, applied, item);
-  item.qty = Number(item.qty || 0) - 1;
+  const consumption = consumeItemAfterUse(item, applied);
   game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
   const hpAction = applied.find((action) => action.kind === "hp");
   return {
@@ -1776,12 +1900,32 @@ function applyUsableItem(game, item, options = {}) {
     restored: hpAction?.restored || 0,
     effects: applied,
     summary: itemUseSummary(item.name, applied),
+    remainingUses: consumption.remainingUses,
     source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
   };
 }
 
 function applyRecoveryItem(game, item) {
   return applyUsableItem(game, item);
+}
+
+function consumeItemAfterUse(item, applied = []) {
+  const charged = applied.find((effect) => effect.kind === "encounter" && Number(effect.usesBefore || 0) > 1);
+  if (charged) {
+    item.usesRemaining = charged.usesAfter;
+    item.damageBreak = charged.usesAfter;
+    item.effectString = `原地遇敌，可使用次数剩余${charged.usesAfter}次。`;
+    return { qtyConsumed: 0, remainingUses: charged.usesAfter };
+  }
+  item.qty = Number(item.qty || 0) - 1;
+  if (Number(item.qty || 0) > 0) {
+    const resetUses = itemUseCount({ ...item, usesRemaining: undefined, damageBreak: item.maxUses ?? item.damageBreak });
+    if (resetUses > 0) {
+      item.usesRemaining = resetUses;
+      item.damageBreak = resetUses;
+    }
+  }
+  return { qtyConsumed: 1, remainingUses: Math.max(0, Number(item.usesRemaining || 0)) };
 }
 
 function applyItemUseAction(game, action, applied, item) {
@@ -1846,6 +1990,102 @@ function applyItemUseAction(game, action, applied, item) {
     });
     return;
   }
+  if (action.kind === "encounter") {
+    applied.push({
+      kind: "encounter",
+      targetName: action.targetName || "原地",
+      mapId: action.mapId,
+      usesBefore: action.usesBefore,
+      usesAfter: action.usesAfter,
+      counter: action.counter,
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
+  if (action.kind === "noEncounter") {
+    game.effects ||= {};
+    const seconds = clampInt(action.seconds, 30, 3600, ITEM_NO_ENCOUNTER_SECONDS);
+    const until = Math.max(Number(game.effects.noEncounterUntil || 0), Date.now() + seconds * 1000);
+    game.effects.noEncounterUntil = until;
+    game.effects.noEncounterReason = action.sourceFunction || "ITEM_useNoenemy";
+    game.effects.noEncounterSource = item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`;
+    game.walk ||= { steps: 0, encounterSteps: 0 };
+    game.walk.encounterSteps = 0;
+    applied.push({
+      kind: "noEncounter",
+      targetName: "自己",
+      seconds,
+      until,
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
+  if (action.kind === "expBonus") {
+    game.effects ||= {};
+    const power = clampInt(action.power, 1, 1000, 150);
+    const minutes = clampInt(action.minutes, 1, 172800, 60);
+    const multiplier = Number(action.multiplier) > 0 ? Number(action.multiplier) : 1 + (power * 2) / 100;
+    const until = Date.now() + minutes * 60 * 1000;
+    game.effects.expBonus = {
+      power,
+      minutes,
+      multiplier,
+      until,
+      itemId: item.id,
+      itemName: item.name,
+      source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt ITEM_Addexp`
+    };
+    game.player.CHAR_WORKITEM_ADDEXP = power;
+    game.player.CHAR_WORKITEM_ADDEXPTIME = minutes * 60;
+    game.player.CHAR_ADDEXPPOWER = power;
+    game.player.CHAR_ADDEXPTIME = minutes * 60;
+    applied.push({
+      kind: "expBonus",
+      targetName: "自己",
+      power,
+      minutes,
+      multiplier,
+      until
+    });
+    return;
+  }
+  if (action.kind === "chikula") {
+    game.effects ||= {};
+    const resource = action.resource === "mp" ? "mp" : "hp";
+    const amount = Math.max(1, Number(action.amount) || 1);
+    const seconds = clampInt(action.seconds, 60, 86400, ITEM_CHIKULA_SECONDS);
+    const until = Date.now() + seconds * 1000;
+    game.effects.chikula = {
+      resource,
+      amount,
+      until,
+      itemId: item.id,
+      itemName: item.name,
+      source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt ITEM_ChikulaStone`
+    };
+    game.player.CHAR_WORKCHIKULAHP = resource === "hp" ? amount : 0;
+    game.player.CHAR_WORKCHIKULAMP = resource === "mp" ? amount : 0;
+    const before = resource === "mp" ? Number(game.player.mp || 0) : Number(game.player.hp || 0);
+    if (resource === "mp") {
+      const max = Math.max(before, Number(game.player.maxMp || 100), amount);
+      game.player.maxMp = max;
+      game.player.mp = Math.min(max, before + amount);
+    } else {
+      const max = Math.max(1, Number(game.player.maxHp || game.player.hp || 1));
+      game.player.hp = Math.min(max, before + amount);
+    }
+    const after = resource === "mp" ? Number(game.player.mp || 0) : Number(game.player.hp || 0);
+    applied.push({
+      kind: "chikula",
+      targetName: "自己",
+      resource,
+      amount,
+      before,
+      after,
+      until
+    });
+    return;
+  }
   if (action.kind === "warp") {
     const map = applyWarpTarget(game, action.target, item.name || "道具传送");
     applied.push({
@@ -1860,6 +2100,8 @@ function applyItemUseAction(game, action, applied, item) {
 
 function itemUseRefusalMessage(item, preview) {
   if (preview.reason === "warp-map-missing") return `${item.name} 指向的地图还没有加载进当前 Worker`;
+  if (preview.reason === "encounter-active") return "已经在战斗中，不能再次触发原地遇敌";
+  if (preview.reason === "encounter-blocked") return `${preview.map?.name || "当前地图"} 不能触发原地遇敌：${wildEncounterBlockedText(preview.map, null)}`;
   if (preview.reason === "unsupported") return `${item.name} 还没有可模拟的使用效果`;
   return `${item.name} 当前没有合适的目标或状态可以生效`;
 }
@@ -1872,6 +2114,12 @@ function itemUseSummary(itemName, effects = []) {
     if (effect.kind === "charm") return `${effect.targetName}魅力 ${effect.before}->${effect.after}`;
     if (effect.kind === "loyalty") return `${effect.targetName}忠诚度 ${effect.before}->${effect.after}`;
     if (effect.kind === "warp") return `传送到 ${effect.targetName} (${effect.x},${effect.y})`;
+    if (effect.kind === "encounter") return effect.counter && Number(effect.usesAfter) >= 0
+      ? `原地遇敌，剩余 ${effect.usesAfter} 次`
+      : "原地遇敌";
+    if (effect.kind === "noEncounter") return `避敌 ${effect.seconds} 秒`;
+    if (effect.kind === "expBonus") return `经验加成 ${effect.power}%，${effect.minutes} 分钟`;
+    if (effect.kind === "chikula") return `自动回复${effect.resource === "mp" ? "气力" : "耐久力"} ${effect.before}->${effect.after}`;
     return "";
   }).filter(Boolean);
   return parts.length ? `${itemName}：${parts.join("；")}` : `${itemName} 已使用`;
@@ -4106,7 +4354,8 @@ function scaleBattleExp(exp, scale = 1) {
 
 function grantBattleExperience(game, activePet, defeatedEnemies, options = {}) {
   const enemies = (defeatedEnemies || []).filter(Boolean);
-  const scale = options.scale ?? 1;
+  const expBonus = activeExpBonus(game);
+  const scale = (options.scale ?? 1) * (expBonus?.multiplier || 1);
   const playerExp = enemies.reduce((sum, enemy) => sum + scaleBattleExp(battleExpForLevel(enemy, game.player.level), scale), 0);
   const petExp = activePet
     ? enemies.reduce((sum, enemy) => sum + scaleBattleExp(battleExpForLevel(enemy, activePet.Lv), scale), 0)
@@ -4143,7 +4392,31 @@ function grantBattleExperience(game, activePet, defeatedEnemies, options = {}) {
     petName: activePet?.Name || "",
     levelUps: [...playerLevelUps, ...petLevelUps],
     sourceResults,
+    ...(expBonus ? { expBonus } : {}),
     source: "gmsv battle.c BATTLE_AddExpItem/BATTLE_GetExpGold"
+  };
+}
+
+function activeExpBonus(game) {
+  const entry = game.effects?.expBonus;
+  if (!entry) return null;
+  const until = Number(entry.until || 0);
+  if (!Number.isFinite(until) || until <= Date.now()) {
+    if (game.effects) delete game.effects.expBonus;
+    if (game.player) {
+      game.player.CHAR_WORKITEM_ADDEXP = 0;
+      game.player.CHAR_WORKITEM_ADDEXPTIME = 0;
+      game.player.CHAR_ADDEXPPOWER = 0;
+      game.player.CHAR_ADDEXPTIME = 0;
+    }
+    return null;
+  }
+  const power = Math.max(0, Number(entry.power || 0));
+  return {
+    power,
+    multiplier: Number(entry.multiplier) > 0 ? Number(entry.multiplier) : 1 + (power * 2) / 100,
+    secondsLeft: Math.ceil((until - Date.now()) / 1000),
+    itemName: entry.itemName || ""
   };
 }
 
@@ -9032,6 +9305,9 @@ function addInventoryItem(game, item, qty = 1) {
     effectOption: item.effectOption,
     functionName: item.functionName,
     useFunction: item.useFunction,
+    damageBreak: item.damageBreak,
+    maxUses: item.maxUses,
+    usesRemaining: item.usesRemaining,
     equippedSlot: item.equippedSlot,
     source: `${GMSV_DATA_SOURCE}/itemset6.txt`
   });
@@ -9852,6 +10128,28 @@ function guideEffectSummary(game) {
       source: game.effects?.noEncounterSource || ""
     });
   }
+  const expBonus = game.effects?.expBonus;
+  if (Number(expBonus?.until || 0) > now) {
+    effects.push({
+      type: "expBonus",
+      power: Number(expBonus.power || 0),
+      multiplier: Number(expBonus.multiplier || 1),
+      secondsLeft: Math.ceil((Number(expBonus.until) - now) / 1000),
+      source: expBonus.source || "",
+      itemName: expBonus.itemName || ""
+    });
+  }
+  const chikula = game.effects?.chikula;
+  if (Number(chikula?.until || 0) > now) {
+    effects.push({
+      type: "chikula",
+      resource: chikula.resource || "hp",
+      amount: Number(chikula.amount || 0),
+      secondsLeft: Math.ceil((Number(chikula.until) - now) / 1000),
+      source: chikula.source || "",
+      itemName: chikula.itemName || ""
+    });
+  }
   for (const [npcId, discount] of Object.entries(game.effects?.shopDiscounts || {})) {
     if (Number(discount.until || 0) > now) effects.push({
       type: "shopDiscount",
@@ -9892,6 +10190,8 @@ function fallbackGuide(context, prompt = "", error = null) {
   const exits = context.map.exits.slice(0, 5).map((exit) => `${exit.label}${exit.distance <= 2 ? "(附近)" : ""}`).join("、") || "暂无出口";
   const effects = context.effects.map((item) => {
     if (item.type === "noEncounter") return `避敌剩余 ${item.secondsLeft}s`;
+    if (item.type === "expBonus") return `经验加成 ${item.power}% 剩余 ${item.secondsLeft}s`;
+    if (item.type === "chikula") return `奇克拉${item.resource === "mp" ? "气力" : "耐久力"} ${item.amount}`;
     if (item.type === "shopDiscount") return `NPC ${item.npcId} 折扣 ${item.percent}%`;
     if (item.type === "offMenuShop") return `临时商品 ${item.items.join("、")}`;
     if (item.type === "npcBypass") return `${item.npcName || item.npcId} 暂时让路`;
@@ -11291,6 +11591,8 @@ function parseItemSet(text) {
       useField: toInt(rows[20]),
       target: toInt(rows[21]),
       level: toInt(rows[22]),
+      damageBreak: toInt(rows[23]),
+      maxUses: toInt(rows[23]),
       category: cleanReferenceText(rows[68])
     });
   }
