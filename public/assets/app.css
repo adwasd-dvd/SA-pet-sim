@@ -1682,6 +1682,117 @@ h3 {
   grid-template-columns: repeat(2, 32px);
 }
 
+.assist-pets-pane {
+  overflow: hidden;
+}
+
+.assist-pet-slot-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  min-height: 218px;
+}
+
+.assist-card.pet-slot {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 58px minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 6px;
+  min-height: 218px;
+  padding: 8px;
+}
+
+.assist-card.pet-slot.active {
+  border-color: #d6a039;
+  background: #fff7d9;
+  box-shadow: inset 0 0 0 2px rgb(214 160 57 / 24%);
+}
+
+.assist-card.pet-slot.empty {
+  border-style: dashed;
+  background: rgb(255 255 255 / 58%);
+  color: rgb(32 49 48 / 72%);
+}
+
+.assist-pet-slot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+
+.assist-pet-slot-head b {
+  display: grid;
+  place-items: center;
+  flex: 0 0 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: #234d41;
+  color: #fff6bf;
+  font-size: 15px;
+}
+
+.assist-pet-slot-head span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-pet-portrait,
+.assist-pet-empty {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.assist-card.pet-slot .atlas-sprite-frame {
+  --sprite-box-w: 62px;
+  --sprite-box-h: 58px;
+  --sprite-scale: .46;
+}
+
+.assist-pet-empty {
+  border: 1px dashed #c9bfaa;
+  border-radius: 5px;
+  color: #8b806b;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.assist-pet-info {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.assist-pet-info strong,
+.assist-pet-info span,
+.assist-pet-info small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-pet-info span,
+.assist-pet-info small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.pet-slot-actions {
+  grid-template-columns: repeat(2, 32px);
+  justify-content: center;
+}
+
 .assist-meter {
   height: 7px;
   overflow: hidden;
@@ -4047,8 +4158,13 @@ mark {
 
   .assist-grid.two,
   .assist-grid.pets,
+  .assist-grid.pets-only,
   .field-assist-grid {
     grid-template-columns: 1fr;
+  }
+
+  .assist-pet-slot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .assist-tabs {

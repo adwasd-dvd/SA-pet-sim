@@ -4557,15 +4557,17 @@ function scriptCheckLabel(check) {
 function renderAssistPets() {
   const pets = game.pets || [];
   const petSlots = petState();
+  const capacity = Math.max(5, Number(petSlots.capacity || PET_CAPACITY_FALLBACK || 5));
+  const slots = Array.from({ length: Math.min(5, capacity) }, (_, index) => pets[index] || null);
   return `
     <section class="assist-grid pets-only">
-      <div class="assist-pane">
+      <div class="assist-pane assist-pets-pane">
         <div class="assist-pane-head">
           <h3>宠物状态 ${Number(petSlots.used || pets.length)}/${Number(petSlots.capacity || PET_CAPACITY_FALLBACK)}</h3>
           <button class="ghost-btn assist-small-btn" type="button" data-assist-client-tab="pets">主画面窗口</button>
         </div>
-        <div class="assist-card-list">
-          ${pets.map((pet, index) => renderAssistPetCard(pet, index)).join("") || `<p class="empty">还没有宠物。</p>`}
+        <div class="assist-pet-slot-grid" aria-label="宠物 1 到 5 号槽位">
+          ${slots.map((pet, index) => renderAssistPetSlot(pet, index)).join("")}
         </div>
       </div>
     </section>
@@ -4601,24 +4603,46 @@ function renderRightQuickCommands() {
   `;
 }
 
-function renderAssistPetCard(pet, index) {
+function renderAssistPetSlot(pet, index) {
+  if (!pet) {
+    return `
+      <article class="assist-card pet-slot empty">
+        <div class="assist-pet-slot-head">
+          <b>${index + 1}</b>
+          <span>空位</span>
+        </div>
+        <div class="assist-pet-empty" aria-hidden="true">空</div>
+        <div class="assist-pet-info">
+          <strong>未携带宠物</strong>
+          <span>可通过捕获或任务获得</span>
+        </div>
+      </article>
+    `;
+  }
   const maxHp = Math.max(1, Number(pet.WorkMaxHp || pet.Hp || 1));
   const hp = Math.max(0, Number(pet.Hp || 0));
   const active = index === activePetIndex();
   const progress = progressionForPet(index, pet);
   const fieldPet = characterPetField(index) || {};
   return `
-    <article class="assist-card pet ${active ? "active" : ""}">
-      ${petSpriteMarkup(pet.ImgNo, pet.Name, "assist-pet-sprite")}
-      <div>
-        <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
-        <span>${active ? "出战" : "待命"} | No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
-        <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
-        <small>${escapeHtml(workStatsText(pet))} | ${escapeHtml(expLabel(progress))}</small>
-        <small>${escapeHtml(petGrowthLabel(fieldPet, pet))} | ${escapeHtml(petCounterLabel(fieldPet, pet))}</small>
-        <div class="assist-meter exp"><i style="width:${Number(progress.progressPct || 0)}%"></i></div>
+    <article class="assist-card pet-slot ${active ? "active" : ""}">
+      <div class="assist-pet-slot-head">
+        <b>${index + 1}</b>
+        <span>${active ? "出战" : "待命"}</span>
       </div>
-      <div class="assist-card-actions">
+      <div class="assist-pet-portrait">
+        ${petSpriteMarkup(pet.ImgNo, pet.Name, "assist-pet-sprite")}
+      </div>
+      <div class="assist-pet-info">
+        <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
+        <span>No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
+        <div class="assist-meter"><i style="width:${clampPercent(hp, maxHp)}%"></i></div>
+        <small>${escapeHtml(workStatsText(pet))}</small>
+        <small>${escapeHtml(expLabel(progress))}</small>
+        <div class="assist-meter exp"><i style="width:${Number(progress.progressPct || 0)}%"></i></div>
+        <small>${escapeHtml(petGrowthLabel(fieldPet, pet))}</small>
+      </div>
+      <div class="assist-card-actions pet-slot-actions">
         <button type="button" data-assist-active-pet="${index}" ${active ? "disabled" : ""}>战</button>
         <button type="button" data-assist-release-pet="${index}" ${game.pets.length <= 1 ? "disabled" : ""}>放</button>
       </div>
