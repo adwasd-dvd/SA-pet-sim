@@ -12,6 +12,7 @@
     "check:maps": "node scripts/check-map-atlas.mjs",
     "check:movement": "node scripts/check-movement-collision.mjs",
     "check:npc": "node scripts/check-npc-actions.mjs",
+    "report:npc-scripts": "node scripts/report-npc-script-coverage.mjs",
     "audit:classic-core": "node scripts/audit-classic-core-content.mjs",
     "closure:classic-core": "node scripts/build-classic-content-closure.mjs",
     "report:classic-core": "node scripts/report-classic-core-package.mjs",
