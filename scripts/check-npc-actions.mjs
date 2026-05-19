@@ -168,6 +168,42 @@ assertEqual(aiUseRsp.action.type, "item-use", "AI guide uses named recovery item
 assertEqual(aiUseRsp.action.itemName, "小的肉", "AI guide reports used item name");
 assert(aiUseRsp.game.pets[0].Hp > 10, "AI item use restores active pet hp");
 assertEqual(inventoryQty(aiUseRsp.game, 5003), 1, "AI item use consumes one item from stack");
+let itemEffectGame = await api("/api/game/new", { name: "item-effect-status-test" });
+itemEffectGame.pets[0].BattleStatuses = {
+  poison: { key: "poison", label: "中毒", turns: 3 },
+  confusion: { key: "confusion", label: "混乱", turns: 3 }
+};
+itemEffectGame.pets[0].BattleStatus = { key: "poison", label: "中毒", turns: 3 };
+itemEffectGame.inventory.push({ id: 5010, name: "治疗中毒的肉", qty: 1, description: "毒状态回复", option: "毒", functionName: "ITEM_useStatusRecovery" });
+itemEffectGame = await api("/api/game/use-item", { game: itemEffectGame, itemId: 5010 });
+assert(!itemEffectGame.pets[0].BattleStatuses?.poison, "status recovery item removes matching poison status");
+assert(itemEffectGame.pets[0].BattleStatuses?.confusion, "status recovery item leaves unrelated status untouched");
+assertEqual(inventoryQty(itemEffectGame, 5010), 0, "status recovery item consumes one item");
+let reviveItemGame = await api("/api/game/new", { name: "item-effect-revive-test" });
+reviveItemGame.pets[0].WorkMaxHp = 120;
+reviveItemGame.pets[0].Hp = 0;
+reviveItemGame.inventory.push({ id: 5011, name: "复活药(100)", qty: 1, description: "气绝回复成耐力100", option: "100", functionName: "ITEM_useRessurect", target: 101 });
+reviveItemGame = await api("/api/game/use-item", { game: reviveItemGame, itemId: 5011 });
+assertEqual(reviveItemGame.pets[0].Hp, 100, "resurrection item revives active pet with source item amount");
+assertEqual(inventoryQty(reviveItemGame, 5011), 0, "resurrection item consumes one item");
+let charmItemGame = await api("/api/game/new", { name: "item-effect-charm-test" });
+charmItemGame.player.charm = 60;
+charmItemGame.inventory.push({ id: 5012, name: "魅力苹果", qty: 1, description: "吃了以後会很有魅力 魅+5", option: "魅5", functionName: "ITEM_useRecovery" });
+charmItemGame = await api("/api/game/use-item", { game: charmItemGame, itemId: 5012 });
+assertEqual(charmItemGame.player.charm, 65, "charm item updates player charm");
+let loyalItemGame = await api("/api/game/new", { name: "item-effect-loyal-test" });
+loyalItemGame.pets[0].Loyal = 40;
+loyalItemGame.inventory.push({ id: 5013, name: "安抚之素", qty: 1, description: "宠物的忠诚度+30上升", option: "忠30", functionName: "ITEM_useRecovery" });
+loyalItemGame = await api("/api/game/use-item", { game: loyalItemGame, itemId: 5013 });
+assertEqual(loyalItemGame.pets[0].Loyal, 70, "loyalty item updates active pet loyalty");
+let questItemUseGame = await api("/api/game/new", { name: "item-effect-quest-refusal-test" });
+questItemUseGame.inventory.push({ id: 5014, name: "检查石", qty: 1, description: "第5检查点通过" });
+await expectApiError(
+  "/api/game/use-item",
+  { game: questItemUseGame, itemId: 5014 },
+  "还没有可模拟",
+  "quest marker item is not consumed as a fake usable item"
+);
 
 const redRaptorGuideRsp = await api("/api/ai/guide", { game, prompt: "红暴任务怎么做" });
 assert(redRaptorGuideRsp.text.includes("英雄岛前传：红暴"), "local guide retrieves red raptor quest knowledge");

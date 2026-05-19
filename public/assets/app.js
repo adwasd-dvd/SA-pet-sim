@@ -4642,8 +4642,11 @@ function getActivePet() {
 }
 
 function inventoryItemUsable(item) {
-  const text = `${item.name || ""} ${item.description || ""}`;
-  return /耐久力|耐力|HP|小的肉|乾燥肉|大的肉|高级肉|复活|气绝/i.test(text);
+  const text = `${item.name || ""} ${item.description || ""} ${item.option || ""} ${item.functionName || ""}`;
+  const rawType = item.type ?? item.Type;
+  const hasNumericType = rawType !== undefined && rawType !== null && rawType !== "" && Number.isFinite(Number(rawType));
+  if (hasNumericType && ![15, 16, 20].includes(Number(rawType)) && !/^ITEM_/i.test(String(item.functionName || ""))) return false;
+  return /ITEM_useRecovery|ITEM_useStatusRecovery|ITEM_useRessurect|ITEM_ResAndDef|ITEM_useWarp|耐久力|耐力|HP|体\s*\d+|耐\s*\d+|气力|氣力|气\s*\d+|氣\s*\d+|小的肉|乾燥肉|大的肉|高级肉|复活|復活|气绝|氣絕|解除|治疗|治療|状态回复|狀態回復|净化|淨化|魅\+|忠\s*[+-]?\d|忠诚度/i.test(text);
 }
 
 function battleUsableItems() {

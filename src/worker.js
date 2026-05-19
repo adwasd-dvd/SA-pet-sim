@@ -1235,8 +1235,8 @@ function useItemGame(game, itemId) {
   const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
 
-  const itemUse = applyRecoveryItem(game, item);
-  addLog(game, `使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`);
+  const itemUse = applyUsableItem(game, item);
+  addLog(game, itemUseLogLine(itemUse));
   return withMap(game, { itemUse });
 }
 
@@ -1272,46 +1272,6 @@ function dropItemInPlace(game, itemId, qty = 1) {
   };
 }
 
-function itemEffect(item) {
-  const text = `${item.name || ""} ${item.description || ""}`;
-  const revive = text.includes("复活") || text.includes("气绝");
-  const hpMatch = text.match(/(?:耐久力|耐力|HP)\s*(\d+)/i) || text.match(/回复成耐力\s*(\d+)/);
-  if (hpMatch) {
-    return {
-      usable: true,
-      amount: Math.max(1, Number(hpMatch[1]) || 1),
-      revive
-    };
-  }
-  if (text.includes("小的肉")) return { usable: true, amount: 20, revive: false };
-  if (text.includes("乾燥肉")) return { usable: true, amount: 35, revive: false };
-  if (text.includes("大的肉")) return { usable: true, amount: 65, revive: false };
-  if (text.includes("高级肉")) return { usable: true, amount: 80, revive: false };
-  return { usable: false, amount: 0, revive: false };
-}
-
-function selectItemTarget(game, activePet, effect) {
-  if (activePet) {
-    activePet.WorkMaxHp ||= Math.max(1, Number(activePet.Hp || 1));
-    if (!Number.isFinite(Number(activePet.Hp))) activePet.Hp = activePet.WorkMaxHp;
-    if (effect.revive || Number(activePet.Hp || 0) < Number(activePet.WorkMaxHp || 1)) {
-      return {
-        name: activePet.Name,
-        maxHp: activePet.WorkMaxHp,
-        hpField: { owner: activePet, key: "Hp" }
-      };
-    }
-  }
-  if (Number(game.player.hp || 0) < Number(game.player.maxHp || 1)) {
-    return {
-      name: game.player.name,
-      maxHp: game.player.maxHp,
-      hpField: { owner: game.player, key: "hp" }
-    };
-  }
-  return null;
-}
-
 function findInventoryItem(game, itemId) {
   return (game.inventory || []).find((entry) => Number(entry.id) === Number(itemId) && Number(entry.qty || 0) > 0);
 }
@@ -1319,49 +1279,456 @@ function findInventoryItem(game, itemId) {
 function firstUsableRecoveryItem(game) {
   return (game.inventory || []).find((item) => {
     if (item.id === "stone" || Number(item.qty || 0) <= 0) return false;
-    const preview = previewRecoveryItem(game, item);
-    return preview.usable && preview.next > preview.before;
+    const preview = previewItemUse(game, item, { battle: true });
+    return preview.usable;
   }) || null;
 }
 
-function previewRecoveryItem(game, item) {
-  const effect = itemEffect(item);
-  if (!effect.usable) return { usable: false, reason: "unsupported" };
-  const activePet = getActivePet(game);
-  const target = selectItemTarget(game, activePet, effect);
-  if (!target) return { usable: false, effect, reason: "no-target" };
-  const before = Number(target.hpField.owner[target.hpField.key] || 0);
-  const max = Number(target.maxHp || 1);
-  const next = effect.revive
-    ? Math.min(max, Math.max(before, effect.amount))
-    : Math.min(max, before + effect.amount);
+const ITEM_STATUS_RECOVERY_DEFS = [
+  { tokens: ["毒", "中毒", "剧毒", "煞毒"], keys: ["poison", "deepPoison", "sars"], label: "毒" },
+  { tokens: ["麻", "麻痹", "麻庳"], keys: ["paralysis"], label: "麻痹" },
+  { tokens: ["眠", "睡眠", "昏睡"], keys: ["sleep"], label: "睡眠" },
+  { tokens: ["石", "石化"], keys: ["stone"], label: "石化" },
+  { tokens: ["醉", "酒醉", "酩酊"], keys: ["drunk"], label: "酒醉" },
+  { tokens: ["乱", "混乱", "混亂", "混迷"], keys: ["confusion"], label: "混乱" },
+  { tokens: ["默", "沉默"], keys: ["silence"], label: "沉默" }
+];
+
+const ITEM_BATTLE_EFFECT_KINDS = new Set(["hp", "mp", "status"]);
+
+function itemEffect(item) {
+  const text = itemEffectText(item);
+  const option = itemEffectOption(item);
+  const functionName = itemFunctionName(item);
+  const scope = itemTargetScope(item, text);
+  const effects = [];
+  const fieldConsumable = itemLooksFieldConsumable(item, functionName, text);
+  const recoveryFunction = /ITEM_useRecovery|ITEM_useImprecate/i.test(functionName);
+  const reviveFunction = /ITEM_useRessurect|ITEM_ResAndDef/i.test(functionName);
+  const statusFunction = /ITEM_useStatusRecovery|ITEM_Refresh/i.test(functionName);
+  const warpFunction = /ITEM_useWarp/i.test(functionName);
+
+  const revive = reviveFunction || (fieldConsumable && /复活药|復活藥|气绝|氣絕|回魂|回复成耐力|回復成耐力|从气绝|從氣絕/.test(text));
+  const hpAmount = parseItemResourceAmount(text, option, ["体", "耐", "耐久力", "耐力", "HP"], {
+    allowLooseText: recoveryFunction || reviveFunction || /肉|药|藥|汤|湯|蛋糕|派|露水草|耐久力\s*\d+|耐\s*\d+\s*回复|体\s*\d+\s*回复|回复成耐力/.test(text)
+  });
+  if ((hpAmount > 0 || revive) && !/重新分配/.test(text)) {
+    effects.push({ kind: "hp", amount: Math.max(1, hpAmount || 1), revive, label: revive ? "复活" : "耐久力" });
+  }
+
+  const mpAmount = parseItemResourceAmount(text, option, ["气", "氣", "气力", "氣力", "MP"], {
+    allowLooseText: recoveryFunction || /气力\s*\d+|全体气力|氣力\s*\d+/.test(text)
+  });
+  if (mpAmount > 0) effects.push({ kind: "mp", amount: mpAmount, label: "气力" });
+
+  const statusKeys = parseItemStatusRecoveryKeys(text, option, { statusFunction, fieldConsumable });
+  if (statusKeys.length) {
+    effects.push({
+      kind: "status",
+      keys: statusKeys.flatMap((entry) => entry.keys),
+      labels: statusKeys.map((entry) => entry.label),
+      label: statusKeys.map((entry) => entry.label).join("/")
+    });
+  }
+
+  const charmAmount = fieldConsumable
+    ? parseSignedChineseAmount(option, text, ["魅", "魅力"], { requireKeyword: /吃了|使用後|使用后|魅\+/.test(text) || recoveryFunction })
+    : 0;
+  if (charmAmount) effects.push({ kind: "charm", amount: charmAmount, label: "魅力" });
+
+  const loyaltyAmount = fieldConsumable
+    ? parseSignedChineseAmount(option, text, ["忠", "忠诚", "忠誠", "忠诚度", "忠誠度"], { requireKeyword: /宠物|寵物|忠/.test(text) || recoveryFunction })
+    : 0;
+  if (loyaltyAmount) effects.push({ kind: "loyalty", amount: loyaltyAmount, label: "忠诚度" });
+
+  const warp = warpFunction ? parseItemWarpTarget(option, text, item) : null;
+  if (warp) effects.push({ kind: "warp", target: warp, label: "传送" });
+
   return {
-    usable: next > before,
+    usable: effects.length > 0,
+    effects,
+    scope,
+    functionName,
+    option,
+    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
+}
+
+function itemEffectText(item = {}) {
+  return `${item.name || ""} ${item.secretName || ""} ${item.description || ""} ${item.category || ""}`.replace(/\s+/g, " ").trim();
+}
+
+function itemEffectOption(item = {}) {
+  return String(item.option ?? item.effectOption ?? item.Option ?? item.useOption ?? "").trim();
+}
+
+function itemFunctionName(item = {}) {
+  return String(item.functionName ?? item.func ?? item.FuncName ?? item.useFunction ?? "").trim();
+}
+
+function itemLooksFieldConsumable(item = {}, functionName = "", text = "") {
+  if (/ITEM_suitEquip|ITEM_ResuitEquip/i.test(functionName)) return false;
+  if (/ITEM_(?:use|ResAndDef|ChikulaStone|MetamoTime)/i.test(functionName)) return true;
+  const rawType = item.type ?? item.Type;
+  const hasNumericType = rawType !== undefined && rawType !== null && rawType !== "" && Number.isFinite(Number(rawType));
+  if (hasNumericType) return [15, 16, 20].includes(Number(rawType));
+  return /吃了|使用後|使用后|肉|药|藥|汤|湯|蛋糕|派|羽毛|叶|葉|苹果|蘋果|梨|葡萄|橘子|饭团|飯糰|牛排|安抚|安撫/.test(text);
+}
+
+function itemTargetScope(item = {}, text = "") {
+  const target = Number(item.target ?? item.Target ?? 0);
+  if (target === 2 || target === 3 || /全体|全體|我方全体|我方全體/.test(text)) return "all";
+  return "single";
+}
+
+function parseItemResourceAmount(text, option, labels, options = {}) {
+  const haystacks = [option, text].filter(Boolean);
+  for (const haystack of haystacks) {
+    for (const label of labels) {
+      const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const direct = String(haystack).match(new RegExp(`${escaped}\\s*:?\\s*(\\d+)`, "i"));
+      if (direct) return Math.max(1, Number(direct[1]) || 1);
+    }
+  }
+  if (!options.allowLooseText) return 0;
+  const revive = text.match(/(?:回复成耐力|回復成耐力|气绝回复成耐力|氣絕回復成耐力|从气绝回复成|從氣絕回復成)\s*(\d+)/);
+  if (revive) return Math.max(1, Number(revive[1]) || 1);
+  const loose = text.match(/(?:耐久力|耐力|HP|体力|體力|气力|氣力)\s*(\d+)\s*(?:前後|左右)?\s*(?:回复|回復)?/i)
+    || text.match(/(?:耐|体|體|气|氣)\s*(\d+)\s*(?:回复|回復)/);
+  return loose ? Math.max(1, Number(loose[1]) || 1) : 0;
+}
+
+function parseSignedChineseAmount(option, text, labels, options = {}) {
+  const haystack = `${option || ""} ${text || ""}`;
+  if (options.requireKeyword === false) return 0;
+  for (const label of labels) {
+    const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const match = haystack.match(new RegExp(`${escaped}\\s*([+-]?\\d+)`));
+    if (match) return Number(match[1]) || 0;
+  }
+  return 0;
+}
+
+function parseItemStatusRecoveryKeys(text, option, options = {}) {
+  const statusText = `${option || ""} ${text || ""}`;
+  const looksLikeStatusRecovery = options.statusFunction
+    || (options.fieldConsumable && /治疗|治療|解除|状态回复|狀態回復|状态回復|净化|淨化/.test(statusText) && !/耐性|精灵\s*Lv|精靈\s*Lv/.test(statusText));
+  if (!looksLikeStatusRecovery) return [];
+  if (/高等净化|高等淨化|全部异常|全异常|所有异常/.test(statusText)) return ITEM_STATUS_RECOVERY_DEFS;
+  return ITEM_STATUS_RECOVERY_DEFS.filter((entry) => entry.tokens.some((token) => statusText.includes(token)));
+}
+
+function parseItemWarpTarget(option, text, item) {
+  const numbers = String(option || text || "").match(/-?\d+/g)?.map(Number) || [];
+  if (numbers.length < 4) return null;
+  const [, mapId, x, y] = numbers;
+  if (!mapId) return null;
+  return {
+    mapId: String(mapId),
+    x,
+    y,
+    source: `${item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`} ITEM_useWarp ${option || ""}`.trim()
+  };
+}
+
+function itemPartyTargets(game) {
+  const targets = [];
+  const activePetIndex = getActivePetIndex(game);
+  if (game.player) {
+    targets.push({
+      kind: "player",
+      entity: game.player,
+      name: game.player.name || "玩家",
+      hpKey: "hp",
+      maxHpKey: "maxHp",
+      mpKey: "mp",
+      maxMpKey: "maxMp"
+    });
+  }
+  for (const [index, pet] of (game.pets || []).entries()) {
+    targets.push({
+      kind: "pet",
+      entity: pet,
+      index,
+      active: index === activePetIndex,
+      name: pet.Name || `宠物 ${index + 1}`,
+      hpKey: "Hp",
+      maxHpKey: "WorkMaxHp",
+      mpKey: "Mp",
+      maxMpKey: "WorkMaxMp"
+    });
+  }
+  return targets;
+}
+
+function itemTargetHp(target) {
+  return Number(target.entity?.[target.hpKey] ?? 0);
+}
+
+function itemTargetMaxHp(target) {
+  const value = Number(target.entity?.[target.maxHpKey] ?? target.entity?.WorkMaxHp ?? target.entity?.maxHp ?? target.entity?.Hp ?? target.entity?.hp ?? 1);
+  return Math.max(1, Number.isFinite(value) ? value : 1);
+}
+
+function itemTargetMp(target, effect) {
+  const current = Number(target.entity?.[target.mpKey] ?? target.entity?.Mp ?? target.entity?.mp ?? 0);
+  const max = itemTargetMaxMp(target, effect);
+  return { current: Number.isFinite(current) ? current : 0, max };
+}
+
+function itemTargetMaxMp(target, effect) {
+  const raw = Number(target.entity?.[target.maxMpKey] ?? target.entity?.WorkMaxMp ?? target.entity?.maxMp ?? target.entity?.MaxMp ?? 0);
+  if (Number.isFinite(raw) && raw > 0) return raw;
+  return Math.max(100, Number(effect?.amount || 0), Number(target.entity?.[target.mpKey] ?? target.entity?.Mp ?? target.entity?.mp ?? 0));
+}
+
+function itemTargetBattleStatusKeys(target, keys) {
+  const wanted = new Set(keys || []);
+  const statuses = target.entity?.BattleStatuses || {};
+  const out = Object.keys(statuses).filter((key) => wanted.has(key) && Number(statuses[key]?.turns || 0) > 0);
+  const primary = target.entity?.BattleStatus?.key;
+  if (primary && wanted.has(primary) && !out.includes(primary)) out.push(primary);
+  return out;
+}
+
+function itemTargetEffectScore(target, effects) {
+  let score = 0;
+  for (const effect of effects) {
+    if (effect.kind === "hp") {
+      const hp = itemTargetHp(target);
+      const maxHp = itemTargetMaxHp(target);
+      if (effect.revive && hp <= 0) score += 1000;
+      else if (!effect.revive && hp > 0 && hp < maxHp) score += 100 + Math.min(80, maxHp - hp);
+    } else if (effect.kind === "mp") {
+      const { current, max } = itemTargetMp(target, effect);
+      if (current < max) score += 80 + Math.min(40, max - current);
+    } else if (effect.kind === "status") {
+      score += itemTargetBattleStatusKeys(target, effect.keys).length * 120;
+    } else if (effect.kind === "charm" && target.kind === "player") {
+      const before = Number(target.entity.charm ?? target.entity.Charm ?? target.entity.CHARM ?? PLAYER_INITIAL_CHARM);
+      const after = clampInt(before + effect.amount, 0, 100, before);
+      if (after !== before) score += 90;
+    } else if (effect.kind === "loyalty" && target.kind === "pet") {
+      const before = Number(target.entity.Loyal ?? target.entity.loyal ?? 100);
+      const after = clampInt(before + effect.amount, 0, 100, before);
+      if (after !== before) score += target.active ? 90 : 70;
+    }
+  }
+  if (target.kind === "pet" && target.active) score += 5;
+  return score;
+}
+
+function previewItemUse(game, item, options = {}) {
+  const effect = itemEffect(item);
+  const contextEffects = options.battle
+    ? effect.effects.filter((entry) => ITEM_BATTLE_EFFECT_KINDS.has(entry.kind))
+    : effect.effects;
+  if (!effect.usable || !contextEffects.length) return { usable: false, effect, reason: "unsupported" };
+
+  const actions = [];
+  for (const warp of contextEffects.filter((entry) => entry.kind === "warp")) {
+    const targetMap = WORLD.maps[String(warp.target.mapId)];
+    if (!targetMap) return { usable: false, effect, reason: "warp-map-missing", target: warp.target };
+    actions.push({ kind: "warp", target: warp.target, mapName: targetMap.name || `floor ${targetMap.id}` });
+  }
+
+  const partyEffects = contextEffects.filter((entry) => entry.kind !== "warp");
+  const targets = itemPartyTargets(game);
+  if (partyEffects.length) {
+    const targetList = effect.scope === "all"
+      ? targets
+      : targets
+        .map((target) => ({ target, score: itemTargetEffectScore(target, partyEffects) }))
+        .sort((a, b) => b.score - a.score)
+        .filter((entry) => entry.score > 0)
+        .slice(0, 1)
+        .map((entry) => entry.target);
+    for (const target of targetList) {
+      for (const entry of partyEffects) {
+        const action = previewItemEffectOnTarget(target, entry);
+        if (action) actions.push(action);
+      }
+    }
+  }
+
+  const usable = actions.length > 0;
+  const hpAction = actions.find((action) => action.kind === "hp");
+  return {
+    usable,
     effect,
-    target,
-    before,
-    next,
-    restored: Math.max(0, next - before)
+    actions,
+    reason: usable ? "ok" : "no-target",
+    target: hpAction?.target || actions[0]?.target || null,
+    before: hpAction?.before,
+    next: hpAction?.after,
+    restored: hpAction?.restored || 0
+  };
+}
+
+function previewItemEffectOnTarget(target, effect) {
+  if (effect.kind === "hp") {
+    const before = itemTargetHp(target);
+    const maxHp = itemTargetMaxHp(target);
+    if (effect.revive && before > 0) return null;
+    if (!effect.revive && before <= 0) return null;
+    const after = effect.revive
+      ? Math.min(maxHp, Math.max(1, effect.amount))
+      : Math.min(maxHp, before + effect.amount);
+    if (after <= before) return null;
+    return { kind: "hp", target, before, after, restored: after - before, revive: effect.revive, amount: effect.amount };
+  }
+  if (effect.kind === "mp") {
+    const { current, max } = itemTargetMp(target, effect);
+    const after = Math.min(max, current + effect.amount);
+    if (after <= current) return null;
+    return { kind: "mp", target, before: current, after, restored: after - current, amount: effect.amount };
+  }
+  if (effect.kind === "status") {
+    const removed = itemTargetBattleStatusKeys(target, effect.keys);
+    if (!removed.length) return null;
+    return { kind: "status", target, removed, labels: effect.labels || [] };
+  }
+  if (effect.kind === "charm" && target.kind === "player") {
+    const before = Number(target.entity.charm ?? target.entity.Charm ?? target.entity.CHARM ?? PLAYER_INITIAL_CHARM);
+    const after = clampInt(before + effect.amount, 0, 100, before);
+    if (after === before) return null;
+    return { kind: "charm", target, before, after, amount: effect.amount };
+  }
+  if (effect.kind === "loyalty" && target.kind === "pet") {
+    const before = Number(target.entity.Loyal ?? target.entity.loyal ?? 100);
+    const after = clampInt(before + effect.amount, 0, 100, before);
+    if (after === before) return null;
+    return { kind: "loyalty", target, before, after, amount: effect.amount };
+  }
+  return null;
+}
+
+function previewRecoveryItem(game, item) {
+  return previewItemUse(game, item);
+}
+
+function applyUsableItem(game, item, options = {}) {
+  const preview = previewItemUse(game, item, options);
+  if (!preview.effect?.usable) throw new Error(`${item.name} 还没有可模拟的使用效果`);
+  if (!preview.usable) throw new Error(itemUseRefusalMessage(item, preview));
+
+  const applied = [];
+  for (const action of preview.actions) applyItemUseAction(game, action, applied, item);
+  item.qty = Number(item.qty || 0) - 1;
+  game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
+  const hpAction = applied.find((action) => action.kind === "hp");
+  return {
+    itemId: item.id,
+    itemName: item.name,
+    targetName: hpAction?.targetName || applied[0]?.targetName || "自己",
+    before: hpAction?.before,
+    after: hpAction?.after,
+    restored: hpAction?.restored || 0,
+    effects: applied,
+    summary: itemUseSummary(item.name, applied),
+    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
   };
 }
 
 function applyRecoveryItem(game, item) {
-  const preview = previewRecoveryItem(game, item);
-  if (!preview.effect?.usable) throw new Error(`${item.name} 还没有可模拟的使用效果`);
-  if (!preview.target) throw new Error("当前没有可以恢复的目标");
-  if (!preview.usable) throw new Error(`${preview.target.name} 的耐久力已经不需要恢复`);
-  preview.target.hpField.owner[preview.target.hpField.key] = preview.next;
-  item.qty = Number(item.qty || 0) - 1;
-  game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
-  return {
-    itemId: item.id,
-    itemName: item.name,
-    targetName: preview.target.name,
-    before: preview.before,
-    after: preview.next,
-    restored: preview.restored,
-    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
-  };
+  return applyUsableItem(game, item);
+}
+
+function applyItemUseAction(game, action, applied, item) {
+  if (action.kind === "hp") {
+    action.target.entity[action.target.hpKey] = action.after;
+    applied.push({
+      kind: "hp",
+      targetName: action.target.name,
+      before: action.before,
+      after: action.after,
+      restored: action.restored,
+      revive: action.revive
+    });
+    return;
+  }
+  if (action.kind === "mp") {
+    action.target.entity[action.target.maxMpKey] = itemTargetMaxMp(action.target, action);
+    action.target.entity[action.target.mpKey] = action.after;
+    applied.push({
+      kind: "mp",
+      targetName: action.target.name,
+      before: action.before,
+      after: action.after,
+      restored: action.restored
+    });
+    return;
+  }
+  if (action.kind === "status") {
+    for (const key of action.removed) delete action.target.entity.BattleStatuses?.[key];
+    if (action.removed.includes(action.target.entity.BattleStatus?.key)) delete action.target.entity.BattleStatus;
+    syncBattlePrimaryStatus(action.target.entity);
+    applied.push({
+      kind: "status",
+      targetName: action.target.name,
+      removed: action.removed,
+      labels: action.labels
+    });
+    return;
+  }
+  if (action.kind === "charm") {
+    action.target.entity.charm = action.after;
+    action.target.entity.Charm = action.after;
+    action.target.entity.CHARM = action.after;
+    action.target.entity.WorkFixCharm = action.after;
+    applied.push({
+      kind: "charm",
+      targetName: action.target.name,
+      before: action.before,
+      after: action.after,
+      amount: action.amount
+    });
+    return;
+  }
+  if (action.kind === "loyalty") {
+    action.target.entity.Loyal = action.after;
+    applied.push({
+      kind: "loyalty",
+      targetName: action.target.name,
+      before: action.before,
+      after: action.after,
+      amount: action.amount
+    });
+    return;
+  }
+  if (action.kind === "warp") {
+    const map = applyWarpTarget(game, action.target, item.name || "道具传送");
+    applied.push({
+      kind: "warp",
+      targetName: map.name || `floor ${map.id}`,
+      mapId: map.id,
+      x: game.location.x,
+      y: game.location.y
+    });
+  }
+}
+
+function itemUseRefusalMessage(item, preview) {
+  if (preview.reason === "warp-map-missing") return `${item.name} 指向的地图还没有加载进当前 Worker`;
+  if (preview.reason === "unsupported") return `${item.name} 还没有可模拟的使用效果`;
+  return `${item.name} 当前没有合适的目标或状态可以生效`;
+}
+
+function itemUseSummary(itemName, effects = []) {
+  const parts = effects.map((effect) => {
+    if (effect.kind === "hp") return `${effect.targetName}${effect.revive ? "复活并" : ""}耐久力 ${effect.before}->${effect.after}`;
+    if (effect.kind === "mp") return `${effect.targetName}气力 ${effect.before}->${effect.after}`;
+    if (effect.kind === "status") return `${effect.targetName}解除${(effect.labels || effect.removed || []).join("/") || "异常"}`;
+    if (effect.kind === "charm") return `${effect.targetName}魅力 ${effect.before}->${effect.after}`;
+    if (effect.kind === "loyalty") return `${effect.targetName}忠诚度 ${effect.before}->${effect.after}`;
+    if (effect.kind === "warp") return `传送到 ${effect.targetName} (${effect.x},${effect.y})`;
+    return "";
+  }).filter(Boolean);
+  return parts.length ? `${itemName}：${parts.join("；")}` : `${itemName} 已使用`;
+}
+
+function itemUseLogLine(itemUse) {
+  return `使用 ${itemUse.itemName}，${itemUse.summary || itemUseSummary(itemUse.itemName, itemUse.effects)}。`;
 }
 
 function talkGame(game, npcId) {
@@ -2997,13 +3364,13 @@ function performBattleItemAction(game, itemId = null) {
   ensureBattleState(game, activeActor, game.encounter);
 
   const item = itemId == null ? firstUsableRecoveryItem(game) : findInventoryItem(game, itemId);
-  if (!item) throw new Error("背包里没有可用于战斗恢复的道具");
+  if (!item) throw new Error("背包里没有可用于战斗的道具");
 
   const enemy = game.encounter;
   game.battle.sourceCommand = "I";
   game.battle.mode = "resolving";
-  const itemUse = applyRecoveryItem(game, item);
-  const battleLog = [`使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`];
+  const itemUse = applyUsableItem(game, item, { battle: true });
+  const battleLog = [itemUseLogLine(itemUse)];
   if (enemy.Hp > 0) {
     const hit = combatDamageDetail(enemy, activeActor);
     setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
@@ -4036,17 +4403,17 @@ async function applyGuideRequest(env, request, game, prompt) {
         action: { type: "item-use-refused", reason: choice?.reason || "unknown-item" }
       };
     }
-    const preview = previewRecoveryItem(game, choice.item);
+    const preview = previewItemUse(game, choice.item, { battle: Boolean(game.encounter) });
     if (!preview.usable) {
       return {
-        text: `${choice.item.name} 现在没有可模拟的恢复效果。可以继续找对应 NPC 或脚本线索确认这个道具的原版用途。`,
+        text: `${choice.item.name} 现在没有可模拟的道具效果，或当前没有合适目标。可以继续找对应 NPC 或脚本线索确认这个道具的原版用途。`,
         action: { type: "item-use-refused", reason: preview.reason || "unsupported", itemId: choice.item.id }
       };
     }
-    const itemUse = applyRecoveryItem(game, choice.item);
-    addLog(game, `AI 向导使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力恢复 ${itemUse.restored}。`);
+    const itemUse = applyUsableItem(game, choice.item, { battle: Boolean(game.encounter) });
+    addLog(game, `AI 向导${itemUseLogLine(itemUse)}`);
     return {
-      text: `已使用 ${itemUse.itemName}，${itemUse.targetName} 的耐久力从 ${itemUse.before} 恢复到 ${itemUse.after}。`,
+      text: `已使用 ${itemUse.itemName}，${itemUse.summary}。`,
       action: { type: "item-use", itemId: itemUse.itemId, itemName: itemUse.itemName, targetName: itemUse.targetName, restored: itemUse.restored, reason: choice.reason }
     };
   }
@@ -10563,6 +10930,8 @@ function parseItemSet(text) {
       name,
       secretName: cleanReferenceText(rows[1]),
       description: cleanReferenceText(rows[2]),
+      option: cleanReferenceText(rows[3]),
+      functionName: cleanReferenceText(rows[10]),
       image: toInt(rows[17]),
       cost: toInt(rows[18]),
       type: toInt(rows[19]),

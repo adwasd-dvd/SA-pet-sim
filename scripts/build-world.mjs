@@ -428,6 +428,8 @@ function parseItems(file) {
       name: cleanName(cols[0]) || `item ${id}`,
       secretName: cleanName(cols[1]) || "",
       description: cleanName(cols[2]) || "",
+      option: cleanName(cols[3]) || "",
+      functionName: cleanName(cols[10]) || "",
       image: Number(cols[17]) || 0,
       cost: Number(cols[18]) || 0,
       type: Number(cols[19]) || 0,
