@@ -252,6 +252,14 @@ featherGame.inventory.push({ id: 20912, name: "精灵的羽毛", qty: 1, descrip
 featherGame = await api("/api/game/use-item", { game: featherGame, itemId: 20912 });
 assertEqual(featherGame.location.mapId, "7000", "ITEM_useWarp can fly to the source Eden floor after world profile includes it");
 assertEqual(inventoryQty(featherGame, 20912), 0, "ITEM_useWarp consumes one feather");
+let memoryFeatherGame = await api("/api/game/new", { name: "item-effect-memory-feather-test" });
+memoryFeatherGame.inventory.push({ id: 1345, name: "记忆的羽毛", qty: 1, description: "可单人来回飞行至萨姆吉尔村", option: "0 1000 92 99", functionName: "ITEM_useWarpForNum" });
+memoryFeatherGame = await api("/api/game/use-item", { game: memoryFeatherGame, itemId: 1345 });
+assertEqual(memoryFeatherGame.location.mapId, "1000", "ITEM_useWarpForNum flies to its source map");
+assertEqual(inventoryQty(memoryFeatherGame, 1345), 1, "ITEM_useWarpForNum keeps the item while a charge remains");
+assertEqual(Number(memoryFeatherGame.inventory.find((item) => Number(item.id) === 1345)?.usesRemaining), 1, "ITEM_useWarpForNum decrements source-style remaining uses");
+memoryFeatherGame = await api("/api/game/use-item", { game: memoryFeatherGame, itemId: 1345 });
+assertEqual(inventoryQty(memoryFeatherGame, 1345), 0, "ITEM_useWarpForNum consumes the item on the final charge");
 let equipGame = await api("/api/game/new", { name: "item-equip-test" });
 equipGame.inventory.push({ id: 5020, name: "石斧", qty: 1, description: "武器 攻击力+5", functionName: "ITEM_suitEquip" });
 equipGame = await api("/api/game/equip-item", { game: equipGame, itemId: 5020 });

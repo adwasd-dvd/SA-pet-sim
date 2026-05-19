@@ -495,7 +495,8 @@ function parseItems(file) {
     if (cols.length < 20) continue;
     const id = Number(cols[16]);
     if (!Number.isFinite(id) || id <= 0) continue;
-    out.set(id, {
+    const damageBreak = Number(cols[23]) || 0;
+    const item = {
       id,
       name: cleanName(cols[0]) || `item ${id}`,
       secretName: cleanName(cols[1]) || "",
@@ -508,7 +509,12 @@ function parseItems(file) {
       useField: Number(cols[20]) || 0,
       target: Number(cols[21]) || 0,
       level: Number(cols[22]) || 0
-    });
+    };
+    if (damageBreak > 0) {
+      item.damageBreak = damageBreak;
+      item.maxUses = damageBreak;
+    }
+    out.set(id, item);
   }
   return out;
 }
@@ -1306,7 +1312,7 @@ function parseScriptPetConditionSpec(value = "") {
 function withScriptItemName(item) {
   if (item?.evdel) return { ...item, source: item.source || "EVDEL" };
   const sourceItem = itemDb.get(Number(item.id));
-  return {
+  const out = {
     ...item,
     name: sourceItem?.name || `item ${item.id}`,
     image: sourceItem?.image || 0,
@@ -1314,6 +1320,13 @@ function withScriptItemName(item) {
     description: sourceItem?.description || "",
     source: `${GMSV_DATA_SOURCE}/itemset6.txt`
   };
+  for (const key of ["option", "functionName"]) {
+    if (sourceItem?.[key]) out[key] = sourceItem[key];
+  }
+  for (const key of ["damageBreak", "maxUses"]) {
+    if (Number(sourceItem?.[key])) out[key] = sourceItem[key];
+  }
+  return out;
 }
 
 function withScriptRandomItemNames(spec) {

@@ -1515,7 +1515,15 @@ function itemEffect(item) {
   if (loyaltyAmount) effects.push({ kind: "loyalty", amount: loyaltyAmount, label: "忠诚度" });
 
   const warp = warpFunction ? parseItemWarpTarget(option, text, item) : null;
-  if (warp) effects.push({ kind: "warp", target: warp, label: "传送" });
+  if (warp) {
+    effects.push({
+      kind: "warp",
+      target: warp,
+      uses: /ITEM_useWarpForNum/i.test(functionName) ? itemUseCount(item) : -1,
+      label: "传送",
+      sourceFunction: functionName
+    });
+  }
 
   if (deathCounterFunction || encounterFunction) {
     effects.push({
@@ -1653,6 +1661,7 @@ function itemUseCount(item = {}) {
   const text = itemEffectText(item);
   const count = text.match(/使用次数\s*(\d+)\s*次/) || text.match(/(?:剩余|剩餘)\s*(\d+)\s*次/);
   if (count) return Math.max(1, Number(count[1]) || 1);
+  if (/ITEM_useWarpForNum/i.test(itemFunctionName(item))) return 2;
   return -1;
 }
 
@@ -1782,7 +1791,14 @@ function previewItemUse(game, item, options = {}) {
   for (const warp of contextEffects.filter((entry) => entry.kind === "warp")) {
     const targetMap = WORLD.maps[String(warp.target.mapId)];
     if (!targetMap) return { usable: false, effect, reason: "warp-map-missing", target: warp.target };
-    actions.push({ kind: "warp", target: warp.target, mapName: targetMap.name || `floor ${targetMap.id}` });
+    actions.push({
+      kind: "warp",
+      target: warp.target,
+      mapName: targetMap.name || `floor ${targetMap.id}`,
+      usesBefore: warp.uses,
+      usesAfter: warp.uses > 0 ? warp.uses - 1 : warp.uses,
+      sourceFunction: warp.sourceFunction
+    });
   }
 
   for (const encounter of contextEffects.filter((entry) => entry.kind === "encounter")) {
@@ -1910,11 +1926,11 @@ function applyRecoveryItem(game, item) {
 }
 
 function consumeItemAfterUse(item, applied = []) {
-  const charged = applied.find((effect) => effect.kind === "encounter" && Number(effect.usesBefore || 0) > 1);
+  const charged = applied.find((effect) => Number(effect.usesBefore || 0) > 1);
   if (charged) {
     item.usesRemaining = charged.usesAfter;
     item.damageBreak = charged.usesAfter;
-    item.effectString = `原地遇敌，可使用次数剩余${charged.usesAfter}次。`;
+    item.effectString = `${charged.kind === "warp" ? "传送" : "原地遇敌"}，可使用次数剩余${charged.usesAfter}次。`;
     return { qtyConsumed: 0, remainingUses: charged.usesAfter };
   }
   item.qty = Number(item.qty || 0) - 1;
@@ -2093,7 +2109,10 @@ function applyItemUseAction(game, action, applied, item) {
       targetName: map.name || `floor ${map.id}`,
       mapId: map.id,
       x: game.location.x,
-      y: game.location.y
+      y: game.location.y,
+      usesBefore: action.usesBefore,
+      usesAfter: action.usesAfter,
+      sourceFunction: action.sourceFunction
     });
   }
 }

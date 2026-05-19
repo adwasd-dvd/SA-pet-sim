@@ -14282,7 +14282,9 @@ export const WORLD = {
                   "image": 24026,
                   "cost": 48,
                   "description": "耐久力80前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体80",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -14743,7 +14745,9 @@ export const WORLD = {
                       "image": 10904,
                       "cost": 300,
                       "description": "被加工的道具的名称 可以变更 (使用次数一次)",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "1",
+                      "functionName": "ITEM_useRenameItem"
                     },
                     {
                       "id": 13082,
@@ -23705,6 +23709,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 11,
+                "maxUses": 11,
                 "price": 0
               },
               {
@@ -24520,6 +24526,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 11,
+                "maxUses": 11,
                 "price": 0
               },
               {
@@ -40002,7 +40010,9 @@ export const WORLD = {
                   "image": 24493,
                   "cost": 10,
                   "description": "毒状态回复 可以解毒的串烧",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "毒",
+                  "functionName": "ITEM_useStatusRecovery"
                 },
                 {
                   "id": 1791,
@@ -40108,7 +40118,9 @@ export const WORLD = {
                   "image": 24085,
                   "cost": 10,
                   "description": "前後3回合中毒 带毒的苹果",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "毒 turn 3 成 60",
+                  "functionName": "ITEM_useStatusChange"
                 }
               ],
               "getRandItems": [],
@@ -40743,7 +40755,8 @@ export const WORLD = {
                   "image": 24059,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -41030,7 +41043,9 @@ export const WORLD = {
                   "image": 23028,
                   "cost": 0,
                   "description": "食用後可在水底呼吸一小时",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "time:60",
+                  "functionName": "ITEM_WaterWordStatus"
                 }
               ],
               "delItems": [],
@@ -60478,7 +60493,9 @@ export const WORLD = {
                   "image": 24266,
                   "cost": 0,
                   "description": "食用後可在水底呼吸四小时",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "time:240",
+                  "functionName": "ITEM_WaterWordStatus"
                 }
               ],
               "delItems": [
@@ -62829,7 +62846,9 @@ export const WORLD = {
                       "image": 22310,
                       "cost": 0,
                       "description": "未来世界的酒 体力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "VI:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20211,
@@ -62838,7 +62857,9 @@ export const WORLD = {
                       "image": 22312,
                       "cost": 0,
                       "description": "未来世界的酒 腕力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "ST:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20212,
@@ -62847,7 +62868,9 @@ export const WORLD = {
                       "image": 22311,
                       "cost": 0,
                       "description": "未来世界的酒 耐力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "TG:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20213,
@@ -62856,7 +62879,9 @@ export const WORLD = {
                       "image": 22314,
                       "cost": 0,
                       "description": "未来世界的酒 敏捷力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "DE:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 1062,
@@ -63034,7 +63059,11 @@ export const WORLD = {
                       "image": 24541,
                       "cost": 10,
                       "description": "气25回复(1人) 叁明治内放入各种水果",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气25",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     },
                     {
                       "id": 12635,
@@ -63043,7 +63072,11 @@ export const WORLD = {
                       "image": 24538,
                       "cost": 10,
                       "description": "耐久力120回复(1人) 非常时刻用硬的面包",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体120",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12641,
@@ -63052,7 +63085,11 @@ export const WORLD = {
                       "image": 24400,
                       "cost": 140,
                       "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体180",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     }
                   ]
                 }
@@ -63234,7 +63271,9 @@ export const WORLD = {
                   "image": 24533,
                   "cost": 0,
                   "description": "全异常状态回复 莉儿的爱心糖果",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "全",
+                  "functionName": "ITEM_useStatusRecovery"
                 }
               ],
               "delItems": [
@@ -63586,7 +63625,11 @@ export const WORLD = {
                       "image": 24541,
                       "cost": 10,
                       "description": "气25回复(1人) 叁明治内放入各种水果",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气25",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     },
                     {
                       "id": 12635,
@@ -63595,7 +63638,11 @@ export const WORLD = {
                       "image": 24538,
                       "cost": 10,
                       "description": "耐久力120回复(1人) 非常时刻用硬的面包",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体120",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12641,
@@ -63604,7 +63651,11 @@ export const WORLD = {
                       "image": 24400,
                       "cost": 140,
                       "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体180",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     }
                   ]
                 }
@@ -64519,7 +64570,8 @@ export const WORLD = {
                   "image": 35269,
                   "cost": 0,
                   "description": "精灵召唤的勇者信物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_HeroToken"
                 }
               ],
               "getRandItems": [
@@ -64575,7 +64627,8 @@ export const WORLD = {
                       "image": 35288,
                       "cost": 10000,
                       "description": "防+100 敏-24 电抗性精灵 Lv1",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "EARTH:30"
                     },
                     {
                       "id": 2907,
@@ -64584,7 +64637,8 @@ export const WORLD = {
                       "image": 35289,
                       "cost": 10000,
                       "description": "防+160 体+200 电抗性+100 治愈的精灵 Lv6",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "雷抗100"
                     }
                   ]
                 }
@@ -64646,7 +64700,8 @@ export const WORLD = {
                   "image": 35268,
                   "cost": 0,
                   "description": "精灵召唤的使者信物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_AngelToken"
                 }
               ],
               "getRandItems": [
@@ -64677,7 +64732,9 @@ export const WORLD = {
                       "image": 24047,
                       "cost": 10,
                       "description": "可习得宠技-手下留情的罐头",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "626",
+                      "functionName": "ITEM_useSkillCanned"
                     },
                     {
                       "id": 20130,
@@ -64695,7 +64752,8 @@ export const WORLD = {
                       "image": 24709,
                       "cost": 120000,
                       "description": "降低遇敌机率",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "rand:100"
                     },
                     {
                       "id": 18548,
@@ -64704,7 +64762,8 @@ export const WORLD = {
                       "image": 22030,
                       "cost": 120000,
                       "description": "在特定的地点可以隐藏行踪， 不遇到敌人",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "noen:100"
                     },
                     {
                       "id": 19692,
@@ -64713,7 +64772,9 @@ export const WORLD = {
                       "image": 22069,
                       "cost": 10,
                       "description": "能变身成自己的宠物叁分钟",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "180",
+                      "functionName": "ITEM_metamo"
                     },
                     {
                       "id": 19549,
@@ -64722,7 +64783,8 @@ export const WORLD = {
                       "image": 22256,
                       "cost": 30000,
                       "description": "使用前方战斗宠物额外获得30倍经验值 魅+5",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "EXPUP3000"
                     }
                   ]
                 }
@@ -64784,7 +64846,8 @@ export const WORLD = {
                   "image": 35269,
                   "cost": 0,
                   "description": "精灵召唤的勇者信物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_HeroToken"
                 }
               ],
               "getRandItems": [
@@ -64840,7 +64903,8 @@ export const WORLD = {
                       "image": 35278,
                       "cost": 10000,
                       "description": "防+105 敏-28 冰抗性精灵 Lv1",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "WATER:30"
                     },
                     {
                       "id": 2912,
@@ -64849,7 +64913,8 @@ export const WORLD = {
                       "image": 35279,
                       "cost": 10000,
                       "description": "防+166 体+220 冰抗性+100 恩惠的精灵 Lv6",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "冰抗100"
                     }
                   ]
                 }
@@ -64911,7 +64976,8 @@ export const WORLD = {
                   "image": 35268,
                   "cost": 0,
                   "description": "精灵召唤的使者信物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_AngelToken"
                 }
               ],
               "getRandItems": [
@@ -64942,7 +65008,9 @@ export const WORLD = {
                       "image": 24047,
                       "cost": 10,
                       "description": "可习得宠技-手下留情的罐头",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "626",
+                      "functionName": "ITEM_useSkillCanned"
                     },
                     {
                       "id": 20130,
@@ -64960,7 +65028,8 @@ export const WORLD = {
                       "image": 24709,
                       "cost": 120000,
                       "description": "降低遇敌机率",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "rand:100"
                     },
                     {
                       "id": 18548,
@@ -64969,7 +65038,8 @@ export const WORLD = {
                       "image": 22030,
                       "cost": 120000,
                       "description": "在特定的地点可以隐藏行踪， 不遇到敌人",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "noen:100"
                     },
                     {
                       "id": 19692,
@@ -64978,7 +65048,9 @@ export const WORLD = {
                       "image": 22069,
                       "cost": 10,
                       "description": "能变身成自己的宠物叁分钟",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "180",
+                      "functionName": "ITEM_metamo"
                     },
                     {
                       "id": 19549,
@@ -64987,7 +65059,8 @@ export const WORLD = {
                       "image": 22256,
                       "cost": 30000,
                       "description": "使用前方战斗宠物额外获得30倍经验值 魅+5",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "EXPUP3000"
                     }
                   ]
                 }
@@ -65049,7 +65122,8 @@ export const WORLD = {
                   "image": 35269,
                   "cost": 0,
                   "description": "精灵召唤的勇者信物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_HeroToken"
                 }
               ],
               "getRandItems": [
@@ -65105,7 +65179,8 @@ export const WORLD = {
                       "image": 35283,
                       "cost": 10000,
                       "description": "防+110 敏-32 火抗性精灵 Lv1",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "FIRE:30"
                     },
                     {
                       "id": 2917,
@@ -65114,7 +65189,8 @@ export const WORLD = {
                       "image": 35284,
                       "cost": 10000,
                       "description": "防+170 体+235 火抗性+100 治愈的精灵 Lv6",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "火抗100"
                     }
                   ]
                 }
@@ -65390,7 +65466,9 @@ export const WORLD = {
                   "image": 23003,
                   "cost": 1500,
                   "description": "吃了以後会很有魅力 魅+99",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "魅99",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -65593,7 +65671,9 @@ export const WORLD = {
                   "image": 24042,
                   "cost": 5000,
                   "description": "我方全体体力回复 每回合回复100体力 持续4回合",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "恩:100x4",
+                  "functionName": "ITEM_useImprecate"
                 }
               ],
               "delItems": [
@@ -65613,7 +65693,11 @@ export const WORLD = {
                   "image": 24008,
                   "cost": 10,
                   "description": "耐久力35回复(1人) 大又容易吃的肉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体35",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12890,
@@ -65622,7 +65706,11 @@ export const WORLD = {
                   "image": 24032,
                   "cost": 10,
                   "description": "耐久力65回复(1体) 携带方便的肉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体65",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12891,
@@ -65631,7 +65719,11 @@ export const WORLD = {
                   "image": 24490,
                   "cost": 10,
                   "description": "耐久力80回复(1人) 团子状的肉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体80",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12892,
@@ -65640,7 +65732,11 @@ export const WORLD = {
                   "image": 24017,
                   "cost": 10,
                   "description": "耐久力130回复(1人) 巨大的肉块",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体130",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12893,
@@ -65649,7 +65745,11 @@ export const WORLD = {
                   "image": 24026,
                   "cost": 10,
                   "description": "耐久力180回复(1体) 可以吃饱的肉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体180",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 }
               ],
               "getRandItems": [],
@@ -72110,7 +72210,9 @@ export const WORLD = {
                       "image": 24074,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至萨姆吉尔村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 1000 92 99",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13062,
@@ -72119,7 +72221,9 @@ export const WORLD = {
                       "image": 24075,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至玛丽娜丝渔村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 2000 65 58",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13063,
@@ -72128,7 +72232,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至加加村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 3000 94 97",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13064,
@@ -72137,7 +72243,9 @@ export const WORLD = {
                       "image": 24077,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至卡鲁它那村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 4000 66 55",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13065,
@@ -72146,7 +72254,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至福尔德村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 5000 45 53",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13066,
@@ -72155,7 +72265,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至奇喀喀村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 3400 63 48",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13067,
@@ -72164,7 +72276,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至达那村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 5106 20 36",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13068,
@@ -72173,7 +72287,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至柯奥村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 1100 48 91",
+                      "functionName": "ITEM_useWarp"
                     }
                   ]
                 }
@@ -72313,7 +72429,11 @@ export const WORLD = {
                   "image": 24448,
                   "cost": 10,
                   "description": "耐50回复(自己) 已经硬掉的白煮蛋",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体50",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 }
               ],
               "getRandItems": [],
@@ -72356,7 +72476,11 @@ export const WORLD = {
                   "image": 24438,
                   "cost": 10,
                   "description": "耐70回复(1体) 刚出炉的香喷喷面包",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体70",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 }
               ],
               "getRandItems": [],
@@ -72399,7 +72523,9 @@ export const WORLD = {
                   "image": 24450,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 都是苹果的牛排",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12875,
@@ -72408,7 +72534,9 @@ export const WORLD = {
                   "image": 24522,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 蜜桃酱的味道很香",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12876,
@@ -72417,7 +72545,9 @@ export const WORLD = {
                   "image": 24451,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 草莓酱汁带有点甜味",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12877,
@@ -72426,7 +72556,9 @@ export const WORLD = {
                   "image": 24522,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 轻淡的烤肉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12878,
@@ -72435,7 +72567,9 @@ export const WORLD = {
                   "image": 24450,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 美食家非吃不可的逸品",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12879,
@@ -72444,7 +72578,9 @@ export const WORLD = {
                   "image": 24451,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 有淡淡的樱桃香味",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -72487,7 +72623,11 @@ export const WORLD = {
                   "image": 24412,
                   "cost": 10,
                   "description": "气30回复(1人) 叁明治里放入了各种东西",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气30",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -72531,7 +72671,9 @@ export const WORLD = {
                   "image": 24451,
                   "cost": 10,
                   "description": "耐300回复(1体) 烤猪排",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体300",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12507,
@@ -72540,7 +72682,11 @@ export const WORLD = {
                   "image": 24422,
                   "cost": 10,
                   "description": "气30耐50回复(1体) 味道不是很重的肉汤",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气30体50",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 },
                 {
                   "id": 12849,
@@ -72549,7 +72695,11 @@ export const WORLD = {
                   "image": 24406,
                   "cost": 10,
                   "description": "耐久力200回复(1人) 蘑菇的力量涌现",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体200",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -72592,7 +72742,11 @@ export const WORLD = {
                   "image": 24562,
                   "cost": 10,
                   "description": "气35耐250回复(1体) 加了酱汁的粽子",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气35体250",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 }
               ],
               "getRandItems": [],
@@ -73113,7 +73267,9 @@ export const WORLD = {
                   "image": 24451,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 有淡淡的樱桃香味",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -73603,7 +73759,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -73684,7 +73841,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -73728,7 +73886,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -73772,7 +73931,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -73816,7 +73976,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -73860,7 +74021,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "delItems": [
@@ -74416,7 +74578,9 @@ export const WORLD = {
                   "image": 24451,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 有淡淡的樱桃香味",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -84521,7 +84685,9 @@ export const WORLD = {
                   "image": 24176,
                   "cost": 0,
                   "description": "机暴的骑乘学习同意书限五转 人使用",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "RIDE_PET0",
+                  "functionName": "ITEM_useLearnRideCode"
                 }
               ],
               "delItems": [],
@@ -86156,6 +86322,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 100,
+                "maxUses": 100,
                 "price": 0
               },
               {
@@ -86408,6 +86576,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 2,
+                "maxUses": 2,
                 "price": 4000
               },
               {
@@ -87031,7 +87201,9 @@ export const WORLD = {
                   "image": 24079,
                   "cost": 10,
                   "description": "气70耐500回复(1体)",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气70 体500",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -87042,7 +87214,11 @@ export const WORLD = {
                   "image": 24440,
                   "cost": 10,
                   "description": "气10回复(1体) 口感很好的沙拉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气10",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 },
                 {
                   "id": 12550,
@@ -87051,7 +87227,11 @@ export const WORLD = {
                   "image": 24528,
                   "cost": 10,
                   "description": "气30回复(1人) 充满魄力的炒青菜",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气30",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 },
                 {
                   "id": 12571,
@@ -87060,7 +87240,9 @@ export const WORLD = {
                   "image": 24521,
                   "cost": 10,
                   "description": "耐100回复(我方全体) 很豪华丰盛的肉拼盘",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 12708,
@@ -87069,7 +87251,11 @@ export const WORLD = {
                   "image": 24515,
                   "cost": 10,
                   "description": "耐200回复(1体) 把照烧过的鱼拿去煮的食品",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体200",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12719,
@@ -87078,7 +87264,9 @@ export const WORLD = {
                   "image": 24418,
                   "cost": 10,
                   "description": "气100回复(1体) 使用精选食材的汤",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -87284,7 +87472,9 @@ export const WORLD = {
                   "image": 22366,
                   "cost": 1200,
                   "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体600",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -87334,7 +87524,9 @@ export const WORLD = {
                   "image": 22366,
                   "cost": 1200,
                   "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体600",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -87384,7 +87576,9 @@ export const WORLD = {
                   "image": 22366,
                   "cost": 1200,
                   "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体600",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -87434,7 +87628,9 @@ export const WORLD = {
                   "image": 22366,
                   "cost": 1200,
                   "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体600",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -87484,7 +87680,9 @@ export const WORLD = {
                   "image": 22366,
                   "cost": 1200,
                   "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体600",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -90708,7 +90906,9 @@ export const WORLD = {
                   "image": 24169,
                   "cost": 1000,
                   "description": "从气绝回复成500的耐久力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "500",
+                  "functionName": "ITEM_useRessurect"
                 }
               ],
               "delItems": [
@@ -91014,7 +91214,9 @@ export const WORLD = {
                   "image": 24042,
                   "cost": 10,
                   "description": "前後10回合中毒 含有剧毒的蛇肉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "毒 turn 10 成 300",
+                  "functionName": "ITEM_useStatusChange"
                 }
               ],
               "delItems": [
@@ -91025,7 +91227,9 @@ export const WORLD = {
                   "image": 24036,
                   "cost": 140,
                   "description": "百年海主人的肉 耐久力140前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体140",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 1795,
@@ -95319,7 +95523,9 @@ export const WORLD = {
                   "image": 24406,
                   "cost": 165,
                   "description": "耐久力1000前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体1000",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -99352,7 +99558,9 @@ export const WORLD = {
                   "image": 24191,
                   "cost": 10,
                   "description": "混乱10回合前後",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "乱 turn 10 成 300",
+                  "functionName": "ITEM_useStatusChange"
                 }
               ],
               "delItems": [
@@ -99744,7 +99952,9 @@ export const WORLD = {
                   "image": 22366,
                   "cost": 1200,
                   "description": "耐600回复(我方全体) 结婚典礼上的大蛋糕",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体600",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -99755,7 +99965,9 @@ export const WORLD = {
                   "image": 24400,
                   "cost": 10,
                   "description": "耐50回复(1体) 包含真心的御饭团",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体50",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 1755,
@@ -99805,7 +100017,9 @@ export const WORLD = {
                   "image": 24400,
                   "cost": 10,
                   "description": "耐50回复(1体) 包含真心的御饭团",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体50",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 1755,
@@ -103981,6 +104195,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 100,
+                "maxUses": 100,
                 "price": 0
               },
               {
@@ -104041,6 +104257,8 @@ export const WORLD = {
                 "useField": 1,
                 "target": 2,
                 "level": 0,
+                "damageBreak": 6,
+                "maxUses": 6,
                 "price": 2400
               },
               {
@@ -104751,7 +104969,9 @@ export const WORLD = {
                   "image": 24323,
                   "cost": 10,
                   "description": "玛蕾菲雅喜欢的项链",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "80",
+                  "functionName": "ITEM_petFollow"
                 }
               ],
               "delItems": [],
@@ -104797,7 +105017,9 @@ export const WORLD = {
                   "image": 24323,
                   "cost": 10,
                   "description": "玛蕾菲雅喜欢的项链",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "80",
+                  "functionName": "ITEM_petFollow"
                 }
               ],
               "delItems": [],
@@ -104928,7 +105150,8 @@ export const WORLD = {
                       "image": 24328,
                       "cost": 125,
                       "description": "镶有地灵石的项",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19672,
@@ -104937,7 +105160,8 @@ export const WORLD = {
                       "image": 24328,
                       "cost": 125,
                       "description": "镶有地灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19673,
@@ -104946,7 +105170,8 @@ export const WORLD = {
                       "image": 24328,
                       "cost": 125,
                       "description": "镶有地灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19674,
@@ -104955,7 +105180,8 @@ export const WORLD = {
                       "image": 24328,
                       "cost": 260,
                       "description": "镶有地灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19675,
@@ -104964,7 +105190,8 @@ export const WORLD = {
                       "image": 24328,
                       "cost": 560,
                       "description": "镶有地灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     }
                   ]
                 }
@@ -105027,7 +105254,8 @@ export const WORLD = {
                       "image": 24329,
                       "cost": 125,
                       "description": "镶有水灵石的项",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19676,
@@ -105036,7 +105264,8 @@ export const WORLD = {
                       "image": 24329,
                       "cost": 125,
                       "description": "镶有水灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19677,
@@ -105045,7 +105274,8 @@ export const WORLD = {
                       "image": 24329,
                       "cost": 125,
                       "description": "镶有水灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19678,
@@ -105054,7 +105284,8 @@ export const WORLD = {
                       "image": 24329,
                       "cost": 260,
                       "description": "镶有水灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19679,
@@ -105063,7 +105294,8 @@ export const WORLD = {
                       "image": 24329,
                       "cost": 560,
                       "description": "镶有水灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     }
                   ]
                 }
@@ -105126,7 +105358,8 @@ export const WORLD = {
                       "image": 24330,
                       "cost": 260,
                       "description": "镶有火灵石的项",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19680,
@@ -105135,7 +105368,8 @@ export const WORLD = {
                       "image": 24330,
                       "cost": 125,
                       "description": "镶有火灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19681,
@@ -105144,7 +105378,8 @@ export const WORLD = {
                       "image": 24330,
                       "cost": 125,
                       "description": "镶有火灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19682,
@@ -105153,7 +105388,8 @@ export const WORLD = {
                       "image": 24330,
                       "cost": 260,
                       "description": "镶有火灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19683,
@@ -105162,7 +105398,8 @@ export const WORLD = {
                       "image": 24330,
                       "cost": 560,
                       "description": "镶有火灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     }
                   ]
                 }
@@ -105225,7 +105462,8 @@ export const WORLD = {
                       "image": 24331,
                       "cost": 560,
                       "description": "镶有风灵石的项",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19684,
@@ -105234,7 +105472,8 @@ export const WORLD = {
                       "image": 24331,
                       "cost": 125,
                       "description": "镶有风灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19685,
@@ -105243,7 +105482,8 @@ export const WORLD = {
                       "image": 24331,
                       "cost": 125,
                       "description": "镶有风灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19686,
@@ -105252,7 +105492,8 @@ export const WORLD = {
                       "image": 24331,
                       "cost": 260,
                       "description": "镶有风灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     },
                     {
                       "id": 19687,
@@ -105261,7 +105502,8 @@ export const WORLD = {
                       "image": 24331,
                       "cost": 560,
                       "description": "镶有风灵石的项链",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_useOtherEditBase"
                     }
                   ]
                 }
@@ -105307,7 +105549,9 @@ export const WORLD = {
                   "image": 24323,
                   "cost": 10,
                   "description": "玛蕾菲雅喜欢的项链",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "80",
+                  "functionName": "ITEM_petFollow"
                 }
               ],
               "delItems": [],
@@ -105687,7 +105931,9 @@ export const WORLD = {
                   "image": 24089,
                   "cost": 10,
                   "description": "腐烂的鱼 宠物的忠诚度前後+3",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 3",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 11872,
@@ -105744,7 +105990,9 @@ export const WORLD = {
                   "image": 24091,
                   "cost": 20,
                   "description": "在海里被钓的普通的鱼 宠物的忠诚度前後+5",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 5",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 11873,
@@ -105801,7 +106049,9 @@ export const WORLD = {
                   "image": 24088,
                   "cost": 30,
                   "description": "在海中被钓到气势不错的鱼 宠物的忠诚度+10上升",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 10",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 11874,
@@ -105927,7 +106177,9 @@ export const WORLD = {
                   "image": 24059,
                   "cost": 0,
                   "description": "复活守精灵 气绝回复500耐久力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "500 无 turn 2",
+                  "functionName": "ITEM_ResAndDef"
                 }
               ],
               "delItems": [],
@@ -106895,7 +107147,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -106938,7 +107192,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -106981,7 +107237,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107024,7 +107282,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107067,7 +107327,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107110,7 +107372,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107153,7 +107417,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107196,7 +107462,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107239,7 +107507,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107282,7 +107552,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107325,7 +107597,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107368,7 +107642,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107411,7 +107687,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -107454,7 +107732,9 @@ export const WORLD = {
                   "image": 14659,
                   "cost": 0,
                   "description": "散发阴暗气息的石头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "11004",
+                  "functionName": "ITEM_useDeathcounter"
                 }
               ],
               "getRandItems": [],
@@ -108209,7 +108489,9 @@ export const WORLD = {
                       "image": 22171,
                       "cost": 100,
                       "description": "使用该戒指运气可更改为大吉",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "大吉",
+                      "functionName": "ITEM_Luck"
                     },
                     {
                       "id": 20801,
@@ -108218,7 +108500,9 @@ export const WORLD = {
                       "image": 22171,
                       "cost": 100,
                       "description": "使用该戒指运气可更改为凶",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "凶",
+                      "functionName": "ITEM_Luck"
                     },
                     {
                       "id": 20594,
@@ -108227,7 +108511,9 @@ export const WORLD = {
                       "image": 24236,
                       "cost": 5000,
                       "description": "使用後获得经验值上升100% 使用时间3小时",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "增100分180",
+                      "functionName": "ITEM_Addexp"
                     },
                     {
                       "id": 20569,
@@ -108272,7 +108558,9 @@ export const WORLD = {
                       "image": 23024,
                       "cost": 1500,
                       "description": "使用後你也会变得更迷人",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "魅5",
+                      "functionName": "ITEM_useRecovery"
                     }
                   ]
                 }
@@ -108397,7 +108685,11 @@ export const WORLD = {
                       "image": 24541,
                       "cost": 10,
                       "description": "气25回复(1人) 叁明治内放入各种水果",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气25",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     },
                     {
                       "id": 12641,
@@ -108406,7 +108698,11 @@ export const WORLD = {
                       "image": 24400,
                       "cost": 140,
                       "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体180",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12635,
@@ -108415,7 +108711,11 @@ export const WORLD = {
                       "image": 24538,
                       "cost": 10,
                       "description": "耐久力120回复(1人) 非常时刻用硬的面包",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体120",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12656,
@@ -108424,7 +108724,9 @@ export const WORLD = {
                       "image": 24151,
                       "cost": 10,
                       "description": "捕获率10上升 异世界的炸马铃薯",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "10",
+                      "functionName": "ITEM_useCaptureUp"
                     },
                     {
                       "id": 12643,
@@ -108433,7 +108735,11 @@ export const WORLD = {
                       "image": 24412,
                       "cost": 10,
                       "description": "气30回复(1人) 叁明治里放入了各种东西",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气30",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     }
                   ]
                 }
@@ -111876,7 +112182,9 @@ export const WORLD = {
                   "image": 24047,
                   "cost": 10,
                   "description": "浴血狂袭 特别的技能",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "623",
+                  "functionName": "ITEM_useSkillCanned"
                 }
               ],
               "delItems": [
@@ -111887,7 +112195,9 @@ export const WORLD = {
                   "image": 24047,
                   "cost": 10,
                   "description": "忠诚度前後加5 满是营养的宠物食物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 5",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -111945,7 +112255,8 @@ export const WORLD = {
                   "image": 24053,
                   "cost": 0,
                   "description": "使用後可提升基本能力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useSkup"
                 }
               ],
               "getRandItems": [],
@@ -115871,7 +116182,9 @@ export const WORLD = {
                   "image": 24446,
                   "cost": 10,
                   "description": "耐50回复(自己) 破了的荷包蛋",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体50",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -115914,7 +116227,9 @@ export const WORLD = {
                   "image": 24439,
                   "cost": 10,
                   "description": "耐250回复(我方全体) 高级的生鱼片",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体250",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -115957,7 +116272,11 @@ export const WORLD = {
                   "image": 24541,
                   "cost": 10,
                   "description": "气25回复(1人) 叁明治内放入各种水果",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气25",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -116001,7 +116320,9 @@ export const WORLD = {
                   "image": 24463,
                   "cost": 10,
                   "description": "7回合左右中毒 由很多海产做成的串烧",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "毒 turn 7 成 60",
+                  "functionName": "ITEM_useStatusChange"
                 }
               ],
               "getRandItems": [],
@@ -116044,7 +116365,11 @@ export const WORLD = {
                   "image": 24247,
                   "cost": 10,
                   "description": "气15回复(1人) 受欢迎的水果",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气15",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 },
                 {
                   "id": 12884,
@@ -116053,7 +116378,11 @@ export const WORLD = {
                   "image": 24483,
                   "cost": 10,
                   "description": "耐久力120回复(1体) 加胡椒的海星",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体20",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12925,
@@ -116062,7 +116391,11 @@ export const WORLD = {
                   "image": 24247,
                   "cost": 10,
                   "description": "气25回复（自己） 海星型的饼乾",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气25",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 }
               ],
               "getRandItems": [],
@@ -116105,7 +116438,11 @@ export const WORLD = {
                   "image": 24561,
                   "cost": 10,
                   "description": "气30耐200回复(1体) 包肉的粽子",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气30体200",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 }
               ],
               "getRandItems": [],
@@ -120163,6 +120500,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 100,
+                "maxUses": 100,
                 "price": 0
               },
               {
@@ -120415,6 +120754,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 2,
+                "maxUses": 2,
                 "price": 4000
               },
               {
@@ -121081,7 +121422,9 @@ export const WORLD = {
                   "image": 23006,
                   "cost": 0,
                   "description": "催眠10回合前後 吃了会令人想睡的药",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "眠 turn 10 成 100",
+                  "functionName": "ITEM_useStatusChange"
                 }
               ],
               "delItems": [
@@ -122506,7 +122849,11 @@ export const WORLD = {
                       "image": 24541,
                       "cost": 10,
                       "description": "气25回复(1人) 叁明治内放入各种水果",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气25",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     },
                     {
                       "id": 12635,
@@ -122515,7 +122862,11 @@ export const WORLD = {
                       "image": 24538,
                       "cost": 10,
                       "description": "耐久力120回复(1人) 非常时刻用硬的面包",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体120",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12641,
@@ -122524,7 +122875,11 @@ export const WORLD = {
                       "image": 24400,
                       "cost": 140,
                       "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体180",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     }
                   ]
                 }
@@ -122806,7 +123161,9 @@ export const WORLD = {
                       "image": 24052,
                       "cost": 100,
                       "description": "使用该石币可获得十万石币",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "100000",
+                      "functionName": "ITEM_Gold"
                     },
                     {
                       "id": 20624,
@@ -122815,7 +123172,8 @@ export const WORLD = {
                       "image": 10904,
                       "cost": 1000,
                       "description": "宠物姓名回复原设定(使用次数一次)",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "functionName": "ITEM_changePetOwner"
                     },
                     {
                       "id": 20593,
@@ -122824,7 +123182,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 0,
                       "description": "可全体直达伊甸大陆的机票",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "1 7000 106 49",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 20148,
@@ -122833,7 +123193,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 0,
                       "description": "可直达伊甸大陆的机票",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 7000 106 49",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 68,
@@ -122869,7 +123231,9 @@ export const WORLD = {
                       "image": 23024,
                       "cost": 1500,
                       "description": "使用後你也会变得更迷人",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "魅5",
+                      "functionName": "ITEM_useRecovery"
                     }
                   ]
                 }
@@ -123013,7 +123377,11 @@ export const WORLD = {
                       "image": 24541,
                       "cost": 10,
                       "description": "气25回复(1人) 叁明治内放入各种水果",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气25",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     },
                     {
                       "id": 12641,
@@ -123022,7 +123390,11 @@ export const WORLD = {
                       "image": 24400,
                       "cost": 140,
                       "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体180",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12635,
@@ -123031,7 +123403,11 @@ export const WORLD = {
                       "image": 24538,
                       "cost": 10,
                       "description": "耐久力120回复(1人) 非常时刻用硬的面包",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体120",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12656,
@@ -123040,7 +123416,9 @@ export const WORLD = {
                       "image": 24151,
                       "cost": 10,
                       "description": "捕获率10上升 异世界的炸马铃薯",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "10",
+                      "functionName": "ITEM_useCaptureUp"
                     },
                     {
                       "id": 12643,
@@ -123049,7 +123427,11 @@ export const WORLD = {
                       "image": 24412,
                       "cost": 10,
                       "description": "气30回复(1人) 叁明治里放入了各种东西",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气30",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     }
                   ]
                 }
@@ -129900,7 +130282,9 @@ export const WORLD = {
                   "image": 24445,
                   "cost": 10,
                   "description": "耐100回复(1体) 半熟的荷包蛋",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -129943,7 +130327,11 @@ export const WORLD = {
                   "image": 24412,
                   "cost": 10,
                   "description": "气10回复(1人) 夹了很多蔬菜的叁明治",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气10",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -129986,7 +130374,11 @@ export const WORLD = {
                   "image": 24563,
                   "cost": 10,
                   "description": "气15耐120回复(1体) 沾糖吃的甜粽",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气15体120",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 }
               ],
               "getRandItems": [],
@@ -130029,7 +130421,11 @@ export const WORLD = {
                   "image": 24485,
                   "cost": 10,
                   "description": "气18回复(1体) 用热石头烤成的地瓜",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气18",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -130072,7 +130468,11 @@ export const WORLD = {
                   "image": 24459,
                   "cost": 10,
                   "description": "气100耐300回复(自己) 料理铁人有所坚持的高级关东煮",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气100体300",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 }
               ],
               "getRandItems": [],
@@ -130116,7 +130516,9 @@ export const WORLD = {
                   "image": 24439,
                   "cost": 10,
                   "description": "耐500回复(我方全体) 究极生鱼片",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体500",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -132811,7 +133213,8 @@ export const WORLD = {
                   "image": 22313,
                   "cost": 0,
                   "description": "加加村的观光旅游指南",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -132862,7 +133265,8 @@ export const WORLD = {
                   "image": 24176,
                   "cost": 160,
                   "description": "帮讦谯龙还完钱的证明",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -132970,7 +133374,8 @@ export const WORLD = {
                   "image": 24109,
                   "cost": 2476,
                   "description": "布伊比的牙齿",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -133069,7 +133474,8 @@ export const WORLD = {
                   "image": 24109,
                   "cost": 2476,
                   "description": "布伊比的牙齿",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -133080,7 +133486,8 @@ export const WORLD = {
                   "image": 22313,
                   "cost": 0,
                   "description": "加加村的观光旅游指南",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 20217,
@@ -133089,7 +133496,8 @@ export const WORLD = {
                   "image": 22313,
                   "cost": 0,
                   "description": "乌鲁力村的观光旅游指南",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 20218,
@@ -133098,7 +133506,8 @@ export const WORLD = {
                   "image": 22313,
                   "cost": 0,
                   "description": "柯奥海底隧道通行指南",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 20219,
@@ -133107,7 +133516,8 @@ export const WORLD = {
                   "image": 22313,
                   "cost": 0,
                   "description": "玛丽娜丝庄园观光旅游指南",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -133152,7 +133562,8 @@ export const WORLD = {
                   "image": 24109,
                   "cost": 2476,
                   "description": "布伊比的牙齿",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [],
@@ -133216,7 +133627,8 @@ export const WORLD = {
                   "image": 24176,
                   "cost": 160,
                   "description": "帮讦谯龙还完钱的证明",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [
@@ -133247,7 +133659,9 @@ export const WORLD = {
                       "image": 22310,
                       "cost": 0,
                       "description": "未来世界的酒 体力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "VI:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20211,
@@ -133256,7 +133670,9 @@ export const WORLD = {
                       "image": 22312,
                       "cost": 0,
                       "description": "未来世界的酒 腕力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "ST:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20212,
@@ -133265,7 +133681,9 @@ export const WORLD = {
                       "image": 22311,
                       "cost": 0,
                       "description": "未来世界的酒 耐力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "TG:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20213,
@@ -133274,7 +133692,9 @@ export const WORLD = {
                       "image": 22314,
                       "cost": 0,
                       "description": "未来世界的酒 敏捷力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "DE:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20599,
@@ -133283,7 +133703,9 @@ export const WORLD = {
                       "image": 35263,
                       "cost": 0,
                       "description": "未来世界的酒 人物属性反向改变1点",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "PROPERTY-",
+                      "functionName": "ITEM_useRecovery"
                     },
                     {
                       "id": 20600,
@@ -133292,7 +133714,9 @@ export const WORLD = {
                       "image": 35264,
                       "cost": 0,
                       "description": "未来世界的酒 人物属性正向改变1点",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "PROPERTY+",
+                      "functionName": "ITEM_useRecovery"
                     }
                   ]
                 }
@@ -133359,7 +133783,9 @@ export const WORLD = {
                       "image": 22310,
                       "cost": 0,
                       "description": "未来世界的酒 体力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "VI:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20211,
@@ -133368,7 +133794,9 @@ export const WORLD = {
                       "image": 22312,
                       "cost": 0,
                       "description": "未来世界的酒 腕力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "ST:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20212,
@@ -133377,7 +133805,9 @@ export const WORLD = {
                       "image": 22311,
                       "cost": 0,
                       "description": "未来世界的酒 耐力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "TG:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20213,
@@ -133386,7 +133816,9 @@ export const WORLD = {
                       "image": 22314,
                       "cost": 0,
                       "description": "未来世界的酒 敏捷力10点重新分配",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "DE:10",
+                      "functionName": "ITEM_Constitution"
                     },
                     {
                       "id": 20599,
@@ -133395,7 +133827,9 @@ export const WORLD = {
                       "image": 35263,
                       "cost": 0,
                       "description": "未来世界的酒 人物属性反向改变1点",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "PROPERTY-",
+                      "functionName": "ITEM_useRecovery"
                     },
                     {
                       "id": 20600,
@@ -133404,7 +133838,9 @@ export const WORLD = {
                       "image": 35264,
                       "cost": 0,
                       "description": "未来世界的酒 人物属性正向改变1点",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "PROPERTY+",
+                      "functionName": "ITEM_useRecovery"
                     }
                   ]
                 }
@@ -144938,6 +145374,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 100,
+                "maxUses": 100,
                 "price": 0
               },
               {
@@ -145210,6 +145648,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 2,
+                "maxUses": 2,
                 "price": 4000
               },
               {
@@ -145752,7 +146192,9 @@ export const WORLD = {
                   "image": 23900,
                   "cost": 0,
                   "description": "单体气力回复 每回合回复50气力 持续3回合",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "祝:50x3",
+                  "functionName": "ITEM_useImprecate"
                 }
               ],
               "delItems": [
@@ -149021,7 +149463,9 @@ export const WORLD = {
                   "image": 23030,
                   "cost": 100,
                   "description": "吃下去後耐久力回复100 生长在哈罗山上的高山植物",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -152955,7 +153399,9 @@ export const WORLD = {
                   "image": 22320,
                   "cost": 1000,
                   "description": "从气绝回复成600的耐久力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "600",
+                  "functionName": "ITEM_useRessurect"
                 }
               ],
               "delItems": [
@@ -158753,7 +159199,9 @@ export const WORLD = {
                   "image": 24044,
                   "cost": 5,
                   "description": "加特利奴喜欢的食物 食用後耐久力回复5",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体5",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [
@@ -158780,7 +159228,9 @@ export const WORLD = {
                       "image": 24101,
                       "cost": 10,
                       "description": "战斗中使用的话就会．．",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "地 50 回合 6",
+                      "functionName": "ITEM_useFieldChange"
                     },
                     {
                       "id": 2452,
@@ -158789,7 +159239,9 @@ export const WORLD = {
                       "image": 24103,
                       "cost": 10,
                       "description": "战斗中使用的话就会．．",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "水 50 回合 6",
+                      "functionName": "ITEM_useFieldChange"
                     },
                     {
                       "id": 2453,
@@ -158798,7 +159250,9 @@ export const WORLD = {
                       "image": 24102,
                       "cost": 10,
                       "description": "战斗中使用的话就会．．",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "火 50 回合 6",
+                      "functionName": "ITEM_useFieldChange"
                     },
                     {
                       "id": 2454,
@@ -158807,7 +159261,9 @@ export const WORLD = {
                       "image": 24100,
                       "cost": 10,
                       "description": "战斗中使用的话就会．．",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "风 50 回合 6",
+                      "functionName": "ITEM_useFieldChange"
                     }
                   ]
                 }
@@ -158846,7 +159302,9 @@ export const WORLD = {
                   "image": 24094,
                   "cost": 10,
                   "description": "战斗中使用的话就会．．",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "毒 回合 8",
+                  "functionName": "ITEM_useStatusChange"
                 }
               ],
               "delItems": [
@@ -158857,7 +159315,9 @@ export const WORLD = {
                   "image": 24044,
                   "cost": 5,
                   "description": "加特利奴喜欢的食物 食用後耐久力回复5",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体5",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -158914,7 +159374,9 @@ export const WORLD = {
                   "image": 24044,
                   "cost": 5,
                   "description": "加特利奴喜欢的食物 食用後耐久力回复5",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体5",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [],
@@ -159682,7 +160144,8 @@ export const WORLD = {
                       "image": 24709,
                       "cost": 120000,
                       "description": "降低遇敌机率",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "rand:100"
                     },
                     {
                       "id": 18557,
@@ -159905,7 +160368,11 @@ export const WORLD = {
                       "image": 24541,
                       "cost": 10,
                       "description": "气25回复(1人) 叁明治内放入各种水果",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "气25",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 11,
+                      "maxUses": 11
                     },
                     {
                       "id": 12635,
@@ -159914,7 +160381,11 @@ export const WORLD = {
                       "image": 24538,
                       "cost": 10,
                       "description": "耐久力120回复(1人) 非常时刻用硬的面包",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体120",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     },
                     {
                       "id": 12641,
@@ -159923,7 +160394,11 @@ export const WORLD = {
                       "image": 24400,
                       "cost": 140,
                       "description": "耐久力180回复(1体) 刚做好热腾腾的饭团",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "体180",
+                      "functionName": "ITEM_useRecovery",
+                      "damageBreak": 6,
+                      "maxUses": 6
                     }
                   ]
                 }
@@ -160181,7 +160656,9 @@ export const WORLD = {
                   "image": 24089,
                   "cost": 10,
                   "description": "腐烂的鱼 宠物的忠诚度前後+3",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 3",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 11872,
@@ -160238,7 +160715,9 @@ export const WORLD = {
                   "image": 24091,
                   "cost": 20,
                   "description": "在海里被钓的普通的鱼 宠物的忠诚度前後+5",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 5",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 11873,
@@ -160295,7 +160774,9 @@ export const WORLD = {
                   "image": 24088,
                   "cost": 30,
                   "description": "在海中被钓到气势不错的鱼 宠物的忠诚度+10上升",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 10",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 11874,
@@ -160421,7 +160902,9 @@ export const WORLD = {
                   "image": 23007,
                   "cost": 240,
                   "description": "全体气力60前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气60",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [
@@ -167271,7 +167754,9 @@ export const WORLD = {
                       "image": 24074,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至萨姆吉尔村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 1000 92 99",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13062,
@@ -167280,7 +167765,9 @@ export const WORLD = {
                       "image": 24075,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至玛丽娜丝渔村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 2000 65 58",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13063,
@@ -167289,7 +167776,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至加加村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 3000 94 97",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13064,
@@ -167298,7 +167787,9 @@ export const WORLD = {
                       "image": 24077,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至卡鲁它那村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 4000 66 55",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13065,
@@ -167307,7 +167798,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至福尔德村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 5000 45 53",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13066,
@@ -167316,7 +167809,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至奇喀喀村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 3400 63 48",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13067,
@@ -167325,7 +167820,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至达那村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 5106 20 36",
+                      "functionName": "ITEM_useWarp"
                     },
                     {
                       "id": 13068,
@@ -167334,7 +167831,9 @@ export const WORLD = {
                       "image": 24076,
                       "cost": 2000,
                       "description": "可单人瞬间飞行至柯奥村",
-                      "source": "gmsv-data/itemset6.txt"
+                      "source": "gmsv-data/itemset6.txt",
+                      "option": "0 1100 48 91",
+                      "functionName": "ITEM_useWarp"
                     }
                   ]
                 }
@@ -167474,7 +167973,11 @@ export const WORLD = {
                   "image": 24449,
                   "cost": 10,
                   "description": "耐久力50回复(自己) 鸡蛋变的有点黑色",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体50",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 }
               ],
               "getRandItems": [],
@@ -167517,7 +168020,11 @@ export const WORLD = {
                   "image": 24564,
                   "cost": 10,
                   "description": "气10耐60回复(1体) 充满原始风味的粽子",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气10体60",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 7,
+                  "maxUses": 7
                 }
               ],
               "getRandItems": [],
@@ -167560,7 +168067,11 @@ export const WORLD = {
                   "image": 24541,
                   "cost": 10,
                   "description": "气15回复(1人) 携带方便的叁明治",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气15",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -167603,7 +168114,11 @@ export const WORLD = {
                   "image": 24447,
                   "cost": 10,
                   "description": "耐久力70回复(1人) 甜甜的蛋饮料",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体70",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 },
                 {
                   "id": 12833,
@@ -167612,7 +168127,11 @@ export const WORLD = {
                   "image": 24443,
                   "cost": 10,
                   "description": "气3回复(1体) 酸酸甜甜的果汁",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气3",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 },
                 {
                   "id": 12836,
@@ -167621,7 +168140,11 @@ export const WORLD = {
                   "image": 24444,
                   "cost": 10,
                   "description": "气10回复(1人) 青涩气味的菜汁…",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气10",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -167664,7 +168187,9 @@ export const WORLD = {
                   "image": 24407,
                   "cost": 10,
                   "description": "耐140回复(我方全体) 珍贵的香菇胡椒烧",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体140",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -167708,7 +168233,11 @@ export const WORLD = {
                   "image": 24528,
                   "cost": 10,
                   "description": "气30回复(1人) 充满魄力的炒青菜",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气30",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 },
                 {
                   "id": 12562,
@@ -167717,7 +168246,11 @@ export const WORLD = {
                   "image": 24413,
                   "cost": 10,
                   "description": "气22回复(1体) 香料 很多的沙拉",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气22",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 },
                 {
                   "id": 12836,
@@ -167726,7 +168259,11 @@ export const WORLD = {
                   "image": 24444,
                   "cost": 10,
                   "description": "气10回复(1人) 青涩气味的菜汁…",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气10",
+                  "functionName": "ITEM_useRecovery",
+                  "damageBreak": 11,
+                  "maxUses": 11
                 }
               ],
               "getRandItems": [],
@@ -168050,7 +168587,9 @@ export const WORLD = {
                   "image": 24450,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 都是苹果的牛排",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -168928,7 +169467,9 @@ export const WORLD = {
                   "image": 24450,
                   "cost": 10,
                   "description": "耐久力100回复(我方全体) 都是苹果的牛排",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体100",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -171176,6 +171717,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 2,
+                "maxUses": 2,
                 "price": 4000
               },
               {
@@ -171191,6 +171734,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 2,
+                "maxUses": 2,
                 "price": 4000
               },
               {
@@ -171652,6 +172197,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
+                "damageBreak": 100,
+                "maxUses": 100,
                 "price": 0
               },
               {
@@ -171903,7 +172450,9 @@ export const WORLD = {
                   "image": 24047,
                   "cost": 10,
                   "description": "可习得宠技-救援的罐头",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "573",
+                  "functionName": "ITEM_useSkillCanned"
                 }
               ],
               "delItems": [
@@ -174316,7 +174865,11 @@ export const WORLD = {
                   "image": 24431,
                   "cost": 800,
                   "description": "沉默状态回复(全体) 勇士们爱吃的火锅",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "默",
+                  "functionName": "ITEM_Refresh",
+                  "damageBreak": 6,
+                  "maxUses": 6
                 }
               ],
               "delItems": [
@@ -175690,7 +176243,9 @@ export const WORLD = {
                   "image": 24144,
                   "cost": 1,
                   "description": "复活光精灵 气绝回复100耐久力",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "100 吸 turn 1",
+                  "functionName": "ITEM_ResAndDef"
                 }
               ],
               "delItems": [
@@ -176238,7 +176793,9 @@ export const WORLD = {
                   "image": 24035,
                   "cost": 30,
                   "description": "肉汁丰富的肉片 宠物的忠诚度+10上升",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "忠 10",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "delItems": [],
@@ -193317,6 +193874,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 1,
                 "level": 0,
+                "damageBreak": 7,
+                "maxUses": 7,
                 "price": 165
               },
               {
@@ -193332,6 +193891,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 1,
                 "level": 0,
+                "damageBreak": 7,
+                "maxUses": 7,
                 "price": 180
               },
               {
@@ -193392,6 +193953,8 @@ export const WORLD = {
                 "useField": 2,
                 "target": 1,
                 "level": 0,
+                "damageBreak": 7,
+                "maxUses": 7,
                 "price": 300
               },
               {
@@ -210247,7 +210810,8 @@ export const WORLD = {
                   "image": 20681,
                   "cost": 5000,
                   "description": "防+64 敏-16 体力+30 滋润的精灵 Lv4",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "EA:40"
                 },
                 {
                   "id": 2040,
@@ -211138,7 +211702,8 @@ export const WORLD = {
                   "image": 20687,
                   "cost": 5000,
                   "description": "防+53 体力+20 恩惠的精灵Lv4",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "EA:40"
                 },
                 {
                   "id": 2035,
@@ -211943,7 +212508,8 @@ export const WORLD = {
                   "image": 21113,
                   "cost": 5000,
                   "description": "防+40 回避率+6 气力+40 滋润的精灵 Lv4",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "EA:40"
                 },
                 {
                   "id": 2030,
@@ -213655,7 +214221,9 @@ export const WORLD = {
                   "image": 24042,
                   "cost": 85,
                   "description": "耐久力85前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体85",
+                  "functionName": "ITEM_useRecovery"
                 }
               ],
               "getRandItems": [],
@@ -214656,7 +215224,9 @@ export const WORLD = {
                   "image": 24041,
                   "cost": 85,
                   "description": "耐久力85前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体85",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 2075,
@@ -214674,7 +215244,9 @@ export const WORLD = {
                   "image": 24042,
                   "cost": 85,
                   "description": "耐久力85前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体85",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 2077,
@@ -214692,7 +215264,9 @@ export const WORLD = {
                   "image": 24041,
                   "cost": 85,
                   "description": "耐久力85前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "体85",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 2079,
@@ -219978,7 +220552,9 @@ export const WORLD = {
                   "image": 23012,
                   "cost": 10,
                   "description": "能使圣兽[水]潜在能力觉醒的神秘泉水",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "623",
+                  "functionName": "ITEM_useSkillCanned"
                 }
               ],
               "delItems": [
@@ -219989,7 +220565,9 @@ export const WORLD = {
                   "image": 24103,
                   "cost": 10,
                   "description": "战斗中使用的话就会．．",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "水 50 回合 6",
+                  "functionName": "ITEM_useFieldChange"
                 },
                 {
                   "id": 2440,
@@ -220007,7 +220585,9 @@ export const WORLD = {
                   "image": 23012,
                   "cost": 100,
                   "description": "气力100前後回复",
-                  "source": "gmsv-data/itemset6.txt"
+                  "source": "gmsv-data/itemset6.txt",
+                  "option": "气100",
+                  "functionName": "ITEM_useRecovery"
                 },
                 {
                   "id": 2441,
