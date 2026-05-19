@@ -286,6 +286,14 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(useItemGame(body.game, Number(body.itemId)));
     }
+    if (url.pathname === "/api/game/equip-item" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(equipItemGame(body.game, Number(body.itemId)));
+    }
+    if (url.pathname === "/api/game/unequip-item" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(unequipItemGame(body.game, String(body.slot || "")));
+    }
     if (url.pathname === "/api/game/drop-item" && request.method === "POST") {
       const body = await readJson(request);
       return json(dropItemGame(body.game, Number(body.itemId), Number(body.qty) || 1));
@@ -1251,10 +1259,79 @@ function useItemGame(game, itemId) {
   game = normalizeGame(game);
   const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
+  if (itemLooksEquipment(item)) return equipItemGame(game, itemId);
 
   const itemUse = applyUsableItem(game, item);
   addLog(game, itemUseLogLine(itemUse));
   return withMap(game, { itemUse });
+}
+
+function equipItemGame(game, itemId) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能更换装备");
+  const item = findInventoryItem(game, itemId);
+  if (!item || item.id === "stone") throw new Error("背包里没有这个装备");
+  if (!itemLooksEquipment(item)) throw new Error(`${item.name || "这个道具"} 不是装备，不能穿上`);
+
+  const slot = equipmentSlotForItem(item);
+  const equipment = syncEquipmentState(game);
+  const previous = equipment[slot] || null;
+  const willFreeInventorySlot = Number(item.qty || 0) <= 1;
+  if (previous && !willFreeInventorySlot && !canCarryItem(game, previous)) {
+    throw new Error("背包没有空位，无法替换装备");
+  }
+
+  const equipped = {
+    ...item,
+    qty: 1,
+    equippedSlot: slot,
+    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
+  item.qty = Number(item.qty || 0) - 1;
+  game.inventory = (game.inventory || []).filter((entry) => entry.id === "stone" || Number(entry.qty || 0) > 0);
+  if (previous) addInventoryItem(game, previous, 1);
+
+  equipment[slot] = equipped;
+  game.character.equipment = equipment;
+  game.player.equipment = { ...equipment };
+  syncCharacterFields(game);
+  addLog(game, `装备了 ${equipped.name || `item ${equipped.id}`}（${slot}）。`);
+  return withMap(game, {
+    itemAction: {
+      type: "equip",
+      slot,
+      itemId: equipped.id,
+      itemName: equipped.name,
+      replaced: previous ? previous.name || previous.id : null,
+      source: `${GMSV_DATA_SOURCE}/itemset6.txt ITEM_suitEquip/ITEM_ResuitEquip`
+    }
+  });
+}
+
+function unequipItemGame(game, slot) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能更换装备");
+  const normalizedSlot = equipmentSlotLabel(slot);
+  const equipment = syncEquipmentState(game);
+  const item = equipment[normalizedSlot];
+  if (!item) throw new Error("这个装备栏没有装备");
+  if (!canCarryItem(game, item)) throw new Error("背包没有空位，无法卸下装备");
+
+  delete equipment[normalizedSlot];
+  addInventoryItem(game, item, 1);
+  game.character.equipment = equipment;
+  game.player.equipment = { ...equipment };
+  syncCharacterFields(game);
+  addLog(game, `卸下了 ${item.name || `item ${item.id}`}（${normalizedSlot}）。`);
+  return withMap(game, {
+    itemAction: {
+      type: "unequip",
+      slot: normalizedSlot,
+      itemId: item.id,
+      itemName: item.name,
+      source: `${GMSV_DATA_SOURCE}/itemset6.txt ITEM_suitEquip/ITEM_ResuitEquip`
+    }
+  });
 }
 
 function dropItemGame(game, itemId, qty = 1) {
@@ -1291,6 +1368,59 @@ function dropItemInPlace(game, itemId, qty = 1) {
 
 function findInventoryItem(game, itemId) {
   return (game.inventory || []).find((entry) => Number(entry.id) === Number(itemId) && Number(entry.qty || 0) > 0);
+}
+
+function syncEquipmentState(game) {
+  game.player ||= {};
+  game.character ||= {};
+  const equipment = equipmentState(game);
+  game.character.equipment = equipment;
+  game.player.equipment = { ...equipment };
+  return equipment;
+}
+
+function equipmentState(game) {
+  const raw = game.character?.equipment || game.player?.equipment || {};
+  const entries = Object.entries(raw || {})
+    .filter(([, item]) => item && typeof item === "object")
+    .map(([slot, item]) => {
+      const normalizedSlot = equipmentSlotLabel(slot || item.equippedSlot || equipmentSlotForItem(item));
+      return [normalizedSlot, {
+        ...item,
+        qty: 1,
+        equippedSlot: normalizedSlot,
+        source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+      }];
+    });
+  return Object.fromEntries(entries);
+}
+
+function itemLooksEquipment(item = {}) {
+  const functionName = itemFunctionName(item);
+  if (/ITEM_suitEquip|ITEM_ResuitEquip/i.test(functionName)) return true;
+  const text = `${item.name || ""} ${item.secretName || ""} ${item.description || ""} ${item.category || ""} ${item.option || ""}`;
+  return /武器|防具|装备|裝備|斧|枪|槍|弓|投石|爪|兜|帽|服|铠|鎧|甲|盾|刀|剑|劍|棒|棍|鞋|靴|项链|項鏈|戒指|护身符|護身符/.test(text);
+}
+
+function equipmentSlotForItem(item = {}) {
+  const text = `${item.name || ""} ${item.secretName || ""} ${item.description || ""} ${item.category || ""} ${item.option || ""} ${item.type || ""}`.toLowerCase();
+  if (/兜|帽|头|頭|helmet|helm/.test(text)) return "头";
+  if (/盾|shield/.test(text)) return "盾";
+  if (/衣|服|铠|鎧|甲|armor|防具/.test(text)) return "身";
+  if (/鞋|靴|足|boot/.test(text)) return "足";
+  if (/项链|項鏈|戒指|饰|飾|护身符|護身符|amulet|ring/.test(text)) return "饰";
+  return "武器";
+}
+
+function equipmentSlotLabel(slot) {
+  const text = String(slot || "").trim();
+  if (/头|頭|兜|帽/i.test(text)) return "头";
+  if (/盾/i.test(text)) return "盾";
+  if (/身|衣|服|铠|鎧|甲|防/i.test(text)) return "身";
+  if (/足|鞋|靴/i.test(text)) return "足";
+  if (/饰|飾|项|項|戒|护身|護身/i.test(text)) return "饰";
+  if (/武|weapon|手/i.test(text)) return "武器";
+  return text || "武器";
 }
 
 function firstUsableRecoveryItem(game) {
@@ -8958,6 +9088,13 @@ function addInventoryItem(game, item, qty = 1) {
     price: item.price,
     cost: item.cost,
     description: item.description,
+    secretName: item.secretName,
+    category: item.category,
+    option: item.option,
+    effectOption: item.effectOption,
+    functionName: item.functionName,
+    useFunction: item.useFunction,
+    equippedSlot: item.equippedSlot,
     source: `${GMSV_DATA_SOURCE}/itemset6.txt`
   });
 }
@@ -9958,6 +10095,7 @@ function buildCharacterFields(game) {
   game.pets ||= [];
   ensureFlags(game);
   const inventory = inventoryState(game);
+  const equipment = equipmentState(game);
   const activeIndex = getActivePetIndex(game);
   const activePet = game.pets[activeIndex] || null;
   const trueBits = Object.entries(game.flags.bits || {})
@@ -10036,6 +10174,13 @@ function buildCharacterFields(game) {
       FireAT: Number(game.player?.FireAT || 0),
       WindAT: Number(game.player?.WindAT || 0)
     },
+    equipment: Object.fromEntries(Object.entries(equipment).map(([slot, item]) => [slot, {
+      id: item.id,
+      name: item.name || item.Name || `item ${item.id || ""}`,
+      type: item.type || "",
+      description: item.description || "",
+      source: item.source || ""
+    }])),
     events: {
       endEvents: [...(game.flags.endEvents || [])],
       nowEvents: [...(game.flags.nowEvents || [])],
@@ -10343,6 +10488,7 @@ function compactCharacterFields(game) {
     attributes: fields.attributes,
     work: fields.work,
     elements: fields.elements,
+    equipment: fields.equipment || {},
     events: {
       endEvents: fields.events?.endEvents || [],
       nowEvents: fields.events?.nowEvents || [],
@@ -10425,8 +10571,9 @@ function normalizeGame(game) {
   setCharacterDir(game, game.player?.dir ?? game.location?.dir);
   game.pets ||= [];
   ensurePetFormation(game);
-  normalizeProgressionRuntime(game);
   game.inventory ||= [];
+  syncEquipmentState(game);
+  normalizeProgressionRuntime(game);
   game.quests ||= {};
   game.quests = normalizeQuestRuntime(game.quests);
   ensureFlags(game);
@@ -10524,7 +10671,8 @@ function buildSaveJson(game) {
       name: game.character.name,
       createdAt: game.character.createdAt,
       updatedAt: game.character.updatedAt,
-      deleted: game.character.deleted
+      deleted: game.character.deleted,
+      equipment: equipmentState(game)
     },
     player: { ...game.player },
     location: { ...game.location },

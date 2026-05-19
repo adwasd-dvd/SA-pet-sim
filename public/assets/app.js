@@ -147,6 +147,7 @@ let mapRenderVersion = 0;
 let activeTab = "ai";
 let assistTab = "map";
 let clientWindowOpen = false;
+let selectedClientItemId = null;
 let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
@@ -3489,6 +3490,7 @@ async function useItem(itemId) {
   if (!game) return;
   try {
     game = await api("/api/game/use-item", { game, itemId });
+    syncSelectedClientItem();
     save();
     render();
   } catch (error) {
@@ -3505,10 +3507,39 @@ async function dropItem(itemId) {
   if (!window.confirm(`丢弃 ${item.name} x1？`)) return;
   try {
     game = await api("/api/game/drop-item", { game, itemId, qty: 1 });
+    syncSelectedClientItem();
     save();
     render();
   } catch (error) {
     game.log.push(error.message || "道具丢弃失败");
+    save();
+    render();
+  }
+}
+
+async function equipItem(itemId) {
+  if (!game) return;
+  try {
+    game = await api("/api/game/equip-item", { game, itemId });
+    syncSelectedClientItem();
+    save();
+    render();
+  } catch (error) {
+    game.log.push(error.message || "装备失败");
+    save();
+    render();
+  }
+}
+
+async function unequipItem(slot) {
+  if (!game) return;
+  try {
+    game = await api("/api/game/unequip-item", { game, slot });
+    syncSelectedClientItem();
+    save();
+    render();
+  } catch (error) {
+    game.log.push(error.message || "卸下装备失败");
     save();
     render();
   }
@@ -3896,19 +3927,23 @@ function characterEquipmentSummary() {
   if (rows.length) {
     return rows.map(([slot, item]) => ({
       slot,
+      id: item.id,
       name: item.name || item.Name || `item ${item.id || ""}`,
-      description: item.description || item.source || ""
+      description: item.description || item.source || "",
+      equipped: true
     }));
   }
-  const gearItems = (game.inventory || []).filter((item) => /武器|防具|斧|枪|弓|投石|爪|兜|服|铠|盾|刀/.test(`${item.name || ""} ${item.description || ""}`));
+  const gearItems = (game.inventory || []).filter(inventoryItemGear);
   if (gearItems.length) {
     return gearItems.slice(0, 5).map((item) => ({
-      slot: "背包候选",
+      slot: `背包候选 / ${inventoryItemEquipmentSlot(item)}`,
+      id: item.id,
       name: item.name || `item ${item.id}`,
-      description: item.description || item.source || ""
+      description: item.description || item.source || "",
+      equipped: false
     }));
   }
-  return [{ slot: "装备栏", name: "未装备", description: "等待接入原版装备字段" }];
+  return [{ slot: "装备栏", name: "未装备", description: "背包里有装备时可以在 ITEM 窗口直接穿上", equipped: false }];
 }
 
 function renderAssistKnowledge() {
@@ -4331,7 +4366,19 @@ function clientCharacterWindow() {
         </article>
         <article><strong>计数</strong><span>战 ${Number(player.battleCount || 0)} | 胜 ${Number(player.winCount || 0)} | 击倒 ${Number(player.killPetCount || 0)}</span></article>
         <article><strong>当前位置</strong><span>${escapeHtml(game.world.map.name)} (${Number(game.location.x || 0)},${Number(game.location.y || 0)})</span></article>
-        ${equipment.map((item) => `<article><strong>${escapeHtml(item.slot)}</strong><span>${escapeHtml(item.name)} | ${escapeHtml(item.description)}</span></article>`).join("")}
+        ${equipment.map((item) => `
+          <article class="client-equipment-row">
+            <div>
+              <strong>${escapeHtml(item.slot)}</strong>
+              <span>${escapeHtml(item.name)} | ${escapeHtml(item.description)}</span>
+            </div>
+            ${item.equipped && item.name !== "未装备"
+              ? `<button type="button" data-client-unequip-slot="${escapeHtml(item.slot)}">卸下</button>`
+              : item.id
+                ? `<button type="button" data-client-open-item="${item.id}">查看</button>`
+                : `<button type="button" data-client-show-status disabled>查看</button>`}
+          </article>
+        `).join("")}
       </div>
     `
   };
@@ -4514,6 +4561,7 @@ function clientItemWindow() {
   const state = inventoryState();
   const capacity = Math.max(15, Number(state.capacity || 15));
   const slots = Array.from({ length: capacity }, (_, index) => inventory[index] || null);
+  const selected = selectedClientInventoryItem(inventory);
   return {
     title: "ITEM",
     html: `
@@ -4527,24 +4575,49 @@ function clientItemWindow() {
         </div>
       </div>
       <div class="client-slot-grid">
-        ${slots.map((item) => clientItemSlot(item)).join("")}
+        ${slots.map((item) => clientItemSlot(item, selected)).join("")}
       </div>
-      <div class="client-item-desc">
-        <strong>${inventory.length ? escapeHtml(inventory[0].name) : "背包"}</strong>
-        <span>${inventory.length ? escapeHtml(inventory[0].description || inventory[0].source || "道具资料来自 itemset6.txt。") : `空位 ${state.remaining ?? Math.max(0, capacity - state.used)}/${capacity}`}</span>
-      </div>
+      ${selected ? clientSelectedItemPanel(selected) : `
+        <div class="client-item-desc">
+          <strong>背包</strong>
+          <span>空位 ${state.remaining ?? Math.max(0, capacity - state.used)}/${capacity}</span>
+        </div>
+      `}
     `
   };
 }
 
-function clientItemSlot(item) {
+function clientItemSlot(item, selected) {
   if (!item) return `<span class="client-slot empty"></span>`;
   const label = item.image || item.type || item.name || "物";
+  const isSelected = Number(selected?.id) === Number(item.id);
+  const gear = inventoryItemGear(item);
   return `
-    <button class="client-slot filled" type="button" data-client-use-item="${item.id}" title="${escapeHtml(item.description || item.name)}" ${inventoryItemUsable(item) ? "" : "disabled"}>
+    <button class="client-slot filled ${isSelected ? "selected" : ""} ${gear ? "gear" : ""}" type="button" data-client-select-item="${item.id}" title="${escapeHtml(item.description || item.name)}">
       <b>${escapeHtml(String(label).slice(0, 2))}</b>
       <small>x${Number(item.qty || 0)}</small>
     </button>
+  `;
+}
+
+function clientSelectedItemPanel(item) {
+  const usable = inventoryItemUsable(item);
+  const gear = inventoryItemGear(item);
+  const description = item.description || item.source || "道具资料来自 itemset6.txt。";
+  return `
+    <div class="client-item-desc">
+      <strong>${escapeHtml(item.name || `item ${item.id}`)}</strong>
+      <span>${escapeHtml(description)}</span>
+      <div class="client-item-meta">
+        <em>${escapeHtml(gear ? `装备候选 / ${inventoryItemEquipmentSlot(item)}` : (usable ? "可使用" : "不可直接使用"))}</em>
+        <em>x${Number(item.qty || 0)}</em>
+      </div>
+      <div class="client-item-actions">
+        ${gear ? `<button type="button" data-client-equip-item="${item.id}">穿上</button>` : `<button type="button" data-client-use-item="${item.id}" ${usable ? "" : "disabled"}>使用</button>`}
+        <button type="button" data-client-drop-item="${item.id}">丢弃</button>
+        <button type="button" data-client-show-status>装备栏</button>
+      </div>
+    </div>
   `;
 }
 
@@ -4714,8 +4787,32 @@ function bindClientWindowActions() {
   els.clientWindowBody.querySelectorAll("[data-client-active-pet]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.clientActivePet), mode: "active" }));
   });
+  els.clientWindowBody.querySelectorAll("[data-client-select-item]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectedClientItemId = Number(btn.dataset.clientSelectItem);
+      renderClientWindow();
+    });
+  });
   els.clientWindowBody.querySelectorAll("[data-client-use-item]").forEach((btn) => {
     btn.addEventListener("click", () => useItem(Number(btn.dataset.clientUseItem)));
+  });
+  els.clientWindowBody.querySelectorAll("[data-client-equip-item]").forEach((btn) => {
+    btn.addEventListener("click", () => equipItem(Number(btn.dataset.clientEquipItem)));
+  });
+  els.clientWindowBody.querySelectorAll("[data-client-drop-item]").forEach((btn) => {
+    btn.addEventListener("click", () => dropItem(Number(btn.dataset.clientDropItem)));
+  });
+  els.clientWindowBody.querySelectorAll("[data-client-unequip-slot]").forEach((btn) => {
+    btn.addEventListener("click", () => unequipItem(btn.dataset.clientUnequipSlot));
+  });
+  els.clientWindowBody.querySelectorAll("[data-client-show-status]").forEach((btn) => {
+    btn.addEventListener("click", () => showTab("status", { openClientWindow: true }));
+  });
+  els.clientWindowBody.querySelectorAll("[data-client-open-item]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectedClientItemId = Number(btn.dataset.clientOpenItem);
+      showTab("items", { openClientWindow: true });
+    });
   });
   els.clientWindowBody.querySelectorAll("[data-player-stat-up]").forEach((btn) => {
     btn.addEventListener("click", () => allocatePlayerPoint(btn.dataset.playerStatUp));
@@ -4816,8 +4913,47 @@ function getActivePet() {
   return index >= 0 ? game?.pets?.[index] || null : null;
 }
 
+function syncSelectedClientItem() {
+  const inventory = (game?.inventory || []).filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
+  if (!inventory.length) {
+    selectedClientItemId = null;
+    return null;
+  }
+  const selected = inventory.find((item) => Number(item.id) === Number(selectedClientItemId));
+  if (selected) return selected;
+  selectedClientItemId = inventory[0].id;
+  return inventory[0];
+}
+
+function selectedClientInventoryItem(inventory) {
+  if (!inventory.length) {
+    selectedClientItemId = null;
+    return null;
+  }
+  const selected = inventory.find((item) => Number(item.id) === Number(selectedClientItemId));
+  if (selected) return selected;
+  selectedClientItemId = inventory[0].id;
+  return inventory[0];
+}
+
+function inventoryItemGear(item) {
+  const text = `${item.name || ""} ${item.description || ""} ${item.category || ""} ${item.option || ""} ${item.functionName || ""}`;
+  return /ITEM_suitEquip|ITEM_ResuitEquip|武器|防具|装备|裝備|斧|枪|槍|弓|投石|爪|兜|帽|服|铠|鎧|甲|盾|刀|剑|劍|棒|棍|鞋|靴|项链|項鏈|戒指|护身符|護身符/i.test(text);
+}
+
+function inventoryItemEquipmentSlot(item) {
+  const text = `${item.name || ""} ${item.description || ""} ${item.category || ""} ${item.option || ""}`.toLowerCase();
+  if (/兜|帽|头|頭|helmet|helm/.test(text)) return "头";
+  if (/盾|shield/.test(text)) return "盾";
+  if (/衣|服|铠|鎧|甲|armor|防具/.test(text)) return "身";
+  if (/鞋|靴|足|boot/.test(text)) return "足";
+  if (/项链|項鏈|戒指|饰|飾|护身符|護身符|amulet|ring/.test(text)) return "饰";
+  return "武器";
+}
+
 function inventoryItemUsable(item) {
   const text = `${item.name || ""} ${item.description || ""} ${item.option || ""} ${item.functionName || ""}`;
+  if (inventoryItemGear(item)) return false;
   const rawType = item.type ?? item.Type;
   const hasNumericType = rawType !== undefined && rawType !== null && rawType !== "" && Number.isFinite(Number(rawType));
   if (hasNumericType && ![15, 16, 20].includes(Number(rawType)) && !/^ITEM_/i.test(String(item.functionName || ""))) return false;

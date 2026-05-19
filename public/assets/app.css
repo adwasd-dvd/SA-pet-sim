@@ -788,9 +788,16 @@ h3 {
   color: #fff;
 }
 
-.client-slot.filled:disabled {
-  cursor: default;
-  opacity: 1;
+.client-slot.filled.gear {
+  border-color: #325f79;
+  background:
+    linear-gradient(135deg, #7f9fb4, #29465c 58%, #182433);
+}
+
+.client-slot.filled.selected {
+  outline: 2px solid #ffef79;
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 2px rgb(30 18 0 / 62%);
 }
 
 .client-slot b {
@@ -829,6 +836,40 @@ h3 {
   line-height: 1.45;
 }
 
+.client-item-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #ffef79;
+  font-size: 11px;
+  font-style: normal;
+}
+
+.client-item-meta em {
+  font-style: normal;
+}
+
+.client-item-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.client-item-actions button,
+.client-equipment-row button {
+  min-width: 0;
+  border: 1px solid #d2a33e;
+  padding: 4px 5px;
+  background: rgb(27 59 48 / 88%);
+  color: #fffad2;
+  font-weight: 900;
+}
+
+.client-item-actions button:disabled,
+.client-equipment-row button:disabled {
+  opacity: .45;
+}
+
 .client-list-window {
   display: grid;
   gap: 6px;
@@ -846,6 +887,15 @@ h3 {
 .client-list-window article {
   display: grid;
   gap: 3px;
+}
+
+.client-equipment-row {
+  grid-template-columns: minmax(0, 1fr) 48px;
+  align-items: center;
+}
+
+.client-equipment-row div {
+  min-width: 0;
 }
 
 .client-list-window.log {

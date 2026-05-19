@@ -204,6 +204,19 @@ await expectApiError(
   "还没有可模拟",
   "quest marker item is not consumed as a fake usable item"
 );
+let equipGame = await api("/api/game/new", { name: "item-equip-test" });
+equipGame.inventory.push({ id: 5020, name: "石斧", qty: 1, description: "武器 攻击力+5", functionName: "ITEM_suitEquip" });
+equipGame = await api("/api/game/equip-item", { game: equipGame, itemId: 5020 });
+assertEqual(inventoryQty(equipGame, 5020), 0, "equip item removes the equipped copy from inventory");
+assertEqual(equipGame.character.equipment["武器"].name, "石斧", "equip item records the weapon slot on character");
+assertEqual(equipGame.player.equipment["武器"].id, 5020, "equip item mirrors equipment on player runtime");
+equipGame.inventory.push({ id: 5021, name: "骨刀", qty: 1, description: "武器 攻击力+8", functionName: "ITEM_suitEquip" });
+equipGame = await api("/api/game/equip-item", { game: equipGame, itemId: 5021 });
+assertEqual(equipGame.character.equipment["武器"].name, "骨刀", "equip item replaces an occupied slot");
+assertEqual(inventoryQty(equipGame, 5020), 1, "replaced equipment returns to inventory");
+equipGame = await api("/api/game/unequip-item", { game: equipGame, slot: "武器" });
+assertEqual(equipGame.character.equipment["武器"], undefined, "unequip clears the equipment slot");
+assertEqual(inventoryQty(equipGame, 5021), 1, "unequip returns the item to inventory");
 
 const redRaptorGuideRsp = await api("/api/ai/guide", { game, prompt: "红暴任务怎么做" });
 assert(redRaptorGuideRsp.text.includes("英雄岛前传：红暴"), "local guide retrieves red raptor quest knowledge");
