@@ -2991,6 +2991,15 @@ function isNoChoice(text) {
 }
 
 async function startNpcEnemyBattle(env, request, game, npc) {
+  if (npc.npcEnemy?.oneBattle && game.encounter && game.battle?.npcEnemy?.npcId === npc.id) {
+    const already = npc.npcEnemy?.alreadyMessage || `${npc.name} 已经在战斗中。`;
+    recordNpcVmEvent(game, npc, "startBattle", "blocked", {
+      reason: "npcenemy-onebattle",
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    });
+    recordNpcVmEvent(game, npc, "say", "ok", { line: already, reason: "npcenemy-onebattle" });
+    return already;
+  }
   const enemies = await createNpcEnemyEncounterParty(env, request, game, npc);
   if (!enemies.length) {
     recordNpcVmEvent(game, npc, "startBattle", "blocked", {
@@ -3027,6 +3036,8 @@ async function startNpcEnemyBattle(env, request, game, npc) {
       source: npc.npcEnemy?.source || npc.script || npc.source || "",
       dieAct: Number(npc.npcEnemy?.dieAct || 0),
       respawnSeconds: Number(npc.npcEnemy?.respawnSeconds || 0),
+      oneBattle: Boolean(npc.npcEnemy?.oneBattle),
+      alreadyMessage: npc.npcEnemy?.alreadyMessage || "",
       startMessage,
       endMessage: npc.npcEnemy?.endMessage || "",
       warp: npc.npcEnemy?.warp || null,

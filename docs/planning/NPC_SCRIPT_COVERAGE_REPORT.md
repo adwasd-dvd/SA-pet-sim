@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-19T19:47:46.066Z
+Generated: 2026-05-19T20:12:25.533Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -58,7 +58,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| onebattle | candidate-action | 10 | 10 | 10 | 261 | external/sources/ref___data/npc/100/sb_jba.arg:13 |
 | special_pet | candidate-action | 9 | 9 | 9 | 16 | external/sources/ref___data/npc/genout/ps_1003_12_13:13 |
 | routeto | unknown | 5 | 8 | 8 | 46 | external/sources/ref___data/npc/casino/petracepet1.arg:1 |
 | needstone | candidate-action | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:6 |
@@ -83,10 +82,11 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | poolfull_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:8 |
 | pooltanks_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:7 |
 | cost | candidate-action | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:1 |
+| draw_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:4 |
 
 ## Recommended Next Slice
 
-- Start with `onebattle`, because it appears in classic-core source references 10 times.
+- Start with `special_pet`, because it appears in classic-core source references 9 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

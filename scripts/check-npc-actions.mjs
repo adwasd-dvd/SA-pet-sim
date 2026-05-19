@@ -700,6 +700,28 @@ assertEqual(ganzoBattleGame.lastBattleOutcome.defeatedEnemies.length, 2, "last b
 assert(ganzoBattleGame.flags.npcEnemyDefeats[ganzo.id]?.until, "Ganzo victory records source dieact=0 respawn timer");
 assert(!ganzoBattleGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "Ganzo victory hides the blocker NPC from the active map");
 
+const oneBattleFixture = Object.entries(WORLD.maps)
+  .flatMap(([mapId, map]) => (map.npcs || []).map((npc) => ({ mapId, npc })))
+  .find(({ npc }) => npc.npcEnemy?.oneBattle && npc.npcEnemy?.alreadyMessage && npc.npcEnemy?.enemyNos?.length);
+assert(oneBattleFixture, "world data exposes at least one source NPCEnemy onebattle fixture");
+let oneBattleGame = await api("/api/game/new", { name: "npcenemy-onebattle-test" });
+oneBattleGame.location = {
+  mapId: oneBattleFixture.mapId,
+  x: oneBattleFixture.npc.x,
+  y: oneBattleFixture.npc.y + 1
+};
+oneBattleGame.player.level = 60;
+oneBattleGame.pets[0].Lv = 60;
+oneBattleGame = await api("/api/game/dialog", { game: oneBattleGame, npcId: oneBattleFixture.npc.id, message: "是" });
+assert(oneBattleGame.encounter, "NPCEnemy onebattle fixture starts an encounter on first YES");
+assertEqual(oneBattleGame.battle?.npcEnemy?.oneBattle, true, "NPCEnemy onebattle metadata is preserved on active battle");
+assert(oneBattleGame.battle?.npcEnemy?.alreadyMessage, "NPCEnemy onebattle battle metadata keeps alreadymsg");
+const oneBattleEnemyId = oneBattleGame.encounter.EnemyId;
+oneBattleGame = await api("/api/game/dialog", { game: oneBattleGame, npcId: oneBattleFixture.npc.id, message: "是" });
+assertEqual(oneBattleGame.encounter.EnemyId, oneBattleEnemyId, "NPCEnemy onebattle duplicate YES keeps the existing active encounter");
+assert(oneBattleGame.dialog.messages.at(-1)?.text.includes(oneBattleFixture.npc.npcEnemy.alreadyMessage.slice(0, 6)), "NPCEnemy onebattle duplicate YES returns source alreadymsg");
+assert(oneBattleGame.dialog.debug.vmTrace.some((event) => event.action === "startBattle" && event.status === "blocked" && event.detail?.reason === "npcenemy-onebattle"), "NPCEnemy onebattle duplicate YES records blocked startBattle VM trace");
+
 const himikoSp = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "日美子");
 const yayoiSp = WORLD.maps["2000"]?.npcs.find((npc) => npc.name === "弥生");
 if (!himikoSp || !yayoiSp) throw new Error("missing Himiko/Yayoi source task fixtures");

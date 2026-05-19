@@ -1564,6 +1564,8 @@ function readNpcEnemy(argPath, createFile, functionset) {
     askBattleMessages,
     startMessage: cleanScriptText(kv.startmsg || ""),
     deniedMessage: cleanScriptText(kv.deniedmsg || ""),
+    alreadyMessage: cleanScriptText(kv.alreadymsg || ""),
+    oneBattle: Number(kv.onebattle || 0) === 1,
     endMessage: cleanScriptText(kv.endmsg || kv["end msg"] || ""),
     dieAct: Number(kv.dieact || 0) || 0,
     respawnSeconds: Number(kv.time || 0) || 0,

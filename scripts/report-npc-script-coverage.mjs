@@ -170,6 +170,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "nomal_rate",
   "nothing_msg",
   "other_msg",
+  "onebattle",
   "partymsg",
   "paymsg",
   "pet_skill",
