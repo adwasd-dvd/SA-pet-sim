@@ -105765,8 +105765,449 @@ export const WORLD = {
           "script": "file:sa50/alchemy/alchemyhp",
           "template": "ITEMCHANGE",
           "graphic": "16095",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa50/alchemy/alchemyhp",
+            "startMessage": "你想提炼出可以让宠物提高体质成长的药粉吗？？帮你磨出药粉的工本费一次一百元。材料需要各种等级的果类植物一个加上一帖龙骨粉末。这种研磨出来的药剂只有对经过合体后的宠物才有效用喔。",
+            "menuHead": "选择你想要的药粉",
+            "needHead": "需要的药引材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 1546,
+                "changeItemName": "生命的白药粉",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1566,
+                    "name": "水青果",
+                    "image": 22378,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "一级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1566,
+                    "name": "水青果",
+                    "image": 22378,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "一级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1546,
+                    "name": "生命的白药粉",
+                    "image": 22408,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "一级加血药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1566&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemyhp#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 1550,
+                "changeItemName": "生命的黄药粉",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1570,
+                    "name": "麻黄果",
+                    "image": 22395,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "二级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1570,
+                    "name": "麻黄果",
+                    "image": 22395,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "二级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1550,
+                    "name": "生命的黄药粉",
+                    "image": 22410,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "二级加血药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1570&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemyhp#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 1554,
+                "changeItemName": "生命的绿药粉",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1574,
+                    "name": "金线果",
+                    "image": 22383,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "叁级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1574,
+                    "name": "金线果",
+                    "image": 22383,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "叁级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1554,
+                    "name": "生命的绿药粉",
+                    "image": 22412,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "叁级加血药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1574&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemyhp#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 1558,
+                "changeItemName": "生命的黑药粉",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1578,
+                    "name": "新月果",
+                    "image": 22387,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "四级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1578,
+                    "name": "新月果",
+                    "image": 22387,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "四级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1558,
+                    "name": "生命的黑药粉",
+                    "image": 22411,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "四级加血药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1578&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemyhp#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 1562,
+                "changeItemName": "生命的红药粉",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1582,
+                    "name": "双星果",
+                    "image": 22403,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "五级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1582,
+                    "name": "双星果",
+                    "image": 22403,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "五级加血药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1562,
+                    "name": "生命的红药粉",
+                    "image": 22409,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "五级加血药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1582&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemyhp#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -151624,8 +152065,729 @@ export const WORLD = {
           "script": "file:sa70/neweq/eqmaker1.arg",
           "template": "ITEMCHANGE",
           "graphic": "16208",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa70/neweq/eqmaker1.arg",
+            "startMessage": "想精工新的焰红装备吗？材料是…铜铁的装备武器等级三，加上牙１０及红珊瑚和纯净的海水。而斧、棍、枪的话要多一个牙１０，铠的话要多一个红珊瑚，最后再加上一千元石币的工本费就可以了。",
+            "menuHead": "选择想要交换的装备",
+            "needHead": "需要的材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 1893,
+                "changeItemName": "焰红之斧1",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 20278,
+                    "name": "铁斧3",
+                    "image": 22350,
+                    "cost": 84500,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+120 伤+120 敏-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 20278,
+                    "name": "铁斧3",
+                    "image": 22350,
+                    "cost": 84500,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+120 伤+120 敏-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1893,
+                    "name": "焰红之斧1",
+                    "image": 20075,
+                    "cost": 84500,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+135 伤+125 敏-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1000,
+                "free": "LV>0&ENDEV=4&ITEM=20278&ITEM=1724&ITEM=11839*2&ITEM=1683&GOLD>=1000&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker1.arg#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 1894,
+                "changeItemName": "焰红之枪1",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 20284,
+                    "name": "铁枪3",
+                    "image": 22329,
+                    "cost": 78000,
+                    "type": 3,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+100 伤+100 敏-20 魅+15",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 20284,
+                    "name": "铁枪3",
+                    "image": 22329,
+                    "cost": 78000,
+                    "type": 3,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+100 伤+100 敏-20 魅+15",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1894,
+                    "name": "焰红之枪1",
+                    "image": 20476,
+                    "cost": 78000,
+                    "type": 3,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+115 伤+105 敏-20 魅+20",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1000,
+                "free": "LV>0&ENDEV=4&ITEM=20284&ITEM=1724&ITEM=11839*2&ITEM=1683&GOLD>=1000&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker1.arg#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 1895,
+                "changeItemName": "焰红之棍1",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 20281,
+                    "name": "铁棍3",
+                    "image": 22354,
+                    "cost": 65000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+80 伤+80",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 20281,
+                    "name": "铁棍3",
+                    "image": 22354,
+                    "cost": 65000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+80 伤+80",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1895,
+                    "name": "焰红之棍1",
+                    "image": 20700,
+                    "cost": 65000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+95 伤+85",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1000,
+                "free": "LV>0&ENDEV=4&ITEM=20281&ITEM=1724&ITEM=11839*2&ITEM=1683&GOLD>=1000&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker1.arg#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 1896,
+                "changeItemName": "焰红之兜1",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 20275,
+                    "name": "铜兜3",
+                    "image": 22337,
+                    "cost": 65000,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+40 敏-8 伤-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 20275,
+                    "name": "铜兜3",
+                    "image": 22337,
+                    "cost": 65000,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+40 敏-8 伤-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1896,
+                    "name": "焰红之兜1",
+                    "image": 21596,
+                    "cost": 97500,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+15 防+40 敏-8 伤-45",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1000,
+                "free": "LV>0&ENDEV=4&ITEM=20275&ITEM=1724&ITEM=11839&ITEM=1683&GOLD>=1000&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker1.arg#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 1897,
+                "changeItemName": "焰红之铠1",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 20272,
+                    "name": "铜铠3",
+                    "image": 22343,
+                    "cost": 97500,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+80 敏-20 伤-80",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1724,
+                    "name": "红色珊瑚",
+                    "image": 22417,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "红色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 20272,
+                    "name": "铜铠3",
+                    "image": 22343,
+                    "cost": 97500,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+80 敏-20 伤-80",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1897,
+                    "name": "焰红之铠1",
+                    "image": 21112,
+                    "cost": 97500,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+15 防+80 敏-20 伤-85",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1000,
+                "free": "LV>0&ENDEV=4&ITEM=20272&ITEM=1724*2&ITEM=11839&ITEM=1683&GOLD>=1000&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker1.arg#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -163958,8 +165120,449 @@ export const WORLD = {
           "script": "file:sa50/alchemy/alchemydex",
           "template": "ITEMCHANGE",
           "graphic": "16095",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa50/alchemy/alchemydex",
+            "startMessage": "你想提炼出可以让宠物提高敏捷力成长的药丹吗？？帮你磨出药丹的工本费一次一百元。材料需要各种等级的蕨类植物一个加上一帖龙骨粉末。这种研磨出来的药剂只有对经过合体后的宠物才有效用喔。",
+            "menuHead": "选择你想要的药丹",
+            "needHead": "需要的药引材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 1549,
+                "changeItemName": "精力的白药丹",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1569,
+                    "name": "水青蕨",
+                    "image": 22380,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "一级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1569,
+                    "name": "水青蕨",
+                    "image": 22380,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "一级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1549,
+                    "name": "精力的白药丹",
+                    "image": 22368,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "一级加敏药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1569&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemydex#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 1553,
+                "changeItemName": "精力的黄药丹",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1573,
+                    "name": "麻黄蕨",
+                    "image": 22397,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "二级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1573,
+                    "name": "麻黄蕨",
+                    "image": 22397,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "二级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1553,
+                    "name": "精力的黄药丹",
+                    "image": 22369,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "二级加敏药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1573&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemydex#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 1557,
+                "changeItemName": "精力的绿药丹",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1577,
+                    "name": "金线蕨",
+                    "image": 22385,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "叁级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1577,
+                    "name": "金线蕨",
+                    "image": 22385,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "叁级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1557,
+                    "name": "精力的绿药丹",
+                    "image": 22370,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "叁级加敏药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1577&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemydex#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 1561,
+                "changeItemName": "精力的黑药丹",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1581,
+                    "name": "新月蕨",
+                    "image": 22400,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "四级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1581,
+                    "name": "新月蕨",
+                    "image": 22400,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "四级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1561,
+                    "name": "精力的黑药丹",
+                    "image": 22371,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "四级加敏药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1581&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemydex#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 1565,
+                "changeItemName": "精力的红药丹",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1585,
+                    "name": "双星蕨",
+                    "image": 22407,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "五级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1585,
+                    "name": "双星蕨",
+                    "image": 22407,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "五级加敏药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1565,
+                    "name": "精力的红药丹",
+                    "image": 22372,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "五级加敏药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1585&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemydex#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -187032,8 +188635,449 @@ export const WORLD = {
           "script": "file:sa50/alchemy/alchemystr",
           "template": "ITEMCHANGE",
           "graphic": "16095",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa50/alchemy/alchemystr",
+            "startMessage": "你想提炼出可以让宠物提高攻击力成长的药汤吗？？帮你磨出药汤的工本费一次一百元。材料需要各种等级的芽类植物一个加上一帖龙骨粉末。这种研磨出来的药剂只有对经过合体后的宠物才有效用喔。",
+            "menuHead": "选择你想要的药汤",
+            "needHead": "需要的药引材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 1548,
+                "changeItemName": "力量的白药汤",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1568,
+                    "name": "水青芽",
+                    "image": 22379,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "一级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1568,
+                    "name": "水青芽",
+                    "image": 22379,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "一级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1548,
+                    "name": "力量的白药汤",
+                    "image": 22388,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "一级加攻药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1568&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemystr#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 1552,
+                "changeItemName": "力量的黄药汤",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1572,
+                    "name": "麻黄芽",
+                    "image": 22396,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "二级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1572,
+                    "name": "麻黄芽",
+                    "image": 22396,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "二级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1552,
+                    "name": "力量的黄药汤",
+                    "image": 22390,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "二级加攻药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1572&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemystr#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 1556,
+                "changeItemName": "力量的绿药汤",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1576,
+                    "name": "金线芽",
+                    "image": 22384,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "叁级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1576,
+                    "name": "金线芽",
+                    "image": 22384,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "叁级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1556,
+                    "name": "力量的绿药汤",
+                    "image": 22392,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "叁级加攻药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1576&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemystr#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 1560,
+                "changeItemName": "力量的黑药汤",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1580,
+                    "name": "新月芽",
+                    "image": 22399,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "四级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1580,
+                    "name": "新月芽",
+                    "image": 22399,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "四级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1560,
+                    "name": "力量的黑药汤",
+                    "image": 22391,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "四级加攻药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1580&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemystr#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 1564,
+                "changeItemName": "力量的红药汤",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1584,
+                    "name": "双星芽",
+                    "image": 22405,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "五级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1586,
+                    "name": "龙骨粉末",
+                    "image": 22408,
+                    "cost": 1,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "磨药必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1584,
+                    "name": "双星芽",
+                    "image": 22405,
+                    "cost": 10,
+                    "type": 20,
+                    "useField": 1,
+                    "target": 0,
+                    "level": 0,
+                    "description": "五级加攻药剂材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1564,
+                    "name": "力量的红药汤",
+                    "image": 22389,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 1,
+                    "level": 0,
+                    "description": "五级加攻药剂",
+                    "functionName": "ITEM_useFusionEditBase",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 100,
+                "free": "ITEM=1586&ITEM=1584&GOLD>=100",
+                "source": "gmsv-data/npc/sa50/alchemy/alchemystr#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -188078,8 +190122,105 @@ export const WORLD = {
           "script": "file:eden3/process/blacksmith5.arg",
           "template": "ITEMCHANGE",
           "graphic": "16093",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/eden3/process/blacksmith5.arg",
+            "startMessage": "你想加工出最强的魔法钻戒吗？？加工一次一万五千元喔。材料的话就是要一个ＬＶ５的魔法戒加上十三个钻石。",
+            "menuHead": "选择你想要的魔法钻戒",
+            "needHead": "需要的材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 20269,
+                "changeItemName": "魔法钻戒[毁天灭地]",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 20287,
+                    "name": "钻石",
+                    "image": 22356,
+                    "cost": 50000,
+                    "type": 22,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "钻石的成份1",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 20191,
+                    "name": "魔法戒LV5",
+                    "image": 22295,
+                    "cost": 0,
+                    "type": 11,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "拥有Lv5魔法的戒指",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 20287,
+                    "name": "钻石",
+                    "image": 22356,
+                    "cost": 50000,
+                    "type": 22,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "钻石的成份1",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 13
+                  },
+                  {
+                    "id": 20191,
+                    "name": "魔法戒LV5",
+                    "image": 22295,
+                    "cost": 0,
+                    "type": 11,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "拥有Lv5魔法的戒指",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 20269,
+                    "name": "魔法钻戒[毁天灭地]",
+                    "image": 22316,
+                    "cost": 1280,
+                    "type": 11,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "封印了魔法毁天灭地的戒指",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 15000,
+                "free": "ENDEV=4&ENDEV=81&ITEM=20287*13&ITEM=20191&GOLD>=15000&reITEM>=1",
+                "source": "gmsv-data/npc/eden3/process/blacksmith5.arg#1"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -212259,8 +214400,577 @@ export const WORLD = {
           "script": "file:sa80/classeq/wareq.arg",
           "template": "ITEMCHANGE",
           "graphic": "16916",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa80/classeq/wareq.arg",
+            "startMessage": "准备好材料来找我吧，我会帮你制做专属于白狼勇士的装备。基本材料为线１０和石１０，头盔多个石１０，铠甲的话多一个石１０、一个线１０和一个贝１０。而斧头的话多一个石１０和线１０，石盾要多加一个石１０和壳１０，工本费为五千元哟…。",
+            "menuHead": "选择想要交换的装备",
+            "needHead": "需要的材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 2272,
+                "changeItemName": "阳焰头盔",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2272,
+                    "name": "阳焰头盔",
+                    "image": 21547,
+                    "cost": 5000,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 50,
+                    "description": "防+45 敏-10 体力+35 净化精灵(睡眠)Lv2",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=1&ITEM=11889&ITEM=11809*2&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wareq.arg#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 2273,
+                "changeItemName": "阳焰之铠",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11869,
+                    "name": "天空的叁连贝",
+                    "image": 24181,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "贝壳的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11869,
+                    "name": "天空的叁连贝",
+                    "image": 24181,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "贝壳的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2273,
+                    "name": "阳焰之铠",
+                    "image": 21025,
+                    "cost": 5000,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 25,
+                    "description": "防+75 敏-20 体力+35 滋润的精灵 Lv5",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=1&ITEM=11889*2&ITEM=11809*2&ITEM=11869&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wareq.arg#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 2274,
+                "changeItemName": "阳焰腰带",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2274,
+                    "name": "阳焰腰带",
+                    "image": 21411,
+                    "cost": 5000,
+                    "type": 24,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "防+10 负重+2 体力+35",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=1&ITEM=11889&ITEM=11809*1&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wareq.arg#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 2275,
+                "changeItemName": "阳焰之靴",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2275,
+                    "name": "阳焰之靴",
+                    "image": 21715,
+                    "cost": 5000,
+                    "type": 26,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "敏+15 体力+45",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=1&ITEM=11889&ITEM=11809*1&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wareq.arg#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 2276,
+                "changeItemName": "阳焰之斧",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2276,
+                    "name": "阳焰之斧",
+                    "image": 20058,
+                    "cost": 5000,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 70,
+                    "description": "攻+96 敏-25 体力+30 毒雾的精灵 Lv5",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=1&ITEM=11889*2&ITEM=11809*2&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wareq.arg#5"
+              },
+              {
+                "index": 5,
+                "changeItemId": 2277,
+                "changeItemName": "阳焰石盾",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11879,
+                    "name": "千年龟的壳",
+                    "image": 24148,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "壳的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2277,
+                    "name": "阳焰石盾",
+                    "image": 21269,
+                    "cost": 5000,
+                    "type": 25,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 60,
+                    "description": "防+15 格挡率+10%",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=1&ITEM=11889&ITEM=11809*2&ITEM=11879&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wareq.arg#6"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -213236,8 +215946,477 @@ export const WORLD = {
           "script": "file:sa80/classeq/huneq.arg",
           "template": "ITEMCHANGE",
           "graphic": "16916",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa80/classeq/huneq.arg",
+            "startMessage": "准备好材料来找我吧，我会帮你制做专属于追猎者的装备。基本材料为线１０和木１０，头盔多个木１０，炼甲的话多一个木１０、一个线１０和一个牙１０。而战弓的话多一个木１０和线１０。工本费为五千元哟…。",
+            "menuHead": "选择想要交换的装备",
+            "needHead": "需要的材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 2267,
+                "changeItemName": "星河头盔",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2267,
+                    "name": "星河头盔",
+                    "image": 21545,
+                    "cost": 5000,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 30,
+                    "description": "防+33 体力+25 净化精灵(沉默)Lv2",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=3&ITEM=11889&ITEM=11819*2&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/huneq.arg#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 2268,
+                "changeItemName": "星河 甲",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11839,
+                    "name": "太阳之牙",
+                    "image": 24110,
+                    "cost": 24750,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "牙的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2268,
+                    "name": "星河 甲",
+                    "image": 21047,
+                    "cost": 5000,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 20,
+                    "description": "防+63 体力+25 恩惠的精灵 Lv5",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=3&ITEM=11889*2&ITEM=11819*2&ITEM=11839&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/huneq.arg#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 2269,
+                "changeItemName": "星河腰带",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2269,
+                    "name": "星河腰带",
+                    "image": 21418,
+                    "cost": 5000,
+                    "type": 24,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "防+8 负重+3 体力+25",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=3&ITEM=11889&ITEM=11819&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/huneq.arg#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 2270,
+                "changeItemName": "星河之靴",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2270,
+                    "name": "星河之靴",
+                    "image": 21722,
+                    "cost": 5000,
+                    "type": 26,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "敏+22 体力+35 增加攻击顺序10%",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=3&ITEM=11889&ITEM=11819&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/huneq.arg#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 2271,
+                "changeItemName": "星河战弓",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11819,
+                    "name": "神木",
+                    "image": 24182,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "木的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2271,
+                    "name": "星河战弓",
+                    "image": 20337,
+                    "cost": 5000,
+                    "type": 4,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 40,
+                    "description": "攻+33(6-8) 体力+35 硬化的精灵 Lv5",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=3&ITEM=11889*2&ITEM=11819*2&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/huneq.arg#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -214091,8 +217270,477 @@ export const WORLD = {
           "script": "file:sa80/classeq/wizeq.arg",
           "template": "ITEMCHANGE",
           "graphic": "16916",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa80/classeq/wizeq.arg",
+            "startMessage": "准备好材料来找我吧，我会帮你制做专属于闇灵法师的装备。基本材料为线１０和骨１０，头盔多个骨１０，服的话多一个骨１０、一个线１０和一个皮１０。而手杖的话多一个骨１０和线１０。工本费为五千元哟…。",
+            "menuHead": "选择想要交换的装备",
+            "needHead": "需要的材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 2262,
+                "changeItemName": "月神之帽",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2262,
+                    "name": "月神之帽",
+                    "image": 21533,
+                    "cost": 5000,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 50,
+                    "description": "防+19 气力+45 净化精灵(混乱)Lv2",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=2&ITEM=11889&ITEM=11829*2&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wizeq.arg#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 2263,
+                "changeItemName": "月神之服",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11849,
+                    "name": "耐用的皮",
+                    "image": 24129,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "皮的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11849,
+                    "name": "耐用的皮",
+                    "image": 24129,
+                    "cost": 22500,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "皮的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2263,
+                    "name": "月神之服",
+                    "image": 21003,
+                    "cost": 5000,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 60,
+                    "description": "防+48 气力+45 滋润的精灵 Lv5",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=2&ITEM=11889*2&ITEM=11829*2&ITEM=11849&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wizeq.arg#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 2264,
+                "changeItemName": "月神腰带",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2264,
+                    "name": "月神腰带",
+                    "image": 21412,
+                    "cost": 5000,
+                    "type": 24,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "防+6 负重+2 气力+45",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=2&ITEM=11889&ITEM=11829&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wizeq.arg#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 2265,
+                "changeItemName": "月神之靴",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2265,
+                    "name": "月神之靴",
+                    "image": 21718,
+                    "cost": 5000,
+                    "type": 26,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "敏+25 气力+45 增加攻击顺序5%",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=2&ITEM=11889&ITEM=11829*1&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wizeq.arg#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 2266,
+                "changeItemName": "月神之杖",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 11889,
+                    "name": "切不断的绳",
+                    "image": 24106,
+                    "cost": 18000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "线的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11829,
+                    "name": "龙骨的化石",
+                    "image": 20036,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "骨的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 2266,
+                    "name": "月神之杖",
+                    "image": 20148,
+                    "cost": 5000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 60,
+                    "description": "攻+45 气力+45 混乱的精灵 Lv5",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 5000,
+                "free": "LV>0&ENDEV=4&CLASS=2&ITEM=11889*2&ITEM=11829*2&GOLD>=5000&reITEM>0",
+                "source": "gmsv-data/npc/sa80/classeq/wizeq.arg#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [
@@ -231845,8 +235493,729 @@ export const WORLD = {
           "script": "file:sa70/neweq/eqmaker5.arg",
           "template": "ITEMCHANGE",
           "graphic": "16208",
+          "itemChange": {
+            "kind": "item-change",
+            "source": "gmsv-data/npc/sa70/neweq/eqmaker5.arg",
+            "startMessage": "想精工更好的苍绿装备吗？材料是…等级一的苍绿系列装备武器，加上三个石１０及二个绿珊瑚和二个单位纯净的海水就可以做了。可是如果是苍绿之铠２的话…就要四个石１０以及三个绿珊瑚喔，最后再加上一千五百元石币的工本费就可以了。",
+            "menuHead": "选择想要交换的装备",
+            "needHead": "需要的材料",
+            "failMessage": "",
+            "recipes": [
+              {
+                "index": 0,
+                "changeItemId": 1909,
+                "changeItemName": "苍绿之斧2",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1877,
+                    "name": "苍绿之斧1",
+                    "image": 20075,
+                    "cost": 84500,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+120 防+15 伤+125 敏-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 3
+                  },
+                  {
+                    "id": 1877,
+                    "name": "苍绿之斧1",
+                    "image": 20075,
+                    "cost": 84500,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+120 防+15 伤+125 敏-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1909,
+                    "name": "苍绿之斧2",
+                    "image": 20075,
+                    "cost": 84500,
+                    "type": 1,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+120 防+30 伤+135 敏-40",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1500,
+                "free": "LV>0&ENDEV=4&ITEM=1877&ITEM=1725*2&ITEM=11809*3&ITEM=1683*2&GOLD>=1500&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker5.arg#1"
+              },
+              {
+                "index": 1,
+                "changeItemId": 1910,
+                "changeItemName": "苍绿之枪2",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1878,
+                    "name": "苍绿之枪1",
+                    "image": 20475,
+                    "cost": 78000,
+                    "type": 3,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+100 防+15 伤+105 敏-20 魅+20",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 3
+                  },
+                  {
+                    "id": 1878,
+                    "name": "苍绿之枪1",
+                    "image": 20475,
+                    "cost": 78000,
+                    "type": 3,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+100 防+15 伤+105 敏-20 魅+20",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1910,
+                    "name": "苍绿之枪2",
+                    "image": 20475,
+                    "cost": 78000,
+                    "type": 3,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+100 防+30 伤+115 敏-20 魅+25",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1500,
+                "free": "LV>0&ENDEV=4&ITEM=1878&ITEM=1725*2&ITEM=11809*3&ITEM=1683*2&GOLD>=1500&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker5.arg#2"
+              },
+              {
+                "index": 2,
+                "changeItemId": 1911,
+                "changeItemName": "苍绿之棍2",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1879,
+                    "name": "苍绿之棍1",
+                    "image": 20700,
+                    "cost": 65000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+80 防+15 伤+85",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 3
+                  },
+                  {
+                    "id": 1879,
+                    "name": "苍绿之棍1",
+                    "image": 20700,
+                    "cost": 65000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+80 防+15 伤+85",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1911,
+                    "name": "苍绿之棍2",
+                    "image": 20700,
+                    "cost": 65000,
+                    "type": 2,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "攻+80 防+30 伤+95",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1500,
+                "free": "LV>0&ENDEV=4&ITEM=1879&ITEM=1725*2&ITEM=11809*3&ITEM=1683*2&GOLD>=1500&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker5.arg#3"
+              },
+              {
+                "index": 3,
+                "changeItemId": 1912,
+                "changeItemName": "苍绿之兜2",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1880,
+                    "name": "苍绿之兜1",
+                    "image": 21599,
+                    "cost": 97500,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+55 敏-8 伤-45",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 3
+                  },
+                  {
+                    "id": 1880,
+                    "name": "苍绿之兜1",
+                    "image": 21599,
+                    "cost": 97500,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+55 敏-8 伤-45",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1912,
+                    "name": "苍绿之兜2",
+                    "image": 21599,
+                    "cost": 97500,
+                    "type": 6,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+70 敏-8 伤-55",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1500,
+                "free": "LV>0&ENDEV=4&ITEM=1880&ITEM=1725*2&ITEM=11809*3&ITEM=1683*2&GOLD>=1500&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker5.arg#4"
+              },
+              {
+                "index": 4,
+                "changeItemId": 1913,
+                "changeItemName": "苍绿之铠2",
+                "changeMsg": "",
+                "needMsg": "",
+                "needItems": [
+                  {
+                    "id": 1881,
+                    "name": "苍绿之铠1",
+                    "image": 21108,
+                    "cost": 97500,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+95 敏-20 伤-85",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delItems": [
+                  {
+                    "id": 1725,
+                    "name": "绿色珊瑚",
+                    "image": 22418,
+                    "cost": 10,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "绿色的珊瑚材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 3
+                  },
+                  {
+                    "id": 11809,
+                    "name": "发红光的石",
+                    "image": 24061,
+                    "cost": 27000,
+                    "type": 16,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 0,
+                    "description": "石的成分 10",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 4
+                  },
+                  {
+                    "id": 1881,
+                    "name": "苍绿之铠1",
+                    "image": 21108,
+                    "cost": 97500,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+95 敏-20 伤-85",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  },
+                  {
+                    "id": 1683,
+                    "name": "纯净的海水",
+                    "image": 22416,
+                    "cost": 1,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "比一般海水更纯净 精工必备材料",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 2
+                  }
+                ],
+                "addItems": [
+                  {
+                    "id": 1913,
+                    "name": "苍绿之铠2",
+                    "image": 21108,
+                    "cost": 97500,
+                    "type": 7,
+                    "useField": 0,
+                    "target": 0,
+                    "level": 110,
+                    "description": "防+110 敏-20 伤-95",
+                    "functionName": "",
+                    "option": "",
+                    "qty": 1
+                  }
+                ],
+                "delGold": 1500,
+                "free": "LV>0&ENDEV=4&ITEM=1881&ITEM=1725*3&ITEM=11809*4&ITEM=1683*2&GOLD>=1500&reITEM>1",
+                "source": "gmsv-data/npc/sa70/neweq/eqmaker5.arg#5"
+              }
+            ]
+          },
           "scriptHints": {
             "actions": [
+              "itemChange",
               "questLead"
             ],
             "hints": [

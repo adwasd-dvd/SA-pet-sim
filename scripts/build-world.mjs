@@ -452,12 +452,13 @@ function parseNpcs() {
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
+      const itemChange = readNpcItemChange(argPath, file);
       const warp = readNpcWarp(argPath, file);
       const functionset = template.functionset || enemy.template || "NPC";
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -472,6 +473,7 @@ function parseNpcs() {
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
+        ...(itemChange ? { itemChange } : {}),
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
         ...(scriptEvents?.length ? { scriptEvents } : {}),
@@ -893,6 +895,55 @@ function readNpcPetSkillShop(argPath, createFile) {
   };
 }
 
+function readNpcItemChange(argPath, createFile) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  if (!/^\s*(?:CHANGEITEM|NeedItem|AddItem|DelItem|DelGold)\s*:/im.test(text) || !blocks(text).length) return null;
+  const kv = parseColonFile(text);
+  const recipes = blocks(text)
+    .map((rawBlock, index) => parseNpcItemChangeRecipe(rawBlock, file, index))
+    .filter(Boolean)
+    .slice(0, 120);
+  if (!recipes.length) return null;
+  return {
+    kind: "item-change",
+    source: relativeRef(file),
+    startMessage: cleanScriptText(kv.start_msg || kv.startmsg || ""),
+    menuHead: cleanScriptText(kv.menuhead || ""),
+    needHead: cleanScriptText(kv.needhead || ""),
+    failMessage: cleanScriptText(kv.fail_msg || kv.failmsg || ""),
+    recipes
+  };
+}
+
+function parseNpcItemChangeRecipe(rawBlock, file, index) {
+  const kv = parseColonFile(rawBlock);
+  const needItems = itemSpecsWithNames(countNeedItemSpecs(kv.needitem || ""));
+  const delItems = itemSpecsWithNames(parseScriptItemSpecs(kv.delitem || "").filter((item) => !item.evdel));
+  const addItems = itemSpecsWithNames(parseScriptItemSpecs(kv.additem || kv.getitem || "").filter((item) => !item.evdel));
+  const changeItemId = Number(kv.changeitem || addItems[0]?.id || 0);
+  const displayItem = compactScriptItem(changeItemId);
+  const resultItems = addItems.length
+    ? addItems
+    : (displayItem ? [{ ...displayItem, qty: 1 }] : []);
+  const requirements = delItems.length ? delItems : needItems;
+  if (!changeItemId && !resultItems.length && !requirements.length) return null;
+  return {
+    index,
+    changeItemId: changeItemId || resultItems[0]?.id || 0,
+    changeItemName: cleanScriptText(kv.changemsg || "") || displayItem?.name || resultItems[0]?.name || `配方 ${index + 1}`,
+    changeMsg: cleanScriptText(kv.changemsg || ""),
+    needMsg: cleanScriptText(kv.needmsg || ""),
+    needItems,
+    delItems: requirements,
+    addItems: resultItems,
+    delGold: Math.max(0, Number(kv.delgold || kv.delstone || 0) || 0),
+    free: cleanName(kv.free || ""),
+    source: `${relativeRef(file)}#${index + 1}`
+  };
+}
+
 function readNpcScriptEvents(argPath, createFile, functionset) {
   const file = resolveNpcArg(argPath, createFile);
   if (!file) return [];
@@ -1267,6 +1318,45 @@ function parseScriptItemSpecs(value = "") {
     .filter((item) => item && item.id > 0 && item.qty > 0);
 }
 
+function countNeedItemSpecs(value = "") {
+  const counts = new Map();
+  for (const part of String(value || "").split(",")) {
+    const id = Number(part.trim());
+    if (!Number.isFinite(id) || id <= 0) continue;
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  return [...counts].map(([id, qty]) => ({ id, qty }));
+}
+
+function itemSpecsWithNames(specs = []) {
+  return specs
+    .map((spec) => {
+      if (!spec || spec.evdel) return null;
+      const item = compactScriptItem(spec.id);
+      return item ? { ...item, qty: Math.max(1, Number(spec.qty || 1)) } : null;
+    })
+    .filter(Boolean);
+}
+
+function compactScriptItem(id) {
+  const itemId = Number(id);
+  if (!Number.isFinite(itemId) || itemId <= 0) return null;
+  const item = itemDb.get(itemId);
+  return {
+    id: itemId,
+    name: item?.name || `item ${itemId}`,
+    image: Number(item?.image || 0),
+    cost: Number(item?.cost || 0),
+    type: Number(item?.type || 0),
+    useField: Number(item?.useField || 0),
+    target: Number(item?.target || 0),
+    level: Number(item?.level || 0),
+    description: item?.description || "",
+    functionName: item?.functionName || "",
+    option: item?.option || ""
+  };
+}
+
 function parseScriptRandomItemSpecs(value = "") {
   const ids = [];
   for (const part of String(value || "").split(",")) {
@@ -1426,11 +1516,12 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petSkillShop) actions.push("petSkillShop");
+  if (itemChange) actions.push("itemChange");
   if (warp) actions.push("warp");
   if (npcEnemy) actions.push("battle");
   if (!file) return actions.length ? { actions } : null;

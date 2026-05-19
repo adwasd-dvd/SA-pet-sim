@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T14:21:21.711Z",
+  "generatedAt": "2026-05-19T15:05:28.906Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,10 +206,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 11397,
-      "candidate-action": 2173,
-      "unknown": 1764,
-      "supported-message": 10758,
+      "supported-config": 11758,
+      "candidate-action": 1879,
+      "unknown": 1695,
+      "supported-message": 10760,
       "condition-control": 11752,
       "supported-action": 3680,
       "blocked-or-later-system": 81
@@ -1727,7 +1727,7 @@
       {
         "key": "CHANGEITEM",
         "normalized": "changeitem",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 147,
         "files": 30,
         "profiles": {
@@ -3964,7 +3964,7 @@
       {
         "key": "failmsg",
         "normalized": "failmsg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -6840,7 +6840,7 @@
       {
         "key": "MenuHead",
         "normalized": "menuhead",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 37,
         "files": 37,
         "profiles": {
@@ -7642,7 +7642,7 @@
       {
         "key": "NeedHead",
         "normalized": "needhead",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 30,
         "files": 30,
         "profiles": {
@@ -7694,7 +7694,7 @@
       {
         "key": "NeedItem",
         "normalized": "needitem",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 147,
         "files": 30,
         "profiles": {
@@ -13888,110 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "CHANGEITEM",
-        "normalized": "changeitem",
-        "category": "candidate-action",
-        "occurrences": 147,
-        "files": 30,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 15,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 15,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 15,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 15,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 10,
-            "text": "CHANGEITEM:20245"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 20,
-            "text": "CHANGEITEM:20246"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 30,
-            "text": "CHANGEITEM:20247"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 40,
-            "text": "CHANGEITEM:20248"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 50,
-            "text": "CHANGEITEM:20249"
-          }
-        ]
-      },
-      {
-        "key": "NeedItem",
-        "normalized": "needitem",
-        "category": "candidate-action",
-        "occurrences": 147,
-        "files": 30,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 15,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 15,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 15,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 15,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 11,
-            "text": "NeedItem:20287,19641"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 21,
-            "text": "NeedItem:20287,19729"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 31,
-            "text": "NeedItem:20287,20169"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 41,
-            "text": "NeedItem:20287,20581"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 51,
-            "text": "NeedItem:20287,20582"
-          }
-        ]
-      },
-      {
         "key": "Born",
         "normalized": "born",
         "category": "unknown",
@@ -15344,110 +15240,6 @@
         ]
       },
       {
-        "key": "MenuHead",
-        "normalized": "menuhead",
-        "category": "unknown",
-        "occurrences": 37,
-        "files": 37,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 3,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 5,
-            "text": "MenuHead:选择你想要的魔法钻戒"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith2.arg",
-            "line": 5,
-            "text": "MenuHead:选择你想要的魔法钻戒"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith3.arg",
-            "line": 5,
-            "text": "MenuHead:选择你想要的魔法钻戒"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith4.arg",
-            "line": 5,
-            "text": "MenuHead:选择你想要的魔法钻戒"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith5.arg",
-            "line": 5,
-            "text": "MenuHead:选择你想要的魔法钻戒"
-          }
-        ]
-      },
-      {
-        "key": "NeedHead",
-        "normalized": "needhead",
-        "category": "unknown",
-        "occurrences": 30,
-        "files": 30,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 3,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
-            "line": 6,
-            "text": "NeedHead:需要的材料"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith2.arg",
-            "line": 6,
-            "text": "NeedHead:需要的材料"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith3.arg",
-            "line": 6,
-            "text": "NeedHead:需要的材料"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith4.arg",
-            "line": 6,
-            "text": "NeedHead:需要的材料"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden3/process/blacksmith5.arg",
-            "line": 6,
-            "text": "NeedHead:需要的材料"
-          }
-        ]
-      },
-      {
         "key": "cost",
         "normalized": "cost",
         "category": "candidate-action",
@@ -15929,6 +15721,164 @@
             "file": "external/sources/ref___data/npc/sa70/actuality/actuality1.arg",
             "line": 4,
             "text": "REPLACEMENT:1000,39,58;1000,77,37;2000,96,98;2000,97,78;1300,54,80;1300,39,26;1400,85,69;1400,81,93;1100,60,80;1100,59,63"
+          }
+        ]
+      },
+      {
+        "key": "selectmsg",
+        "normalized": "selectmsg",
+        "category": "unknown",
+        "occurrences": 3,
+        "files": 3,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 9,
+            "text": "selectmsg:\\n玛蕾菲雅：你的宠物已经准备好要转生了吗？\\n切记！！一旦宠物进行二次转生，他的能力就会过于强大，你就无法骑乘它了。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
+            "line": 9,
+            "text": "selectmsg:\\n玛蕾菲雅：你的宠物已经准备好要转生了吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa50/petfusion/petfusion.arg",
+            "line": 2,
+            "text": "SelectMsg:选出你要合体的宠物吧，最多只能三只喔…。"
+          }
+        ]
+      },
+      {
+        "key": "Time_Msg",
+        "normalized": "time_msg",
+        "category": "unknown",
+        "occurrences": 3,
+        "files": 3,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/chara",
+            "line": 7,
+            "text": "Time_Msg:吼吼～～吼吼～～吼吼～～"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 7,
+            "text": "time_msg:比赛截止时间为2004年11月12日"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 2,
+            "text": "time_msg:比赛截止时间为2004年12月22日"
+          }
+        ]
+      },
+      {
+        "key": "card_msg",
+        "normalized": "card_msg",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 8,
+            "text": "card_msg:请小心，猎宠证无法交易，丢出后即消失，比赛记录可是会归零喔～\\n还有砂鲨宠最好抓５００只以上喔～"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 3,
+            "text": "card_msg:族长们～猎宠证无法交易，丢出后立即消失，比赛记录可是会归零！！\\n注意看猎宠证的题目，不要抓错宠物给我！"
+          }
+        ]
+      },
+      {
+        "key": "caution_msg",
+        "normalized": "caution_msg",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 9,
+            "text": "caution_msg:猎宠证无法交易或丢弃"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 4,
+            "text": "caution_msg:猎宠证无法交易或丢弃"
           }
         ]
       }

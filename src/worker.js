@@ -110,6 +110,7 @@ const NPC_VM_ACTIONS = new Set([
   "window",
   "shop",
   "petSkillShop",
+  "itemChange",
   "warp",
   "heal",
   "save",
@@ -294,6 +295,10 @@ async function handleApi(request, env, url) {
         Number(body.petIndex),
         Number(body.slotIndex)
       ));
+    }
+    if (url.pathname === "/api/game/change-item" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(changeItemGame(body.game, String(body.npcId || ""), Number(body.recipeIndex)));
     }
     if (url.pathname === "/api/game/use-item" && request.method === "POST") {
       const body = await readJson(request);
@@ -1330,6 +1335,78 @@ async function learnPetSkillGame(env, request, game, npcId, skillId, petIndex = 
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
     npcMessage("system", `${pet.Name || "宠物"} 学会了 ${skill.Name}（技能格 ${teachSlot + 1}），花费 ${cost} 石币。`)
   ], { petSkillShop: buildPetSkillShopState(data, game, npc) });
+  return withMap(game, { npc });
+}
+
+function changeItemGame(game, npcId, recipeIndex = NaN) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作 NPC 窗口");
+  if (!npc.itemChange?.recipes?.length) throw new Error("这个 NPC 没有加工资料");
+
+  const index = Math.trunc(Number(recipeIndex));
+  const recipe = npc.itemChange.recipes.find((item) => Number(item.index) === index) || npc.itemChange.recipes[index];
+  if (!recipe) throw new Error("加工配方不存在");
+  const status = itemChangeRecipeStatus(game, recipe);
+  if (!status.ok) throw new Error(itemChangeBlockedReason(status));
+
+  recordNpcVmEvent(game, npc, "itemChange", "ok", {
+    action: "change",
+    recipeIndex: Number(recipe.index ?? index),
+    itemId: recipe.changeItemId || recipe.addItems?.[0]?.id || 0,
+    itemName: recipe.changeItemName || recipe.addItems?.[0]?.name || "",
+    delGold: Number(recipe.delGold || 0),
+    delItems: (recipe.delItems || []).map(({ id, name, qty }) => ({ id, name, qty })),
+    addItems: (recipe.addItems || []).map(({ id, name, qty }) => ({ id, name, qty })),
+    condition: compactConditionStatus(status.condition),
+    source: recipe.source || npc.itemChange.source || ""
+  });
+
+  if (Number(recipe.delGold || 0) > 0) {
+    const paid = runNpcVmAction(game, npc, {
+      type: "take",
+      item: "stone",
+      qty: Number(recipe.delGold || 0),
+      reason: "item-change",
+      recipeIndex: recipe.index
+    });
+    if (!paid.ok) throw new Error(paid.error || "石币不够");
+  }
+  for (const item of recipe.delItems || []) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      item,
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      reason: "item-change",
+      recipeIndex: recipe.index
+    });
+    if (!taken.ok) throw new Error(taken.error || `缺少 ${item.name || item.id}`);
+  }
+  for (const item of recipe.addItems || []) {
+    const given = runNpcVmAction(game, npc, {
+      type: "give",
+      item,
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      reason: "item-change",
+      recipeIndex: recipe.index
+    });
+    if (!given.ok) throw new Error(given.error || "加工失败");
+  }
+  syncCharacterFields(game);
+  const resultText = (recipe.addItems || [])
+    .map((item) => `${item.name || `item ${item.id}`} x${Number(item.qty || 1)}`)
+    .join("、") || recipe.changeItemName || "完成品";
+  addLog(game, `${npc.name} 加工完成：${resultText}。`);
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+    npcMessage("system", `加工完成：${resultText}。`)
+  ], { itemChange: buildItemChangeState(game, npc) });
   return withMap(game, { npc });
 }
 
@@ -5317,6 +5394,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
+  if (npc.itemChange?.recipes?.length && hasAny(lower, ["加工", "合成", "制作", "製作", "打造", "换物", "交換", "交换", "change"])) return itemChangePromptReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
   if (hasNpcScriptEvents(npc) && hasAny(lower, ["任务", "委托", "攻略", "quest", "仪式", "儀式", "领取", "领", "給", "给", "交付", "完成"])) return sourceScriptEventReply(game, npc, text);
   if (hasNpcScriptEvents(npc) && (hasPendingSourceStop(game, npc) || isSourceScriptStopText(lower))) return sourceScriptEventReply(game, npc, text);
@@ -5462,6 +5540,7 @@ function applyNpcHi(game, npc) {
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
+  if (npc.itemChange?.recipes?.length) return itemChangePromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   const questIds = npcQuestIds(npc);
   const reportableId = questIds.find((questId) => game.quests[questId]?.status === "可回报");
@@ -5495,6 +5574,7 @@ function nextNpcDialogueLine(game, npc) {
 
 function npcDefaultLine(npc) {
   if (npc.trade?.items?.length) return "欢迎光临。";
+  if (npc.itemChange?.recipes?.length) return "要加工什么？";
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
@@ -7271,6 +7351,19 @@ function characterConditionMet(game, part, options = {}) {
       op: stone[1]
     };
   }
+  const remainingItem = token.match(/^reITEM\s*(>=|<=|>|<|=)\s*(\d+)$/i);
+  if (remainingItem) {
+    const actual = Number(inventoryState(game).remaining || 0);
+    const expected = Number(remainingItem[2]);
+    return {
+      ok: compareNumber(actual, remainingItem[1], expected),
+      token,
+      type: "inventorySlot",
+      actual,
+      expected,
+      op: remainingItem[1]
+    };
+  }
   const sourcePet = token.match(/^PET\s*(!=|>=|<=|>|<|=)\s*(\d+)-(\d+)(?:\*(\d+))?$/i);
   if (sourcePet) {
     const spec = {
@@ -7813,6 +7906,27 @@ function tradeReply(game, npc) {
     discount ? `这次 AI 协商优待：${discount.percent}% 折扣，临时有效。` : "",
     `商品来源：${npc.trade.source}`
   ].filter(Boolean).join("\n");
+}
+
+function itemChangePromptReply(game, npc) {
+  const state = buildItemChangeState(game, npc);
+  const recipes = state?.recipes || [];
+  recordNpcVmEvent(game, npc, "itemChange", recipes.length ? "ok" : "unsupported", {
+    recipes: recipes.length,
+    source: state?.source || npc.itemChange?.source || ""
+  });
+  if (!recipes.length) return `${npc.name} 没有可解析的加工清单。`;
+  const ready = recipes.filter((recipe) => recipe.canChange).slice(0, 4);
+  const preview = (ready.length ? ready : recipes.slice(0, 4))
+    .map((recipe) => {
+      const result = (recipe.addItems || []).map((item) => `${item.name} x${Number(item.qty || 1)}`).join("、") || recipe.changeItemName;
+      const cost = Number(recipe.delGold || 0) > 0 ? `，${Number(recipe.delGold || 0)}石币` : "";
+      return `${result}${cost}`;
+    })
+    .join("；");
+  const head = state.menuHead || state.startMessage || "可以加工这些东西：";
+  const readiness = ready.length ? `当前可做：${ready.length} 项。` : "材料还不齐，可以先看下面清单。";
+  return `${head}\n${preview}\n${readiness}`;
 }
 
 function sourceReply(game, npc) {
@@ -8700,6 +8814,7 @@ function openDialog(game, npc, messages, extra = {}) {
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petSkillShop: extra.petSkillShop || null,
+    itemChange: extra.itemChange || buildItemChangeState(game, npc),
     warp: npc.warp || null,
     aiMode: isNpcAiMode(game, npc),
     messages: messages.slice(-12),
@@ -8739,6 +8854,7 @@ function npcActionProfile(npc) {
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
+  if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
   if (isSavePointNpc(npc)) actions.push("save");
@@ -9365,6 +9481,95 @@ function buildPetSkillShopState(data, game, npc) {
   };
 }
 
+function buildItemChangeState(game, npc) {
+  const itemChange = npc?.itemChange;
+  if (!itemChange?.recipes?.length) return null;
+  return {
+    kind: itemChange.kind || "item-change",
+    source: itemChange.source || npc.script || npc.source || "",
+    startMessage: itemChange.startMessage || "",
+    menuHead: itemChange.menuHead || "",
+    needHead: itemChange.needHead || "",
+    failMessage: itemChange.failMessage || "",
+    inventory: inventoryState(game),
+    stone: Number(game.player?.stone || 0),
+    recipes: itemChange.recipes.slice(0, 40).map((recipe) => {
+      const status = itemChangeRecipeStatus(game, recipe);
+      return {
+        ...recipe,
+        canChange: Boolean(status.ok),
+        affordable: Boolean(status.stoneOk),
+        readyItems: Boolean(status.itemsOk),
+        canCarry: Boolean(status.capacityOk),
+        conditionOk: Boolean(status.condition?.ok ?? true),
+        missing: status.missing,
+        unmet: compactConditionUnmet(status.condition, 4),
+        blockedReason: status.ok ? "" : itemChangeBlockedReason(status)
+      };
+    })
+  };
+}
+
+function itemChangeRecipeStatus(game, recipe = {}) {
+  const condition = String(recipe.free || "").trim()
+    ? characterConditionStatus(game, recipe.free)
+    : { ok: true, reason: "", groups: [] };
+  const requirements = recipe.delItems?.length ? recipe.delItems : recipe.needItems || [];
+  const missing = requirements
+    .map((item) => ({
+      id: Number(item.id),
+      name: item.name || conditionItemName(game, item.id) || `item ${item.id}`,
+      qty: Math.max(1, Number(item.qty || 1)),
+      have: inventoryQty(game, item.id)
+    }))
+    .filter((item) => item.have < item.qty);
+  const delGold = Math.max(0, Number(recipe.delGold || 0));
+  const stoneOk = Number(game.player?.stone || 0) >= delGold;
+  const capacityOk = canReceiveItemChangeResult(game, recipe);
+  return {
+    ok: Boolean(condition.ok) && missing.length === 0 && stoneOk && capacityOk,
+    condition,
+    missing,
+    stoneOk,
+    itemsOk: missing.length === 0,
+    capacityOk,
+    delGold
+  };
+}
+
+function canReceiveItemChangeResult(game, recipe = {}) {
+  const addItems = recipe.addItems || [];
+  if (!addItems.length) return true;
+  const qtyById = new Map((game.inventory || [])
+    .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
+    .map((item) => [Number(item.id), Number(item.qty || 0)]));
+  for (const item of recipe.delItems || []) {
+    const id = Number(item.id);
+    const next = Math.max(0, Number(qtyById.get(id) || 0) - Number(item.qty || 1));
+    if (next > 0) qtyById.set(id, next);
+    else qtyById.delete(id);
+  }
+  for (const item of addItems) {
+    const id = Number(item.id);
+    if (!Number.isFinite(id) || id <= 0) continue;
+    qtyById.set(id, Number(qtyById.get(id) || 0) + Number(item.qty || 1));
+  }
+  return qtyById.size <= INVENTORY_CAPACITY;
+}
+
+function itemChangeBlockedReason(status = {}) {
+  if (status.missing?.length) {
+    return `材料不足：${status.missing.map((item) => `${item.name} ${item.have}/${item.qty}`).join("、")}`;
+  }
+  if (!status.stoneOk) return `石币不够：需要 ${Number(status.delGold || 0)}`;
+  if (!status.capacityOk) return `背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具`;
+  if (status.condition && !status.condition.ok) {
+    const unmet = compactConditionUnmet(status.condition, 3).map((item) => item.itemName || item.token || item.type).filter(Boolean);
+    return unmet.length ? `条件未满足：${unmet.join("、")}` : "条件未满足";
+  }
+  return "加工条件不足";
+}
+
 function sellableInventoryItems(game, npc) {
   return (game.inventory || [])
     .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
@@ -9713,9 +9918,11 @@ function dialogSuggestions(npc, game = null) {
       ? ["hi", "治疗", "地图"]
       : npc.warp || /warp/i.test(npc.type)
         ? ["hi", "传送", "出口"]
-        : /save/i.test(npc.type)
-          ? ["hi", "记录", "地图"]
-          : ["hi", "任务", "地图"];
+        : npc.itemChange?.recipes?.length
+          ? ["hi", "加工", "地图"]
+          : /save/i.test(npc.type)
+            ? ["hi", "记录", "地图"]
+            : ["hi", "任务", "地图"];
   return [...new Set([...base, ...aiHints])];
 }
 

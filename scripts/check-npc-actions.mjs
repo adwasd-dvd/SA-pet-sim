@@ -1150,6 +1150,53 @@ await expectApiError(
   "pet skill shop refuses teaching when stone is insufficient"
 );
 
+const itemChangeNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.itemChange?.recipes?.some(isSimpleItemChangeRecipe));
+if (!itemChangeNpc) throw new Error("missing ITEMCHANGE fixture");
+const itemChangeRecipe = itemChangeNpc.npc.itemChange.recipes.find(isSimpleItemChangeRecipe);
+let itemChangeGame = await api("/api/game/new", { name: "item-change-test" });
+itemChangeGame.location = farLocation(itemChangeNpc.map, itemChangeNpc.npc);
+await expectApiError(
+  "/api/game/change-item",
+  { game: itemChangeGame, npcId: itemChangeNpc.npc.id, recipeIndex: itemChangeRecipe.index },
+  "请先走近",
+  "ITEMCHANGE rejects remote NPC window action"
+);
+itemChangeGame.location = { mapId: itemChangeNpc.map.id, x: itemChangeNpc.npc.x + 1, y: itemChangeNpc.npc.y };
+satisfySourceFlagCondition(itemChangeGame, itemChangeRecipe.free);
+itemChangeGame = await api("/api/game/dialog", { game: itemChangeGame, npcId: itemChangeNpc.npc.id });
+assert(itemChangeGame.dialog.itemChange?.recipes?.length, "ITEMCHANGE dialog exposes source recipes");
+assert(itemChangeGame.dialog.debug.actions.includes("itemChange"), "ITEMCHANGE debug exposes source action profile");
+await expectApiError(
+  "/api/game/change-item",
+  { game: itemChangeGame, npcId: itemChangeNpc.npc.id, recipeIndex: itemChangeRecipe.index },
+  "材料不足",
+  "ITEMCHANGE refuses missing materials"
+);
+for (const item of itemChangeRecipe.delItems) {
+  itemChangeGame.inventory.push({ ...item, qty: Number(item.qty || 1), source: "test itemchange material" });
+}
+itemChangeGame.player.stone = Number(itemChangeRecipe.delGold || 0) + 5000;
+satisfySourceFlagCondition(itemChangeGame, itemChangeRecipe.free);
+const stoneBeforeItemChange = itemChangeGame.player.stone;
+const itemChangeResult = itemChangeRecipe.addItems[0];
+const consumedMaterial = itemChangeRecipe.delItems.find((item) => !itemChangeRecipe.addItems.some((add) => Number(add.id) === Number(item.id))) || itemChangeRecipe.delItems[0];
+itemChangeGame = await api("/api/game/change-item", {
+  game: itemChangeGame,
+  npcId: itemChangeNpc.npc.id,
+  recipeIndex: itemChangeRecipe.index
+});
+assertEqual(itemChangeGame.player.stone, stoneBeforeItemChange - Number(itemChangeRecipe.delGold || 0), "ITEMCHANGE deducts DelGold through VM");
+if (consumedMaterial && !itemChangeRecipe.addItems.some((item) => Number(item.id) === Number(consumedMaterial.id))) {
+  assertEqual(inventoryQty(itemChangeGame, consumedMaterial.id), 0, "ITEMCHANGE deducts DelItem material through VM");
+}
+assert(inventoryQty(itemChangeGame, itemChangeResult.id) >= Number(itemChangeResult.qty || 1), "ITEMCHANGE gives AddItem result through VM");
+assert(itemChangeGame.dialog.itemChange?.recipes?.some((recipe) => Number(recipe.index) === Number(itemChangeRecipe.index)), "ITEMCHANGE refreshes dialog recipe state after crafting");
+assert(itemChangeGame.dialog.debug.vmTrace.some((event) => event.action === "itemChange" && event.detail?.recipeIndex === itemChangeRecipe.index), "ITEMCHANGE records itemChange VM event");
+assert(itemChangeGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "item-change"), "ITEMCHANGE runs take actions through NPC VM");
+assert(itemChangeGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "item-change"), "ITEMCHANGE runs give actions through NPC VM");
+
 const discountItem = shopNpc.npc.trade.items.find((item) => Number(item.price || item.cost || 0) > 1);
 if (!discountItem) throw new Error("missing priced shop item fixture");
 let aiShopGame = await api("/api/game/new", { name: "ai-shop-discount-test" });
@@ -2145,7 +2192,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -2215,6 +2262,21 @@ function inventoryQty(game, id) {
   return (game.inventory || [])
     .filter((item) => Number(item.id) === Number(id))
     .reduce((sum, item) => sum + Number(item.qty || 0), 0);
+}
+
+function isSimpleItemChangeRecipe(recipe) {
+  if (!recipe?.delItems?.length || !recipe?.addItems?.length) return false;
+  if (Number(recipe.delGold || 0) <= 0) return false;
+  return !/(?:PET|TRANS|HERO|SP|LV|MANOR|CLASS)\s*(?:!=|>=|<=|>|<|=)/i.test(String(recipe.free || ""));
+}
+
+function satisfySourceFlagCondition(game, spec = "") {
+  for (const match of String(spec || "").matchAll(/\b(?:ENDEV|ENDEVENT|END)\s*=\s*(\d+)/gi)) {
+    setTestEventFlag(game, Number(match[1]), "end");
+  }
+  for (const match of String(spec || "").matchAll(/\b(?:NOWEV|NOWEVENT|NEV)\s*=\s*(\d+)/gi)) {
+    setTestEventFlag(game, Number(match[1]), "now");
+  }
 }
 
 function setTestEventFlag(game, shiftbit, kind = "end") {

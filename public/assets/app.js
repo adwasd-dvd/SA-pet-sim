@@ -3166,7 +3166,8 @@ function renderDialog() {
   }).join("");
   const auxiliary = [
     renderDialogShop(dialog),
-    renderDialogPetSkillShop(dialog)
+    renderDialogPetSkillShop(dialog),
+    renderDialogItemChange(dialog)
   ].filter(Boolean).join("");
   els.dialogSuggestions.hidden = !auxiliary;
   els.dialogSuggestions.innerHTML = auxiliary;
@@ -3179,6 +3180,9 @@ function renderDialog() {
   });
   els.dialogSuggestions.querySelectorAll("[data-learn-pet-skill]").forEach((btn) => {
     btn.addEventListener("click", () => learnPetSkill(Number(btn.dataset.learnPetSkill), Number(btn.dataset.petIndex), Number(btn.dataset.slotIndex)));
+  });
+  els.dialogSuggestions.querySelectorAll("[data-change-item]").forEach((btn) => {
+    btn.addEventListener("click", () => changeItem(Number(btn.dataset.changeItem)));
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
   updateDialogScrollButtons();
@@ -3935,6 +3939,60 @@ function renderDialogPetSkillShop(dialog) {
   `;
 }
 
+function renderDialogItemChange(dialog) {
+  const itemChange = dialog.itemChange;
+  if (!itemChange?.recipes?.length) return "";
+  const state = itemChange.inventory || inventoryState();
+  const recipes = itemChange.recipes.slice(0, 12).map((recipe) => `
+    <button class="shop-item" type="button" data-change-item="${Number(recipe.index || 0)}" ${recipe.canChange ? "" : "disabled"}>
+      <span>
+        <strong>${escapeHtml(itemChangeRecipeName(recipe))}</strong>
+        <small>${escapeHtml(itemChangeRecipeHint(recipe))}</small>
+      </span>
+      <b>${itemChangeRecipeCost(recipe)}</b>
+    </button>
+  `).join("");
+  return `
+    <div class="shop-box item-change-box">
+      <div class="shop-summary">
+        <strong>加工</strong>
+        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(itemChange.stone || game.player.stone || 0)}</span>
+      </div>
+      <section class="shop-section">
+        <header><strong>配方</strong><small>${escapeHtml(itemChange.menuHead || itemChange.source || "ItemchangeMan")}</small></header>
+        <div class="shop-list">${recipes || `<p class="shop-empty">没有可加工配方。</p>`}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>要求</strong><small>${escapeHtml(itemChange.needHead || "NeedItem / DelItem")}</small></header>
+        <p class="shop-empty">${escapeHtml(itemChange.startMessage || "选择配方后会按原脚本扣除材料与石币。")}</p>
+      </section>
+    </div>
+  `;
+}
+
+function itemChangeRecipeName(recipe) {
+  return (recipe.addItems || []).map((item) => `${item.name} x${Number(item.qty || 1)}`).join("、")
+    || recipe.changeItemName
+    || `配方 ${Number(recipe.index || 0) + 1}`;
+}
+
+function itemChangeRecipeHint(recipe) {
+  if (recipe.blockedReason) return recipe.blockedReason;
+  const needs = (recipe.delItems?.length ? recipe.delItems : recipe.needItems || [])
+    .map((item) => `${item.name} x${Number(item.qty || 1)}`)
+    .join("、");
+  const parts = [];
+  if (needs) parts.push(`材料 ${needs}`);
+  if (recipe.needMsg) parts.push(recipe.needMsg);
+  if (recipe.free) parts.push(recipe.free);
+  return parts.join(" | ") || `recipe ${Number(recipe.index || 0) + 1}`;
+}
+
+function itemChangeRecipeCost(recipe) {
+  const cost = Number(recipe.delGold || 0);
+  return cost > 0 ? `${cost} 石币` : "加工";
+}
+
 function petSkillShopHint(skill, pet) {
   if (!pet) return "需要先选择出战宠物";
   if (skill.alreadyKnown) return "这只宠物已经学会";
@@ -4034,6 +4092,21 @@ async function learnPetSkill(skillId, petIndex, slotIndex) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "学习宠物技能失败");
+  }
+}
+
+async function changeItem(recipeIndex) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/change-item", {
+      game,
+      npcId: game.dialog.npcId,
+      recipeIndex
+    });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "加工失败");
   }
 }
 
