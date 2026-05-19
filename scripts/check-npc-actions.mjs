@@ -2016,6 +2016,14 @@ gatedEncounterGame = await api("/api/game/encounter", { game: gatedEncounterGame
 assert(gatedEnemyIds.includes(gatedEncounterGame.encounter.EnemyId), "required item enables source item-gated encounter group");
 const villageGirl = WORLD.maps["1100"].npcs.find((npc) => npc.name === "村庄小姑娘" && npc.x === 68 && npc.y === 36);
 if (!villageGirl) throw new Error("missing Koao village girl fixture");
+let normalVillageGirlGame = await api("/api/game/new", { name: "npc-normal-no-ai-teleport-test" });
+normalVillageGirlGame.location = { mapId: "1100", x: villageGirl.x - 1, y: villageGirl.y };
+normalVillageGirlGame = await api("/api/game/dialog", { game: normalVillageGirlGame, npcId: villageGirl.id, message: "帮我瞬移到渔村" });
+assertEqual(normalVillageGirlGame.location.mapId, "1100", "normal NPC dialog does not run AI teleport negotiation");
+assertEqual(normalVillageGirlGame.dialog.aiMode, false, "AI mode stays off until the user explicitly toggles it");
+assert(!normalVillageGirlGame.dialog.suggestions.includes("AI对话"), "normal dialog suggestions do not duplicate the dedicated AI toggle button");
+assert(normalVillageGirlGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("请先点对话框里的 AI 按钮")), "normal NPC tells the player to explicitly enable AI for negotiation");
+assert(!normalVillageGirlGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "ai-action-proposal"), "normal NPC AI-gated request does not create an AI action proposal");
 let villageGirlGame = await api("/api/game/new", { name: "npc-ai-teleport-info-test" });
 villageGirlGame.location = { mapId: "1100", x: villageGirl.x - 1, y: villageGirl.y };
 villageGirlGame = await api("/api/game/dialog", { game: villageGirlGame, npcId: villageGirl.id, message: "AI对话" });

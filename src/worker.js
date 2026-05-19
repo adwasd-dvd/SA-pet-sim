@@ -5082,6 +5082,7 @@ async function npcReply(env, request, game, npc, text) {
   if (!game.encounter && isAiModeOn(lower)) return setNpcAiModeReply(game, npc, true);
   if (!game.encounter && isAiModeOff(lower)) return setNpcAiModeReply(game, npc, false);
   if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
+  if (!game.encounter && !isNpcAiMode(game, npc) && isAiOnlyNpcRequest(lower, npc)) return aiModeRequiredReply(game, npc, text);
   if (!game.encounter && isNpcEnemy(npc) && isNpcAiMode(game, npc) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isNpcEnemy(npc)) return npcEnemyReply(env, request, game, npc, lower);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
@@ -5119,6 +5120,22 @@ function isAiRequest(text) {
     || hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌", "商量传送", "商量坐车", "去别的地图", "去其他地图", "打折", "折扣", "便宜", "优惠", "優待", "优待", "平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "给些", "卖我", "卖给我", "卖一些", "要一个", "真的需要", "很需要", "急用", "帮帮", "帮我", "拜托", "报酬", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
 }
 
+function isAiOnlyNpcRequest(text, npc) {
+  return isAiTeleportNegotiationRequest(text, npc)
+    || hasAny(text, ["请求避敌", "不会遇到", "野外敌人", "避敌"])
+    || hasAny(text, ["打折", "折扣", "便宜", "优惠", "優待", "优待"])
+    || hasAny(text, ["平时不卖", "平常不卖", "隐藏", "柜台后面", "柜台後面"])
+    || hasAny(text, ["商量", "报酬", "贿赂", "收钱", "买路", "威胁", "恐吓", "让我过去", "放我过去", "bus", "ai:"]);
+}
+
+function isAiTeleportNegotiationRequest(text, npc) {
+  if (!isTeleportRequest(text)) return false;
+  const plainSourceWarp = isWarpNpc(npc)
+    && hasAny(text, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])
+    && !hasAny(text, ["瞬移", "带我去", "帶我去", "送我去", "飛到", "飞到", "送到", "商量", "别的地图", "其他地图"]);
+  return !plainSourceWarp;
+}
+
 function isNpcAiMode(game, npc) {
   return Boolean(game.dialogAi?.[npc.id]);
 }
@@ -5130,6 +5147,14 @@ function setNpcAiModeReply(game, npc, enabled) {
   return enabled
     ? `${npc.name} 会用 AI 对话方式继续回应；可商量信息、优待或传送，但交易、传送、战斗和 flag 仍由 Worker 的 NPC VM 校验。`
     : `${npc.name} 切回普通脚本对话。`;
+}
+
+function aiModeRequiredReply(game, npc, text) {
+  recordNpcVmEvent(game, npc, "debug", "blocked", {
+    reason: "ai-mode-required",
+    text: String(text || "").slice(0, 80)
+  });
+  return `${npc.name} 现在按原版脚本回应，不会处理瞬移、打折、贿赂、隐藏商品或避敌这类 AI 交涉。想尝试这些事，请先点对话框里的 AI 按钮；实际给物品、传送、交易和状态变化仍会由 Worker 按源码规则校验。`;
 }
 
 function battleActionReply(game, npc, text) {
@@ -9278,10 +9303,9 @@ function worldTradeItems() {
 function dialogSuggestions(npc, game = null) {
   if (game?.encounter && game?.battle?.npcEnemy) return ["攻击", "防御", "道具", "逃跑"];
   if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
-  const aiToggle = isNpcAiMode(game, npc) ? "普通对话" : "AI对话";
   if (isNpcEnemy(npc)) return isNpcAiMode(game, npc)
-    ? [aiToggle, "是", "否", "试着交涉"]
-    : [aiToggle, "是", "否"];
+    ? ["是", "否", "试着交涉"]
+    : ["是", "否"];
   const aiHints = isNpcAiMode(game, npc)
     ? (isHealerNpc(npc)
       ? ["请求急救药", "请求治疗", "试着交涉"]
@@ -9296,7 +9320,7 @@ function dialogSuggestions(npc, game = null) {
         : /save/i.test(npc.type)
           ? ["hi", "记录", "地图"]
           : ["hi", "任务", "地图"];
-  return [...new Set([aiToggle, ...base, ...aiHints])];
+  return [...new Set([...base, ...aiHints])];
 }
 
 function addInventoryItem(game, item, qty = 1) {

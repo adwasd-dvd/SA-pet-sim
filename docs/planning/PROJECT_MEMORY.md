@@ -128,6 +128,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - Numbered source dialogue pages such as `RequestMsg1/2`, `AcceptMsg1/2`, `ThanksMsg1/2`, and `NormalWindowMsg1/2` are preserved as `messagePages` and joined at runtime, while client map payloads still get only compact `scriptEventSummary` metadata.
 - Stone changes still go through `runNpcVmAction`, sync the inventory stone row, and are checked against the original max carried-stone scale (`CHAR_MAXGOLDHAVE = 10000 * 10000`).
 - NPC task summaries and AI/debug context should prefer these compact parsed actions over dumping raw source lines, so token use stays low and numeric item IDs can be resolved before reaching the model.
+- 2026-05-19 NPC AI boundary fix: normal NPC dialogue now blocks AI-only negotiation intents such as teleport bargaining, discounts, hidden goods, bribes, threats, and no-encounter requests unless the player explicitly enables AI mode for that NPC. The dedicated dialog AI toggle remains the entry point; suggestion buttons no longer duplicate an `AI对话` option. Explicit AI mode still routes proposals through the deterministic NPC VM.
 
 ## Current Done Tasks
 
