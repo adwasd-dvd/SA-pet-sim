@@ -297,6 +297,8 @@ let questLoopGame = await api("/api/game/new", { name: "source-quest-loop-test" 
 questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2 };
 questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id });
 assertEqual(questLoopGame.quests[teacher.questId].status, "进行中", "teacher starts the first source-grounded quest");
+assert(questLoopGame.quests[teacher.questId].guidance?.some((line) => line.includes("萨伊那斯") && line.includes("floor 100")), "field quest guidance tells the player which map to visit");
+assert(questLoopGame.quests[teacher.questId].guidance?.some((line) => line.includes("路线") && line.includes("出口")), "field quest guidance includes route/exit instructions");
 questLoopGame = await api("/api/game/walk", {
   game: { ...questLoopGame, location: { mapId: "1000", x: 49, y: 116, dir: 2 }, player: { ...questLoopGame.player, dir: 2 } },
   dx: 0,
@@ -327,6 +329,7 @@ assert(questLoopGame.player.stone > questLoopStoneBefore, "field quest completio
 const fourVillageQuestId = "samugiru-four-village-route";
 questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id });
 assertEqual(questLoopGame.quests[fourVillageQuestId].status, "进行中", "teacher starts the four-village source route after field practice");
+assert(questLoopGame.quests[fourVillageQuestId].guidance?.some((line) => line.includes("下一张地图") && line.includes("萨伊那斯")), "four-village route guidance names the next map");
 questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id, message: "任务" });
 assert(questLoopGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("下一处地图：萨伊那斯")), "four-village quest reply shows source map objective hints");
 questLoopGame = await walkSourceWarp(questLoopGame, "1000", "100");
@@ -847,6 +850,8 @@ assert(flowerShellGame.flags.bits["now:2"], "Himiko REQUEST sets source NOWEV=2 
 assertEqual(inventoryQty(flowerShellGame, 2415), 1, "Himiko REQUEST gives source Senia flower");
 assert(flowerShellGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-request-getitem" && event.detail?.itemId === 2415), "Himiko REQUEST gives item through NPC VM");
 assert(flowerShellGame.progression.sourceTasks.some((task) => task.eventNo === 2 && task.phase === "collect" && task.nextNpcs.some((npc) => npc.name === "弥生")), "source task EventNo 2 points SP=0 player to Yayoi after request");
+const flowerTask = flowerShellGame.progression.sourceTasks.find((task) => task.eventNo === 2);
+assert(flowerTask?.guidance?.some((line) => line.includes("弥生") && line.includes("floor 2000")), "source task guidance includes target NPC map and floor");
 flowerShellGame = await api("/api/game/dialog", { game: flowerShellGame, npcId: himikoSp.id });
 assertEqual(inventoryQty(flowerShellGame, 2415), 1, "repeating Himiko while NOWEV=2 does not duplicate request item");
 flowerShellGame.location = { mapId: "2000", x: yayoiSp.x + 1, y: yayoiSp.y };

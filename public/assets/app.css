@@ -1990,6 +1990,38 @@ h3 {
   font-size: 12px;
 }
 
+.quest-guidance {
+  display: grid;
+  gap: 3px;
+  margin: 4px 0 0;
+  padding-left: 16px;
+  color: #243d38;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.quest-guidance li {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.client-list-window .quest-guidance {
+  margin-top: 2px;
+  color: #fff5c5;
+  font-size: 13px;
+}
+
+.client-list-window .quest-guidance li {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.quest-card .quest-guidance li {
+  overflow: visible;
+  text-overflow: clip;
+}
+
 .encounter-panel {
   position: fixed;
   right: 16px;

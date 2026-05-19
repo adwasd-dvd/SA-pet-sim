@@ -3668,6 +3668,7 @@ function renderMapQuestLeadHtml(map) {
             <article>
               <b>${escapeHtml(quest.title)}</b>
               <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
+              ${renderGuidanceList(questGuidanceLines(quest), 3)}
             </article>
           `).join("")}
         </div>
@@ -3679,6 +3680,7 @@ function renderMapQuestLeadHtml(map) {
             <article>
               <b>${escapeHtml(task.title)}</b>
               <span>${escapeHtml(task.next || task.status)}${task.nextNpcs?.[0]?.distance < 9999 ? ` | 距离 ${Number(task.nextNpcs[0].distance)} 格` : ""}</span>
+              ${renderGuidanceList(taskGuidanceLines(task), 3)}
             </article>
           `).join("")}
         </div>
@@ -4557,12 +4559,14 @@ function clientQuestWindow() {
           <article>
             <strong>${escapeHtml(quest.title)}</strong>
             <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
+            ${renderGuidanceList(questGuidanceLines(quest), 3)}
           </article>
         `).join("")}
         ${sourceTasks.map((task) => `
           <article>
             <strong>${escapeHtml(task.title)}</strong>
             <span>${escapeHtml(task.status)} | ${escapeHtml(task.next || "继续推进原脚本事件")}</span>
+            ${renderGuidanceList(taskGuidanceLines(task), 3)}
           </article>
         `).join("")}
       </div>
@@ -4882,6 +4886,7 @@ function renderQuests() {
         `).join("")}
       </div>
       <p class="muted">下一步：${escapeHtml(nextQuestStep(quest))}</p>
+      ${renderGuidanceList(questGuidanceLines(quest), 5)}
       <p class="muted">奖励：${escapeHtml(quest.reward)} | 来源：${escapeHtml(quest.source)}</p>
     </article>
   `).join("");
@@ -4889,6 +4894,7 @@ function renderQuests() {
       <article class="result-item quest-card">
         <div><strong>${escapeHtml(task.title)}</strong><span>${escapeHtml(task.status)}</span></div>
         <p>${escapeHtml(task.next || "继续推进原脚本事件。")}</p>
+        ${renderGuidanceList(taskGuidanceLines(task), 5)}
         ${task.requiredItems?.length ? `<p class="muted">道具：${escapeHtml(task.requiredItems.map((item) => `${item.name} ${Number(item.have || 0)}/${Number(item.qty || 1)}`).join("、"))}</p>` : ""}
         ${task.rewardItems?.length ? `<p class="muted">可能奖励：${escapeHtml(task.rewardItems.map((item) => `${item.name} x${Number(item.qty || 1)}`).join("、"))}</p>` : ""}
         <p class="muted">来源：${escapeHtml(task.source || "gmsv-data changeevent")} | EventNo ${Number(task.eventNo || 0)}</p>
@@ -4897,6 +4903,38 @@ function renderQuests() {
   els.questList.innerHTML = questHtml || sourceTaskHtml
     ? `${questHtml}${sourceTaskHtml}`
     : `<p class="empty">还没有接任务，先和 NPC 聊聊。</p>`;
+}
+
+function questGuidanceLines(quest) {
+  const lines = Array.isArray(quest?.guidance) ? quest.guidance : [];
+  const fallback = nextQuestStep(quest);
+  return compactDisplayLines(lines.length ? lines : [fallback]);
+}
+
+function taskGuidanceLines(task) {
+  const lines = Array.isArray(task?.guidance) ? task.guidance : [];
+  return compactDisplayLines(lines.length ? lines : [task?.next || "继续推进原脚本事件。"]);
+}
+
+function compactDisplayLines(lines) {
+  const seen = new Set();
+  return (lines || [])
+    .map((line) => String(line || "").trim())
+    .filter((line) => {
+      if (!line || seen.has(line)) return false;
+      seen.add(line);
+      return true;
+    });
+}
+
+function renderGuidanceList(lines, limit = 4) {
+  const items = compactDisplayLines(lines).slice(0, limit);
+  if (!items.length) return "";
+  return `
+    <ul class="quest-guidance">
+      ${items.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}
+    </ul>
+  `;
 }
 
 function nextQuestStep(quest) {
