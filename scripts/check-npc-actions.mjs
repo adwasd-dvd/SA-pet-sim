@@ -70,6 +70,14 @@ assertEqual(game.player.savePointMask, 1, "new player defaults to source CHAR_SA
 assertEqual(game.characterFields?.base?.startPoint, 0, "character fields expose source startpoint");
 assert(game.save.info.includes("STARTPOINT=0"), "saac-like save info records source startpoint");
 assert(game.save.info.includes("SAVEPOINT=1"), "saac-like save info records source CHAR_SAVEPOINT mask");
+let defaultReturnPointGame = await api("/api/game/new", { name: "default-return-point-test" });
+defaultReturnPointGame.location = { mapId: "300", x: 274, y: 403, dir: 4 };
+defaultReturnPointGame.savePoint = { mapId: "300", x: 274, y: 403, source: "stale-local-tile-without-source-born" };
+defaultReturnPointGame = await api("/api/game/return-savepoint", { game: defaultReturnPointGame });
+assertEqual(defaultReturnPointGame.location.mapId, WORLD.startMap, "return point ignores stale recent tile when no source Born savepoint exists");
+assertEqual(defaultReturnPointGame.location.x, WORLD.maps[WORLD.startMap].spawn[0], "return point without source Born uses birth x");
+assertEqual(defaultReturnPointGame.location.y, WORLD.maps[WORLD.startMap].spawn[1], "return point without source Born uses birth y");
+assertEqual(defaultReturnPointGame.returnPoint.kind, "start", "return point reports birth fallback when player has not changed record point through NPC");
 
 let petModeGame = await api("/api/game/new", { name: "pet-mode-test" });
 petModeGame.pets.push({
@@ -623,6 +631,14 @@ assert(game.save.info.includes("LAST_SAVEPOINT="), "saac-like save info includes
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "save" && event.status === "ok"), "savepoint dialog debug includes save VM trace");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "savepoint"), "savepoint dialog debug includes setFlag VM trace");
 assert(game.flags.bits[`end:${stableFlag(`${saveNpc.npc.id}:savepoint`)}`], "savepoint end flag set");
+if (saveNpc.npc.savePoint?.born) {
+  game.location = { mapId: "300", x: 274, y: 403, dir: 4 };
+  game = await api("/api/game/return-savepoint", { game });
+  assertEqual(game.location.mapId, saveNpc.npc.savePoint.born.mapId, "return point uses source savepoint Born map after NPC record");
+  assertEqual(game.location.x, saveNpc.npc.savePoint.born.x, "return point uses source savepoint Born x after NPC record");
+  assertEqual(game.location.y, saveNpc.npc.savePoint.born.y, "return point uses source savepoint Born y after NPC record");
+  assertEqual(game.returnPoint.kind, "savepoint", "return point reports source savepoint after NPC record");
+}
 
 const ganzo = WORLD.maps["100"]?.npcs.find((npc) => npc.name === "坏心眼的愿藏");
 if (!ganzo) throw new Error("missing Ganzo NPCEnemy fixture");
@@ -2405,7 +2421,7 @@ npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEven
 assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
 assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

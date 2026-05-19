@@ -147,6 +147,7 @@ let installPrompt = null;
 let walkInFlight = false;
 let routeInFlight = false;
 let routeToken = 0;
+let rescueEpoch = 0;
 let tileAtlasPromise = null;
 let loadedTileAtlas = null;
 let profilePackPlanPromise = null;
@@ -968,6 +969,7 @@ function normalizeDirection(dir) {
 async function walkPlayer(dx, dy) {
   if (walkInFlight) return false;
   walkInFlight = true;
+  const epoch = rescueEpoch;
   const requestedServerDir = serverDirectionForDelta(dx, dy);
   const before = {
     mapId: game.location.mapId,
@@ -975,7 +977,9 @@ async function walkPlayer(dx, dy) {
     y: game.location.y
   };
   try {
-    game = await api("/api/game/walk", { game, dx, dy });
+    const nextGame = await api("/api/game/walk", { game, dx, dy });
+    if (epoch !== rescueEpoch) return false;
+    game = nextGame;
     const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
     const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
     if (moved && before.mapId === game.location.mapId) {
@@ -995,6 +999,7 @@ async function walkPlayer(dx, dy) {
 
 async function turnPlayer(face) {
   if (!game || !face) return false;
+  const epoch = rescueEpoch;
   try {
     const dir = Number(face.dir);
     const payload = {
@@ -1003,7 +1008,9 @@ async function turnPlayer(face) {
       dy: Number(face.dy) || 0
     };
     if (Number.isFinite(dir)) payload.dir = dir;
-    game = await api("/api/game/turn", payload);
+    const nextGame = await api("/api/game/turn", payload);
+    if (epoch !== rescueEpoch) return false;
+    game = nextGame;
     facePlayerDirection(clientAnimDirectionFromServerDir(currentServerDirection()));
     save();
     render();
@@ -1393,6 +1400,28 @@ async function runAutomationBattleAction(action, label) {
     return null;
   } finally {
     automationInFlight = false;
+  }
+}
+
+async function returnToSavePoint() {
+  if (!game) return;
+  if (isBattleOpen()) {
+    addClientLog("战斗中不能返回记录点。");
+    return;
+  }
+  rescueEpoch += 1;
+  routeToken += 1;
+  routeInFlight = false;
+  battlePendingAction = "";
+  clearPressedMoveKeys();
+  try {
+    game = await api("/api/game/return-savepoint", { game });
+    mapView.centerOnNextRender = true;
+    playerAnimState.active = false;
+    save();
+    render();
+  } catch (error) {
+    addClientLog(error.message || "返回记录点失败。");
   }
 }
 
@@ -3182,6 +3211,11 @@ function onAssistPanelClick(event) {
     mutate("/api/game/encounter", {});
     return;
   }
+  const returnSavePointBtn = event.target.closest("[data-assist-return-savepoint]");
+  if (returnSavePointBtn) {
+    returnToSavePoint();
+    return;
+  }
   const autoBtn = event.target.closest("[data-assist-toggle-auto]");
   if (autoBtn) {
     const mode = autoBtn.dataset.assistToggleAuto;
@@ -4601,9 +4635,13 @@ function renderRightQuickCommands() {
   const pets = game.pets || [];
   const canEncounter = Boolean(game.world?.map?.canWildEncounter) && !game.encounter;
   const automation = automationState();
+  const returnPoint = game.savePoint?.born || null;
   const encounterTitle = canEncounter
     ? "按当前地图 encount.txt 触发野外遇敌"
     : (game.world?.map?.wildEncounterReason || "当前地图不能触发野外遇敌");
+  const returnTitle = returnPoint
+    ? `回到记录点 floor ${returnPoint.mapId} (${returnPoint.x},${returnPoint.y})`
+    : "还没和记录点 NPC 完成记录时，会回到出生点";
   return `
     <section class="ai-tool-section ai-quick-section" aria-label="快速指令">
       <div class="ai-tool-head">
@@ -4615,6 +4653,7 @@ function renderRightQuickCommands() {
         <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>回血</button>
         <button type="button" class="${automation.autoLevel ? "active" : ""}" data-assist-toggle-auto="level" aria-pressed="${automation.autoLevel ? "true" : "false"}">自动练级</button>
         <button type="button" class="${automation.autoEscape ? "active" : ""}" data-assist-toggle-auto="escape" aria-pressed="${automation.autoEscape ? "true" : "false"}">自动逃跑</button>
+        <button type="button" data-assist-return-savepoint ${game.encounter ? "disabled" : ""} title="${escapeHtml(returnTitle)}">回记录点</button>
         <button type="button" data-assist-client-tab="pets">PET</button>
         <button type="button" data-assist-client-tab="items">ITEM</button>
       </div>

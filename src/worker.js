@@ -264,6 +264,10 @@ async function handleApi(request, env, url) {
       const body = await readJson(request);
       return json(await routeExitGame(env, request, body.game, String(body.exitId || ""), Number(body.targetX), Number(body.targetY)));
     }
+    if (url.pathname === "/api/game/return-savepoint" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(returnSavePointGame(body.game));
+    }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
       return json(talkGame(body.game, String(body.npcId || "")));
@@ -12185,6 +12189,75 @@ function progressionState(game) {
       limitLevel: petLimitLevel(pet)
     })),
     sourceTasks: sourceScriptTaskState(game)
+  };
+}
+
+function returnSavePointGame(game) {
+  game = normalizeGame(game);
+  if (game.encounter || game.battle) throw new Error("战斗中不能返回记录点。");
+  const target = returnSavePointTarget(game);
+  const from = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
+  const label = target.kind === "savepoint" ? "返回记录点" : "返回出生点";
+  applyWarpTarget(game, target, label);
+  const now = new Date().toISOString();
+  const to = { mapId: game.location.mapId, x: game.location.x, y: game.location.y };
+  game.lastWarp = {
+    ...(game.lastWarp || {}),
+    kind: "return-savepoint",
+    label,
+    from,
+    to,
+    source: target.source,
+    returnedAt: now
+  };
+  game.transition = warpTransition("return-savepoint", label, from, to, target.source, now);
+  game.dialog = null;
+  game.walk = { steps: 0, encounterSteps: 0 };
+  addLog(game, `${label}：你回到了 ${WORLD.maps[to.mapId]?.name || to.mapId} (${to.x},${to.y})。`);
+  return withMap(game, {
+    returnPoint: {
+      ...to,
+      label,
+      kind: target.kind,
+      source: target.source
+    }
+  });
+}
+
+function returnSavePointTarget(game) {
+  const savePoint = game.savePoint || null;
+  const born = savePoint?.born || null;
+  if (born && WORLD.maps[String(born.mapId)]) {
+    return clampReturnPoint({
+      kind: "savepoint",
+      mapId: born.mapId,
+      x: born.x,
+      y: born.y,
+      source: savePoint.source || "gmsv npc_savepoint Born"
+    });
+  }
+  const startMap = WORLD.maps[WORLD.startMap] || Object.values(WORLD.maps)[0];
+  if (!startMap) throw new Error("没有可用的出生地图。");
+  const spawn = Array.isArray(startMap.spawn) ? startMap.spawn : [0, 0];
+  return clampReturnPoint({
+    kind: "start",
+    mapId: startMap.id,
+    x: spawn[0],
+    y: spawn[1],
+    source: "fallback start spawn"
+  });
+}
+
+function clampReturnPoint(target) {
+  const map = WORLD.maps[String(target.mapId)];
+  if (!map) return target;
+  const width = Math.max(1, Number(map.size?.[0]) || 1);
+  const height = Math.max(1, Number(map.size?.[1]) || 1);
+  return {
+    ...target,
+    mapId: map.id,
+    x: clampInt(target.x, 0, width - 1, Number(map.spawn?.[0] || 0)),
+    y: clampInt(target.y, 0, height - 1, Number(map.spawn?.[1] || 0))
   };
 }
 
