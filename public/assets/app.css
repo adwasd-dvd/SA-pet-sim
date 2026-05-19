@@ -1759,6 +1759,40 @@ h3 {
   margin: 0;
 }
 
+.assist-action-grid button.active {
+  border-color: #e7b95a;
+  background: #173f35;
+  color: #fff6bf;
+  box-shadow: inset 0 0 0 2px rgb(231 185 90 / 24%);
+}
+
+.assist-auto-status {
+  display: grid;
+  gap: 3px;
+  margin-top: 10px;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 6px;
+  padding: 8px;
+  background: rgb(255 255 255 / 88%);
+  color: var(--ink);
+}
+
+.assist-auto-status.active {
+  border-color: #e7b95a;
+  background: rgb(255 248 214 / 94%);
+}
+
+.assist-auto-status strong,
+.assist-auto-status span {
+  display: block;
+  min-width: 0;
+}
+
+.assist-auto-status span {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .assist-debug-list,
 .assist-debug-trace {
   display: grid;

@@ -23,6 +23,9 @@ const MOVE_MODE_CHANGE_TIME = 1000;
 const MOVE_CLICK_WAIT_TIME = 250;
 const WARP_EFFECT_MS = 680;
 const DIALOG_SCROLL_STEP = 56;
+const AUTOMATION_TICK_MS = 760;
+const AUTOMATION_BATTLE_STEP_MS = 520;
+const AUTOMATION_ROUTE_ESCAPE_LIMIT = 10;
 const BATTLE_KEY_ACTIONS = Object.freeze({
   "1": "attack",
   h: "attack",
@@ -156,6 +159,8 @@ let battlePetMenuOpen = false;
 let battleSelectedAction = "attack";
 let battlePendingAction = "";
 let battleFxTimer = 0;
+let automationTimer = 0;
+let automationInFlight = false;
 let aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
 let npcSortMode = "source";
 let exitSortMode = "source";
@@ -442,6 +447,7 @@ function showGame() {
 
 function render() {
   if (!game) return;
+  ensureAutomationState();
   syncPlayerAnimationDirectionFromGame();
   const map = game.world.map;
   const petsUsed = petUsed();
@@ -471,6 +477,7 @@ function render() {
   renderFieldMessage();
   renderAiStatusPanel();
   renderClientWindow();
+  scheduleAutomationTick();
 }
 
 function renderMap(map) {
@@ -978,8 +985,13 @@ function schedulePlayerAnimTick() {
 async function followRouteTo(target, routeData = null) {
   if (!game) return;
   if (isBattleOpen()) {
-    addClientLog("战斗中无法移动。");
-    return false;
+    if (automationState().autoEscape) {
+      const escaped = await autoEscapeCurrentBattle({ routeToken });
+      if (!escaped) return false;
+    } else {
+      addClientLog("战斗中无法移动。");
+      return false;
+    }
   }
   if (routeInFlight) {
     routeToken += 1;
@@ -1001,6 +1013,7 @@ async function followRouteTo(target, routeData = null) {
       const beforeMap = game.location.mapId;
       const moved = await walkPlayer(step.dx, step.dy);
       if (!moved || game.location.mapId !== beforeMap) return moved;
+      if (game.encounter && !await resolveRouteEncounter(token)) return false;
       await wait(85);
     }
     if (data.face && token === routeToken) return turnPlayer(data.face);
@@ -1013,12 +1026,221 @@ async function followRouteTo(target, routeData = null) {
   }
 }
 
+async function resolveRouteEncounter(token) {
+  if (!game?.encounter) return true;
+  if (!automationState().autoEscape) {
+    addClientLog("路上遇敌，路线暂停。开启自动逃跑后会逃跑并继续原路线。");
+    return false;
+  }
+  addClientLog("自动逃跑：路上遇敌，先逃跑再继续路线。");
+  return autoEscapeCurrentBattle({ routeToken: token });
+}
+
 async function waitForWalkSlot(token, timeoutMs = 800) {
   const startedAt = performance.now();
   while (walkInFlight && token === routeToken && performance.now() - startedAt < timeoutMs) {
     await wait(16);
   }
   return token === routeToken && !walkInFlight;
+}
+
+function ensureAutomationState() {
+  if (!game) return { autoLevel: false, autoEscape: false };
+  game.automation ||= {};
+  game.automation.autoLevel = Boolean(game.automation.autoLevel);
+  game.automation.autoEscape = Boolean(game.automation.autoEscape);
+  game.automation.updatedAt ||= Date.now();
+  return game.automation;
+}
+
+function automationState() {
+  return ensureAutomationState();
+}
+
+function setAutomationMode(mode, enabled, options = {}) {
+  if (!game) return;
+  const state = automationState();
+  if (mode === "level") {
+    state.autoLevel = Boolean(enabled);
+    if (state.autoLevel) state.autoEscape = false;
+  } else if (mode === "escape") {
+    state.autoEscape = Boolean(enabled);
+    if (state.autoEscape) state.autoLevel = false;
+  }
+  state.updatedAt = Date.now();
+  state.lastNoticeKey = "";
+  if (!options.silent) addClientLog(automationModeLogLine(mode, Boolean(enabled)));
+  save();
+  render();
+  scheduleAutomationTick(120);
+}
+
+function automationModeLogLine(mode, enabled) {
+  if (mode === "level") {
+    return enabled
+      ? "自动练级已开启：到可遇敌地图后会自动找敌并按原战斗结算攻击。"
+      : "自动练级已关闭。";
+  }
+  return enabled
+    ? "自动逃跑已开启：跑图遇敌会自动逃跑，成功后继续原路线。"
+    : "自动逃跑已关闭。";
+}
+
+function automationModeTitle() {
+  const state = automationState();
+  if (state.autoLevel) return "自动练级运行中";
+  if (state.autoEscape) return "自动逃跑待命";
+  return "自动辅助未开启";
+}
+
+function automationModeDetail() {
+  const state = automationState();
+  if (state.autoLevel) {
+    if (game?.encounter) return "正在自动按攻击结算战斗，经验来自原战斗结果。";
+    if (game?.world?.map?.canWildEncounter) return "当前地图可遇敌，会自动寻找敌人并战斗。";
+    return "会等待你走到可遇敌地图后自动开始。";
+  }
+  if (state.autoEscape) {
+    if (game?.encounter) return "正在尝试逃跑。";
+    return "寻路或跑图遇敌时会自动逃跑，成功后继续原路线。";
+  }
+  return "可在这里开启自动练级或跑图自动逃跑。";
+}
+
+function scheduleAutomationTick(delay = AUTOMATION_TICK_MS) {
+  window.clearTimeout(automationTimer);
+  automationTimer = 0;
+  if (!game || els.game.hidden) return;
+  const state = automationState();
+  if (!state.autoLevel && !state.autoEscape) return;
+  automationTimer = window.setTimeout(() => {
+    automationTimer = 0;
+    runAutomationTick();
+  }, delay);
+}
+
+async function runAutomationTick() {
+  if (!game || els.game.hidden || automationInFlight) {
+    scheduleAutomationTick(AUTOMATION_TICK_MS);
+    return;
+  }
+  const state = automationState();
+  if (!state.autoLevel && !state.autoEscape) return;
+  if (game.dialog?.open) {
+    scheduleAutomationTick(AUTOMATION_TICK_MS);
+    return;
+  }
+  if (game.encounter) {
+    if (state.autoEscape) {
+      await autoEscapeCurrentBattle();
+    } else if (state.autoLevel) {
+      await runAutomationBattleAction("attack", "自动练级");
+    }
+    scheduleAutomationTick(game.encounter ? AUTOMATION_BATTLE_STEP_MS : AUTOMATION_TICK_MS);
+    return;
+  }
+  if (!state.autoLevel) return;
+  if (routeInFlight || walkInFlight) {
+    scheduleAutomationTick(240);
+    return;
+  }
+  if (!autoLevelCanStartHere()) {
+    scheduleAutomationTick(AUTOMATION_TICK_MS);
+    return;
+  }
+  await startAutoLevelEncounter();
+  scheduleAutomationTick(game.encounter ? 180 : AUTOMATION_TICK_MS);
+}
+
+function autoLevelCanStartHere() {
+  const state = automationState();
+  const map = game?.world?.map;
+  if (!state.autoLevel || !map) return false;
+  const activePet = getActivePet();
+  if (!activePet || Number(activePet.Hp ?? activePet.WorkMaxHp ?? 0) <= 0 || Number(game.player?.hp || 0) <= 0) {
+    automationNoticeOnce("auto-level-no-pet", "自动练级暂停：需要人物和出战宠物保持可战斗状态。");
+    return false;
+  }
+  if (!map.canWildEncounter) {
+    automationNoticeOnce(`auto-level-map:${map.id}`, "自动练级等待中：当前地图安全或没有野外遇敌，走到野外区域后会自动开始。");
+    return false;
+  }
+  if (noEncounterEffectText()) {
+    automationNoticeOnce("auto-level-no-encounter-effect", "自动练级等待中：当前有避敌效果。");
+    return false;
+  }
+  return true;
+}
+
+function automationNoticeOnce(key, text) {
+  const state = automationState();
+  if (state.lastNoticeKey === key) return;
+  state.lastNoticeKey = key;
+  addClientLog(text);
+}
+
+async function startAutoLevelEncounter() {
+  if (automationInFlight || !game || game.encounter) return false;
+  automationInFlight = true;
+  try {
+    game = await api("/api/game/encounter", { game });
+    automationState().lastNoticeKey = "";
+    save();
+    render();
+    return true;
+  } catch (error) {
+    automationNoticeOnce(`auto-level-error:${game?.world?.map?.id || ""}`, error.message || "自动练级无法在当前地图遇敌。");
+    return false;
+  } finally {
+    automationInFlight = false;
+  }
+}
+
+async function autoEscapeCurrentBattle(options = {}) {
+  let attempts = 0;
+  while (game?.encounter && attempts < AUTOMATION_ROUTE_ESCAPE_LIMIT) {
+    if (options.routeToken !== undefined && options.routeToken !== routeToken) return false;
+    attempts += 1;
+    const outcome = await runAutomationBattleAction("escape", "自动逃跑");
+    if (!outcome) return false;
+    if (!game?.encounter) {
+      addClientLog(options.routeToken !== undefined ? "自动逃跑成功，继续原路线。" : "自动逃跑成功。");
+      return true;
+    }
+    await wait(AUTOMATION_BATTLE_STEP_MS);
+  }
+  if (game?.encounter) addClientLog("自动逃跑连续失败，路线暂停，避免硬吃伤害。");
+  return !game?.encounter;
+}
+
+async function runAutomationBattleAction(action, label) {
+  if (!game?.encounter || automationInFlight) return null;
+  automationInFlight = true;
+  battlePendingAction = action;
+  renderBattlePanel();
+  try {
+    const nextGame = await api("/api/game/battle", { game, action });
+    const outcome = nextGame.battleOutcome || nextGame.lastBattleOutcome || null;
+    game = nextGame;
+    if (outcome?.result === "defeat") {
+      automationState().autoLevel = false;
+      addClientLog(`${label}停止：战斗失败，请治疗后再继续。`);
+    }
+    battleItemMenuOpen = false;
+    battleSkillMenuOpen = false;
+    battlePetMenuOpen = false;
+    battlePendingAction = "";
+    save();
+    render();
+    return outcome;
+  } catch (error) {
+    battlePendingAction = "";
+    addClientLog(error.message || `${label}失败。`);
+    renderBattlePanel();
+    return null;
+  } finally {
+    automationInFlight = false;
+  }
 }
 
 async function goToNpc(npcId, options = {}) {
@@ -2568,6 +2790,14 @@ function onAssistPanelClick(event) {
     mutate("/api/game/encounter", {});
     return;
   }
+  const autoBtn = event.target.closest("[data-assist-toggle-auto]");
+  if (autoBtn) {
+    const mode = autoBtn.dataset.assistToggleAuto;
+    const state = automationState();
+    const next = mode === "level" ? !state.autoLevel : !state.autoEscape;
+    setAutomationMode(mode, next);
+    return;
+  }
   const useBtn = event.target.closest("[data-assist-use-item]");
   if (useBtn) {
     useItem(Number(useBtn.dataset.assistUseItem));
@@ -3672,6 +3902,10 @@ function renderMapStatusHtml() {
         <strong>战斗</strong>
         <span>${battle}</span>
       </div>
+      <div>
+        <strong>自动辅助</strong>
+        <span>${escapeHtml(automationModeTitle())} | ${escapeHtml(automationModeDetail())}</span>
+      </div>
     </section>
   `;
 }
@@ -3767,6 +4001,7 @@ function renderAssistPets() {
   const petSlots = petState();
   const activeIndex = activePetIndex();
   const canEncounter = Boolean(game.world.map.canWildEncounter) && !game.encounter;
+  const automation = automationState();
   return `
     <section class="assist-grid pets">
       <div class="assist-pane">
@@ -3783,8 +4018,13 @@ function renderAssistPets() {
         <div class="assist-action-grid">
           <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"} title="${escapeHtml(canEncounter ? "按当前地图 encount.txt 触发野外遇敌" : (game.world.map.wildEncounterReason || "当前地图不能触发野外遇敌"))}">寻找野外敌人</button>
           <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
-          <button type="button" data-assist-client-tab="ai">请求 AI 代练</button>
+          <button type="button" class="${automation.autoLevel ? "active" : ""}" data-assist-toggle-auto="level" aria-pressed="${automation.autoLevel ? "true" : "false"}">自动练级</button>
+          <button type="button" class="${automation.autoEscape ? "active" : ""}" data-assist-toggle-auto="escape" aria-pressed="${automation.autoEscape ? "true" : "false"}">自动逃跑</button>
           <button type="button" data-assist-client-tab="pets">打开 PET</button>
+        </div>
+        <div class="assist-auto-status ${automation.autoLevel || automation.autoEscape ? "active" : ""}">
+          <strong>${escapeHtml(automationModeTitle())}</strong>
+          <span>${escapeHtml(automationModeDetail())}</span>
         </div>
         <div class="assist-log-mini">
           ${(game.log || []).slice(-4).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
@@ -4158,6 +4398,14 @@ function aiRuntimeLabel() {
 function aiStatusRows() {
   const rows = [];
   const now = Date.now();
+  const automation = automationState();
+  if (automation.autoLevel || automation.autoEscape) {
+    rows.push({
+      label: "自动辅助",
+      text: `${automationModeTitle()} | ${automationModeDetail()}`,
+      strong: true
+    });
+  }
   const outcome = recentBattleOutcome();
   if (outcome && !game.encounter) {
     rows.push({
@@ -5145,6 +5393,9 @@ async function askGuide() {
     game = data.game;
     if (beforeMap !== game.location?.mapId) mapView.centerOnNextRender = true;
     save();
+  }
+  if (data.action?.type === "auto-level" && data.action.enabled) {
+    setAutomationMode("level", true, { silent: true });
   }
   els.aiResult.textContent = data.text || "向导暂时没有建议。";
   render();

@@ -90,12 +90,9 @@ assertEqual(petModeGame.petState.activeIndex, 1, "pet-mode can select a non-lead
 assertEqual(petModeGame.petState.activeName, "备用奥卡洛斯", "pet state exposes selected active pet name");
 const activePetLevelBefore = petModeGame.pets[1].Lv;
 const petGuideRsp = await api("/api/ai/guide", { game: petModeGame, prompt: "帮我训练出战宠" });
-assertEqual(petGuideRsp.action.type, "ai-training-battle", "AI guide trains through battle settlement");
-assertEqual(petGuideRsp.action.petIndex, 1, "AI guide trains the selected active pet");
-assert(petGuideRsp.game.pets[1].Lv > activePetLevelBefore, "selected active pet gains levels through battle experience");
-const trainedFieldPet = petGuideRsp.game.characterFields.pets.find((pet) => pet.active);
-assertEqual(trainedFieldPet?.level, petGuideRsp.game.pets[1].Lv, "AI training syncs active pet level into character fields");
-assertEqual(trainedFieldPet?.counters?.winCount, petGuideRsp.game.pets[1].WinCount, "AI training syncs active pet counters into character fields");
+assertEqual(petGuideRsp.action.type, "auto-level", "AI guide routes training requests to auto leveling");
+assertEqual(petGuideRsp.action.enabled, true, "AI guide can request client auto leveling");
+assertEqual(petGuideRsp.game.pets[1].Lv, activePetLevelBefore, "AI guide no longer mutates pet levels directly");
 assertEqual(petGuideRsp.game.petState.activeIndex, 1, "selected active pet survives save/map wrapping");
 await expectApiError(
   "/api/game/train",
@@ -224,6 +221,9 @@ assert(redRaptorGuideRsp.text.includes("日美子") && redRaptorGuideRsp.text.in
 assert(redRaptorGuideRsp.text.includes("Worker VM"), "knowledge guide keeps action authority with the Worker VM");
 const petKnowledgeRsp = await api("/api/ai/guide", { game, prompt: "宠物技能和忠诚是怎么回事" });
 assert(petKnowledgeRsp.text.includes("宠物系统") && petKnowledgeRsp.text.includes("宠物技能"), "local guide retrieves pet system and skill knowledge");
+const autoLevelRsp = await api("/api/ai/guide", { game, prompt: "帮我练宠升级" });
+assertEqual(autoLevelRsp.action.type, "auto-level", "AI guide routes training requests to client auto leveling");
+assert(autoLevelRsp.text.includes("自动练级") && autoLevelRsp.text.includes("战斗结果"), "AI guide explains training uses battle settlement");
 let workspaceRsp = await api("/api/ai/workspace", { game, prompt: "红暴任务怎么做" });
 assertEqual(workspaceRsp.workspace.schema, "stoneage-ai-workspace-v1", "AI workspace exposes its schema");
 assert(workspaceRsp.workspace.knowledge.entries.some((entry) => entry.id === "quest-red-raptor-hero-island"), "AI workspace includes prompt-relevant knowledge entries");
@@ -1555,8 +1555,9 @@ assistGame.pets[0].WorkFixDex = 999;
 const beforeGuidePetExp = Number(assistGame.pets[0].Exp || 0);
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我练宠升级" });
 assistGame = guideRsp.game;
-assertEqual(guideRsp.action.type, "ai-training-battle", "right AI guide can choose battle-based training action");
-assert(Number(assistGame.pets[0].Exp || 0) > beforeGuidePetExp, "right AI guide training grants pet exp through battle settlement");
+assertEqual(guideRsp.action.type, "auto-level", "right AI guide can enable client auto leveling");
+assertEqual(guideRsp.action.enabled, true, "right AI guide auto leveling action is explicit");
+assertEqual(Number(assistGame.pets[0].Exp || 0), beforeGuidePetExp, "right AI guide no longer grants pet exp directly");
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我一段时间不会遇到野外敌人" });
 assistGame = guideRsp.game;
 assertEqual(guideRsp.action.type, "noEncounter", "right AI guide can grant no-encounter effect");

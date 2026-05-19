@@ -4183,7 +4183,7 @@ function normalizeCapturedPet(target) {
 function trainGame(game, petIndex) {
   game = normalizeGame(game);
   if (petIndex < 0 || petIndex >= game.pets.length) throw new Error("没有找到这只宠物");
-  throw new Error("升级需要通过战斗经验累计；请去野外战斗，或和 AI 协商代练。");
+  throw new Error("升级需要通过战斗经验累计；请去野外战斗，或在宠物辅助区开启自动练级。");
 }
 
 function allocatePlayerPointGame(game, stat, qty = 1) {
@@ -4657,7 +4657,14 @@ async function applyGuideRequest(env, request, game, prompt) {
   }
 
   if (isPetTrainingRequest(lower)) {
-    return runGuideTrainingBattle(env, request, game, text);
+    return {
+      text: "练级已经改成主画面的「自动练级」模式：它不会直接送等级，也不会让 AI 代替结算；开启后请走到可遇敌地图，系统会自动寻找野外敌人并按原版战斗结算攻击，经验和升级都来自战斗结果。",
+      action: {
+        type: "auto-level",
+        enabled: true,
+        source: "client automation + Worker battle settlement"
+      }
+    };
   }
 
   if (!game.encounter && hasAny(lower, ["遇敌", "遇敵", "野外敌人", "野外敵人", "找敌人", "找敵人", "敌人", "敵人", "刷怪", "开战", "開戰"])) {
@@ -4678,85 +4685,13 @@ async function applyGuideRequest(env, request, game, prompt) {
   return null;
 }
 
-async function runGuideTrainingBattle(env, request, game, prompt) {
-  const activeIndex = getActivePetIndex(game);
-  const activePet = getActivePet(game);
-  if (!activePet) {
-    return {
-      text: "现在没有出战宠，不能代练。先带上一只宠物，再去野外按原版战斗结算获得经验。",
-      action: { type: "ai-training-refused", reason: "no-active-pet" }
-    };
-  }
-  let map = currentMap(game);
-  const startedWithEncounter = Boolean(game.encounter);
-  if (!game.encounter) {
-    if (!wildEncounterAllowed(map, game)) {
-      return {
-        text: `${wildEncounterBlockedText(map, game)} 代练不会直接给等级；你可以先去野外，我再按战斗流程帮你打。`,
-        action: { type: "ai-training-refused", reason: "safe-map", mapId: map.id }
-      };
-    }
-    await spawnEncounter(env, request, game, map, "AI 代练");
-    map = currentMap(game);
-  }
-  const petBefore = game.pets[activeIndex] || activePet;
-  const before = {
-    playerLevel: Number(game.player.level || 1),
-    playerExp: Number(game.player.exp || 0),
-    petLevel: Number(petBefore.Lv || 1),
-    petExp: Number(petBefore.Exp || 0)
-  };
-  const logs = [];
-  let lastOutcome = null;
-  let battleAttempts = 0;
-  const maxBattleAttempts = startedWithEncounter ? 1 : 5;
-  while (battleAttempts < maxBattleAttempts) {
-    if (!game.encounter) {
-      if (!wildEncounterAllowed(map, game)) break;
-      await spawnEncounter(env, request, game, map, "AI 代练");
-      map = currentMap(game);
-    }
-    battleAttempts += 1;
-    for (let i = 0; i < 12 && game.encounter; i += 1) {
-      lastOutcome = performBattleAction(game, "attack");
-      recordBattleOutcome(game, lastOutcome);
-      logs.push(...(lastOutcome.log || []));
-      if (!game.encounter || ["victory", "defeat", "escaped", "released", "captured", "enemy-escaped"].includes(lastOutcome.result)) break;
-    }
-    const currentPet = game.pets[activeIndex] || getActivePet(game);
-    if (Number(currentPet?.Lv || 1) > before.petLevel) break;
-    if (lastOutcome?.result === "defeat" || startedWithEncounter) break;
-  }
-  const petAfter = game.pets[activeIndex] || getActivePet(game);
-  const after = {
-    playerLevel: Number(game.player.level || 1),
-    playerExp: Number(game.player.exp || 0),
-    petLevel: Number(petAfter?.Lv || 1),
-    petExp: Number(petAfter?.Exp || 0)
-  };
-  const playerExp = Math.max(0, after.playerExp - before.playerExp);
-  const petExp = Math.max(0, after.petExp - before.petExp);
-  const levelText = [
-    after.playerLevel > before.playerLevel ? `人物 Lv.${before.playerLevel}->${after.playerLevel}` : "",
-    after.petLevel > before.petLevel ? `${petAfter?.Name || activePet.Name} Lv.${before.petLevel}->${after.petLevel}` : ""
-  ].filter(Boolean).join("，");
-  const summary = lastOutcome?.result === "victory"
-    ? `这轮代练按战斗结算完成：人物获得 ${playerExp} 经验，${petAfter?.Name || activePet.Name} 获得 ${petExp} 经验。`
-    : `我帮你按战斗规则推进了 ${logs.length ? "几手" : "一手"}，但还没有稳定胜利。人物获得 ${playerExp} 经验，${petAfter?.Name || activePet.Name} 获得 ${petExp} 经验。`;
-  addLog(game, `AI 代练：${summary}`);
+async function runGuideTrainingBattle() {
   return {
-    text: `${summary}${levelText ? ` ${levelText}。` : ""}`,
+    text: "练级已经改为「自动练级」：开启后由客户端在可遇敌地图自动找敌并向 Worker 提交战斗指令，经验、等级和战利品仍只按原战斗结算产生。",
     action: {
-      type: "ai-training-battle",
-      result: lastOutcome?.result || "none",
-      petIndex: activeIndex,
-      petName: petAfter?.Name || activePet.Name,
-      playerExp,
-      petExp,
-      playerLevel: after.playerLevel,
-      petLevel: after.petLevel,
-      battleAttempts,
-      source: "AI can help operate battle; EXP/level still comes from Worker battle settlement"
+      type: "auto-level",
+      enabled: true,
+      source: "client automation + Worker battle settlement"
     }
   };
 }
@@ -9853,7 +9788,7 @@ function buildAiWorkspace(env, game, prompt = "") {
       sourceTasks: sourceScriptTaskState(game)
     },
     actionSurface: {
-      guideCanMutate: ["heal", "item-use", "item-drop", "pet-switch", "pet-release", "ai-training-battle", "encounter", "teleport", "noEncounter"],
+      guideCanMutate: ["heal", "item-use", "item-drop", "pet-switch", "pet-release", "auto-level", "encounter", "teleport", "noEncounter"],
       npcVmActions: [...NPC_VM_ACTIONS],
       authority: "worker-npc-vm"
     },
@@ -10578,6 +10513,7 @@ function normalizeGame(game) {
   game.quests = normalizeQuestRuntime(game.quests);
   ensureFlags(game);
   game.effects ||= {};
+  game.automation = normalizeAutomationState(game.automation);
   game.aiWorkspace = normalizeAiWorkspace(game.aiWorkspace);
   game.dialogAi ||= {};
   game.walk ||= { steps: 0, encounterSteps: 0 };
@@ -10605,6 +10541,15 @@ function normalizeQuestRuntime(quests = {}) {
     const { guidance, target, nextDetail, ...runtimeQuest } = quest;
     return [questId, runtimeQuest];
   }));
+}
+
+function normalizeAutomationState(value = {}) {
+  return {
+    autoLevel: Boolean(value?.autoLevel),
+    autoEscape: Boolean(value?.autoEscape),
+    updatedAt: Number(value?.updatedAt || 0),
+    lastNoticeKey: String(value?.lastNoticeKey || "")
+  };
 }
 
 function sanitizePlayerFacingText(text) {
@@ -10696,6 +10641,7 @@ function buildSaveJson(game) {
       angelMission: game.flags?.angelMission ? { ...game.flags.angelMission } : null
     },
     effects: { ...(game.effects || {}) },
+    automation: normalizeAutomationState(game.automation),
     aiWorkspace: normalizeAiWorkspace(game.aiWorkspace),
     dialogAi: { ...(game.dialogAi || {}) },
     walk: {
