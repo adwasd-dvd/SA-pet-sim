@@ -7,7 +7,7 @@
     <title>石器时代 Web 重构</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/f/favicon.ico">
-    <link rel="stylesheet" href="/assets/app.css?v=61">
+    <link rel="stylesheet" href="/assets/app.css?v=62">
   </head>
   <body>
     <div class="app-shell">
@@ -224,7 +224,7 @@
 
           <section class="tabs" aria-label="游戏信息">
             <div class="tab-list" role="tablist">
-              <button class="tab active" type="button" data-tab="ai" role="tab">AI</button>
+              <button class="tab active" type="button" data-tab="ai" role="tab">辅助</button>
               <button class="tab" type="button" data-tab="quests" role="tab">任务</button>
               <button class="tab" type="button" data-tab="log" role="tab">日志</button>
               <button class="tab" type="button" data-tab="save" role="tab">存档</button>
@@ -263,15 +263,21 @@
             <section id="aiTab" class="tab-panel active">
               <div class="ai-panel">
                 <div id="aiStatusPanel" class="ai-status-panel" aria-label="角色状态"></div>
-                <textarea id="aiPrompt" rows="4" placeholder="例如：帮我回血、带我去村子、打开自动练级，或者问下一步怎么走"></textarea>
-                <button id="aiBtn" type="button">请求向导</button>
-                <div id="aiResult" class="ai-result"></div>
+                <section class="ai-guide-card" aria-label="AI 向导">
+                  <div class="ai-tool-head">
+                    <strong>AI 向导</strong>
+                    <span>任务、地图、交易、状态变化会由 Worker 校验</span>
+                  </div>
+                  <textarea id="aiPrompt" rows="3" placeholder="例如：帮我回血、带我去村子、打开自动练级，或者问下一步怎么走"></textarea>
+                  <button id="aiBtn" type="button">请求向导</button>
+                  <div id="aiResult" class="ai-result"></div>
+                </section>
               </div>
             </section>
           </section>
         </section>
       </main>
     </div>
-    <script type="module" src="/assets/app.js?v=88"></script>
+    <script type="module" src="/assets/app.js?v=90"></script>
   </body>
 </html>

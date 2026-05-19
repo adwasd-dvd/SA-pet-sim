@@ -399,6 +399,7 @@ function bindEvents() {
   els.assistPanelBody.addEventListener("click", onAssistPanelClick);
   els.assistPanelBody.addEventListener("dblclick", onAssistPanelDoubleClick);
   els.assistPanelBody.addEventListener("keydown", onAssistPanelKeyDown);
+  els.aiStatusPanel?.addEventListener("click", onAssistPanelClick);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   window.addEventListener("keyup", onGameKeyUp);
@@ -4556,11 +4557,8 @@ function scriptCheckLabel(check) {
 function renderAssistPets() {
   const pets = game.pets || [];
   const petSlots = petState();
-  const activeIndex = activePetIndex();
-  const canEncounter = Boolean(game.world.map.canWildEncounter) && !game.encounter;
-  const automation = automationState();
   return `
-    <section class="assist-grid pets">
+    <section class="assist-grid pets-only">
       <div class="assist-pane">
         <div class="assist-pane-head">
           <h3>宠物状态 ${Number(petSlots.used || pets.length)}/${Number(petSlots.capacity || PET_CAPACITY_FALLBACK)}</h3>
@@ -4570,23 +4568,35 @@ function renderAssistPets() {
           ${pets.map((pet, index) => renderAssistPetCard(pet, index)).join("") || `<p class="empty">还没有宠物。</p>`}
         </div>
       </div>
-      <div class="assist-pane compact">
-        <h3>快速指令</h3>
-        <div class="assist-action-grid">
-          <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"} title="${escapeHtml(canEncounter ? "按当前地图 encount.txt 触发野外遇敌" : (game.world.map.wildEncounterReason || "当前地图不能触发野外遇敌"))}">寻找野外敌人</button>
-          <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>休息回血</button>
-          <button type="button" class="${automation.autoLevel ? "active" : ""}" data-assist-toggle-auto="level" aria-pressed="${automation.autoLevel ? "true" : "false"}">自动练级</button>
-          <button type="button" class="${automation.autoEscape ? "active" : ""}" data-assist-toggle-auto="escape" aria-pressed="${automation.autoEscape ? "true" : "false"}">自动逃跑</button>
-          <button type="button" data-assist-client-tab="pets">打开 PET</button>
-        </div>
-        <div class="assist-auto-status ${automation.autoLevel || automation.autoEscape ? "active" : ""}">
-          <strong>${escapeHtml(automationModeTitle())}</strong>
-          <span>${escapeHtml(automationModeDetail())}</span>
-        </div>
-        <div class="assist-log-mini">
-          ${(game.log || []).slice(-4).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
-        </div>
+    </section>
+  `;
+}
+
+function renderRightQuickCommands() {
+  if (!game) return "";
+  const pets = game.pets || [];
+  const canEncounter = Boolean(game.world?.map?.canWildEncounter) && !game.encounter;
+  const automation = automationState();
+  const encounterTitle = canEncounter
+    ? "按当前地图 encount.txt 触发野外遇敌"
+    : (game.world?.map?.wildEncounterReason || "当前地图不能触发野外遇敌");
+  return `
+    <section class="ai-tool-section ai-quick-section" aria-label="快速指令">
+      <div class="ai-tool-head">
+        <strong>快捷</strong>
+        <span>${escapeHtml(automationModeTitle())}</span>
       </div>
+      <div class="ai-quick-grid">
+        <button type="button" data-assist-encounter ${canEncounter ? "" : "disabled"} title="${escapeHtml(encounterTitle)}">找敌</button>
+        <button type="button" data-assist-rest ${pets.length ? "" : "disabled"}>回血</button>
+        <button type="button" class="${automation.autoLevel ? "active" : ""}" data-assist-toggle-auto="level" aria-pressed="${automation.autoLevel ? "true" : "false"}">自动练级</button>
+        <button type="button" class="${automation.autoEscape ? "active" : ""}" data-assist-toggle-auto="escape" aria-pressed="${automation.autoEscape ? "true" : "false"}">自动逃跑</button>
+        <button type="button" data-assist-client-tab="pets">PET</button>
+        <button type="button" data-assist-client-tab="items">ITEM</button>
+      </div>
+      <p class="ai-auto-note ${automation.autoLevel || automation.autoEscape ? "active" : ""}">
+        ${escapeHtml(automationModeDetail())}
+      </p>
     </section>
   `;
 }
@@ -4941,6 +4951,7 @@ function renderAiStatusPanel() {
         `).join("") || `<article class="ai-effect-row"><b>临时状态</b><span>暂无 AI 或 NPC 协商效果</span></article>`}
       </div>
     </section>
+    ${renderRightQuickCommands()}
   `;
 }
 

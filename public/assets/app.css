@@ -1531,7 +1531,7 @@ h3 {
 
 .assist-tabs {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 6px;
   padding: 4px;
   border: 1px solid rgb(255 255 255 / 26%);
@@ -3646,12 +3646,17 @@ h3 {
 
 .ai-panel {
   display: grid;
-  gap: 12px;
+  gap: 10px;
+}
+
+.ai-status-panel {
+  display: grid;
+  gap: 8px;
 }
 
 .ai-status-card {
   display: grid;
-  gap: 9px;
+  gap: 8px;
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 10px;
@@ -3703,7 +3708,7 @@ h3 {
 .ai-effect-list {
   display: grid;
   gap: 6px;
-  max-height: 150px;
+  max-height: 120px;
   overflow: auto;
 }
 
@@ -3728,6 +3733,82 @@ h3 {
   min-height: 72px;
   color: var(--muted);
   white-space: pre-wrap;
+}
+
+.ai-tool-section,
+.ai-guide-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+  background: rgb(255 255 255 / 92%);
+}
+
+.ai-tool-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ai-tool-head strong,
+.ai-tool-head span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-tool-head span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ai-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.ai-quick-grid button {
+  min-width: 0;
+  min-height: 34px;
+  border-radius: 5px;
+  padding: 3px 7px;
+  background: #234d41;
+  font-size: 13px;
+}
+
+.ai-quick-grid button.active {
+  border-color: #e7b95a;
+  background: #153f35;
+  color: #fff6bf;
+  box-shadow: inset 0 0 0 2px rgb(231 185 90 / 22%);
+}
+
+.ai-auto-note {
+  margin: 0;
+  border: 1px solid #e4dac6;
+  border-radius: 5px;
+  padding: 6px 7px;
+  background: #fffaf0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.ai-auto-note.active {
+  border-color: #cfa65b;
+  background: #fff3c8;
+  color: var(--ink);
+}
+
+.ai-guide-card textarea {
+  min-height: 82px;
 }
 
 .save-text {
