@@ -601,23 +601,25 @@ function onMapCanvasClick(event) {
   const exitMarker = explicitExitFromMapEvent(event);
   if (exitMarker) {
     lastNpcMapClick = { id: "", at: 0 };
-    handleMapExitClick(exitMarker, { preferredTile: tile });
+    handleMapExitClick(exitMarker, { preferredTile: normalizeExitPreferredTile(exitMarker, tile) });
     return;
   }
   const explicitNpc = explicitNpcFromMapEvent(event);
-  const tileExit = !explicitNpc ? exitFromTile(tile) || nearestExitToTile(tile, 1) : null;
+  const tileExit = !explicitNpc ? exitFromTile(tile) : null;
   if (tileExit) {
     lastNpcMapClick = { id: "", at: 0 };
     handleMapExitClick(tileExit, { preferredTile: tile });
     return;
   }
-  const npc = explicitNpc || (tile ? nearestNpcToTile(tile, 2) : null);
-  if (npc) {
+  if (explicitNpc) {
     const now = performance.now();
-    const repeated = lastNpcMapClick.id === npc.id && now - lastNpcMapClick.at < 520;
-    lastNpcMapClick = { id: npc.id, at: now };
-    const near = cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
-    goToNpc(npc.id, { openWhenNear: near && repeated, preferredTile: tile });
+    const repeated = lastNpcMapClick.id === explicitNpc.id && now - lastNpcMapClick.at < 520;
+    lastNpcMapClick = { id: explicitNpc.id, at: now };
+    const near = cellDistance(game.location.x, game.location.y, explicitNpc.x, explicitNpc.y) <= 2;
+    goToNpc(explicitNpc.id, {
+      openWhenNear: near && repeated,
+      preferredTile: normalizeNpcPreferredTile(explicitNpc, tile)
+    });
     return;
   }
   lastNpcMapClick = { id: "", at: 0 };
@@ -635,7 +637,7 @@ function onMapCanvasDoubleClick(event) {
   if (exitMarker) {
     event.preventDefault();
     lastNpcMapClick = { id: "", at: 0 };
-    handleMapExitClick(exitMarker, { preferredTile: tile });
+    handleMapExitClick(exitMarker, { preferredTile: normalizeExitPreferredTile(exitMarker, tile) });
     return;
   }
   const explicitNpc = explicitNpcFromMapEvent(event);
@@ -650,7 +652,7 @@ function onMapCanvasDoubleClick(event) {
   if (!npc) return;
   event.preventDefault();
   lastNpcMapClick = { id: npc.id, at: performance.now() };
-  goToNpc(npc.id, { openWhenNear: true, preferredTile: tile });
+  goToNpc(npc.id, { openWhenNear: true, preferredTile: normalizeNpcPreferredTile(npc, tile) });
 }
 
 function npcFromMapEvent(event, maxTileDistance = 1) {
@@ -767,6 +769,27 @@ function exitDistanceToTile(exit, tile) {
 
 function exitDistanceToPlayer(exit) {
   return exitDistanceToTile(exit, { x: game?.location?.x, y: game?.location?.y });
+}
+
+function normalizeNpcPreferredTile(npc, tile) {
+  if (!npc || !tile) return null;
+  const dx = Number(tile.x) - Number(npc.x);
+  const dy = Number(tile.y) - Number(npc.y);
+  if (!Number.isFinite(dx) || !Number.isFinite(dy)) return null;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) <= 2) return tile;
+  return {
+    x: Number(npc.x) + Math.sign(dx) * Math.min(2, Math.abs(dx)),
+    y: Number(npc.y) + Math.sign(dy) * Math.min(2, Math.abs(dy))
+  };
+}
+
+function normalizeExitPreferredTile(exit, tile) {
+  if (!exit) return tile || null;
+  if (tile && exitDistanceToTile(exit, tile) <= 1) return tile;
+  return {
+    x: Number(exit.x),
+    y: Number(exit.y)
+  };
 }
 
 function zoomMap(value, anchor = null) {
@@ -1498,10 +1521,31 @@ function mapTileFromPointer(event) {
   const screenY = contentY + minY;
   const width = Math.max(1, Number(map.size?.[0]) || 1);
   const height = Math.max(1, Number(map.size?.[1]) || 1);
-  return {
-    x: Math.max(0, Math.min(width - 1, Math.round((screenX / 32 - screenY / 24) / 2))),
-    y: Math.max(0, Math.min(height - 1, Math.round((screenX / 32 + screenY / 24) / 2)))
-  };
+  const rawX = (screenX / 32 - screenY / 24) / 2;
+  const rawY = (screenX / 32 + screenY / 24) / 2;
+  return nearestIsoTile(width, height, rawX, rawY, screenX, screenY);
+}
+
+function nearestIsoTile(width, height, rawX, rawY, screenX, screenY) {
+  let best = null;
+  const baseX = Math.floor(rawX);
+  const baseY = Math.floor(rawY);
+  for (let y = baseY - 1; y <= baseY + 2; y += 1) {
+    for (let x = baseX - 1; x <= baseX + 2; x += 1) {
+      if (x < 0 || y < 0 || x >= width || y >= height) continue;
+      const [cx, cy] = isoPoint(x, y, 32, 24);
+      const nx = (screenX - cx) / 32;
+      const ny = (screenY - cy) / 24;
+      const score = nx * nx + ny * ny;
+      if (!best || score < best.score) best = { x, y, score };
+    }
+  }
+  return best
+    ? { x: best.x, y: best.y }
+    : {
+      x: Math.max(0, Math.min(width - 1, Math.round(rawX))),
+      y: Math.max(0, Math.min(height - 1, Math.round(rawY)))
+    };
 }
 
 function onMapPointerMove(event) {
