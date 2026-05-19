@@ -170,6 +170,7 @@ let activeTab = "ai";
 let assistTab = "map";
 let clientWindowOpen = false;
 let selectedClientItemId = null;
+let lastClientItemClick = { id: null, at: 0 };
 let activeWarpTransitionKey = "";
 let warpTransitionTimer = 0;
 let battleItemMenuOpen = false;
@@ -3137,6 +3138,11 @@ function onAssistPanelClick(event) {
     useItem(Number(useBtn.dataset.assistUseItem));
     return;
   }
+  const equipBtn = event.target.closest("[data-assist-equip-item]");
+  if (equipBtn) {
+    equipItem(Number(equipBtn.dataset.assistEquipItem));
+    return;
+  }
   const dropBtn = event.target.closest("[data-assist-drop-item]");
   if (dropBtn) {
     dropItem(Number(dropBtn.dataset.assistDropItem));
@@ -4582,6 +4588,8 @@ function renderAssistItems() {
 }
 
 function renderAssistItem(item) {
+  const gear = inventoryItemGear(item);
+  const usable = inventoryItemUsable(item);
   return `
     <article class="assist-card item">
       <div>
@@ -4590,7 +4598,9 @@ function renderAssistItem(item) {
         <small>${escapeHtml(item.description || item.source || "")}</small>
       </div>
       <div class="assist-card-actions item">
-        <button type="button" data-assist-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>用</button>
+        ${gear
+          ? `<button type="button" data-assist-equip-item="${item.id}">穿</button>`
+          : `<button type="button" data-assist-use-item="${item.id}" ${usable ? "" : "disabled"}>用</button>`}
         <button type="button" data-assist-drop-item="${item.id}">丢</button>
       </div>
     </article>
@@ -5541,8 +5551,19 @@ function bindClientWindowActions() {
   });
   els.clientWindowBody.querySelectorAll("[data-client-select-item]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      selectedClientItemId = Number(btn.dataset.clientSelectItem);
-      renderClientWindow();
+      const itemId = Number(btn.dataset.clientSelectItem);
+      const now = Date.now();
+      const repeatedClick = Number(lastClientItemClick.id) === itemId && now - Number(lastClientItemClick.at || 0) < 450;
+      lastClientItemClick = { id: itemId, at: now };
+      selectedClientItemId = itemId;
+      if (!repeatedClick) {
+        renderClientWindow();
+        return;
+      }
+      const item = (game.inventory || []).find((entry) => Number(entry.id) === itemId);
+      if (item && inventoryItemGear(item)) equipItem(itemId);
+      else if (item && inventoryItemUsable(item)) useItem(itemId);
+      else renderClientWindow();
     });
   });
   els.clientWindowBody.querySelectorAll("[data-client-use-item]").forEach((btn) => {
@@ -5604,18 +5625,24 @@ function renderPets() {
         <h3>背包</h3>
         <span>${state.used}/${state.capacity}</span>
       </div>
-      ${inventory.map((item) => `
-        <div class="inventory-item">
-          <span>
-            <strong>${escapeHtml(item.name)}</strong>
-            <small>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))} | ${escapeHtml(item.description || item.source || "")}</small>
-          </span>
-          <span class="inventory-item-actions">
-            <button type="button" data-use-item="${item.id}" ${inventoryItemUsable(item) ? "" : "disabled"}>使用</button>
-            <button type="button" data-drop-item="${item.id}">丢弃</button>
-          </span>
-        </div>
-      `).join("") || `<p class="empty">背包还没有道具。</p>`}
+      ${inventory.map((item) => {
+        const gear = inventoryItemGear(item);
+        const usable = inventoryItemUsable(item);
+        return `
+          <div class="inventory-item">
+            <span>
+              <strong>${escapeHtml(item.name)}</strong>
+              <small>x${Number(item.qty || 0)} | type ${escapeHtml(String(item.type ?? ""))} | ${escapeHtml(item.description || item.source || "")}</small>
+            </span>
+            <span class="inventory-item-actions">
+              ${gear
+                ? `<button type="button" data-equip-item="${item.id}">装备</button>`
+                : `<button type="button" data-use-item="${item.id}" ${usable ? "" : "disabled"}>使用</button>`}
+              <button type="button" data-drop-item="${item.id}">丢弃</button>
+            </span>
+          </div>
+        `;
+      }).join("") || `<p class="empty">背包还没有道具。</p>`}
     </article>
   `;
   hydrateAtlasSprites(loadedTileAtlas, els.petList);
@@ -5627,6 +5654,9 @@ function renderPets() {
   });
   els.petList.querySelectorAll("[data-use-item]").forEach((btn) => {
     btn.addEventListener("click", () => useItem(Number(btn.dataset.useItem)));
+  });
+  els.petList.querySelectorAll("[data-equip-item]").forEach((btn) => {
+    btn.addEventListener("click", () => equipItem(Number(btn.dataset.equipItem)));
   });
   els.petList.querySelectorAll("[data-drop-item]").forEach((btn) => {
     btn.addEventListener("click", () => dropItem(Number(btn.dataset.dropItem)));

@@ -306,7 +306,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/equip-item" && request.method === "POST") {
       const body = await readJson(request);
-      return json(equipItemGame(body.game, Number(body.itemId)));
+      return json(await equipItemGame(env, request, body.game, Number(body.itemId)));
     }
     if (url.pathname === "/api/game/unequip-item" && request.method === "POST") {
       const body = await readJson(request);
@@ -1435,7 +1435,7 @@ async function useItemGame(env, request, game, itemId) {
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
   hydrateInventoryItemFromSource(item, data?.itemSet);
   hydrateRuntimeItemEffect(item, data);
-  if (itemLooksEquipment(item)) return equipItemGame(game, itemId);
+  if (itemLooksEquipment(item)) return equipItemGame(env, request, game, itemId, data);
 
   const itemUse = applyUsableItem(game, item);
   if (itemUse.effects?.some((effect) => effect.kind === "encounter")) {
@@ -1458,11 +1458,14 @@ async function triggerItemEncounter(env, request, game, itemUse) {
   return enemy;
 }
 
-function equipItemGame(game, itemId) {
+async function equipItemGame(env, request, game, itemId, data = null) {
+  data ||= await loadGameData(env, request);
   game = normalizeGame(game);
   if (game.encounter) throw new Error("战斗中不能更换装备");
   const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个装备");
+  hydrateInventoryItemFromSource(item, data?.itemSet);
+  hydrateRuntimeItemEffect(item, data);
   if (!itemLooksEquipment(item)) throw new Error(`${item.name || "这个道具"} 不是装备，不能穿上`);
 
   const slot = equipmentSlotForItem(item);
