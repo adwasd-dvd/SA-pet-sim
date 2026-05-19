@@ -11,9 +11,9 @@
     "failOnDiff": true
   },
   "summary": {
-    "packsChecked": 89,
-    "checkedFrames": 7568,
-    "exactFrames": 7568,
+    "packsChecked": 90,
+    "checkedFrames": 8178,
+    "exactFrames": 8178,
     "mismatchedFrames": 0,
     "exactRatio": 1,
     "missingSourceFrames": 0,
@@ -47,6 +47,13 @@
       "status": "checked",
       "framesChecked": 34,
       "exactFrames": 34,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "pets-static-all",
+      "status": "checked",
+      "framesChecked": 610,
+      "exactFrames": 610,
       "mismatchedFrames": 0
     },
     {

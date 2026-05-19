@@ -58,6 +58,7 @@ const enemyBase = parseEnemyBase(enemyBasePath);
 const mapKeep = collectMapTextureIds({ floors: selectedFloors, mapsDir, clientMapsDir });
 const npcKeep = collectNpcGraphics(world);
 const encounter = collectEncounterImageNos(world, enemyBase);
+const petStatic = collectEnemyBaseImageNos(enemyBase);
 const allFrameArea = sumFrameArea([...frameById.keys()], frameById);
 const floorDetails = buildFloorDetails({ selectedFloors, mapKeep, npcKeep, encounter, frameById });
 
@@ -66,7 +67,8 @@ const domains = {
   "player-core": domainRecord(DEFAULT_PLAYER_SPRITE_FRAME_IDS, frameById),
   "map-tiles": domainRecord(mapKeep.ids, frameById),
   "npc-field": domainRecord(npcKeep.ids, frameById),
-  "pets-encounter": domainRecord(encounter.imageNos, frameById)
+  "pets-encounter": domainRecord(encounter.imageNos, frameById),
+  "pets-static": domainRecord(petStatic.imageNos, frameById)
 };
 
 const keepIds = uniqueSorted(Object.values(domains).flatMap((domain) => domain.ids));
@@ -110,6 +112,10 @@ const report = {
     tempNos: encounter.tempNos,
     missingEnemyBase: encounter.missingEnemyBase,
     missingImageNo: encounter.missingImageNo
+  },
+  petStaticDiagnostics: {
+    imageNos: petStatic.imageNos,
+    missingImageNo: petStatic.missingImageNo
   },
   mapDiagnostics: {
     floorsRead: mapKeep.floorsRead,
@@ -355,6 +361,22 @@ function resolveEncounterImageNos(tempNos, enemyBase) {
     imageNos: [...imageNos].sort((a, b) => a - b),
     missingEnemyBase,
     missingImageNo
+  };
+}
+
+function collectEnemyBaseImageNos(enemyBase) {
+  const imageNos = new Set();
+  const missingImageNo = [];
+  for (const enemy of enemyBase.values()) {
+    if (!enemy.imageNo || enemy.imageNo <= 99) {
+      missingImageNo.push(enemy.tempNo);
+      continue;
+    }
+    imageNos.add(enemy.imageNo);
+  }
+  return {
+    imageNos: [...imageNos].sort((a, b) => a - b),
+    missingImageNo: uniqueSorted(missingImageNo)
   };
 }
 

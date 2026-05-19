@@ -11,14 +11,14 @@
     "verifyOutput": true
   },
   "summary": {
-    "sourceAtlasBytes": 15873887,
-    "plannedPacks": 89,
-    "builtPacks": 89,
-    "builtFrames": 7568,
-    "builtFrameArea": 69357528,
-    "builtPngBytes": 20305990,
-    "builtManifestBytes": 346541,
-    "builtManifestGzipBytes": 100358
+    "sourceAtlasBytes": 16489670,
+    "plannedPacks": 90,
+    "builtPacks": 90,
+    "builtFrames": 8178,
+    "builtFrameArea": 72535160,
+    "builtPngBytes": 21177979,
+    "builtManifestBytes": 374083,
+    "builtManifestGzipBytes": 108282
   },
   "packs": [
     {
@@ -99,6 +99,26 @@
       "pngBytes": 35111,
       "manifestBytes": 1590,
       "manifestGzipBytes": 643,
+      "verified": true
+    },
+    {
+      "id": "pets-static-all",
+      "domain": "pets-static",
+      "load": "pet-ui-or-battle-lazy",
+      "floor": null,
+      "region": null,
+      "image": "public/data/profiles/classic-core/packs/pets-static-all.png",
+      "manifest": "public/data/profiles/classic-core/packs/pets-static-all.json",
+      "pixelFormat": "indexed8",
+      "frames": 610,
+      "width": 2048,
+      "height": 1649,
+      "frameArea": 3177632,
+      "rowPackArea": 3377152,
+      "fillRatio": 0.9409,
+      "pngBytes": 871989,
+      "manifestBytes": 27542,
+      "manifestGzipBytes": 7924,
       "verified": true
     },
     {

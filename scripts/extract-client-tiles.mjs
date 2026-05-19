@@ -125,6 +125,7 @@ function collectTileIds(dir) {
   }
   collectNpcGraphicIds(ids);
   collectEncounterPetBitmapIds(ids);
+  collectEnemyBaseGraphicIds(ids);
   FIELD_UI_GRAPHIC_IDS.forEach((id) => ids.add(id));
   DEFAULT_PLAYER_SPRITE_FRAME_IDS.forEach((id) => ids.add(id));
   return ids;
@@ -161,6 +162,16 @@ function collectEncounterPetBitmapIds(ids) {
     const petNo = Number(rows[6]);
     const imageNo = Number(rows[36]);
     if (petNos.has(petNo) && Number.isFinite(imageNo) && imageNo > 99) ids.add(imageNo);
+  }
+}
+
+function collectEnemyBaseGraphicIds(ids) {
+  if (!fs.existsSync(enemyBasePath)) return;
+  for (const line of fs.readFileSync(enemyBasePath, "utf8").split(/\r?\n/)) {
+    const rows = line.split(",");
+    if (rows.length < 37) continue;
+    const imageNo = Number(rows[36]);
+    if (Number.isFinite(imageNo) && imageNo > 99) ids.add(imageNo);
   }
 }
 

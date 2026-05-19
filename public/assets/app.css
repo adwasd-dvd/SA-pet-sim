@@ -304,6 +304,42 @@ h3 {
   pointer-events: none;
 }
 
+.atlas-sprite-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: var(--sprite-box-w, 64px);
+  height: var(--sprite-box-h, 64px);
+  background: rgb(255 246 209 / 10%);
+}
+
+.atlas-sprite-frame .ui-atlas-sprite {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(var(--sprite-scale, .65)) scaleY(-1);
+}
+
+.atlas-sprite-frame.missing::after {
+  content: attr(data-missing);
+  padding: 0 3px;
+  color: #ffec72;
+  font: 10px/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 72%);
+}
+
+.encounter-sprite {
+  position: relative;
+  left: auto;
+  top: auto;
+  --sprite-scale: .86;
+  max-width: 120px;
+  max-height: 100px;
+  filter: drop-shadow(7px 10px 0 rgb(0 0 0 / 45%));
+  transform: scaleY(-1);
+}
+
 .client-field-sprite-btn {
   position: absolute;
   display: block;
@@ -534,11 +570,10 @@ h3 {
   color: #ffec72;
 }
 
-.client-pet-portrait img {
-  width: 88px;
-  height: 96px;
-  object-fit: contain;
-  image-rendering: pixelated;
+.client-pet-portrait .atlas-sprite-frame {
+  --sprite-box-w: 88px;
+  --sprite-box-h: 96px;
+  --sprite-scale: .82;
   filter: drop-shadow(10px 12px 0 rgb(0 0 0 / 58%));
 }
 
@@ -674,11 +709,10 @@ h3 {
   opacity: 1;
 }
 
-.client-party-row img {
-  width: 38px;
-  height: 32px;
-  object-fit: contain;
-  image-rendering: pixelated;
+.client-party-row .atlas-sprite-frame {
+  --sprite-box-w: 38px;
+  --sprite-box-h: 32px;
+  --sprite-scale: .35;
 }
 
 .client-party-row span {
@@ -1556,10 +1590,10 @@ h3 {
   box-shadow: inset 0 0 0 2px rgb(214 160 57 / 26%);
 }
 
-.assist-card img {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
+.assist-card .atlas-sprite-frame {
+  --sprite-box-w: 52px;
+  --sprite-box-h: 52px;
+  --sprite-scale: .48;
 }
 
 .assist-card strong,
@@ -1989,10 +2023,8 @@ h3 {
   margin: 0;
 }
 
-.encounter-panel img {
-  max-width: 120px;
-  max-height: 100px;
-  object-fit: contain;
+.encounter-panel .encounter-sprite {
+  justify-self: center;
 }
 
 .dialog-panel {
@@ -3037,13 +3069,11 @@ h3 {
   min-width: 0;
 }
 
-.battle-target img {
-  width: 58px;
-  height: 50px;
+.battle-target .atlas-sprite-frame {
+  --sprite-box-w: 58px;
+  --sprite-box-h: 50px;
+  --sprite-scale: .5;
   border: 1px solid rgb(220 180 91 / 36%);
-  background: rgb(255 246 209 / 10%);
-  object-fit: contain;
-  image-rendering: pixelated;
 }
 
 .battle-target strong,
@@ -3349,10 +3379,10 @@ h3 {
   gap: 6px;
 }
 
-.pet-card img {
-  width: 72px;
-  height: 64px;
-  object-fit: contain;
+.pet-card .atlas-sprite-frame {
+  --sprite-box-w: 72px;
+  --sprite-box-h: 64px;
+  --sprite-scale: .58;
 }
 
 .pet-card h3,

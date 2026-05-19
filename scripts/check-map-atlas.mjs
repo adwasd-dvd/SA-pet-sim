@@ -5,6 +5,7 @@ const projectRoot = process.cwd();
 const clientMapRoot = path.join(projectRoot, "public/data/client-maps");
 const logicMapRoot = path.join(projectRoot, "public/data/maps");
 const atlasPath = path.join(projectRoot, "public/data/client-tiles/tiles.json");
+const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
 const CG_INVISIBLE = 99;
 
 const atlas = readJson(atlasPath);
@@ -12,6 +13,8 @@ const frames = atlas?.frames || {};
 const reports = [];
 const missing = new Map();
 const missingMetadata = new Map();
+const missingEnemyImages = new Map();
+const enemyImageCoverage = checkEnemyBaseImages();
 
 for (const file of listFiles(clientMapRoot, ".dat")) {
   const report = checkClientDat(file);
@@ -41,12 +44,42 @@ if (missingMetadata.size) {
   process.exit(1);
 }
 
+if (missingEnemyImages.size) {
+  console.error("Missing pet/enemy ImgNo atlas frames:");
+  for (const [id, refs] of [...missingEnemyImages.entries()].sort((a, b) => Number(a[0]) - Number(b[0])).slice(0, 40)) {
+    console.error(`  ${id}: ${refs.slice(0, 6).join("; ")}`);
+  }
+  process.exit(1);
+}
+
 const largest = reports.slice(0, 8).map((report) => (
   `${report.name} ${report.width}x${report.height} cells=${report.cells} drawable=${report.drawable} control=${report.control}`
 ));
 
 console.log(`Map atlas coverage OK: ${reports.length} maps, ${Object.keys(frames).length} atlas frames.`);
+console.log(`Pet/enemy static ImgNo coverage OK: ${enemyImageCoverage.covered}/${enemyImageCoverage.total} enemybase2 images.`);
 for (const line of largest) console.log(`  ${line}`);
+
+function checkEnemyBaseImages() {
+  let total = 0;
+  let covered = 0;
+  if (!fs.existsSync(enemyBasePath)) return { total, covered };
+  for (const line of fs.readFileSync(enemyBasePath, "utf8").split(/\r?\n/)) {
+    const rows = line.split(",");
+    if (rows.length < 37) continue;
+    const imageNo = Number(rows[36]);
+    if (!Number.isFinite(imageNo) || imageNo <= CG_INVISIBLE) continue;
+    total += 1;
+    if (frames[imageNo]) {
+      covered += 1;
+      continue;
+    }
+    const ref = `${rows[0] || "unnamed"} petNo ${rows[6] || "?"}`;
+    if (!missingEnemyImages.has(imageNo)) missingEnemyImages.set(imageNo, []);
+    missingEnemyImages.get(imageNo).push(ref);
+  }
+  return { total, covered };
+}
 
 function checkClientDat(file) {
   const buf = fs.readFileSync(file);

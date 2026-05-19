@@ -138,6 +138,8 @@ const profileAtlasState = {
   disabled: false,
   loadedPacks: new Set(),
   loadingPacks: new Map(),
+  framePackUrls: null,
+  framePackPlanUrl: "",
   frames: Object.create(null)
 };
 let largeMapRenderer = null;
@@ -399,9 +401,11 @@ function bindEvents() {
     clientWindowOpen = false;
     renderClientWindow();
   });
-  els.encounterImg.addEventListener("error", () => {
-    els.encounterImg.src = "/f/logo.gif";
-  });
+  if (els.encounterImg instanceof HTMLImageElement) {
+    els.encounterImg.addEventListener("error", () => {
+      els.encounterImg.src = "/f/logo.gif";
+    });
+  }
 }
 
 async function mutate(path, body) {
@@ -1220,10 +1224,13 @@ async function loadProfileTileAtlasForMap(map) {
   if (!packPaths.length) return null;
   try {
     await ensureProfilePacksLoaded(packPaths);
-    return {
+    const atlas = {
       mode: "profile packs",
       frames: profileAtlasState.frames
     };
+    loadedTileAtlas = atlas;
+    hydrateAtlasSprites(atlas);
+    return atlas;
   } catch {
     profileAtlasState.disabled = true;
     return null;
@@ -1321,6 +1328,8 @@ function parsePackFrames(manifest, image) {
       prioType: Number(row[index.prio] ?? 0),
       bitmapNo: Number(row[index.bitmap] ?? 0),
       graphicNo: Number(row[index.graphic] ?? 0),
+      atlasWidth: image.naturalWidth || image.width,
+      atlasHeight: image.naturalHeight || image.height,
       image
     });
   }
@@ -1356,12 +1365,33 @@ async function loadMonolithicTileAtlas() {
   return tileAtlasPromise;
 }
 
-function hydrateAtlasSprites(atlas = loadedTileAtlas) {
+function hydrateAtlasSprites(atlas = loadedTileAtlas, root = document) {
   if (!atlas) return;
-  document.querySelectorAll("[data-atlas-sprite]").forEach((el) => {
-    applyAtlasSprite(el, atlas, el.dataset.atlasSprite);
+  const missingIds = new Set();
+  atlasSpriteNodes(root).forEach((el) => {
+    const frame = applyAtlasSprite(el, atlas, el.dataset.atlasSprite);
+    const id = Number(el.dataset.atlasSprite || 0);
+    if (!frame && Number.isFinite(id) && id > 0) missingIds.add(id);
   });
-  refreshAtlasButtonSprites(atlas);
+  if (root === document) refreshAtlasButtonSprites(atlas);
+  if (missingIds.size) {
+    void ensureProfileAtlasFramesLoaded([...missingIds]).then((loaded) => {
+      if (!loaded) return;
+      const nextAtlas = {
+        mode: "profile packs",
+        frames: profileAtlasState.frames
+      };
+      loadedTileAtlas = nextAtlas;
+      hydrateAtlasSprites(nextAtlas, root);
+    });
+  }
+}
+
+function atlasSpriteNodes(root = document) {
+  const nodes = [];
+  if (root?.matches?.("[data-atlas-sprite]")) nodes.push(root);
+  root?.querySelectorAll?.("[data-atlas-sprite]").forEach((el) => nodes.push(el));
+  return nodes;
 }
 
 function refreshAtlasButtonSprites(atlas = loadedTileAtlas) {
@@ -1387,17 +1417,88 @@ function refreshAtlasButtonSprites(atlas = loadedTileAtlas) {
 
 function applyAtlasSprite(el, atlas, tileId) {
   const frame = atlas?.frames?.[tileId];
-  if (!frame) {
+  const frameShell = el.closest?.(".atlas-sprite-frame");
+  const image = frame?.image || atlas?.image;
+  if (!frame || !image) {
     el.hidden = true;
+    frameShell?.classList.add("missing");
     return null;
   }
+  const atlasWidth = Number(frame.atlasWidth || atlas.atlasWidth || image.naturalWidth || image.width || frame.width);
+  const atlasHeight = Number(frame.atlasHeight || atlas.atlasHeight || image.naturalHeight || image.height || frame.height);
   el.hidden = false;
+  frameShell?.classList.remove("missing");
   el.style.width = `${frame.width}px`;
   el.style.height = `${frame.height}px`;
-  el.style.backgroundImage = `url("${atlas.image.src}")`;
-  el.style.backgroundSize = `${atlas.atlasWidth}px ${atlas.atlasHeight}px`;
+  el.style.backgroundImage = `url("${image.src}")`;
+  el.style.backgroundSize = `${atlasWidth}px ${atlasHeight}px`;
   el.style.backgroundPosition = `-${frame.x}px -${frame.y}px`;
   return frame;
+}
+
+async function ensureProfileAtlasFramesLoaded(tileIds) {
+  if (profileAtlasState.disabled) return false;
+  const missing = uniqueNumbers(tileIds).filter((id) => !profileAtlasState.frames[id]);
+  if (!missing.length) return false;
+  const plan = await loadProfilePackPlan();
+  if (!plan?.packs?.length) return false;
+  const packUrls = profilePackUrlsForFrameIds(plan, missing);
+  if (!packUrls.length) return false;
+  try {
+    await ensureProfilePacksLoaded(packUrls);
+    return missing.some((id) => Boolean(profileAtlasState.frames[id]));
+  } catch {
+    return false;
+  }
+}
+
+function profilePackUrlsForFrameIds(plan, tileIds) {
+  const lookup = profileFramePackUrlMap(plan);
+  const urls = new Set();
+  for (const id of uniqueNumbers(tileIds)) {
+    const candidates = lookup.get(id) || [];
+    const preferred = candidates.find((item) => item.domain === "pets-static")
+      || candidates.find((item) => item.domain === "pets-encounter")
+      || candidates.find((item) => item.domain === "npc-field")
+      || candidates[0];
+    if (preferred?.url) urls.add(preferred.url);
+  }
+  return [...urls];
+}
+
+function profileFramePackUrlMap(plan) {
+  if (profileAtlasState.framePackUrls && profileAtlasState.framePackPlanUrl === plan.__url) {
+    return profileAtlasState.framePackUrls;
+  }
+  const map = new Map();
+  for (const pack of plan.packs || []) {
+    if (!pack?.manifest) continue;
+    const url = resolvePackUrl(plan.__url, pack.manifest);
+    for (const id of uniqueNumbers(pack.presentIds || pack.ids || [])) {
+      if (!map.has(id)) map.set(id, []);
+      map.get(id).push({ url, domain: pack.domain || "", id: pack.id || "" });
+    }
+  }
+  profileAtlasState.framePackUrls = map;
+  profileAtlasState.framePackPlanUrl = plan.__url;
+  return map;
+}
+
+function uniqueNumbers(values) {
+  return [...new Set((values || [])
+    .map((item) => Number(item))
+    .filter((item) => Number.isFinite(item) && item > 0))]
+    .sort((a, b) => a - b);
+}
+
+function petSpriteMarkup(tileId, label = "", className = "") {
+  const id = Number(tileId || 0);
+  const aria = label ? `role="img" aria-label="${escapeHtml(label)}"` : `aria-hidden="true"`;
+  return `
+    <span class="atlas-sprite-frame ${className}" data-imgno="${id}" data-missing="ImgNo ${id || "-"}" ${aria}>
+      <span class="client-atlas-sprite ui-atlas-sprite" data-atlas-sprite="${id}" aria-hidden="true"></span>
+    </span>
+  `;
 }
 
 function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
@@ -2228,6 +2329,7 @@ function renderAssistPanel(map) {
   };
   const renderActive = renderers[assistTab] || renderAssistMap;
   els.assistPanelBody.innerHTML = renderActive(map);
+  hydrateAtlasSprites(loadedTileAtlas, els.assistPanelBody);
 }
 
 function renderAssistMap(map) {
@@ -2526,20 +2628,12 @@ function renderDialog() {
   const shop = renderDialogShop(dialog);
   els.dialogSuggestions.hidden = !shop;
   els.dialogSuggestions.innerHTML = shop;
+  hydrateAtlasSprites(loadedTileAtlas, els.dialogSuggestions);
   els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
   });
   els.dialogSuggestions.querySelectorAll("[data-sell]").forEach((btn) => {
     btn.addEventListener("click", () => sellItem(Number(btn.dataset.sell)));
-  });
-  els.dialogSuggestions.querySelectorAll("[data-battle-img]").forEach((img) => {
-    const fallback = () => {
-      if (img.dataset.fallback === "1") return;
-      img.dataset.fallback = "1";
-      img.src = "/f/logo.gif";
-    };
-    img.addEventListener("error", fallback);
-    if (img.complete && img.naturalWidth === 0) fallback();
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
   updateDialogScrollButtons();
@@ -2567,7 +2661,7 @@ function renderDialogBattle() {
   return `
     <div class="battle-box">
       <div class="battle-target">
-        <img data-battle-img src="/f/pet/${Number(enemy.ImgNo || 0)}.gif" alt="${escapeHtml(enemy.Name || "遇敌")}" loading="lazy">
+        ${petSpriteMarkup(enemy.ImgNo, enemy.Name || "遇敌", "battle-target-sprite")}
         <div>
           <strong>${escapeHtml(enemy.Name || "野外宠物")} Lv.${Number(enemy.Lv || 1)}</strong>
           <span>HP ${enemyHp}/${enemyMax} | 捕获率 ${Number(enemy.CaptureRate || 0)}%</span>
@@ -3600,7 +3694,7 @@ function renderAssistPetCard(pet, index) {
   const fieldPet = characterPetField(index) || {};
   return `
     <article class="assist-card pet ${active ? "active" : ""}">
-      <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
+      ${petSpriteMarkup(pet.ImgNo, pet.Name, "assist-pet-sprite")}
       <div>
         <strong>${escapeHtml(pet.Name)} Lv.${Number(pet.Lv || 1)}</strong>
         <span>${active ? "出战" : "待命"} | No.${Number(pet.PetId || 0)} | HP ${hp}/${maxHp}</span>
@@ -4069,7 +4163,7 @@ function renderEncounter() {
   const enemyHp = Number.isFinite(Number(enemy.Hp)) ? Number(enemy.Hp) : Number(enemy.WorkMaxHp || 0);
   const petHp = activePet ? `${activePet.Name} HP ${Number(activePet.Hp || activePet.WorkMaxHp || 0)}/${activePet.WorkMaxHp}` : "无出战宠物";
   els.encounterStats.textContent = `捕获率 ${enemy.CaptureRate}% | 敌 HP ${enemyHp}/${enemy.WorkMaxHp} | ${workStatsText(enemy)} | ${elementText(enemy)} | ${petHp}`;
-  els.encounterImg.src = `/f/pet/${enemy.ImgNo}.gif`;
+  setBattleSprite(els.encounterImg, enemy.ImgNo);
   els.attackBtn.disabled = false;
   els.battleLog.innerHTML = (game.battle?.log || []).map((line) => `<p>${escapeHtml(line)}</p>`).join("");
 }
@@ -4114,6 +4208,7 @@ function renderClientWindow() {
   els.clientWindowTitle.textContent = content.title;
   els.clientWindowBody.innerHTML = content.html;
   els.clientWindow.hidden = false;
+  hydrateAtlasSprites(loadedTileAtlas, els.clientWindowBody);
   bindClientWindowActions();
 }
 
@@ -4297,7 +4392,7 @@ function clientPetWindow() {
     html: `
       <div class="client-pet-status">
         <div class="client-pet-portrait">
-          <img src="/f/pet/${Number(pet.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
+          ${petSpriteMarkup(pet.ImgNo, pet.Name, "client-pet-sprite")}
           <strong>${escapeHtml(pet.Name)}</strong>
         </div>
         <div class="client-stat-stack">
@@ -4328,7 +4423,7 @@ function clientPetWindow() {
       <div class="client-party-row">
         ${pets.map((entry, index) => `
           <button type="button" class="${index === activePetIndex() ? "active" : ""}" data-client-active-pet="${index}" title="设为出战宠：${escapeHtml(entry.Name)}" ${index === activePetIndex() ? "disabled" : ""}>
-            <img src="/f/pet/${Number(entry.ImgNo || 0)}.gif" alt="" onerror="this.src='/f/logo.gif'">
+            ${petSpriteMarkup(entry.ImgNo, entry.Name, "client-party-pet-sprite")}
             <span>Lv.${Number(entry.Lv || 1)}</span>
           </button>
         `).join("")}
@@ -4552,7 +4647,7 @@ function renderPets() {
   const slots = petState();
   const pets = game.pets.map((pet, index) => `
     <article class="pet-card ${index === activePetIndex() ? "active" : ""}">
-      <img src="/f/pet/${pet.ImgNo}.gif" alt="" onerror="this.src='/f/logo.gif'">
+      ${petSpriteMarkup(pet.ImgNo, pet.Name, "pet-card-sprite")}
       <div>
         <h3>${escapeHtml(pet.Name)} Lv.${pet.Lv}</h3>
         <p class="muted">${index === activePetIndex() ? "出战" : "待命"} | No.${pet.PetId} | HP ${Number(pet.Hp || 0)}/${pet.WorkMaxHp} | ${escapeHtml(expLabel(progressionForPet(index, pet)))}</p>
@@ -4595,6 +4690,7 @@ function renderPets() {
       `).join("") || `<p class="empty">背包还没有道具。</p>`}
     </article>
   `;
+  hydrateAtlasSprites(loadedTileAtlas, els.petList);
   els.petList.querySelectorAll("[data-active-pet]").forEach((btn) => {
     btn.addEventListener("click", () => mutate("/api/game/pet-mode", { petIndex: Number(btn.dataset.activePet), mode: "active" }));
   });

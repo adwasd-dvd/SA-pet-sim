@@ -69,6 +69,12 @@ const packs = [
     domain: "pets-encounter",
     load: "battle-or-album",
     ids: keepSet.domains?.["pets-encounter"]?.ids || []
+  }),
+  packRecord({
+    id: "pets-static-all",
+    domain: "pets-static",
+    load: "pet-ui-or-battle-lazy",
+    ids: keepSet.domains?.["pets-static"]?.ids || []
   })
 ];
 sharedPackIds.push("npc-field-core");
@@ -157,7 +163,8 @@ const report = {
     "map-tiles-shared-core contains map tile IDs used by at least sharedFloorThreshold enabled floors.",
     "Region map packs contain map tile IDs reused by at least regionFloorThreshold floors inside the same map bucket.",
     "Floor map packs are deltas after removing global shared and region shared map tile IDs.",
-    "npc-field-core and pets-encounter-core stay as single lazy packs for the first implementation because they are small versus map tiles.",
+    "npc-field-core and pets-encounter-core stay as floor/runtime packs for the first implementation because they are small versus map tiles.",
+    "pets-static-all contains original enemybase2 ImgNo frames for pet windows, player-owned pets, and source NPC battle targets; runtime should lazy-load it only when a missing model is actually shown.",
     "Row-pack numbers are estimates for height-sorted packing; indexed PNG output should be smaller than RGBA pixel input."
   ],
   summary: {
