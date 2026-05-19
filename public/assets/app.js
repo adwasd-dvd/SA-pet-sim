@@ -4667,6 +4667,15 @@ function aiStatusRows() {
       strong: true
     });
   }
+  const metamo = game.effects?.metamo;
+  const metamoUntil = Number(metamo?.until || game.effects?.metamoUntil || 0);
+  if (metamoUntil > now) {
+    rows.push({
+      label: "道具变身",
+      text: `${metamo?.formName || metamo?.itemName || "临时形象"} | ${effectRemainingLabel(metamoUntil)}`,
+      strong: true
+    });
+  }
   for (const [npcId, entry] of Object.entries(game.effects?.shopDiscounts || {})) {
     const until = Number(entry?.until || 0);
     if (until <= now) continue;
@@ -5450,7 +5459,7 @@ function inventoryItemUsable(item) {
   const rawType = item.type ?? item.Type;
   const hasNumericType = rawType !== undefined && rawType !== null && rawType !== "" && Number.isFinite(Number(rawType));
   if (hasNumericType && ![15, 16, 20].includes(Number(rawType)) && !/^ITEM_/i.test(String(item.functionName || ""))) return false;
-  return /ITEM_useRecovery|ITEM_useStatusRecovery|ITEM_useRessurect|ITEM_ResAndDef|ITEM_useWarp|ITEM_useWarpForNum|ITEM_useDeathcounter|ITEM_useEncounter|ITEM_useNoenemy|ITEM_Addexp|ITEM_ChikulaStone|耐久力|耐力|HP|体\s*\d+|耐\s*\d+|气力|氣力|气\s*\d+|氣\s*\d+|小的肉|乾燥肉|大的肉|高级肉|复活|復活|气绝|氣絕|解除|治疗|治療|状态回复|狀態回復|净化|淨化|魅\+|忠\s*[+-]?\d|忠诚度|原地遇敌|遇敌|驱散敌人|避敌|经验值上升|增\s*\d+\s*分\s*\d+|自动回复|奇克拉/i.test(text);
+  return /ITEM_useRecovery|ITEM_useStatusRecovery|ITEM_useRessurect|ITEM_ResAndDef|ITEM_useWarp|ITEM_useWarpForNum|ITEM_useDeathcounter|ITEM_useEncounter|ITEM_useNoenemy|ITEM_Addexp|ITEM_ChikulaStone|ITEM_metamo|ITEM_MetamoTime|耐久力|耐力|HP|体\s*\d+|耐\s*\d+|气力|氣力|气\s*\d+|氣\s*\d+|小的肉|乾燥肉|大的肉|高级肉|复活|復活|气绝|氣絕|解除|治疗|治療|状态回复|狀態回復|净化|淨化|魅\+|忠\s*[+-]?\d|忠诚度|原地遇敌|遇敌|驱散敌人|避敌|经验值上升|增\s*\d+\s*分\s*\d+|自动回复|奇克拉|变身|變身/i.test(text);
 }
 
 function battleUsableItems() {

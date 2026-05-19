@@ -220,6 +220,21 @@ chikulaItemGame = await api("/api/game/use-item", { game: chikulaItemGame, itemI
 assertEqual(chikulaItemGame.effects?.chikula?.amount, 50, "ITEM_ChikulaStone stores the auto-recovery amount");
 assertEqual(chikulaItemGame.player.hp, 70, "ITEM_ChikulaStone immediately applies one recovery tick for feedback");
 assertEqual(inventoryQty(chikulaItemGame, 5017), 0, "ITEM_ChikulaStone consumes one item");
+let petMetamoItemGame = await api("/api/game/new", { name: "item-effect-pet-metamo-test" });
+const petMetamoImage = Number(petMetamoItemGame.pets[0].ImgNo || 0);
+petMetamoItemGame.inventory.push({ id: 19692, name: "变身镜 Lv3", qty: 1, description: "能变身成自己的宠物叁分钟", option: "180", functionName: "ITEM_metamo" });
+petMetamoItemGame = await api("/api/game/use-item", { game: petMetamoItemGame, itemId: 19692 });
+assertEqual(petMetamoItemGame.effects?.metamo?.imageNo, petMetamoImage, "ITEM_metamo uses the active pet original image as the temporary player model");
+assert(Number(petMetamoItemGame.effects?.metamo?.until || 0) > Date.now(), "ITEM_metamo records a timed source metamo state");
+assertEqual(Number(petMetamoItemGame.player.CHAR_BASEIMAGENUMBER || 0), petMetamoImage, "ITEM_metamo updates CHAR_BASEIMAGENUMBER");
+assertEqual(inventoryQty(petMetamoItemGame, 19692), 0, "ITEM_metamo consumes one item");
+let fixedMetamoItemGame = await api("/api/game/new", { name: "item-effect-fixed-metamo-test" });
+fixedMetamoItemGame.inventory.push({ id: 20830, name: "潜水药水", qty: 1, description: "可变身为石器潜水员1小时", option: "101530|1|石器潜水员", functionName: "ITEM_MetamoTime" });
+fixedMetamoItemGame = await api("/api/game/use-item", { game: fixedMetamoItemGame, itemId: 20830 });
+assertEqual(fixedMetamoItemGame.effects?.metamo?.imageNo, 101530, "ITEM_MetamoTime applies the source fixed image number");
+assertEqual(fixedMetamoItemGame.effects?.metamo?.formName, "石器潜水员", "ITEM_MetamoTime preserves the source metamo form name");
+assert(Number(fixedMetamoItemGame.effects?.metamo?.seconds || 0) >= 3600, "ITEM_MetamoTime reads readable hour duration");
+assertEqual(inventoryQty(fixedMetamoItemGame, 20830), 0, "ITEM_MetamoTime consumes one item");
 let safeGemGame = await api("/api/game/new", { name: "item-effect-safe-gem-test" });
 safeGemGame.inventory.push({ id: 5018, name: "恶魔宝石LV1", qty: 1, description: "使用後可原地遇敌 使用次数3次", functionName: "ITEM_useDeathcounter", damageBreak: 3, maxUses: 3 });
 await expectApiError(

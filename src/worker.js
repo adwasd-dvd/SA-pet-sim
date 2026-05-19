@@ -1463,6 +1463,7 @@ const ITEM_STATUS_RECOVERY_DEFS = [
 const ITEM_BATTLE_EFFECT_KINDS = new Set(["hp", "mp", "status"]);
 const ITEM_NO_ENCOUNTER_SECONDS = 6 * 60;
 const ITEM_CHIKULA_SECONDS = 30 * 60;
+const ITEM_METAMO_DEFAULT_SECONDS = 3 * 60;
 
 function itemEffect(item) {
   const text = itemEffectText(item);
@@ -1480,6 +1481,7 @@ function itemEffect(item) {
   const noEnemyFunction = /ITEM_useNoenemy/i.test(functionName);
   const addExpFunction = /ITEM_Addexp/i.test(functionName);
   const chikulaFunction = /ITEM_ChikulaStone/i.test(functionName);
+  const metamoFunction = /ITEM_(?:metamo|MetamoTime)/i.test(functionName);
 
   const revive = reviveFunction || (fieldConsumable && /复活药|復活藥|气绝|氣絕|回魂|回复成耐力|回復成耐力|从气绝|從氣絕/.test(text));
   const hpAmount = parseItemResourceAmount(text, option, ["体", "耐", "耐久力", "耐力", "HP"], {
@@ -1568,6 +1570,19 @@ function itemEffect(item) {
     });
   }
 
+  const metamo = metamoFunction ? parseItemMetamo(option, text, functionName) : null;
+  if (metamo) {
+    effects.push({
+      kind: "metamo",
+      mode: metamo.mode,
+      imageNo: metamo.imageNo,
+      seconds: metamo.seconds,
+      formName: metamo.formName,
+      label: "变身",
+      sourceFunction: functionName
+    });
+  }
+
   return {
     usable: effects.length > 0,
     effects,
@@ -1592,7 +1607,7 @@ function itemFunctionName(item = {}) {
 
 function itemLooksFieldConsumable(item = {}, functionName = "", text = "") {
   if (/ITEM_suitEquip|ITEM_ResuitEquip/i.test(functionName)) return false;
-  if (/ITEM_(?:use|ResAndDef|ChikulaStone|MetamoTime)/i.test(functionName)) return true;
+  if (/ITEM_(?:use|ResAndDef|ChikulaStone|metamo|MetamoTime)/i.test(functionName)) return true;
   const rawType = item.type ?? item.Type;
   const hasNumericType = rawType !== undefined && rawType !== null && rawType !== "" && Number.isFinite(Number(rawType));
   if (hasNumericType) return [15, 16, 20].includes(Number(rawType));
@@ -1691,6 +1706,64 @@ function parseItemChikula(option, text) {
   if (/耐久力/.test(raw)) return { resource: "hp", amount: 1 };
   if (/气力|氣力/.test(raw)) return { resource: "mp", amount: 1 };
   return null;
+}
+
+function parseItemMetamo(option, text, functionName = "") {
+  const optionText = String(option || "").trim();
+  const readableSeconds = parseReadableDurationSeconds(`${text || ""} ${optionText}`);
+  if (/ITEM_MetamoTime/i.test(functionName)) {
+    const parts = optionText.split("|").map((entry) => entry.trim());
+    const imageNo = Number(parts[0] || 0);
+    if (!Number.isFinite(imageNo) || imageNo <= 0) return null;
+    const rawMinutes = Number(parts[1] || 0);
+    const seconds = readableSeconds || (Number.isFinite(rawMinutes) && rawMinutes > 0 ? rawMinutes * 60 : ITEM_METAMO_DEFAULT_SECONDS);
+    return {
+      mode: "fixed",
+      imageNo: Math.trunc(imageNo),
+      seconds: clampInt(seconds, 1, 24 * 60 * 60, ITEM_METAMO_DEFAULT_SECONDS),
+      formName: parts[2] || ""
+    };
+  }
+  if (/ITEM_metamo/i.test(functionName)) {
+    const rawSeconds = Number(optionText.match(/\d+/)?.[0] || 0);
+    const seconds = rawSeconds > 0 ? rawSeconds : (readableSeconds || ITEM_METAMO_DEFAULT_SECONDS);
+    return {
+      mode: "activePet",
+      imageNo: 0,
+      seconds: clampInt(seconds, 1, 24 * 60 * 60, ITEM_METAMO_DEFAULT_SECONDS),
+      formName: ""
+    };
+  }
+  return null;
+}
+
+function parseReadableDurationSeconds(text = "") {
+  const raw = String(text || "");
+  const hour = raw.match(/([0-9一二两三四五六七八九十壹贰叁肆伍陆柒捌玖拾]+)\s*(?:小时|小時|钟头|鐘頭)/);
+  if (hour) return Math.max(1, chineseNumber(hour[1])) * 60 * 60;
+  const minute = raw.match(/([0-9一二两三四五六七八九十壹贰叁肆伍陆柒捌玖拾]+)\s*(?:分钟|分鐘|分)/);
+  if (minute) return Math.max(1, chineseNumber(minute[1])) * 60;
+  return 0;
+}
+
+function chineseNumber(value) {
+  const text = String(value || "").trim();
+  const numeric = Number(text);
+  if (Number.isFinite(numeric)) return numeric;
+  const digits = {
+    零: 0, 一: 1, 壹: 1, 二: 2, 贰: 2, 兩: 2, 两: 2, 三: 3, 叁: 3,
+    四: 4, 肆: 4, 五: 5, 伍: 5, 六: 6, 陆: 6, 七: 7, 柒: 7,
+    八: 8, 捌: 8, 九: 9, 玖: 9
+  };
+  if (text === "十" || text === "拾") return 10;
+  const tenIndex = Math.max(text.indexOf("十"), text.indexOf("拾"));
+  if (tenIndex >= 0) {
+    const left = text.slice(0, tenIndex);
+    const right = text.slice(tenIndex + 1);
+    const tens = left ? digits[left] || 1 : 1;
+    return tens * 10 + (right ? digits[right] || 0 : 0);
+  }
+  return digits[text] || 0;
 }
 
 function itemPartyTargets(game) {
@@ -1822,7 +1895,13 @@ function previewItemUse(game, item, options = {}) {
     actions.push({ ...entry, targetName: "自己" });
   }
 
-  const partyEffects = contextEffects.filter((entry) => !["warp", "encounter", "noEncounter", "expBonus", "chikula"].includes(entry.kind));
+  for (const entry of contextEffects.filter((item) => item.kind === "metamo")) {
+    const action = previewMetamoItemAction(game, entry);
+    if (!action) return { usable: false, effect, reason: "metamo-target-missing" };
+    actions.push(action);
+  }
+
+  const partyEffects = contextEffects.filter((entry) => !["warp", "encounter", "noEncounter", "expBonus", "chikula", "metamo"].includes(entry.kind));
   const targets = itemPartyTargets(game);
   if (partyEffects.length) {
     const targetList = effect.scope === "all"
@@ -1852,6 +1931,34 @@ function previewItemUse(game, item, options = {}) {
     before: hpAction?.before,
     next: hpAction?.after,
     restored: hpAction?.restored || 0
+  };
+}
+
+function previewMetamoItemAction(game, effect) {
+  if (effect.mode === "fixed" && Number(effect.imageNo || 0) > 0) {
+    return {
+      kind: "metamo",
+      mode: "fixed",
+      imageNo: Number(effect.imageNo),
+      seconds: effect.seconds,
+      formName: effect.formName || `形象 ${effect.imageNo}`,
+      targetName: effect.formName || `形象 ${effect.imageNo}`,
+      sourceFunction: effect.sourceFunction
+    };
+  }
+  const activePet = getActivePet(game) || (game.pets || [])[0] || null;
+  if (!activePet) return null;
+  const imageNo = Number(activePet.ImgNo || activePet.BaseBaseImageNumber || activePet.BASEBASEIMAGENUMBER || activePet.PetId || 0);
+  if (!Number.isFinite(imageNo) || imageNo <= 0) return null;
+  return {
+    kind: "metamo",
+    mode: "activePet",
+    imageNo,
+    seconds: effect.seconds,
+    formName: activePet.Name || "宠物",
+    targetName: activePet.Name || "宠物",
+    petIndex: Math.max(0, (game.pets || []).indexOf(activePet)),
+    sourceFunction: effect.sourceFunction
   };
 }
 
@@ -2102,6 +2209,47 @@ function applyItemUseAction(game, action, applied, item) {
     });
     return;
   }
+  if (action.kind === "metamo") {
+    game.effects ||= {};
+    game.player ||= {};
+    const seconds = clampInt(action.seconds, 1, 24 * 60 * 60, ITEM_METAMO_DEFAULT_SECONDS);
+    const until = Date.now() + seconds * 1000;
+    const originalImageNo = Number(
+      game.effects.metamo?.originalImageNo
+      || game.player.CHAR_BASEBASEIMAGENUMBER
+      || game.player.BaseBaseImageNumber
+      || game.player.CHAR_BASEIMAGENUMBER
+      || 0
+    );
+    game.effects.metamo = {
+      mode: action.mode || "activePet",
+      imageNo: Number(action.imageNo || 0),
+      formName: action.formName || action.targetName || "",
+      petIndex: Number(action.petIndex ?? -1),
+      seconds,
+      until,
+      originalImageNo: Number.isFinite(originalImageNo) ? originalImageNo : 0,
+      itemId: item.id,
+      itemName: item.name,
+      sourceFunction: action.sourceFunction || itemFunctionName(item),
+      source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+    };
+    game.effects.metamoUntil = until;
+    game.player.CHAR_WORKITEMMETAMO = Math.ceil(until / 1000);
+    game.player.CHAR_WORKNPCMETAMO = 0;
+    game.player.CHAR_BASEIMAGENUMBER = Number(action.imageNo || 0);
+    game.player.BaseImageNumber = Number(action.imageNo || 0);
+    if (!game.player.CHAR_BASEBASEIMAGENUMBER) game.player.CHAR_BASEBASEIMAGENUMBER = game.effects.metamo.originalImageNo;
+    applied.push({
+      kind: "metamo",
+      targetName: action.targetName || action.formName || "自己",
+      imageNo: Number(action.imageNo || 0),
+      seconds,
+      until,
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
   if (action.kind === "warp") {
     const map = applyWarpTarget(game, action.target, item.name || "道具传送");
     applied.push({
@@ -2121,6 +2269,7 @@ function itemUseRefusalMessage(item, preview) {
   if (preview.reason === "warp-map-missing") return `${item.name} 指向的地图还没有加载进当前 Worker`;
   if (preview.reason === "encounter-active") return "已经在战斗中，不能再次触发原地遇敌";
   if (preview.reason === "encounter-blocked") return `${preview.map?.name || "当前地图"} 不能触发原地遇敌：${wildEncounterBlockedText(preview.map, null)}`;
+  if (preview.reason === "metamo-target-missing") return `${item.name} 需要可变身的宠物或来源形象`;
   if (preview.reason === "unsupported") return `${item.name} 还没有可模拟的使用效果`;
   return `${item.name} 当前没有合适的目标或状态可以生效`;
 }
@@ -2139,6 +2288,7 @@ function itemUseSummary(itemName, effects = []) {
     if (effect.kind === "noEncounter") return `避敌 ${effect.seconds} 秒`;
     if (effect.kind === "expBonus") return `经验加成 ${effect.power}%，${effect.minutes} 分钟`;
     if (effect.kind === "chikula") return `自动回复${effect.resource === "mp" ? "气力" : "耐久力"} ${effect.before}->${effect.after}`;
+    if (effect.kind === "metamo") return `变身为 ${effect.targetName} ${effect.seconds} 秒`;
     return "";
   }).filter(Boolean);
   return parts.length ? `${itemName}：${parts.join("；")}` : `${itemName} 已使用`;
@@ -10197,6 +10347,18 @@ function guideEffectSummary(game) {
       itemName: chikula.itemName || ""
     });
   }
+  const metamo = game.effects?.metamo;
+  const metamoUntil = Number(metamo?.until || game.effects?.metamoUntil || 0);
+  if (metamoUntil > now) {
+    effects.push({
+      type: "metamo",
+      imageNo: Number(metamo?.imageNo || 0),
+      formName: metamo?.formName || "",
+      secondsLeft: Math.ceil((metamoUntil - now) / 1000),
+      source: metamo?.source || "",
+      itemName: metamo?.itemName || ""
+    });
+  }
   for (const [npcId, discount] of Object.entries(game.effects?.shopDiscounts || {})) {
     if (Number(discount.until || 0) > now) effects.push({
       type: "shopDiscount",
@@ -10355,6 +10517,7 @@ function fallbackGuide(context, prompt = "", error = null) {
     if (item.type === "noEncounter") return `避敌剩余 ${item.secondsLeft}s`;
     if (item.type === "expBonus") return `经验加成 ${item.power}% 剩余 ${item.secondsLeft}s`;
     if (item.type === "chikula") return `奇克拉${item.resource === "mp" ? "气力" : "耐久力"} ${item.amount}`;
+    if (item.type === "metamo") return `变身${item.formName ? `为${item.formName}` : ""} 剩余 ${item.secondsLeft}s`;
     if (item.type === "shopDiscount") return `NPC ${item.npcId} 折扣 ${item.percent}%`;
     if (item.type === "offMenuShop") return `临时商品 ${item.items.join("、")}`;
     if (item.type === "npcBypass") return `${item.npcName || item.npcId} 暂时让路`;
@@ -10533,7 +10696,10 @@ function buildCharacterFields(game) {
       mapId: String(game.location?.mapId || ""),
       x: Number(game.location?.x || 0),
       y: Number(game.location?.y || 0),
-      dir: normalizeDir(game.player?.dir ?? game.location?.dir)
+      dir: normalizeDir(game.player?.dir ?? game.location?.dir),
+      metamoUntil: Number(game.effects?.metamo?.until || game.effects?.metamoUntil || 0),
+      metamoImageNo: Number(game.effects?.metamo?.imageNo || game.player?.CHAR_BASEIMAGENUMBER || 0),
+      metamoName: game.effects?.metamo?.formName || ""
     },
     counters: {
     killPetCount: Number(game.player?.killPetCount || 0),
@@ -10977,6 +11143,7 @@ function normalizeGame(game) {
   game.quests = normalizeQuestRuntime(game.quests);
   ensureFlags(game);
   game.effects ||= {};
+  normalizeMetamoEffect(game);
   game.automation = normalizeAutomationState(game.automation);
   game.aiWorkspace = normalizeAiWorkspace(game.aiWorkspace);
   game.dialogAi ||= {};
@@ -10997,6 +11164,37 @@ function normalizeGame(game) {
   game.character.updatedAt = new Date().toISOString();
   game.save = buildSaacSave(game);
   return game;
+}
+
+function normalizeMetamoEffect(game) {
+  const entry = game.effects?.metamo;
+  if (!entry) {
+    if (game.player) {
+      game.player.CHAR_WORKITEMMETAMO = Number(game.player.CHAR_WORKITEMMETAMO || 0);
+      game.player.CHAR_WORKNPCMETAMO = Number(game.player.CHAR_WORKNPCMETAMO || 0);
+    }
+    return;
+  }
+  const until = Number(entry.until || game.effects.metamoUntil || 0);
+  if (until > Date.now()) {
+    game.effects.metamoUntil = until;
+    game.player.CHAR_WORKITEMMETAMO = Math.ceil(until / 1000);
+    game.player.CHAR_WORKNPCMETAMO = Number(game.player.CHAR_WORKNPCMETAMO || 0);
+    if (Number(entry.imageNo || 0) > 0) {
+      game.player.CHAR_BASEIMAGENUMBER = Number(entry.imageNo);
+      game.player.BaseImageNumber = Number(entry.imageNo);
+    }
+    return;
+  }
+  const originalImageNo = Number(entry.originalImageNo || game.player.CHAR_BASEBASEIMAGENUMBER || 0);
+  if (originalImageNo > 0) {
+    game.player.CHAR_BASEIMAGENUMBER = originalImageNo;
+    game.player.BaseImageNumber = originalImageNo;
+  }
+  game.player.CHAR_WORKITEMMETAMO = 0;
+  game.player.CHAR_WORKNPCMETAMO = 0;
+  delete game.effects.metamo;
+  delete game.effects.metamoUntil;
 }
 
 function normalizeQuestRuntime(quests = {}) {
