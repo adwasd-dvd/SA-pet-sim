@@ -161,7 +161,8 @@ const profileAtlasState = {
 const petFieldAnimationState = {
   disabled: false,
   manifest: null,
-  loading: null
+  loading: null,
+  missingSprites: new Set()
 };
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
@@ -1827,9 +1828,12 @@ function applyAtlasSprite(el, atlas, tileId) {
   return frame;
 }
 
-function requestPetFieldAnimations() {
-  if (petFieldAnimationState.disabled || petFieldAnimationState.manifest || petFieldAnimationState.loading) return;
-  void ensurePetFieldAnimationsLoaded();
+function requestPetFieldAnimations(spriteNo = 0) {
+  if (petFieldAnimationState.disabled) return;
+  void ensurePetFieldAnimationsLoaded().then((manifest) => {
+    if (!manifest || !spriteNo) return null;
+    return ensurePetFieldSpritePackLoaded(spriteNo);
+  });
 }
 
 async function ensurePetFieldAnimationsLoaded() {
@@ -1858,19 +1862,43 @@ async function ensurePetFieldAnimationsLoaded() {
   return petFieldAnimationState.loading;
 }
 
+async function ensurePetFieldSpritePackLoaded(spriteNo) {
+  const id = Number(spriteNo || 0);
+  if (!Number.isFinite(id) || id < SPR_START || petFieldAnimationState.disabled) return false;
+  const manifest = await ensurePetFieldAnimationsLoaded();
+  const sprite = manifest?.sprites?.[id];
+  const packRef = sprite?.pack || sprite?.packs?.field || "";
+  if (!packRef) {
+    petFieldAnimationState.missingSprites.add(id);
+    return false;
+  }
+  const packUrl = resolvePackUrl(manifest.__url || PET_FIELD_ANIMATION_MANIFEST, packRef);
+  try {
+    await ensureProfilePacksLoaded([packUrl]);
+    loadedTileAtlas = atlasWithProfileFrames(loadedTileAtlas, "pet field animation");
+    hydrateAtlasSprites(loadedTileAtlas);
+    invalidatePlayerSpriteRender();
+    if (game) render();
+    return true;
+  } catch {
+    petFieldAnimationState.missingSprites.add(id);
+    return false;
+  }
+}
+
 function sourceFieldSpriteTileId(spriteNo, options = {}) {
   const fallback = Number(options.fallback ?? spriteNo ?? 0);
   const id = Number(spriteNo || 0);
   if (!Number.isFinite(id) || id < SPR_START) return fallback;
   const manifest = petFieldAnimationState.manifest;
   if (!manifest?.sprites?.[id]) {
-    requestPetFieldAnimations();
+    if (!manifest || !petFieldAnimationState.missingSprites.has(id)) requestPetFieldAnimations(id);
     return fallback;
   }
   const frameId = petFieldAnimationFrameId(manifest.sprites[id], options);
   if (!frameId) return fallback;
   if (loadedTileAtlas?.frames?.[frameId] || profileAtlasState.frames?.[frameId]) return frameId;
-  requestPetFieldAnimations();
+  if (!petFieldAnimationState.missingSprites.has(id)) requestPetFieldAnimations(id);
   return fallback;
 }
 

@@ -26,7 +26,8 @@ const ACTION_BY_ID = {
 };
 
 const args = process.argv.slice(2);
-const allSprites = args.includes("--all");
+const priorityOnly = args.includes("--priority-only");
+const allInOne = args.includes("--all-in-one") || args.includes("--all");
 const explicitSprites = (args.find((arg) => arg.startsWith("--sprites=")) || "")
   .split("=")
   .slice(1)
@@ -66,16 +67,19 @@ const report = readJson(paths.report);
 const reportSpriteNos = uniqueSorted((report.sprites || []).map((sprite) => sprite.sprNo));
 const spriteNos = uniqueSorted(explicitSprites.length
   ? explicitSprites
-  : allSprites
-    ? reportSpriteNos
-    : DEFAULT_PRIORITY_SPRITE_NOS);
+  : priorityOnly
+    ? DEFAULT_PRIORITY_SPRITE_NOS
+    : [...reportSpriteNos, ...DEFAULT_PRIORITY_SPRITE_NOS]);
+const prioritySpriteNoSet = new Set(DEFAULT_PRIORITY_SPRITE_NOS);
 const spriteNames = new Map((report.sprites || []).map((sprite) => [Number(sprite.sprNo), sprite.names || []]));
 if (!spriteNames.has(100371)) spriteNames.set(100371, ["奥卡洛斯"]);
 const sprIndex = parseSpradrn(paths.spradrn);
 const adrn = parseAdrn(paths.adrn);
 const spr = fs.readFileSync(paths.spr);
 const palette = readPalette(paths.palette);
-const wantedBitmapNos = new Set();
+const priorityBitmapNos = new Set();
+const allBitmapNos = new Set();
+const bitmapNosBySprite = new Map();
 const sprites = {};
 
 for (const sprNo of spriteNos) {
@@ -85,26 +89,44 @@ for (const sprNo of spriteNos) {
     names: spriteNames.get(sprNo) || [],
     actions: parsed.actions
   };
-  for (const bitmapNo of parsed.bitmapNos) wantedBitmapNos.add(bitmapNo);
+  bitmapNosBySprite.set(sprNo, parsed.bitmapNos);
+  for (const bitmapNo of parsed.bitmapNos) {
+    allBitmapNos.add(bitmapNo);
+    if (prioritySpriteNoSet.has(sprNo)) priorityBitmapNos.add(bitmapNo);
+  }
 }
 
-const entries = extractBitmapEntries([...wantedBitmapNos], adrn.records, paths.real);
-const packed = buildPack(entries, palette);
-
 fs.mkdirSync(paths.outDir, { recursive: true });
-const packId = allSprites ? "pet-field-core-all" : "pet-field-priority";
-const pngPath = path.join(paths.outDir, `${packId}.png`);
-const packManifestPath = path.join(paths.outDir, `${packId}.json`);
-const packManifest = compactFrameManifest({
-  image: `${packId}.png`,
-  atlasWidth: packed.width,
-  atlasHeight: packed.height,
-  frames: packed.frames
-});
-const packManifestText = `${JSON.stringify(packManifest)}\n`;
+const packOutputs = [];
+if (allInOne) {
+  const output = writePack("pet-field-core-all", [...allBitmapNos]);
+  packOutputs.push(output);
+  for (const sprNo of Object.keys(sprites)) sprites[sprNo].pack = `packs/${output.id}.json`;
+} else {
+  const prioritySprites = Object.keys(sprites)
+    .map(Number)
+    .filter((sprNo) => prioritySpriteNoSet.has(sprNo));
+  if (prioritySprites.length) {
+    const output = writePack("pet-field-priority", [...priorityBitmapNos]);
+    output.spriteNos = prioritySprites;
+    packOutputs.push(output);
+    for (const sprNo of prioritySprites) {
+      sprites[sprNo].pack = `packs/${output.id}.json`;
+      sprites[sprNo].priority = true;
+    }
+  }
+  if (!priorityOnly) {
+    for (const sprNo of Object.keys(sprites).map(Number).sort((a, b) => a - b)) {
+      if (prioritySpriteNoSet.has(sprNo)) continue;
+      const output = writePack(`pet-field-spr-${sprNo}`, bitmapNosBySprite.get(sprNo) || []);
+      output.spriteNos = [sprNo];
+      packOutputs.push(output);
+      sprites[sprNo].pack = `packs/${output.id}.json`;
+    }
+  }
+}
 
-fs.writeFileSync(pngPath, packed.png);
-fs.writeFileSync(packManifestPath, packManifestText);
+const primaryPack = packOutputs[0] || null;
 
 const animationManifest = {
   v: 1,
@@ -117,15 +139,26 @@ const animationManifest = {
     real: "external/sources/client-assets/data/real_136.bin"
   },
   pack: {
-    id: packId,
+    id: primaryPack?.id || "",
     domain: "pet-field-animation",
-    manifest: `packs/${packId}.json`,
-    image: `packs/${packId}.png`,
-    frames: entries.length,
-    pngBytes: packed.png.length,
-    manifestBytes: Buffer.byteLength(packManifestText),
-    manifestGzipBytes: zlib.gzipSync(Buffer.from(packManifestText), { level: 9 }).length
+    manifest: primaryPack ? `packs/${primaryPack.id}.json` : "",
+    image: primaryPack ? `packs/${primaryPack.id}.png` : "",
+    frames: primaryPack?.frames || 0,
+    pngBytes: primaryPack?.pngBytes || 0,
+    manifestBytes: primaryPack?.manifestBytes || 0,
+    manifestGzipBytes: primaryPack?.manifestGzipBytes || 0
   },
+  packs: packOutputs.map((pack) => ({
+    id: pack.id,
+    domain: "pet-field-animation",
+    manifest: `packs/${pack.id}.json`,
+    image: `packs/${pack.id}.png`,
+    spriteNos: pack.spriteNos || [],
+    frames: pack.frames,
+    pngBytes: pack.pngBytes,
+    manifestBytes: pack.manifestBytes,
+    manifestGzipBytes: pack.manifestGzipBytes
+  })),
   fields: {
     animation: ["dtAnim", "frameMs", "frames"],
     frame: ["bitmapNo", "posX", "posY", "soundNo"]
@@ -133,15 +166,16 @@ const animationManifest = {
   summary: {
     spriteNos: Object.keys(sprites).length,
     sourceReportSpriteNos: reportSpriteNos.length,
-    mode: allSprites ? "all-classic-core" : explicitSprites.length ? "explicit" : "priority",
-    uniqueBitmaps: entries.length,
-    packWidth: packed.width,
-    packHeight: packed.height,
-    packArea: packed.width * packed.height,
-    frameArea: entries.reduce((sum, item) => sum + item.width * item.height, 0),
-    fillRatio: ratio(entries.reduce((sum, item) => sum + item.width * item.height, 0), packed.width * packed.height),
+    mode: allInOne ? "all-classic-core-single-pack" : priorityOnly ? "priority" : explicitSprites.length ? "explicit-split" : "split-by-sprite",
+    packs: packOutputs.length,
+    totalPackPngBytes: packOutputs.reduce((sum, pack) => sum + pack.pngBytes, 0),
+    uniqueBitmaps: allBitmapNos.size,
+    primaryPackWidth: primaryPack?.width || 0,
+    primaryPackHeight: primaryPack?.height || 0,
+    primaryPackArea: primaryPack ? primaryPack.width * primaryPack.height : 0,
+    primaryFillRatio: primaryPack?.fillRatio || 0,
     missingSpriteIndex: spriteNos.filter((sprNo) => !sprIndex.has(sprNo)),
-    missingAdrnRecords: uniqueSorted([...wantedBitmapNos].filter((bitmapNo) => !adrn.records.has(bitmapNo)))
+    missingAdrnRecords: uniqueSorted([...allBitmapNos].filter((bitmapNo) => !adrn.records.has(bitmapNo)))
   },
   sprites
 };
@@ -154,11 +188,21 @@ const buildReport = {
   sourceReport: "docs/planning/pet-animation-coverage-report.json",
   output: {
     animationManifest: path.relative(appRoot, paths.animationManifest),
-    packManifest: path.relative(appRoot, packManifestPath),
-    packImage: path.relative(appRoot, pngPath),
+    primaryPackManifest: primaryPack ? path.relative(appRoot, primaryPack.manifestPath) : "",
+    primaryPackImage: primaryPack ? path.relative(appRoot, primaryPack.pngPath) : "",
     buildReport: path.relative(appRoot, paths.buildReport)
   },
   summary: animationManifest.summary,
+  packs: packOutputs.map((pack) => ({
+    id: pack.id,
+    spriteNos: pack.spriteNos || [],
+    frames: pack.frames,
+    width: pack.width,
+    height: pack.height,
+    fillRatio: pack.fillRatio,
+    pngBytes: pack.pngBytes,
+    manifestGzipBytes: pack.manifestGzipBytes
+  })),
   importantSprites: [100250, 100251, 100252, 100371, 100388]
     .map((sprNo) => ({
       sprNo,
@@ -174,10 +218,43 @@ fs.writeFileSync(paths.buildReport, `${JSON.stringify(buildReport, null, 2)}\n`)
 fs.writeFileSync(paths.buildReportMd, renderMarkdown(buildReport));
 
 console.log(`Wrote ${path.relative(appRoot, paths.animationManifest)}`);
-console.log(`Wrote ${path.relative(appRoot, packManifestPath)}`);
-console.log(`Wrote ${path.relative(appRoot, pngPath)} (${formatBytes(packed.png.length)})`);
+for (const pack of packOutputs.slice(0, 12)) {
+  console.log(`Wrote ${path.relative(appRoot, pack.manifestPath)}`);
+  console.log(`Wrote ${path.relative(appRoot, pack.pngPath)} (${formatBytes(pack.pngBytes)})`);
+}
+if (packOutputs.length > 12) console.log(`Wrote ${packOutputs.length - 12} additional pet field sprite packs.`);
 console.log(`Wrote ${path.relative(appRoot, paths.buildReport)}`);
 console.log(`Wrote ${path.relative(appRoot, paths.buildReportMd)}`);
+
+function writePack(packId, bitmapNos) {
+  const entries = extractBitmapEntries(bitmapNos, adrn.records, paths.real);
+  if (!entries.length) throw new Error(`Pack ${packId} has no source bitmap entries`);
+  const packed = buildPack(entries, palette);
+  const pngPath = path.join(paths.outDir, `${packId}.png`);
+  const manifestPath = path.join(paths.outDir, `${packId}.json`);
+  const packManifest = compactFrameManifest({
+    image: `${packId}.png`,
+    atlasWidth: packed.width,
+    atlasHeight: packed.height,
+    frames: packed.frames
+  });
+  const packManifestText = `${JSON.stringify(packManifest)}\n`;
+  fs.writeFileSync(pngPath, packed.png);
+  fs.writeFileSync(manifestPath, packManifestText);
+  const frameArea = entries.reduce((sum, item) => sum + item.width * item.height, 0);
+  return {
+    id: packId,
+    manifestPath,
+    pngPath,
+    frames: entries.length,
+    width: packed.width,
+    height: packed.height,
+    fillRatio: ratio(frameArea, packed.width * packed.height),
+    pngBytes: packed.png.length,
+    manifestBytes: Buffer.byteLength(packManifestText),
+    manifestGzipBytes: zlib.gzipSync(Buffer.from(packManifestText), { level: 9 }).length
+  };
+}
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
@@ -232,6 +309,7 @@ function parseFieldAnimations(sprNo, spr, index, adrnRecords) {
     const action = spr.readUInt16LE(offset + 2);
     const dtAnim = spr.readUInt32LE(offset + 4);
     const frameCnt = spr.readUInt32LE(offset + 8);
+    const actionName = ACTION_BY_ID[action];
     offset += ANIM_HEADER_BYTES;
     const frames = [];
     for (let frameIndex = 0; frameIndex < frameCnt; frameIndex += 1) {
@@ -241,11 +319,10 @@ function parseFieldAnimations(sprNo, spr, index, adrnRecords) {
       const posY = spr.readInt16LE(offset + 6);
       const soundNo = spr.readUInt16LE(offset + 8);
       offset += FRAME_BYTES;
-      if (!adrnRecords.has(bitmapNo)) continue;
+      if (!actionName || !adrnRecords.has(bitmapNo)) continue;
       frames.push([bitmapNo, posX, posY, soundNo]);
       bitmapNos.add(bitmapNo);
     }
-    const actionName = ACTION_BY_ID[action];
     if (!actionName || !frames.length) continue;
     if (!actions[actionName]) actions[actionName] = {};
     actions[actionName][dir] = [
@@ -469,17 +546,27 @@ function renderMarkdown(data) {
   lines.push(`- Mode: ${data.summary.mode}`);
   lines.push(`- Sprite numbers: ${data.summary.spriteNos}`);
   lines.push(`- Source report sprite numbers: ${data.summary.sourceReportSpriteNos}`);
+  lines.push(`- Pack count: ${data.summary.packs}`);
   lines.push(`- Unique field bitmap frames: ${data.summary.uniqueBitmaps}`);
-  lines.push(`- Pack size: ${data.summary.packWidth}x${data.summary.packHeight}`);
-  lines.push(`- Fill ratio: ${data.summary.fillRatio}`);
+  lines.push(`- Primary pack size: ${data.summary.primaryPackWidth}x${data.summary.primaryPackHeight}`);
+  lines.push(`- Primary fill ratio: ${data.summary.primaryFillRatio}`);
+  lines.push(`- Total pack PNG bytes: ${formatBytes(data.summary.totalPackPngBytes || 0)}`);
   lines.push(`- Missing sprite indexes: ${data.summary.missingSpriteIndex.length}`);
   lines.push(`- Missing ADRN records: ${data.summary.missingAdrnRecords.length}`);
   lines.push("");
   lines.push("## Outputs");
   lines.push("");
   lines.push(`- Animation manifest: \`${data.output.animationManifest}\``);
-  lines.push(`- Pack manifest: \`${data.output.packManifest}\``);
-  lines.push(`- Pack image: \`${data.output.packImage}\``);
+  lines.push(`- Primary pack manifest: \`${data.output.primaryPackManifest}\``);
+  lines.push(`- Primary pack image: \`${data.output.primaryPackImage}\``);
+  lines.push("");
+  lines.push("## Largest Packs");
+  lines.push("");
+  lines.push("| Pack | Sprites | Frames | PNG | Fill |");
+  lines.push("| --- | --- | ---: | ---: | ---: |");
+  for (const pack of (data.packs || []).slice().sort((a, b) => b.pngBytes - a.pngBytes).slice(0, 10)) {
+    lines.push(`| ${pack.id} | ${(pack.spriteNos || []).join(", ") || "-"} | ${pack.frames} | ${formatBytes(pack.pngBytes)} | ${pack.fillRatio} |`);
+  }
   lines.push("");
   lines.push("## Important Sprites");
   lines.push("");

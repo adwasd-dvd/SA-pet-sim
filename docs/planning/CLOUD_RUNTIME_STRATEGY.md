@@ -124,7 +124,7 @@ Cloudflare Worker API gateway
   - field animation pack: 当前地图/区域需要的 `stand` / `walk`。
   - battle animation pack: 当前战斗需要的 `attack` / `damage` / `dead` / `stand` / `guard`。
 - `npm run report:pet-animations` 是宠物动画拆包前的验收入口：经典核心范围截至 2026-05-19 有 56 个原版 `sprNo`，5920 个 field stand/walk bitmap、7828 个 battle-core bitmap，且 `adrn_136.bin` 记录缺失为 0；这些必须分包懒加载，不能回灌进首屏 atlas。
-- `npm run profile:pet-field:classic-core` 先生成 priority 小包而不是全量 field 包：当前 `pet-field-priority.png` 约 2.43 MiB，覆盖乌力、奥卡洛斯等高频宠物；全量 56 个 sprite 的 field 包约 21.7 MiB，只能后续按地图/家族/单宠物继续拆。
+- `npm run profile:pet-field:classic-core` 生成 priority 小包 + 单 sprite 懒加载包：当前 `pet-field-priority.png` 约 1.16 MiB，全部 classic-core field stand/walk 分片合计约 7.71 MiB，覆盖 57 个本地验证 `sprNo`；战斗动作帧必须留给后续 `pet-battle-animation` 包，不能混进 field 包。
 - 原版 UI 资源单独成包：窗口皮肤、字段菜单、宠物/道具/状态/商店/对话窗口、战斗按钮优先使用客户端 `CG_*` 图。
 - 大资源和后期版本内容通过 R2 或分片 Static Assets 懒加载，并用版本化 manifest + Cache API/Service Worker 缓存。
 - 对应 backlog：`asset-pipeline-001`、`pet-assets-001`、`asset-pipeline-002`、`cloud-assets-001`。

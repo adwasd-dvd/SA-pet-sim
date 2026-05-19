@@ -1,23 +1,40 @@
 # Pet Field Animation Pack Report
 
-Generated: 2026-05-19T09:34:50.288Z
+Generated: 2026-05-19T10:16:03.887Z
 
 ## Summary
 
-- Mode: priority
-- Sprite numbers: 9
+- Mode: split-by-sprite
+- Sprite numbers: 57
 - Source report sprite numbers: 56
-- Unique field bitmap frames: 2135
-- Pack size: 2048x4696
-- Fill ratio: 0.9654
+- Pack count: 49
+- Unique field bitmap frames: 6016
+- Primary pack size: 2048x2392
+- Primary fill ratio: 0.9487
+- Total pack PNG bytes: 7.71 MiB
 - Missing sprite indexes: 0
 - Missing ADRN records: 0
 
 ## Outputs
 
 - Animation manifest: `public/data/profiles/classic-core/pet-field-animations.json`
-- Pack manifest: `public/data/profiles/classic-core/packs/pet-field-priority.json`
-- Pack image: `public/data/profiles/classic-core/packs/pet-field-priority.png`
+- Primary pack manifest: `public/data/profiles/classic-core/packs/pet-field-priority.json`
+- Primary pack image: `public/data/profiles/classic-core/packs/pet-field-priority.png`
+
+## Largest Packs
+
+| Pack | Sprites | Frames | PNG | Fill |
+| --- | --- | ---: | ---: | ---: |
+| pet-field-priority | 100250, 100251, 100252, 100256, 100261, 100296, 100370, 100371, 100388 | 1032 | 1.16 MiB | 0.9487 |
+| pet-field-spr-100355 | 100355 | 112 | 418.9 KiB | 0.8954 |
+| pet-field-spr-100278 | 100278 | 144 | 297.0 KiB | 0.9034 |
+| pet-field-spr-100277 | 100277 | 144 | 270.4 KiB | 0.8609 |
+| pet-field-spr-100367 | 100367 | 136 | 239.9 KiB | 0.9074 |
+| pet-field-spr-100909 | 100909 | 96 | 239.9 KiB | 0.8634 |
+| pet-field-spr-100271 | 100271 | 160 | 236.2 KiB | 0.923 |
+| pet-field-spr-100274 | 100274 | 160 | 234.3 KiB | 0.8711 |
+| pet-field-spr-100272 | 100272 | 160 | 208.9 KiB | 0.872 |
+| pet-field-spr-100434 | 100434 | 72 | 178.0 KiB | 0.7367 |
 
 ## Important Sprites
 

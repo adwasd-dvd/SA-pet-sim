@@ -1,26 +1,625 @@
 {
   "v": 1,
-  "generatedAt": "2026-05-19T09:34:50.288Z",
+  "generatedAt": "2026-05-19T10:16:03.887Z",
   "sourceReport": "docs/planning/pet-animation-coverage-report.json",
   "output": {
     "animationManifest": "public/data/profiles/classic-core/pet-field-animations.json",
-    "packManifest": "public/data/profiles/classic-core/packs/pet-field-priority.json",
-    "packImage": "public/data/profiles/classic-core/packs/pet-field-priority.png",
+    "primaryPackManifest": "public/data/profiles/classic-core/packs/pet-field-priority.json",
+    "primaryPackImage": "public/data/profiles/classic-core/packs/pet-field-priority.png",
     "buildReport": "docs/planning/pet-field-animation-pack-report.json"
   },
   "summary": {
-    "spriteNos": 9,
+    "spriteNos": 57,
     "sourceReportSpriteNos": 56,
-    "mode": "priority",
-    "uniqueBitmaps": 2135,
-    "packWidth": 2048,
-    "packHeight": 4696,
-    "packArea": 9617408,
-    "frameArea": 9284900,
-    "fillRatio": 0.9654,
+    "mode": "split-by-sprite",
+    "packs": 49,
+    "totalPackPngBytes": 8084228,
+    "uniqueBitmaps": 6016,
+    "primaryPackWidth": 2048,
+    "primaryPackHeight": 2392,
+    "primaryPackArea": 4898816,
+    "primaryFillRatio": 0.9487,
     "missingSpriteIndex": [],
     "missingAdrnRecords": []
   },
+  "packs": [
+    {
+      "id": "pet-field-priority",
+      "spriteNos": [
+        100250,
+        100251,
+        100252,
+        100256,
+        100261,
+        100296,
+        100370,
+        100371,
+        100388
+      ],
+      "frames": 1032,
+      "width": 2048,
+      "height": 2392,
+      "fillRatio": 0.9487,
+      "pngBytes": 1215234,
+      "manifestGzipBytes": 11930
+    },
+    {
+      "id": "pet-field-spr-100015",
+      "spriteNos": [
+        100015
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 133,
+      "fillRatio": 0.76,
+      "pngBytes": 68089,
+      "manifestGzipBytes": 986
+    },
+    {
+      "id": "pet-field-spr-100037",
+      "spriteNos": [
+        100037
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 171,
+      "fillRatio": 0.7848,
+      "pngBytes": 74810,
+      "manifestGzipBytes": 971
+    },
+    {
+      "id": "pet-field-spr-100110",
+      "spriteNos": [
+        100110
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 300,
+      "fillRatio": 0.6991,
+      "pngBytes": 146891,
+      "manifestGzipBytes": 1015
+    },
+    {
+      "id": "pet-field-spr-100195",
+      "spriteNos": [
+        100195
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 164,
+      "fillRatio": 0.6683,
+      "pngBytes": 74079,
+      "manifestGzipBytes": 954
+    },
+    {
+      "id": "pet-field-spr-100254",
+      "spriteNos": [
+        100254
+      ],
+      "frames": 112,
+      "width": 2048,
+      "height": 303,
+      "fillRatio": 0.8856,
+      "pngBytes": 159199,
+      "manifestGzipBytes": 1438
+    },
+    {
+      "id": "pet-field-spr-100257",
+      "spriteNos": [
+        100257
+      ],
+      "frames": 112,
+      "width": 2048,
+      "height": 312,
+      "fillRatio": 0.9328,
+      "pngBytes": 140364,
+      "manifestGzipBytes": 1467
+    },
+    {
+      "id": "pet-field-spr-100259",
+      "spriteNos": [
+        100259
+      ],
+      "frames": 136,
+      "width": 2048,
+      "height": 388,
+      "fillRatio": 0.8297,
+      "pngBytes": 143496,
+      "manifestGzipBytes": 1771
+    },
+    {
+      "id": "pet-field-spr-100262",
+      "spriteNos": [
+        100262
+      ],
+      "frames": 136,
+      "width": 2048,
+      "height": 305,
+      "fillRatio": 0.9361,
+      "pngBytes": 142633,
+      "manifestGzipBytes": 1792
+    },
+    {
+      "id": "pet-field-spr-100265",
+      "spriteNos": [
+        100265
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 187,
+      "fillRatio": 0.8925,
+      "pngBytes": 78557,
+      "manifestGzipBytes": 1225
+    },
+    {
+      "id": "pet-field-spr-100266",
+      "spriteNos": [
+        100266
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 177,
+      "fillRatio": 0.7653,
+      "pngBytes": 56914,
+      "manifestGzipBytes": 1200
+    },
+    {
+      "id": "pet-field-spr-100267",
+      "spriteNos": [
+        100267
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 323,
+      "fillRatio": 0.8574,
+      "pngBytes": 115182,
+      "manifestGzipBytes": 1312
+    },
+    {
+      "id": "pet-field-spr-100271",
+      "spriteNos": [
+        100271
+      ],
+      "frames": 160,
+      "width": 2048,
+      "height": 440,
+      "fillRatio": 0.923,
+      "pngBytes": 241856,
+      "manifestGzipBytes": 2092
+    },
+    {
+      "id": "pet-field-spr-100272",
+      "spriteNos": [
+        100272
+      ],
+      "frames": 160,
+      "width": 2048,
+      "height": 410,
+      "fillRatio": 0.872,
+      "pngBytes": 213876,
+      "manifestGzipBytes": 2042
+    },
+    {
+      "id": "pet-field-spr-100274",
+      "spriteNos": [
+        100274
+      ],
+      "frames": 160,
+      "width": 2048,
+      "height": 410,
+      "fillRatio": 0.8711,
+      "pngBytes": 239933,
+      "manifestGzipBytes": 2042
+    },
+    {
+      "id": "pet-field-spr-100277",
+      "spriteNos": [
+        100277
+      ],
+      "frames": 144,
+      "width": 2048,
+      "height": 660,
+      "fillRatio": 0.8609,
+      "pngBytes": 276871,
+      "manifestGzipBytes": 1997
+    },
+    {
+      "id": "pet-field-spr-100278",
+      "spriteNos": [
+        100278
+      ],
+      "frames": 144,
+      "width": 2048,
+      "height": 637,
+      "fillRatio": 0.9034,
+      "pngBytes": 304134,
+      "manifestGzipBytes": 2062
+    },
+    {
+      "id": "pet-field-spr-100280",
+      "spriteNos": [
+        100280
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 426,
+      "fillRatio": 0.7594,
+      "pngBytes": 123162,
+      "manifestGzipBytes": 1385
+    },
+    {
+      "id": "pet-field-spr-100282",
+      "spriteNos": [
+        100282
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 425,
+      "fillRatio": 0.7604,
+      "pngBytes": 120687,
+      "manifestGzipBytes": 1382
+    },
+    {
+      "id": "pet-field-spr-100291",
+      "spriteNos": [
+        100291
+      ],
+      "frames": 104,
+      "width": 2048,
+      "height": 193,
+      "fillRatio": 0.7296,
+      "pngBytes": 78643,
+      "manifestGzipBytes": 1367
+    },
+    {
+      "id": "pet-field-spr-100292",
+      "spriteNos": [
+        100292
+      ],
+      "frames": 104,
+      "width": 2048,
+      "height": 193,
+      "fillRatio": 0.7302,
+      "pngBytes": 87788,
+      "manifestGzipBytes": 1374
+    },
+    {
+      "id": "pet-field-spr-100293",
+      "spriteNos": [
+        100293
+      ],
+      "frames": 104,
+      "width": 2048,
+      "height": 208,
+      "fillRatio": 0.773,
+      "pngBytes": 94208,
+      "manifestGzipBytes": 1379
+    },
+    {
+      "id": "pet-field-spr-100294",
+      "spriteNos": [
+        100294
+      ],
+      "frames": 104,
+      "width": 2048,
+      "height": 208,
+      "fillRatio": 0.7733,
+      "pngBytes": 83273,
+      "manifestGzipBytes": 1393
+    },
+    {
+      "id": "pet-field-spr-100295",
+      "spriteNos": [
+        100295
+      ],
+      "frames": 144,
+      "width": 2048,
+      "height": 200,
+      "fillRatio": 0.8011,
+      "pngBytes": 80275,
+      "manifestGzipBytes": 1875
+    },
+    {
+      "id": "pet-field-spr-100297",
+      "spriteNos": [
+        100297
+      ],
+      "frames": 144,
+      "width": 2048,
+      "height": 197,
+      "fillRatio": 0.7997,
+      "pngBytes": 86315,
+      "manifestGzipBytes": 1864
+    },
+    {
+      "id": "pet-field-spr-100298",
+      "spriteNos": [
+        100298
+      ],
+      "frames": 144,
+      "width": 2048,
+      "height": 197,
+      "fillRatio": 0.7999,
+      "pngBytes": 91727,
+      "manifestGzipBytes": 1861
+    },
+    {
+      "id": "pet-field-spr-100326",
+      "spriteNos": [
+        100326
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 288,
+      "fillRatio": 0.7549,
+      "pngBytes": 108054,
+      "manifestGzipBytes": 1335
+    },
+    {
+      "id": "pet-field-spr-100335",
+      "spriteNos": [
+        100335
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 288,
+      "fillRatio": 0.7584,
+      "pngBytes": 103422,
+      "manifestGzipBytes": 1279
+    },
+    {
+      "id": "pet-field-spr-100336",
+      "spriteNos": [
+        100336
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 291,
+      "fillRatio": 0.7404,
+      "pngBytes": 133359,
+      "manifestGzipBytes": 1244
+    },
+    {
+      "id": "pet-field-spr-100337",
+      "spriteNos": [
+        100337
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 291,
+      "fillRatio": 0.7404,
+      "pngBytes": 132901,
+      "manifestGzipBytes": 1244
+    },
+    {
+      "id": "pet-field-spr-100339",
+      "spriteNos": [
+        100339
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 181,
+      "fillRatio": 0.8847,
+      "pngBytes": 91936,
+      "manifestGzipBytes": 1241
+    },
+    {
+      "id": "pet-field-spr-100340",
+      "spriteNos": [
+        100340
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 181,
+      "fillRatio": 0.8862,
+      "pngBytes": 78966,
+      "manifestGzipBytes": 1249
+    },
+    {
+      "id": "pet-field-spr-100341",
+      "spriteNos": [
+        100341
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 181,
+      "fillRatio": 0.8861,
+      "pngBytes": 80757,
+      "manifestGzipBytes": 1248
+    },
+    {
+      "id": "pet-field-spr-100355",
+      "spriteNos": [
+        100355
+      ],
+      "frames": 112,
+      "width": 2048,
+      "height": 696,
+      "fillRatio": 0.8954,
+      "pngBytes": 428969,
+      "manifestGzipBytes": 1539
+    },
+    {
+      "id": "pet-field-spr-100367",
+      "spriteNos": [
+        100367
+      ],
+      "frames": 136,
+      "width": 2048,
+      "height": 697,
+      "fillRatio": 0.9074,
+      "pngBytes": 245659,
+      "manifestGzipBytes": 1868
+    },
+    {
+      "id": "pet-field-spr-100384",
+      "spriteNos": [
+        100384
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 400,
+      "fillRatio": 0.9086,
+      "pngBytes": 106832,
+      "manifestGzipBytes": 1333
+    },
+    {
+      "id": "pet-field-spr-100401",
+      "spriteNos": [
+        100401
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 298,
+      "fillRatio": 0.7562,
+      "pngBytes": 152851,
+      "manifestGzipBytes": 978
+    },
+    {
+      "id": "pet-field-spr-100431",
+      "spriteNos": [
+        100431
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 332,
+      "fillRatio": 0.704,
+      "pngBytes": 161115,
+      "manifestGzipBytes": 1030
+    },
+    {
+      "id": "pet-field-spr-100432",
+      "spriteNos": [
+        100432
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 335,
+      "fillRatio": 0.7449,
+      "pngBytes": 173961,
+      "manifestGzipBytes": 1029
+    },
+    {
+      "id": "pet-field-spr-100433",
+      "spriteNos": [
+        100433
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 337,
+      "fillRatio": 0.7608,
+      "pngBytes": 172540,
+      "manifestGzipBytes": 1057
+    },
+    {
+      "id": "pet-field-spr-100434",
+      "spriteNos": [
+        100434
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 465,
+      "fillRatio": 0.7367,
+      "pngBytes": 182306,
+      "manifestGzipBytes": 1078
+    },
+    {
+      "id": "pet-field-spr-100436",
+      "spriteNos": [
+        100436
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 332,
+      "fillRatio": 0.704,
+      "pngBytes": 156124,
+      "manifestGzipBytes": 1034
+    },
+    {
+      "id": "pet-field-spr-100439",
+      "spriteNos": [
+        100439
+      ],
+      "frames": 72,
+      "width": 2048,
+      "height": 465,
+      "fillRatio": 0.7367,
+      "pngBytes": 178393,
+      "manifestGzipBytes": 1075
+    },
+    {
+      "id": "pet-field-spr-100823",
+      "spriteNos": [
+        100823
+      ],
+      "frames": 112,
+      "width": 2048,
+      "height": 305,
+      "fillRatio": 0.8866,
+      "pngBytes": 134192,
+      "manifestGzipBytes": 1451
+    },
+    {
+      "id": "pet-field-spr-100875",
+      "spriteNos": [
+        100875
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 292,
+      "fillRatio": 0.7646,
+      "pngBytes": 153688,
+      "manifestGzipBytes": 1253
+    },
+    {
+      "id": "pet-field-spr-100909",
+      "spriteNos": [
+        100909
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 555,
+      "fillRatio": 0.8634,
+      "pngBytes": 245657,
+      "manifestGzipBytes": 1373
+    },
+    {
+      "id": "pet-field-spr-101178",
+      "spriteNos": [
+        101178
+      ],
+      "frames": 96,
+      "width": 2048,
+      "height": 163,
+      "fillRatio": 0.7062,
+      "pngBytes": 59210,
+      "manifestGzipBytes": 1159
+    },
+    {
+      "id": "pet-field-spr-101280",
+      "spriteNos": [
+        101280
+      ],
+      "frames": 104,
+      "width": 2048,
+      "height": 418,
+      "fillRatio": 0.7537,
+      "pngBytes": 128230,
+      "manifestGzipBytes": 1328
+    },
+    {
+      "id": "pet-field-spr-101530",
+      "spriteNos": [
+        101530
+      ],
+      "frames": 80,
+      "width": 2048,
+      "height": 281,
+      "fillRatio": 0.7709,
+      "pngBytes": 136910,
+      "manifestGzipBytes": 1046
+    }
+  ],
   "importantSprites": [
     {
       "sprNo": 100250,
