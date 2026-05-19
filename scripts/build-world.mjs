@@ -453,12 +453,13 @@ function parseNpcs() {
       const trade = readNpcTrade(argPath, file);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
       const itemChange = readNpcItemChange(argPath, file);
+      const savePoint = readNpcSavePoint(argPath, file);
       const warp = readNpcWarp(argPath, file);
       const functionset = template.functionset || enemy.template || "NPC";
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -474,6 +475,7 @@ function parseNpcs() {
         ...(trade ? { trade } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
         ...(itemChange ? { itemChange } : {}),
+        ...(savePoint ? { savePoint } : {}),
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
         ...(scriptEvents?.length ? { scriptEvents } : {}),
@@ -942,6 +944,57 @@ function parseNpcItemChangeRecipe(rawBlock, file, index) {
     free: cleanName(kv.free || ""),
     source: `${relativeRef(file)}#${index + 1}`
   };
+}
+
+function readNpcSavePoint(argPath, createFile) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const kv = parseColonFile(text);
+  if (!kv.born) return null;
+  const bornParts = String(kv.born || "")
+    .split(",")
+    .map((part) => Number(part.trim()));
+  const hasBorn = bornParts.length >= 3 && bornParts.slice(0, 3).every((value) => Number.isFinite(value));
+  const requiredAlternatives = parseSavePointRequirementAlternatives(kv.getitem || "");
+  return {
+    kind: "savepoint",
+    source: relativeRef(file),
+    id: Number(kv.id || 0) || 0,
+    ...(hasBorn ? {
+      born: {
+        mapId: String(bornParts[0]),
+        floor: bornParts[0],
+        x: bornParts[1],
+        y: bornParts[2]
+      }
+    } : {}),
+    noItem: /\bNOITEM\b/i.test(text),
+    ...(requiredAlternatives.length ? { requiredAlternatives } : {}),
+    messages: {
+      normal: cleanScriptText(kv.nomalmsg || kv.normalmsg || ""),
+      request: cleanScriptText(kv.requestmsg || ""),
+      ok: cleanScriptText(kv.okmsg || ""),
+      confirm: cleanScriptText(kv.realymsg || kv.reallymsg || "")
+    }
+  };
+}
+
+function parseSavePointRequirementAlternatives(value = "") {
+  return String(value || "")
+    .split(",")
+    .map((alternative) => alternative
+      .split("&")
+      .map((part) => {
+        const match = part.trim().match(/^(\d+)(?:\*(\d+))?$/);
+        if (!match) return null;
+        const item = compactScriptItem(Number(match[1]));
+        if (!item) return null;
+        return { ...item, qty: Math.max(1, Number(match[2] || 1)) };
+      })
+      .filter(Boolean))
+    .filter((items) => items.length)
+    .slice(0, 16);
 }
 
 function readNpcScriptEvents(argPath, createFile, functionset) {
@@ -1516,12 +1569,13 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petSkillShop) actions.push("petSkillShop");
   if (itemChange) actions.push("itemChange");
+  if (savePoint) actions.push("save");
   if (warp) actions.push("warp");
   if (npcEnemy) actions.push("battle");
   if (!file) return actions.length ? { actions } : null;
@@ -1530,7 +1584,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
-    const match = line.match(/^(EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY)\s*[:=]\s*(.*)$/i);
+    const match = line.match(/^(EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM)\s*[:=]\s*(.*)$/i);
     if (!match) continue;
     const value = cleanScriptText(`${match[1]}:${match[2]}`).replace(/\s+/g, " ");
     if (value && !hints.includes(value)) hints.push(value);

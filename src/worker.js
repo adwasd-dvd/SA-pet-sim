@@ -5691,7 +5691,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
   if (!game.encounter && isNpcAiMode(game, npc) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
-  if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
+  if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (npc.itemChange?.recipes?.length && hasAny(lower, ["加工", "合成", "制作", "製作", "打造", "换物", "交換", "交换", "change"])) return itemChangePromptReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
@@ -7460,23 +7460,160 @@ function healParty(game) {
   }
 }
 
-function savePointReply(game, npc) {
+function savePointReply(game, npc, text = "") {
   ensureFlags(game);
+  const savePoint = npc.savePoint || {};
+  const sourceId = sourceSavePointId(npc);
+  if (savePoint.noItem && sourceId > 0) registerSourceSavePoint(game, sourceId);
+  const registered = sourceId > 0 && isSourceSavePointRegistered(game, sourceId);
+  const requirement = sourceSavePointRequirement(game, npc);
+  if (!registered && requirement.required) {
+    if (!requirement.ok) {
+      clearPendingSavePointConfirm(game, npc);
+      recordNpcVmEvent(game, npc, "save", "blocked", {
+        reason: "source-savepoint-missing-item",
+        sourceId,
+        required: requirement.summary,
+        source: savePoint.source || npc.script || npc.source || ""
+      });
+      const request = formatSavePointMessage(game, savePoint.messages?.request || `${npc.name}：想在这里记录，需要准备指定道具。`);
+      return `${request}\n需要：${requirement.summary}。\n来源：${savePoint.source || npc.script || npc.source || "gmsv npc_savepoint"}`;
+    }
+    if (!hasPendingSavePointConfirm(game, npc) || !isSavePointConfirmText(text)) {
+      game.flags.pendingSavePoint = {
+        npcId: npc.id,
+        sourceId,
+        items: requirement.alternative.map((item) => ({ id: item.id, name: item.name, qty: item.qty })),
+        source: savePoint.source || npc.script || npc.source || ""
+      };
+      runNpcVmAction(game, npc, {
+        type: "window",
+        reason: "source-savepoint-confirm",
+        sourceId,
+        required: requirement.summary,
+        source: savePoint.source || npc.script || npc.source || ""
+      });
+      const confirm = formatSavePointMessage(game, savePoint.messages?.confirm || `${npc.name}：要用这些道具记录这里吗？`);
+      return `${confirm}\n将消耗：${requirement.alternative.map(sourceSavePointItemLabel).join("、")}。\n输入“确认记录”继续。`;
+    }
+    for (const item of requirement.alternative) {
+      const taken = runNpcVmAction(game, npc, {
+        type: "take",
+        itemId: item.id,
+        itemName: item.name,
+        qty: item.qty,
+        reason: "source-savepoint-getitem",
+        source: savePoint.source || npc.script || npc.source || ""
+      });
+      if (!taken.ok) {
+        clearPendingSavePointConfirm(game, npc);
+        return `${npc.name}：记录需要的 ${sourceSavePointItemLabel(item)} 已经不在背包里了。`;
+      }
+    }
+  }
+  clearPendingSavePointConfirm(game, npc);
   const now = new Date().toISOString();
-  game.savePoint = {
+  const born = sourceSavePointBorn(npc);
+  runNpcVmAction(game, npc, {
+    type: "save",
+    reason: "source-savepoint",
+    sourceId,
+    born,
+    mapId: game.location.mapId,
+    x: game.location.x,
+    y: game.location.y,
     npcId: npc.id,
     npcName: npc.name,
-    mapId: game.location.mapId,
-    x: npc.x,
-    y: npc.y,
-    source: npc.source || npc.script || npc.template,
+    source: savePoint.source || npc.script || npc.source || "",
     savedAt: now
-  };
-  game.character.updatedAt = now;
+  });
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "savepoint"), "end", "savepoint");
   addLog(game, `${npc.name} 已记录你的冒险进度。`);
-  recordNpcVmEvent(game, npc, "save", "ok", { mapId: game.location.mapId, x: game.location.x, y: game.location.y });
-  return `${npc.name} 已记录你的冒险进度。\n来源：gmsv npc_savepoint 会设置 LASTTALKELDER 并触发 SAAC 角色保存。`;
+  const key = registered ? "normal" : "ok";
+  const message = formatSavePointMessage(game, savePoint.messages?.[key] || `${npc.name} 已记录你的冒险进度。`);
+  const bornLine = born ? `记录点：floor ${born.mapId} (${born.x},${born.y})。` : "";
+  return `${message}\n${bornLine}来源：gmsv npc_savepoint 会设置 CHAR_SAVEPOINT / LASTTALKELDER 并触发 SAAC 角色保存。`;
+}
+
+function hasPendingSavePointConfirm(game, npc) {
+  return String(game?.flags?.pendingSavePoint?.npcId || "") === String(npc?.id || "");
+}
+
+function clearPendingSavePointConfirm(game, npc) {
+  if (hasPendingSavePointConfirm(game, npc)) delete game.flags.pendingSavePoint;
+}
+
+function isSavePointConfirmText(text = "") {
+  return hasAny(String(text || "").toLowerCase(), ["确认", "確定", "确定", "是", "好", "yes", "ok"]);
+}
+
+function sourceSavePointId(npc) {
+  return clampInt(npc?.savePoint?.id, 0, 63, 0);
+}
+
+function sourceSavePointBorn(npc) {
+  const born = npc?.savePoint?.born;
+  if (!born) return null;
+  const mapId = String(born.mapId || born.floor || "");
+  const x = Number(born.x);
+  const y = Number(born.y);
+  if (!mapId || !Number.isFinite(x) || !Number.isFinite(y)) return null;
+  return { mapId, floor: Number(born.floor || mapId), x, y };
+}
+
+function isSourceSavePointRegistered(game, sourceId) {
+  ensureFlags(game);
+  if ((game.flags.savePointIds || []).map(Number).includes(Number(sourceId))) return true;
+  if (sourceId >= 0 && sourceId < 32) return Boolean((Number(game.player?.savePointMask || game.player?.SavePoint || 0) >>> 0) & (2 ** sourceId));
+  return false;
+}
+
+function registerSourceSavePoint(game, sourceId) {
+  ensureFlags(game);
+  game.flags.savePointIds ||= [];
+  if (!game.flags.savePointIds.map(Number).includes(Number(sourceId))) game.flags.savePointIds.push(Number(sourceId));
+  game.flags.savePointIds = game.flags.savePointIds.map(Number).filter((id) => Number.isFinite(id) && id >= 0).slice(0, 64);
+  if (sourceId >= 0 && sourceId < 32) {
+    const bit = 2 ** sourceId;
+    game.player.savePointMask = (Number(game.player.savePointMask || game.player.SavePoint || 0) | bit) >>> 0;
+    game.player.SavePoint = game.player.savePointMask;
+  }
+}
+
+function sourceSavePointRequirement(game, npc) {
+  const alternatives = Array.isArray(npc?.savePoint?.requiredAlternatives) ? npc.savePoint.requiredAlternatives : [];
+  if (!alternatives.length) return { required: false, ok: true, alternative: [], summary: "" };
+  const normalized = alternatives
+    .map((alternative) => alternative.map((item) => ({
+      ...item,
+      id: Number(item.id),
+      qty: Math.max(1, Number(item.qty || 1))
+    })).filter((item) => Number.isFinite(item.id) && item.id > 0))
+    .filter((alternative) => alternative.length);
+  const summary = normalized.slice(0, 4).map((alternative) => alternative.map(sourceSavePointItemLabel).join(" + ")).join(" 或 ");
+  const okAlternative = normalized.find((alternative) => alternative.every((item) => inventoryItemCount(game, item.id) >= item.qty));
+  return {
+    required: true,
+    ok: Boolean(okAlternative),
+    alternative: okAlternative || normalized[0] || [],
+    summary: summary || "原脚本指定道具"
+  };
+}
+
+function inventoryItemCount(game, itemId) {
+  return (game.inventory || [])
+    .filter((item) => Number(item.id) === Number(itemId))
+    .reduce((sum, item) => sum + Number(item.qty || 0), 0);
+}
+
+function sourceSavePointItemLabel(item) {
+  return `${item.name || `item ${item.id}`} x${Math.max(1, Number(item.qty || 1))}`;
+}
+
+function formatSavePointMessage(game, message = "") {
+  return String(message || "")
+    .replace(/%s/g, game.player?.name || "")
+    .trim();
 }
 
 function warpPromptReply(game, npc) {
@@ -9231,10 +9368,38 @@ function applyNpcVmMutation(game, type, action) {
   if (type === "give") return applyNpcVmGive(game, action);
   if (type === "takePet") return applyNpcVmTakePet(game, action);
   if (type === "givePet") return applyNpcVmGivePet(game, action);
+  if (type === "save") return applyNpcVmSave(game, action);
   if (type === "effect") return applyNpcVmEffect(game, action);
   if (type === "startBattle") return applyNpcVmStartBattle(game, action);
   if (type === "battleAction") return applyNpcVmBattleAction(game, action);
   return { ok: true, mutated: false };
+}
+
+function applyNpcVmSave(game, action) {
+  ensureFlags(game);
+  const now = action.savedAt || new Date().toISOString();
+  const sourceId = clampInt(action.sourceId, 0, 63, 0);
+  if (sourceId > 0) registerSourceSavePoint(game, sourceId);
+  const born = action.born || null;
+  game.savePoint = {
+    npcId: action.npcId || "",
+    npcName: action.npcName || "",
+    mapId: action.mapId || game.location?.mapId,
+    x: Number(action.x ?? game.location?.x ?? 0),
+    y: Number(action.y ?? game.location?.y ?? 0),
+    sourceId,
+    ...(born ? { born: { ...born } } : {}),
+    source: action.source || "",
+    savedAt: now
+  };
+  game.player.LastTalkElder = sourceId;
+  game.player.CHAR_LASTTALKELDER = sourceId;
+  game.characterFields ||= {};
+  game.characterFields.work ||= {};
+  game.characterFields.work.CHAR_LASTTALKELDER = sourceId;
+  game.character ||= {};
+  game.character.updatedAt = now;
+  return { ok: true, mutated: true, sourceId, born, savedAt: now };
 }
 
 function applyNpcVmEffect(game, action) {
@@ -12133,6 +12298,7 @@ function buildSaveJson(game) {
       bits: { ...(game.flags?.bits || {}) },
       npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) },
       npcEnemyDefeats: { ...(game.flags?.npcEnemyDefeats || {}) },
+      savePointIds: [...(game.flags?.savePointIds || [])],
       angelMission: game.flags?.angelMission ? { ...game.flags.angelMission } : null
     },
     effects: { ...(game.effects || {}) },
@@ -12635,6 +12801,9 @@ function ensureFlags(game) {
   game.flags.npcEnemyDefeats ||= {};
   game.flags.npcPositions ||= {};
   game.flags.npcWarpCounters ||= {};
+  game.flags.savePointIds = Array.isArray(game.flags.savePointIds)
+    ? game.flags.savePointIds.map(Number).filter((id) => Number.isFinite(id) && id >= 0).slice(0, 64)
+    : [];
 }
 
 function normalizeFlagArray(value) {

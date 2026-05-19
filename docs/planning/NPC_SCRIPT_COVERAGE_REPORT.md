@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-19T15:05:28.906Z
+Generated: 2026-05-19T19:14:53.286Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -58,7 +58,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Born | unknown | 14 | 16 | 16 | 29 | external/sources/ref___data/npc/genout/sp_1000_94_99:2 |
 | NEWEVENT1 | candidate-action | 11 | 11 | 11 | 141 | external/sources/ref___data/npc/eden1/init/event81_6f.arg:18 |
 | onebattle | candidate-action | 10 | 10 | 10 | 261 | external/sources/ref___data/npc/100/sb_jba.arg:13 |
 | special_pet | candidate-action | 9 | 9 | 9 | 16 | external/sources/ref___data/npc/genout/ps_1003_12_13:13 |
@@ -83,10 +82,11 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | pool_cost | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:11 |
 | pool_flg | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:10 |
 | poolfull_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:8 |
+| pooltanks_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:7 |
 
 ## Recommended Next Slice
 
-- Start with `Born`, because it appears in classic-core source references 14 times.
+- Start with `NEWEVENT1`, because it appears in classic-core source references 11 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

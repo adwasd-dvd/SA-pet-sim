@@ -2776,10 +2776,11 @@ export const WORLD = {
               "EVENT:ENDEV=4&ENDEV=34&ENDEV=33&ENDEV=32&ENDEV=105&NOWEV=172&ITEM=19550",
               "EVENT:ENDEV=4&ITEM=2603&ENDEV=33&ENDEV=32",
               "DelItem:2603",
+              "GetItem:2604",
               "EVENT:ENDEV=4&ITEM=2603&ENDEV=32",
+              "GetItem:2605",
               "EVENT:ENDEV=4&ITEM=2603",
-              "EVENT:ENDEV=4&ITEM=2603&ENDEV=34&ENDEV=33&ENDEV=32,LV>34&ITEM=2603",
-              "EVENT:LV>0,ENDEV=4&ITEM!=2603&ITEM!=19550"
+              "GetItem:2606"
             ],
             "source": "gmsv-data/npc/seimu/event/event01_2"
           },
@@ -6620,10 +6621,11 @@ export const WORLD = {
               "EVENT:ENDEV=4&ENDEV=34&ENDEV=33&ENDEV=32&ENDEV=105&NOWEV=172&ITEM=19550",
               "EVENT:ENDEV=4&ITEM=2603&ENDEV=33&ENDEV=32",
               "DelItem:2603",
+              "GetItem:2604",
               "EVENT:ENDEV=4&ITEM=2603&ENDEV=32",
+              "GetItem:2605",
               "EVENT:ENDEV=4&ITEM=2603",
-              "EVENT:ENDEV=4&ITEM=2603&ENDEV=34&ENDEV=33&ENDEV=32,LV>34&ITEM=2603",
-              "EVENT:LV>0,ENDEV=4&ITEM!=2603&ITEM!=19550"
+              "GetItem:2606"
             ],
             "source": "gmsv-data/npc/seimu/event/event01_2"
           },
@@ -13932,6 +13934,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2579",
               "DelItem:2579",
+              "GetItem:2580",
               "EVENT:LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578",
               "EVENT:LV>0"
@@ -14245,10 +14248,10 @@ export const WORLD = {
               "DelItem:2607",
               "EVENT:LV>0&NOWEV=35&ITEM=2607",
               "EVENT:LV>0&PET=25-223*1&PET=25-224*1&ITEM!=2607&NOWEV=35",
+              "GetItem:2607",
               "EVENT:LV>0&ENDEV!=35",
               "EVENT:LV>0&PET=25-558*1&PET=25-293*1&ITEM=2607&ENDEV=35,LV>0&PET=25-292*1&PET=25-293*1&ITEM=2607&ENDEV=35",
-              "EVENT:LV>0&ITEM=2607&ENDEV=35",
-              "EVENT:LV>0&PET=25-291*1&PET=25-294*1&ITEM!=2607&ENDEV=35"
+              "EVENT:LV>0&ITEM=2607&ENDEV=35"
             ],
             "source": "gmsv-data/npc/seimu/event/event02_1"
           },
@@ -14501,6 +14504,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2576",
               "DelItem:2576",
+              "GetItem:2577",
               "EVENT:LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575",
               "EVENT:LV>0"
@@ -14539,9 +14543,274 @@ export const WORLD = {
           "script": "file:genout/sp_100_183_346",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_100_183_346",
+            "id": 21,
+            "born": {
+              "mapId": "100",
+              "floor": 100,
+              "x": 181,
+              "y": 346
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1642,
+                  "name": "布伊的肉",
+                  "image": 24007,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2212,
+                  "name": "火鸡的肉",
+                  "image": 24004,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1642,
+                  "name": "布伊的肉",
+                  "image": 24007,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2213,
+                  "name": "火鸡的肉",
+                  "image": 24031,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1642,
+                  "name": "布伊的肉",
+                  "image": 24007,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2214,
+                  "name": "火鸡的肉",
+                  "image": 24013,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1643,
+                  "name": "布伊的肉",
+                  "image": 24034,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                },
+                {
+                  "id": 2213,
+                  "name": "火鸡的肉",
+                  "image": 24031,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1644,
+                  "name": "布伊的肉",
+                  "image": 24016,
+                  "cost": 50,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力50前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体50",
+                  "qty": 1
+                },
+                {
+                  "id": 2213,
+                  "name": "火鸡的肉",
+                  "image": 24031,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1642,
+                  "name": "布伊的肉",
+                  "image": 24007,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2214,
+                  "name": "火鸡的肉",
+                  "image": 24013,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1643,
+                  "name": "布伊的肉",
+                  "image": 24034,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                },
+                {
+                  "id": 2214,
+                  "name": "火鸡的肉",
+                  "image": 24013,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1644,
+                  "name": "布伊的肉",
+                  "image": 24016,
+                  "cost": 50,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力50前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体50",
+                  "qty": 1
+                },
+                {
+                  "id": 2214,
+                  "name": "火鸡的肉",
+                  "image": 24013,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记下来了。之后的旅途也请加油。",
+              "request": "如果你给我各一个布伊和火鸡的肉的话 我就帮你记录。 为了要继续旅程一定要带什么东西到检查站， 不然是不会帮你记录的。",
+              "ok": "那以后也欢迎你来玩。 找我说话的话 下次就可以登入了。",
+              "confirm": "那肉我就收下了！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:100,181,346",
+              "GetItem:1642*1&2212*1,1642*1&2213*1,1642*1&2214*1,1643*1&2213*1,1644*1&2213*1,1642*1&2214*1,1643*1&2214*1,1644*1&2214*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_100_183_346"
           }
         },
@@ -15919,10 +16188,10 @@ export const WORLD = {
               "DelItem:2727",
               "EVENT:LV>0&ITEM=2726",
               "DelItem:2726",
+              "GetItem:2727",
               "EVENT:LV>0&ITEM=2725",
               "DelItem:2725",
-              "EVENT:LV>0&ITEM=2724",
-              "DelItem:2724"
+              "GetItem:2726"
             ],
             "source": "gmsv-data/npc/sainasu/event/rion"
           },
@@ -15958,9 +16227,474 @@ export const WORLD = {
           "script": "file:genout/sp_100_344_466",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_100_344_466",
+            "id": 20,
+            "born": {
+              "mapId": "100",
+              "floor": 100,
+              "x": 342,
+              "y": 466
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 2044,
+                  "name": "贝恩达斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1612,
+                  "name": "乌力斯坦的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2320,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24000,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2044,
+                  "name": "贝恩达斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1612,
+                  "name": "乌力斯坦的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2321,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24027,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2044,
+                  "name": "贝恩达斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1613,
+                  "name": "乌力斯坦的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2320,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24000,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2044,
+                  "name": "贝恩达斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1613,
+                  "name": "乌力斯坦的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2321,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24027,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2045,
+                  "name": "贝恩达斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1612,
+                  "name": "乌力斯坦的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2320,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24000,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2045,
+                  "name": "贝恩达斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1612,
+                  "name": "乌力斯坦的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2321,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24027,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2045,
+                  "name": "贝恩达斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1613,
+                  "name": "乌力斯坦的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2320,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24000,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2045,
+                  "name": "贝恩达斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1613,
+                  "name": "乌力斯坦的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2321,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24027,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2045,
+                  "name": "贝恩达斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1612,
+                  "name": "乌力斯坦的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2321,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24027,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2045,
+                  "name": "贝恩达斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1613,
+                  "name": "乌力斯坦的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2320,
+                  "name": "邦洛洛克斯的肉",
+                  "image": 24000,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "先生，我记下来了。",
+              "request": "请给我贝恩达斯、乌力斯坦、邦洛洛克斯 的肉各一个好吗？ 我会把你记下来 以报答你的。",
+              "ok": "我知道了！以后有需要我的时候 请跟我说一声。我一定会帮你的。",
+              "confirm": "那这三个肉我就收下了 谢啦！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:100,342,466",
+              "GetItem:2044*1&1612*1&2320*1,2044*1&1612*1&2321*1,2044*1&1613*1&2320*1,2044*1&1613*1&2321*1,2045*1&1612*1&2320*1,2045*1&1612*1&2321*1,2045*1&1613*1&2320*1,2045*1&1613*1&2321*1,2045*1&1612*1&2321*1,2045*1&1613*1&2320*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_100_344_466"
           }
         },
@@ -16089,7 +16823,8 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM!=11848&ITEM!=11829&ITEM!=11887&ITEM!=12025&ITEM!=11903",
               "EVENT:LV>0&ITEM=11848&ITEM=11829&ITEM=11887&ITEM=12025&ITEM=11903",
-              "DelItem:11848*1,11829*1,11887*1,12025*1,11903*1"
+              "DelItem:11848*1,11829*1,11887*1,12025*1,11903*1",
+              "GetItem:2399*1"
             ],
             "source": "gmsv-data/npc/sa80/gloves/gloves_1"
           },
@@ -16247,6 +16982,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2586",
               "DelItem:2586",
+              "GetItem:2587",
               "EVENT:LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2547,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585",
               "EVENT:LV>0"
@@ -16390,6 +17126,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575",
               "DelItem:2575",
+              "GetItem:2576",
               "EVENT:LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0"
             ],
@@ -16549,6 +17286,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2581",
               "DelItem:2581",
+              "GetItem:2582",
               "EVENT:LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580",
               "EVENT:LV>0"
@@ -20102,6 +20840,7 @@ export const WORLD = {
             "hints": [
               "EVENT:NOWEV=37&LV>49&ITEM=2687&ITEM!=2697",
               "DelItem:2687",
+              "GetItem:2697",
               "EVENT:ENDEV=37&ENDEV=38&LV>49&ITEM!=2697,ENDEV=37&LV>49&ITEM!=2697",
               "EVENT:NOWEV!=37&ENDEV!=37&LV>39&ITEM!=2697",
               "EVENT:LV>0"
@@ -24848,6 +25587,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0",
+              "GetItem:2602",
               "EVENT:ITEM=2054"
             ],
             "source": "gmsv-data/npc/chatroom/ticket130"
@@ -39363,6 +40103,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2553",
               "DelItem:2553",
+              "GetItem:2554",
               "EVENT:LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -39389,9 +40130,430 @@ export const WORLD = {
           "script": "file:genout/sp_200_406_371",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_200_406_371",
+            "id": 22,
+            "born": {
+              "mapId": "200",
+              "floor": 200,
+              "x": 404,
+              "y": 371
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1762,
+                  "name": "尼可斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1763,
+                  "name": "尼可斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1764,
+                  "name": "尼可斯的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1765,
+                  "name": "尼可斯的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1766,
+                  "name": "尼可斯的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1767,
+                  "name": "尼可斯的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1762,
+                  "name": "尼可斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1763,
+                  "name": "尼可斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1762,
+                  "name": "尼可斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1764,
+                  "name": "尼可斯的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1762,
+                  "name": "尼可斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1765,
+                  "name": "尼可斯的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1762,
+                  "name": "尼可斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1766,
+                  "name": "尼可斯的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1762,
+                  "name": "尼可斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1767,
+                  "name": "尼可斯的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1763,
+                  "name": "尼可斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1764,
+                  "name": "尼可斯的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1763,
+                  "name": "尼可斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1765,
+                  "name": "尼可斯的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1763,
+                  "name": "尼可斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1766,
+                  "name": "尼可斯的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1763,
+                  "name": "尼可斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1767,
+                  "name": "尼可斯的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1764,
+                  "name": "尼可斯的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                },
+                {
+                  "id": 1765,
+                  "name": "尼可斯的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好我帮你记录。",
+              "request": "请给我两个尼可斯的肉。 给我的话我随时都可以 帮你记录。",
+              "ok": "以后不管什么时候都可以来记录。 其它的检查站也会像你要 一些东西。不过要冒险，这些都是 少不了的喔！",
+              "confirm": "那这个尼可斯的肉我就收下了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:200,404,371",
+              "GetItem:1762*2,1763*2,1764*2,1765*2,1766*2,1767*2,1762*1&1763*1,1762*1&1764*1,1762*1&1765*1,1762*1&1766*1,1762*1&1767*1,1763*1&1764*1,1763*1&1765*1,1763*1&1766*1,1763*1&1767*1,1764*1&1765*1,1764*1&1766*1,1764*1&1767*1,1765*1&1766*1,1765*1&1767*1,1766*1&1767*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_200_406_371"
           }
         },
@@ -39537,6 +40699,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2552&ENDEV=2",
               "DelItem:2552",
+              "GetItem:2553",
               "EVENT:LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0"
@@ -39658,6 +40821,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>29&ITEM=2414&ITEM=1834&ENDEV=4&ITEM=1835",
               "EVENT:LV>29&ITEM=2414&ENDEV=4&ITEM=1834",
+              "GetItem:1835",
               "EVENT:LV>0&ITEM=2414",
               "EVENT:LV>0"
             ],
@@ -39816,6 +40980,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2554",
               "DelItem:2554",
+              "GetItem:2555",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553",
               "EVENT:LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -39976,6 +41141,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2555",
               "DelItem:2555",
+              "GetItem:2556",
               "EVENT:LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -40237,10 +41403,10 @@ export const WORLD = {
               "EVENT:LV>29&ITEM=1793&NOWEV=142",
               "EVENT:LV>29&ITEM=1791&NOWEV=142&ITEM=12629",
               "DelItem:12629*1,1791*1",
+              "GetItem:1793",
               "EVENT:LV>29&ITEM=1791&NOWEV=142&ITEM!=12629",
               "EVENT:LV>29&ITEM=1794&NOWEV=142",
-              "EVENT:LV>29&ITEM=12860&NOWEV=142",
-              "DelItem:12860"
+              "GetItem:1791"
             ],
             "source": "gmsv-data/npc/sa70/apple/apple3.arg"
           },
@@ -40397,6 +41563,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2556",
               "DelItem:2556",
+              "GetItem:2557",
               "EVENT:LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -40557,6 +41724,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2557",
               "DelItem:2557",
+              "GetItem:2558",
               "EVENT:LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -40583,9 +41751,416 @@ export const WORLD = {
           "script": "file:genout/sp_200_449_982",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_200_449_982",
+            "id": 23,
+            "born": {
+              "mapId": "200",
+              "floor": 200,
+              "x": 447,
+              "y": 982
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1990,
+                  "name": "卡克尔的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1991,
+                  "name": "卡克尔的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1992,
+                  "name": "卡克尔的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1993,
+                  "name": "卡克尔的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1994,
+                  "name": "卡克尔的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1995,
+                  "name": "卡克尔的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1990,
+                  "name": "卡克尔的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1991,
+                  "name": "卡克尔的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1990,
+                  "name": "卡克尔的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1992,
+                  "name": "卡克尔的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1990,
+                  "name": "卡克尔的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1993,
+                  "name": "卡克尔的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1990,
+                  "name": "卡克尔的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1994,
+                  "name": "卡克尔的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1990,
+                  "name": "卡克尔的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1995,
+                  "name": "卡克尔的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1992,
+                  "name": "卡克尔的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1991,
+                  "name": "卡克尔的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1993,
+                  "name": "卡克尔的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1991,
+                  "name": "卡克尔的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1994,
+                  "name": "卡克尔的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1991,
+                  "name": "卡克尔的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1995,
+                  "name": "卡克尔的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1992,
+                  "name": "卡克尔的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                },
+                {
+                  "id": 1993,
+                  "name": "卡克尔的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好！。让我帮你记录吧！",
+              "request": "请给我两个卡克尔的肉。 如果你有的话我就帮 你记录。",
+              "ok": "以后你要什么时候来都可以。 其它的检查站也会像你要 一些东西。不过要冒险，这些都是 少不了的喔！",
+              "confirm": "那这两个卡克尔的肉我就收下了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:200,447,982",
+              "GetItem:1990*2,1991*2,1992*2,1993*2,1994*2,1995*2,1990*1&1991*1,1990*1&1992*1,1990*1&1993*1,1990*1&1994*1,1990*1&1995*1,1991*&1992*1,1991*1&1993*1,1991*1&1994*1,1991*1&1995*1,1992*1&1993*1,1992*1&1994*1,1992*1&1995*1,1993*1&1994*1,1993*1&1994*1,1994*1&1995*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_200_449_982"
           }
         },
@@ -40750,6 +42325,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ENDEV=39",
               "EVENT:NOWEV=39&ITEM!=2698",
+              "GetItem:2698",
               "EVENT:NOWEV=39&ITEM=2698",
               "EVENT:LV>0"
             ],
@@ -41036,11 +42612,11 @@ export const WORLD = {
               "EVENT:LV>79&ENDEV=4&ENDEV=136&TIME=0",
               "EVENT:LV>79&ENDEV=4&ITEM=1677&TIME=0&ITEM=1679&NOWEV=136",
               "DelItem:1677*1,1679*1",
+              "GetItem:1680*5",
               "EVENT:LV>79&ENDEV=4&NOWEV=136&ITEM=1679&TIME=0",
               "EVENT:LV>79&ENDEV=4&ITEM=1676&TIME=0&NOWEV=136",
               "DelItem:1676*1",
-              "EVENT:LV>79&ENDEV=4&NOWEV=136&ITEM=1678&TIME=0",
-              "EVENT:LV>79&ENDEV=4&TIME=0&NOWEV=136"
+              "GetItem:1679*1"
             ],
             "source": "gmsv-data/npc/sa60/tear/tear.arg"
           },
@@ -41127,7 +42703,8 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=1721",
-              "EVENT:LV>0&ITEM!=1721"
+              "EVENT:LV>0&ITEM!=1721",
+              "GetItem:1721*1"
             ],
             "source": "gmsv-data/npc/sa60/newbie/breath"
           },
@@ -41263,7 +42840,8 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM!=11848&ITEM!=1726&ITEM!=11887&ITEM!=12025&ITEM!=11903",
               "EVENT:LV>0&ITEM=11848&ITEM=1726&ITEM=11887&ITEM=12025&ITEM=11903",
-              "DelItem:11848*1,1726*1,11887*1,12025*1,11903*1"
+              "DelItem:11848*1,1726*1,11887*1,12025*1,11903*1",
+              "GetItem:2739*1"
             ],
             "source": "gmsv-data/npc/sa80/gloves/gloves_2"
           },
@@ -43683,12 +45261,12 @@ export const WORLD = {
             "hints": [
               "EVENT:PET>0-560*5&ITEM=2590*1&ITEM=2594,PET>0-560*4&ITEM=2590*1&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2590*1&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2590*1&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2590*1&ITEM=2589*4&ITEM=2594",
               "DelItem:EVDEL",
+              "GetItem:2591*1",
               "EVENT:PET>0-560*5&ITEM=2594,PET>0-560*4&ITEM=2589*1&ITEM=2594,PET>0-560*3&ITEM=2589*2&ITEM=2594,PET>0-560*2&ITEM=2589*3&ITEM=2594,PET>0-560*1&ITEM=2589*4&ITEM=2594",
+              "GetItem:2590*1",
               "EVENT:PET>0-560*4&ITEM=2594",
-              "EVENT:PET>0-560*3&ITEM=2594",
-              "EVENT:PET>0-560*2&ITEM=2594",
-              "EVENT:PET>0-560*1&ITEM=2594",
-              "EVENT:ITEM=2591*2"
+              "GetItem:2589*4",
+              "EVENT:PET>0-560*3&ITEM=2594"
             ],
             "source": "gmsv-data/npc/jaruga/event/bait_03a2"
           },
@@ -44101,12 +45679,12 @@ export const WORLD = {
             "hints": [
               "EVENT:PET>0-559*5&ITEM=2590*1&ITEM=2595,PET>0-559*4&ITEM=2590*1&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2590*1&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2590*1&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2590*1&ITEM=2589*4&ITEM=2595",
               "DelItem:EVDEL",
+              "GetItem:2591*1",
               "EVENT:PET>0-559*5&ITEM=2595,PET>0-559*4&ITEM=2589*1&ITEM=2595,PET>0-559*3&ITEM=2589*2&ITEM=2595,PET>0-559*2&ITEM=2589*3&ITEM=2595,PET>0-559*1&ITEM=2589*4&ITEM=2595",
+              "GetItem:2590*1",
               "EVENT:PET>0-559*4&ITEM=2595",
-              "EVENT:PET>0-559*3&ITEM=2595",
-              "EVENT:PET>0-559*2&ITEM=2595",
-              "EVENT:PET>0-559*1&ITEM=2595",
-              "EVENT:ITEM=2591*2"
+              "GetItem:2589*4",
+              "EVENT:PET>0-559*3&ITEM=2595"
             ],
             "source": "gmsv-data/npc/jaruga/event/bait_03b2"
           },
@@ -44511,12 +46089,12 @@ export const WORLD = {
             "hints": [
               "EVENT:PET>0-558*5&ITEM=2590*1&ITEM=2596,PET>0-558*4&ITEM=2590*1&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2590*1&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2590*1&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2590*1&ITEM=2589*4&ITEM=2596",
               "DelItem:EVDEL",
+              "GetItem:2591*1",
               "EVENT:PET>0-558*5&ITEM=2596,PET>0-558*4&ITEM=2589*1&ITEM=2596,PET>0-558*3&ITEM=2589*2&ITEM=2596,PET>0-558*2&ITEM=2589*3&ITEM=2596,PET>0-558*1&ITEM=2589*4&ITEM=2596",
+              "GetItem:2590*1",
               "EVENT:PET>0-558*4&ITEM=2596",
-              "EVENT:PET>0-558*3&ITEM=2596",
-              "EVENT:PET>0-558*2&ITEM=2596",
-              "EVENT:PET>0-558*1&ITEM=2596",
-              "EVENT:ITEM=2591*2"
+              "GetItem:2589*4",
+              "EVENT:PET>0-558*3&ITEM=2596"
             ],
             "source": "gmsv-data/npc/jaruga/event/bait_03c2"
           },
@@ -48523,6 +50101,9 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2708&ITEM=2709,LV>0&ITEM=2708&ITEM=2710,LV>0&ITEM=2708&ITEM=2711,LV>0&ITEM=2708&ITEM=2712,LV>0&ITEM=2708&ITEM=2713,LV>0&ITEM=2708&ITEM=2714,LV>0&ITEM=2708&ITEM=2715,LV>0&ITEM=2708&ITEM=2716,LV>0&ITEM=2708&ITEM=2717,LV>0&ITEM=2708&ITEM=2718",
               "DelItem:2708",
               "EVENT:LV>0&ITEM=2708&ITEM!=2709&ITEM!=2710&ITEM!=2711&ITEM!=2712&ITEM!=2713&ITEM!=2714&ITEM!=2715&ITEM!=2716&ITEM!=2717&ITEM!=2718",
+              "GetItem:2709",
+              "GetItem:2710",
+              "GetItem:2711",
               "EVENT:LV>0&ITEM=2708",
               "EVENT:LV>0"
             ],
@@ -50703,6 +52284,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1515&ENDEV=110",
               "DelItem:1515",
+              "GetItem:1516",
               "EVENT:LV>0&ITEM=1516,LV>0&ITEM=1517,LV>0&ITEM=1518,LV>0&ITEM=1519,LV>0&ITEM=1520,LV>0&ITEM=1521,LV>0&ITEM=1522,LV>0&ITEM=1523,LV>0&ITEM=1524,LV>0&ITEM=1525,LV>0&ITEM=1526,LV>0&ITEM=1527",
               "EVENT:LV>0&ITEM=1484,LV>0&ITEM=1485,LV>0&ITEM=1486,LV>0&ITEM=1487,LV>0&ITEM=1488,LV>0&ITEM=1489,LV>0&ITEM=1490,LV>0&ITEM=1491,LV>0&ITEM=1492,LV>0&ITEM=1493,LV>0&ITEM=1494,LV>0&ITEM=1495,LV>0&ITEM=1496",
               "EVENT:LV>0"
@@ -51375,6 +52957,7 @@ export const WORLD = {
           "scriptHints": {
             "actions": [],
             "hints": [
+              "GetItem:1,2754",
               "Warp:1,800.29.15"
             ],
             "source": "gmsv-data/npc/genout/quz_800_29_19"
@@ -60682,11 +62265,12 @@ export const WORLD = {
             "hints": [
               "EVENT:ITEM=2414&ITEM=1863",
               "EVENT:ITEM=2414&ITEM=1862&ITEM=1861",
+              "GetItem:1863",
               "DelItem:1861,1862",
               "EVENT:ITEM=2414&ITEM!=1861&ITEN=1862",
               "EVENT:ITEM=2414&ITEM=1861",
               "EVENT:ITEM=2414",
-              "EVENT:LV>0"
+              "GetItem:1861"
             ],
             "source": "gmsv-data/npc/sa70/closed/closed1.arg"
           },
@@ -61878,6 +63462,7 @@ export const WORLD = {
           "scriptHints": {
             "actions": [],
             "hints": [
+              "GetItem:1,2754",
               "Warp:1,840.29.15"
             ],
             "source": "gmsv-data/npc/genout/quz_840_29_19"
@@ -63439,6 +65024,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2013",
               "EVENT:LV>0&ITEM=2010&ITEM=2011&ITEM=2012",
+              "GetItem:2013",
               "DelItem:2010*1,2011*1,2012*1",
               "EVENT:LV>0"
             ],
@@ -64271,6 +65857,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV<11,DR<11,DR=77,DR=777",
+              "GetItem:2597",
               "DelItem:2521,2522,2523,2524,2598,2599,2600,2601,2602",
               "EVENT:ITEM=2597",
               "EVENT:LV>10"
@@ -65365,9 +66952,130 @@ export const WORLD = {
           "script": "file:genout/sp_1000_94_99",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_1000_94_99",
+            "id": 4,
+            "born": {
+              "mapId": "1000",
+              "floor": 1000,
+              "x": 92,
+              "y": 99
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1930,
+                  "name": "凯比特的肉",
+                  "image": 24005,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1931,
+                  "name": "凯比特的肉",
+                  "image": 24032,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1932,
+                  "name": "凯比特的肉",
+                  "image": 24014,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1933,
+                  "name": "凯比特的肉",
+                  "image": 24023,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1934,
+                  "name": "凯比特的肉",
+                  "image": 24041,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1935,
+                  "name": "凯比特的肉",
+                  "image": 24041,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "已经记录了，之后也请加油喔！",
+              "request": "给我一个凯比特的肉 我就帮你记录。 你要继续新的旅程的话 如果不准备一些东西是没有办法记录的喔！",
+              "ok": "好啦！以后你就可以自由进出了。 和我说话的话下次你 就可以登入了喔！",
+              "confirm": "那凯比特的肉我就收下了！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:1000,92,99",
+              "GetItem:1930*1,1931*1,1932*1,1933*1,1934*1,1935*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_1000_94_99"
           }
         },
@@ -65500,6 +67208,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2575&ENDEV=17",
               "DelItem:2575",
+              "GetItem:2576",
               "EVENT:LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0"
@@ -65703,10 +67412,11 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=11968",
               "EVENT:LV>0&ITEM=2021",
               "DelItem:2021*1",
+              "GetItem:1602",
               "EVENT:LV>0&ITEM=2023",
               "DelItem:2023*1",
-              "EVENT:LV>0&ITEM=2020",
-              "EVENT:LV>0"
+              "GetItem:11968*1",
+              "EVENT:LV>0&ITEM=2020"
             ],
             "source": "gmsv-data/npc/sa70/beers/beers1.arg"
           },
@@ -66041,13 +67751,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ENDEV=4&ITEM=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893",
+              "GetItem:1816",
               "DelItem:1820*1,12889*1,12890*1,12891*1,12892*1,12893*1",
               "EVENT:LV>0&ENDEV=4&ITEM!=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893",
               "EVENT:LV>0&ENDEV=4&ITEM!=12893&ITEM=1820",
               "EVENT:LV>0&ENDEV=4&ITEM!=12892&ITEM=1820",
               "EVENT:LV>0&ENDEV=4&ITEM!=12891&ITEM=1820",
-              "EVENT:LV>0&ENDEV=4&ITEM!=12890&ITEM=1820",
-              "EVENT:LV>0&ENDEV=4&ITEM!=12889&ITEM=1820"
+              "EVENT:LV>0&ENDEV=4&ITEM!=12890&ITEM=1820"
             ],
             "source": "gmsv-data/npc/sa70/meat/meat1.arg"
           },
@@ -66173,6 +67883,7 @@ export const WORLD = {
             "hints": [
               "EVENT:ENDEV=2&ITEM!=2415&SP=1,ENDEV=2&ITEM!=2415&SP=2",
               "EVENT:NOWEV=2&ITEM=2414",
+              "GetItem:2415",
               "DelItem:2414",
               "EVENT:LV>0&SP=0,LV>0&SP=3"
             ],
@@ -69046,7 +70757,8 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=1983",
-              "EVENT:LV>0&ITEM=1982"
+              "EVENT:LV>0&ITEM=1982",
+              "GetItem:1983"
             ],
             "source": "gmsv-data/npc/genout/msg_1005_11_13"
           },
@@ -73927,6 +75639,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0",
+              "GetItem:2521",
               "DelItem:2522,2523,2524,2597,2598,2599,2600,2601,2602",
               "EVENT:ITEM=2521"
             ],
@@ -74418,12 +76131,12 @@ export const WORLD = {
             "hints": [
               "EVENT:ENDEV=63&ITEM=18538&ITEM=18539&ITEM=18540&ITEM=18541&ITEM=18542",
               "DelItem:18538,18539,18540,18541,18542",
+              "GetItem:18537,18543*5",
               "EVENT:ENDEV=63&ITEM=18538",
+              "GetItem:18543",
               "DelItem:18538",
               "EVENT:ENDEV=63&ITEM=18539",
-              "DelItem:18539",
-              "EVENT:ENDEV=63&ITEM=18540",
-              "DelItem:18540"
+              "DelItem:18539"
             ],
             "source": "gmsv-data/npc/poru/girl"
           },
@@ -87839,12 +89552,12 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1840",
               "EVENT:LV>0&ITEM=12745&ITEM=12550&ITEM=12571&ITEM=12708&ITEM=12719",
+              "GetItem:1840",
               "DelItem:12745*1,12550*1,12571*1,12708*1,12719*1",
               "EVENT:LV>0&ITEM=12719",
               "EVENT:LV>0&ITEM=12708",
               "EVENT:LV>0&ITEM=12571",
-              "EVENT:LV>0&ITEM=12550",
-              "EVENT:LV>0&ITEM=12745"
+              "EVENT:LV>0&ITEM=12550"
             ],
             "source": "gmsv-data/npc/sa70/risk/risk1.arg"
           },
@@ -88479,13 +90192,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=139&ITEM=1754&ITEM=10700",
+              "GetItem:1232",
               "DelItem:10700*1,1754*1",
               "EVENT:NOWEV=139&ITEM=1754&ITEM=10701",
               "DelItem:10701*1,1754*1",
               "EVENT:NOWEV=139&ITEM=1754&ITEM=10702",
               "DelItem:10702*1,1754*1",
-              "EVENT:NOWEV=139&ITEM=1754&ITEM=10703",
-              "DelItem:10703*1,1754*1"
+              "EVENT:NOWEV=139&ITEM=1754&ITEM=10703"
             ],
             "source": "gmsv-data/npc/sa60/gift/gift1.arg"
           },
@@ -88642,6 +90355,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2576&ENDEV=17",
               "DelItem:2576",
+              "GetItem:2577",
               "EVENT:LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -88668,9 +90382,130 @@ export const WORLD = {
           "script": "file:genout/sp_1100_50_91",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_1100_50_91",
+            "id": 6,
+            "born": {
+              "mapId": "1100",
+              "floor": 1100,
+              "x": 48,
+              "y": 91
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1732,
+                  "name": "龟之盾的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1733,
+                  "name": "龟之盾的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1734,
+                  "name": "龟之盾的肉",
+                  "image": 24012,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1735,
+                  "name": "龟之盾的肉",
+                  "image": 24021,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1736,
+                  "name": "龟之盾的肉",
+                  "image": 24039,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1737,
+                  "name": "龟之盾的肉",
+                  "image": 24039,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记录好了。祝你旅途平安。",
+              "request": "希望你能给我一个龟之盾的肉....",
+              "ok": "OK！随时欢迎你来玩。 想要到新的检查站记录的话 一定要带一些东西 才会帮你记录喔！祝你顺利。",
+              "confirm": "那就看在龟之盾的肉的份上帮你记录了！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:1100,48,91",
+              "GetItem:1732*1,1733*1,1734*1,1735*1,1736*1,1737*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_1100_50_91"
           }
         },
@@ -91518,9 +93353,12 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=13&ITEM=2428&ITEM=2429&ITEM=2430",
+              "GetItem:2450",
               "DelItem:2428,2429,2430,2431",
               "EVENT:NOWEV=13&ITEM!=2431",
+              "GetItem:2431",
               "EVENT:LV>15",
+              "GetItem:2431*1",
               "EVENT:ENDEV=13"
             ],
             "source": "gmsv-data/npc/sainasu/event/event13_1"
@@ -91812,9 +93650,11 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=1797",
+              "GetItem:1796",
               "DelItem:1797*1,1795*1",
               "EVENT:LV>0&ITEM=1795",
-              "EVENT:LV>0"
+              "EVENT:LV>0",
+              "GetItem:1795"
             ],
             "source": "gmsv-data/npc/sa70/sleep/sleep1.arg"
           },
@@ -91837,9 +93677,130 @@ export const WORLD = {
           "script": "file:genout/sp_1200_63_46",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_1200_63_46",
+            "id": 7,
+            "born": {
+              "mapId": "1200",
+              "floor": 1200,
+              "x": 61,
+              "y": 46
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1708,
+                  "name": "贝洛恩的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1709,
+                  "name": "贝洛恩的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1710,
+                  "name": "贝洛恩的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1711,
+                  "name": "贝洛恩的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1712,
+                  "name": "贝洛恩的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1713,
+                  "name": "贝洛恩的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记录好了。先生。",
+              "request": "我好想要贝洛恩的肉喔！ 你身上有没有啊？",
+              "ok": "",
+              "confirm": "好想要那个肉喔！ 给我贝洛恩的肉 就让你记录。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:1200,61,46",
+              "GetItem:1708*1,1709*1,1710*1,1711*1,1712*1,1713*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_1200_63_46"
           }
         },
@@ -91933,6 +93894,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ENDEV=12&ENDEV=10&ENDEV=11",
+              "GetItem:1357",
               "EVENT:LV>29&ENDEV=4",
               "EVENT:ENDEV=9"
             ],
@@ -92091,6 +94053,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2582&ENDEV=17",
               "DelItem:2582",
+              "GetItem:2583",
               "EVENT:LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -95789,9 +97752,430 @@ export const WORLD = {
           "script": "file:genout/sp_1300_29_23",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_1300_29_23",
+            "id": 8,
+            "born": {
+              "mapId": "1300",
+              "floor": 1300,
+              "x": 27,
+              "y": 23
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 2230,
+                  "name": "奇宝的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2231,
+                  "name": "奇宝的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2232,
+                  "name": "奇宝的肉",
+                  "image": 24015,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2233,
+                  "name": "奇宝的肉",
+                  "image": 24024,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2234,
+                  "name": "奇宝的肉",
+                  "image": 24042,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2235,
+                  "name": "奇宝的肉",
+                  "image": 24042,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2230,
+                  "name": "奇宝的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2231,
+                  "name": "奇宝的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2230,
+                  "name": "奇宝的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2232,
+                  "name": "奇宝的肉",
+                  "image": 24015,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2230,
+                  "name": "奇宝的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2233,
+                  "name": "奇宝的肉",
+                  "image": 24024,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2230,
+                  "name": "奇宝的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2234,
+                  "name": "奇宝的肉",
+                  "image": 24042,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2230,
+                  "name": "奇宝的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2235,
+                  "name": "奇宝的肉",
+                  "image": 24042,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2231,
+                  "name": "奇宝的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2232,
+                  "name": "奇宝的肉",
+                  "image": 24015,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2231,
+                  "name": "奇宝的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2233,
+                  "name": "奇宝的肉",
+                  "image": 24024,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2231,
+                  "name": "奇宝的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2234,
+                  "name": "奇宝的肉",
+                  "image": 24042,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2231,
+                  "name": "奇宝的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2235,
+                  "name": "奇宝的肉",
+                  "image": 24042,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2232,
+                  "name": "奇宝的肉",
+                  "image": 24015,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                },
+                {
+                  "id": 2233,
+                  "name": "奇宝的肉",
+                  "image": 24024,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记录好了。祝你旅途平安。",
+              "request": "希望你能给我两个奇宝 的肉。",
+              "ok": "OK！随时欢迎你来玩。 想要到新的检查站记录的话 一定要带一些东西 才会帮你记录喔！祝你顺利。",
+              "confirm": "那就看在这两个奇宝的肉的份上帮你记录了！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:1300,27,23",
+              "GetItem:2230*2,2231*2,2232*2,2233*2,2234*2,2235*2,2230*1&2231*1,2230*1&2232*1,2230*1&2233*1,2230*1&2234*1,2230*1&2235*1,2231*1&2232*1,2231*1&2233*1,2231*1&2234*1,2231*1&2235*1,2232*1&2233*1,2232*1&2234*1,2232*1&2235*1,2234*1&2235*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_1300_29_23"
           }
         },
@@ -95941,6 +98325,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2583&ENDEV=17",
               "DelItem:2583",
+              "GetItem:2584",
               "EVENT:LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -96039,7 +98424,8 @@ export const WORLD = {
             "hints": [
               "EVENT:NOWEV=3&ITEM=2416",
               "DelItem:2416",
-              "EVENT:ENDEV=3"
+              "EVENT:ENDEV=3",
+              "GetItem:2423"
             ],
             "source": "gmsv-data/npc/sainasu/event/event03_1"
           },
@@ -96242,12 +98628,12 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1872",
               "EVENT:LV>0&ITEM=1871&ITEM=1870",
+              "GetItem:1872",
               "DelItem:1871*1,1870*1",
               "EVENT:LV>0&ITEM=1871&ITEM!=1870",
               "EVENT:LV>0&ITEM=1870",
               "EVENT:LV>0&ITEM=4980",
-              "DelItem:4980",
-              "EVENT:LV>0"
+              "GetItem:1870"
             ],
             "source": "gmsv-data/npc/sa70/romance/romance1.arg"
           },
@@ -96393,6 +98779,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>49&ENDEV!=38",
+              "GetItem:2687",
               "EVENT:ENDEV=37&LV>49",
               "EVENT:ENDEV=38&LV>49"
             ],
@@ -96568,6 +98955,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ENDEV=11&NOWEV=10&ITEM=2419",
+              "GetItem:2421",
               "DelItem:2419",
               "EVENT:ENDEV=12&ITEM=2419",
               "EVENT:LV>29&ENDEV=4&NOWEV=9&NOWEV=11",
@@ -100393,12 +102781,12 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ENDEV=4&ITEM=1819",
               "EVENT:LV>0&ENDEV=4&ITEM=1818",
+              "GetItem:1819",
               "DelItem:1818",
               "EVENT:LV>0&ENDEV=4&ITEM=1817&ITEM=1940&ITEM=2231",
               "EVENT:LV>0&ENDEV=4&ITEM=1817&ITEM=1940",
               "EVENT:LV>0&ENDEV=4&ITEM=1817&ITEM=2231",
-              "EVENT:LV>0&ENDEV=4&ITEM=1817",
-              "EVENT:LV>0&ENDEV=4&ITEM!=1817"
+              "EVENT:LV>0&ENDEV=4&ITEM=1817"
             ],
             "source": "gmsv-data/npc/sa70/true/true1.arg"
           },
@@ -100578,6 +102966,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ENDEV=10&NOWEV=11&ITEM=2420",
+              "GetItem:1052",
               "DelItem:2420",
               "EVENT:NOWEV=11&ITEM=2420",
               "EVENT:LV>29&ENDEV=4&NOWEV=9&NOWEV=10",
@@ -100821,13 +103210,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&NOWEV=139&ITEM=1755&ITEM=12744",
+              "GetItem:1232",
               "DelItem:12744*1,1755*1",
               "EVENT:LV>0&ITEM=12744&ITEM=1755",
+              "GetItem:1754",
               "EVENT:LV>0&ITEM=1755",
               "EVENT:LV>0&ITEM=1754",
-              "EVENT:ENDEV=139",
-              "EVENT:LV>0&NOWEV=139",
-              "EVENT:LV>0"
+              "EVENT:ENDEV=139"
             ],
             "source": "gmsv-data/npc/sa60/gift/gift2.arg"
           },
@@ -100984,6 +103373,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2586&ENDEV=17",
               "DelItem:2586",
+              "GetItem:2587",
               "EVENT:LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -101109,8 +103499,10 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=5&ITEM=2423",
+              "GetItem:2448",
               "DelItem:2423",
               "EVENT:LV>0",
+              "GetItem:2416",
               "EVENT:ENDEV=3,ENDEV=5"
             ],
             "source": "gmsv-data/npc/sainasu/event/event03_2"
@@ -101134,9 +103526,430 @@ export const WORLD = {
           "script": "file:genout/sp_1400_76_104",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_1400_76_104",
+            "id": 9,
+            "born": {
+              "mapId": "1400",
+              "floor": 1400,
+              "x": 74,
+              "y": 104
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1768,
+                  "name": "特洛昆的肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1769,
+                  "name": "特洛昆的肉",
+                  "image": 24035,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1770,
+                  "name": "特洛昆的肉",
+                  "image": 24017,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1771,
+                  "name": "特洛昆的肉",
+                  "image": 24026,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1772,
+                  "name": "特洛昆的肉",
+                  "image": 24044,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1773,
+                  "name": "特洛昆的肉",
+                  "image": 24044,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1768,
+                  "name": "特洛昆的肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1769,
+                  "name": "特洛昆的肉",
+                  "image": 24035,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1768,
+                  "name": "特洛昆的肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1770,
+                  "name": "特洛昆的肉",
+                  "image": 24017,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1768,
+                  "name": "特洛昆的肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1771,
+                  "name": "特洛昆的肉",
+                  "image": 24026,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1768,
+                  "name": "特洛昆的肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1772,
+                  "name": "特洛昆的肉",
+                  "image": 24044,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1768,
+                  "name": "特洛昆的肉",
+                  "image": 24008,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1773,
+                  "name": "特洛昆的肉",
+                  "image": 24044,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1769,
+                  "name": "特洛昆的肉",
+                  "image": 24035,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1770,
+                  "name": "特洛昆的肉",
+                  "image": 24017,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1769,
+                  "name": "特洛昆的肉",
+                  "image": 24035,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1771,
+                  "name": "特洛昆的肉",
+                  "image": 24026,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1769,
+                  "name": "特洛昆的肉",
+                  "image": 24035,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1772,
+                  "name": "特洛昆的肉",
+                  "image": 24044,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1769,
+                  "name": "特洛昆的肉",
+                  "image": 24035,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1773,
+                  "name": "特洛昆的肉",
+                  "image": 24044,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1770,
+                  "name": "特洛昆的肉",
+                  "image": 24017,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                },
+                {
+                  "id": 1771,
+                  "name": "特洛昆的肉",
+                  "image": 24026,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好！。让我帮你记录吧！",
+              "request": "请给我两个特洛昆的肉。 如果你有的话我就帮 你记录。",
+              "ok": "以后你要什么时候来都可以。 其它的检查站也会像你要 一些东西。不过要冒险，这些都是 少不了的喔！",
+              "confirm": "那这两个特洛昆的肉我就收下了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:1400,74,104",
+              "GetItem:1768*2,1769*2,1770*2,1771*2,1772*2,1773*2,1768*1&1769*1,1768*1&1770*1,1768*1&1771*1,1768*1&1772*1,1768*1&1773*1,1769*1&1770*1,1769*1&1771*1,1769*1&1772*1,1769*1&1773*1,1770*1&1771*1,1770*1&1772*1,1770*1&1773*1,1771*1&1772*1,1771*1&1773*1,1772*1&1773*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_1400_76_104"
           }
         },
@@ -101353,6 +104166,7 @@ export const WORLD = {
               "DelItem:1694*1,1693*1",
               "EVENT:LV>29&ENDEV=4&ITEM=1693&NOWEV=137",
               "EVENT:LV>29&ENDEV=4&NOWEV=137&ITEM!=1693",
+              "GetItem:1693*1",
               "EVENT:LV>29&ENDEV=4",
               "EVENT:LV>0"
             ],
@@ -106942,13 +109756,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&ENDEV=180&ITEM!=19624,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV=180&ITEM!=19624",
+              "GetItem:19624",
               "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&NOWEV=71&NOWEV=72&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&NOW=72&ENDEV!=180,ENDEV=4&ENDEV=69&ENDEV=70&ENDEV=71&ENDEV=72&ENDEV!=180",
               "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM!=19624",
               "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19629,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19672,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19673,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19674,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19675",
               "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19630,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19676,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19677,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19678,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19679",
               "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19631,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19680,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19681,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19682,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19683",
-              "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19632,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19684,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19685,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19686,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19687",
-              "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19624&ITEM=19625"
+              "EVENT:ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19632,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19684,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19685,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19686,ENDEV=4&ENDEV=69&ENDEV=70&ITEM=19687"
             ],
             "source": "gmsv-data/npc/king/event69_7"
           },
@@ -107197,9 +110011,130 @@ export const WORLD = {
           "script": "file:genout/sp_2000_67_58",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_2000_67_58",
+            "id": 5,
+            "born": {
+              "mapId": "2000",
+              "floor": 2000,
+              "x": 65,
+              "y": 58
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1612,
+                  "name": "乌力斯坦的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1613,
+                  "name": "乌力斯坦的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1614,
+                  "name": "乌力斯坦的肉",
+                  "image": 24011,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1615,
+                  "name": "乌力斯坦的肉",
+                  "image": 24020,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1616,
+                  "name": "乌力斯坦的肉",
+                  "image": 24038,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1617,
+                  "name": "乌力斯坦的肉",
+                  "image": 24038,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好让我帮你记录吧！",
+              "request": "请给我一个乌力斯坦的肉 吧！给我的话 我就帮你记录。",
+              "ok": "以后你要什么时候来都可以。 其它的检查站也会像你要 一些东西。不过要冒险，这些都是 少不了的喔！",
+              "confirm": "那这个乌力斯坦的肉我就收下了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:2000,65,58",
+              "GetItem:1612*1,1613*1,1614*1,1615*1,1616*1,1617*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_2000_67_58"
           }
         },
@@ -107418,12 +110353,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=2434",
+              "GetItem:2437,11872*2,11863",
               "DelItem:2434*1",
               "EVENT:LV>0&ITEM=2433",
+              "GetItem:2436,11873,11863",
               "DelItem:2433*1",
               "EVENT:LV>0&ITEM=2432",
-              "DelItem:2432*1",
-              "EVENT:LV>0&TIME!=0"
+              "GetItem:2435,11874,11863"
             ],
             "source": "gmsv-data/npc/sainasu/event/nevent01_1"
           },
@@ -107536,6 +110472,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1821",
               "EVENT:LV>0&PET<2-331*1",
+              "GetItem:1821",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sa70/crisis/crisis1.arg"
@@ -107814,6 +110751,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV<11,DR<11,DR=77,DR=777",
+              "GetItem:2598",
               "DelItem:2521,2522,2523,2524,2597,2599,2600,2601,2602",
               "EVENT:ITEM=2598",
               "EVENT:LV>10"
@@ -108085,6 +111023,7 @@ export const WORLD = {
             "hints": [
               "EVENT:ENDEV=2&ITEM!=2414&SP=0,ENDEV=2&ITEM!=2414&SP=3",
               "EVENT:NOWEV=2&ITEM=2415",
+              "GetItem:2414",
               "DelItem:2415",
               "EVENT:LV>0&SP=1,LV>0&SP=2"
             ],
@@ -108341,10 +111280,11 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2005",
               "EVENT:LV>0&ITEM=2004",
               "EVENT:LV>0&ITEM=2439&ITEM=5610&ITEM=6810&ITEM=6210&ITEM=7410",
+              "GetItem:2005",
               "DelItem:2439*1,5610*1,6810*1,6210*1,7410*1",
               "EVENT:LV>0&ITEM=2438&ITEM=3210&ITEM=4410&ITEM=3810&ITEM=5010",
-              "DelItem:2438*1,3210*1,4410*1,3810*1,5010*1",
-              "EVENT:LV>0"
+              "GetItem:2004",
+              "DelItem:2438*1,3210*1,4410*1,3810*1,5010*1"
             ],
             "source": "gmsv-data/npc/sa70/collect/collect1.arg"
           },
@@ -109060,13 +112000,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>29&ENDEV=4&ITEM!=2785&ITEM!=2786",
+              "GetItem:2785",
               "EVENT:LV>29&ENDEV=4&ITEM=2785&ITEM!=2786",
               "EVENT:ITEM=2785&ITEM=2786*14",
               "DelItem:2785,2786",
               "EVENT:ITEM=2785&ITEM=2786*13",
               "EVENT:ITEM=2785&ITEM=2786*12",
-              "EVENT:ITEM=2785&ITEM=2786*11",
-              "EVENT:ITEM=2785&ITEM=2786*10"
+              "EVENT:ITEM=2785&ITEM=2786*11"
             ],
             "source": "gmsv-data/npc/genout/msg_1200_58_43"
           },
@@ -109530,13 +112470,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=2569*1&ITEM=2572*1&TIME!=0",
+              "GetItem:2432",
               "DelItem:2569*1,2572*1",
               "EVENT:LV>0&ITEM=2569*1&ITEM=2573*1&TIME!=0",
               "DelItem:2569*1,2573*1",
               "EVENT:LV>0&ITEM=2569*1&ITEM=2574*1&TIME!=0",
-              "DelItem:2569*1,2574*1",
-              "EVENT:LV>0&ITEM=2570*1&ITEM=2572*1&TIME!=0",
-              "DelItem:2570*1,2572*1"
+              "GetItem:2433",
+              "DelItem:2569*1,2574*1"
             ],
             "source": "gmsv-data/npc/sainasu/event/nevent01_2"
           },
@@ -109693,6 +112633,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2578&ENDEV=17",
               "DelItem:2578",
+              "GetItem:2579",
               "EVENT:LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -113761,6 +116702,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>30&TRANS>1&ITEM=12761*10",
               "DelItem:12761*10",
+              "GetItem:20913",
               "EVENT:LV>30&TRANS>1",
               "EVENT:LV=140&ITEM=2418&TRANS=1&ITEM=18543*10",
               "DelItem:2418,18543*10",
@@ -118152,6 +121094,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ITEM!=20167&LV>90&EVPET>0-914&ENDEV=100",
+              "GetItem:20167",
               "EVENT:ENDEV=100",
               "EVENT:LV>90&EVPET>0-914&NOWEV=100"
             ],
@@ -119010,6 +121953,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0",
+              "GetItem:2522",
               "DelItem:2521,2523,2524,2597,2598,2599,2600,2601,2602",
               "EVENT:ITEM=2522"
             ],
@@ -119887,7 +122831,9 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>69",
               "EVENT:LV>49",
+              "GetItem:2756",
               "EVENT:LV>29",
+              "GetItem:2755",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/quiz/uketuke"
@@ -120027,7 +122973,9 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>69",
               "EVENT:LV>49",
+              "GetItem:2756",
               "EVENT:LV>29",
+              "GetItem:2755",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/quiz/uketuke"
@@ -122720,7 +125668,8 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=1622",
-              "EVENT:LV>0&ITEM!=1622"
+              "EVENT:LV>0&ITEM!=1622",
+              "GetItem:1622"
             ],
             "source": "gmsv-data/npc/sa50/bone1.arg"
           },
@@ -122823,6 +125772,7 @@ export const WORLD = {
             "hints": [
               "EVENT:ENDEV=4&ITEM=20215",
               "EVENT:ENDEV=4&ITEM!=20215",
+              "GetItem:20215",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/eden3/gan/hoggies"
@@ -122963,6 +125913,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2552",
               "DelItem:2552",
+              "GetItem:2553",
               "EVENT:LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0"
@@ -123123,9 +126074,11 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1985",
               "EVENT:LV>0&ITEM=1982&ITEM=1984",
+              "GetItem:1985",
               "DelItem:1982*1,1984*1",
               "EVENT:LV>0&ITEM=1982",
-              "EVENT:LV>0"
+              "EVENT:LV>0",
+              "GetItem:1982"
             ],
             "source": "gmsv-data/npc/sa70/evening/evening1.arg"
           },
@@ -123933,12 +126886,12 @@ export const WORLD = {
             "hints": [
               "EVENT:ITEM!=2478&ITEM=2468",
               "EVENT:ITEM=2478&ITEM=2468*14",
+              "GetItem:2481",
               "DelItem:2468,2478,2467",
               "EVENT:ITEM=2478&ITEM=2468*13",
               "EVENT:ITEM=2478&ITEM=2468*12",
               "DelItem:2468,2478",
-              "EVENT:ITEM=2478&ITEM=2468*11",
-              "EVENT:ITEM=2478&ITEM=2468*10"
+              "EVENT:ITEM=2478&ITEM=2468*11"
             ],
             "source": "gmsv-data/npc/jaruga/event/20501ev5"
           },
@@ -124229,6 +127182,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV<11,DR<11,DR=77,DR=777",
+              "GetItem:2599",
               "DelItem:2521,2522,2523,2524,2597,2598,2600,2601,2602",
               "EVENT:ITEM=2599",
               "EVENT:LV>10"
@@ -124674,9 +127628,130 @@ export const WORLD = {
           "script": "file:genout/sp_3000_96_97",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_3000_96_97",
+            "id": 10,
+            "born": {
+              "mapId": "3000",
+              "floor": 3000,
+              "x": 94,
+              "y": 97
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1684,
+                  "name": "乌宝宝的肉",
+                  "image": 24003,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1685,
+                  "name": "乌宝宝的肉",
+                  "image": 24030,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1686,
+                  "name": "乌宝宝的肉",
+                  "image": 24012,
+                  "cost": 50,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力50前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体50",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1687,
+                  "name": "乌宝宝的肉",
+                  "image": 24021,
+                  "cost": 75,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力75前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体75",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1688,
+                  "name": "乌宝宝的肉",
+                  "image": 24039,
+                  "cost": 105,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力105前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体105",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1689,
+                  "name": "乌宝宝的肉",
+                  "image": 24039,
+                  "cost": 140,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力140前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体140",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记好了。请继续努力！",
+              "request": "给我一个乌宝宝的肉的话 我就帮你记下来。 为了要继续旅程一定要带什么东西到检查站， 不然是不会帮你记录的。",
+              "ok": "那以后也欢迎你来玩。 找我说话的话 下次就可以登入了。",
+              "confirm": "那肉我就收下了！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:3000,94,97",
+              "GetItem:1684*1,1685*1,1686*1,1687*1,1688*1,1689*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_3000_96_97"
           }
         },
@@ -125455,7 +128530,7 @@ export const WORLD = {
               "EVENT:LV>0&NOWEV=140&ITEM=1750",
               "EVENT:LV>0&NOWEV=140&ITEM=1696",
               "EVENT:LV>0&NOWEV=140&ITEM!=1696",
-              "EVENT:LV>0"
+              "GetItem:1696*1"
             ],
             "source": "gmsv-data/npc/sa60/mouse/mouse2.arg"
           },
@@ -125549,6 +128624,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=1622",
+              "GetItem:1586",
               "DelItem:1622*1",
               "EVENT:LV>0"
             ],
@@ -134256,6 +137332,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0",
+              "GetItem:2523",
               "DelItem:2521,2522,2524,2597,2598,2599,2600,2601,2602",
               "EVENT:ITEM=2523"
             ],
@@ -135776,13 +138853,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ENDEV=4&ITEM=20215&ITEM!=20216",
+              "GetItem:20216",
               "DelItem:20215*1",
               "EVENT:ENDEV=4&ITEM=20220&ITEM=20221",
+              "GetItem:20222",
               "DelItem:20221*1,20220*1",
               "EVENT:ENDEV=4&ITEM=20220",
-              "EVENT:ENDEV=4&ITEM=20221",
-              "EVENT:ENDEV=4&PET>0-953&ITEM=20223",
-              "DelItem:20223*1"
+              "EVENT:ENDEV=4&ITEM=20221"
             ],
             "source": "gmsv-data/npc/eden3/gan/wuwan"
           },
@@ -148196,6 +151273,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2003",
               "EVENT:LV>0&ITEM=2002",
+              "GetItem:2003",
               "DelItem:2002",
               "EVENT:LV>0"
             ],
@@ -148441,11 +151519,11 @@ export const WORLD = {
               "EVENT:LV>29&ENDEV=142",
               "EVENT:LV>29&ITEM=1793&NOWEV=142",
               "DelItem:1793",
+              "GetItem:1792",
               "EVENT:LV>29&ITEM=1791&NOWEV=142&ITEM=1794",
               "DelItem:1794",
               "EVENT:LV>29&ITEM=1791&NOWEV=142",
-              "EVENT:LV>29&ITEM=1794&NOWEV=142",
-              "EVENT:LV>29&ITEM=12860&NOWEV=142"
+              "EVENT:LV>29&ITEM=1794&NOWEV=142"
             ],
             "source": "gmsv-data/npc/sa70/apple/apple1.arg"
           },
@@ -148468,9 +151546,130 @@ export const WORLD = {
           "script": "file:genout/sp_3100_83_70",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_3100_83_70",
+            "id": 11,
+            "born": {
+              "mapId": "3100",
+              "floor": 3100,
+              "x": 81,
+              "y": 70
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1900,
+                  "name": "克洛尔的肉",
+                  "image": 24006,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1901,
+                  "name": "克洛尔的肉",
+                  "image": 24033,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1902,
+                  "name": "克洛尔的肉",
+                  "image": 24015,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1903,
+                  "name": "克洛尔的肉",
+                  "image": 24024,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1904,
+                  "name": "克洛尔的肉",
+                  "image": 24042,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1905,
+                  "name": "克洛尔的肉",
+                  "image": 24042,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记好了。祝你旅途平安。",
+              "request": "我好想要克洛尔的肉喔！",
+              "ok": "欢迎你随时再来。 想要到新的检查站记录的话 一定要带一些东西 不然是不会帮我们记录的。祝你旅途平安。",
+              "confirm": "那就看在克洛尔的份上 帮你记录了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:3100,81,70",
+              "GetItem:1900*1,1901*1,1902*1,1903*1,1904*1,1905*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_3100_83_70"
           }
         },
@@ -148620,6 +151819,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2553",
               "DelItem:2553",
+              "GetItem:2554",
               "EVENT:LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
@@ -148790,8 +151990,10 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2020&ITEM=2022&ITEM=2027",
               "DelItem:2020*1,2022*1,2027*1",
+              "GetItem:2023*1",
               "EVENT:LV>0&ITEM=2020&ITEM=2027",
               "EVENT:LV>0&ITEM=2020",
+              "GetItem:2027*1",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sa70/beers/beers2.arg"
@@ -150010,6 +153212,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2446*10",
               "DelItem:2446",
+              "GetItem:2449",
               "EVENT:LV>0&ITEM=2446",
               "EVENT:LV>0"
             ],
@@ -150099,6 +153302,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2449",
               "DelItem:2449*1",
+              "GetItem:1264",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sainasu/event/nevent02_3"
@@ -151532,6 +154736,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=1&ITEM=2401",
+              "GetItem:2427",
               "DelItem:2401",
               "EVENT:LV>0",
               "EVENT:ENDEV=1"
@@ -152037,12 +155242,12 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>39&ENDEV=4&ENDEV=143&ITEM=1812&ITEM=1809",
               "DelItem:1812*1,1809*1",
+              "GetItem:1807",
               "EVENT:LV>39&ENDEV=4&ENDEV=143&ITEM=1812",
               "EVENT:LV>39&ENDEV=4&ENDEV=143&ITEM=1809",
               "EVENT:LV>39&ENDEV=4&NOWEV=143&ITEM=1808*2",
               "DelItem:1808,1813*1",
-              "EVENT:LV>39&ENDEV=4&NOWEV=143&ITEM=1808*1",
-              "EVENT:LV>39&ENDEV=4&NOWEV=143&ITEM!=1813"
+              "GetItem:1812*1"
             ],
             "source": "gmsv-data/npc/sa70/weapon/weapon.arg"
           },
@@ -152893,6 +156098,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM!=2447",
+              "GetItem:2447",
               "EVENT:LV>0&ITEM=2447",
               "EVENT:LV>0"
             ],
@@ -153051,6 +156257,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2559",
               "DelItem:2559",
+              "GetItem:2560",
               "EVENT:LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -153077,9 +156284,130 @@ export const WORLD = {
           "script": "file:genout/sp_3200_49_60",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_3200_49_60",
+            "id": 12,
+            "born": {
+              "mapId": "3200",
+              "floor": 3200,
+              "x": 47,
+              "y": 60
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 2218,
+                  "name": "克克洛斯的肉",
+                  "image": 24005,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2219,
+                  "name": "克克洛斯的肉",
+                  "image": 24032,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2220,
+                  "name": "克克洛斯的肉",
+                  "image": 24014,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2221,
+                  "name": "克克洛斯的肉",
+                  "image": 24023,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2222,
+                  "name": "克克洛斯的肉",
+                  "image": 24041,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2223,
+                  "name": "克克洛斯的肉",
+                  "image": 24041,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记录好了先生。",
+              "request": "我好想要克克洛斯的肉喔！ 你有没有啊？",
+              "ok": "OK！ 欢迎你随时再来。 就算是冒险也不要太乱来喔！",
+              "confirm": "我想要那个肉。 你给我克克洛斯的肉我就帮你记录 好不好？"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:3200,47,60",
+              "GetItem:2218*1,2219*1,2220*1,2221*1,2222*1,2223*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_3200_49_60"
           }
         },
@@ -154320,7 +157648,9 @@ export const WORLD = {
           "graphic": "16171",
           "scriptHints": {
             "actions": [],
-            "hints": [],
+            "hints": [
+              "GetItem:20760"
+            ],
             "source": "gmsv-data/npc/race2/second.arg"
           }
         },
@@ -155547,6 +158877,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2560",
               "DelItem:2560",
+              "GetItem:2561",
               "EVENT:LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
@@ -155573,9 +158904,430 @@ export const WORLD = {
           "script": "file:genout/sp_3300_71_51",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_3300_71_51",
+            "id": 13,
+            "born": {
+              "mapId": "3300",
+              "floor": 3300,
+              "x": 69,
+              "y": 51
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1996,
+                  "name": "巴克的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1997,
+                  "name": "巴克的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1998,
+                  "name": "巴克的肉",
+                  "image": 24012,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1999,
+                  "name": "巴克的肉",
+                  "image": 24021,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2000,
+                  "name": "巴克的肉",
+                  "image": 24039,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2001,
+                  "name": "巴克的肉",
+                  "image": 24039,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 1996,
+                  "name": "巴克的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1997,
+                  "name": "巴克的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1996,
+                  "name": "巴克的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1998,
+                  "name": "巴克的肉",
+                  "image": 24012,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1996,
+                  "name": "巴克的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 1999,
+                  "name": "巴克的肉",
+                  "image": 24021,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1996,
+                  "name": "巴克的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2000,
+                  "name": "巴克的肉",
+                  "image": 24039,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1996,
+                  "name": "巴克的肉",
+                  "image": 24003,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2001,
+                  "name": "巴克的肉",
+                  "image": 24039,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1997,
+                  "name": "巴克的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1998,
+                  "name": "巴克的肉",
+                  "image": 24012,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1997,
+                  "name": "巴克的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 1999,
+                  "name": "巴克的肉",
+                  "image": 24021,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1997,
+                  "name": "巴克的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2000,
+                  "name": "巴克的肉",
+                  "image": 24039,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1997,
+                  "name": "巴克的肉",
+                  "image": 24030,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2001,
+                  "name": "巴克的肉",
+                  "image": 24039,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1998,
+                  "name": "巴克的肉",
+                  "image": 24012,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                },
+                {
+                  "id": 1999,
+                  "name": "巴克的肉",
+                  "image": 24021,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记录好了。祝你旅途平安。",
+              "request": "希望你拿两个巴克的肉给我。",
+              "ok": "OK！欢迎你随时再来。 想要到新的检查站记录的话 一定要带一些东西 不然是不会帮我们记录的。祝你旅途平安。",
+              "confirm": "那就看在这两块肉的份上 帮你记录了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:3300,69,51",
+              "GetItem:1996*2,1997*2,1998*2,1999*2,2000*2,2001*2,1996*1&1997*1,1996*1&1998*1,1996*1&1999*1,1996*1&2000*1,1996*1&2001*1,1997*1&1998*1,1997*1&1999*1,1997*1&2000*1,1997*1&2001*1,1998*1&1999*1,1998*1&2000*1,1998*1&2001*1,1999*1&2000*1,1999*1&2001*1,2000*1&2001*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_3300_71_51"
           }
         },
@@ -156308,9 +160060,11 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1839",
               "EVENT:LV>0&ENDEV=4&ITEM=1838",
+              "GetItem:1839",
               "DelItem:1838",
               "EVENT:LV>0&ITEM=1837",
               "EVENT:LV>0&ENDEV=4&ITEM!=1837&ITEM!=1838",
+              "GetItem:1837",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sa70/coin/coin1.arg"
@@ -156539,10 +160293,11 @@ export const WORLD = {
               "EVENT:ENDEV=18",
               "EVENT:ITEM=2467",
               "EVENT:NOWEV=18&ITEM=2465",
+              "GetItem:2467,2484",
               "DelItem:2465*1",
               "EVENT:ITEM=2465",
               "EVENT:NOWEV=18&ITEM!=2466",
-              "EVENT:LV>14"
+              "GetItem:2466"
             ],
             "source": "gmsv-data/npc/jaruga/event/20501ev3"
           },
@@ -157819,6 +161574,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2446*10",
               "DelItem:2446",
+              "GetItem:2449",
               "EVENT:LV>0&ITEM=2446",
               "EVENT:LV>0"
             ],
@@ -157908,6 +161664,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2449",
               "DelItem:2449*1",
+              "GetItem:1264",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sainasu/event/nevent02_3"
@@ -159110,6 +162867,7 @@ export const WORLD = {
               "EVENT:LV>0&ENDEV=4&ENDEV=144",
               "EVENT:LV>0&ENDEV=4&NOWEV=144&ITEM=1873",
               "DelItem:1873*1",
+              "GetItem:1845*1",
               "EVENT:LV>29&ENDEV=4&NOWEV=144",
               "EVENT:LV>29&ENDEV=4",
               "EVENT:LV>0"
@@ -159135,9 +162893,430 @@ export const WORLD = {
           "script": "file:genout/sp_3400_65_48",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_3400_65_48",
+            "id": 14,
+            "born": {
+              "mapId": "3400",
+              "floor": 3400,
+              "x": 63,
+              "y": 48
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 2014,
+                  "name": "贝鲁卡的肉",
+                  "image": 24007,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2015,
+                  "name": "贝鲁卡的肉",
+                  "image": 24034,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2016,
+                  "name": "贝鲁卡的肉",
+                  "image": 24016,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2017,
+                  "name": "贝鲁卡的肉",
+                  "image": 24025,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2018,
+                  "name": "贝鲁卡的肉",
+                  "image": 24043,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2019,
+                  "name": "贝鲁卡的肉",
+                  "image": 24043,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 2
+                }
+              ],
+              [
+                {
+                  "id": 2014,
+                  "name": "贝鲁卡的肉",
+                  "image": 24007,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2015,
+                  "name": "贝鲁卡的肉",
+                  "image": 24034,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2014,
+                  "name": "贝鲁卡的肉",
+                  "image": 24007,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2016,
+                  "name": "贝鲁卡的肉",
+                  "image": 24016,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2014,
+                  "name": "贝鲁卡的肉",
+                  "image": 24007,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2017,
+                  "name": "贝鲁卡的肉",
+                  "image": 24025,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2014,
+                  "name": "贝鲁卡的肉",
+                  "image": 24007,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2018,
+                  "name": "贝鲁卡的肉",
+                  "image": 24043,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2014,
+                  "name": "贝鲁卡的肉",
+                  "image": 24007,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                },
+                {
+                  "id": 2019,
+                  "name": "贝鲁卡的肉",
+                  "image": 24043,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2015,
+                  "name": "贝鲁卡的肉",
+                  "image": 24034,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2016,
+                  "name": "贝鲁卡的肉",
+                  "image": 24016,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2015,
+                  "name": "贝鲁卡的肉",
+                  "image": 24034,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2017,
+                  "name": "贝鲁卡的肉",
+                  "image": 24025,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2015,
+                  "name": "贝鲁卡的肉",
+                  "image": 24034,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2018,
+                  "name": "贝鲁卡的肉",
+                  "image": 24043,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2015,
+                  "name": "贝鲁卡的肉",
+                  "image": 24034,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                },
+                {
+                  "id": 2019,
+                  "name": "贝鲁卡的肉",
+                  "image": 24043,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2016,
+                  "name": "贝鲁卡的肉",
+                  "image": 24016,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                },
+                {
+                  "id": 2017,
+                  "name": "贝鲁卡的肉",
+                  "image": 24025,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好！。让我帮你记录吧！",
+              "request": "请给我两个贝鲁卡的肉。 如果你有的话我就帮 你记录。",
+              "ok": "以后你要什么时候来都可以。 其它的检查站也会像你要 一些东西。不过要冒险，这些都是 少不了的喔！",
+              "confirm": "那这两个贝鲁卡的肉我就收下了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:3400,63,48",
+              "GetItem:2014*2,2015*2,2016*2,2017*2,2018*2,2019*2,2014*1&2015*1,2014*1&2016*1,2014*1&2017*1,2014*1&2018*1,2014*1&2019*1,2015*1&2016*1,2015*1&2017*1,2015*1&2018*1,2015*1&2019*1,2016*1&2017*1,2016*1&2019*1,2017*1&2018*1,2017*1&2019*1,2018*1&2019*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_3400_65_48"
           }
         },
@@ -159287,6 +163466,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2563",
               "DelItem:2563",
+              "GetItem:2564",
               "EVENT:LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
@@ -159437,6 +163617,7 @@ export const WORLD = {
               "EVENT:ENDEV=20&ENDEV=22&NOWEV=21&ITEM=2488",
               "EVENT:ENDEV=20&ENDEV=22&ENDEV=21",
               "EVENT:ITEM!=2486",
+              "GetItem:2486",
               "EVENT:ITEM=2486",
               "DelItem:2486",
               "EVENT:ENDEV=20&ENDEV=21"
@@ -161133,12 +165314,12 @@ export const WORLD = {
             "hints": [
               "EVENT:ENDEV=20&NOWEV=21&ITEM=2488",
               "DelItem:2488",
+              "GetItem:2489",
               "EVENT:ITEM=2486",
               "DelItem:2486",
               "EVENT:ENDEV=20&ENDEV=21&ENDEV!=160",
               "EVENT:NOWEV=20&ITEM=2487",
-              "EVENT:LV>79&ENDEV=20&ENDEV=21&NOWEV=161&ITEM=2744",
-              "DelItem:2744"
+              "EVENT:LV>79&ENDEV=20&ENDEV=21&NOWEV=161&ITEM=2744"
             ],
             "source": "gmsv-data/npc/jaruga/event/event20_2"
           },
@@ -161233,6 +165414,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=20&ITEM!=2487",
+              "GetItem:2487",
               "EVENT:NOWEV=20&ITEM=2487",
               "EVENT:ENDEV=20&ENDEV=21"
             ],
@@ -162288,8 +166470,10 @@ export const WORLD = {
             "hints": [
               "EVENT:PET>14-524",
               "DelItem:2456",
+              "GetItem:2455",
               "EVENT:ITEM=2456",
-              "EVENT:LV>0"
+              "EVENT:LV>0",
+              "GetItem:2456*1"
             ],
             "source": "gmsv-data/npc/jaruga/event/kikukuev"
           },
@@ -162482,6 +166666,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=39&ITEM!=2699",
+              "GetItem:2699",
               "EVENT:LV>0&ENDEV=4",
               "EVENT:ENDEV=39",
               "EVENT:LV>0"
@@ -163488,9 +167673,130 @@ export const WORLD = {
           "script": "file:genout/sp_4000_68_55",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_4000_68_55",
+            "id": 15,
+            "born": {
+              "mapId": "4000",
+              "floor": 4000,
+              "x": 66,
+              "y": 55
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 2062,
+                  "name": "克邦凯斯的肉",
+                  "image": 24002,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2063,
+                  "name": "克邦凯斯的肉",
+                  "image": 24029,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2064,
+                  "name": "克邦凯斯的肉",
+                  "image": 24011,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2065,
+                  "name": "克邦凯斯的肉",
+                  "image": 24020,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2066,
+                  "name": "克邦凯斯的肉",
+                  "image": 24038,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 2067,
+                  "name": "克邦凯斯的肉",
+                  "image": 24038,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好！。让我帮你记录吧！",
+              "request": "请给我一个克邦凯斯的肉。 如果你有的话我就帮 你记录。",
+              "ok": "以后你要什么时候来都可以。 其它的检查站也会像你要 一些东西。不过要冒险，这些都是 少不了的喔！",
+              "confirm": "那这个克邦凯斯的肉我就收下了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:4000,66,55",
+              "GetItem:2062*1,2063*1,2064*1,2065*1,2066*1,2067*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_4000_68_55"
           }
         },
@@ -163782,12 +168088,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=2434",
+              "GetItem:2437,11872*2,11863",
               "DelItem:2434*1",
               "EVENT:LV>0&ITEM=2433",
+              "GetItem:2436,11873,11863",
               "DelItem:2433*1",
               "EVENT:LV>0&ITEM=2432",
-              "DelItem:2432*1",
-              "EVENT:LV>0&TIME!=0"
+              "GetItem:2435,11874,11863"
             ],
             "source": "gmsv-data/npc/sainasu/event/nevent01_1"
           },
@@ -163963,9 +168270,11 @@ export const WORLD = {
             "hints": [
               "EVENT:ITEM=1836",
               "EVENT:LV>29&ITEM=1834&ITEM=1835&ENDEV=4",
+              "GetItem:1836*3",
               "DelItem:1835*1,1834*1",
               "EVENT:LV>29&ITEM=1834&ENDEV=4",
               "EVENT:LV>29&ENDEV=4",
+              "GetItem:1834",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sa70/feast/feast1.arg"
@@ -164123,6 +168432,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2557",
               "DelItem:2557",
+              "GetItem:2558",
               "EVENT:LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
@@ -164404,6 +168714,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV<11,DR<11,DR=77,DR=777",
+              "GetItem:2600",
               "DelItem:2521,2522,2523,2524,2597,2598,2599,2601,2602",
               "EVENT:ITEM=2600",
               "EVENT:LV>10"
@@ -164953,13 +169264,13 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0&ITEM=2569*1&ITEM=2572*1&TIME!=0",
+              "GetItem:2432",
               "DelItem:2569*1,2572*1",
               "EVENT:LV>0&ITEM=2569*1&ITEM=2573*1&TIME!=0",
               "DelItem:2569*1,2573*1",
               "EVENT:LV>0&ITEM=2569*1&ITEM=2574*1&TIME!=0",
-              "DelItem:2569*1,2574*1",
-              "EVENT:LV>0&ITEM=2570*1&ITEM=2572*1&TIME!=0",
-              "DelItem:2570*1,2572*1"
+              "GetItem:2433",
+              "DelItem:2569*1,2574*1"
             ],
             "source": "gmsv-data/npc/sainasu/event/nevent01_2"
           },
@@ -165095,9 +169406,12 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=6&ITEM!=2414",
+              "GetItem:2414*2",
               "EVENT:NOWEV=6&ITEM=2414*2",
               "EVENT:NOWEV=6&ITEM=2414",
-              "EVENT:ENDEV=6&ITEM!=2414"
+              "GetItem:2414",
+              "EVENT:ENDEV=6&ITEM!=2414",
+              "GetItem:2414*1"
             ],
             "source": "gmsv-data/npc/jaruga/event/event06_2"
           },
@@ -172698,6 +177012,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>0",
+              "GetItem:2524",
               "DelItem:2521,2522,2523,2597,2598,2599,2600,2601,2602",
               "EVENT:ITEM=2524"
             ],
@@ -173508,6 +177823,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>69",
+              "GetItem:2757",
               "EVENT:LV>29&LV<70",
               "EVENT:LV>0"
             ],
@@ -173611,6 +177927,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>69",
+              "GetItem:2757",
               "EVENT:LV>29&LV<70",
               "EVENT:LV>0"
             ],
@@ -176244,10 +180561,11 @@ export const WORLD = {
               "EVENT:LV>29&ENDEV=145",
               "EVENT:LV>29&ITEM=1988&NOWEV=145",
               "DelItem:1988*1",
+              "GetItem:1989",
               "EVENT:LV>29&NOWEV=145&ENDEV=4&ITEM=1986",
               "EVENT:LV>29&NOWEV=145&ENDEV=4&ITEM!=1986",
-              "EVENT:LV>29&ENDEV=4",
-              "EVENT:LV>0"
+              "GetItem:1986",
+              "EVENT:LV>29&ENDEV=4"
             ],
             "source": "gmsv-data/npc/sa70/brother/brother1.arg"
           },
@@ -176270,9 +180588,130 @@ export const WORLD = {
           "script": "file:genout/sp_5000_47_53",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_5000_47_53",
+            "id": 16,
+            "born": {
+              "mapId": "5000",
+              "floor": 5000,
+              "x": 45,
+              "y": 53
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1936,
+                  "name": "格尔顿的肉",
+                  "image": 24008,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1937,
+                  "name": "格尔顿的肉",
+                  "image": 24035,
+                  "cost": 30,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力30前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体30",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1938,
+                  "name": "格尔顿的肉",
+                  "image": 24017,
+                  "cost": 50,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力50前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体50",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1939,
+                  "name": "格尔顿的肉",
+                  "image": 24026,
+                  "cost": 75,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力75前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体75",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1940,
+                  "name": "格尔顿的肉",
+                  "image": 24044,
+                  "cost": 105,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力105前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体105",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1941,
+                  "name": "格尔顿的肉",
+                  "image": 24044,
+                  "cost": 140,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力140前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体140",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "来的好！。让我帮你记录吧！",
+              "request": "给我一个格尔顿的肉的话 我就帮你记下来。 为了要继续旅程一定要带什么东西到检查站， 不然是不会帮你记录的。",
+              "ok": "那以后也欢迎你来玩。 找我说话的话 下次就可以由这里登入了。",
+              "confirm": "那格尔顿的肉我就收下了！"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:5000,45,53",
+              "GetItem:1936*1,1937*1,1938*1,1939*1,1940*1,1941*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_5000_47_53"
           }
         },
@@ -178764,12 +183203,12 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1872",
               "EVENT:LV>0&ITEM=2006&ITEM=2007&ITEM=2008",
+              "GetItem:2009",
               "DelItem:2006*1,2007*1,2008*1",
               "EVENT:LV>0&ITEM=2007&ITEM=2006",
               "EVENT:LV>0&ITEM=2008&ITEM=2007",
               "EVENT:LV>0&ITEM=2008&ITEM=2006",
-              "EVENT:LV>0&ITEM=2008",
-              "EVENT:LV>0&ITEM=2007"
+              "EVENT:LV>0&ITEM=2008"
             ],
             "source": "gmsv-data/npc/sa70/honor/honor1.arg"
           },
@@ -178989,11 +183428,11 @@ export const WORLD = {
               "EVENT:LV>79&ENDEV=72&NOWEV=177&ITEM!=2449&ITEM!=19304&ENDEV!=177&ENDEV!=178&ENDEV=180",
               "EVENT:LV>79&ITEM=2449&ENDEV=72&NOWEV=177&ITEM!=19304&ENDEV!=177&ENDEV!=178&ENDEV=180",
               "DelItem:2449*1",
+              "GetItem:19304*1",
               "EVENT:LV>79&ENDEV=72&NOWEV=177&ITEM!=2449&ITEM!=19304&ENDEV!=177&ENDEV!=178",
               "EVENT:LV>79&ITEM=2449&ENDEV=72&NOWEV=177&ITEM!=19304&ENDEV!=177&ENDEV!=178",
               "EVENT:LV>79&ENDEV=72&ENDEV=177&ITEM=19304",
-              "EVENT:LV>79&ENDEV=72&ENDEV=177&ENDEV!=178&ITEM!=19304",
-              "EVENT:LV>79&ENDEV=72&ENDEV!=177&ENDEV=178"
+              "EVENT:LV>79&ENDEV=72&ENDEV=177&ENDEV!=178&ITEM!=19304"
             ],
             "source": "gmsv-data/npc/sa75/spirit/spirit5100_25_31.arg"
           },
@@ -179543,9 +183982,130 @@ export const WORLD = {
           "script": "file:genout/sp_5106_22_36",
           "template": "npcgen_savepoint",
           "graphic": "10048",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_5106_22_36",
+            "id": 17,
+            "born": {
+              "mapId": "5106",
+              "floor": 5106,
+              "x": 20,
+              "y": 36
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 1864,
+                  "name": "扬奇洛斯的肉",
+                  "image": 24000,
+                  "cost": 10,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力10前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体10",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1865,
+                  "name": "扬奇洛斯的肉",
+                  "image": 24027,
+                  "cost": 15,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力15前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体15",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1866,
+                  "name": "扬奇洛斯的肉",
+                  "image": 24009,
+                  "cost": 25,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力25前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体25",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1867,
+                  "name": "扬奇洛斯的肉",
+                  "image": 24018,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1868,
+                  "name": "扬奇洛斯的肉",
+                  "image": 24036,
+                  "cost": 60,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力60前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体60",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 1869,
+                  "name": "扬奇洛斯的肉",
+                  "image": 24036,
+                  "cost": 85,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力85前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体85",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "记好了。祝你旅途平安。",
+              "request": "我好想要扬奇洛斯的肉喔！",
+              "ok": "欢迎你随时再来。 想要到新的检查站记录的话 一定要带一些东西 不然是不会帮我们记录的。祝你旅途平安。",
+              "confirm": "那就看在扬奇洛斯的肉的份上 帮你记录了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:5106,20,36",
+              "GetItem:1864*1,1865*1,1866*1,1867*1,1868*1,1869*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_5106_22_36"
           }
         },
@@ -180005,6 +184565,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1815",
               "EVENT:LV>29&ENDEV=4&ITEM=1814",
+              "GetItem:1815",
               "DelItem:1814",
               "EVENT:LV>0"
             ],
@@ -180208,8 +184769,10 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>59&ITEM=2764&ITEM=2760&ITEM=2761&ITEM=2762&ITEM=2763",
+              "GetItem:2765",
               "DelItem:2764,2760,2761,2762,2763",
               "EVENT:LV>59",
+              "GetItem:2764*1",
               "EVENT:LV>59&ENDEV=45",
               "EVENT:LV>0"
             ],
@@ -180448,6 +185011,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ENDEV=4&ENDEV=33&ENDEV=32",
+              "GetItem:2603",
               "EVENT:ENDEV=4&ENDEV=32",
               "EVENT:ENDEV=4",
               "EVENT:LV>0&ITEM=2603,ENDEV=4&ENDEV=33&ENDEV=32&ENDEV=34&ITEM=2603",
@@ -180600,8 +185164,10 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:LV>29&ENDEV=4&PET>1-8",
+              "GetItem:1811*1",
               "EVENT:LV>29&ENDEV=4&ITEM=1810",
               "EVENT:LV>29&ENDEV=4",
+              "GetItem:1810*1",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sa70/wish/wish.arg"
@@ -187346,10 +191912,10 @@ export const WORLD = {
               "EVENT:ITEM=19704,ITEM=19705,ITEM=19706,ITEM=19707,ITEM=19708,ITEM=19709,ITEM=19710,ITEM=19711,ITEM=19712,ITEM=19713,ITEM=19714,ITEM=19715",
               "EVENT:ITEM=12093&ITEM=19703&NOWEV=83&NOWEV=82&ENDEV=81&NOWEV=71,ITEM=12093&ITEM=19703&ENDEV=83&NOWEV=82&ENDEV=81&NOWEV=71",
               "DelItem:12093,19703",
+              "GetItem:19704",
               "EVENT:ITEM=19703&NOWEV=83&NOWEV=82&ENDEV=81&NOWEV=71,ITEM=19703&ENDEV=83&NOWEV=82&ENDEV=81&NOWEV=71",
               "EVENT:ITEM=12093&NOWEV=83&NOWEV=82&ENDEV=81&NOWEV=71,ITEM=12093&ENDEV=83&NOWEV=82&ENDEV=81&NOWEV=71",
-              "EVENT:NOWEV=83&NOWEV=82&ENDEV=81&NOWEV=71,ENDEV=83&NOWEV=82&ENDEV=81&NOWEV=71",
-              "EVENT:ITEM=19701&NOWEV=83&NOWEV=82&ENDEV=81&NOWEV=71,ITEM=19701&ENDEV=83&NOWEV=82&ENDEV=81&NOWEV=71"
+              "EVENT:NOWEV=83&NOWEV=82&ENDEV=81&NOWEV=71,ENDEV=83&NOWEV=82&ENDEV=81&NOWEV=71"
             ],
             "source": "gmsv-data/npc/eden1/zoo2/event83_2a"
           },
@@ -190914,6 +195480,7 @@ export const WORLD = {
               "EVENT:NOWEV=84",
               "EVENT:ITEM!=19726&ENDEV=84",
               "EVENT:ITEM=19726",
+              "GetItem:19728",
               "DelItem:19726"
             ],
             "source": "gmsv-data/npc/eden1/saveking/saveking"
@@ -191083,6 +195650,7 @@ export const WORLD = {
               "EVENT:ENDEV=84",
               "EVENT:ITEM=19727",
               "EVENT:NOWEV=84&PET>0-810*1",
+              "GetItem:19727",
               "EVENT:NOWEV=84",
               "EVENT:LV>0"
             ],
@@ -191224,6 +195792,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=1484",
               "DelItem:1484",
+              "GetItem:1485",
               "EVENT:LV>0&ITEM=1485,LV>0&ITEM=1486,LV>0&ITEM=1487,LV>0&ITEM=1488,LV>0&ITEM=1489,LV>0&ITEM=1490,LV>0&ITEM=1491,LV>0&ITEM=1492,LV>0&ITEM=1493,LV>0&ITEM=1494,LV>0&ITEM=1495,LV>0&ITEM=1496",
               "EVENT:LV>0&ITEM=1515,LV>0&ITEM=1516,LV>0&ITEM=1517,LV>0&ITEM=1518,LV>0&ITEM=1519,LV>0&ITEM=1520,LV>0&ITEM=1521,LV>0&ITEM=1522,LV>0&ITEM=1523,LV>0&ITEM=1524,LV>0&ITEM=1525,LV>0&ITEM=1526,LV>0&ITEM=1527",
               "EVENT:LV>0&ENDEV=81"
@@ -193055,7 +197624,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:ENDEV=81&NOWEV=82"
+              "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19720"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/barrel82_01"
           },
@@ -193115,7 +197685,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:ENDEV=81&NOWEV=82"
+              "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19721"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/barrel82_02"
           },
@@ -193355,7 +197926,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:ENDEV=81&NOWEV=82"
+              "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19722"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/barrel82_03"
           },
@@ -193415,7 +197987,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:ENDEV=81&NOWEV=82"
+              "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19723"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/barrel82_04"
           },
@@ -193475,7 +198048,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:ENDEV=81&NOWEV=82"
+              "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19724"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/barrel82_05"
           },
@@ -193535,7 +198109,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:ENDEV=81&NOWEV=82"
+              "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19725"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/barrel82_06"
           },
@@ -194687,6 +199262,7 @@ export const WORLD = {
               "EVENT:ENDEV=81&NOWEV=82&PET=1-905",
               "DelItem:19733",
               "EVENT:ENDEV=81&NOWEV=82",
+              "GetItem:19733",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/eden1/zoo1/employee82_01"
@@ -198438,9 +203014,114 @@ export const WORLD = {
           "script": "file:genout/sp_7012_6_4",
           "template": "npcgen_savepoint",
           "graphic": "16322",
+          "savePoint": {
+            "kind": "savepoint",
+            "source": "gmsv-data/npc/genout/sp_7012_6_4",
+            "id": 34,
+            "born": {
+              "mapId": "7012",
+              "floor": 7012,
+              "x": 6,
+              "y": 6
+            },
+            "noItem": false,
+            "requiredAlternatives": [
+              [
+                {
+                  "id": 19531,
+                  "name": "塔斯夫的肉",
+                  "image": 24005,
+                  "cost": 20,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力20前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体20",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 19532,
+                  "name": "塔斯夫的肉",
+                  "image": 24032,
+                  "cost": 40,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力40前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体40",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 19533,
+                  "name": "塔斯夫的肉",
+                  "image": 24014,
+                  "cost": 65,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力65前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体65",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 19534,
+                  "name": "塔斯夫的肉",
+                  "image": 24023,
+                  "cost": 90,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力90前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体90",
+                  "qty": 1
+                }
+              ],
+              [
+                {
+                  "id": 19535,
+                  "name": "塔斯夫的肉",
+                  "image": 24041,
+                  "cost": 125,
+                  "type": 20,
+                  "useField": 0,
+                  "target": 1,
+                  "level": 0,
+                  "description": "耐久力125前後回复",
+                  "functionName": "ITEM_useRecovery",
+                  "option": "体125",
+                  "qty": 1
+                }
+              ]
+            ],
+            "messages": {
+              "normal": "你已经记录了，可以放心地在伊甸游玩啰！",
+              "request": "我可以帮你在这里记录，不过要给我一块塔斯夫的肉你确定要记录吗？",
+              "ok": "好啦！以后你就可以自由地在伊甸进出了。",
+              "confirm": "那好，我帮你纪录..."
+            }
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "save"
+            ],
+            "hints": [
+              "Born:7012,6,6",
+              "GetItem:19531*1,19532*1,19533*1,19534*1,19535*1"
+            ],
             "source": "gmsv-data/npc/genout/sp_7012_6_4"
           }
         },
@@ -225233,6 +229914,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2584",
               "DelItem:2584",
+              "GetItem:2585",
               "EVENT:LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583",
               "EVENT:LV>0"
@@ -226331,6 +231013,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2580&ENDEV=17",
               "DelItem:2580",
+              "GetItem:2581",
               "EVENT:LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -226482,6 +231165,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=19563",
               "EVENT:LV>0&ITEM=2452&ITEM=2440&ITEM=2441&ITEM=2442&ITEM=2400",
               "DelItem:2452*1,2440*1,2400*1,2441*1,2442*1",
+              "GetItem:19563*1",
               "EVENT:LV>0"
             ],
             "source": "gmsv-data/npc/sainasu/event/tiger_water.arg"
@@ -228365,6 +233049,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:ITEM=2417*15",
+              "GetItem:2418",
               "DelItem:2417*15",
               "EVENT:LV>0",
               "EVENT:ENDEV=4"
@@ -228427,7 +233112,8 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
-              "EVENT:NOWEV=4&ITEM!=2417"
+              "EVENT:NOWEV=4&ITEM!=2417",
+              "GetItem:2417*15"
             ],
             "source": "gmsv-data/npc/jaruga/event/event04_2"
           },
@@ -229087,6 +233773,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2585",
               "DelItem:2585",
+              "GetItem:2586",
               "EVENT:LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584",
               "EVENT:LV>0"
@@ -229246,6 +233933,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2579&ENDEV=17",
               "DelItem:2579",
+              "GetItem:2580",
               "EVENT:LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -230511,6 +235199,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2583",
               "DelItem:2583",
+              "GetItem:2584",
               "EVENT:LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582",
               "EVENT:LV>0"
@@ -231174,6 +235863,7 @@ export const WORLD = {
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2582",
               "DelItem:2582",
+              "GetItem:2583",
               "EVENT:LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581",
               "EVENT:LV>0"
@@ -231799,6 +236489,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2577&ENDEV=17",
               "DelItem:2577",
+              "GetItem:2578",
               "EVENT:LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
               "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17",
               "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
@@ -233278,6 +237969,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2560",
               "DelItem:2560",
+              "GetItem:2561",
               "EVENT:LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -233438,6 +238130,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2558",
               "DelItem:2558",
+              "GetItem:2559",
               "EVENT:LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
@@ -234253,8 +238946,10 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=8&ITEM=2414&ITEM=2426",
+              "GetItem:1206",
               "DelItem:2426",
               "EVENT:LV>0&ITEM=2414",
+              "GetItem:2425",
               "EVENT:ENDEV=7&ENDEV=8&ITEM=2414",
               "EVENT:ITEM=2414"
             ],
@@ -235136,6 +239831,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2562",
               "DelItem:2562",
+              "GetItem:2563",
               "EVENT:LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558&ENDEV=2,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2",
               "EVENT:LV>0&ITEM=2552&ENDEV=2,LV>0&ITEM=2553&ENDEV=2,LV>0&ITEM=2554&ENDEV=2,LV>0&ITEM=2555&ENDEV=2,LV>0&ITEM=2556&ENDEV=2,LV>0&ITEM=2557&ENDEV=2,LV>0&ITEM=2558,LV>0&ITEM=2559&ENDEV=2,LV>0&ITEM=2560&ENDEV=2,LV>0&ITEM=2561&ENDEV=2,LV>0&ITEM=2562&ENDEV=2,LV>0&ITEM=2563&ENDEV=2,LV>0&ITEM=2564&ENDEV=2",
@@ -235296,6 +239992,7 @@ export const WORLD = {
             "hints": [
               "EVENT:LV>0&ITEM=2558",
               "DelItem:2558",
+              "GetItem:2559",
               "EVENT:LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557",
               "EVENT:LV>0&ITEM=2552,LV>0&ITEM=2553,LV>0&ITEM=2554,LV>0&ITEM=2555,LV>0&ITEM=2556,LV>0&ITEM=2557,LV>0&ITEM=2558,LV>0&ITEM=2559,LV>0&ITEM=2560,LV>0&ITEM=2561,LV>0&ITEM=2562,LV>0&ITEM=2563,LV>0&ITEM=2564",
@@ -236670,6 +241367,7 @@ export const WORLD = {
             ],
             "hints": [
               "EVENT:NOWEV=17&ITEM!=2505",
+              "GetItem:2505",
               "EVENT:LV>0&ITEM!=2505",
               "EVENT:NOWEV=17&ITEM=2505",
               "EVENT:ENDEV=17"

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T15:05:28.906Z",
+  "generatedAt": "2026-05-19T19:14:53.286Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,9 +206,9 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 11758,
+      "supported-config": 11787,
       "candidate-action": 1879,
-      "unknown": 1695,
+      "unknown": 1666,
       "supported-message": 10760,
       "condition-control": 11752,
       "supported-action": 3680,
@@ -1017,7 +1017,7 @@
       {
         "key": "Born",
         "normalized": "born",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 29,
         "files": 29,
         "profiles": {
@@ -13888,58 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "Born",
-        "normalized": "born",
-        "category": "unknown",
-        "occurrences": 29,
-        "files": 29,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 14,
-            "files": 14
-          },
-          "classic-rebirth": {
-            "occurrences": 16,
-            "files": 16
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 16,
-            "files": 16
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 16,
-            "files": 16
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/sp_1000_94_99",
-            "line": 2,
-            "text": "Born:1000,92,99"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/sp_100_183_346",
-            "line": 2,
-            "text": "Born:100,181,346"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/sp_100_344_466",
-            "line": 2,
-            "text": "Born:100,342,466"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/sp_1100_50_91",
-            "line": 2,
-            "text": "Born:1100,48,91"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/sp_1200_63_46",
-            "line": 2,
-            "text": "Born:1200,61,46"
-          }
-        ]
-      },
-      {
         "key": "NEWEVENT1",
         "normalized": "newevent",
         "category": "candidate-action",
@@ -15879,6 +15827,43 @@
             "file": "external/sources/ref___data/npc/race2/second.arg",
             "line": 4,
             "text": "caution_msg:猎宠证无法交易或丢弃"
+          }
+        ]
+      },
+      {
+        "key": "CheckItem",
+        "normalized": "checkitem",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 22,
+            "text": "CheckItem:20706"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 20,
+            "text": "CheckItem:20760"
           }
         ]
       }

@@ -594,8 +594,30 @@ const saveNpc = Object.values(WORLD.maps)
 if (!saveNpc) throw new Error("missing savepoint NPC fixture");
 
 game.location = { mapId: saveNpc.map.id, x: saveNpc.npc.x + 1, y: saveNpc.npc.y };
+const savePointRequirement = saveNpc.npc.savePoint?.requiredAlternatives?.[0] || [];
+const savePointRequirementBefore = new Map(savePointRequirement.map((item) => [Number(item.id), inventoryQty(game, item.id)]));
+for (const item of savePointRequirement) {
+  const existing = game.inventory.find((entry) => Number(entry.id) === Number(item.id));
+  if (existing) existing.qty = Number(existing.qty || 0) + Number(item.qty || 1);
+  else game.inventory.push({ ...item, qty: Number(item.qty || 1) });
+}
 game = await api("/api/game/dialog", { game, npcId: saveNpc.npc.id, message: "记录" });
+if (savePointRequirement.length) {
+  assert(game.flags.pendingSavePoint?.npcId === saveNpc.npc.id, "source savepoint asks for confirmation before consuming GetItem requirements");
+  assert(game.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.reason === "source-savepoint-confirm"), "source savepoint confirmation runs through window VM trace");
+  game = await api("/api/game/dialog", { game, npcId: saveNpc.npc.id, message: "确认记录" });
+  for (const item of savePointRequirement) {
+    assertEqual(inventoryQty(game, item.id), savePointRequirementBefore.get(Number(item.id)), "source savepoint consumes its selected GetItem requirement set");
+  }
+  assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-savepoint-getitem"), "source savepoint item consumption runs through NPC VM take");
+}
 assertEqual(game.savePoint.npcId, saveNpc.npc.id, "savepoint records npc id");
+assertEqual(game.savePoint.sourceId, saveNpc.npc.savePoint?.id || 0, "savepoint records source elder id");
+if (saveNpc.npc.savePoint?.born) {
+  assertEqual(game.savePoint.born.mapId, saveNpc.npc.savePoint.born.mapId, "savepoint records source Born map");
+  assertEqual(game.savePoint.born.x, saveNpc.npc.savePoint.born.x, "savepoint records source Born x");
+  assertEqual(game.savePoint.born.y, saveNpc.npc.savePoint.born.y, "savepoint records source Born y");
+}
 assertEqual(game.save.json.savePoint.npcId, saveNpc.npc.id, "save json records savepoint");
 assert(game.save.info.includes("LAST_SAVEPOINT="), "saac-like save info includes last savepoint");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "save" && event.status === "ok"), "savepoint dialog debug includes save VM trace");
