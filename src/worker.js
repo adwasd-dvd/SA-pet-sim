@@ -1434,6 +1434,7 @@ async function useItemGame(env, request, game, itemId) {
   const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
   hydrateInventoryItemFromSource(item, data?.itemSet);
+  hydrateRuntimeItemEffect(item, data);
   if (itemLooksEquipment(item)) return equipItemGame(game, itemId);
 
   const itemUse = applyUsableItem(game, item);
@@ -1589,7 +1590,7 @@ function equipmentState(game) {
 function itemLooksEquipment(item = {}) {
   const functionName = itemFunctionName(item);
   if (/ITEM_suitEquip|ITEM_ResuitEquip/i.test(functionName)) return true;
-  if (/^ITEM_(?:use|Refresh|ResAndDef|Addexp|ChikulaStone|metamo|MetamoTime)/i.test(functionName)) return false;
+  if (/^ITEM_(?:use|Refresh|ResAndDef|Addexp|ChikulaStone|Gold|metamo|MetamoTime)/i.test(functionName)) return false;
   const text = `${item.name || ""} ${item.secretName || ""} ${item.description || ""} ${item.category || ""} ${item.option || ""}`;
   return /武器|防具|装备|裝備|斧|枪|槍|弓|投石|爪|兜|帽|服|铠|鎧|甲|盾|刀|剑|劍|棒|棍|鞋|靴|项链|項鏈|戒指|护身符|護身符/.test(text);
 }
@@ -1619,7 +1620,7 @@ function firstUsableRecoveryItem(game) {
   return (game.inventory || []).find((item) => {
     if (item.id === "stone" || Number(item.qty || 0) <= 0) return false;
     const preview = previewItemUse(game, item, { battle: true });
-    return preview.usable;
+    return preview.usable && preview.actions?.some((action) => ["hp", "mp", "status"].includes(action.kind));
   }) || null;
 }
 
@@ -1633,7 +1634,7 @@ const ITEM_STATUS_RECOVERY_DEFS = [
   { tokens: ["默", "沉默"], keys: ["silence"], label: "沉默" }
 ];
 
-const ITEM_BATTLE_EFFECT_KINDS = new Set(["hp", "mp", "status"]);
+const ITEM_BATTLE_EFFECT_KINDS = new Set(["hp", "mp", "status", "captureUp", "statusInflict"]);
 const ITEM_NO_ENCOUNTER_SECONDS = 6 * 60;
 const ITEM_CHIKULA_SECONDS = 30 * 60;
 const ITEM_METAMO_DEFAULT_SECONDS = 3 * 60;
@@ -1655,6 +1656,10 @@ function itemEffect(item) {
   const addExpFunction = /ITEM_Addexp/i.test(functionName);
   const chikulaFunction = /ITEM_ChikulaStone/i.test(functionName);
   const metamoFunction = /ITEM_(?:metamo|MetamoTime)/i.test(functionName);
+  const goldFunction = /ITEM_Gold/i.test(functionName);
+  const skillCannedFunction = /ITEM_useSkillCanned/i.test(functionName);
+  const captureUpFunction = /ITEM_useCaptureUp/i.test(functionName);
+  const statusChangeFunction = /ITEM_useStatusChange/i.test(functionName);
 
   const revive = reviveFunction || (fieldConsumable && /复活药|復活藥|气绝|氣絕|回魂|回复成耐力|回復成耐力|从气绝|從氣絕/.test(text));
   const hpAmount = parseItemResourceAmount(text, option, ["体", "耐", "耐久力", "耐力", "HP"], {
@@ -1752,6 +1757,46 @@ function itemEffect(item) {
       seconds: metamo.seconds,
       formName: metamo.formName,
       label: "变身",
+      sourceFunction: functionName
+    });
+  }
+
+  const goldAmount = goldFunction ? parseItemGoldAmount(option, text) : 0;
+  if (goldAmount > 0) {
+    effects.push({
+      kind: "gold",
+      amount: goldAmount,
+      label: "石币",
+      sourceFunction: functionName
+    });
+  }
+
+  const skillId = skillCannedFunction ? parseItemSkillCannedId(option, text) : 0;
+  if (skillId > 0) {
+    effects.push({
+      kind: "petSkillCan",
+      skillId,
+      label: "宠技罐头",
+      sourceFunction: functionName
+    });
+  }
+
+  const captureUpAmount = captureUpFunction ? parseItemCaptureUpAmount(option, text) : 0;
+  if (captureUpAmount > 0) {
+    effects.push({
+      kind: "captureUp",
+      amount: captureUpAmount,
+      label: "捕获率",
+      sourceFunction: functionName
+    });
+  }
+
+  const statusInflict = statusChangeFunction ? parseItemStatusInflict(option || text) : null;
+  if (statusInflict) {
+    effects.push({
+      kind: "statusInflict",
+      status: statusInflict,
+      label: statusInflict.label || "异常状态",
       sourceFunction: functionName
     });
   }
@@ -1908,6 +1953,35 @@ function parseItemMetamo(option, text, functionName = "") {
     };
   }
   return null;
+}
+
+function parseItemGoldAmount(option, text) {
+  const raw = `${option || ""} ${text || ""}`;
+  const amount = Number(String(raw).match(/\d+/)?.[0] || 0);
+  return Number.isFinite(amount) && amount > 0 ? Math.trunc(amount) : 0;
+}
+
+function parseItemSkillCannedId(option, text) {
+  const raw = `${option || ""} ${text || ""}`;
+  const id = Number(String(raw).match(/\d+/)?.[0] || 0);
+  return Number.isFinite(id) && id > 0 ? Math.trunc(id) : 0;
+}
+
+function parseItemCaptureUpAmount(option, text) {
+  const raw = `${option || ""} ${text || ""}`;
+  const amount = Number(String(raw).match(/\d+/)?.[0] || 0);
+  return Number.isFinite(amount) && amount > 0 ? Math.trunc(amount) : 0;
+}
+
+function parseItemStatusInflict(option) {
+  const raw = String(option || "");
+  const status = parsePetSkillStatusChange(raw);
+  if (!status) return null;
+  const chance = Number(raw.match(/(?:成|率|chance)\s*([0-9]+)/i)?.[1] || 0);
+  return {
+    ...status,
+    percent: Number.isFinite(chance) && chance > 0 ? chance : (Number(status.percent || 0) || 100)
+  };
 }
 
 function parseReadableDurationSeconds(text = "") {
@@ -2074,7 +2148,31 @@ function previewItemUse(game, item, options = {}) {
     actions.push(action);
   }
 
-  const partyEffects = contextEffects.filter((entry) => !["warp", "encounter", "noEncounter", "expBonus", "chikula", "metamo"].includes(entry.kind));
+  for (const entry of contextEffects.filter((item) => item.kind === "gold")) {
+    actions.push(previewGoldItemAction(game, entry));
+  }
+
+  for (const entry of contextEffects.filter((item) => item.kind === "petSkillCan")) {
+    const action = previewPetSkillCanAction(game, entry, item);
+    if (!action.ok) return { usable: false, effect, reason: action.reason, skillId: entry.skillId };
+    actions.push(action);
+  }
+
+  for (const entry of contextEffects.filter((item) => item.kind === "captureUp")) {
+    const action = previewCaptureUpAction(game, entry);
+    if (!action.ok) return { usable: false, effect, reason: action.reason };
+    actions.push(action);
+  }
+
+  for (const entry of contextEffects.filter((item) => item.kind === "statusInflict")) {
+    const action = previewStatusInflictAction(game, entry);
+    if (!action.ok) return { usable: false, effect, reason: action.reason };
+    actions.push(action);
+  }
+
+  const partyEffects = contextEffects.filter((entry) => ![
+    "warp", "encounter", "noEncounter", "expBonus", "chikula", "metamo", "gold", "petSkillCan", "captureUp", "statusInflict"
+  ].includes(entry.kind));
   const targets = itemPartyTargets(game);
   if (partyEffects.length) {
     const targetList = effect.scope === "all"
@@ -2104,6 +2202,79 @@ function previewItemUse(game, item, options = {}) {
     before: hpAction?.before,
     next: hpAction?.after,
     restored: hpAction?.restored || 0
+  };
+}
+
+function previewGoldItemAction(game, effect) {
+  const before = Math.max(0, Number(game.player?.stone || 0));
+  const amount = Math.max(1, Number(effect.amount || 1));
+  const after = Math.min(CHAR_MAXGOLDHAVE, before + amount);
+  return {
+    kind: "gold",
+    targetName: "自己",
+    before,
+    after,
+    amount: after - before,
+    sourceFunction: effect.sourceFunction
+  };
+}
+
+function previewPetSkillCanAction(game, effect, item = {}) {
+  const targetPetIndex = getActivePetIndex(game);
+  if (targetPetIndex < 0) return { ok: false, reason: "pet-skill-no-pet" };
+  const pet = game.pets?.[targetPetIndex];
+  if (!pet) return { ok: false, reason: "pet-skill-no-pet" };
+  const skillId = Number(effect.skillId || 0);
+  if (!skillId) return { ok: false, reason: "pet-skill-missing" };
+  const currentSkillIds = Array.from({ length: 7 }, (_, index) => Number(pet.PetSkillIds?.[index] || pet.PetSkills?.[index]?.Id || 0));
+  if (currentSkillIds.includes(skillId)) return { ok: false, reason: "pet-skill-known" };
+  const slotIndex = currentSkillIds.findIndex((id) => !id);
+  if (slotIndex < 0) return { ok: false, reason: "pet-skill-full" };
+  const skill = item.skillCanned || { Id: skillId, Name: `技能 ${skillId}`, Source: `${GMSV_DATA_SOURCE}/petskill2.txt` };
+  return {
+    ok: true,
+    kind: "petSkillCan",
+    targetName: pet.Name || "宠物",
+    petIndex: targetPetIndex,
+    slotIndex,
+    skillId,
+    skill,
+    sourceFunction: effect.sourceFunction
+  };
+}
+
+function previewCaptureUpAction(game, effect) {
+  if (!game.encounter) return { ok: false, reason: "battle-target-missing" };
+  const target = game.encounter;
+  const before = Math.max(0, Math.min(100, Number(target.CaptureRate || 0)));
+  if (before <= 0 || target.npcEnemy) return { ok: false, reason: "capture-not-allowed" };
+  const amount = clampInt(effect.amount, 1, 100, 5);
+  const after = Math.min(100, before + amount);
+  if (after <= before) return { ok: false, reason: "capture-already-max" };
+  return {
+    ok: true,
+    kind: "captureUp",
+    target,
+    targetName: target.Name || "野外宠物",
+    before,
+    after,
+    amount,
+    sourceFunction: effect.sourceFunction
+  };
+}
+
+function previewStatusInflictAction(game, effect) {
+  if (!game.encounter) return { ok: false, reason: "battle-target-missing" };
+  const target = game.encounter;
+  if (Number(target.Hp || 0) <= 0) return { ok: false, reason: "battle-target-down" };
+  if (!effect.status?.key) return { ok: false, reason: "status-inflict-missing" };
+  return {
+    ok: true,
+    kind: "statusInflict",
+    target,
+    targetName: target.Name || "敌方",
+    status: effect.status,
+    sourceFunction: effect.sourceFunction
   };
 }
 
@@ -2423,6 +2594,78 @@ function applyItemUseAction(game, action, applied, item) {
     });
     return;
   }
+  if (action.kind === "gold") {
+    game.player ||= {};
+    const before = Math.max(0, Number(game.player.stone || 0));
+    const after = Math.min(CHAR_MAXGOLDHAVE, Math.max(0, Number(action.after || before)));
+    game.player.stone = after;
+    game.player.CHAR_GOLD = after;
+    syncStoneItem(game);
+    applied.push({
+      kind: "gold",
+      targetName: "自己",
+      before,
+      after,
+      amount: Math.max(0, after - before),
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
+  if (action.kind === "petSkillCan") {
+    const pet = game.pets?.[action.petIndex];
+    if (!pet) return;
+    pet.PetSkillIds = Array.from({ length: 7 }, (_, index) => Number(pet.PetSkillIds?.[index] || pet.PetSkills?.[index]?.Id || 0));
+    pet.PetSkills = Array.from({ length: 7 }, (_, index) => pet.PetSkills?.[index] || null);
+    const skill = action.skill || { Id: action.skillId, Name: `技能 ${action.skillId}` };
+    pet.PetSkillIds[action.slotIndex] = Number(action.skillId || skill.Id || 0);
+    pet.PetSkills[action.slotIndex] = compactPetSkillForSave(skill);
+    syncCharacterFields(game);
+    applied.push({
+      kind: "petSkillCan",
+      targetName: pet.Name || "宠物",
+      petIndex: action.petIndex,
+      slotIndex: action.slotIndex,
+      skillId: Number(action.skillId || skill.Id || 0),
+      skillName: skill.Name || `技能 ${action.skillId || ""}`,
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
+  if (action.kind === "captureUp") {
+    const target = action.target || game.encounter;
+    if (!target) return;
+    const before = Math.max(0, Math.min(100, Number(target.CaptureRate || action.before || 0)));
+    const after = Math.max(before, Math.min(100, Number(action.after || before)));
+    target.CaptureRate = after;
+    if (game.encounter && (game.encounter === target || game.encounter.Name === target.Name)) game.encounter.CaptureRate = after;
+    syncActiveEnemyPartyEntry(game, target);
+    applied.push({
+      kind: "captureUp",
+      targetName: action.targetName || target.Name || "野外宠物",
+      before,
+      after,
+      amount: Math.max(0, after - before),
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
+  if (action.kind === "statusInflict") {
+    const target = action.target || game.encounter;
+    if (!target || !action.status?.key) return;
+    const appliedStatus = applyBattleStatus(target, action.status, {
+      chance: clampInt(action.status.percent, 0, 300, 100),
+      roll: 0
+    });
+    syncActiveEnemyPartyEntry(game, target);
+    applied.push({
+      kind: "statusInflict",
+      targetName: action.targetName || target.Name || "敌方",
+      status: compactBattleStatusEffect(appliedStatus),
+      turns: Number(appliedStatus.turns || 0),
+      sourceFunction: action.sourceFunction
+    });
+    return;
+  }
   if (action.kind === "warp") {
     const map = applyWarpTarget(game, action.target, item.name || "道具传送");
     applied.push({
@@ -2443,6 +2686,13 @@ function itemUseRefusalMessage(item, preview) {
   if (preview.reason === "encounter-active") return "已经在战斗中，不能再次触发原地遇敌";
   if (preview.reason === "encounter-blocked") return `${preview.map?.name || "当前地图"} 不能触发原地遇敌：${wildEncounterBlockedText(preview.map, null)}`;
   if (preview.reason === "metamo-target-missing") return `${item.name} 需要可变身的宠物或来源形象`;
+  if (preview.reason === "pet-skill-no-pet") return `${item.name} 需要先选择一只出战宠物`;
+  if (preview.reason === "pet-skill-known") return "出战宠物已经会这个技能";
+  if (preview.reason === "pet-skill-full") return "出战宠物技能栏已满，请先整理技能格";
+  if (preview.reason === "capture-not-allowed") return "这个目标不能捕获，捕获率提升道具不能生效";
+  if (preview.reason === "capture-already-max") return "这个目标的捕获率已经到上限";
+  if (preview.reason === "battle-target-missing") return "战斗中需要先选择一个目标";
+  if (preview.reason === "battle-target-down") return "这个目标已经倒下";
   if (preview.reason === "unsupported") return `${item.name} 还没有可模拟的使用效果`;
   return `${item.name} 当前没有合适的目标或状态可以生效`;
 }
@@ -2462,6 +2712,10 @@ function itemUseSummary(itemName, effects = []) {
     if (effect.kind === "expBonus") return `经验加成 ${effect.power}%，${effect.minutes} 分钟`;
     if (effect.kind === "chikula") return `自动回复${effect.resource === "mp" ? "气力" : "耐久力"} ${effect.before}->${effect.after}`;
     if (effect.kind === "metamo") return `变身为 ${effect.targetName} ${effect.seconds} 秒`;
+    if (effect.kind === "gold") return `获得石币 ${effect.before}->${effect.after}`;
+    if (effect.kind === "petSkillCan") return `${effect.targetName} 学会 ${effect.skillName}（技能格 ${Number(effect.slotIndex) + 1}）`;
+    if (effect.kind === "captureUp") return `${effect.targetName}捕获率 ${effect.before}->${effect.after}`;
+    if (effect.kind === "statusInflict") return `${effect.targetName}进入${effect.status?.label || "异常"} ${effect.turns || ""} 回合`.trim();
     return "";
   }).filter(Boolean);
   return parts.length ? `${itemName}：${parts.join("；")}` : `${itemName} 已使用`;
@@ -2828,6 +3082,7 @@ async function battleGame(env, request, game, action) {
   const data = await loadGameData(env, request);
   game = normalizeGame(game);
   hydrateGameInventoryFromSource(game, data?.itemSet);
+  hydrateGameInventoryRuntimeEffects(game, data);
   const outcome = performBattleAction(game, action);
   recordBattleOutcome(game, outcome);
   return withMap(game, { battleOutcome: outcome });
@@ -4100,6 +4355,14 @@ function selectBattleTarget(game, targetIndex) {
   game.encounter = target;
 }
 
+function syncActiveEnemyPartyEntry(game, target = game.encounter) {
+  const battle = game?.battle;
+  if (!battle || !Array.isArray(battle.enemyParty) || !target) return;
+  const activeIndex = Math.max(0, Number(battle.activeEnemyIndex || 0));
+  if (!battle.enemyParty[activeIndex]) return;
+  battle.enemyParty[activeIndex] = { ...battle.enemyParty[activeIndex], ...target };
+}
+
 function performBattleItemAction(game, itemId = null) {
   if (!game.encounter) throw new Error("当前没有战斗目标");
   const activeActor = activeBattleActor(game);
@@ -4114,9 +4377,13 @@ function performBattleItemAction(game, itemId = null) {
   const itemUse = applyUsableItem(game, item, { battle: true });
   const battleLog = [itemUseLogLine(itemUse)];
   if (enemy.Hp > 0) {
-    const hit = combatDamageDetail(enemy, activeActor);
-    setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-    battleLog.push(`${enemy.Name} 趁机反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    const statusResult = consumeBattleStatusBeforeTurn(enemy, battleLog);
+    syncActiveEnemyPartyEntry(game, enemy);
+    if (!statusResult.stopped && Number(enemy.Hp || 0) > 0) {
+      const hit = combatDamageDetail(enemy, activeActor);
+      setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
+      battleLog.push(`${enemy.Name} 趁机反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    }
   }
 
   return settleBattleRound(game, activeActor, enemy, {
@@ -5169,6 +5436,7 @@ async function applyGuideRequest(env, request, game, prompt) {
   if (isItemUseRequest(lower)) {
     const data = await loadGameData(env, request);
     hydrateGameInventoryFromSource(game, data?.itemSet);
+    hydrateGameInventoryRuntimeEffects(game, data);
     const choice = chooseGuideItem(game, text);
     if (!choice?.item) {
       return {
@@ -9989,6 +10257,25 @@ function addInventoryItem(game, item, qty = 1) {
 
 function hydrateGameInventoryFromSource(game, itemSet = cache?.itemSet) {
   for (const item of game?.inventory || []) hydrateInventoryItemFromSource(item, itemSet);
+}
+
+function hydrateGameInventoryRuntimeEffects(game, data = cache) {
+  for (const item of game?.inventory || []) hydrateRuntimeItemEffect(item, data);
+}
+
+function hydrateRuntimeItemEffect(item, data = cache) {
+  if (!item || item.id === "stone") return item;
+  const effect = itemEffect(item);
+  const skillCan = effect.effects.find((entry) => entry.kind === "petSkillCan" && Number(entry.skillId || 0) > 0);
+  if (skillCan) {
+    const skill = data?.skills?.get(Number(skillCan.skillId));
+    item.skillCanned = skill ? compactPetSkillForSave(skill) : {
+      Id: Number(skillCan.skillId),
+      Name: `技能 ${Number(skillCan.skillId)}`,
+      Source: `${GMSV_DATA_SOURCE}/petskill2.txt`
+    };
+  }
+  return item;
 }
 
 function hydrateInventoryItemFromSource(item, itemSet = cache?.itemSet) {

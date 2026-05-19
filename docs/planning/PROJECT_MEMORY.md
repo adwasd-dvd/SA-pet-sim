@@ -129,6 +129,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - Stone changes still go through `runNpcVmAction`, sync the inventory stone row, and are checked against the original max carried-stone scale (`CHAR_MAXGOLDHAVE = 10000 * 10000`).
 - NPC task summaries and AI/debug context should prefer these compact parsed actions over dumping raw source lines, so token use stays low and numeric item IDs can be resolved before reaching the model.
 - 2026-05-19 NPC AI boundary fix: normal NPC dialogue now blocks AI-only negotiation intents such as teleport bargaining, discounts, hidden goods, bribes, threats, and no-encounter requests unless the player explicitly enables AI mode for that NPC. The dedicated dialog AI toggle remains the entry point; suggestion buttons no longer duplicate an `AI对话` option. Explicit AI mode still routes proposals through the deterministic NPC VM.
+- 2026-05-19 source item effects: Worker item use now handles `ITEM_Gold`, `ITEM_useSkillCanned`, `ITEM_useCaptureUp`, and `ITEM_useStatusChange` from `itemset6`/`item_event.c`. Old thin saved items are hydrated from source data before use, pet skill cans teach source `petskill2` ids, capture-up/status items work in battle with deterministic validation, and auto-battle item selection avoids spending non-recovery utility items.
 
 ## Current Done Tasks
 

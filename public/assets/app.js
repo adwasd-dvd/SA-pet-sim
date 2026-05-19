@@ -5665,11 +5665,10 @@ function inventoryItemUsable(item) {
   const rawType = item.type ?? item.Type;
   const hasNumericType = rawType !== undefined && rawType !== null && rawType !== "" && Number.isFinite(Number(rawType));
   if (hasNumericType && ![15, 16, 20].includes(Number(rawType)) && !/^ITEM_/i.test(String(item.functionName || ""))) return false;
-  return /ITEM_useRecovery|ITEM_useStatusRecovery|ITEM_useRessurect|ITEM_ResAndDef|ITEM_useWarp|ITEM_useWarpForNum|ITEM_useDeathcounter|ITEM_useEncounter|ITEM_useNoenemy|ITEM_Addexp|ITEM_ChikulaStone|ITEM_metamo|ITEM_MetamoTime|耐久力|耐力|HP|体\s*\d+|耐\s*\d+|气力|氣力|气\s*\d+|氣\s*\d+|小的肉|乾燥肉|大的肉|高级肉|复活|復活|气绝|氣絕|解除|治疗|治療|状态回复|狀態回復|净化|淨化|魅\+|忠\s*[+-]?\d|忠诚度|羽毛|飞行|飛行|瞬间|瞬間|恶魔宝石|惡魔寶石|原地遇敌|遇敌|驱散敌人|避敌|经验值上升|增\s*\d+\s*分\s*\d+|自动回复|奇克拉|变身|變身/i.test(text);
+  return /ITEM_useRecovery|ITEM_useStatusRecovery|ITEM_useStatusChange|ITEM_useRessurect|ITEM_ResAndDef|ITEM_useWarp|ITEM_useWarpForNum|ITEM_useDeathcounter|ITEM_useEncounter|ITEM_useNoenemy|ITEM_useCaptureUp|ITEM_useSkillCanned|ITEM_Addexp|ITEM_ChikulaStone|ITEM_Gold|ITEM_metamo|ITEM_MetamoTime|耐久力|耐力|HP|体\s*\d+|耐\s*\d+|气力|氣力|气\s*\d+|氣\s*\d+|小的肉|乾燥肉|大的肉|高级肉|复活|復活|气绝|氣絕|解除|治疗|治療|状态回复|狀態回復|净化|淨化|魅\+|忠\s*[+-]?\d|忠诚度|羽毛|飞行|飛行|瞬间|瞬間|恶魔宝石|惡魔寶石|原地遇敌|遇敌|驱散敌人|避敌|经验值上升|增\s*\d+\s*分\s*\d+|自动回复|奇克拉|变身|變身|石币券|石幣券|石币|石幣|宠技罐头|寵技罐頭|捕获率|捕獲率|捕捉率|状态变化|狀態變化/i.test(text);
 }
 
 function battleUsableItems() {
-  if (!battleHasRecoverableTarget()) return [];
   return (game?.inventory || []).filter((item) => (
     item.id !== "stone"
     && Number(item.qty || 0) > 0
