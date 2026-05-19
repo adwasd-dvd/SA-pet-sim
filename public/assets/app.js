@@ -4,12 +4,14 @@ const MAP_ZOOM_MAX = 8;
 const MAP_ZOOM_STEP = 0.5;
 const MAP_DEFAULT_ZOOM = 1;
 const CG_INVISIBLE = 99;
+const SPR_START = 100000;
 const REAL_TILE_CELL_LIMIT = 90000;
 const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json";
+const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
 const PET_CAPACITY_FALLBACK = 5;
@@ -155,6 +157,11 @@ const profileAtlasState = {
   framePackUrls: null,
   framePackPlanUrl: "",
   frames: Object.create(null)
+};
+const petFieldAnimationState = {
+  disabled: false,
+  manifest: null,
+  loading: null
 };
 let largeMapRenderer = null;
 let mapRenderVersion = 0;
@@ -1820,6 +1827,69 @@ function applyAtlasSprite(el, atlas, tileId) {
   return frame;
 }
 
+function requestPetFieldAnimations() {
+  if (petFieldAnimationState.disabled || petFieldAnimationState.manifest || petFieldAnimationState.loading) return;
+  void ensurePetFieldAnimationsLoaded();
+}
+
+async function ensurePetFieldAnimationsLoaded() {
+  if (petFieldAnimationState.disabled) return null;
+  if (petFieldAnimationState.manifest) return petFieldAnimationState.manifest;
+  if (petFieldAnimationState.loading) return petFieldAnimationState.loading;
+  petFieldAnimationState.loading = (async () => {
+    const rsp = await fetch(PET_FIELD_ANIMATION_MANIFEST);
+    if (!rsp.ok) throw new Error(`pet field animation manifest missing: ${PET_FIELD_ANIMATION_MANIFEST}`);
+    const manifest = await rsp.json();
+    const manifestUrl = new URL(PET_FIELD_ANIMATION_MANIFEST, window.location.origin).toString();
+    const packUrl = resolvePackUrl(manifestUrl, manifest.pack?.manifest || "");
+    if (packUrl) await ensureProfilePacksLoaded([packUrl]);
+    petFieldAnimationState.manifest = { ...manifest, __url: manifestUrl };
+    loadedTileAtlas = atlasWithProfileFrames(loadedTileAtlas, "pet field animation");
+    hydrateAtlasSprites(loadedTileAtlas);
+    invalidatePlayerSpriteRender();
+    if (game) render();
+    return petFieldAnimationState.manifest;
+  })().catch(() => {
+    petFieldAnimationState.disabled = true;
+    return null;
+  }).finally(() => {
+    petFieldAnimationState.loading = null;
+  });
+  return petFieldAnimationState.loading;
+}
+
+function sourceFieldSpriteTileId(spriteNo, options = {}) {
+  const fallback = Number(options.fallback ?? spriteNo ?? 0);
+  const id = Number(spriteNo || 0);
+  if (!Number.isFinite(id) || id < SPR_START) return fallback;
+  const manifest = petFieldAnimationState.manifest;
+  if (!manifest?.sprites?.[id]) {
+    requestPetFieldAnimations();
+    return fallback;
+  }
+  const frameId = petFieldAnimationFrameId(manifest.sprites[id], options);
+  if (!frameId) return fallback;
+  if (loadedTileAtlas?.frames?.[frameId] || profileAtlasState.frames?.[frameId]) return frameId;
+  requestPetFieldAnimations();
+  return fallback;
+}
+
+function petFieldAnimationFrameId(sprite, options = {}) {
+  const action = options.action || "stand";
+  const actionMap = sprite?.actions?.[action] || sprite?.actions?.stand || {};
+  const dirs = Object.keys(actionMap).sort((a, b) => Number(a) - Number(b));
+  if (!dirs.length) return 0;
+  const dir = normalizeDirection(options.dir ?? DEFAULT_PLAYER_DIRECTION);
+  const anim = actionMap[dir] || actionMap[DEFAULT_PLAYER_DIRECTION] || actionMap[dirs[0]];
+  const frames = anim?.[2] || [];
+  if (!frames.length) return 0;
+  const frameMs = Math.max(50, Number(anim?.[1] || 160));
+  const index = action === "walk" || options.animate
+    ? Math.floor((options.now ?? performance.now()) / frameMs) % frames.length
+    : 0;
+  return Number(frames[index]?.[0] || frames[0]?.[0] || 0);
+}
+
 async function ensureProfileAtlasFramesLoaded(tileIds) {
   if (profileAtlasState.disabled) return false;
   const missing = uniqueNumbers(tileIds).filter((id) => !profileAtlasState.frames[id]);
@@ -1841,7 +1911,8 @@ function profilePackUrlsForFrameIds(plan, tileIds) {
   const urls = new Set();
   for (const id of uniqueNumbers(tileIds)) {
     const candidates = lookup.get(id) || [];
-    const preferred = candidates.find((item) => item.domain === "pets-static")
+    const preferred = candidates.find((item) => item.domain === "pet-field-animation")
+      || candidates.find((item) => item.domain === "pets-static")
       || candidates.find((item) => item.domain === "pets-encounter")
       || candidates.find((item) => item.domain === "npc-field")
       || candidates[0];
@@ -1876,7 +1947,7 @@ function uniqueNumbers(values) {
 }
 
 function petSpriteMarkup(tileId, label = "", className = "") {
-  const id = Number(tileId || 0);
+  const id = sourceFieldSpriteTileId(tileId);
   const aria = label ? `role="img" aria-label="${escapeHtml(label)}"` : `aria-hidden="true"`;
   return `
     <span class="atlas-sprite-frame ${className}" data-imgno="${id}" data-missing="ImgNo ${id || "-"}" ${aria}>
@@ -1924,7 +1995,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     return mapDepthSprite(
       atlas,
-      npc.graphicId,
+      npc.tileId,
       screenX - bounds.minX,
       screenY - bounds.minY,
       screenX,
@@ -1966,7 +2037,14 @@ function collectNpcSprites(map, atlas, locate) {
   if (!map?.npcs?.length) return [];
   return map.npcs
     .map((npc) => ({ ...npc, graphicId: Number(npc.graphic) || 0 }))
-    .filter((npc) => npc.graphicId > CG_INVISIBLE && atlas.frames?.[npc.graphicId])
+    .map((npc) => ({
+      ...npc,
+      tileId: sourceFieldSpriteTileId(npc.graphicId, {
+        dir: clientAnimDirectionFromServerDir(npc.dir ?? DEFAULT_PLAYER_DIRECTION),
+        fallback: npc.graphicId
+      })
+    }))
+    .filter((npc) => npc.tileId > CG_INVISIBLE && atlas.frames?.[npc.tileId])
     .map((npc, index) => {
       const sprite = locate(npc, index);
       return sprite ? { ...sprite, npcId: npc.id, npcName: npc.name } : null;
@@ -2511,7 +2589,7 @@ function collectViewportCharSprites(renderer, order = 0) {
     const [x, y] = mapTileContentPoint(renderer, npc.x, npc.y);
     return mapDepthSprite(
       renderer.atlas,
-      npc.graphicId,
+      npc.tileId,
       x,
       y,
       x + renderer.minX,
@@ -3244,7 +3322,9 @@ function renderBattleFormation() {
     const targetAttr = unit.kind === "enemy" ? `data-battle-target="${Math.max(0, Number(unit.slot || 0))}"` : "";
     const buttonTag = unit.kind === "enemy" ? "button" : "div";
     const typeAttr = unit.kind === "enemy" ? `type="button"` : "";
-    const spriteId = unit.kind === "player" ? playerFrameTileId(loadedTileAtlas) : Number(unit.imgNo || 0);
+    const spriteId = unit.kind === "player"
+      ? playerFrameTileId(loadedTileAtlas)
+      : sourceFieldSpriteTileId(unit.imgNo, { fallback: Number(unit.imgNo || 0) });
     return `
       <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${Number(unit.battleNo || 0)}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
         <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
@@ -3314,7 +3394,7 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
     const title = `${enemy.Name || "敌人"} Lv.${Number(field?.level ?? enemy.Lv ?? 1)} | EXP ${sourceExp || 0} | 捕获 ${captureRate}%${status ? ` | 状态 ${status}` : ""} | ${elementText(field || enemy)}`;
     return `
       <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !canTarget ? "disabled" : ""} title="${escapeHtml(title)}">
-        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${Number(enemy.ImgNo || 0)}" aria-hidden="true"></span></span>
+        <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${sourceFieldSpriteTileId(enemy.ImgNo, { fallback: Number(enemy.ImgNo || 0) })}" aria-hidden="true"></span></span>
         <b>${index + 1}</b>
         <em>${escapeHtml(enemy.Name || "敌人")}</em>
         <i><strong style="width:${clampPercent(hp, maxHp)}%"></strong></i>
@@ -3327,7 +3407,7 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
 }
 
 function setBattleSprite(el, tileId) {
-  const id = Number(tileId || 0);
+  const id = sourceFieldSpriteTileId(tileId, { fallback: Number(tileId || 0) });
   el.dataset.atlasSprite = id > 0 ? String(id) : "";
   if (loadedTileAtlas) applyAtlasSprite(el, loadedTileAtlas, el.dataset.atlasSprite);
   else el.hidden = id <= 0;

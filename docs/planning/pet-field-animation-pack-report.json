@@ -1,0 +1,75 @@
+{
+  "v": 1,
+  "generatedAt": "2026-05-19T09:34:50.288Z",
+  "sourceReport": "docs/planning/pet-animation-coverage-report.json",
+  "output": {
+    "animationManifest": "public/data/profiles/classic-core/pet-field-animations.json",
+    "packManifest": "public/data/profiles/classic-core/packs/pet-field-priority.json",
+    "packImage": "public/data/profiles/classic-core/packs/pet-field-priority.png",
+    "buildReport": "docs/planning/pet-field-animation-pack-report.json"
+  },
+  "summary": {
+    "spriteNos": 9,
+    "sourceReportSpriteNos": 56,
+    "mode": "priority",
+    "uniqueBitmaps": 2135,
+    "packWidth": 2048,
+    "packHeight": 4696,
+    "packArea": 9617408,
+    "frameArea": 9284900,
+    "fillRatio": 0.9654,
+    "missingSpriteIndex": [],
+    "missingAdrnRecords": []
+  },
+  "importantSprites": [
+    {
+      "sprNo": 100250,
+      "names": [
+        "乌力",
+        "森林乌力",
+        "小乌乌",
+        "禧"
+      ],
+      "standDirs": 8,
+      "walkDirs": 8,
+      "firstStand": 95900
+    },
+    {
+      "sprNo": 100251,
+      "names": [
+        "乌力乌力"
+      ],
+      "standDirs": 8,
+      "walkDirs": 8,
+      "firstStand": 96132
+    },
+    {
+      "sprNo": 100252,
+      "names": [
+        "乌力斯坦",
+        "小坦坦"
+      ],
+      "standDirs": 8,
+      "walkDirs": 8,
+      "firstStand": 96364
+    },
+    {
+      "sprNo": 100371,
+      "names": [
+        "奥卡洛斯"
+      ],
+      "standDirs": 8,
+      "walkDirs": 8,
+      "firstStand": 121822
+    },
+    {
+      "sprNo": 100388,
+      "names": [
+        "黑乌力"
+      ],
+      "standDirs": 8,
+      "walkDirs": 8,
+      "firstStand": 96828
+    }
+  ]
+}
