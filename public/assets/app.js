@@ -1685,17 +1685,84 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
       view.getUint16(eventOffset, true)
     ];
   };
+  const visualFallback = await loadClientMapVisualFallback(map, width, height, tileAt);
+  const visualTileAt = visualFallback?.tileAt || tileAt;
   const atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
-    drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "client DAT viewport", renderVersion);
+    drawViewportTileMap(canvas, width, height, visualTileAt, atlas, map, visualFallback?.label || "client DAT viewport", renderVersion);
     return;
   }
   if (width * height > REAL_TILE_CELL_LIMIT) {
-    drawLargeIsoPreview(canvas, width, height, tileAt, map, "client DAT overview");
+    drawLargeIsoPreview(canvas, width, height, visualTileAt, map, visualFallback?.label || "client DAT overview");
     return;
   }
-  drawTilePreview(canvas, width, height, tileAt);
+  drawTilePreview(canvas, width, height, visualTileAt);
+}
+
+async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
+  if (!map?.mapFile) return null;
+  const cells = width * height;
+  if (!cells) return null;
+  let missingGround = 0;
+  for (let index = 0; index < cells; index += 1) {
+    if (clientTileAt(index)[0] <= CG_INVISIBLE) missingGround += 1;
+  }
+  if (missingGround / cells < 0.05) return null;
+  try {
+    const rsp = await fetch(map.mapFile);
+    if (!rsp.ok) return null;
+    const fallback = parseLs2MapReader(await rsp.arrayBuffer());
+    if (!fallback || fallback.width !== width || fallback.height !== height) return null;
+    let groundFill = 0;
+    let objectFill = 0;
+    for (let index = 0; index < cells; index += 1) {
+      const [ground, object] = clientTileAt(index);
+      const [fallbackGround, fallbackObject] = fallback.tileAt(index);
+      if (ground <= CG_INVISIBLE && fallbackGround > CG_INVISIBLE) groundFill += 1;
+      if (!isStaticMapObjectTile(object) && isStaticMapObjectTile(fallbackObject)) objectFill += 1;
+    }
+    if (!groundFill && !objectFill) return null;
+    return {
+      label: `client DAT viewport + LS2 visual fallback`,
+      tileAt(index) {
+        const [ground, object, overlay] = clientTileAt(index);
+        const [fallbackGround, fallbackObject] = fallback.tileAt(index);
+        return [
+          ground > CG_INVISIBLE ? ground : fallbackGround,
+          isStaticMapObjectTile(object) ? object : fallbackObject,
+          overlay
+        ];
+      }
+    };
+  } catch {
+    return null;
+  }
+}
+
+function parseLs2MapReader(buf) {
+  const view = new DataView(buf);
+  const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
+  if (magic !== "LS2MAP") return null;
+  const width = view.getUint16(0x28, false);
+  const height = view.getUint16(0x2a, false);
+  const cells = width * height;
+  const groundOffset = 44;
+  const objectOffset = groundOffset + cells * 2;
+  if (!width || !height || objectOffset > view.byteLength) return null;
+  return {
+    width,
+    height,
+    tileAt(index) {
+      const tileOffset = groundOffset + index * 2;
+      const partOffset = objectOffset + index * 2;
+      return [
+        tileOffset + 1 < view.byteLength ? view.getUint16(tileOffset, false) : 0,
+        partOffset + 1 < view.byteLength ? view.getUint16(partOffset, false) : 0,
+        0
+      ];
+    }
+  };
 }
 
 async function loadTileAtlas(map = null) {
@@ -2483,20 +2550,9 @@ function drawAtlasTile(ctx, atlas, tileId, x, y) {
 }
 
 async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRenderVersion) {
-  const view = new DataView(buf);
-  const magic = String.fromCharCode(...new Uint8Array(buf.slice(0, 6)));
-  if (magic !== "LS2MAP") throw new Error("invalid LS2MAP");
-  const width = view.getUint16(0x28, false);
-  const height = view.getUint16(0x2a, false);
-  const tileAt = (index) => {
-    const tileOffset = 44 + index * 2;
-    const objectOffset = 44 + width * height * 2 + index * 2;
-    return [
-      view.getUint16(tileOffset, false),
-      objectOffset + 1 < view.byteLength ? view.getUint16(objectOffset, false) : 0,
-      0
-    ];
-  };
+  const reader = parseLs2MapReader(buf);
+  if (!reader) throw new Error("invalid LS2MAP");
+  const { width, height, tileAt } = reader;
   const atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {

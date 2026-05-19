@@ -88,6 +88,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - ground tiles use the client's diagonal scan in final display order
   - parts/objects and NPC sprites are drawn through a shared screen-depth queue
   - future accuracy work should include `adrn` hit/prio metadata and port `setPartsPrio` more exactly
+- 2026-05-19 visual fallback: some original client `.dat` visual maps, including 吉鲁岛 `floor=300` and 福尔德村温 `floor=5000`, omit large areas of ground tiles that are present in the gmsv `.ls2map`. The browser renderer now keeps client `.dat` as primary visual data but fills missing ground/object cells from the matching `.ls2map`, preserving original assets without editing maps or painting fake terrain.
 - Current default zoom is `100%`.
 - Camera recenters on the player using the rendered client-map coordinate space.
 

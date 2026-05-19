@@ -7,6 +7,7 @@ const logicMapRoot = path.join(projectRoot, "public/data/maps");
 const atlasPath = path.join(projectRoot, "public/data/client-tiles/tiles.json");
 const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
 const CG_INVISIBLE = 99;
+const VISUAL_FALLBACK_SAMPLE_FLOORS = ["300", "5000"];
 
 const atlas = readJson(atlasPath);
 const frames = atlas?.frames || {};
@@ -15,6 +16,7 @@ const missing = new Map();
 const missingMetadata = new Map();
 const missingEnemyImages = new Map();
 const enemyImageCoverage = checkEnemyBaseImages();
+const visualFallbackCoverage = checkVisualFallbackCoverage();
 
 for (const file of listFiles(clientMapRoot, ".dat")) {
   const report = checkClientDat(file);
@@ -58,7 +60,33 @@ const largest = reports.slice(0, 8).map((report) => (
 
 console.log(`Map atlas coverage OK: ${reports.length} maps, ${Object.keys(frames).length} atlas frames.`);
 console.log(`Pet/enemy static ImgNo coverage OK: ${enemyImageCoverage.covered}/${enemyImageCoverage.total} enemybase2 images.`);
+if (visualFallbackCoverage.length) {
+  console.log(`Client visual ground fallback OK: ${visualFallbackCoverage.map((item) => `${item.floor}:${item.groundFill}`).join(", ")} LS2 ground fills.`);
+}
 for (const line of largest) console.log(`  ${line}`);
+
+function checkVisualFallbackCoverage() {
+  const coverage = [];
+  for (const floor of VISUAL_FALLBACK_SAMPLE_FLOORS) {
+    const clientFile = path.join(clientMapRoot, `${floor}.dat`);
+    const logicFile = path.join(logicMapRoot, `${floor}.ls2map`);
+    if (!fs.existsSync(clientFile) || !fs.existsSync(logicFile)) continue;
+    const clientMap = readClientDat(clientFile);
+    const logicMap = readLs2Map(logicFile);
+    if (clientMap.width !== logicMap.width || clientMap.height !== logicMap.height) {
+      throw new Error(`Visual fallback dimension mismatch on floor ${floor}`);
+    }
+    let groundFill = 0;
+    for (let index = 0; index < clientMap.cells; index += 1) {
+      const clientGround = clientMap.ground(index);
+      const logicGround = logicMap.ground(index);
+      if (clientGround <= CG_INVISIBLE && logicGround > CG_INVISIBLE) groundFill += 1;
+    }
+    if (!groundFill) throw new Error(`Expected LS2 visual ground fallback cells for floor ${floor}`);
+    coverage.push({ floor, groundFill });
+  }
+  return coverage;
+}
 
 function checkEnemyBaseImages() {
   let total = 0;
@@ -96,6 +124,43 @@ function checkClientDat(file) {
     includeTile(report, buf.readUInt16LE(8 + layerSize + index * 2));
   }
   return report;
+}
+
+function readClientDat(file) {
+  const buf = fs.readFileSync(file);
+  const width = buf.readUInt32LE(0);
+  const height = buf.readUInt32LE(4);
+  const cells = width * height;
+  const layerSize = cells * 2;
+  const expected = 8 + layerSize * 3;
+  if (!width || !height || buf.length < expected) throw new Error(`Invalid DAT map: ${file}`);
+  return {
+    width,
+    height,
+    cells,
+    ground(index) {
+      return buf.readUInt16LE(8 + index * 2);
+    }
+  };
+}
+
+function readLs2Map(file) {
+  const buf = fs.readFileSync(file);
+  if (buf.length < 44 || buf.toString("ascii", 0, 6) !== "LS2MAP") throw new Error(`Invalid LS2MAP map: ${file}`);
+  const width = buf.readUInt16BE(0x28);
+  const height = buf.readUInt16BE(0x2a);
+  const cells = width * height;
+  const layerSize = cells * 2;
+  const expected = 44 + layerSize * 2;
+  if (!width || !height || buf.length < expected) throw new Error(`Invalid LS2MAP map: ${file}`);
+  return {
+    width,
+    height,
+    cells,
+    ground(index) {
+      return buf.readUInt16BE(44 + index * 2);
+    }
+  };
 }
 
 function checkLs2Map(file) {
