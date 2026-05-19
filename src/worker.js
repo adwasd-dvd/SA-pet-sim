@@ -7754,11 +7754,23 @@ function savePointReply(game, npc, text = "") {
     }
   }
   clearPendingSavePointConfirm(game, npc);
+  const record = applySourceSavePointRecord(game, npc, "source-savepoint");
+  const born = record.born;
+  addLog(game, `${npc.name} 已记录你的冒险进度。`);
+  const key = registered ? "normal" : "ok";
+  const message = formatSavePointMessage(game, savePoint.messages?.[key] || `${npc.name} 已记录你的冒险进度。`);
+  const bornLine = born ? `记录点：floor ${born.mapId} (${born.x},${born.y})。` : "";
+  return `${message}\n${bornLine}来源：gmsv npc_savepoint 会设置 CHAR_SAVEPOINT / LASTTALKELDER 并触发 SAAC 角色保存。`;
+}
+
+function applySourceSavePointRecord(game, npc, reason = "source-savepoint") {
+  const savePoint = npc.savePoint || {};
+  const sourceId = sourceSavePointId(npc);
   const now = new Date().toISOString();
   const born = sourceSavePointBorn(npc);
-  runNpcVmAction(game, npc, {
+  const event = runNpcVmAction(game, npc, {
     type: "save",
-    reason: "source-savepoint",
+    reason,
     sourceId,
     born,
     mapId: game.location.mapId,
@@ -7770,11 +7782,7 @@ function savePointReply(game, npc, text = "") {
     savedAt: now
   });
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "savepoint"), "end", "savepoint");
-  addLog(game, `${npc.name} 已记录你的冒险进度。`);
-  const key = registered ? "normal" : "ok";
-  const message = formatSavePointMessage(game, savePoint.messages?.[key] || `${npc.name} 已记录你的冒险进度。`);
-  const bornLine = born ? `记录点：floor ${born.mapId} (${born.x},${born.y})。` : "";
-  return `${message}\n${bornLine}来源：gmsv npc_savepoint 会设置 CHAR_SAVEPOINT / LASTTALKELDER 并触发 SAAC 角色保存。`;
+  return { event, born, sourceId, savedAt: now };
 }
 
 function hasPendingSavePointConfirm(game, npc) {
@@ -7838,6 +7846,7 @@ function sourceSavePointRequirement(game, npc) {
     required: true,
     ok: Boolean(okAlternative),
     alternative: okAlternative || normalized[0] || [],
+    alternatives: normalized,
     summary: summary || "原脚本指定道具"
   };
 }
@@ -8337,6 +8346,26 @@ function compactNpcWarpStatus(game, npc) {
   };
 }
 
+function compactNpcSavePointStatus(game, npc) {
+  if (!isSavePointNpc(npc)) return null;
+  const sourceId = sourceSavePointId(npc);
+  const requirement = sourceSavePointRequirement(game, npc);
+  const born = sourceSavePointBorn(npc);
+  const registered = sourceId > 0 && isSourceSavePointRegistered(game, sourceId);
+  return {
+    source: npc.savePoint?.source || npc.script || npc.source || "",
+    sourceId,
+    registered,
+    born,
+    required: Boolean(requirement.required),
+    hasItems: Boolean(!requirement.required || requirement.ok),
+    summary: requirement.summary || "",
+    compensationCost: requirement.required && !requirement.ok && !registered
+      ? savePointFavorCost(game, npc, requirement)
+      : 0
+  };
+}
+
 function compactNpcScriptStatus(game, npc) {
   const conditions = npcScriptConditionSpecs(npc)
     .slice(0, 5)
@@ -8661,6 +8690,7 @@ async function aiNpcReply(env, request, game, npc, text) {
         scriptReferences: compactScriptReferences,
         trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
         warp: npc.warp || null,
+        savePoint: compactNpcSavePointStatus(game, npc),
         warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
         scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc)
       },
@@ -8727,6 +8757,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
         source: npc.trade.source
       } : null,
       warp: npc.warp || null,
+      savePoint: compactNpcSavePointStatus(game, npc),
       warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
       scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc),
       roleProfile: role,
@@ -8772,6 +8803,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
     "只允许提出 action.type 中列出的动作；roleFavor 表示护士急救、守卫通融、店主额外照顾等角色内帮助，可能需要报酬，也可能被 VM 按概率拒绝。",
     "如果动作不符合 NPC 身份，type 必须是 none 或 teleportInfo，并在 reply 里自然拒绝。",
     "商店只能围绕自己的商品类别和 gmsv/itemset 资料谈额外物品；护士/治疗师只能谈治疗、伤势和少量急救恢复品；守门/敌人 NPC 可被贿赂、威胁或说服，但是否通过由 VM 决定。",
+    "记录点 NPC 可以解释原脚本道具需求；如果玩家明确提出付钱、报酬或请求通融，可提出 roleFavor，让 Worker 按 savepoint Born 和石币补偿校验是否记录。",
     "脚本里出现数字 id 时，必须先查看 scriptReferences，把它解释成道具、宠物、敌人或地图名；不要把裸编号当成最终答案。解析不到时要说资料里暂时找不到，不能假装知道。",
     "中文，1-3 句，像 NPC 在游戏里说话；不要输出调试字段。"
   ].join("\n");
@@ -9199,7 +9231,13 @@ function localNpcAiFallback(game, npc, text, error = null) {
     return `${intro}${npc.questLead.title}：${npc.questLead.summary}\n来源：${npc.questLead.source}`;
   }
   if (role.includes("heal")) return `${intro}我主要负责治疗。你可以说“治疗”；如果真的急用恢复药，也可以好好商量，但我只会处理急救恢复品，而且可能要收补给钱。`;
-  if (role.includes("save")) return `${intro}我主要负责记录进度。你可以说“记录”或“存档”。`;
+  if (role.includes("save")) {
+    const status = compactNpcSavePointStatus(game, npc);
+    if (status?.required && !status?.hasItems && !status?.registered) {
+      return `${intro}我是记录点，原脚本要 ${status.summary || "指定道具"}。你可以去找这些材料；如果真的赶路，也可以提出付些石币让我通融一次。`;
+    }
+    return `${intro}我主要负责记录进度。你可以说“记录”或“存档”。`;
+  }
   return `${intro}我能聊地图、任务线索和附近 NPC。更具体地说“出口”“任务”“能不能帮我避敌”，我会按当前脚本身份回答。`;
 }
 
@@ -9264,13 +9302,91 @@ function isHealerAidRequest(text) {
 
 function applyNpcRoleFavor(game, npc, text) {
   if (isHealerNpc(npc)) return applyHealerNpcFavor(game, npc, text);
-  if (isSavePointNpc(npc) && hasAny(text, ["记录", "記錄", "存档", "保存"])) return savePointReply(game, npc);
+  if (isSavePointNpc(npc) && hasAny(text, ["记录", "記錄", "纪录", "存档", "保存"])) return applySavePointNpcFavor(game, npc, text);
   recordNpcVmEvent(game, npc, "debug", "blocked", {
     reason: "ai-role-favor",
     role: npcActionProfile(npc),
     text: String(text || "").slice(0, 80)
   });
   return `${npc.name} 想了想：这件事超出我能做的范围。你可以继续问任务、地图，或找更合适的 NPC 交涉。`;
+}
+
+function applySavePointNpcFavor(game, npc, text) {
+  const sourceId = sourceSavePointId(npc);
+  const requirement = sourceSavePointRequirement(game, npc);
+  const registered = sourceId > 0 && isSourceSavePointRegistered(game, sourceId);
+  if (!requirement.required || requirement.ok || registered) return savePointReply(game, npc, text);
+  const wantsCompensation = savePointFavorOffersCompensation(text);
+  const cost = savePointFavorCost(game, npc, requirement, text);
+  if (!wantsCompensation && !hasAny(text, ["通融", "帮我", "幫我", "拜托", "拜託", "真的需要", "很需要", "急用"])) {
+    recordNpcVmEvent(game, npc, "debug", "blocked", {
+      reason: "ai-savepoint-favor",
+      missing: requirement.summary,
+      cost,
+      source: npc.savePoint?.source || npc.script || npc.source || ""
+    });
+    return `${npc.name} 摆摆手：原本我要 ${requirement.summary} 才能记录。你可以去准备这些肉；如果赶时间，就明说愿意付记录补给费。`;
+  }
+  if (Number(game.player?.stone || 0) < cost) {
+    recordNpcVmEvent(game, npc, "debug", "blocked", {
+      reason: "ai-savepoint-favor-stone",
+      requiredStone: cost,
+      currentStone: Number(game.player?.stone || 0),
+      missing: requirement.summary
+    });
+    return `${npc.name} 想了想：原脚本要 ${requirement.summary}。我可以通融一次，但至少要 ${cost} 石币当补给费；你现在石币不够。`;
+  }
+  const decision = wantsCompensation
+    ? { ok: true, chance: 100, roll: 0, cost }
+    : npcFavorDecision(game, npc, text, "savepoint-favor", {
+      baseChance: 0.54,
+      urgentBonus: 0.18,
+      cost
+    });
+  recordNpcVmEvent(game, npc, "debug", decision.ok ? "ok" : "blocked", {
+    reason: "ai-role-favor",
+    role: "savepoint",
+    missing: requirement.summary,
+    cost,
+    chance: decision.chance,
+    roll: decision.roll
+  });
+  if (!decision.ok) {
+    return `${npc.name} 犹豫了一下：记录点的规矩还是要守。带来 ${requirement.summary} 最稳；如果愿意付 ${cost} 石币补给费，我可以再帮你问问。`;
+  }
+  const paid = runNpcVmAction(game, npc, {
+    type: "take",
+    item: "stone",
+    qty: cost,
+    reason: "ai-savepoint-fee",
+    source: npc.savePoint?.source || npc.script || npc.source || ""
+  });
+  if (!paid.ok) return `${npc.name} 摊开手：我可以通融一次，但至少要 ${cost} 石币当补给费。`;
+  const record = applySourceSavePointRecord(game, npc, "ai-savepoint-favor");
+  if (!record.event?.ok) return `${npc.name} 想帮你记录，但 ${record.event?.error || "记录点状态写入失败"}。`;
+  addLog(game, `${npc.name} 通过 AI 交涉收取 ${cost} 石币并记录了冒险进度。`);
+  const bornLine = record.born ? `记录点：floor ${record.born.mapId} (${record.born.x},${record.born.y})。` : "";
+  return `${npc.name} 压低声音：好吧，这次我收 ${cost} 石币当补给费，先帮你记下来；下次按规矩还是带 ${requirement.summary}。\n${bornLine}这次记录仍由 Worker 按原版 Born/CHAR_SAVEPOINT 写入。`;
+}
+
+function savePointFavorOffersCompensation(text = "") {
+  return hasAny(String(text || "").toLowerCase(), [
+    "给你钱", "給你錢", "给钱", "給錢", "给你石币", "給你石幣", "石币", "石幣",
+    "报酬", "報酬", "补给费", "補給費", "辛苦费", "辛苦費", "收钱", "收錢",
+    "贿赂", "賄賂", "买通", "買通", "通融"
+  ]);
+}
+
+function savePointFavorCost(game, npc, requirement, text = "") {
+  const alternatives = requirement.alternatives?.length ? requirement.alternatives : [requirement.alternative || []];
+  const cheapest = alternatives
+    .map((items) => items.reduce((sum, item) => sum + Math.max(1, Number(item.cost || item.price || 10)) * Math.max(1, Number(item.qty || 1)), 0))
+    .filter((sum) => Number.isFinite(sum) && sum > 0)
+    .sort((a, b) => a - b)[0] || 30;
+  const urgentDiscount = hasAny(String(text || ""), ["真的需要", "很需要", "急用", "拜托", "拜託"]) ? 20 : 0;
+  const levelPremium = Math.min(120, Math.max(0, Number(game.player?.level || 1) - 1) * 6);
+  const sourcePremium = Math.max(0, sourceSavePointId(npc) - 1) * 2;
+  return clampInt(Math.round(cheapest * 4 + levelPremium + sourcePremium - urgentDiscount), 80, 5000, 120);
 }
 
 function applyHealerNpcFavor(game, npc, text) {

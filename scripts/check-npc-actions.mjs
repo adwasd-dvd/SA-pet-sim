@@ -670,6 +670,38 @@ if (saveNpc.npc.savePoint?.born) {
   assertEqual(game.returnPoint.kind, "savepoint", "return point reports source savepoint after NPC record");
 }
 
+const allSavePointReqIds = new Set((saveNpc.npc.savePoint?.requiredAlternatives || []).flat().map((item) => Number(item.id)).filter(Boolean));
+let savePointNoAiGame = await api("/api/game/new", { name: "savepoint-no-ai-flex-block-test" });
+savePointNoAiGame.location = { mapId: saveNpc.map.id, x: saveNpc.npc.x + 1, y: saveNpc.npc.y };
+savePointNoAiGame.player.stone = 5000;
+savePointNoAiGame.inventory = (savePointNoAiGame.inventory || []).filter((item) => !allSavePointReqIds.has(Number(item.id)));
+const savePointNoAiStone = savePointNoAiGame.player.stone;
+savePointNoAiGame = await api("/api/game/dialog", { game: savePointNoAiGame, npcId: saveNpc.npc.id, message: "给你钱，帮我记录吧" });
+assert(savePointNoAiGame.savePoint?.npcId !== saveNpc.npc.id, "normal savepoint dialog does not accept compensation without AI mode");
+assertEqual(savePointNoAiGame.player.stone, savePointNoAiStone, "normal savepoint compensation request does not spend stone");
+assert(savePointNoAiGame.dialog.messages.some((message) => message.speaker === "npc" && /需要|来源|原脚本/.test(message.text)), "normal savepoint dialog still explains source requirement");
+assert(savePointNoAiGame.dialog.debug.vmTrace.some((event) => event.action === "save" && event.status === "blocked" && event.detail?.reason === "source-savepoint-missing-item"), "normal savepoint missing item stays on source block path");
+
+let savePointFavorGame = await api("/api/game/new", { name: "savepoint-ai-favor-test" });
+savePointFavorGame.location = { mapId: saveNpc.map.id, x: saveNpc.npc.x + 1, y: saveNpc.npc.y };
+savePointFavorGame.player.stone = 5000;
+savePointFavorGame.inventory = (savePointFavorGame.inventory || []).filter((item) => !allSavePointReqIds.has(Number(item.id)));
+const savePointFavorStoneBefore = savePointFavorGame.player.stone;
+savePointFavorGame = await api("/api/game/dialog", { game: savePointFavorGame, npcId: saveNpc.npc.id, message: "AI对话" });
+assertEqual(savePointFavorGame.dialogAi?.[saveNpc.npc.id], true, "savepoint AI mode toggles on");
+savePointFavorGame = await api("/api/game/dialog", { game: savePointFavorGame, npcId: saveNpc.npc.id, message: "给你钱，帮我记录吧" });
+assertEqual(savePointFavorGame.savePoint.npcId, saveNpc.npc.id, "AI savepoint favor records npc id");
+assert(savePointFavorGame.player.stone < savePointFavorStoneBefore, "AI savepoint favor charges stone compensation");
+assert(!savePointFavorGame.flags.pendingSavePoint, "AI savepoint favor does not leave source item confirmation pending");
+assert(savePointFavorGame.dialog.messages.some((message) => message.speaker === "npc" && /石币|通融|记下来|记录/.test(message.text)), "AI savepoint favor explains flexible compensation");
+assert(savePointFavorGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "ai-savepoint-fee"), "AI savepoint favor fee runs through NPC VM");
+assert(savePointFavorGame.dialog.debug.vmTrace.some((event) => event.action === "save" && event.detail?.reason === "ai-savepoint-favor"), "AI savepoint favor save runs through NPC VM");
+if (saveNpc.npc.savePoint?.born) {
+  assertEqual(savePointFavorGame.savePoint.born.mapId, saveNpc.npc.savePoint.born.mapId, "AI savepoint favor records source Born map");
+  assertEqual(savePointFavorGame.savePoint.born.x, saveNpc.npc.savePoint.born.x, "AI savepoint favor records source Born x");
+  assertEqual(savePointFavorGame.savePoint.born.y, saveNpc.npc.savePoint.born.y, "AI savepoint favor records source Born y");
+}
+
 const ganzo = WORLD.maps["100"]?.npcs.find((npc) => npc.name === "坏心眼的愿藏");
 if (!ganzo) throw new Error("missing Ganzo NPCEnemy fixture");
 assertEqual(ganzo.graphic, "100401", "Ganzo uses source graphicname 100401");
