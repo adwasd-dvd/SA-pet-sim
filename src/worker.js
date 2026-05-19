@@ -1225,6 +1225,7 @@ function sellGame(game, npcId, itemId, qty = 1) {
   const unitPrice = sellItemPrice(npc, item);
   if (unitPrice <= 0) throw new Error("这个道具不能出售");
   const totalPrice = unitPrice * sellQty;
+  const appliedSellRate = tradeSellRateForItem(npc, item);
   recordNpcVmEvent(game, npc, "shop", "ok", {
     action: "sell",
     itemId,
@@ -1233,7 +1234,8 @@ function sellGame(game, npcId, itemId, qty = 1) {
     unitPrice,
     price: totalPrice,
     sourcePrice: sourceItemPrice(item),
-    sellRate: tradeSellRate(npc)
+    sellRate: appliedSellRate,
+    specialSellRate: isSpecialSellItem(npc, item) ? appliedSellRate : null
   });
   const taken = runNpcVmAction(game, npc, {
     type: "take",
@@ -9232,13 +9234,15 @@ function sellableInventoryItems(game, npc) {
     .map((item) => {
       const sourcePrice = sourceItemPrice(item);
       const sellPrice = sellItemPrice(npc, item);
+      const sellRate = tradeSellRateForItem(npc, item);
       return {
         ...item,
         sourcePrice,
         sellPrice,
-        sellRate: tradeSellRate(npc),
+        sellRate,
+        specialSellRate: isSpecialSellItem(npc, item) ? sellRate : null,
         sellable: sellPrice > 0,
-        reason: sellPrice > 0 ? "" : "没有原始价格"
+        reason: sellPrice > 0 ? "" : sellBlockReason(npc, item, sourcePrice)
       };
     });
 }
@@ -9246,9 +9250,112 @@ function sellableInventoryItems(game, npc) {
 function sellItemPrice(npc, item) {
   const sourcePrice = sourceItemPrice(item);
   if (sourcePrice <= 0) return 0;
-  const rate = tradeSellRate(npc);
+  if (!itemMatchesTradeSellFilter(npc, item)) return 0;
+  const rate = tradeSellRateForItem(npc, item);
   if (rate <= 0) return 0;
   return Math.max(1, Math.floor(sourcePrice * rate));
+}
+
+const SOURCE_SHOP_ITEM_TYPES = Object.freeze({
+  FIST: 0,
+  AXE: 1,
+  CLUB: 2,
+  SPEAR: 3,
+  BOW: 4,
+  SHIELD: 5,
+  HELM: 6,
+  ARMOUR: 7,
+  BRACELET: 8,
+  ANCLET: 9,
+  NECKLACE: 10,
+  RING: 11,
+  BELT: 12,
+  EARRING: 13,
+  NOSERING: 14,
+  AMULET: 15,
+  OTHER: 16,
+  BOOMERANG: 17,
+  BOUNDTHROW: 18,
+  BREAKTHROW: 19,
+  DISH: 20,
+  METAL: 21,
+  JEWEL: 22,
+  WARES: 23,
+  WBELT: 24,
+  WSHIELD: 25,
+  WSHOES: 26,
+  WGLOVE: 27,
+  ANGELTOKEN: 28,
+  HEROTOKEN: 29,
+  ACCESSORY: 30
+});
+const SOURCE_OFFENCE_ITEM_TYPES = new Set([0, 1, 2, 3, 4, 17, 18, 19]);
+const SOURCE_DEFENCE_ITEM_TYPES = new Set([5, 6, 7]);
+const SOURCE_ACCESSORY_ITEM_TYPES = new Set([8, 9, 10, 11, 12, 13, 14, 15]);
+
+function sellBlockReason(npc, item, sourcePrice = sourceItemPrice(item)) {
+  if (sourcePrice <= 0) return "没有原始价格";
+  if (!itemMatchesTradeSellFilter(npc, item)) return "此店不收这类道具";
+  if (tradeSellRateForItem(npc, item) <= 0) return "此店不收购";
+  return "不能出售";
+}
+
+function itemMatchesTradeSellFilter(npc, item) {
+  const trade = npc?.trade || {};
+  const limitIds = Array.isArray(trade.limitItemIds) ? trade.limitItemIds.map(Number).filter(Number.isFinite) : [];
+  const limitRanges = Array.isArray(trade.limitItemRanges) ? trade.limitItemRanges : [];
+  const limitTypes = Array.isArray(trade.limitItemTypes) ? trade.limitItemTypes.map((value) => String(value).toUpperCase()) : [];
+  if (!limitIds.length && !limitRanges.length && !limitTypes.length) return true;
+  const itemId = Number(item?.id);
+  if (Number.isFinite(itemId) && limitIds.includes(itemId)) return true;
+  if (Number.isFinite(itemId) && limitRanges.some((range) => itemIdInSourceRange(itemId, range))) return true;
+  const itemType = sourceItemType(item);
+  return limitTypes.some((type) => sourceTradeTypeMatches(type, itemType));
+}
+
+function itemIdInSourceRange(itemId, range) {
+  if (!Array.isArray(range) || range.length < 2) return false;
+  const start = Number(range[0]);
+  const end = Number(range[1]);
+  if (!Number.isFinite(start) || !Number.isFinite(end)) return false;
+  return itemId >= Math.min(start, end) && itemId <= Math.max(start, end);
+}
+
+function sourceTradeTypeMatches(token, itemType) {
+  const type = Number(itemType);
+  if (!Number.isFinite(type)) return false;
+  const normalized = String(token || "").trim().toUpperCase();
+  if (!normalized || normalized === "TRUE") return false;
+  if (normalized === "OFFENCE") return SOURCE_OFFENCE_ITEM_TYPES.has(type);
+  if (normalized === "DEFENCE") return SOURCE_DEFENCE_ITEM_TYPES.has(type);
+  if (normalized === "ACCESSORY") return SOURCE_ACCESSORY_ITEM_TYPES.has(type);
+  if (Object.hasOwn(SOURCE_SHOP_ITEM_TYPES, normalized)) return SOURCE_SHOP_ITEM_TYPES[normalized] === type;
+  const numeric = Number(normalized);
+  return Number.isFinite(numeric) && numeric === type;
+}
+
+function sourceItemType(item) {
+  const ownType = Number(item?.type);
+  if (Number.isFinite(ownType)) return ownType;
+  const itemId = Number(item?.id);
+  if (!Number.isFinite(itemId)) return null;
+  const worldItem = worldTradeItems().find((entry) => Number(entry.id) === itemId);
+  const worldType = Number(worldItem?.type);
+  return Number.isFinite(worldType) ? worldType : null;
+}
+
+function isSpecialSellItem(npc, item) {
+  const itemId = Number(item?.id);
+  const ids = Array.isArray(npc?.trade?.specialItems) ? npc.trade.specialItems.map(Number).filter(Number.isFinite) : [];
+  return Number.isFinite(itemId) && ids.includes(itemId);
+}
+
+function tradeSellRateForItem(npc, item) {
+  if (isSpecialSellItem(npc, item)) {
+    const raw = Number(npc?.trade?.specialRate);
+    return Number.isFinite(raw) ? Math.max(0, Math.min(1000, raw)) : 1.2;
+  }
+  return tradeSellRate(npc);
 }
 
 function sourceItemPrice(item) {

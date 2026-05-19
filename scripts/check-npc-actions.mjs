@@ -1127,6 +1127,26 @@ const weaponShop = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.trade?.items?.some((item) => /斧头|枪|棍棒|爪/.test(item.name)));
 if (!weaponShop) throw new Error("missing weapon shop fixture");
+const sourceWeaponItem = weaponShop.npc.trade.items.find((item) => [0, 1, 2, 3, 4, 17, 18, 19].includes(Number(item.type))) || weaponShop.npc.trade.items[0];
+assert(weaponShop.npc.trade.limitItemTypes?.includes("OFFENCE"), "weapon shop keeps source LimitItemType=OFFENCE sell filter");
+let sellFilterGame = await api("/api/game/new", { name: "shop-sell-filter-test" });
+sellFilterGame.location = { mapId: weaponShop.map.id, x: weaponShop.npc.x + 1, y: weaponShop.npc.y };
+sellFilterGame.player.stone = 0;
+sellFilterGame.inventory.push({ ...sourceWeaponItem, qty: 1 });
+sellFilterGame.inventory.push({ id: 2344, name: "小的肉", qty: 1, cost: 10, price: 10, type: 20 });
+sellFilterGame = await api("/api/game/dialog", { game: sellFilterGame, npcId: weaponShop.npc.id });
+assert(sellFilterGame.dialog.trade.sellItems.some((item) => Number(item.id) === Number(sourceWeaponItem.id) && item.sellable), "weapon shop accepts source offence item types for selling");
+assert(sellFilterGame.dialog.trade.sellItems.some((item) => Number(item.id) === 2344 && !item.sellable && item.reason.includes("不收")), "weapon shop rejects non-offence source item types");
+await expectApiError(
+  "/api/game/sell",
+  { game: sellFilterGame, npcId: weaponShop.npc.id, itemId: 2344 },
+  "不能出售",
+  "shop sell respects source LimitItemType"
+);
+const weaponSellPrice = Math.max(1, Math.floor(Number(sourceWeaponItem.price || sourceWeaponItem.cost || 0) * Number(weaponShop.npc.trade.sellRate ?? 0.2)));
+sellFilterGame = await api("/api/game/sell", { game: sellFilterGame, npcId: weaponShop.npc.id, itemId: sourceWeaponItem.id });
+assertEqual(sellFilterGame.player.stone, weaponSellPrice, "shop sell accepts matching LimitItemType item");
+
 let aiOffMenuGame = await api("/api/game/new", { name: "ai-off-menu-test" });
 aiOffMenuGame.location = { mapId: weaponShop.map.id, x: weaponShop.npc.x + 1, y: weaponShop.npc.y };
 aiOffMenuGame.player.stone = 10000;
@@ -1144,6 +1164,20 @@ const meatShop = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => /肉店/.test(npc.name || "") && npc.trade?.items?.some((item) => /肉/.test(item.name)));
 if (!meatShop) throw new Error("missing meat shop fixture");
+const specialMeatItem = meatShop.npc.trade.items.find((item) => meatShop.npc.trade.specialItems?.map(Number).includes(Number(item.id)));
+if (!specialMeatItem) throw new Error("missing special-rate meat shop fixture");
+let specialSellGame = await api("/api/game/new", { name: "shop-special-rate-test" });
+specialSellGame.location = { mapId: meatShop.map.id, x: meatShop.npc.x + 1, y: meatShop.npc.y };
+specialSellGame.player.stone = 0;
+specialSellGame.inventory.push({ ...specialMeatItem, qty: 1 });
+specialSellGame = await api("/api/game/dialog", { game: specialSellGame, npcId: meatShop.npc.id });
+const specialSellRow = specialSellGame.dialog.trade.sellItems.find((item) => Number(item.id) === Number(specialMeatItem.id));
+assertEqual(specialSellRow?.specialSellRate, Number(meatShop.npc.trade.specialRate), "shop dialog exposes source special_rate for special_item");
+const specialSellPrice = Math.max(1, Math.floor(Number(specialMeatItem.price || specialMeatItem.cost || 0) * Number(meatShop.npc.trade.specialRate)));
+specialSellGame = await api("/api/game/sell", { game: specialSellGame, npcId: meatShop.npc.id, itemId: specialMeatItem.id });
+assertEqual(specialSellGame.player.stone, specialSellPrice, "shop sell applies source special_item special_rate");
+assert(specialSellGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.specialSellRate === Number(meatShop.npc.trade.specialRate)), "special-rate sell records shop VM trace");
+
 let aiMeatGame = await api("/api/game/new", { name: "ai-meat-knife-reject-test" });
 aiMeatGame.location = { mapId: meatShop.map.id, x: meatShop.npc.x + 1, y: meatShop.npc.y };
 aiMeatGame = await api("/api/game/dialog", { game: aiMeatGame, npcId: meatShop.npc.id, message: "AI对话" });

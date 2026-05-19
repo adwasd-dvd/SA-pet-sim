@@ -843,6 +843,12 @@ function readNpcTrade(argPath, createFile) {
   const itemSpec = kv.itemlist || kv.limititemno || "";
   if (!itemSpec) return null;
   const ids = expandItemList(itemSpec);
+  const limitItemRanges = parseItemRanges(kv.limititemno || "", 2000);
+  const limitItemTypes = splitWords(kv.limititemtype)
+    .map((item) => item.toUpperCase())
+    .filter((item) => item && item !== "TRUE");
+  const specialItems = expandItemList(kv.special_item || "");
+  const specialRate = Number(kv.special_rate);
   const buyRate = Number(kv.buy_rate || 1) || 1;
   const sellRate = Number(kv.sell_rate || 0) || 0;
   const items = ids.map((id) => itemDb.get(id)).filter(Boolean).map((item) => ({
@@ -858,6 +864,10 @@ function readNpcTrade(argPath, createFile) {
     buyWords: splitWords(kv.buy_msg),
     sellWords: splitWords(kv.sell_msg),
     mainMessage: cleanName(kv.main_msg || kv.buy_main || ""),
+    ...(limitItemRanges.length ? { limitItemRanges } : {}),
+    ...(limitItemTypes.length ? { limitItemTypes: [...new Set(limitItemTypes)] } : {}),
+    ...(specialItems.length ? { specialItems: specialItems.slice(0, 120) } : {}),
+    ...(Number.isFinite(specialRate) ? { specialRate } : {}),
     items: items.slice(0, 40)
   };
 }
@@ -1504,7 +1514,7 @@ function parseColonFile(text) {
   return kv;
 }
 
-function expandItemList(spec) {
+function expandItemList(spec, maxItems = 120) {
   const ids = [];
   for (const part of spec.split(",")) {
     const value = part.trim();
@@ -1513,13 +1523,40 @@ function expandItemList(spec) {
     if (range) {
       const start = Number(range[1]);
       const end = Number(range[2]);
-      for (let id = start; id <= end && ids.length < 120; id += 1) ids.push(id);
+      for (let id = start; id <= end && ids.length < maxItems; id += 1) ids.push(id);
       continue;
     }
     const id = Number(value);
-    if (Number.isFinite(id)) ids.push(id);
+    if (Number.isFinite(id) && ids.length < maxItems) ids.push(id);
   }
   return [...new Set(ids)];
+}
+
+function parseItemRanges(spec, maxItems = 2000) {
+  const ranges = [];
+  let count = 0;
+  for (const part of spec.split(",")) {
+    if (count >= maxItems) break;
+    const value = part.trim();
+    if (!value) continue;
+    const range = value.match(/^(\d+)-(\d+)$/);
+    if (range) {
+      const start = Number(range[1]);
+      const end = Number(range[2]);
+      if (!Number.isFinite(start) || !Number.isFinite(end)) continue;
+      const min = Math.min(start, end);
+      const max = Math.max(start, end);
+      const allowed = Math.max(1, Math.min(max - min + 1, maxItems - count));
+      ranges.push([min, min + allowed - 1]);
+      count += allowed;
+      continue;
+    }
+    const id = Number(value);
+    if (!Number.isFinite(id)) continue;
+    ranges.push([id, id]);
+    count += 1;
+  }
+  return ranges;
 }
 
 function splitWords(value = "") {

@@ -13520,6 +13520,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                2475,
+                2477
+              ]
+            ],
+            "specialRate": 0,
             "items": [
               {
                 "id": 2475,
@@ -22428,6 +22435,10 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "你好！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 840,
@@ -22726,6 +22737,10 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "有什么事吗？",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 844,
@@ -22979,6 +22994,10 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "你好！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1212,
@@ -23232,6 +23251,10 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "欢迎！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 54,
@@ -23650,6 +23673,13 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1974,
@@ -23860,6 +23890,10 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "欢迎！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1211,
@@ -24149,6 +24183,10 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "有什么需要吗？",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 60,
@@ -24467,6 +24505,13 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1974,
@@ -24677,6 +24722,13 @@ export const WORLD = {
               "ㄇㄞˋ"
             ],
             "mainMessage": "喔！",
+            "limitItemRanges": [
+              [
+                2612,
+                2612
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2612,
@@ -62439,6 +62491,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13061,
@@ -62546,6 +62602,41 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12153,
+                12153
+              ],
+              [
+                12157,
+                12157
+              ],
+              [
+                12161,
+                12161
+              ],
+              [
+                12165,
+                12165
+              ],
+              [
+                12169,
+                12169
+              ],
+              [
+                12173,
+                12173
+              ],
+              [
+                12217,
+                12217
+              ],
+              [
+                12221,
+                12221
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12153,
@@ -67199,6 +67290,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 4,
@@ -67486,6 +67581,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 800,
@@ -67842,6 +67941,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1202,
@@ -68366,6 +68469,115 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ],
+              [
+                1612,
+                1617
+              ],
+              [
+                1642,
+                1647
+              ],
+              [
+                1684,
+                1689
+              ],
+              [
+                1708,
+                1713
+              ],
+              [
+                1762,
+                1773
+              ],
+              [
+                1846,
+                1851
+              ],
+              [
+                1864,
+                1869
+              ],
+              [
+                1882,
+                1887
+              ],
+              [
+                1900,
+                1905
+              ],
+              [
+                1930,
+                1941
+              ],
+              [
+                1990,
+                2001
+              ],
+              [
+                2014,
+                2019
+              ],
+              [
+                2044,
+                2049
+              ],
+              [
+                2062,
+                2067
+              ],
+              [
+                2134,
+                2139
+              ],
+              [
+                2200,
+                2205
+              ],
+              [
+                2212,
+                2223
+              ],
+              [
+                2230,
+                2235
+              ],
+              [
+                2248,
+                2253
+              ],
+              [
+                2320,
+                2325
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                19285,
+                19602
+              ],
+              [
+                1732,
+                1737
+              ],
+              [
+                1798,
+                1803
+              ]
+            ],
+            "specialItems": [
+              2344,
+              2345,
+              2346,
+              2347
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 2344,
@@ -68533,6 +68745,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "到了",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -69224,6 +69443,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1365,
@@ -69592,6 +69818,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "接任务要先买委托书喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 20001,
@@ -69749,6 +69979,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                2705,
+                2705
+              ],
+              [
+                2612,
+                2612
+              ],
+              [
+                2613,
+                2613
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2705,
@@ -69841,6 +70086,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11800,
@@ -70368,6 +70620,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11830,
@@ -70895,6 +71154,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11860,
@@ -71449,6 +71715,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12010,
@@ -72887,6 +73160,24 @@ export const WORLD = {
               "todoke"
             ],
             "mainMessage": "谢谢！今天是来打工的吗？\\n还是送东西来的呢？",
+            "limitItemRanges": [
+              [
+                2402,
+                2402
+              ],
+              [
+                2403,
+                2403
+              ],
+              [
+                2404,
+                2404
+              ]
+            ],
+            "specialItems": [
+              0
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 2405,
@@ -74198,6 +74489,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                2402,
+                2402
+              ],
+              [
+                2403,
+                2403
+              ],
+              [
+                2404,
+                2404
+              ]
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 2402,
@@ -84204,6 +84510,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -84507,6 +84820,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 19330,
@@ -86191,6 +86505,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1724,
@@ -86308,6 +86623,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 20172,
@@ -86562,6 +86878,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1345,
@@ -86756,6 +87073,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11859,
+                11859
+              ],
+              [
+                13079,
+                13079
+              ]
+            ],
+            "specialRate": 0,
             "items": [
               {
                 "id": 11859,
@@ -86893,6 +87221,33 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12093,
+                12093
+              ],
+              [
+                12097,
+                12097
+              ],
+              [
+                12105,
+                12105
+              ],
+              [
+                12109,
+                12109
+              ],
+              [
+                12145,
+                12145
+              ],
+              [
+                12225,
+                12225
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12093,
@@ -87030,6 +87385,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                2422,
+                2422
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2422,
@@ -88901,6 +89263,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 15,
@@ -89188,6 +89554,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 801,
@@ -89475,6 +89845,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1204,
@@ -89612,6 +89986,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                11960,
+                11967
+              ],
+              [
+                11970,
+                11977
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11960,
@@ -89899,6 +90284,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13068,
@@ -90149,6 +90538,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -90496,6 +90892,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -92240,6 +92643,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 32,
@@ -92527,6 +92934,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 802,
@@ -92814,6 +93225,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1208,
@@ -93152,6 +93567,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -93499,6 +93921,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -93994,6 +94423,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1400,
+                1599
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 790,
@@ -94174,6 +94610,16 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                2472,
+                2474
+              ]
+            ],
+            "specialItems": [
+              2474
+            ],
+            "specialRate": 1.1,
             "items": [
               {
                 "id": 2472,
@@ -94261,6 +94707,16 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                2469,
+                2471
+              ]
+            ],
+            "specialItems": [
+              2471
+            ],
+            "specialRate": 1.1,
             "items": [
               {
                 "id": 2469,
@@ -95020,6 +95476,29 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12113,
+                12113
+              ],
+              [
+                12117,
+                12117
+              ],
+              [
+                12121,
+                12121
+              ],
+              [
+                12133,
+                12133
+              ],
+              [
+                12137,
+                12137
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12113,
@@ -96624,6 +97103,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 813,
@@ -96851,6 +97334,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 115,
@@ -97198,6 +97685,16 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                2421,
+                2421
+              ]
+            ],
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1205,
@@ -97335,6 +97832,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                11930,
+                11937
+              ],
+              [
+                11940,
+                11947
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11930,
@@ -97622,6 +98130,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                11930,
+                11937
+              ],
+              [
+                11940,
+                11947
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11930,
@@ -97909,6 +98428,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13072,
@@ -98229,6 +98752,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -98576,6 +99106,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -99041,6 +99578,24 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                1546,
+                1557
+              ],
+              [
+                1578,
+                1586
+              ]
+            ],
+            "specialItems": [
+              1582,
+              1583,
+              1584,
+              1585,
+              1586
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1546,
@@ -99388,6 +99943,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13070,
@@ -101301,6 +101860,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "嘿！欢迎光临",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 804,
@@ -101528,6 +102091,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 24,
@@ -101875,6 +102442,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                11890,
+                11897
+              ],
+              [
+                12000,
+                12007
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11890,
@@ -102162,6 +102740,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                11890,
+                11897
+              ],
+              [
+                12000,
+                12007
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11890,
@@ -102449,6 +103038,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1210,
@@ -102774,6 +103367,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "ＨＥＹ！欢迎光临",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 0.8,
             "items": [
               {
                 "id": 1234,
@@ -103121,6 +103721,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -103677,6 +104284,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1929,
@@ -103899,6 +104507,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1944,
@@ -104086,6 +104695,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13062,
@@ -104181,6 +104794,25 @@ export const WORLD = {
             ],
             "sellWords": [],
             "mainMessage": "PK道具，恶魔宝石。",
+            "limitItemRanges": [
+              [
+                19629,
+                19632
+              ],
+              [
+                20629,
+                20629
+              ],
+              [
+                1562,
+                1565
+              ],
+              [
+                20888,
+                20904
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 20172,
@@ -104400,6 +105032,57 @@ export const WORLD = {
             ],
             "sellWords": [],
             "mainMessage": "出售各种羽毛。",
+            "limitItemRanges": [
+              [
+                22909,
+                22909
+              ],
+              [
+                30101,
+                30106
+              ],
+              [
+                18557,
+                18557
+              ],
+              [
+                1509,
+                1509
+              ],
+              [
+                20172,
+                20172
+              ],
+              [
+                20808,
+                20808
+              ],
+              [
+                20805,
+                20805
+              ],
+              [
+                20210,
+                20210
+              ],
+              [
+                20213,
+                20213
+              ],
+              [
+                20147,
+                20147
+              ],
+              [
+                20176,
+                20176
+              ],
+              [
+                1602,
+                1602
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 13061,
@@ -104767,6 +105450,13 @@ export const WORLD = {
             ],
             "sellWords": [],
             "mainMessage": "好吧，我是走私的。",
+            "limitItemRanges": [
+              [
+                20000,
+                21999
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2407,
@@ -110325,6 +111015,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 10,
@@ -110612,6 +111306,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 800,
@@ -110945,6 +111643,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1213,
@@ -111507,6 +112209,115 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ],
+              [
+                1612,
+                1617
+              ],
+              [
+                1642,
+                1647
+              ],
+              [
+                1684,
+                1689
+              ],
+              [
+                1708,
+                1713
+              ],
+              [
+                1762,
+                1773
+              ],
+              [
+                1846,
+                1851
+              ],
+              [
+                1864,
+                1869
+              ],
+              [
+                1882,
+                1887
+              ],
+              [
+                1900,
+                1905
+              ],
+              [
+                1930,
+                1941
+              ],
+              [
+                1990,
+                2001
+              ],
+              [
+                2014,
+                2019
+              ],
+              [
+                2044,
+                2049
+              ],
+              [
+                2062,
+                2067
+              ],
+              [
+                2134,
+                2139
+              ],
+              [
+                2200,
+                2205
+              ],
+              [
+                2212,
+                2223
+              ],
+              [
+                2230,
+                2235
+              ],
+              [
+                2248,
+                2253
+              ],
+              [
+                2320,
+                2325
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                19285,
+                19602
+              ],
+              [
+                1732,
+                1737
+              ],
+              [
+                1798,
+                1803
+              ]
+            ],
+            "specialItems": [
+              2344,
+              2345,
+              2346,
+              2347
+            ],
+            "specialRate": 0.8,
             "items": [
               {
                 "id": 2344,
@@ -111690,6 +112501,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ],
+              [
+                11580,
+                11587
+              ],
+              [
+                11590,
+                11597
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -112546,6 +113372,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "接任务要先买委托书喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 20031,
@@ -112710,6 +113540,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2344,
@@ -112997,6 +113834,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12062,
@@ -113494,6 +114342,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "您好！",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12090,
@@ -113856,6 +114715,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                12221,
+                12228
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12110,
@@ -114338,6 +115212,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                12214,
+                12220
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12150,
@@ -114765,6 +115654,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临。",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12142,
@@ -115247,6 +116147,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                12214,
+                12229
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12153,
@@ -116733,6 +117648,24 @@ export const WORLD = {
               "todoke"
             ],
             "mainMessage": "你今天要打工吗？还是\\n运东西来的呢？",
+            "limitItemRanges": [
+              [
+                2405,
+                2405
+              ],
+              [
+                2406,
+                2406
+              ],
+              [
+                2407,
+                2407
+              ]
+            ],
+            "specialItems": [
+              0
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 2402,
@@ -117643,6 +118576,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢",
+            "limitItemRanges": [
+              [
+                2405,
+                2405
+              ],
+              [
+                2406,
+                2406
+              ],
+              [
+                2407,
+                2407
+              ]
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 2405,
@@ -118662,6 +119610,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 19331,
@@ -120237,6 +121186,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11879,
+                11879
+              ],
+              [
+                13081,
+                13081
+              ]
+            ],
+            "specialRate": 0,
             "items": [
               {
                 "id": 11879,
@@ -120369,6 +121329,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1726,
@@ -120486,6 +121447,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 20172,
@@ -120740,6 +121702,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1346,
@@ -120978,6 +121941,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13063,
@@ -125130,6 +126097,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 10,
@@ -125402,6 +126373,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 800,
@@ -125704,6 +126679,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1200,
@@ -126266,6 +127245,115 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ],
+              [
+                1612,
+                1617
+              ],
+              [
+                1642,
+                1647
+              ],
+              [
+                1684,
+                1689
+              ],
+              [
+                1708,
+                1713
+              ],
+              [
+                1762,
+                1773
+              ],
+              [
+                1846,
+                1851
+              ],
+              [
+                1864,
+                1869
+              ],
+              [
+                1882,
+                1887
+              ],
+              [
+                1900,
+                1905
+              ],
+              [
+                1930,
+                1941
+              ],
+              [
+                1990,
+                2001
+              ],
+              [
+                2014,
+                2019
+              ],
+              [
+                2044,
+                2049
+              ],
+              [
+                2062,
+                2067
+              ],
+              [
+                2134,
+                2139
+              ],
+              [
+                2200,
+                2205
+              ],
+              [
+                2212,
+                2223
+              ],
+              [
+                2230,
+                2235
+              ],
+              [
+                2248,
+                2253
+              ],
+              [
+                2320,
+                2325
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                19285,
+                19602
+              ],
+              [
+                1732,
+                1737
+              ],
+              [
+                1798,
+                1803
+              ]
+            ],
+            "specialItems": [
+              2344,
+              2345,
+              2346,
+              2347
+            ],
+            "specialRate": 0.8,
             "items": [
               {
                 "id": 2344,
@@ -126433,6 +127521,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ],
+              [
+                11580,
+                11587
+              ],
+              [
+                11590,
+                11597
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -127140,6 +128243,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1177,
@@ -127748,6 +128858,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "接任务要先买委托书喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 20061,
@@ -127897,6 +129011,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2344,
@@ -128184,6 +129305,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎～！",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12062,
@@ -128651,6 +129783,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12090,
@@ -129043,6 +130186,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎！",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                12221,
+                12228
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12110,
@@ -129540,6 +130698,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                12214,
+                12220
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12150,
@@ -130594,6 +131767,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "决定要哪一个了吗？因为种类很多",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12142,
@@ -131089,6 +132273,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "决定要哪一个特产品了吗？也有很多好东西喔。",
+            "limitItemRanges": [
+              [
+                12050,
+                12213
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                12214,
+                12229
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12153,
@@ -131664,6 +132863,24 @@ export const WORLD = {
               "todoke"
             ],
             "mainMessage": "想打工吗？\\n还是你是运东西来的呢？",
+            "limitItemRanges": [
+              [
+                2411,
+                2411
+              ],
+              [
+                2412,
+                2412
+              ],
+              [
+                2413,
+                2413
+              ]
+            ],
+            "specialItems": [
+              0
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 2404,
@@ -132555,6 +133772,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                2411,
+                2411
+              ],
+              [
+                2412,
+                2412
+              ],
+              [
+                2413,
+                2413
+              ]
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 2411,
@@ -143439,6 +144671,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "你好你好！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -143769,6 +145008,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 19332,
@@ -145360,6 +146600,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 20172,
@@ -145634,6 +146875,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1347,
@@ -145828,6 +147070,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1727,
@@ -145945,6 +147188,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11899,
+                11899
+              ],
+              [
+                13083,
+                13083
+              ]
+            ],
+            "specialRate": 0,
             "items": [
               {
                 "id": 11899,
@@ -146122,6 +147376,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13069,
@@ -147576,6 +148834,12 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
             "items": [
               {
                 "id": 2344,
@@ -147743,6 +149007,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -148369,6 +149640,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                12177,
+                12177
+              ],
+              [
+                12189,
+                12189
+              ],
+              [
+                12193,
+                12193
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12177,
@@ -148461,6 +149747,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1206,
@@ -148598,6 +149888,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11960,
+                11967
+              ],
+              [
+                11970,
+                11977
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11960,
@@ -148885,6 +150186,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11,
@@ -149172,6 +150477,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "你好你好！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 805,
@@ -150889,6 +152198,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临多多的肉店！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -151236,6 +152552,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -151690,6 +153013,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12141,
+                12141
+              ],
+              [
+                12209,
+                12209
+              ],
+              [
+                12229,
+                12229
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12141,
@@ -151782,6 +153120,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13073,
@@ -151844,6 +153186,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1207,
@@ -151981,6 +153327,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12,
@@ -152253,6 +153603,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "你好你好！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 811,
@@ -152579,6 +153933,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13071,
@@ -154358,6 +155716,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -154705,6 +156070,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -155371,6 +156743,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1209,
@@ -155508,6 +156884,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 221,
@@ -155795,6 +157175,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "你好你好！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 803,
@@ -156082,6 +157466,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13066,
@@ -157415,6 +158803,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -157762,6 +159157,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -158494,6 +159896,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1211,
@@ -158631,6 +160037,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 34,
@@ -158918,6 +160328,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "你好你好！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 815,
@@ -159721,6 +161135,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13064,
@@ -159828,6 +161246,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                12089,
+                12089
+              ],
+              [
+                12181,
+                12181
+              ],
+              [
+                12197,
+                12197
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12089,
@@ -159920,6 +161353,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                2422,
+                2422
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2422,
@@ -163126,6 +164566,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 10,
@@ -163443,6 +164887,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 800,
@@ -163745,6 +165193,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1203,
@@ -164277,6 +165729,115 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ],
+              [
+                1612,
+                1617
+              ],
+              [
+                1642,
+                1647
+              ],
+              [
+                1684,
+                1689
+              ],
+              [
+                1708,
+                1713
+              ],
+              [
+                1762,
+                1773
+              ],
+              [
+                1846,
+                1851
+              ],
+              [
+                1864,
+                1869
+              ],
+              [
+                1882,
+                1887
+              ],
+              [
+                1900,
+                1905
+              ],
+              [
+                1930,
+                1941
+              ],
+              [
+                1990,
+                2001
+              ],
+              [
+                2014,
+                2019
+              ],
+              [
+                2044,
+                2049
+              ],
+              [
+                2062,
+                2067
+              ],
+              [
+                2134,
+                2139
+              ],
+              [
+                2200,
+                2205
+              ],
+              [
+                2212,
+                2223
+              ],
+              [
+                2230,
+                2235
+              ],
+              [
+                2248,
+                2253
+              ],
+              [
+                2320,
+                2325
+              ],
+              [
+                2344,
+                2347
+              ],
+              [
+                19285,
+                19602
+              ],
+              [
+                1732,
+                1737
+              ],
+              [
+                1798,
+                1803
+              ]
+            ],
+            "specialItems": [
+              2344,
+              2345,
+              2346,
+              2347
+            ],
+            "specialRate": 0.8,
             "items": [
               {
                 "id": 2344,
@@ -164444,6 +166005,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -165136,6 +166704,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "接任务要先买委托书喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 20091,
@@ -165293,6 +166865,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                2705,
+                2705
+              ],
+              [
+                2612,
+                2612
+              ],
+              [
+                2613,
+                2613
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2705,
@@ -165385,6 +166972,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11800,
@@ -165912,6 +167506,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11830,
@@ -166439,6 +168040,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 11860,
@@ -166993,6 +168601,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11800,
+                12100
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12010,
@@ -168404,6 +170019,24 @@ export const WORLD = {
               "todoke"
             ],
             "mainMessage": "你要来打工啊？还是\\n帮我送东西来的呢？",
+            "limitItemRanges": [
+              [
+                2408,
+                2408
+              ],
+              [
+                2409,
+                2409
+              ],
+              [
+                2410,
+                2410
+              ]
+            ],
+            "specialItems": [
+              0
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 2403,
@@ -169284,6 +170917,21 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                2408,
+                2408
+              ],
+              [
+                2409,
+                2409
+              ],
+              [
+                2410,
+                2410
+              ]
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 2408,
@@ -170141,6 +171789,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 19333,
@@ -171703,6 +173352,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1348,
@@ -171934,6 +173584,17 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                11929,
+                11929
+              ],
+              [
+                13086,
+                13086
+              ]
+            ],
+            "specialRate": 0,
             "items": [
               {
                 "id": 11929,
@@ -172066,6 +173727,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 1725,
@@ -172183,6 +173845,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "specialRate": 0,
             "items": [
               {
                 "id": 20172,
@@ -172981,6 +174644,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13065,
@@ -173058,6 +174725,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1206,
@@ -173300,6 +174971,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎大驾光临。",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 342,
@@ -173587,6 +175262,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "您好",
+            "limitItemTypes": [
+              "DEFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 851,
@@ -173919,6 +175598,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -174345,6 +176031,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -175569,6 +177262,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "我有卖很神奇的东西喔！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 13067,
@@ -178266,6 +179963,13 @@ export const WORLD = {
             ],
             "sellWords": [],
             "mainMessage": "有什么要帮忙的?",
+            "limitItemRanges": [
+              [
+                1,
+                1
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 20912,
@@ -191526,6 +193230,10 @@ export const WORLD = {
               "卖"
             ],
             "mainMessage": "欢迎光临！这里是彩卷兑换处",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 20121,
@@ -192628,6 +194336,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "你好！",
+            "limitItemRanges": [
+              [
+                1500,
+                1550
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 1500,
@@ -193259,6 +194974,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,
@@ -193753,6 +195475,28 @@ export const WORLD = {
               "todoke"
             ],
             "mainMessage": "您好！今天是来打工的吗？\\n还是送货来的呢？",
+            "limitItemRanges": [
+              [
+                1539,
+                1539
+              ],
+              [
+                1544,
+                1544
+              ],
+              [
+                1538,
+                1538
+              ],
+              [
+                1537,
+                1537
+              ]
+            ],
+            "specialItems": [
+              0
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1528,
@@ -193860,6 +195604,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "ACCESSORY"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 12742,
@@ -218829,6 +220577,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 1234,
@@ -219614,6 +221369,13 @@ export const WORLD = {
               "给我力量吧神圣之水啊发出耀眼的光芒吧"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                2400,
+                2400
+              ]
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 2400,
@@ -219683,6 +221445,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 0.5,
             "items": [
               {
                 "id": 1234,
@@ -219977,6 +221746,10 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialRate": 1.5,
             "items": [
               {
                 "id": 52,
@@ -230446,6 +232219,13 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 1,
             "items": [
               {
                 "id": 1234,

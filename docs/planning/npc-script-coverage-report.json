@@ -1,88 +1,89 @@
 {
-  "generatedAt": "2026-05-19T02:16:57.784Z",
+  "generatedAt": "2026-05-19T13:43:30.937Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
-    "worldMaps": 260,
-    "worldNpcs": 2353,
-    "worldScriptNpcs": 248,
-    "worldScriptEvents": 1325,
-    "parsedActionKinds": 20,
+    "worldMaps": 300,
+    "worldNpcs": 1749,
+    "worldScriptNpcs": 394,
+    "worldScriptEvents": 1725,
+    "parsedActionKinds": 21,
     "unsupportedCandidateKeys": 40
   },
   "profiles": {
     "classic-core": {
       "id": "classic-core",
       "floors": 93,
-      "sourceFiles": 653,
-      "worldNpcs": 1138,
+      "sourceFiles": 641,
+      "worldNpcs": 681,
       "worldScriptNpcs": 114,
       "worldScriptEvents": 589
     },
     "classic-rebirth": {
       "id": "classic-rebirth",
       "floors": 95,
-      "sourceFiles": 706,
-      "worldNpcs": 1261,
+      "sourceFiles": 692,
+      "worldNpcs": 737,
       "worldScriptNpcs": 127,
       "worldScriptEvents": 656
     },
     "classic-advanced-2.0": {
       "id": "classic-advanced-2.0",
       "floors": 95,
-      "sourceFiles": 706,
-      "worldNpcs": 1261,
+      "sourceFiles": 692,
+      "worldNpcs": 737,
       "worldScriptNpcs": 127,
       "worldScriptEvents": 656
     },
     "classic-advanced-2.5": {
       "id": "classic-advanced-2.5",
       "floors": 95,
-      "sourceFiles": 706,
-      "worldNpcs": 1261,
+      "sourceFiles": 692,
+      "worldNpcs": 737,
       "worldScriptNpcs": 127,
       "worldScriptEvents": 656
     }
   },
   "parsedWorldActions": {
     "full": {
-      "maps": 260,
-      "npcs": 2353,
-      "scriptNpcs": 248,
-      "scriptEvents": 1325,
+      "maps": 300,
+      "npcs": 1749,
+      "scriptNpcs": 394,
+      "scriptEvents": 1725,
       "parsedActions": {
-        "condition": 1324,
-        "DelItem": 386,
-        "GetItem": 298,
-        "GetStone": 115,
-        "MessagePages": 107,
-        "DelPet": 56,
+        "condition": 1724,
+        "DelItem": 426,
+        "GetItem": 345,
+        "MessagePages": 217,
+        "GetStone": 119,
+        "DelPet": 63,
+        "KeyWord": 60,
+        "EndSetFlg": 56,
+        "GetRandItem": 56,
+        "StopMsg": 46,
         "AddItem": 45,
-        "GetRandItem": 45,
-        "EndSetFlg": 42,
-        "KeyWord": 38,
-        "StopMsg": 35,
+        "NpcWarp": 42,
         "CleanFlg": 26,
         "AddExps": 24,
         "AddGold": 24,
-        "NpcWarp": 21,
+        "GetPet": 16,
         "DelStone": 15,
-        "GetPet": 15,
         "DelItemEVDEL": 6,
         "NotDel": 6,
-        "Charm": 2
+        "Charm": 2,
+        "Pet_Name": 2
       },
       "eventTypes": {
-        "MESSAGE": 905,
-        "ACCEPT": 343,
-        "REQUEST": 51,
+        "MESSAGE": 1188,
+        "ACCEPT": 442,
+        "REQUEST": 69,
         "CLEAN": 26
       }
     },
     "profiles": {
       "classic-core": {
         "maps": 93,
-        "npcs": 1138,
+        "npcs": 681,
         "scriptNpcs": 114,
         "scriptEvents": 589,
         "parsedActions": {
@@ -112,7 +113,7 @@
       },
       "classic-rebirth": {
         "maps": 95,
-        "npcs": 1261,
+        "npcs": 737,
         "scriptNpcs": 127,
         "scriptEvents": 656,
         "parsedActions": {
@@ -142,7 +143,7 @@
       },
       "classic-advanced-2.0": {
         "maps": 95,
-        "npcs": 1261,
+        "npcs": 737,
         "scriptNpcs": 127,
         "scriptEvents": 656,
         "parsedActions": {
@@ -172,7 +173,7 @@
       },
       "classic-advanced-2.5": {
         "maps": 95,
-        "npcs": 1261,
+        "npcs": 737,
         "scriptNpcs": 127,
         "scriptEvents": 656,
         "parsedActions": {
@@ -205,8 +206,8 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 10552,
-      "candidate-action": 2984,
+      "supported-config": 11283,
+      "candidate-action": 2253,
       "unknown": 1798,
       "supported-message": 10758,
       "condition-control": 11752,
@@ -4331,20 +4332,20 @@
         "files": 505,
         "profiles": {
           "classic-core": {
-            "occurrences": 54,
-            "files": 30
+            "occurrences": 49,
+            "files": 29
           },
           "classic-rebirth": {
-            "occurrences": 59,
-            "files": 35
+            "occurrences": 54,
+            "files": 34
           },
           "classic-advanced-2.0": {
-            "occurrences": 59,
-            "files": 35
+            "occurrences": 54,
+            "files": 34
           },
           "classic-advanced-2.5": {
-            "occurrences": 59,
-            "files": 35
+            "occurrences": 54,
+            "files": 34
           }
         },
         "samples": [
@@ -6159,7 +6160,7 @@
       {
         "key": "LimitItemType",
         "normalized": "limititemtype",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 173,
         "files": 171,
         "profiles": {
@@ -11861,7 +11862,7 @@
       {
         "key": "special_item",
         "normalized": "special_item",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 247,
         "files": 247,
         "profiles": {
@@ -11965,7 +11966,7 @@
       {
         "key": "special_rate",
         "normalized": "special_rate",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 311,
         "files": 311,
         "profiles": {
@@ -13887,162 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "special_rate",
-        "normalized": "special_rate",
-        "category": "candidate-action",
-        "occurrences": 311,
-        "files": 311,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 122,
-            "files": 122
-          },
-          "classic-rebirth": {
-            "occurrences": 122,
-            "files": 122
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 122,
-            "files": 122
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 122,
-            "files": 122
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/9205/npc.arg1",
-            "line": 18,
-            "text": "special_rate:1.5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/9205/npc.arg2",
-            "line": 18,
-            "text": "special_rate:1.5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/9205/npc.arg3",
-            "line": 18,
-            "text": "special_rate:1.5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/9205/npc.arg4",
-            "line": 18,
-            "text": "special_rate:1.5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/9205/npc.arg5",
-            "line": 18,
-            "text": "special_rate:1.5"
-          }
-        ]
-      },
-      {
-        "key": "special_item",
-        "normalized": "special_item",
-        "category": "candidate-action",
-        "occurrences": 247,
-        "files": 247,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 101,
-            "files": 101
-          },
-          "classic-rebirth": {
-            "occurrences": 101,
-            "files": 101
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 101,
-            "files": 101
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 101,
-            "files": 101
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/9205/npc.arg2",
-            "line": 19,
-            "text": "special_item:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_1",
-            "line": 21,
-            "text": "special_item:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_2",
-            "line": 21,
-            "text": "special_item:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_3",
-            "line": 22,
-            "text": "special_item:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_4",
-            "line": 22,
-            "text": "special_item:"
-          }
-        ]
-      },
-      {
-        "key": "LimitItemType",
-        "normalized": "limititemtype",
-        "category": "candidate-action",
-        "occurrences": 173,
-        "files": 171,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 93,
-            "files": 93
-          },
-          "classic-rebirth": {
-            "occurrences": 93,
-            "files": 93
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 93,
-            "files": 93
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 93,
-            "files": 93
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/lbis_7011_5_3",
-            "line": 12,
-            "text": "LimitItemType:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/lbis_9037_4_4",
-            "line": 12,
-            "text": "LimitItemType:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ser_26_8",
-            "line": 17,
-            "text": "LimitItemType:DEFENCE"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ss_10007_38_24",
-            "line": 17,
-            "text": "LimitItemType:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ss_10007_39_35",
-            "line": 17,
-            "text": "LimitItemType:OFFENCE"
-          }
-        ]
-      },
-      {
         "key": "skill_rate",
         "normalized": "skill_rate",
         "category": "candidate-action",
@@ -15963,6 +15808,152 @@
             "file": "external/sources/ref___data/npc/genout/pis_7119_15_6",
             "line": 3,
             "text": "pool_main:您要寄放哪个道具呢？\\n寄放一个道具要50石币喔？"
+          }
+        ]
+      },
+      {
+        "key": "ChangeItemCost",
+        "normalized": "changeitemcost",
+        "category": "candidate-action",
+        "occurrences": 52,
+        "files": 52,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-rebirth": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 2,
+            "files": 2
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/npc/shop10_1",
+            "line": 19,
+            "text": "ChangeItemCost:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/family/npc/shop10_2",
+            "line": 19,
+            "text": "ChangeItemCost:60000,100000,20000,20000,500000,500000,5000,10000,200000,100"
+          },
+          {
+            "file": "external/sources/ref___data/npc/family/npc/shop10_3",
+            "line": 20,
+            "text": "ChangeItemCost:30000"
+          },
+          {
+            "file": "external/sources/ref___data/npc/family/npc/shop10_4",
+            "line": 20,
+            "text": "ChangeItemCost:60000,100000,100000"
+          },
+          {
+            "file": "external/sources/ref___data/npc/family/npc/shop1_1",
+            "line": 19,
+            "text": "ChangeItemCost:60000,100000,20000,20000,500000,500000,5000,10000,200000,100"
+          }
+        ]
+      },
+      {
+        "key": "oneway",
+        "normalized": "oneway",
+        "category": "unknown",
+        "occurrences": 9,
+        "files": 9,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-rebirth": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 2,
+            "files": 2
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
+            "line": 14,
+            "text": "oneway:0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
+            "line": 14,
+            "text": "oneway:0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
+            "line": 14,
+            "text": "oneway:0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
+            "line": 14,
+            "text": "oneway:0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
+            "line": 15,
+            "text": "oneway:1"
+          }
+        ]
+      },
+      {
+        "key": "CostPoint",
+        "normalized": "costpoint",
+        "category": "candidate-action",
+        "occurrences": 3,
+        "files": 3,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-rebirth": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 2,
+            "files": 2
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 2,
+            "files": 2
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/my/ruieryasi/rou.arg",
+            "line": 19,
+            "text": "CostPoint:10000,10000,10000,10000"
+          },
+          {
+            "file": "external/sources/ref___data/npc/scipt_plus/test2nd/c_can_mm",
+            "line": 10,
+            "text": "CostPoint:10000,10000,10000,10000"
+          },
+          {
+            "file": "external/sources/ref___data/npc/scipt_plus/test2nd/item",
+            "line": 10,
+            "text": "CostPoint:10000,10000,10000,10000"
           }
         ]
       }
