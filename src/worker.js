@@ -3029,7 +3029,8 @@ async function startNpcEnemyBattle(env, request, game, npc) {
       respawnSeconds: Number(npc.npcEnemy?.respawnSeconds || 0),
       startMessage,
       endMessage: npc.npcEnemy?.endMessage || "",
-      warp: npc.npcEnemy?.warp || null
+      warp: npc.npcEnemy?.warp || null,
+      postBattleEvents: Array.isArray(npc.npcEnemy?.postBattleEvents) ? npc.npcEnemy.postBattleEvents : []
     };
     if (startMessage) game.battle.log = [...(game.battle.log || []), `${npc.name}：${startMessage}`].slice(-8);
   }
@@ -4626,6 +4627,28 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
     npcName: npcEnemy.npcName || "",
     mapId: game.location.mapId
   });
+  const postBattleEvent = chooseNpcEnemyPostBattleEvent(game, npcEnemy);
+  if (postBattleEvent?.event) {
+    const event = postBattleEvent.event;
+    if (event.endMessage) battleLog.push(event.endMessage);
+    if (!Array.isArray(event.warps) || !event.warps.length) return;
+    if (postBattleEvent.target?.mapId && WORLD.maps[postBattleEvent.target.mapId]) {
+      game.location = {
+        ...game.location,
+        mapId: postBattleEvent.target.mapId,
+        x: Number(postBattleEvent.target.x || 0),
+        y: Number(postBattleEvent.target.y || 0)
+      };
+      battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 按 NEWEVENT${event.seq || ""} 把你送到 (${game.location.x},${game.location.y})。`);
+      return;
+    }
+    battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 的 NEWEVENT${event.seq || ""} 没有可加载的地图目标。`);
+    return;
+  }
+  if (Array.isArray(npcEnemy.postBattleEvents) && npcEnemy.postBattleEvents.length) {
+    battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 的战后传送条件未满足。`);
+    return;
+  }
   if (npcEnemy.endMessage) battleLog.push(npcEnemy.endMessage);
   if (Number(npcEnemy.dieAct || 0) === 1 && npcEnemy.warp?.mapId && WORLD.maps[npcEnemy.warp.mapId]) {
     game.location = {
@@ -4646,6 +4669,32 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
     until: new Date(Date.now() + respawnSeconds * 1000).toISOString()
   };
   battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 暂时退开，通路打开 ${respawnSeconds} 秒。`);
+}
+
+function chooseNpcEnemyPostBattleEvent(game, npcEnemy = {}) {
+  const events = Array.isArray(npcEnemy.postBattleEvents) ? npcEnemy.postBattleEvents : [];
+  for (const event of events) {
+    const condition = characterConditionStatus(game, event.condition || "LV>0");
+    if (!condition.ok) continue;
+    const warps = Array.isArray(event.warps) ? event.warps.filter((warp) => warp?.mapId) : [];
+    const index = warps.length
+      ? stableHashInt([
+        npcEnemy.npcId || "",
+        npcEnemy.source || "",
+        event.seq || 0,
+        game.player?.name || "",
+        game.player?.battleCount || 0,
+        game.location?.mapId || ""
+      ].join("|")) % warps.length
+      : -1;
+    return {
+      event,
+      condition,
+      target: index >= 0 ? warps[index] : null,
+      source: "gmsv/npc/npc_npcenemy.c NPC_NPCEnemy_CheckFree"
+    };
+  }
+  return null;
 }
 
 function performCaptureAction(game) {

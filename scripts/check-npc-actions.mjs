@@ -2300,7 +2300,82 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+let npcEnemyNewEventGame = await api("/api/game/new", { name: "npcenemy-newevent-fallback-test" });
+npcEnemyNewEventGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+npcEnemyNewEventGame.pets[0].WorkFixStr = 9999;
+npcEnemyNewEventGame.pets[0].WorkFixDex = 9999;
+const newEventEnemy = {
+  Name: "NEWEVENT测试敌",
+  EnemyId: 1704,
+  Lv: 1,
+  Hp: 1,
+  MaxHp: 1,
+  WorkFixStr: 0,
+  WorkFixTgh: 0,
+  WorkFixDex: 0,
+  WorkQuick: 0,
+  CaptureRate: 0,
+  WhichType: 2
+};
+const newEventPostBattleEvents = [
+  {
+    seq: 1,
+    condition: "NOWEV=81",
+    warps: [{ mapId: "100", floor: 100, x: 640, y: 492 }],
+    endMessage: "源码 NOWEV 分支"
+  },
+  {
+    seq: 2,
+    condition: "LV>0",
+    warps: [{ mapId: "100", floor: 100, x: 641, y: 492 }],
+    endMessage: "源码 LV 分支"
+  }
+];
+npcEnemyNewEventGame.encounter = { ...newEventEnemy };
+npcEnemyNewEventGame.battle = {
+  mode: "command",
+  turn: 0,
+  log: [],
+  enemyParty: [{ ...newEventEnemy }],
+  activeEnemyIndex: 0,
+  npcEnemy: {
+    npcId: "npcenemy-newevent-test",
+    npcName: "NEWEVENT守卫",
+    source: "external/sources/ref___data/npc/eden1/init/event81_6f.arg",
+    dieAct: 1,
+    postBattleEvents: newEventPostBattleEvents
+  }
+};
+npcEnemyNewEventGame = await api("/api/game/battle", { game: npcEnemyNewEventGame, action: "攻击" });
+assertEqual(npcEnemyNewEventGame.battleOutcome.result, "victory", "NPCEnemy NEWEVENT fixture wins through battle settlement");
+assertEqual(npcEnemyNewEventGame.location.x, 641, "NPCEnemy NEWEVENT falls through to the first matching source FREE branch");
+assert(npcEnemyNewEventGame.battleOutcome.log.some((line) => line.includes("源码 LV 分支")), "NPCEnemy NEWEVENT victory logs source branch endmsg");
+
+let npcEnemyNewEventFlagGame = await api("/api/game/new", { name: "npcenemy-newevent-nowev-test" });
+npcEnemyNewEventFlagGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+npcEnemyNewEventFlagGame.pets[0].WorkFixStr = 9999;
+npcEnemyNewEventFlagGame.pets[0].WorkFixDex = 9999;
+setTestEventFlag(npcEnemyNewEventFlagGame, 81, "now");
+npcEnemyNewEventFlagGame.encounter = { ...newEventEnemy };
+npcEnemyNewEventFlagGame.battle = {
+  mode: "command",
+  turn: 0,
+  log: [],
+  enemyParty: [{ ...newEventEnemy }],
+  activeEnemyIndex: 0,
+  npcEnemy: {
+    npcId: "npcenemy-newevent-test",
+    npcName: "NEWEVENT守卫",
+    source: "external/sources/ref___data/npc/eden1/init/event81_6f.arg",
+    dieAct: 1,
+    postBattleEvents: newEventPostBattleEvents
+  }
+};
+npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEventFlagGame, action: "攻击" });
+assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
+assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
+
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

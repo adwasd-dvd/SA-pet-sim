@@ -166,6 +166,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "needhead",
   "needitem",
   "needmsg",
+  "newevent",
   "nomal_rate",
   "nothing_msg",
   "other_msg",

@@ -1547,13 +1547,15 @@ function readNpcWarp(argPath, createFile) {
 function readNpcEnemy(argPath, createFile, functionset) {
   const file = resolveNpcArg(argPath, createFile);
   if (!file || !/npcenemy/i.test(functionset || "")) return null;
-  const kv = parseNpcEnemyFile(readText(file));
+  const text = readText(file);
+  const kv = parseNpcEnemyFile(text);
   const enemyNos = splitNumberList(kv.enemyno || "");
   const askBattleMessages = [];
   for (let i = 1; i <= 6; i += 1) {
     const line = cleanScriptText(kv[`askbattlemsg${i}`] || "");
     if (line) askBattleMessages.push(line);
   }
+  const postBattleEvents = parseNpcEnemyPostBattleEvents(text, file);
   return {
     kind: "NPCEnemy",
     source: relativeRef(file),
@@ -1565,7 +1567,8 @@ function readNpcEnemy(argPath, createFile, functionset) {
     endMessage: cleanScriptText(kv.endmsg || kv["end msg"] || ""),
     dieAct: Number(kv.dieact || 0) || 0,
     respawnSeconds: Number(kv.time || 0) || 0,
-    warp: parseNpcEnemyWarp(kv)
+    warp: parseNpcEnemyWarp(kv),
+    ...(postBattleEvents.length ? { postBattleEvents } : {})
   };
 }
 
@@ -1584,7 +1587,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
-    const match = line.match(/^(EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM)\s*[:=]\s*(.*)$/i);
+    const match = line.match(/^(NEWEVENT\d*|EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM)\s*[:=]\s*(.*)$/i);
     if (!match) continue;
     const value = cleanScriptText(`${match[1]}:${match[2]}`).replace(/\s+/g, " ");
     if (value && !hints.includes(value)) hints.push(value);
@@ -1613,7 +1616,8 @@ function questLeadForNpc(npc, scriptHints) {
 
 function parseNpcEnemyFile(text) {
   const kv = {};
-  for (const raw of text.split(/\r?\n/)) {
+  const mainBlock = String(text || "").split(/^\s*OVER\s*$/im)[0] || "";
+  for (const raw of mainBlock.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
     const match = line.match(/^([^:=]+)\s*[:=]\s*(.*)$/);
@@ -1621,6 +1625,85 @@ function parseNpcEnemyFile(text) {
     kv[match[1].trim().toLowerCase()] = match[2].trim();
   }
   return kv;
+}
+
+function parseNpcEnemyPostBattleEvents(text, file) {
+  const events = [];
+  let event = null;
+
+  const finishEvent = () => {
+    if (!event) return;
+    const out = {
+      source: relativeRef(file),
+      seq: Number(event.seq || 0),
+      condition: cleanName(event.condition || ""),
+      warps: event.warps.slice(0, 15),
+      endMessage: cleanScriptText(event.endMessage || ""),
+      ...(event.checkParty ? { checkParty: cleanName(event.checkParty) } : {}),
+      ...(Number(event.heroBattleField || 0) > 0 ? { heroBattleField: Number(event.heroBattleField) } : {})
+    };
+    if (out.condition || out.warps.length || out.endMessage) events.push(out);
+    event = null;
+  };
+
+  for (const raw of String(text || "").split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const eventStart = line.match(/^NEWEVENT(\d*)\s*:\s*$/i);
+    if (eventStart) {
+      finishEvent();
+      event = {
+        seq: Number(eventStart[1] || events.length + 1),
+        condition: "",
+        warps: [],
+        endMessage: "",
+        checkParty: "",
+        heroBattleField: 0
+      };
+      continue;
+    }
+    if (!event) continue;
+    if (/^OVER$/i.test(line)) {
+      finishEvent();
+      continue;
+    }
+    const index = line.indexOf(":");
+    if (index < 0) continue;
+    const key = line.slice(0, index).trim().toLowerCase();
+    const value = line.slice(index + 1).trim();
+    if (key === "free") {
+      event.condition = value;
+      continue;
+    }
+    if (key === "warp") {
+      event.warps.push(...parseNpcEnemyEventWarps(value));
+      continue;
+    }
+    if (key === "endmsg") {
+      event.endMessage = value;
+      continue;
+    }
+    if (key === "checkparty") {
+      event.checkParty = value;
+      continue;
+    }
+    if (key === "herobattlefield") {
+      event.heroBattleField = Number(value) || 0;
+    }
+  }
+  finishEvent();
+  return events.slice(0, 16);
+}
+
+function parseNpcEnemyEventWarps(value = "") {
+  return String(value || "")
+    .split(";")
+    .map((part) => {
+      const [floor, x, y] = part.trim().split(",").map((item) => Number(item.trim()));
+      if (![floor, x, y].every(Number.isFinite) || floor <= 0) return null;
+      return { mapId: String(floor), floor, x, y };
+    })
+    .filter(Boolean);
 }
 
 function parseNpcEnemyWarp(kv) {

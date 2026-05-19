@@ -64380,10 +64380,26 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "我的日记呢！好像掉了。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality1.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4&ITEM=1814",
+                "warps": [],
+                "endMessage": "你身上那一本好像是我的日记喔！如果是我的日记本请你拿到奇努伊村给我！现在身上东西都满了，所以日记本才会在打斗时掉出来。"
+              },
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality1.arg",
+                "seq": 2,
+                "condition": "LV>0&ENDEV=4&ITEM!=1814",
+                "warps": [],
+                "endMessage": "我的日记呢！好像掉了。"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -64391,15 +64407,17 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4&ITEM=1814",
               "WARP:0,0,0",
+              "NEWEVENT2:",
               "FREE:LV>0&ENDEV=4&ITEM!=1814"
             ],
             "source": "gmsv-data/npc/sa70/actuality/actuality1.arg"
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4&ITEM=1814",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality1.arg",
             "status": "source-lead"
           }
@@ -64431,10 +64449,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "你的打架技巧不错喔！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality7.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "你的打架技巧不错喔！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -64442,6 +64469,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -64449,7 +64477,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality7.arg",
             "status": "source-lead"
           }
@@ -89208,10 +89236,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "你的打架技巧不错喔！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality4.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "你的打架技巧不错喔！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -89219,6 +89256,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -89226,7 +89264,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality4.arg",
             "status": "source-lead"
           }
@@ -89258,10 +89296,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "你还真强啊！什么时候再来切磋切磋一下。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality11.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "你还真强啊！什么时候再来切磋切磋一下。"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -89269,6 +89316,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -89276,7 +89324,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality11.arg",
             "status": "source-lead"
           }
@@ -97667,10 +97715,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "你还真强啊！什么时候再来切磋切磋一下。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality3.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "你还真强啊！什么时候再来切磋切磋一下。"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -97678,6 +97735,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -97685,7 +97743,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality3.arg",
             "status": "source-lead"
           }
@@ -97717,10 +97775,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "哇！你真的好强喔！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality9.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "哇！你真的好强喔！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -97728,6 +97795,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -97735,7 +97803,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality9.arg",
             "status": "source-lead"
           }
@@ -102499,10 +102567,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "呜！别在打我了喔！下次我可不客气了！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality10.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "呜！别在打我了喔！下次我可不客气了！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -102510,6 +102587,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -102517,7 +102595,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality10.arg",
             "status": "source-lead"
           }
@@ -102549,10 +102627,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "哇！你真的好强喔！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality5.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "哇！你真的好强喔！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -102560,6 +102647,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -102567,7 +102655,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality5.arg",
             "status": "source-lead"
           }
@@ -108494,10 +108582,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "呜！别在打我了喔！下次我可不客气了！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality2.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "呜！别在打我了喔！下次我可不客气了！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -108505,6 +108602,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -108512,7 +108610,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality2.arg",
             "status": "source-lead"
           }
@@ -108544,10 +108642,19 @@ export const WORLD = {
             ],
             "startMessage": "这是你自找的，我不会手下留情的，小鬼。",
             "deniedMessage": "有什么事吗？还是你要找我们家另外八个兄弟。",
-            "endMessage": "你还真强啊！什么时候再来切磋切磋一下。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/actuality/actuality8.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "你还真强啊！什么时候再来切磋切磋一下。"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -108555,6 +108662,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -108562,7 +108670,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "九兄弟之一 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/actuality/actuality8.arg",
             "status": "source-lead"
           }
@@ -184434,10 +184542,19 @@ export const WORLD = {
             ],
             "startMessage": "尽全力来打败我吧！",
             "deniedMessage": "我专门帮别人制造特殊疗效的药物，不过要请我调配之前可要先收集好材料！",
-            "endMessage": "我说话算话，特效药你拿去吧！材料我收走了！我才能制作备份的特效药以防不时之需。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/true/true2.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4",
+                "warps": [],
+                "endMessage": "我说话算话，特效药你拿去吧！材料我收走了！我才能制作备份的特效药以防不时之需。"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -184445,6 +184562,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4",
               "WARP:0,0,0"
             ],
@@ -184452,7 +184570,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "尊尼 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/true/true2.arg",
             "status": "source-lead"
           }
@@ -205578,10 +205696,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第二层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic1.arg",
+                "seq": 1,
+                "condition": "LV>0",
+                "warps": [
+                  {
+                    "mapId": "8200",
+                    "floor": 8200,
+                    "x": 191,
+                    "y": 90
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第二层楼还是会有人守护着。",
+                "heroBattleField": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -205590,6 +205725,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0",
               "WARP:8200,191,90"
             ],
@@ -205597,7 +205733,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "守灵者一 的原脚本线索",
-            "summary": "FREE:LV>0",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic1.arg",
             "status": "source-lead"
           }
@@ -206888,10 +207024,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第二十一层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic20.arg",
+                "seq": 1,
+                "condition": "LV>0&NOWEV=151",
+                "warps": [
+                  {
+                    "mapId": "8201",
+                    "floor": 8201,
+                    "x": 92,
+                    "y": 141
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第二十一层楼还是会有人守护着。",
+                "heroBattleField": 20
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -206900,6 +207053,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&NOWEV=151",
               "WARP:8201,92,141"
             ],
@@ -206907,7 +207061,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "库克 的原脚本线索",
-            "summary": "FREE:LV>0&NOWEV=151",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic20.arg",
             "status": "source-lead"
           }
@@ -208871,10 +209025,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第四十一层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic40.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=151",
+                "warps": [
+                  {
+                    "mapId": "8203",
+                    "floor": 8203,
+                    "x": 133,
+                    "y": 84
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第四十一层楼还是会有人守护着。",
+                "heroBattleField": 40
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -208883,6 +209054,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=151",
               "WARP:8203,133,84"
             ],
@@ -208890,7 +209062,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "福恩奇邑 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=151",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic40.arg",
             "status": "source-lead"
           }
@@ -212653,10 +212825,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第八十一层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic80.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=152",
+                "warps": [
+                  {
+                    "mapId": "8206",
+                    "floor": 8206,
+                    "x": 78,
+                    "y": 144
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第八十一层楼还是会有人守护着。",
+                "heroBattleField": 80
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -212665,6 +212854,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=152",
               "WARP:8206,78,144"
             ],
@@ -212672,7 +212862,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "柯尔特 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=152",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic80.arg",
             "status": "source-lead"
           }
@@ -214673,10 +214863,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第一百零一层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic100.arg",
+                "seq": 1,
+                "condition": "LV>0&NOWEV=153",
+                "warps": [
+                  {
+                    "mapId": "8208",
+                    "floor": 8208,
+                    "x": 140,
+                    "y": 70
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第一百零一层楼还是会有人守护着。",
+                "heroBattleField": 100
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -214685,6 +214892,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&NOWEV=153",
               "WARP:8208,140,70"
             ],
@@ -214692,7 +214900,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "艾斯克巴 的原脚本线索",
-            "summary": "FREE:LV>0&NOWEV=153",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic100.arg",
             "status": "source-lead"
           }
@@ -217394,10 +217602,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "我以英雄战场之名向你致上最高无比敬意。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic132.arg",
+                "seq": 1,
+                "condition": "LV>0&NOWEV=154",
+                "warps": [
+                  {
+                    "mapId": "8213",
+                    "floor": 8213,
+                    "x": 19,
+                    "y": 150
+                  }
+                ],
+                "endMessage": "我以英雄战场之名向你致上最高无比敬意。",
+                "heroBattleField": 132
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -217406,6 +217631,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&NOWEV=154",
               "WARP:8213,19,150"
             ],
@@ -217413,7 +217639,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "路普勒斯 的原脚本线索",
-            "summary": "FREE:LV>0&NOWEV=154",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic132.arg",
             "status": "source-lead"
           }
@@ -218260,10 +218486,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第六十一层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic60.arg",
+                "seq": 1,
+                "condition": "LV>0&NOWEV=152",
+                "warps": [
+                  {
+                    "mapId": "8205",
+                    "floor": 8205,
+                    "x": 204,
+                    "y": 16
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第六十一层楼还是会有人守护着。",
+                "heroBattleField": 60
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -218272,6 +218515,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&NOWEV=152",
               "WARP:8205,204,16"
             ],
@@ -218279,7 +218523,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "斯洛伐特 的原脚本线索",
-            "summary": "FREE:LV>0&NOWEV=152",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic60.arg",
             "status": "source-lead"
           }
@@ -218533,10 +218777,27 @@ export const WORLD = {
             ],
             "startMessage": "",
             "deniedMessage": "完全看不出来你像个英雄，再去练个几年再来吧。",
-            "endMessage": "就算你打败我了！在第一百二拾一层楼还是会有人守护着。",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/heroic/heroic120.arg",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=153",
+                "warps": [
+                  {
+                    "mapId": "8210",
+                    "floor": 8210,
+                    "x": 207,
+                    "y": 29
+                  }
+                ],
+                "endMessage": "就算你打败我了！在第一百二拾一层楼还是会有人守护着。",
+                "heroBattleField": 120
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -218545,6 +218806,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=153",
               "WARP:8210,207,29"
             ],
@@ -218552,7 +218814,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "马塔洛夫 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=153",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/heroic/heroic120.arg",
             "status": "source-lead"
           }
@@ -223838,7 +224100,7 @@ export const WORLD = {
             ],
             "startMessage": "尽你的全力吧。",
             "deniedMessage": "加油…",
-            "endMessage": "不知道你来这里干嘛耶！",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
             "warp": {
@@ -223846,7 +224108,37 @@ export const WORLD = {
               "floor": 60312,
               "x": 22,
               "y": 24
-            }
+            },
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/class/wquest6",
+                "seq": 1,
+                "condition": "LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2101&ITEM=2102&ITEM=2099",
+                "warps": [
+                  {
+                    "mapId": "8216",
+                    "floor": 8216,
+                    "x": 27,
+                    "y": 23
+                  }
+                ],
+                "endMessage": "恭喜你通过最后的考验！！"
+              },
+              {
+                "source": "gmsv-data/npc/sa70/class/wquest6",
+                "seq": 2,
+                "condition": "LV>0",
+                "warps": [
+                  {
+                    "mapId": "8219",
+                    "floor": 8219,
+                    "x": 120,
+                    "y": 85
+                  }
+                ],
+                "endMessage": "不知道你来这里干嘛耶！"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -223855,8 +224147,10 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2101&ITEM=2102&ITEM=2099",
               "WARP:8216,27,23",
+              "NEWEVENT2:",
               "FREE:LV>0",
               "WARP:8219,120,85"
             ],
@@ -223864,7 +224158,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "勇士试炼者 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4&NOWEV=145&ITEM=2100&ITEM=2101&ITEM=2102&ITEM=2099",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/class/wquest6",
             "status": "source-lead"
           }
@@ -226900,7 +227194,7 @@ export const WORLD = {
             ],
             "startMessage": "嘶…",
             "deniedMessage": "嘶…",
-            "endMessage": "嘶～",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
             "warp": {
@@ -226908,7 +227202,37 @@ export const WORLD = {
               "floor": 60312,
               "x": 22,
               "y": 24
-            }
+            },
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/class/mquest4",
+                "seq": 2,
+                "condition": "LV>0&ENDEV=4&NOWEV=146&ITEM=2104&ITEM=2105",
+                "warps": [
+                  {
+                    "mapId": "8218",
+                    "floor": 8218,
+                    "x": 17,
+                    "y": 23
+                  }
+                ],
+                "endMessage": "嘶…嘶～～"
+              },
+              {
+                "source": "gmsv-data/npc/sa70/class/mquest4",
+                "seq": 3,
+                "condition": "LV>0",
+                "warps": [
+                  {
+                    "mapId": "8221",
+                    "floor": 8221,
+                    "x": 125,
+                    "y": 30
+                  }
+                ],
+                "endMessage": "嘶～"
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -226917,8 +227241,10 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT2:",
               "FREE:LV>0&ENDEV=4&NOWEV=146&ITEM=2104&ITEM=2105",
               "WARP:8218,17,23",
+              "NEWEVENT3:",
               "FREE:LV>0",
               "WARP:8221,125,30"
             ],
@@ -226926,7 +227252,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "闇灵试炼者 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4&NOWEV=146&ITEM=2104&ITEM=2105",
+            "summary": "NEWEVENT2:",
             "source": "gmsv-data/npc/sa70/class/mquest4",
             "status": "source-lead"
           }
@@ -228126,10 +228452,26 @@ export const WORLD = {
             ],
             "startMessage": "有本事你就拿啊！这里的水果可都是酿酒的好材料呢！",
             "deniedMessage": "你有什么本事来拿水果啊！",
-            "endMessage": "..........",
+            "endMessage": "",
             "dieAct": 1,
             "respawnSeconds": 0,
-            "warp": null
+            "warp": null,
+            "postBattleEvents": [
+              {
+                "source": "gmsv-data/npc/sa70/beers/beerspk.arg",
+                "seq": 1,
+                "condition": "LV>0&ITEM=2020",
+                "warps": [
+                  {
+                    "mapId": "8233",
+                    "floor": 8233,
+                    "x": 25,
+                    "y": 23
+                  }
+                ],
+                "endMessage": ".........."
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -228138,6 +228480,7 @@ export const WORLD = {
               "questLead"
             ],
             "hints": [
+              "NEWEVENT1:",
               "FREE:LV>0&ITEM=2020",
               "WARP:8233,25,23",
               "DelItem:2020"
@@ -228146,7 +228489,7 @@ export const WORLD = {
           },
           "questLead": {
             "title": "哥达 的原脚本线索",
-            "summary": "FREE:LV>0&ITEM=2020",
+            "summary": "NEWEVENT1:",
             "source": "gmsv-data/npc/sa70/beers/beerspk.arg",
             "status": "source-lead"
           }

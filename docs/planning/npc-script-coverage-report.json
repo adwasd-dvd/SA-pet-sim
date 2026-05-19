@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T19:14:53.286Z",
+  "generatedAt": "2026-05-19T19:47:46.066Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,8 +206,8 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 11787,
-      "candidate-action": 1879,
+      "supported-config": 11928,
+      "candidate-action": 1738,
       "unknown": 1666,
       "supported-message": 10760,
       "condition-control": 11752,
@@ -7830,7 +7830,7 @@
       {
         "key": "NEWEVENT1",
         "normalized": "newevent",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 141,
         "files": 112,
         "profiles": {
@@ -13888,58 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "NEWEVENT1",
-        "normalized": "newevent",
-        "category": "candidate-action",
-        "occurrences": 141,
-        "files": 112,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 11,
-            "files": 10
-          },
-          "classic-rebirth": {
-            "occurrences": 11,
-            "files": 10
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 11,
-            "files": 10
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 11,
-            "files": 10
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden1/init/event81_6f.arg",
-            "line": 18,
-            "text": "NEWEVENT1:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden1/init/event81_6f.arg",
-            "line": 24,
-            "text": "NEWEVENT2:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden1/init/event81_7f.arg",
-            "line": 17,
-            "text": "NEWEVENT1:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden1/init/event81_7f.arg",
-            "line": 23,
-            "text": "NEWEVENT2:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden1/init/event81_8f.arg",
-            "line": 16,
-            "text": "NEWEVENT1:"
-          }
-        ]
-      },
-      {
         "key": "onebattle",
         "normalized": "onebattle",
         "category": "candidate-action",
@@ -15864,6 +15812,43 @@
             "file": "external/sources/ref___data/npc/race2/second.arg",
             "line": 20,
             "text": "CheckItem:20760"
+          }
+        ]
+      },
+      {
+        "key": "CheckPet",
+        "normalized": "checkpet",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 24,
+            "text": "CheckPet:1618"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 22,
+            "text": "CheckPet:"
           }
         ]
       }
