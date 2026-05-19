@@ -1026,8 +1026,11 @@ assertEqual(adultCollectTask?.sourceCluster, "jaruga/event", "adult ceremony sou
 assert(adultCollectTask?.nextNpcs.every((npc) => String(npc.source || "").includes("jaruga/event")), "adult ceremony collection target does not mix unrelated same-EventNo scripts");
 let adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
 assert(adultGuideRsp.text.includes("仪式审判的差使"), "AI guide prioritizes active source task collection target");
+assert(adultGuideRsp.text.includes("目标 NPC") && /做法|操作/.test(adultGuideRsp.text), "AI guide explains who to find and how to trigger the task");
+assert(/floor\s+10204/.test(adultGuideRsp.text) && adultGuideRsp.text.includes(`(${adultMessenger.x},${adultMessenger.y})`), "AI guide includes source target floor and coordinates");
 let adultWorkspaceRsp = await api("/api/ai/workspace", { game: adultGame, prompt: "任务下一步" });
 assert(adultWorkspaceRsp.workspace.current.sourceTasks.some((task) => task.eventNo === 4), "AI workspace exposes active source task state");
+assert(adultWorkspaceRsp.workspace.current.sourceTasks.some((task) => task.eventNo === 4 && task.guidance?.some((line) => line.includes("目标 NPC"))), "AI workspace keeps deterministic task guidance lines");
 adultGame.location = { mapId: "10204", x: adultMessenger.x + 1, y: adultMessenger.y };
 adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultMessenger.id });
 assertEqual(inventoryQty(adultGame, 2417), 15, "adult ceremony messenger gives exactly 15 source ritual jades");

@@ -5527,9 +5527,42 @@ function renderQuests() {
         <p class="muted">来源：${escapeHtml(task.source || "gmsv-data changeevent")} | EventNo ${Number(task.eventNo || 0)}</p>
       </article>
     `).join("");
+  const starterHtml = renderQuestStarterCards(game.world?.map);
   els.questList.innerHTML = questHtml || sourceTaskHtml
     ? `${questHtml}${sourceTaskHtml}`
-    : `<p class="empty">还没有接任务，先和 NPC 聊聊。</p>`;
+    : starterHtml || `<p class="empty">还没有接任务。先查看本地图 NPC 与出口，去村镇、庄园或洞窟入口找有线索的 NPC。</p>`;
+}
+
+function renderQuestStarterCards(map) {
+  if (!map) return "";
+  const questNpcs = (map.npcs || [])
+    .filter((npc) => {
+      const tags = npcTags(npc);
+      return tags.some((tag) => ["线索", "任务", "可触发", "脚本条件", "战斗"].includes(tag))
+        || (npc.actions || []).some((action) => ["quest", "window", "startBattle"].includes(action));
+    })
+    .slice()
+    .sort((a, b) => pointDistance(a.x, a.y) - pointDistance(b.x, b.y))
+    .slice(0, 6);
+  const exits = (map.exits || [])
+    .slice()
+    .sort((a, b) => distanceToExitClient(a) - distanceToExitClient(b))
+    .slice(0, 4);
+  if (!questNpcs.length && !exits.length) return "";
+  return `
+    <article class="result-item quest-card">
+      <div><strong>当前地图线索</strong><span>${escapeHtml(map.name || "地图")} floor ${escapeHtml(String(map.floorId || game.location.mapId))}</span></div>
+      <p>还没有正式接到任务。先按距离找原脚本 NPC 询问；地图传送点不是 NPC，走到出口格会自动触发。</p>
+      ${questNpcs.length ? `
+        <ul class="quest-guidance">
+          ${questNpcs.map((npc) => `
+            <li>找 ${escapeHtml(npc.name)} (${Number(npc.x || 0)},${Number(npc.y || 0)})，距离 ${escapeHtml(formatCellDistance(npc.x, npc.y))}。${escapeHtml(npc.questLead?.summary || scriptLeadText(npc) || npcTags(npc).join("、") || "双击/hi 询问。")}</li>
+          `).join("")}
+        </ul>
+      ` : ""}
+      ${exits.length ? `<p class="muted">附近出口：${escapeHtml(exits.map((exit) => `${exit.label}->${exit.toName || exit.to || ""} ${formatExitDistance(exit)}`).join("；"))}</p>` : ""}
+    </article>
+  `;
 }
 
 function questGuidanceLines(quest) {

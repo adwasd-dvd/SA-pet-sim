@@ -4635,6 +4635,7 @@ async function guideGame(env, request, game, prompt) {
           "必须只根据给定 JSON 回答；把“当前能做的事”和“需要找对应 NPC/脚本的事”说清楚。",
           "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、sourceTasks 原 gmsv 事件目标和原脚本线索。",
           "quests/sourceTasks 里的 guidance 是 Worker 按当前状态算出的行动清单；回答任务时优先复述这些步骤。",
+          "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
           "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的石器时代资料库条目；条目只是索引时要说明不能补编完整流程。",
           "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
@@ -4666,6 +4667,7 @@ async function callOpenAiGuide(env, context, prompt) {
     "优先引用当前地图、附近 NPC、出口、任务进度、背包、宠物、战斗和临时状态。",
     "如果 context.sourceTasks 有内容，那是当前已经触发的原 gmsv changeevent 事件目标，优先告诉玩家下一步，而不是只列可接任务。",
     "context.quests/sourceTasks 里的 guidance 是 Worker 按当前状态算出的行动清单；回答任务时优先复述这些步骤。",
+    "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
     "context.knowledge 是从石器时代资料库压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
     "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
@@ -9634,7 +9636,7 @@ function buildGuideContext(game, map, prompt = "") {
     }))
     .sort((a, b) => a.distance - b.distance || String(a.label || "").localeCompare(String(b.label || ""), "zh-Hans"))
     .slice(0, 8);
-  return {
+  const context = {
     player: {
       ...compactPlayerContext(game),
       counters: characterFields.counters,
@@ -9682,6 +9684,8 @@ function buildGuideContext(game, map, prompt = "") {
     recentNpcVmEvents: (game.npcVmEvents || []).slice(-8),
     recentLog: game.log.slice(-8)
   };
+  context.actionPlan = guideActionPlan(context);
+  return context;
 }
 
 function guideWorldSummary(game, currentMapValue) {
@@ -10224,6 +10228,122 @@ function guideEffectSummary(game) {
   return effects;
 }
 
+function guideActionPlan(context) {
+  const task = guidePrimaryTask(context);
+  const lines = [];
+  if (task) {
+    lines.push(...guideTaskPlanLines(context, task));
+  } else {
+    lines.push(...guideOpenTaskPlanLines(context));
+  }
+  return {
+    source: "worker-deterministic-guide",
+    location: `${context.location.name} floor ${context.location.floorId || context.location.mapId} (${context.location.position.join(",")})`,
+    lines: compactGuidanceLines(lines)
+  };
+}
+
+function guidePrimaryTask(context) {
+  const reportable = context.quests.find((item) => item.status === "可回报");
+  if (reportable) return { kind: "quest", status: "reportable", item: reportable };
+  const sourceTask = context.sourceTasks?.[0] || null;
+  if (sourceTask) return { kind: "sourceTask", status: sourceTask.phase || "进行中", item: sourceTask };
+  const active = context.quests.find((item) => item.status === "进行中");
+  if (active) return { kind: "quest", status: "active", item: active };
+  return null;
+}
+
+function guideTaskPlanLines(context, task) {
+  const item = task.item || {};
+  const lines = [
+    `当前位置：${context.location.name} floor ${context.location.floorId || context.location.mapId} (${context.location.position.join(",")})。`,
+    `${task.status === "reportable" ? "下一步：回报" : "下一步：继续"}「${item.title || "当前任务"}」。`
+  ];
+  const guidance = Array.isArray(item.guidance) ? item.guidance.filter(Boolean) : [];
+  if (guidance.length) {
+    lines.push(...guidance.slice(0, 4));
+  } else {
+    const fallback = task.kind === "sourceTask"
+      ? item.next || "按原脚本事件继续找相关 NPC。"
+      : item.nextDetail || guidanceText(item, item.steps?.[Math.min(Number(item.progress || 0), Math.max(0, (item.steps || []).length - 1))] || "继续探索。");
+    if (fallback) lines.push(fallback);
+  }
+  if (item.target) lines.push(guideTargetLine(item.target));
+  const nearby = guideRelevantNpcList(context, 3);
+  if (nearby) lines.push(`附近可问：${nearby}。`);
+  const exits = guideExitList(context, 3);
+  if (exits) lines.push(`可用出口：${exits}。`);
+  lines.push("操作：NPC 走到两格内双击或输入 hi；地图传送点按出口走过去触发，不需要对话。");
+  return lines;
+}
+
+function guideOpenTaskPlanLines(context) {
+  const lines = [
+    `当前位置：${context.location.name} floor ${context.location.floorId || context.location.mapId} (${context.location.position.join(",")})。`
+  ];
+  const questTitles = (context.availableQuests || []).slice(0, 4).map((quest) => quest.title).filter(Boolean);
+  if (questTitles.length) lines.push(`可接核心任务：${questTitles.join("、")}。`);
+  const starters = guideRelevantNpcList(context, 5);
+  if (starters) {
+    lines.push(`先找这些 NPC 试线索/任务：${starters}。`);
+    lines.push("做法：到目标 NPC 两格内双击，普通对话先看原脚本；只有想协商额外帮助时再打开 AI。");
+  } else {
+    lines.push("当前附近没有明显任务 NPC；先看地图出口去村镇、庄园、洞窟入口或有 quest/window 动作的 NPC。");
+  }
+  const exits = guideExitList(context, 4);
+  if (exits) lines.push(`换地图路线：${exits}。`);
+  lines.push("地图传送点不是 NPC，不需要对话；走到出口格会由 Worker 按 mapwarp/source 条件判断。");
+  return lines;
+}
+
+function guideRelevantNpcList(context, limit = 4) {
+  return (context.map?.npcs || [])
+    .filter((npc) => guideNpcRelevantForTasks(npc))
+    .slice(0, limit)
+    .map((npc) => {
+      const actions = (npc.actions || []).filter((action) => !["effect"].includes(action)).slice(0, 3).join("/");
+      const pos = Array.isArray(npc.position) ? `(${npc.position[0]},${npc.position[1]})` : "";
+      return `${npc.name}${actions ? `[${actions}]` : ""}${pos} 距离${npc.distance}`;
+    })
+    .join("；");
+}
+
+function guideNpcRelevantForTasks(npc) {
+  const actions = new Set(npc.actions || []);
+  if (actions.has("quest") || actions.has("window") || actions.has("startBattle")) return true;
+  if (npc.questLead || npc.scriptStatus?.hasReadyBranch || npc.scriptStatus?.hasBlockedBranch) return true;
+  if (actions.has("say") && !actions.has("warp")) return true;
+  return false;
+}
+
+function guideExitList(context, limit = 3) {
+  return (context.map?.exits || [])
+    .slice(0, limit)
+    .map((exit) => {
+      const target = exit.targetMapName || `floor ${exit.to}`;
+      const nearby = exit.distance <= 2 ? "附近" : `距离${exit.distance}`;
+      return `${exit.label}->${target}(${nearby})`;
+    })
+    .join("；");
+}
+
+function guideTargetLine(target = {}) {
+  if (target.name && target.mapName) {
+    const dist = Number(target.distance || 0) < 9999 ? `，距离 ${target.distance} 格` : "";
+    return `目标 NPC：去 ${target.mapName} floor ${target.mapId} (${target.x},${target.y}) 找 ${target.name}${dist}。`;
+  }
+  if (target.mapName) {
+    const exit = target.exit ? `，当前可走出口「${target.exit.label}」${target.exit.position || ""}，距离 ${target.exit.distance} 格` : "";
+    return `目标地图：去 ${target.mapName} floor ${target.mapId}${exit}。`;
+  }
+  return "";
+}
+
+function guideActionPlanText(context) {
+  const lines = context.actionPlan?.lines || guideActionPlan(context).lines || [];
+  return lines.join(" ");
+}
+
 function fallbackGuide(context, prompt = "", error = null) {
   const lower = String(prompt || "").toLowerCase();
   const active = context.quests.find((item) => item.status === "进行中");
@@ -10241,15 +10361,15 @@ function fallbackGuide(context, prompt = "", error = null) {
     return item.type;
   }).join("；");
   const aiNote = error ? "远程 AI 暂时不可用，我先按本地规则判断。 " : "";
+  const hasCurrentTask = Boolean(reportable || sourceTask || active);
+  const asksCurrentAction = hasAny(lower, ["下一步", "干嘛", "做什么", "现在应该", "任务指导"])
+    || (hasCurrentTask && hasAny(lower, ["任务", "quest", "怎么做", "攻略"]));
+  if (asksCurrentAction) {
+    return `${aiNote}${guideActionPlanText(context)}`;
+  }
   if (isStoneAgeKnowledgeQuestion(lower)) {
     const reply = localStoneAgeKnowledgeReply(context.knowledge, "AI向导");
     if (reply) return `${aiNote}${reply}`;
-  }
-  if (hasAny(lower, ["任务", "quest"])) {
-    if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」可以回报了。${guidanceText(reportable, "回到对应 NPC 双击/hi 结算。")} 附近 NPC：${nearbyNpc || "无"}。`;
-    if (sourceTask) return `${aiNote}你现在在${context.location.name}。原脚本事件「${sourceTask.title}」进行中：${guidanceText(sourceTask, sourceTask.next)} 出口：${exits}。`;
-    if (active) return `${aiNote}你现在在${context.location.name}。继续「${active.title}」：${guidanceText(active, active.steps[Math.min(active.progress || 0, active.steps.length - 1)])} 出口：${exits}。`;
-    return `${aiNote}你现在在${context.location.name}。当前可接任务有：${context.availableQuests.map((quest) => quest.title).join("、")}。先找带 quest 动作的 NPC，通常是老师或剧情 NPC。`;
   }
   if (hasAny(lower, ["地图", "出口", "去哪", "去哪里", "传送", "瞬移"])) {
     const notable = (context.world?.notableMaps || [])
@@ -10266,9 +10386,7 @@ function fallbackGuide(context, prompt = "", error = null) {
   if (hasAny(lower, ["遇敌", "野外", "刷怪", "敌人"])) {
     return `${aiNote}${context.location.canWildEncounter ? "这里可以按 encount.txt 触发野外遇敌。" : context.location.wildEncounterReason} ${effects ? `当前状态：${effects}。` : ""}`;
   }
-  if (reportable) return `${aiNote}你现在在${context.location.name}。「${reportable.title}」已经可回报。${guidanceText(reportable)} 附近 NPC：${nearbyNpc || "无"}。`;
-  if (sourceTask) return `${aiNote}你现在在${context.location.name}。建议继续原脚本事件「${sourceTask.title}」：${guidanceText(sourceTask, sourceTask.next)}`;
-  if (active) return `${aiNote}你现在在${context.location.name}。建议继续「${active.title}」：${guidanceText(active, active.steps[Math.min(active.progress || 0, active.steps.length - 1)])}。出口：${exits}。`;
+  if (reportable || sourceTask || active) return `${aiNote}${guideActionPlanText(context)}`;
   return `${aiNote}你现在在${context.location.name}。附近 NPC：${nearbyNpc || "无"}；出口：${exits}。${effects ? `当前状态：${effects}。` : ""}`;
 }
 
