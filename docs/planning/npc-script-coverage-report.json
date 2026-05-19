@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T13:43:30.937Z",
+  "generatedAt": "2026-05-19T14:21:21.711Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,9 +206,9 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 11283,
-      "candidate-action": 2253,
-      "unknown": 1798,
+      "supported-config": 11397,
+      "candidate-action": 2173,
+      "unknown": 1764,
       "supported-message": 10758,
       "condition-control": 11752,
       "supported-action": 3680,
@@ -3469,7 +3469,7 @@
       {
         "key": "err_msg",
         "normalized": "err_msg",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 17,
         "files": 17,
         "profiles": {
@@ -8879,7 +8879,7 @@
       {
         "key": "nothing_msg",
         "normalized": "nothing_msg",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 17,
         "files": 17,
         "profiles": {
@@ -9824,7 +9824,7 @@
       {
         "key": "pet_skill",
         "normalized": "pet_skill",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 35,
         "files": 35,
         "profiles": {
@@ -11758,7 +11758,7 @@
       {
         "key": "skill_rate",
         "normalized": "skill_rate",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 45,
         "files": 45,
         "profiles": {
@@ -13888,58 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "skill_rate",
-        "normalized": "skill_rate",
-        "category": "candidate-action",
-        "occurrences": 45,
-        "files": 45,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 16,
-            "files": 16
-          },
-          "classic-rebirth": {
-            "occurrences": 18,
-            "files": 18
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 18,
-            "files": 18
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 18,
-            "files": 18
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop01.arg",
-            "line": 7,
-            "text": "skill_rate:1.0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop02.arg",
-            "line": 7,
-            "text": "skill_rate:1.0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop03.arg",
-            "line": 7,
-            "text": "skill_rate:1.0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop04.arg",
-            "line": 6,
-            "text": "skill_rate:1.0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop05.arg",
-            "line": 6,
-            "text": "skill_rate:1.0"
-          }
-        ]
-      },
-      {
         "key": "CHANGEITEM",
         "normalized": "changeitem",
         "category": "candidate-action",
@@ -14040,58 +13988,6 @@
             "file": "external/sources/ref___data/npc/eden3/process/blacksmith1.arg",
             "line": 51,
             "text": "NeedItem:20287,20582"
-          }
-        ]
-      },
-      {
-        "key": "pet_skill",
-        "normalized": "pet_skill",
-        "category": "candidate-action",
-        "occurrences": 35,
-        "files": 35,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 15,
-            "files": 15
-          },
-          "classic-rebirth": {
-            "occurrences": 15,
-            "files": 15
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 15,
-            "files": 15
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 15,
-            "files": 15
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop01.arg",
-            "line": 8,
-            "text": "pet_skill:151,152,211,12,13,41,52"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop02.arg",
-            "line": 8,
-            "text": "pet_skill:210"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop03.arg",
-            "line": 8,
-            "text": "pet_skill:572"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop04.arg",
-            "line": 7,
-            "text": "pet_skill:575,503"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop05.arg",
-            "line": 7,
-            "text": "pet_skill:600,595,601,602,603,604,506,606,612,211,614,542,580,541,631,650,651,652,653,654,655,656,657,658,659,660,661,662"
           }
         ]
       },
@@ -15084,110 +14980,6 @@
         ]
       },
       {
-        "key": "err_msg",
-        "normalized": "err_msg",
-        "category": "unknown",
-        "occurrences": 17,
-        "files": 17,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 6,
-            "files": 6
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 6,
-            "files": 6
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 6,
-            "files": 6
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop01.arg",
-            "line": 6,
-            "text": "err_msg:这不是它该学的哦～～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop02.arg",
-            "line": 6,
-            "text": "err_msg:这不是它该学的哦～～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop03.arg",
-            "line": 6,
-            "text": "err_msg:这不是它该学的哦～～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop04.arg",
-            "line": 5,
-            "text": "err_msg:它…不适合学虚弱哦～～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop05.arg",
-            "line": 5,
-            "text": "err_msg:这个技能不是它应该可以学习的吧？！"
-          }
-        ]
-      },
-      {
-        "key": "nothing_msg",
-        "normalized": "nothing_msg",
-        "category": "unknown",
-        "occurrences": 17,
-        "files": 17,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 6,
-            "files": 6
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 6,
-            "files": 6
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 6,
-            "files": 6
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop01.arg",
-            "line": 5,
-            "text": "nothing_msg:好了．．．．"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop02.arg",
-            "line": 5,
-            "text": "nothing_msg:好了．．．．"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop03.arg",
-            "line": 5,
-            "text": "nothing_msg:好了．．．．"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop04.arg",
-            "line": 4,
-            "text": "nothing_msg:这样就可以了．．．．"
-          },
-          {
-            "file": "external/sources/ref___data/npc/freeshop/freeshop05.arg",
-            "line": 4,
-            "text": "nothing_msg:这样就可以了．．．．"
-          }
-        ]
-      },
-      {
         "key": "NPCPOINT",
         "normalized": "npcpoint",
         "category": "unknown",
@@ -15954,6 +15746,189 @@
             "file": "external/sources/ref___data/npc/scipt_plus/test2nd/item",
             "line": 10,
             "text": "CostPoint:10000,10000,10000,10000"
+          }
+        ]
+      },
+      {
+        "key": "ADDEGGID",
+        "normalized": "addeggid",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 2,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 2,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 2,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 2,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/sa50/petfusion/petfusion.arg",
+            "line": 4,
+            "text": "ADDEGGID:2055"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa50/petfusion/petfusion.arg",
+            "line": 5,
+            "text": "ADDEGGID:1045"
+          }
+        ]
+      },
+      {
+        "key": "trans",
+        "normalized": "trans",
+        "category": "unknown",
+        "occurrences": 6,
+        "files": 6,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 3,
+            "files": 3
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 3,
+            "files": 3
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 3,
+            "files": 3
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/sa70/hunsk2",
+            "line": 9,
+            "text": "trans:1,2,3,4,5"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa70/hunsk3",
+            "line": 9,
+            "text": "trans:1,2,3,4,5"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa70/warsk2",
+            "line": 9,
+            "text": "trans:1,2,3,4,5"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa70/warsk3",
+            "line": 9,
+            "text": "trans:1,2,3,4,5"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa70/wizsk2",
+            "line": 9,
+            "text": "trans:1,2,3,4,5"
+          }
+        ]
+      },
+      {
+        "key": "normal",
+        "normalized": "normal",
+        "category": "unknown",
+        "occurrences": 10,
+        "files": 10,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
+            "line": 2,
+            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
+            "line": 2,
+            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
+            "line": 2,
+            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
+            "line": 2,
+            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
+            "line": 2,
+            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
+          }
+        ]
+      },
+      {
+        "key": "REPLACEMENT",
+        "normalized": "replacement",
+        "category": "unknown",
+        "occurrences": 3,
+        "files": 3,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/sa50/dodo/dodopupk1-8.arg",
+            "line": 4,
+            "text": "REPLACEMENT:60067,80,85;60067,80,92;60067,78,72;60067,78,60;60067,87,109;60067,92,115;60067,111,117;60067,120,117"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa50/haidao/hijba1-1.arg",
+            "line": 4,
+            "text": "REPLACEMENT:60035,22,81;60035,23,81;60035,24,81"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa70/actuality/actuality1.arg",
+            "line": 4,
+            "text": "REPLACEMENT:1000,39,58;1000,77,37;2000,96,98;2000,97,78;1300,54,80;1300,39,26;1400,85,69;1400,81,93;1100,60,80;1100,59,63"
           }
         ]
       }

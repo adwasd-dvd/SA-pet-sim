@@ -3164,15 +3164,21 @@ function renderDialog() {
     const kind = message.speaker === "player" ? "player" : message.speaker === "system" ? "system" : "npc";
     return `<p class="dialog-bubble ${kind}"><span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>${escapeHtml(message.text)}</p>`;
   }).join("");
-  const shop = renderDialogShop(dialog);
-  els.dialogSuggestions.hidden = !shop;
-  els.dialogSuggestions.innerHTML = shop;
+  const auxiliary = [
+    renderDialogShop(dialog),
+    renderDialogPetSkillShop(dialog)
+  ].filter(Boolean).join("");
+  els.dialogSuggestions.hidden = !auxiliary;
+  els.dialogSuggestions.innerHTML = auxiliary;
   hydrateAtlasSprites(loadedTileAtlas, els.dialogSuggestions);
   els.dialogSuggestions.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", () => buyItem(Number(btn.dataset.buy)));
   });
   els.dialogSuggestions.querySelectorAll("[data-sell]").forEach((btn) => {
     btn.addEventListener("click", () => sellItem(Number(btn.dataset.sell)));
+  });
+  els.dialogSuggestions.querySelectorAll("[data-learn-pet-skill]").forEach((btn) => {
+    btn.addEventListener("click", () => learnPetSkill(Number(btn.dataset.learnPetSkill), Number(btn.dataset.petIndex), Number(btn.dataset.slotIndex)));
   });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
   updateDialogScrollButtons();
@@ -3887,6 +3893,59 @@ function renderDialogShop(dialog) {
   `;
 }
 
+function renderDialogPetSkillShop(dialog) {
+  const shop = dialog.petSkillShop;
+  if (!shop?.skills?.length) return "";
+  const pet = shop.activePet;
+  const slots = shop.slots || [];
+  const defaultSlotIndex = slots.find((slot) => slot.empty)?.index ?? 0;
+  const slotLabel = slots.map((slot) => `${slot.index + 1}:${slot.name || "空"}`).join(" ");
+  const skillList = shop.skills.slice(0, 10).map((skill) => {
+    const disabled = !pet || skill.affordable === false || skill.alreadyKnown;
+    const hint = petSkillShopHint(skill, pet);
+    return `
+      <button class="shop-item" type="button"
+        data-learn-pet-skill="${skill.id}"
+        data-pet-index="${pet?.index ?? -1}"
+        data-slot-index="${skill.defaultSlotIndex ?? defaultSlotIndex}"
+        ${disabled ? "disabled" : ""}>
+        <span>
+          <strong>${escapeHtml(skill.name)}</strong>
+          <small>${escapeHtml(hint)}</small>
+        </span>
+        <b>${Number(skill.cost || 0)} 石币</b>
+      </button>
+    `;
+  }).join("");
+  return `
+    <div class="shop-box">
+      <div class="shop-summary">
+        <strong>宠物技能</strong>
+        <span>${pet ? `${escapeHtml(pet.name)} Lv.${Number(pet.level || 1)}` : "没有出战宠物"} | 石币 ${Number(shop.stone || 0)}</span>
+      </div>
+      <section class="shop-section">
+        <header><strong>训练</strong><small>skill_rate ${Number(shop.skillRate || 1)}</small></header>
+        <div class="shop-list">${skillList || `<p class="shop-empty">没有可学习技能。</p>`}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>技能格</strong><small>默认写入第一个空格</small></header>
+        <p class="shop-empty">${escapeHtml(slotLabel || "没有宠物技能栏资料")}</p>
+      </section>
+    </div>
+  `;
+}
+
+function petSkillShopHint(skill, pet) {
+  if (!pet) return "需要先选择出战宠物";
+  if (skill.alreadyKnown) return "这只宠物已经学会";
+  if (skill.affordable === false) return "石币不足";
+  const details = [];
+  if (skill.description) details.push(skill.description);
+  if (skill.battleSupported) details.push("战斗可用");
+  if (Number(skill.sourceCost || 0) !== Number(skill.cost || 0)) details.push(`原价 ${Number(skill.sourceCost || 0)}`);
+  return details.join(" | ") || `petskill ${skill.id}`;
+}
+
 function shopDisabled(item) {
   return item.affordable === false || item.canCarry === false;
 }
@@ -3958,6 +4017,23 @@ async function sellItem(itemId) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "出售失败");
+  }
+}
+
+async function learnPetSkill(skillId, petIndex, slotIndex) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/learn-pet-skill", {
+      game,
+      npcId: game.dialog.npcId,
+      skillId,
+      petIndex,
+      slotIndex
+    });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "学习宠物技能失败");
   }
 }
 

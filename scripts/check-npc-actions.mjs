@@ -1106,6 +1106,50 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && even
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "sell" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs item take through NPC VM executor");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "sell" && event.detail?.stone === sellPrice && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs stone give through NPC VM executor");
 
+const petSkillNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.petSkillShop?.skillIds?.length);
+if (!petSkillNpc) throw new Error("missing pet skill shop fixture");
+let petSkillGame = await api("/api/game/new", { name: "pet-skill-shop-test" });
+petSkillGame.location = farLocation(petSkillNpc.map, petSkillNpc.npc);
+await expectApiError(
+  "/api/game/learn-pet-skill",
+  { game: petSkillGame, npcId: petSkillNpc.npc.id, skillId: petSkillNpc.npc.petSkillShop.skillIds[0], petIndex: 0, slotIndex: 4 },
+  "请先走近",
+  "pet skill learning rejects remote NPC window action"
+);
+petSkillGame.location = { mapId: petSkillNpc.map.id, x: petSkillNpc.npc.x + 1, y: petSkillNpc.npc.y };
+petSkillGame.player.stone = 100000;
+petSkillGame = await api("/api/game/dialog", { game: petSkillGame, npcId: petSkillNpc.npc.id });
+assert(petSkillGame.dialog.petSkillShop?.skills?.length, "pet skill shop dialog exposes source pet_skill list");
+assert(petSkillGame.dialog.debug.actions.includes("petSkillShop"), "pet skill shop debug exposes source action profile");
+const learnableSkill = petSkillGame.dialog.petSkillShop.skills.find((skill) => !skill.alreadyKnown && Number(skill.cost || 0) > 0);
+if (!learnableSkill) throw new Error("missing learnable priced pet skill fixture");
+const learnSlot = petSkillGame.dialog.petSkillShop.slots.find((slot) => slot.empty)?.index ?? 4;
+const stoneBeforePetSkill = petSkillGame.player.stone;
+petSkillGame = await api("/api/game/learn-pet-skill", {
+  game: petSkillGame,
+  npcId: petSkillNpc.npc.id,
+  skillId: learnableSkill.id,
+  petIndex: 0,
+  slotIndex: learnSlot
+});
+assertEqual(Number(petSkillGame.pets[0].PetSkillIds[learnSlot]), Number(learnableSkill.id), "pet skill shop writes selected skill id to pet skill slot");
+assertEqual(petSkillGame.pets[0].PetSkills[learnSlot]?.Name, learnableSkill.name, "pet skill shop stores compact skill metadata on pet");
+assertEqual(petSkillGame.player.stone, stoneBeforePetSkill - Number(learnableSkill.cost || 0), "pet skill shop charges source PETSKILL_COST * skill_rate");
+assert(petSkillGame.dialog.petSkillShop.skills.some((skill) => Number(skill.id) === Number(learnableSkill.id) && skill.alreadyKnown), "pet skill shop refreshes known-skill state after teaching");
+assert(petSkillGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "pet-skill"), "pet skill shop deducts stone through NPC VM");
+assert(petSkillGame.dialog.debug.vmTrace.some((event) => event.action === "petSkillShop" && event.detail?.skillId === learnableSkill.id), "pet skill shop records teach VM event");
+let brokePetSkillGame = await api("/api/game/new", { name: "pet-skill-shop-broke-test" });
+brokePetSkillGame.location = { mapId: petSkillNpc.map.id, x: petSkillNpc.npc.x + 1, y: petSkillNpc.npc.y };
+brokePetSkillGame.player.stone = 0;
+await expectApiError(
+  "/api/game/learn-pet-skill",
+  { game: brokePetSkillGame, npcId: petSkillNpc.npc.id, skillId: learnableSkill.id, petIndex: 0, slotIndex: learnSlot },
+  "石币不够",
+  "pet skill shop refuses teaching when stone is insufficient"
+);
+
 const discountItem = shopNpc.npc.trade.items.find((item) => Number(item.price || item.cost || 0) > 1);
 if (!discountItem) throw new Error("missing priced shop item fixture");
 let aiShopGame = await api("/api/game/new", { name: "ai-shop-discount-test" });
@@ -2101,7 +2145,7 @@ assistGame.pets[0].WorkFixStr = 999;
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我攻击战斗" });
 assert(["battle", "encounter"].includes(guideRsp.action.type), "right AI guide can help with an active battle");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, healer, AI healer role-favor aid, savepoint, NPCEnemy prompt/battle/defeat/bribe, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

@@ -109,6 +109,7 @@ const NPC_VM_ACTIONS = new Set([
   "say",
   "window",
   "shop",
+  "petSkillShop",
   "warp",
   "heal",
   "save",
@@ -281,6 +282,18 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/sell" && request.method === "POST") {
       const body = await readJson(request);
       return json(sellGame(body.game, String(body.npcId || ""), Number(body.itemId), Number(body.qty) || 1));
+    }
+    if (url.pathname === "/api/game/learn-pet-skill" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await learnPetSkillGame(
+        env,
+        request,
+        body.game,
+        String(body.npcId || ""),
+        Number(body.skillId),
+        Number(body.petIndex),
+        Number(body.slotIndex)
+      ));
     }
     if (url.pathname === "/api/game/use-item" && request.method === "POST") {
       const body = await readJson(request);
@@ -1257,6 +1270,66 @@ function sellGame(game, npcId, itemId, qty = 1) {
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
     npcMessage("system", `出售成功：${item.name} x${sellQty}，获得 ${totalPrice} 石币。`)
   ]);
+  return withMap(game, { npc });
+}
+
+async function learnPetSkillGame(env, request, game, npcId, skillId, petIndex = NaN, slotIndex = NaN) {
+  const data = await loadGameData(env, request);
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "学习宠物技能");
+  if (!npc.petSkillShop?.skillIds?.length) throw new Error("这个 NPC 没有宠物技能训练资料");
+
+  const selectedSkillId = Number(skillId);
+  if (!npc.petSkillShop.skillIds.some((id) => Number(id) === selectedSkillId)) throw new Error("这个训练师不会教这个技能");
+  const skill = data.skills.get(selectedSkillId);
+  if (!skill) throw new Error("宠物技能资料未加载");
+
+  const targetPetIndex = Number.isFinite(petIndex) ? exactPetIndex(game, petIndex) : getActivePetIndex(game);
+  if (targetPetIndex < 0) throw new Error("需要先选择出战宠物");
+  const pet = game.pets[targetPetIndex];
+  if (!pet) throw new Error("没有找到这只宠物");
+
+  const currentSkillIds = Array.from({ length: 7 }, (_, index) => Number(pet.PetSkillIds?.[index] || pet.PetSkills?.[index]?.Id || 0));
+  if (currentSkillIds.includes(selectedSkillId)) throw new Error(`${pet.Name || "宠物"} 已经会 ${skill.Name}`);
+  const requestedSlot = Math.trunc(Number(slotIndex));
+  const teachSlot = Number.isFinite(requestedSlot) && requestedSlot >= 0 && requestedSlot < 7
+    ? requestedSlot
+    : currentSkillIds.findIndex((id) => !id);
+  if (teachSlot < 0 || teachSlot >= 7) throw new Error("宠物技能栏已满，请先选择要覆盖的技能格");
+
+  const skillRate = Number(npc.petSkillShop.skillRate || 1) || 1;
+  const sourceCost = Math.max(0, Number(skill.Cost || 0));
+  const cost = Math.max(0, Math.round(sourceCost * skillRate));
+  if (cost > 0) {
+    const paid = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "pet-skill" });
+    if (!paid.ok) throw new Error(paid.error || "石币不够");
+  }
+
+  pet.PetSkillIds = Array.from({ length: 7 }, (_, index) => Number(pet.PetSkillIds?.[index] || pet.PetSkills?.[index]?.Id || 0));
+  pet.PetSkills = Array.from({ length: 7 }, (_, index) => pet.PetSkills?.[index] || null);
+  pet.PetSkillIds[teachSlot] = selectedSkillId;
+  pet.PetSkills[teachSlot] = compactPetSkillForSave(skill);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "petSkillShop", "ok", {
+    action: "teach",
+    skillId: selectedSkillId,
+    skillName: skill.Name,
+    petIndex: targetPetIndex,
+    petName: pet.Name || "",
+    slotIndex: teachSlot,
+    cost,
+    sourceCost,
+    skillRate,
+    source: npc.petSkillShop.source || `${GMSV_DATA_SOURCE}/petskill2.txt`
+  });
+  addLog(game, `${npc.name} 教会 ${pet.Name || "宠物"} ${skill.Name}，花费 ${cost} 石币。`);
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+    npcMessage("system", `${pet.Name || "宠物"} 学会了 ${skill.Name}（技能格 ${teachSlot + 1}），花费 ${cost} 石币。`)
+  ], { petSkillShop: buildPetSkillShopState(data, game, npc) });
   return withMap(game, { npc });
 }
 
@@ -2320,7 +2393,7 @@ function talkGame(game, npcId) {
 }
 
 async function dialogGame(env, request, game, npcId, message) {
-  await loadGameData(env, request);
+  const data = await loadGameData(env, request);
   game = normalizeGame(game);
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
@@ -2338,7 +2411,7 @@ async function dialogGame(env, request, game, npcId, message) {
       npcMessage("system", "客户端点选 NPC，自动送出 P|hi。"),
       npcMessage("player", "hi"),
       npcMessage("npc", reply)
-    ]);
+    ], { petSkillShop: buildPetSkillShopState(data, game, npc) });
     return withMap(game, { npc });
   }
 
@@ -2348,7 +2421,7 @@ async function dialogGame(env, request, game, npcId, message) {
     ...existing,
     npcMessage("player", text),
     npcMessage("npc", reply)
-  ]);
+  ], { petSkillShop: buildPetSkillShopState(data, game, npc) });
   addLog(game, `${game.player.name} 对 ${npc.name} 说：${text}`);
   addLog(game, `${npc.name}：${reply}`);
   return withMap(game, { npc });
@@ -8618,7 +8691,7 @@ function applyNpcAiAction(game, npc, action) {
   return fallbackNpcReply(npc);
 }
 
-function openDialog(game, npc, messages) {
+function openDialog(game, npc, messages, extra = {}) {
   const debug = npcDebugInfo(npc, game);
   game.dialog = {
     open: true,
@@ -8626,6 +8699,7 @@ function openDialog(game, npc, messages) {
     npcName: npc.name,
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
+    petSkillShop: extra.petSkillShop || null,
     warp: npc.warp || null,
     aiMode: isNpcAiMode(game, npc),
     messages: messages.slice(-12),
@@ -8664,6 +8738,7 @@ function npcActionProfile(npc) {
   const actions = [];
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
+  if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
   if (isSavePointNpc(npc)) actions.push("save");
@@ -9225,6 +9300,68 @@ function withTradeState(game, trade, npc = null) {
       affordable: game.player.stone >= (npc ? discountedShopPrice(game, npc, item) : Number(item.price || item.cost || 0)),
       canCarry: canCarryItem(game, item)
     }))
+  };
+}
+
+function buildPetSkillShopState(data, game, npc) {
+  const shop = npc.petSkillShop;
+  if (!shop?.skillIds?.length) return null;
+  const activeIndex = getActivePetIndex(game);
+  const activePet = activeIndex >= 0 ? game.pets[activeIndex] || null : null;
+  const skillRate = Number(shop.skillRate || 1) || 1;
+  const currentSkillIds = Array.from({ length: 7 }, (_, index) => Number(activePet?.PetSkillIds?.[index] || activePet?.PetSkills?.[index]?.Id || 0));
+  const firstEmptySlot = currentSkillIds.findIndex((id) => !id);
+  const defaultSlotIndex = firstEmptySlot >= 0 ? firstEmptySlot : 0;
+  const skills = shop.skillIds
+    .map((id) => data.skills.get(Number(id)))
+    .filter(Boolean)
+    .map((skill) => {
+      const sourceCost = Math.max(0, Number(skill.Cost || 0));
+      const cost = Math.max(0, Math.round(sourceCost * skillRate));
+      return {
+        id: Number(skill.Id || 0),
+        name: skill.Name || `技能 ${skill.Id}`,
+        description: truncateText(skill.Des || skill.Option || skill.FuncName || "", 72),
+        func: skill.FuncName || "",
+        target: Number(skill.Target || 0),
+        sourceCost,
+        cost,
+        affordable: Number(game.player.stone || 0) >= cost,
+        alreadyKnown: currentSkillIds.includes(Number(skill.Id || 0)),
+        battleSupported: Boolean(skill.BattleSupported),
+        defaultSlotIndex
+      };
+    });
+  const slots = Array.from({ length: 7 }, (_, index) => {
+    const skill = activePet?.PetSkills?.[index] || null;
+    return {
+      index,
+      skillId: Number(activePet?.PetSkillIds?.[index] || skill?.Id || 0),
+      name: skill?.Name || "",
+      empty: !Number(activePet?.PetSkillIds?.[index] || skill?.Id || 0)
+    };
+  });
+  return {
+    kind: shop.kind || "pet-skill",
+    source: shop.source || `${GMSV_DATA_SOURCE}/npc`,
+    skillRate,
+    inventory: inventoryState(game),
+    stone: Number(game.player.stone || 0),
+    activePet: activePet ? {
+      index: activeIndex,
+      name: activePet.Name || "宠物",
+      level: Number(activePet.Lv || 1),
+      hp: Number(activePet.Hp || 0),
+      maxHp: Number(activePet.WorkMaxHp || activePet.Hp || 0)
+    } : null,
+    pets: (game.pets || []).map((pet, index) => ({
+      index,
+      name: pet.Name || `宠物 ${index + 1}`,
+      level: Number(pet.Lv || 1),
+      active: index === activeIndex
+    })),
+    slots,
+    skills
   };
 }
 
@@ -12117,6 +12254,25 @@ function parseSkills(text) {
     });
   }
   return skills;
+}
+
+function compactPetSkillForSave(skill = {}) {
+  return {
+    Id: Number(skill.Id || 0),
+    Name: skill.Name || `技能 ${skill.Id || 0}`,
+    Des: skill.Des || "",
+    FuncName: skill.FuncName || "",
+    Option: skill.Option || "",
+    Free: skill.Free || "",
+    KindCode: skill.KindCode || "",
+    Field: Number(skill.Field || 0),
+    Target: Number(skill.Target || 0),
+    UseType: Number(skill.UseType || 0),
+    Cost: Number(skill.Cost || 0),
+    SkillFlag: skill.SkillFlag || "",
+    BattleSupported: Boolean(skill.BattleSupported),
+    Source: skill.Source || `${GMSV_DATA_SOURCE}/petskill2.txt`
+  };
 }
 
 function createEnemy(data, ebno, baselevel) {

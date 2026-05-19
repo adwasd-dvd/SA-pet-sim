@@ -68216,8 +68216,29 @@ export const WORLD = {
           "script": "file:genout/psks_1003_18_13",
           "template": "npcgen_petskillshop",
           "graphic": "16047",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_1003_18_13",
+            "skillRate": 1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              50,
+              100,
+              200,
+              201
+            ],
+            "mainMessage": "这个村里的超级饲育员\\n好了！要教它什么好呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_1003_18_13"
           }
@@ -68263,8 +68284,23 @@ export const WORLD = {
           "script": "file:freeshop/freeshop04.arg",
           "template": "FreePetSkill",
           "graphic": "16096",
+          "petSkillShop": {
+            "kind": "free-pet-skill",
+            "source": "gmsv-data/npc/freeshop/freeshop04.arg",
+            "skillRate": 1,
+            "skillIds": [
+              575,
+              503
+            ],
+            "mainMessage": "准备好要学技能了吗？",
+            "errorMessage": "它…不适合学虚弱哦～～",
+            "startMessage": "经过我多年来的研究，要发挥蛇类生物的能力，只有虚弱这个技能。",
+            "nothingMessage": "这样就可以了．．．．"
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/freeshop/freeshop04.arg"
           }
@@ -69685,8 +69721,22 @@ export const WORLD = {
           "script": "file:genout/psks_1008_28_24",
           "template": "npcgen_petskillshop",
           "graphic": "16063",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_1008_28_24",
+            "skillRate": 1,
+            "skillIds": [
+              11
+            ],
+            "mainMessage": "在这里、可以传授密技喔。",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_1008_28_24"
           }
@@ -90389,8 +90439,28 @@ export const WORLD = {
           "script": "file:genout/psks_1103_14_13",
           "template": "npcgen_petskillshop",
           "graphic": "16047",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_1103_14_13",
+            "skillRate": 1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              40,
+              80,
+              130
+            ],
+            "mainMessage": "说到柯奥的超级饲养主人，那就是我啦！\\n今天要教什么好呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_1103_14_13"
           }
@@ -93426,8 +93496,30 @@ export const WORLD = {
           "script": "file:genout/psks_1203_18_13",
           "template": "npcgen_petskillshop",
           "graphic": "16027",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_1203_18_13",
+            "skillRate": 1.2,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              50,
+              80,
+              100,
+              120,
+              130
+            ],
+            "mainMessage": "我是柯尔克的超级饲育员千穗\\n啊！要教什么技能好呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_1203_18_13"
           }
@@ -98533,8 +98625,27 @@ export const WORLD = {
           "script": "file:genout/psks_1303_13_13",
           "template": "npcgen_petskillshop",
           "graphic": "16049",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_1303_13_13",
+            "skillRate": 1.1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              50,
+              61,
+              130
+            ],
+            "mainMessage": "ＨＥＹ！ Ｉ ａｍ Ｎｏ·１！\\n要教什么技能好呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_1303_13_13"
           }
@@ -103239,8 +103350,26 @@ export const WORLD = {
           "script": "file:genout/psks_1403_19_18",
           "template": "npcgen_petskillshop",
           "graphic": "16209",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_1403_19_18",
+            "skillRate": 1.2,
+            "skillIds": [
+              1,
+              2,
+              3,
+              51,
+              120
+            ],
+            "mainMessage": "这个村里最棒的饲育员\\n那，要教什么技能好呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_1403_19_18"
           }
@@ -104653,8 +104782,49 @@ export const WORLD = {
           "script": "file:freeshop/freeshop05.arg",
           "template": "FreePetSkill",
           "graphic": "16096",
+          "petSkillShop": {
+            "kind": "free-pet-skill",
+            "source": "gmsv-data/npc/freeshop/freeshop05.arg",
+            "skillRate": 1,
+            "skillIds": [
+              600,
+              595,
+              601,
+              602,
+              603,
+              604,
+              506,
+              606,
+              612,
+              211,
+              614,
+              542,
+              580,
+              541,
+              631,
+              650,
+              651,
+              652,
+              653,
+              654,
+              655,
+              656,
+              657,
+              658,
+              659,
+              660,
+              661,
+              662
+            ],
+            "mainMessage": "准备好要学技能了吗？",
+            "errorMessage": "这个技能不是它应该可以学习的吧？！",
+            "startMessage": "想学特殊技能找我准没错，但是这些特殊技能也只有特殊宠物可以学习喔！",
+            "nothingMessage": "这样就可以了．．．．"
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/freeshop/freeshop05.arg"
           }
@@ -111953,8 +112123,28 @@ export const WORLD = {
           "script": "file:genout/psks_2003_18_14",
           "template": "npcgen_petskillshop",
           "graphic": "16046",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_2003_18_14",
+            "skillRate": 1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              51,
+              200,
+              201
+            ],
+            "mainMessage": "我是这个村里最棒的饲养人了。\\n那么，要让它学什么呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_2003_18_14"
           }
@@ -127012,8 +127202,28 @@ export const WORLD = {
           "script": "file:genout/psks_3003_16_13",
           "template": "npcgen_petskillshop",
           "graphic": "16048",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_3003_16_13",
+            "skillRate": 1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              50,
+              200,
+              201
+            ],
+            "mainMessage": "我是这个村庄顶级的饲育员。\\n你要叫我教它什么技能？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_3003_16_13"
           }
@@ -128515,8 +128725,22 @@ export const WORLD = {
           "script": "file:genout/psks_3008_28_23",
           "template": "npcgen_petskillshop",
           "graphic": "16052",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_3008_28_23",
+            "skillRate": 1,
+            "skillIds": [
+              31
+            ],
+            "mainMessage": "在这里、可以教授密技。",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_3008_28_23"
           }
@@ -146838,8 +147062,22 @@ export const WORLD = {
           "script": "file:freeshop/freeshop02.arg",
           "template": "FreePetSkill",
           "graphic": "16096",
+          "petSkillShop": {
+            "kind": "free-pet-skill",
+            "source": "gmsv-data/npc/freeshop/freeshop02.arg",
+            "skillRate": 1,
+            "skillIds": [
+              210
+            ],
+            "mainMessage": "准备好要学技能了吗？",
+            "errorMessage": "这不是它该学的哦～～",
+            "startMessage": "我是宠物技能饲育员，我的专长是教导宠物学习落马术喔，不过只有鸟类宠物可以学习这技能。",
+            "nothingMessage": "好了．．．．"
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/freeshop/freeshop02.arg"
           }
@@ -148706,8 +148944,27 @@ export const WORLD = {
           "script": "file:genout/psks_3103_18_17",
           "template": "npcgen_petskillshop",
           "graphic": "16017",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_3103_18_17",
+            "skillRate": 1.1,
+            "skillIds": [
+              1,
+              2,
+              10,
+              40,
+              80,
+              130
+            ],
+            "mainMessage": "我是这个村庄顶级的饲育员。\\n你要叫我教它什么技能？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_3103_18_17"
           }
@@ -152049,8 +152306,27 @@ export const WORLD = {
           "script": "file:genout/psks_3203_13_13",
           "template": "npcgen_petskillshop",
           "graphic": "16019",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_3203_13_13",
+            "skillRate": 1.2,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              51,
+              120
+            ],
+            "mainMessage": "我是这个村庄顶级的饲育员。\\n你要叫我教它什么技能？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_3203_13_13"
           }
@@ -155530,8 +155806,27 @@ export const WORLD = {
           "script": "file:genout/psks_3303_13_14",
           "template": "npcgen_petskillshop",
           "graphic": "16212",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_3303_13_14",
+            "skillRate": 1.1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              50,
+              80,
+              100
+            ],
+            "mainMessage": "没有比我优秀的饲育员。\\n要我教哪项技能呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_3303_13_14"
           }
@@ -158656,8 +158951,27 @@ export const WORLD = {
           "script": "file:genout/psks_3403_18_14",
           "template": "npcgen_petskillshop",
           "graphic": "16018",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_3403_18_14",
+            "skillRate": 1.2,
+            "skillIds": [
+              1,
+              2,
+              3,
+              50,
+              61,
+              130
+            ],
+            "mainMessage": "如果我可以的话，就教你的宠物吧！不过我还在打工…",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_3403_18_14"
           }
@@ -161093,8 +161407,32 @@ export const WORLD = {
           "script": "file:freeshop/freeshop08.arg",
           "template": "FreePetSkill",
           "graphic": "16128",
+          "petSkillShop": {
+            "kind": "free-pet-skill",
+            "source": "gmsv-data/npc/freeshop/freeshop08.arg",
+            "skillRate": 1,
+            "skillIds": [
+              543,
+              583,
+              614,
+              625,
+              627,
+              629,
+              632,
+              637,
+              639,
+              640,
+              641
+            ],
+            "mainMessage": "准备好要学技能了吗？",
+            "errorMessage": "这个技能不是它应该可以学习的吧？！",
+            "startMessage": "想学特殊技能找我准没错，但是这些特殊技能也只有特殊宠物可以学习喔！",
+            "nothingMessage": "这样就可以了．．．．"
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/freeshop/freeshop08.arg"
           }
@@ -165496,8 +165834,29 @@ export const WORLD = {
           "script": "file:genout/psks_4003_18_15",
           "template": "npcgen_petskillshop",
           "graphic": "16207",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_4003_18_15",
+            "skillRate": 1,
+            "skillIds": [
+              1,
+              2,
+              3,
+              10,
+              50,
+              100,
+              200,
+              201
+            ],
+            "mainMessage": "我是这个村庄顶级的饲育员。\\n你要叫我教它什么技能？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_4003_18_15"
           }
@@ -173487,8 +173846,28 @@ export const WORLD = {
           "script": "file:freeshop/freeshop01.arg",
           "template": "FreePetSkill",
           "graphic": "16096",
+          "petSkillShop": {
+            "kind": "free-pet-skill",
+            "source": "gmsv-data/npc/freeshop/freeshop01.arg",
+            "skillRate": 1,
+            "skillIds": [
+              151,
+              152,
+              211,
+              12,
+              13,
+              41,
+              52
+            ],
+            "mainMessage": "要学什么技能呢？",
+            "errorMessage": "这不是它该学的哦～～",
+            "startMessage": "我是帖拉所伊朵宠物技能饲育员，对了！另外，捐献的技能只能让扑满乌力学习喔。",
+            "nothingMessage": "好了．．．．"
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/freeshop/freeshop01.arg"
           }
@@ -175890,8 +176269,27 @@ export const WORLD = {
           "script": "file:genout/psks_5003_23_13",
           "template": "npcgen_petskillshop",
           "graphic": "16049",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_5003_23_13",
+            "skillRate": 1.2,
+            "skillIds": [
+              2,
+              10,
+              20,
+              50,
+              51,
+              130
+            ],
+            "mainMessage": "要我教它哪项技能呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_5003_23_13"
           }
@@ -194033,8 +194431,27 @@ export const WORLD = {
           "script": "file:genout/psks_7009_12_5",
           "template": "npcgen_petskillshop",
           "graphic": "16313",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_7009_12_5",
+            "skillRate": 1.2,
+            "skillIds": [
+              2,
+              10,
+              20,
+              50,
+              51,
+              130
+            ],
+            "mainMessage": "你好，要我教它哪项技能呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petSkillShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/psks_7009_12_5"
           }

@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-19T13:43:30.937Z
+Generated: 2026-05-19T14:21:21.711Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -58,10 +58,8 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| skill_rate | candidate-action | 16 | 18 | 18 | 45 | external/sources/ref___data/npc/freeshop/freeshop01.arg:7 |
 | CHANGEITEM | candidate-action | 15 | 15 | 15 | 147 | external/sources/ref___data/npc/eden3/process/blacksmith1.arg:10 |
 | NeedItem | candidate-action | 15 | 15 | 15 | 147 | external/sources/ref___data/npc/eden3/process/blacksmith1.arg:11 |
-| pet_skill | candidate-action | 15 | 15 | 15 | 35 | external/sources/ref___data/npc/freeshop/freeshop01.arg:8 |
 | Born | unknown | 14 | 16 | 16 | 29 | external/sources/ref___data/npc/genout/sp_1000_94_99:2 |
 | NEWEVENT1 | candidate-action | 11 | 11 | 11 | 141 | external/sources/ref___data/npc/eden1/init/event81_6f.arg:18 |
 | onebattle | candidate-action | 10 | 10 | 10 | 261 | external/sources/ref___data/npc/100/sb_jba.arg:13 |
@@ -81,12 +79,14 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | Mode1 | unknown | 5 | 5 | 5 | 10 | external/sources/ref___data/npc/race/DEADJOE:29 |
 | History1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/race2/second.arg:35 |
 | luck1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/sainasu/uranai:4 |
-| err_msg | unknown | 4 | 6 | 6 | 17 | external/sources/ref___data/npc/freeshop/freeshop01.arg:6 |
-| nothing_msg | unknown | 4 | 6 | 6 | 17 | external/sources/ref___data/npc/freeshop/freeshop01.arg:5 |
+| NPCPOINT | unknown | 4 | 4 | 4 | 34 | external/sources/ref___data/npc/eden2/kraken/kraken88_08:29 |
+| cost_msg | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:6 |
+| getfull_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:9 |
+| pool_cost | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:11 |
 
 ## Recommended Next Slice
 
-- Start with `skill_rate`, because it appears in classic-core source references 16 times.
+- Start with `CHANGEITEM`, because it appears in classic-core source references 15 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 
