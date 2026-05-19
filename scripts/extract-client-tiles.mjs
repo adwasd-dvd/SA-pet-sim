@@ -12,7 +12,7 @@ const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
 const adrnPath = path.join(clientRoot, "data/adrn_136.bin");
 const realPath = path.join(clientRoot, "data/real_136.bin");
 const palettePath = path.join(clientRoot, "data/pal/Palet_1.sap");
-const ATLAS_VERSION = "battle-sprites-v1";
+const ATLAS_VERSION = "pet-sprites-v2";
 
 const RECORD_SIZE = 80;
 const ATLAS_W_DEFAULT = 4096;

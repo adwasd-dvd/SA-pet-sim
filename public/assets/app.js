@@ -8,7 +8,7 @@ const REAL_TILE_CELL_LIMIT = 90000;
 const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
-const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=battle-sprites-v1";
+const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
@@ -1601,10 +1601,7 @@ async function loadProfileTileAtlasForMap(map) {
   if (!packPaths.length) return null;
   try {
     await ensureProfilePacksLoaded(packPaths);
-    const atlas = {
-      mode: "profile packs",
-      frames: profileAtlasState.frames
-    };
+    const atlas = atlasWithProfileFrames(null, "profile packs");
     loadedTileAtlas = atlas;
     hydrateAtlasSprites(atlas);
     return atlas;
@@ -1713,6 +1710,19 @@ function parsePackFrames(manifest, image) {
   return frames;
 }
 
+function atlasWithProfileFrames(baseAtlas = loadedTileAtlas, modeSuffix = "profile packs") {
+  const baseFrames = baseAtlas?.frames || {};
+  const frames = {
+    ...baseFrames,
+    ...profileAtlasState.frames
+  };
+  return {
+    ...(baseAtlas || {}),
+    mode: baseAtlas?.mode ? `${baseAtlas.mode} + ${modeSuffix}` : modeSuffix,
+    frames
+  };
+}
+
 async function decodeImageWithFallback(image) {
   await image.decode().catch(() => new Promise((resolve, reject) => {
     if (image.complete && image.naturalWidth > 0) {
@@ -1754,10 +1764,7 @@ function hydrateAtlasSprites(atlas = loadedTileAtlas, root = document) {
   if (missingIds.size) {
     void ensureProfileAtlasFramesLoaded([...missingIds]).then((loaded) => {
       if (!loaded) return;
-      const nextAtlas = {
-        mode: "profile packs",
-        frames: profileAtlasState.frames
-      };
+      const nextAtlas = atlasWithProfileFrames(atlas || loadedTileAtlas);
       loadedTileAtlas = nextAtlas;
       hydrateAtlasSprites(nextAtlas, root);
     });
