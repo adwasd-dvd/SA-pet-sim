@@ -326,7 +326,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/battle" && request.method === "POST") {
       const body = await readJson(request);
-      return json(battleGame(body.game, String(body.action || "attack")));
+      return json(await battleGame(env, request, body.game, String(body.action || "attack")));
     }
     if (url.pathname === "/api/game/train" && request.method === "POST") {
       const body = await readJson(request);
@@ -1429,9 +1429,11 @@ function changeItemGame(game, npcId, recipeIndex = NaN) {
 }
 
 async function useItemGame(env, request, game, itemId) {
+  const data = await loadGameData(env, request);
   game = normalizeGame(game);
   const item = findInventoryItem(game, itemId);
   if (!item || item.id === "stone") throw new Error("背包里没有这个道具");
+  hydrateInventoryItemFromSource(item, data?.itemSet);
   if (itemLooksEquipment(item)) return equipItemGame(game, itemId);
 
   const itemUse = applyUsableItem(game, item);
@@ -1587,6 +1589,7 @@ function equipmentState(game) {
 function itemLooksEquipment(item = {}) {
   const functionName = itemFunctionName(item);
   if (/ITEM_suitEquip|ITEM_ResuitEquip/i.test(functionName)) return true;
+  if (/^ITEM_(?:use|Refresh|ResAndDef|Addexp|ChikulaStone|metamo|MetamoTime)/i.test(functionName)) return false;
   const text = `${item.name || ""} ${item.secretName || ""} ${item.description || ""} ${item.category || ""} ${item.option || ""}`;
   return /武器|防具|装备|裝備|斧|枪|槍|弓|投石|爪|兜|帽|服|铠|鎧|甲|盾|刀|剑|劍|棒|棍|鞋|靴|项链|項鏈|戒指|护身符|護身符/.test(text);
 }
@@ -2821,8 +2824,10 @@ function captureGame(game) {
   });
 }
 
-function battleGame(game, action) {
+async function battleGame(env, request, game, action) {
+  const data = await loadGameData(env, request);
   game = normalizeGame(game);
+  hydrateGameInventoryFromSource(game, data?.itemSet);
   const outcome = performBattleAction(game, action);
   recordBattleOutcome(game, outcome);
   return withMap(game, { battleOutcome: outcome });
@@ -5162,6 +5167,8 @@ async function applyGuideRequest(env, request, game, prompt) {
   }
 
   if (isItemUseRequest(lower)) {
+    const data = await loadGameData(env, request);
+    hydrateGameInventoryFromSource(game, data?.itemSet);
     const choice = chooseGuideItem(game, text);
     if (!choice?.item) {
       return {
@@ -5177,6 +5184,9 @@ async function applyGuideRequest(env, request, game, prompt) {
       };
     }
     const itemUse = applyUsableItem(game, choice.item, { battle: Boolean(game.encounter) });
+    if (itemUse.effects?.some((effect) => effect.kind === "encounter")) {
+      await triggerItemEncounter(env, request, game, itemUse);
+    }
     addLog(game, `AI 向导${itemUseLogLine(itemUse)}`);
     return {
       text: `已使用 ${itemUse.itemName}，${itemUse.summary}。`,
@@ -9977,6 +9987,61 @@ function addInventoryItem(game, item, qty = 1) {
   });
 }
 
+function hydrateGameInventoryFromSource(game, itemSet = cache?.itemSet) {
+  for (const item of game?.inventory || []) hydrateInventoryItemFromSource(item, itemSet);
+}
+
+function hydrateInventoryItemFromSource(item, itemSet = cache?.itemSet) {
+  if (!item || item.id === "stone") return item;
+  const id = Number(item.id);
+  if (!Number.isFinite(id) || id <= 0) return item;
+  const sourceItem = itemSet?.get(id) || worldTradeItemIndex().get(id);
+  if (!sourceItem) return item;
+  if (!itemNameCompatibleWithSource(item, sourceItem)) return item;
+
+  item.id = id;
+  for (const key of [
+    "name", "secretName", "description", "option", "effectOption", "functionName", "useFunction",
+    "image", "type", "useField", "target", "level", "price", "cost", "category", "source"
+  ]) {
+    if (isMissingItemField(item[key]) && !isMissingItemField(sourceItem[key])) item[key] = sourceItem[key];
+  }
+
+  const sourceDamageBreak = Number(sourceItem.damageBreak ?? sourceItem.maxUses);
+  const currentDamageBreak = Number(item.damageBreak ?? item.maxUses ?? item.usesRemaining);
+  if (Number.isFinite(sourceDamageBreak) && sourceDamageBreak > 0 && (!Number.isFinite(currentDamageBreak) || currentDamageBreak <= 0)) {
+    item.damageBreak = sourceDamageBreak;
+    item.maxUses = sourceDamageBreak;
+    if (isMissingItemField(item.usesRemaining)) item.usesRemaining = sourceDamageBreak;
+  } else {
+    if (isMissingItemField(item.damageBreak) && !isMissingItemField(sourceItem.damageBreak)) item.damageBreak = sourceItem.damageBreak;
+    if (isMissingItemField(item.maxUses) && !isMissingItemField(sourceItem.maxUses)) item.maxUses = sourceItem.maxUses;
+  }
+  item.source ||= `${GMSV_DATA_SOURCE}/itemset6.txt`;
+  return item;
+}
+
+function isMissingItemField(value) {
+  return value === undefined || value === null || value === "";
+}
+
+function itemNameCompatibleWithSource(item = {}, sourceItem = {}) {
+  const existing = normalizeItemNameForSourceMatch(item.name || item.secretName || item.SecretName || "");
+  if (!existing) return true;
+  const sourceNames = [sourceItem.name, sourceItem.secretName, sourceItem.SecretName]
+    .map(normalizeItemNameForSourceMatch)
+    .filter(Boolean);
+  if (!sourceNames.length) return true;
+  return sourceNames.some((source) => source === existing || source.includes(existing) || existing.includes(source));
+}
+
+function normalizeItemNameForSourceMatch(value = "") {
+  return String(value || "")
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[\s,，.。:：;；'"“”‘’`~!！?？()[\]（）【】<>《》_\-·・]/g, "");
+}
+
 function canCarryItem(game, item) {
   if (!item || item.id === "stone") return true;
   const id = Number(item.id);
@@ -10055,15 +10120,24 @@ function chooseGuideItem(game, prompt) {
   if (indexByNumber >= 0) return { item: items[indexByNumber], reason: "index" };
 
   const normalized = guideSearchText(prompt);
+  const tokens = guideSearchTokens(prompt)
+    .filter((token) => !["使用", "道具", "物品", "丢弃", "丟棄", "全部"].includes(token));
   const named = items
-    .map((item, index) => ({
-      item,
-      index,
-      name: guideSearchText(item.name || ""),
-      id: guideSearchText(`${item.id || ""}`)
-    }))
-    .filter((entry) => (entry.name && normalized.includes(entry.name)) || (entry.id && normalized.includes(entry.id)))
-    .sort((a, b) => b.name.length - a.name.length || a.index - b.index);
+    .map((item, index) => {
+      const name = guideSearchText(`${item.name || ""} ${item.secretName || ""}`);
+      const id = guideSearchText(`${item.id || ""}`);
+      let score = 0;
+      if (name && normalized.includes(name)) score += name.length * 4;
+      if (name && name.includes(normalized)) score += normalized.length;
+      if (id && normalized.includes(id)) score += id.length * 5;
+      for (const token of tokens) {
+        if (name.includes(token)) score += token.length;
+        if (id && id.includes(token)) score += token.length;
+      }
+      return { item, index, name, id, score };
+    })
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score || b.name.length - a.name.length || a.index - b.index);
   if (named.length) return { item: named[0].item, reason: "name" };
 
   if (hasAny(String(prompt || "").toLowerCase(), ["第一个", "第一個", "第1个", "第1個", "第1"])) {

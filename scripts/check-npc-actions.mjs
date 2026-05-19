@@ -275,6 +275,43 @@ assertEqual(inventoryQty(memoryFeatherGame, 1345), 1, "ITEM_useWarpForNum keeps 
 assertEqual(Number(memoryFeatherGame.inventory.find((item) => Number(item.id) === 1345)?.usesRemaining), 1, "ITEM_useWarpForNum decrements source-style remaining uses");
 memoryFeatherGame = await api("/api/game/use-item", { game: memoryFeatherGame, itemId: 1345 });
 assertEqual(inventoryQty(memoryFeatherGame, 1345), 0, "ITEM_useWarpForNum consumes the item on the final charge");
+let rawFeatherGame = await api("/api/game/new", { name: "item-effect-raw-feather-test" });
+rawFeatherGame.inventory.push({ id: 20912, name: "精灵的羽毛", qty: 1 });
+rawFeatherGame = await api("/api/game/use-item", { game: rawFeatherGame, itemId: 20912 });
+assertEqual(rawFeatherGame.location.mapId, "7000", "raw saved feather id hydrates ITEM_useWarp from itemset6 before use");
+assertEqual(inventoryQty(rawFeatherGame, 20912), 0, "raw saved feather consumes after hydrated warp use");
+let rawMemoryFeatherGame = await api("/api/game/new", { name: "item-effect-raw-memory-feather-test" });
+rawMemoryFeatherGame.inventory.push({ id: 1345, name: "记忆的羽毛", qty: 1 });
+rawMemoryFeatherGame = await api("/api/game/use-item", { game: rawMemoryFeatherGame, itemId: 1345 });
+assertEqual(rawMemoryFeatherGame.location.mapId, "1000", "raw saved memory feather hydrates ITEM_useWarpForNum target from itemset6");
+assertEqual(Number(rawMemoryFeatherGame.inventory.find((item) => Number(item.id) === 1345)?.usesRemaining), 1, "raw saved memory feather hydrates and decrements source damageBreak uses");
+let rawDeathCounterGame = await api("/api/game/new", { name: "item-effect-raw-deathcounter-test" });
+rawDeathCounterGame.location = {
+  mapId: encounterMap.id,
+  x: Math.trunc((Number(encounterArea.bounds[0]) + Number(encounterArea.bounds[2])) / 2),
+  y: Math.trunc((Number(encounterArea.bounds[1]) + Number(encounterArea.bounds[3])) / 2),
+  dir: 0
+};
+rawDeathCounterGame.inventory.push({ id: 20129, name: "恶魔宝石LV1", qty: 1 });
+rawDeathCounterGame = await api("/api/game/use-item", { game: rawDeathCounterGame, itemId: 20129 });
+assert(rawDeathCounterGame.encounter, "raw saved demon gem id hydrates ITEM_useDeathcounter from itemset6 before use");
+assertEqual(Number(rawDeathCounterGame.inventory.find((item) => Number(item.id) === 20129)?.usesRemaining), 2, "raw saved demon gem hydrates and decrements source damageBreak uses");
+let guideRawFeatherGame = await api("/api/game/new", { name: "ai-guide-raw-feather-use-test" });
+guideRawFeatherGame.inventory.push({ id: 20912, name: "精灵的羽毛", qty: 1 });
+const guideRawFeatherRsp = await api("/api/ai/guide", { game: guideRawFeatherGame, prompt: "使用精灵的羽毛" });
+assertEqual(guideRawFeatherRsp.action.type, "item-use", "AI guide hydrates raw saved source items before preview/use");
+assertEqual(guideRawFeatherRsp.game.location.mapId, "7000", "AI guide raw feather use warps to source itemset6 target");
+let guideRawGemGame = await api("/api/game/new", { name: "ai-guide-raw-gem-use-test" });
+guideRawGemGame.location = {
+  mapId: encounterMap.id,
+  x: Math.trunc((Number(encounterArea.bounds[0]) + Number(encounterArea.bounds[2])) / 2),
+  y: Math.trunc((Number(encounterArea.bounds[1]) + Number(encounterArea.bounds[3])) / 2),
+  dir: 0
+};
+guideRawGemGame.inventory.push({ id: 20129, name: "恶魔宝石LV1", qty: 1 });
+const guideRawGemRsp = await api("/api/ai/guide", { game: guideRawGemGame, prompt: "使用恶魔宝石" });
+assertEqual(guideRawGemRsp.action.type, "item-use", "AI guide can use a raw saved demon gem after itemset6 hydration");
+assert(guideRawGemRsp.game.encounter, "AI guide raw demon gem use triggers the source encounter path");
 let equipGame = await api("/api/game/new", { name: "item-equip-test" });
 equipGame.inventory.push({ id: 5020, name: "石斧", qty: 1, description: "武器 攻击力+5", functionName: "ITEM_suitEquip" });
 equipGame = await api("/api/game/equip-item", { game: equipGame, itemId: 5020 });
