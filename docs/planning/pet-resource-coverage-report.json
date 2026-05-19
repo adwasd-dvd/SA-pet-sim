@@ -1,0 +1,4117 @@
+{
+  "generatedAt": "2026-05-19T08:37:15.544Z",
+  "sourcePolicy": [
+    "Local source data is authoritative: enemybase2.txt, world-data.js, classic-core closure, and client atlas/profile packs.",
+    "External slim-SA-Game-Guide is used as the resource-splitting method, not as replacement content."
+  ],
+  "slimGuideRevision": "b1239ae2293c443473af36dc8626e87279d4d00b",
+  "summary": {
+    "atlasImage": "/data/client-tiles/tiles-atlas.png?v=pet-sprites-v2",
+    "atlasFrames": 6803,
+    "enemyBaseRows": 1289,
+    "enemyBaseStaticImageNos": 610,
+    "enemyBaseStaticFramesPresent": 610,
+    "enemyBaseStaticFramesMissing": 0,
+    "classicCoreFloors": 93,
+    "classicCoreEncounterTempNos": 39,
+    "classicCoreEncounterStaticImageNos": 34,
+    "classicCoreEncounterStaticFramesMissing": 0,
+    "classicCorePetLikeNpcGraphics": 38,
+    "fullWorldEncounterTempNos": 230,
+    "keepSetDomains": [
+      "ui-field",
+      "player-core",
+      "map-tiles",
+      "npc-field",
+      "pets-encounter",
+      "pets-static"
+    ],
+    "packCount": 90
+  },
+  "runtimeStatus": {
+    "staticPetFrames": "present and packed",
+    "fieldAnimationFrames": "not yet split into a pet-field-animation domain",
+    "battleAnimationFrames": "not yet split into a pet-battle-animation domain",
+    "reasonForCurrentVisualBug": "The runtime can now find enemybase ImgNo frames, but map pets and pet panels still resolve to one static ImgNo instead of the original walk/stand/battle animation sets from spr_115/spradrn_115.",
+    "nextImplementationStep": "Parse and map source animation records for classic-core pets, then add pet-field-animation and pet-battle-animation pack domains before switching runtime sprites away from static ImgNo fallbacks."
+  },
+  "clientAnimationFiles": [
+    {
+      "name": "spr_115.bin",
+      "present": true,
+      "bytes": 8427600
+    },
+    {
+      "name": "spradrn_115.bin",
+      "present": true,
+      "bytes": 20316
+    },
+    {
+      "name": "adrn_136.bin",
+      "present": true,
+      "bytes": 31818080
+    },
+    {
+      "name": "real_136.bin",
+      "present": true,
+      "bytes": 1526587910
+    }
+  ],
+  "packCoverage": {
+    "domains": {
+      "ui-field": {
+        "ids": 36,
+        "present": 36,
+        "missing": 0,
+        "presentFrameArea": 130852
+      },
+      "player-core": {
+        "ids": 72,
+        "present": 72,
+        "missing": 0,
+        "presentFrameArea": 207004
+      },
+      "map-tiles": {
+        "ids": 3757,
+        "present": 3757,
+        "missing": 0,
+        "presentFrameArea": 36607024
+      },
+      "npc-field": {
+        "ids": 165,
+        "present": 165,
+        "missing": 0,
+        "presentFrameArea": 540552
+      },
+      "pets-encounter": {
+        "ids": 34,
+        "present": 34,
+        "missing": 0,
+        "presentFrameArea": 128404
+      },
+      "pets-static": {
+        "ids": 610,
+        "present": 610,
+        "missing": 0,
+        "presentFrameArea": 3177632
+      }
+    },
+    "allStaticImageNosInPacks": 610,
+    "profileStaticImageNosInPacks": 34
+  },
+  "importantModels": [
+    {
+      "tempNo": 1,
+      "name": "乌力",
+      "level": 10,
+      "imageNo": 100250,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 80,
+        "water": 20,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 2,
+      "name": "乌力乌力",
+      "level": 20,
+      "imageNo": 100251,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 40,
+        "fire": 60,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 3,
+      "name": "乌力斯坦",
+      "level": 15,
+      "imageNo": 100252,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 100,
+        "water": 0,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 4,
+      "name": "乌力布鲁",
+      "level": 10,
+      "imageNo": 100253,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 70,
+        "wind": 30
+      }
+    },
+    {
+      "tempNo": 5,
+      "name": "黑乌力",
+      "level": 20,
+      "imageNo": 100388,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 50,
+        "water": 0,
+        "fire": 0,
+        "wind": 50
+      }
+    },
+    {
+      "tempNo": 6,
+      "name": "乌力斯坦",
+      "level": 25,
+      "imageNo": 100252,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 50,
+        "water": 0,
+        "fire": 0,
+        "wind": 50
+      }
+    },
+    {
+      "tempNo": 11,
+      "name": "布比",
+      "level": 15,
+      "imageNo": 100254,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 80,
+        "water": 20,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 12,
+      "name": "金布伊",
+      "level": 25,
+      "imageNo": 100255,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 30,
+        "wind": 70
+      }
+    },
+    {
+      "tempNo": 13,
+      "name": "布伊",
+      "level": 22,
+      "imageNo": 100256,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 60,
+        "water": 40,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 14,
+      "name": "布伊比",
+      "level": 16,
+      "imageNo": 100257,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 40,
+        "fire": 60,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 15,
+      "name": "卡布伊",
+      "level": 23,
+      "imageNo": 100258,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 100,
+        "water": 0,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 21,
+      "name": "加美",
+      "level": 22,
+      "imageNo": 100259,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 60,
+        "wind": 40
+      }
+    },
+    {
+      "tempNo": 23,
+      "name": "加比奥",
+      "level": 18,
+      "imageNo": 100261,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 0,
+        "wind": 100
+      }
+    },
+    {
+      "tempNo": 32,
+      "name": "威威",
+      "level": 15,
+      "imageNo": 100264,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 60,
+        "wind": 40
+      }
+    },
+    {
+      "tempNo": 39,
+      "name": "猪雀",
+      "level": 30,
+      "imageNo": 100370,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 100,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 97,
+      "name": "森林乌力",
+      "level": 10,
+      "imageNo": 100250,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 80,
+        "water": 20,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 100,
+      "name": "奥卡洛斯",
+      "level": 25,
+      "imageNo": 100371,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 60,
+        "water": 40,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 112,
+      "name": "凯比",
+      "level": 20,
+      "imageNo": 100296,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 20,
+        "water": 0,
+        "fire": 0,
+        "wind": 80
+      }
+    },
+    {
+      "tempNo": 114,
+      "name": "凯比特",
+      "level": 19,
+      "imageNo": 100298,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 0,
+        "wind": 100
+      }
+    },
+    {
+      "tempNo": 170,
+      "name": "乌力王",
+      "level": 26,
+      "imageNo": 101766,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 10,
+        "water": 90,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 252,
+      "name": "布林帖斯",
+      "level": 26,
+      "imageNo": 100352,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 30,
+        "water": 70,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 301,
+      "name": "奥卡洛斯",
+      "level": 25,
+      "imageNo": 100371,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 60,
+        "water": 40,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 311,
+      "name": "布伊德",
+      "level": 26,
+      "imageNo": 100375,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 20,
+        "water": 0,
+        "fire": 0,
+        "wind": 80
+      }
+    },
+    {
+      "tempNo": 371,
+      "name": "米恩斯特",
+      "level": 100,
+      "imageNo": 101459,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 70,
+        "water": 0,
+        "fire": 0,
+        "wind": 30
+      }
+    },
+    {
+      "tempNo": 586,
+      "name": "乌力斯坦",
+      "level": 15,
+      "imageNo": 100252,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 100,
+        "water": 0,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 667,
+      "name": "加比奥",
+      "level": 18,
+      "imageNo": 100261,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 0,
+        "wind": 100
+      }
+    },
+    {
+      "tempNo": 678,
+      "name": "乌力斯坦",
+      "level": 15,
+      "imageNo": 100252,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 100,
+        "water": 0,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 707,
+      "name": "布伊德",
+      "level": 26,
+      "imageNo": 100375,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 20,
+        "water": 0,
+        "fire": 0,
+        "wind": 80
+      }
+    },
+    {
+      "tempNo": 725,
+      "name": "扑满乌力",
+      "level": 25,
+      "imageNo": 100820,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 0,
+        "wind": 100
+      }
+    },
+    {
+      "tempNo": 726,
+      "name": "乌力莱德",
+      "level": 21,
+      "imageNo": 100821,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 80,
+        "fire": 20,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 727,
+      "name": "乌力固力",
+      "level": 20,
+      "imageNo": 100822,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 60,
+        "water": 0,
+        "fire": 0,
+        "wind": 40
+      }
+    },
+    {
+      "tempNo": 976,
+      "name": "扑满乌力",
+      "level": 25,
+      "imageNo": 100820,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 0,
+        "wind": 100
+      }
+    },
+    {
+      "tempNo": 1061,
+      "name": "乌力乌力",
+      "level": 20,
+      "imageNo": 100251,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 40,
+        "fire": 60,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 1062,
+      "name": "凯比",
+      "level": 20,
+      "imageNo": 100296,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 20,
+        "water": 0,
+        "fire": 0,
+        "wind": 80
+      }
+    },
+    {
+      "tempNo": 1115,
+      "name": "金布伊",
+      "level": 25,
+      "imageNo": 100255,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 30,
+        "wind": 70
+      }
+    },
+    {
+      "tempNo": 1147,
+      "name": "黑乌力王",
+      "level": 26,
+      "imageNo": 101871,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 80,
+        "wind": 20
+      }
+    },
+    {
+      "tempNo": 1182,
+      "name": "布伊酷",
+      "level": 29,
+      "imageNo": 101876,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 90,
+        "fire": 10,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 1288,
+      "name": "奥卡洛斯",
+      "level": 38,
+      "imageNo": 100371,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 60,
+        "water": 40,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 1406,
+      "name": "乌力王",
+      "level": 42,
+      "imageNo": 101766,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 10,
+        "water": 90,
+        "fire": 0,
+        "wind": 0
+      }
+    },
+    {
+      "tempNo": 1407,
+      "name": "黑乌力王",
+      "level": 42,
+      "imageNo": 101871,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 80,
+        "wind": 20
+      }
+    },
+    {
+      "tempNo": 2052,
+      "name": "凯比特",
+      "level": 40,
+      "imageNo": 100298,
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "attributes": {
+        "earth": 0,
+        "water": 0,
+        "fire": 0,
+        "wind": 100
+      }
+    }
+  ],
+  "familyCoverage": [
+    {
+      "family": "乌力",
+      "rows": 21,
+      "imageNos": 11,
+      "staticFramesPresent": 11,
+      "staticFramesMissing": 0,
+      "packedFrames": 11,
+      "samples": [
+        {
+          "tempNo": 1,
+          "name": "乌力",
+          "level": 10,
+          "imageNo": 100250,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 80,
+            "water": 20,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 2,
+          "name": "乌力乌力",
+          "level": 20,
+          "imageNo": 100251,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 40,
+            "fire": 60,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 3,
+          "name": "乌力斯坦",
+          "level": 15,
+          "imageNo": 100252,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 100,
+            "water": 0,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 4,
+          "name": "乌力布鲁",
+          "level": 10,
+          "imageNo": 100253,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 70,
+            "wind": 30
+          }
+        },
+        {
+          "tempNo": 5,
+          "name": "黑乌力",
+          "level": 20,
+          "imageNo": 100388,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 50,
+            "water": 0,
+            "fire": 0,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 6,
+          "name": "乌力斯坦",
+          "level": 25,
+          "imageNo": 100252,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 50,
+            "water": 0,
+            "fire": 0,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 97,
+          "name": "森林乌力",
+          "level": 10,
+          "imageNo": 100250,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 80,
+            "water": 20,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 100,
+          "name": "奥卡洛斯",
+          "level": 25,
+          "imageNo": 100371,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 60,
+            "water": 40,
+            "fire": 0,
+            "wind": 0
+          }
+        }
+      ]
+    },
+    {
+      "family": "布伊",
+      "rows": 10,
+      "imageNos": 7,
+      "staticFramesPresent": 7,
+      "staticFramesMissing": 0,
+      "packedFrames": 7,
+      "samples": [
+        {
+          "tempNo": 11,
+          "name": "布比",
+          "level": 15,
+          "imageNo": 100254,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 80,
+            "water": 20,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 12,
+          "name": "金布伊",
+          "level": 25,
+          "imageNo": 100255,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 30,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 13,
+          "name": "布伊",
+          "level": 22,
+          "imageNo": 100256,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 60,
+            "water": 40,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 14,
+          "name": "布伊比",
+          "level": 16,
+          "imageNo": 100257,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 40,
+            "fire": 60,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 15,
+          "name": "卡布伊",
+          "level": 23,
+          "imageNo": 100258,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 100,
+            "water": 0,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 311,
+          "name": "布伊德",
+          "level": 26,
+          "imageNo": 100375,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 20,
+            "water": 0,
+            "fire": 0,
+            "wind": 80
+          }
+        },
+        {
+          "tempNo": 587,
+          "name": "布比",
+          "level": 15,
+          "imageNo": 100254,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 80,
+            "water": 20,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 707,
+          "name": "布伊德",
+          "level": 26,
+          "imageNo": 100375,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 20,
+            "water": 0,
+            "fire": 0,
+            "wind": 80
+          }
+        }
+      ]
+    },
+    {
+      "family": "加美/加比",
+      "rows": 12,
+      "imageNos": 7,
+      "staticFramesPresent": 7,
+      "staticFramesMissing": 0,
+      "packedFrames": 7,
+      "samples": [
+        {
+          "tempNo": 21,
+          "name": "加美",
+          "level": 22,
+          "imageNo": 100259,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 60,
+            "wind": 40
+          }
+        },
+        {
+          "tempNo": 22,
+          "name": "加比",
+          "level": 20,
+          "imageNo": 100260,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 50,
+            "water": 0,
+            "fire": 0,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 23,
+          "name": "加比奥",
+          "level": 18,
+          "imageNo": 100261,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 0,
+            "wind": 100
+          }
+        },
+        {
+          "tempNo": 24,
+          "name": "加斯",
+          "level": 16,
+          "imageNo": 100262,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 30,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 83,
+          "name": "柯洛加斯",
+          "level": 17,
+          "imageNo": 100285,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 40,
+            "fire": 60,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 655,
+          "name": "加美",
+          "level": 22,
+          "imageNo": 100259,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 60,
+            "wind": 40
+          }
+        },
+        {
+          "tempNo": 665,
+          "name": "加斯",
+          "level": 16,
+          "imageNo": 100262,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 30,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 667,
+          "name": "加比奥",
+          "level": 18,
+          "imageNo": 100261,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 0,
+            "wind": 100
+          }
+        }
+      ]
+    },
+    {
+      "family": "威威",
+      "rows": 6,
+      "imageNos": 4,
+      "staticFramesPresent": 4,
+      "staticFramesMissing": 0,
+      "packedFrames": 4,
+      "samples": [
+        {
+          "tempNo": 31,
+          "name": "乌宝宝",
+          "level": 13,
+          "imageNo": 100263,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 30,
+            "water": 0,
+            "fire": 0,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 32,
+          "name": "威威",
+          "level": 15,
+          "imageNo": 100264,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 60,
+            "wind": 40
+          }
+        },
+        {
+          "tempNo": 33,
+          "name": "乌卡鲁",
+          "level": 17,
+          "imageNo": 100265,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 30,
+            "water": 70,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 34,
+          "name": "威伯",
+          "level": 20,
+          "imageNo": 100266,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 60,
+            "water": 0,
+            "fire": 0,
+            "wind": 40
+          }
+        },
+        {
+          "tempNo": 663,
+          "name": "乌宝宝",
+          "level": 13,
+          "imageNo": 100263,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 30,
+            "water": 0,
+            "fire": 0,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 1064,
+          "name": "威伯",
+          "level": 20,
+          "imageNo": 100266,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 60,
+            "water": 0,
+            "fire": 0,
+            "wind": 40
+          }
+        }
+      ]
+    },
+    {
+      "family": "猪雀/火鸡",
+      "rows": 4,
+      "imageNos": 2,
+      "staticFramesPresent": 2,
+      "staticFramesMissing": 0,
+      "packedFrames": 2,
+      "samples": [
+        {
+          "tempNo": 39,
+          "name": "猪雀",
+          "level": 30,
+          "imageNo": 100370,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 100,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 291,
+          "name": "火鸡",
+          "level": 17,
+          "imageNo": 100367,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 30,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 591,
+          "name": "火鸡",
+          "level": 17,
+          "imageNo": 100367,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 30,
+            "wind": 70
+          }
+        },
+        {
+          "tempNo": 680,
+          "name": "火鸡",
+          "level": 17,
+          "imageNo": 100367,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 30,
+            "wind": 70
+          }
+        }
+      ]
+    },
+    {
+      "family": "凯比",
+      "rows": 4,
+      "imageNos": 2,
+      "staticFramesPresent": 2,
+      "staticFramesMissing": 0,
+      "packedFrames": 2,
+      "samples": [
+        {
+          "tempNo": 112,
+          "name": "凯比",
+          "level": 20,
+          "imageNo": 100296,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 20,
+            "water": 0,
+            "fire": 0,
+            "wind": 80
+          }
+        },
+        {
+          "tempNo": 114,
+          "name": "凯比特",
+          "level": 19,
+          "imageNo": 100298,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 0,
+            "wind": 100
+          }
+        },
+        {
+          "tempNo": 1062,
+          "name": "凯比",
+          "level": 20,
+          "imageNo": 100296,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "npc-field-core",
+              "domain": "npc-field",
+              "load": "enter-floor-shared",
+              "frames": 165
+            },
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 20,
+            "water": 0,
+            "fire": 0,
+            "wind": 80
+          }
+        },
+        {
+          "tempNo": 2052,
+          "name": "凯比特",
+          "level": 40,
+          "imageNo": 100298,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 0,
+            "wind": 100
+          }
+        }
+      ]
+    },
+    {
+      "family": "人龙",
+      "rows": 10,
+      "imageNos": 4,
+      "staticFramesPresent": 4,
+      "staticFramesMissing": 0,
+      "packedFrames": 4,
+      "samples": [
+        {
+          "tempNo": 93,
+          "name": "邦浦洛斯",
+          "level": 27,
+          "imageNo": 100289,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 50,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 94,
+          "name": "邦奇诺",
+          "level": 26,
+          "imageNo": 100290,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 100,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 540,
+          "name": "邦浦洛斯",
+          "level": 27,
+          "imageNo": 100289,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 50,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 701,
+          "name": "邦奇诺",
+          "level": 26,
+          "imageNo": 100290,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 100,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 1282,
+          "name": "邦浦洛斯",
+          "level": 32,
+          "imageNo": 100289,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 60,
+            "wind": 40
+          }
+        },
+        {
+          "tempNo": 1283,
+          "name": "邦奇诺",
+          "level": 32,
+          "imageNo": 100290,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 100,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 2063,
+          "name": "邦奇诺",
+          "level": 32,
+          "imageNo": 101822,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 100,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 2065,
+          "name": "邦浦洛斯",
+          "level": 32,
+          "imageNo": 101874,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 50,
+            "wind": 50
+          }
+        }
+      ]
+    },
+    {
+      "family": "暴龙",
+      "rows": 6,
+      "imageNos": 3,
+      "staticFramesPresent": 3,
+      "staticFramesMissing": 0,
+      "packedFrames": 3,
+      "samples": [
+        {
+          "tempNo": 271,
+          "name": "帖拉格恩",
+          "level": 27,
+          "imageNo": 100359,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 20,
+            "wind": 80
+          }
+        },
+        {
+          "tempNo": 304,
+          "name": "帖拉所伊朵",
+          "level": 28,
+          "imageNo": 100374,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 50,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 698,
+          "name": "帖拉所伊朵",
+          "level": 28,
+          "imageNo": 100374,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 50,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 967,
+          "name": "帖拉所伊朵",
+          "level": 28,
+          "imageNo": 100374,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 0,
+            "fire": 50,
+            "wind": 50
+          }
+        },
+        {
+          "tempNo": 2446,
+          "name": "帖拉伊贝卡",
+          "level": 36,
+          "imageNo": 110003,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 40,
+            "fire": 60,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 3012,
+          "name": "帖拉伊贝卡",
+          "level": 36,
+          "imageNo": 110003,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 40,
+            "fire": 60,
+            "wind": 0
+          }
+        }
+      ]
+    },
+    {
+      "family": "雷龙",
+      "rows": 1,
+      "imageNos": 1,
+      "staticFramesPresent": 1,
+      "staticFramesMissing": 0,
+      "packedFrames": 1,
+      "samples": [
+        {
+          "tempNo": 252,
+          "name": "布林帖斯",
+          "level": 26,
+          "imageNo": 100352,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 30,
+            "water": 70,
+            "fire": 0,
+            "wind": 0
+          }
+        }
+      ]
+    },
+    {
+      "family": "鲨鱼",
+      "rows": 4,
+      "imageNos": 2,
+      "staticFramesPresent": 2,
+      "staticFramesMissing": 0,
+      "packedFrames": 2,
+      "samples": [
+        {
+          "tempNo": 223,
+          "name": "加格",
+          "level": 23,
+          "imageNo": 100341,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 100,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 679,
+          "name": "加格",
+          "level": 23,
+          "imageNo": 100341,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 100,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 691,
+          "name": "加格",
+          "level": 23,
+          "imageNo": 100341,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-encounter-core",
+              "domain": "pets-encounter",
+              "load": "battle-or-album",
+              "frames": 34
+            },
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 100,
+            "fire": 0,
+            "wind": 0
+          }
+        },
+        {
+          "tempNo": 733,
+          "name": "加格雷依",
+          "level": 21,
+          "imageNo": 100828,
+          "framePresent": true,
+          "packs": [
+            {
+              "id": "pets-static-all",
+              "domain": "pets-static",
+              "load": "pet-ui-or-battle-lazy",
+              "frames": 610
+            }
+          ],
+          "attributes": {
+            "earth": 0,
+            "water": 60,
+            "fire": 40,
+            "wind": 0
+          }
+        }
+      ]
+    }
+  ],
+  "petLikeNpcGraphics": [
+    {
+      "graphic": 100015,
+      "names": [
+        "古瓜",
+        "沃喀"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "里奥",
+          "type": "ExChangeMan",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100037,
+      "names": [
+        "九兄弟之一"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1000,
+          "map": "萨姆吉尔村",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1000,
+          "map": "萨姆吉尔村",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1100,
+          "map": "柯奥村",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1100,
+          "map": "柯奥村",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1300,
+          "map": "霍特尔村",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1300,
+          "map": "霍特尔村",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1400,
+          "map": "卡坦村温",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1400,
+          "map": "卡坦村温",
+          "npc": "九兄弟之一",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100110,
+      "names": [],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "姆哈萨",
+          "type": "ExChangeMan",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100195,
+      "names": [],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3400,
+          "map": "奇喀喀村鐋0",
+          "npc": "水的使者",
+          "type": "ExChangeMan",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100250,
+      "names": [
+        "乌力",
+        "森林乌力",
+        "小乌乌",
+        "禧"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1003,
+          "map": "萨姆吉尔的宠物店",
+          "npc": "乌力",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1403,
+          "map": "卡坦的宠物店",
+          "npc": "乌力",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100251,
+      "names": [
+        "乌力乌力"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 2000,
+          "map": "玛丽娜丝渔村",
+          "npc": "乌力",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 2003,
+          "map": "玛丽娜丝的宠物店",
+          "npc": "乌力乌力",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100252,
+      "names": [
+        "乌力斯坦",
+        "小坦坦"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1003,
+          "map": "萨姆吉尔的宠物店",
+          "npc": "乌力斯坦",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1100,
+          "map": "柯奥村",
+          "npc": "乌力斯坦",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 2003,
+          "map": "玛丽娜丝的宠物店",
+          "npc": "乌力斯坦",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 3003,
+          "map": "加加的宠物店",
+          "npc": "乌力斯坦",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100256,
+      "names": [
+        "布伊"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1103,
+          "map": "柯奥的宠物店",
+          "npc": "布伊",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100257,
+      "names": [
+        "布伊比"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3103,
+          "map": "塔姆塔姆的宠物店",
+          "npc": "布伊比",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 4003,
+          "map": "卡鲁它那的宠物店",
+          "npc": "布伊比",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100259,
+      "names": [
+        "加美",
+        "爱丽儿队的加美"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1212,
+          "map": "柯尔克坑道管理事务所",
+          "npc": "加美",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 2000,
+          "map": "玛丽娜丝渔村",
+          "npc": "加美航空",
+          "type": "Airplane",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 4000,
+          "map": "卡鲁它那村",
+          "npc": "加美航空",
+          "type": "Airplane",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100265,
+      "names": [
+        "乌卡鲁"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1212,
+          "map": "柯尔克坑道管理事务所",
+          "npc": "乌卡鲁",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 4003,
+          "map": "卡鲁它那的宠物店",
+          "npc": "乌卡鲁",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100267,
+      "names": [
+        "贝洛恩"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1203,
+          "map": "柯尔克的宠物店",
+          "npc": "贝洛恩",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100271,
+      "names": [
+        "龟之盾",
+        "龟之助"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1103,
+          "map": "柯奥的宠物店",
+          "npc": "龟之盾",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100277,
+      "names": [
+        "特洛昆"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1203,
+          "map": "柯尔克的宠物店",
+          "npc": "小特洛昆",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100278,
+      "names": [
+        "达克尔"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3100,
+          "map": "塔姆塔姆村",
+          "npc": "达克尔",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100280,
+      "names": [
+        "呼拔拔",
+        "呼拔吉",
+        "盗贼呼拔拔",
+        "逃走呼拔拔"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1203,
+          "map": "柯尔克的宠物店",
+          "npc": "呼拔拔",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100291,
+      "names": [
+        "克雷尔"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3303,
+          "map": "乌鲁力的宠物店",
+          "npc": "克雷尔",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100293,
+      "names": [
+        "克洛尔"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3003,
+          "map": "加加的宠物店",
+          "npc": "克洛尔",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100294,
+      "names": [
+        "里斯基",
+        "利斯基"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1212,
+          "map": "柯尔克坑道管理事务所",
+          "npc": "利士奇",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100295,
+      "names": [
+        "卡比特"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1303,
+          "map": "霍特尔的宠物店",
+          "npc": "卡比特",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1303,
+          "map": "霍特尔的宠物店",
+          "npc": "卡比特",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100296,
+      "names": [
+        "凯比"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1303,
+          "map": "霍特尔的宠物店",
+          "npc": "凯比",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 3303,
+          "map": "乌鲁力的宠物店",
+          "npc": "凯比",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100297,
+      "names": [
+        "昆伊"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1303,
+          "map": "霍特尔的宠物店",
+          "npc": "昆伊",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100326,
+      "names": [
+        "卡拉卡利"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1212,
+          "map": "柯尔克坑道管理事务所",
+          "npc": "卡拉卡利",
+          "type": "TownPeople",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100335,
+      "names": [
+        "多利诺布斯"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1303,
+          "map": "霍特尔的宠物店",
+          "npc": "多利诺布斯",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 3103,
+          "map": "塔姆塔姆的宠物店",
+          "npc": "多利诺布斯",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100336,
+      "names": [
+        "贝恩达斯"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 2003,
+          "map": "玛丽娜丝的宠物店",
+          "npc": "贝恩达斯",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 3203,
+          "map": "多多的宠物店",
+          "npc": "贝恩达斯",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100339,
+      "names": [
+        "克邦凯斯"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3203,
+          "map": "多多的宠物店",
+          "npc": "克邦凯斯",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100355,
+      "names": [
+        "巨大玛恩摩",
+        "玛恩摩"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "を禜そó",
+          "type": "Bus",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "を禜そó",
+          "type": "Bus",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "を禜そó",
+          "type": "Bus",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100367,
+      "names": [
+        "火鸡"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1303,
+          "map": "霍特尔的宠物店",
+          "npc": "火鸡",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100384,
+      "names": [
+        "邦洛洛克斯",
+        "钢格之龙"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1403,
+          "map": "卡坦的宠物店",
+          "npc": "邦洛洛克斯",
+          "type": "npcgen_mugon",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100388,
+      "names": [
+        "黑乌力"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 1000,
+          "map": "萨姆吉尔村",
+          "npc": "黑乌力",
+          "type": "WarpMan",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100401,
+      "names": [
+        "坏心眼的愿藏",
+        "坑夫巴卡斯",
+        "PC团盗贼老大",
+        "迪欧",
+        "海盗喽罗"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "坏心眼的愿藏",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 1000,
+          "map": "萨姆吉尔村",
+          "npc": "工程人员",
+          "type": "NPC_NewNpcMan",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100431,
+      "names": [
+        "恶霸老大",
+        "哥达",
+        "哥达喽啰",
+        "查罕乌鲁夫",
+        "盗贼",
+        "路痴的盗贼"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 10007,
+          "map": "阿布的洞窟地下７楼",
+          "npc": "查罕·乌尔夫",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100432,
+      "names": [
+        "唐",
+        "戴斯",
+        "鲁乌"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "戴斯",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100433,
+      "names": [],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "盗贼",
+          "type": "WarpMan",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100434,
+      "names": [
+        "达兹"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "达姿",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100436,
+      "names": [
+        "小毛贼",
+        "尊尼",
+        "恶霸老三",
+        "查罕鲁德",
+        "铁壁的小玛摩",
+        "JBA审查员"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 100,
+          "map": "萨伊那斯",
+          "npc": "宝卡",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        },
+        {
+          "floor": 10007,
+          "map": "阿布的洞窟地下７楼",
+          "npc": "查罕·鲁多",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 100439,
+      "names": [
+        "恶霸老二",
+        "查罕奇鲁",
+        "悟",
+        "不良少年",
+        "巴克的跟班"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 10007,
+          "map": "阿布的洞窟地下７楼",
+          "npc": "查罕·吉鲁",
+          "type": "NPCEnemy",
+          "source": "npc.graphic"
+        }
+      ]
+    },
+    {
+      "graphic": 101178,
+      "names": [
+        "吉比",
+        "老鼠"
+      ],
+      "framePresent": true,
+      "packs": [
+        {
+          "id": "npc-field-core",
+          "domain": "npc-field",
+          "load": "enter-floor-shared",
+          "frames": 165
+        },
+        {
+          "id": "pets-encounter-core",
+          "domain": "pets-encounter",
+          "load": "battle-or-album",
+          "frames": 34
+        },
+        {
+          "id": "pets-static-all",
+          "domain": "pets-static",
+          "load": "pet-ui-or-battle-lazy",
+          "frames": 610
+        }
+      ],
+      "sources": [
+        {
+          "floor": 3000,
+          "map": "加加村",
+          "npc": "偷吃的老鼠",
+          "type": "WarpMan",
+          "source": "npc.graphic"
+        }
+      ]
+    }
+  ],
+  "missing": {
+    "enemyBaseStaticImageNos": [],
+    "classicCoreEncounterStaticImageNos": [],
+    "staticImageNosWithoutProfilePack": []
+  }
+}
