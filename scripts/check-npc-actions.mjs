@@ -1491,19 +1491,20 @@ assertEqual(inventoryQty(ticketGame, 2597), 1, "ticket seller gives source arena
 assert(ticketGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-delstone" && event.detail?.qty === 36), "source DelStone records NPC VM stone take");
 
 const petEventWarp = Object.values(WORLD.maps)
-  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
-  .find(({ npc }) => npc.warp?.target && WORLD.maps[npc.warp.target.mapId] && String(npc.warp.free || "").includes("PET>0-"));
-if (!petEventWarp) throw new Error("missing PET/ENDEV gated warp fixture");
+  .flatMap((map) => map.exits.map((exit) => ({ map, exit })))
+  .find(({ exit }) => exit.warp?.target && WORLD.maps[exit.warp.target.mapId] && String(exit.warp.free || "").includes("PET>0-"));
+if (!petEventWarp) throw new Error("missing PET/ENDEV gated mapwarp fixture");
 let petEventGame = await api("/api/game/new", { name: "warp-pet-event-gate-test" });
-petEventGame.location = { mapId: petEventWarp.map.id, x: petEventWarp.npc.x + 1, y: petEventWarp.npc.y };
+const petEventTile = petEventWarp.exit.tiles?.[0] || { x: petEventWarp.exit.x, y: petEventWarp.exit.y };
+petEventGame.location = { mapId: petEventWarp.map.id, x: petEventTile.x, y: petEventTile.y };
 const petEventStartMap = petEventGame.location.mapId;
 petEventGame.player.level = 30;
-petEventGame = await api("/api/game/dialog", { game: petEventGame, npcId: petEventWarp.npc.id, message: "传送" });
-assertEqual(petEventGame.location.mapId, petEventStartMap, "PET/ENDEV gated warp blocks before event bit and pet match");
+petEventGame = await api("/api/game/walk", { game: petEventGame, dx: 0, dy: 0 });
+assertEqual(petEventGame.location.mapId, petEventStartMap, "PET/ENDEV gated mapwarp blocks before event bit and pet match");
 setTestEventFlag(petEventGame, 4, "end");
 petEventGame.pets.push({ ...petEventGame.pets[0], PetId: 962, Name: "条件宠物", Lv: 1, Hp: 10, WorkMaxHp: 10 });
-petEventGame = await api("/api/game/dialog", { game: petEventGame, npcId: petEventWarp.npc.id, message: "传送" });
-assertEqual(petEventGame.location.mapId, petEventWarp.npc.warp.target.mapId, "PET/ENDEV gated warp passes after source level, event, and pet conditions are satisfied");
+petEventGame = await api("/api/game/walk", { game: petEventGame, dx: 0, dy: 0 });
+assertEqual(petEventGame.location.mapId, petEventWarp.exit.warp.target.mapId, "PET/ENDEV gated mapwarp passes after source level, event, and pet conditions are satisfied");
 
 let aiWarpGame = await api("/api/game/new", { name: "ai-warp-test" });
 aiWarpGame.location = { mapId: warpNpc.map.id, x: warpNpc.npc.x + 1, y: warpNpc.npc.y };

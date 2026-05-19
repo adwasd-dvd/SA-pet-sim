@@ -61,6 +61,7 @@ const enemySpecs = parseEnemySpecs(path.join(refRoot, "enemy1.txt"));
 const enemyGroups = parseEnemyGroups(path.join(refRoot, "group1.txt"), enemySpecs);
 const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"), enemyGroups);
 const itemDb = parseItems(path.join(refRoot, "itemset6.txt"));
+const npcWarpPoints = parseNpcWarpPoints();
 const npcsByFloor = parseNpcs();
 const contentProfile = loadContentProfile();
 const selectedFloors = selectFloors();
@@ -105,9 +106,9 @@ for (const floor of selectedFloors) {
   if (!map) continue;
   const seen = new Set();
   const usableWarps = [];
-  for (const warp of warps.get(floor) || []) {
+  for (const warp of [...(warps.get(floor) || []), ...(npcWarpPoints.get(floor) || [])]) {
     if (!maps[String(warp.toFloor)]) continue;
-    const key = `${warp.x}:${warp.y}:${warp.toFloor}`;
+    const key = `${warp.x}:${warp.y}:${warp.toFloor}:${warp.toX}:${warp.toY}`;
     if (seen.has(key)) continue;
     seen.add(key);
     usableWarps.push(warp);
@@ -119,6 +120,7 @@ for (const floor of selectedFloors) {
     const bounds = boundsFor(cluster);
     const marker = centerFor(cluster);
     const targetPoint = centerFor(cluster.map((item) => ({ x: item.toX, y: item.toY })));
+    const scriptedWarp = cluster.find((item) => item.warp)?.warp || null;
     map.exits.push({
       id: `${warp.toFloor}-${map.exits.length}`,
       label: `去 ${targetName}`,
@@ -133,7 +135,10 @@ for (const floor of selectedFloors) {
         y: item.y,
         target: [item.toX, item.toY]
       })),
-      source: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`
+      source: cluster.map((item) => item.source || `${GMSV_DATA_SOURCE}/map/mapwarp.txt`)
+        .filter((source, index, list) => list.indexOf(source) === index)
+        .join(" + "),
+      ...(scriptedWarp ? { warp: scriptedWarp } : {})
     });
   }
 }
@@ -149,7 +154,7 @@ const world = {
     maps: `${GMSV_DATA_SOURCE}/map/** LS2MAP`,
     clientMaps: "公益石器时代/map/*.dat",
     npcs: `${GMSV_DATA_SOURCE}/npc/**/*.create + .template + args/config`,
-    warps: `${GMSV_DATA_SOURCE}/map/mapwarp.txt`,
+    warps: `${GMSV_DATA_SOURCE}/map/mapwarp.txt + npcgen_warp create points`,
     encounters: `${GMSV_DATA_SOURCE}/encount.txt`,
     contentProfile: contentProfile ? {
       id: contentProfile.id,
@@ -242,6 +247,61 @@ function parseWarps(file) {
     push(out, from[0], { floor: from[0], x: from[1], y: from[2], toFloor: to[0], toX: to[1], toY: to[2] });
   }
   return out;
+}
+
+function parseNpcWarpPoints() {
+  const out = new Map();
+  for (const file of walk(npcRoot).filter((item) => item.endsWith(".create"))) {
+    const text = readText(file);
+    for (const block of blocks(text)) {
+      const kv = parseBlock(block);
+      const floor = Number(kv.floorid);
+      if (!Number.isFinite(floor)) continue;
+      const pos = parsePos(kv.borncenter || kv.borncorner || kv.movecenter);
+      if (!pos) continue;
+      const enemy = parseEnemy(kv.enemy || "");
+      const warp = npcWarpFromEnemy(enemy, file);
+      if (!warp) continue;
+      push(out, floor, {
+        floor,
+        x: pos[0],
+        y: pos[1],
+        ...warp,
+        source: relativeRef(file)
+      });
+    }
+  }
+  return out;
+}
+
+function npcWarpFromEnemy(enemy, createFile) {
+  if (!isNpcMapWarp(enemy.template)) return null;
+  const numericTarget = enemy.parts.slice(1, 4).map((part) => Number(part));
+  if (numericTarget.length >= 3 && numericTarget.every(Number.isFinite)) {
+    return {
+      toFloor: numericTarget[0],
+      toX: numericTarget[1],
+      toY: numericTarget[2]
+    };
+  }
+  const scriptedWarp = readNpcWarp(enemy.argPath || "", createFile);
+  if (!scriptedWarp?.target) return null;
+  const target = {
+    toFloor: Number(scriptedWarp.target.floor),
+    toX: Number(scriptedWarp.target.x),
+    toY: Number(scriptedWarp.target.y)
+  };
+  if (![target.toFloor, target.toX, target.toY].every(Number.isFinite)) return null;
+  return {
+    toFloor: target.toFloor,
+    toX: target.toX,
+    toY: target.toY,
+    warp: scriptedWarp
+  };
+}
+
+function isNpcMapWarp(template = "") {
+  return /^npcgen_warp$/i.test(template);
 }
 
 function parseEnemySpecs(file) {
@@ -375,6 +435,10 @@ function parseNpcs() {
       const pos = parsePos(kv.borncenter || kv.borncorner || kv.movecenter);
       if (!pos) continue;
       const enemy = parseEnemy(kv.enemy || "");
+      if (isNpcMapWarp(enemy.template)) {
+        idCounter += 1;
+        continue;
+      }
       const template = templates.get(enemy.template) || {};
       const argPath = enemy.argPath || "";
       const dialogue = readNpcDialogue(argPath, file);
@@ -1454,10 +1518,10 @@ function resolveNpcArg(argPath, createFile) {
 }
 
 function parseEnemy(enemy) {
-  const parts = enemy.split("|");
+  const parts = enemy.split("|").map((part) => part.trim());
   const template = parts[0] || "NPC";
   const arg = parts.find((part) => /^(file|conff):/.test(part)) || "";
-  return { template, argPath: arg };
+  return { template, argPath: arg, parts };
 }
 
 function parseBlock(block) {

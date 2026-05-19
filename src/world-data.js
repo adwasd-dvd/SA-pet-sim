@@ -4,7 +4,7 @@ export const WORLD = {
     "maps": "gmsv-data/map/** LS2MAP",
     "clientMaps": "公益石器时代/map/*.dat",
     "npcs": "gmsv-data/npc/**/*.create + .template + args/config",
-    "warps": "gmsv-data/map/mapwarp.txt",
+    "warps": "gmsv-data/map/mapwarp.txt + npcgen_warp create points",
     "encounters": "gmsv-data/encount.txt",
     "contentProfile": null
   },
@@ -297,19 +297,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_40_12_18",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "40-6-3-2875",
-          "name": "Warp",
-          "x": 6,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": []
@@ -9419,773 +9406,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_100_412_339",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "100-258-170-1585",
-          "name": "Warp",
-          "x": 258,
-          "y": 170,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-259-170-1586",
-          "name": "Warp",
-          "x": 259,
-          "y": 170,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-260-170-1587",
-          "name": "Warp",
-          "x": 260,
-          "y": 170,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-190-1569",
-          "name": "Warp",
-          "x": 622,
-          "y": 190,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-191-1570",
-          "name": "Warp",
-          "x": 622,
-          "y": 191,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-192-1571",
-          "name": "Warp",
-          "x": 622,
-          "y": 192,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-193-1572",
-          "name": "Warp",
-          "x": 622,
-          "y": 193,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-194-1573",
-          "name": "Warp",
-          "x": 622,
-          "y": 194,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-195-1574",
-          "name": "Warp",
-          "x": 622,
-          "y": 195,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-196-1575",
-          "name": "Warp",
-          "x": 622,
-          "y": 196,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-622-197-1576",
-          "name": "Warp",
-          "x": 622,
-          "y": 197,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-666-235-2864",
-          "name": "Warp",
-          "x": 666,
-          "y": 235,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-184-339-6540",
-          "name": "Warp",
-          "x": 184,
-          "y": 339,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-185-339-6542",
-          "name": "Warp",
-          "x": 185,
-          "y": 339,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-191-365-2297",
-          "name": "Warp",
-          "x": 191,
-          "y": 365,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-132-421-1618",
-          "name": "Warp",
-          "x": 132,
-          "y": 421,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-318-428-2312",
-          "name": "Warp",
-          "x": 318,
-          "y": 428,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-237-445-2392",
-          "name": "Warp",
-          "x": 237,
-          "y": 445,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-237-445-2394",
-          "name": "Warp",
-          "x": 237,
-          "y": 445,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-706-487-1533",
-          "name": "Warp",
-          "x": 706,
-          "y": 487,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-707-487-1534",
-          "name": "Warp",
-          "x": 707,
-          "y": 487,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-708-487-1535",
-          "name": "Warp",
-          "x": 708,
-          "y": 487,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-709-487-1536",
-          "name": "Warp",
-          "x": 709,
-          "y": 487,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-710-487-1537",
-          "name": "Warp",
-          "x": 710,
-          "y": 487,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-638-491-1525",
-          "name": "Warp",
-          "x": 638,
-          "y": 491,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-638-492-1526",
-          "name": "Warp",
-          "x": 638,
-          "y": 492,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-638-493-1527",
-          "name": "Warp",
-          "x": 638,
-          "y": 493,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-638-494-1528",
-          "name": "Warp",
-          "x": 638,
-          "y": 494,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-607-561-4214",
-          "name": "Warp",
-          "x": 607,
-          "y": 561,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-607-562-4215",
-          "name": "Warp",
-          "x": 607,
-          "y": 562,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-607-563-4216",
-          "name": "Warp",
-          "x": 607,
-          "y": 563,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-607-564-4217",
-          "name": "Warp",
-          "x": 607,
-          "y": 564,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-607-565-4218",
-          "name": "Warp",
-          "x": 607,
-          "y": 565,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-72-586-4246",
-          "name": "Warp",
-          "x": 72,
-          "y": 586,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-73-586-4242",
-          "name": "Warp",
-          "x": 73,
-          "y": 586,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-71-587-4247",
-          "name": "Warp",
-          "x": 71,
-          "y": 587,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-72-587-4243",
-          "name": "Warp",
-          "x": 72,
-          "y": 587,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-70-588-4248",
-          "name": "Warp",
-          "x": 70,
-          "y": 588,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-71-588-4244",
-          "name": "Warp",
-          "x": 71,
-          "y": 588,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-70-589-4245",
-          "name": "Warp",
-          "x": 70,
-          "y": 589,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-78-614-1543",
-          "name": "Warp",
-          "x": 78,
-          "y": 614,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-78-615-1544",
-          "name": "Warp",
-          "x": 78,
-          "y": 615,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-78-616-1545",
-          "name": "Warp",
-          "x": 78,
-          "y": 616,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-78-617-1546",
-          "name": "Warp",
-          "x": 78,
-          "y": 617,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-470-631-1559",
-          "name": "Warp",
-          "x": 470,
-          "y": 631,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-471-631-1560",
-          "name": "Warp",
-          "x": 471,
-          "y": 631,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-472-631-1561",
-          "name": "Warp",
-          "x": 472,
-          "y": 631,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-473-631-1562",
-          "name": "Warp",
-          "x": 473,
-          "y": 631,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-474-631-1563",
-          "name": "Warp",
-          "x": 474,
-          "y": 631,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-328-633-2430",
-          "name": "Warp",
-          "x": 328,
-          "y": 633,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-328-633-2432",
-          "name": "Warp",
-          "x": 328,
-          "y": 633,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-549-637-4990",
-          "name": "Warp",
-          "x": 549,
-          "y": 637,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-549-638-4988",
-          "name": "Warp",
-          "x": 549,
-          "y": 638,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-113-660-1551",
-          "name": "Warp",
-          "x": 113,
-          "y": 660,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-113-661-1552",
-          "name": "Warp",
-          "x": 113,
-          "y": 661,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-113-662-1553",
-          "name": "Warp",
-          "x": 113,
-          "y": 662,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-113-663-1554",
-          "name": "Warp",
-          "x": 113,
-          "y": 663,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-643-676-4999",
-          "name": "Warp",
-          "x": 643,
-          "y": 676,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "100-643-677-5001",
-          "name": "Warp",
-          "x": 643,
-          "y": 677,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -10497,7 +9717,7 @@ export const WORLD = {
         {
           "id": "2000-5",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (107,81) | 入口 4 格 (113,660)-(113,663)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (107,82) | 入口 8 格 (113,660)-(113,663)",
           "to": "2000",
           "x": 113,
           "y": 662,
@@ -10509,7 +9729,7 @@ export const WORLD = {
           ],
           "target": [
             107,
-            81
+            82
           ],
           "tiles": [
             {
@@ -10542,6 +9762,38 @@ export const WORLD = {
               "target": [
                 107,
                 82
+              ]
+            },
+            {
+              "x": 113,
+              "y": 660,
+              "target": [
+                107,
+                82
+              ]
+            },
+            {
+              "x": 113,
+              "y": 661,
+              "target": [
+                107,
+                83
+              ]
+            },
+            {
+              "x": 113,
+              "y": 662,
+              "target": [
+                107,
+                84
+              ]
+            },
+            {
+              "x": 113,
+              "y": 663,
+              "target": [
+                107,
+                85
               ]
             }
           ],
@@ -10939,7 +10191,7 @@ export const WORLD = {
         {
           "id": "10901-15",
           "label": "去 柯尔克的大坑道１楼",
-          "detail": "柯尔克的大坑道１楼 | floor 10901 | 目标 (25,49) | 入口 (237,445)",
+          "detail": "柯尔克的大坑道１楼 | floor 10901 | 目标 (26,49) | 入口 (237,445)",
           "to": "10901",
           "x": 237,
           "y": 445,
@@ -10950,7 +10202,7 @@ export const WORLD = {
             445
           ],
           "target": [
-            25,
+            26,
             49
           ],
           "tiles": [
@@ -10961,6 +10213,14 @@ export const WORLD = {
                 25,
                 49
               ]
+            },
+            {
+              "x": 237,
+              "y": 445,
+              "target": [
+                26,
+                49
+              ]
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
@@ -10968,7 +10228,7 @@ export const WORLD = {
         {
           "id": "11001-16",
           "label": "去 柯奥山的小洞窟１楼",
-          "detail": "柯奥山的小洞窟１楼 | floor 11001 | 目标 (0,43) | 入口 (328,633)",
+          "detail": "柯奥山的小洞窟１楼 | floor 11001 | 目标 (0,44) | 入口 (328,633)",
           "to": "11001",
           "x": 328,
           "y": 633,
@@ -10980,7 +10240,7 @@ export const WORLD = {
           ],
           "target": [
             0,
-            43
+            44
           ],
           "tiles": [
             {
@@ -10989,6 +10249,14 @@ export const WORLD = {
               "target": [
                 0,
                 43
+              ]
+            },
+            {
+              "x": 328,
+              "y": 633,
+              "target": [
+                0,
+                44
               ]
             }
           ],
@@ -11125,34 +10393,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "101-15-21-6541",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "101-16-21-6543",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "100-0",
@@ -12662,32 +11903,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/extra/event/marju05a",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "118-13-8-4995",
-          "name": "Warp",
-          "x": 13,
-          "y": 8,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "118-232-12-4994",
-          "name": "Warp",
-          "x": 232,
-          "y": 12,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -13161,32 +12376,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/signb_119_99_92"
           }
-        },
-        {
-          "id": "119-96-4-4996",
-          "name": "Warp",
-          "x": 96,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "119-103-93-4997",
-          "name": "Warp",
-          "x": 103,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -13321,32 +12510,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_120_19_15",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "120-10-16-4991",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "120-10-17-4989",
-          "name": "Warp",
-          "x": 10,
-          "y": 17,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -13425,32 +12588,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_121_23_15"
           }
-        },
-        {
-          "id": "121-10-16-4998",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "121-10-17-5000",
-          "name": "Warp",
-          "x": 10,
-          "y": 17,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -15428,32 +14565,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/extra/event/marju02",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "122-6-5-4992",
-          "name": "Warp",
-          "x": 6,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "122-289-168-4993",
-          "name": "Warp",
-          "x": 289,
-          "y": 168,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/meiro.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -18471,32 +17582,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_130_57_48",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "130-29-59-4199",
-          "name": "Warp",
-          "x": 29,
-          "y": 59,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "130-30-59-4201",
-          "name": "Warp",
-          "x": 30,
-          "y": 59,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -18779,32 +17864,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/wpm_141_29_47"
           }
-        },
-        {
-          "id": "141-27-1-4200",
-          "name": "Warp",
-          "x": 27,
-          "y": 1,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "141-28-1-4202",
-          "name": "Warp",
-          "x": 28,
-          "y": 1,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -35185,851 +34244,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_200_316_711",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "200-427-92-1790",
-          "name": "Warp",
-          "x": 427,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-480-92-1782",
-          "name": "Warp",
-          "x": 480,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-427-93-1791",
-          "name": "Warp",
-          "x": 427,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-480-93-1783",
-          "name": "Warp",
-          "x": 480,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-427-94-1792",
-          "name": "Warp",
-          "x": 427,
-          "y": 94,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-480-94-1784",
-          "name": "Warp",
-          "x": 480,
-          "y": 94,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-480-95-1785",
-          "name": "Warp",
-          "x": 480,
-          "y": 95,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-470-127-2867",
-          "name": "Warp",
-          "x": 470,
-          "y": 127,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-452-162-2494",
-          "name": "Warp",
-          "x": 452,
-          "y": 162,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-452-163-2496",
-          "name": "Warp",
-          "x": 452,
-          "y": 163,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-588-313-1752",
-          "name": "Warp",
-          "x": 588,
-          "y": 313,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-588-314-1753",
-          "name": "Warp",
-          "x": 588,
-          "y": 314,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-588-315-1754",
-          "name": "Warp",
-          "x": 588,
-          "y": 315,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-588-316-1755",
-          "name": "Warp",
-          "x": 588,
-          "y": 316,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-588-317-1756",
-          "name": "Warp",
-          "x": 588,
-          "y": 317,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-588-318-1757",
-          "name": "Warp",
-          "x": 588,
-          "y": 318,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-350-4274",
-          "name": "Warp",
-          "x": 497,
-          "y": 350,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-351-4275",
-          "name": "Warp",
-          "x": 497,
-          "y": 351,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-352-4276",
-          "name": "Warp",
-          "x": 497,
-          "y": 352,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-353-4277",
-          "name": "Warp",
-          "x": 497,
-          "y": 353,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-354-4278",
-          "name": "Warp",
-          "x": 497,
-          "y": 354,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-355-4279",
-          "name": "Warp",
-          "x": 497,
-          "y": 355,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-356-4280",
-          "name": "Warp",
-          "x": 497,
-          "y": 356,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-357-4281",
-          "name": "Warp",
-          "x": 497,
-          "y": 357,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-497-358-4282",
-          "name": "Warp",
-          "x": 497,
-          "y": 358,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-571-376-1744",
-          "name": "Warp",
-          "x": 571,
-          "y": 376,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-571-377-1745",
-          "name": "Warp",
-          "x": 571,
-          "y": 377,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-571-378-1746",
-          "name": "Warp",
-          "x": 571,
-          "y": 378,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-571-379-1747",
-          "name": "Warp",
-          "x": 571,
-          "y": 379,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-174-402-2328",
-          "name": "Warp",
-          "x": 174,
-          "y": 402,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-98-425-2548",
-          "name": "Warp",
-          "x": 98,
-          "y": 425,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-99-425-2550",
-          "name": "Warp",
-          "x": 99,
-          "y": 425,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-542-491-1778",
-          "name": "Warp",
-          "x": 542,
-          "y": 491,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-543-491-1779",
-          "name": "Warp",
-          "x": 543,
-          "y": 491,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-510-495-1772",
-          "name": "Warp",
-          "x": 510,
-          "y": 495,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-510-496-1773",
-          "name": "Warp",
-          "x": 510,
-          "y": 496,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-510-497-1774",
-          "name": "Warp",
-          "x": 510,
-          "y": 497,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-274-532-4308",
-          "name": "Warp",
-          "x": 274,
-          "y": 532,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-274-533-4309",
-          "name": "Warp",
-          "x": 274,
-          "y": 533,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-432-536-2616",
-          "name": "Warp",
-          "x": 432,
-          "y": 536,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-432-536-2618",
-          "name": "Warp",
-          "x": 432,
-          "y": 536,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-421-577-2510",
-          "name": "Warp",
-          "x": 421,
-          "y": 577,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-421-578-2512",
-          "name": "Warp",
-          "x": 421,
-          "y": 578,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-303-599-1764",
-          "name": "Warp",
-          "x": 303,
-          "y": 599,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-303-600-1765",
-          "name": "Warp",
-          "x": 303,
-          "y": 600,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-300-640-1768",
-          "name": "Warp",
-          "x": 300,
-          "y": 640,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-300-641-1769",
-          "name": "Warp",
-          "x": 300,
-          "y": 641,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-501-647-2514",
-          "name": "Warp",
-          "x": 501,
-          "y": 647,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-502-647-2516",
-          "name": "Warp",
-          "x": 502,
-          "y": 647,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-328-660-6706",
-          "name": "Warp",
-          "x": 328,
-          "y": 660,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-328-661-6708",
-          "name": "Warp",
-          "x": 328,
-          "y": 661,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-433-742-1856",
-          "name": "Warp",
-          "x": 433,
-          "y": 742,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/20801d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-548-745-1800",
-          "name": "Warp",
-          "x": 548,
-          "y": 745,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-548-746-1801",
-          "name": "Warp",
-          "x": 548,
-          "y": 746,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-518-766-1796",
-          "name": "Warp",
-          "x": 518,
-          "y": 766,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-518-767-1797",
-          "name": "Warp",
-          "x": 518,
-          "y": 767,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-396-821-2566",
-          "name": "Warp",
-          "x": 396,
-          "y": 821,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-285-926-2597",
-          "name": "Warp",
-          "x": 285,
-          "y": 926,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-285-926-2599",
-          "name": "Warp",
-          "x": 285,
-          "y": 926,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-229-988-5566",
-          "name": "Warp",
-          "x": 229,
-          "y": 988,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/ruri.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-229-988-5568",
-          "name": "Warp",
-          "x": 229,
-          "y": 988,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/ruri.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-139-1008-1804",
-          "name": "Warp",
-          "x": 139,
-          "y": 1008,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-140-1008-1805",
-          "name": "Warp",
-          "x": 140,
-          "y": 1008,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-125-1047-1808",
-          "name": "Warp",
-          "x": 125,
-          "y": 1047,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "200-125-1048-1809",
-          "name": "Warp",
-          "x": 125,
-          "y": 1048,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -36941,7 +35155,7 @@ export const WORLD = {
         {
           "id": "20601-21",
           "label": "去 强恩一族的洞窟１楼",
-          "detail": "强恩一族的洞窟１楼 | floor 20601 | 目标 (9,59) | 入口 (285,926)",
+          "detail": "强恩一族的洞窟１楼 | floor 20601 | 目标 (10,59) | 入口 (285,926)",
           "to": "20601",
           "x": 285,
           "y": 926,
@@ -36952,7 +35166,7 @@ export const WORLD = {
             926
           ],
           "target": [
-            9,
+            10,
             59
           ],
           "tiles": [
@@ -36963,6 +35177,14 @@ export const WORLD = {
                 9,
                 59
               ]
+            },
+            {
+              "x": 285,
+              "y": 926,
+              "target": [
+                10,
+                59
+              ]
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
@@ -36970,7 +35192,7 @@ export const WORLD = {
         {
           "id": "20701-22",
           "label": "去 拉多拉的大洞窟１楼",
-          "detail": "拉多拉的大洞窟１楼 | floor 20701 | 目标 (0,23) | 入口 (432,536)",
+          "detail": "拉多拉的大洞窟１楼 | floor 20701 | 目标 (0,24) | 入口 (432,536)",
           "to": "20701",
           "x": 432,
           "y": 536,
@@ -36982,7 +35204,7 @@ export const WORLD = {
           ],
           "target": [
             0,
-            23
+            24
           ],
           "tiles": [
             {
@@ -36992,6 +35214,14 @@ export const WORLD = {
                 0,
                 23
               ]
+            },
+            {
+              "x": 432,
+              "y": 536,
+              "target": [
+                0,
+                24
+              ]
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
@@ -36999,7 +35229,7 @@ export const WORLD = {
         {
           "id": "3413-23",
           "label": "去 森林的独栋房屋",
-          "detail": "森林的独栋房屋 | floor 3413 | 目标 (10,15) | 入口 (229,988)",
+          "detail": "森林的独栋房屋 | floor 3413 | 目标 (10,16) | 入口 (229,988)",
           "to": "3413",
           "x": 229,
           "y": 988,
@@ -37011,7 +35241,7 @@ export const WORLD = {
           ],
           "target": [
             10,
-            15
+            16
           ],
           "tiles": [
             {
@@ -37020,6 +35250,14 @@ export const WORLD = {
               "target": [
                 10,
                 15
+              ]
+            },
+            {
+              "x": 229,
+              "y": 988,
+              "target": [
+                10,
+                16
               ]
             }
           ],
@@ -39273,32 +37511,6 @@ export const WORLD = {
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "100250"
-        },
-        {
-          "id": "201-6-19-6707",
-          "name": "Warp",
-          "x": 6,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "201-6-20-6709",
-          "name": "Warp",
-          "x": 6,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -42811,630 +41023,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_300_103_228",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "300-239-98-2829",
-          "name": "Warp",
-          "x": 239,
-          "y": 98,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-239-98-2831",
-          "name": "Warp",
-          "x": 239,
-          "y": 98,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-272-134-6254",
-          "name": "Warp",
-          "x": 272,
-          "y": 134,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-275-149-6275",
-          "name": "Warp",
-          "x": 275,
-          "y": 149,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-510-151-6177",
-          "name": "Warp",
-          "x": 510,
-          "y": 151,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-510-152-6178",
-          "name": "Warp",
-          "x": 510,
-          "y": 152,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-510-153-6179",
-          "name": "Warp",
-          "x": 510,
-          "y": 153,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-182-162-6274",
-          "name": "Warp",
-          "x": 182,
-          "y": 162,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-498-167-6183",
-          "name": "Warp",
-          "x": 498,
-          "y": 167,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-499-167-6184",
-          "name": "Warp",
-          "x": 499,
-          "y": 167,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-500-167-6185",
-          "name": "Warp",
-          "x": 500,
-          "y": 167,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-122-170-6327",
-          "name": "Warp",
-          "x": 122,
-          "y": 170,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-289-174-6282",
-          "name": "Warp",
-          "x": 289,
-          "y": 174,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-398-183-6243",
-          "name": "Warp",
-          "x": 398,
-          "y": 183,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-343-191-2797",
-          "name": "Warp",
-          "x": 343,
-          "y": 191,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-343-191-2799",
-          "name": "Warp",
-          "x": 343,
-          "y": 191,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-483-196-2850",
-          "name": "Warp",
-          "x": 483,
-          "y": 196,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-483-196-2852",
-          "name": "Warp",
-          "x": 483,
-          "y": 196,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-431-197-6241",
-          "name": "Warp",
-          "x": 431,
-          "y": 197,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-157-209-6334",
-          "name": "Warp",
-          "x": 157,
-          "y": 209,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-247-222-6255",
-          "name": "Warp",
-          "x": 247,
-          "y": 222,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-452-223-6233",
-          "name": "Warp",
-          "x": 452,
-          "y": 223,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-104-228-6068",
-          "name": "Warp",
-          "x": 104,
-          "y": 228,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/sikkoku.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-393-245-6214",
-          "name": "Warp",
-          "x": 393,
-          "y": 245,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-434-250-6231",
-          "name": "Warp",
-          "x": 434,
-          "y": 250,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-295-259-6283",
-          "name": "Warp",
-          "x": 295,
-          "y": 259,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-467-268-6237",
-          "name": "Warp",
-          "x": 467,
-          "y": 268,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-232-271-2811",
-          "name": "Warp",
-          "x": 232,
-          "y": 271,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-232-271-2813",
-          "name": "Warp",
-          "x": 232,
-          "y": 271,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-266-284-4551",
-          "name": "Warp",
-          "x": 266,
-          "y": 284,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/kingwarp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-266-287-6320",
-          "name": "Warp",
-          "x": 266,
-          "y": 287,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-266-294-6315",
-          "name": "Warp",
-          "x": 266,
-          "y": 294,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-267-294-6317",
-          "name": "Warp",
-          "x": 267,
-          "y": 294,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-383-299-6307",
-          "name": "Warp",
-          "x": 383,
-          "y": 299,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-388-337-6314",
-          "name": "Warp",
-          "x": 388,
-          "y": 337,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-448-405-2771",
-          "name": "Warp",
-          "x": 448,
-          "y": 405,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-448-405-2773",
-          "name": "Warp",
-          "x": 448,
-          "y": 405,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-263-416-6165",
-          "name": "Warp",
-          "x": 263,
-          "y": 416,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-263-417-6166",
-          "name": "Warp",
-          "x": 263,
-          "y": 417,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-263-418-6167",
-          "name": "Warp",
-          "x": 263,
-          "y": 418,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-234-427-6171",
-          "name": "Warp",
-          "x": 234,
-          "y": 427,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-234-428-6172",
-          "name": "Warp",
-          "x": 234,
-          "y": 428,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-234-429-6173",
-          "name": "Warp",
-          "x": 234,
-          "y": 429,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_g1_mura.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-383-432-2761",
-          "name": "Warp",
-          "x": 383,
-          "y": 432,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-383-432-2763",
-          "name": "Warp",
-          "x": 383,
-          "y": 432,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-444-494-2781",
-          "name": "Warp",
-          "x": 444,
-          "y": 494,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-444-494-2783",
-          "name": "Warp",
-          "x": 444,
-          "y": 494,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "300-444-494-2796",
-          "name": "Warp",
-          "x": 444,
-          "y": 494,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon02.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -44197,162 +41785,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/sa70/wizsk3"
           }
-        },
-        {
-          "id": "400-66-45-1998",
-          "name": "Warp",
-          "x": 66,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-67-45-1999",
-          "name": "Warp",
-          "x": 67,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-79-78-1992",
-          "name": "Warp",
-          "x": 79,
-          "y": 78,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-79-79-1993",
-          "name": "Warp",
-          "x": 79,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-79-80-1994",
-          "name": "Warp",
-          "x": 79,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-33-98-1988",
-          "name": "Warp",
-          "x": 33,
-          "y": 98,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-34-98-1989",
-          "name": "Warp",
-          "x": 34,
-          "y": 98,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/400warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-87-101-5066",
-          "name": "Warp",
-          "x": 87,
-          "y": 101,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/mugendungeon2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-96-119-5014",
-          "name": "Warp",
-          "x": 96,
-          "y": 119,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/mugendungeon.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-97-119-5009",
-          "name": "Warp",
-          "x": 97,
-          "y": 119,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/mugendungeon.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-98-119-5011",
-          "name": "Warp",
-          "x": 98,
-          "y": 119,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/mugendungeon.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "400-97-120-5012",
-          "name": "Warp",
-          "x": 97,
-          "y": 120,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/mugendungeon.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -44405,34 +41837,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "601-4-13-3910",
-          "name": "Warp",
-          "x": 4,
-          "y": 13,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden3.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "601-4-14-3911",
-          "name": "Warp",
-          "x": 4,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden3.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "100-0",
@@ -44675,71 +42080,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_811_30_20",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "811-29-13-5317",
-          "name": "Warp",
-          "x": 29,
-          "y": 13,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "811-30-13-5319",
-          "name": "Warp",
-          "x": 30,
-          "y": 13,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "811-28-29-5292",
-          "name": "Warp",
-          "x": 28,
-          "y": 29,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "811-29-29-5296",
-          "name": "Warp",
-          "x": 29,
-          "y": 29,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "811-30-29-5294",
-          "name": "Warp",
-          "x": 30,
-          "y": 29,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -54161,109 +51501,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa70/treasure/treasure6.arg",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "817-13-117-7066",
-          "name": "Warp",
-          "x": 13,
-          "y": 117,
-          "type": "Warp",
-          "dialogue": "脚本入口：gmsv-data/npc/my/beike/warp.arg",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/my/beike/beike.create",
-          "script": "file:my/beike/warp.arg",
-          "template": "npcgen_warp",
-          "graphic": "",
-          "warp": {
-            "kind": "warpman",
-            "target": {
-              "mapId": "8113",
-              "floor": 8113,
-              "x": 19,
-              "y": 77
-            },
-            "free": "LV>0",
-            "money": "",
-            "cost": null,
-            "deleteItems": [],
-            "freeMessage": "",
-            "payMessage": "",
-            "normalMessage": "",
-            "moneyMessage": "",
-            "partyMessage": "",
-            "warpMessage": "",
-            "source": "gmsv-data/npc/my/beike/warp.arg"
-          },
-          "scriptHints": {
-            "actions": [
-              "warp",
-              "questLead"
-            ],
-            "hints": [
-              "FREE:LV>90&ENDEV=4&ENDEV=81&ENDEV=184",
-              "FREE:LV>0"
-            ],
-            "source": "gmsv-data/npc/my/beike/warp.arg"
-          },
-          "questLead": {
-            "title": "Warp 的原脚本线索",
-            "summary": "FREE:LV>90&ENDEV=4&ENDEV=81&ENDEV=184",
-            "source": "gmsv-data/npc/my/beike/warp.arg",
-            "status": "source-lead"
-          }
-        },
-        {
-          "id": "817-189-513-7449",
-          "name": "Warp",
-          "x": 189,
-          "y": 513,
-          "type": "Warp",
-          "dialogue": "脚本入口：gmsv-data/npc/sa60/tear/warptear.arg",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/sa60/tear/tear.create",
-          "script": "file:sa60/tear/warptear.arg",
-          "template": "npcgen_warp",
-          "graphic": "",
-          "warp": {
-            "kind": "warpman",
-            "target": {
-              "mapId": "8015",
-              "floor": 8015,
-              "x": 0,
-              "y": 11
-            },
-            "free": "LV>0",
-            "money": "",
-            "cost": null,
-            "deleteItems": [],
-            "freeMessage": "",
-            "payMessage": "",
-            "normalMessage": "",
-            "moneyMessage": "",
-            "partyMessage": "",
-            "warpMessage": "",
-            "source": "gmsv-data/npc/sa60/tear/warptear.arg"
-          },
-          "scriptHints": {
-            "actions": [
-              "warp",
-              "questLead"
-            ],
-            "hints": [
-              "FREE:LV>0&ENDEV=4&ENDEV=136",
-              "FREE:LV>0&ENDEV=4&NOWEV=136&ITEM=1677",
-              "FREE:LV>0&ENDEV=4&NOWEV=136&ITEM=1679",
-              "FREE:LV>0&ENDEV=4&NOWEV=136&ITEM=1678",
-              "FREE:LV>0"
-            ],
-            "source": "gmsv-data/npc/sa60/tear/warptear.arg"
-          },
-          "questLead": {
-            "title": "Warp 的原脚本线索",
-            "summary": "FREE:LV>0&ENDEV=4&ENDEV=136",
-            "source": "gmsv-data/npc/sa60/tear/warptear.arg",
-            "status": "source-lead"
-          }
         }
       ],
       "exits": [
@@ -55026,71 +52263,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_851_29_20",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "851-29-13-5446",
-          "name": "Warp",
-          "x": 29,
-          "y": 13,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "851-30-13-5448",
-          "name": "Warp",
-          "x": 30,
-          "y": 13,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "851-28-29-5441",
-          "name": "Warp",
-          "x": 28,
-          "y": 29,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "851-29-29-5445",
-          "name": "Warp",
-          "x": 29,
-          "y": 29,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "851-30-29-5443",
-          "name": "Warp",
-          "x": 30,
-          "y": 29,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -59482,422 +56654,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_1000_56_59",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1000-112-37-6381",
-          "name": "Warp",
-          "x": 112,
-          "y": 37,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-113-37-6383",
-          "name": "Warp",
-          "x": 113,
-          "y": 37,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-98-44-6357",
-          "name": "Warp",
-          "x": 98,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-98-45-6359",
-          "name": "Warp",
-          "x": 98,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-80-66-6355",
-          "name": "Warp",
-          "x": 80,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-81-66-6353",
-          "name": "Warp",
-          "x": 81,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-68-72-6347",
-          "name": "Warp",
-          "x": 68,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-69-72-6345",
-          "name": "Warp",
-          "x": 69,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-53-81-6351",
-          "name": "Warp",
-          "x": 53,
-          "y": 81,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-54-81-6349",
-          "name": "Warp",
-          "x": 54,
-          "y": 81,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-106-91-6361",
-          "name": "Warp",
-          "x": 106,
-          "y": 91,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-106-92-6363",
-          "name": "Warp",
-          "x": 106,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-63-98-6339",
-          "name": "Warp",
-          "x": 63,
-          "y": 98,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-63-99-6335",
-          "name": "Warp",
-          "x": 63,
-          "y": 99,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-63-100-6337",
-          "name": "Warp",
-          "x": 63,
-          "y": 100,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-67-107-6344",
-          "name": "Warp",
-          "x": 67,
-          "y": 107,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-67-108-6340",
-          "name": "Warp",
-          "x": 67,
-          "y": 108,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-67-109-6342",
-          "name": "Warp",
-          "x": 67,
-          "y": 109,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-97-110-6367",
-          "name": "Warp",
-          "x": 97,
-          "y": 110,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-97-111-6369",
-          "name": "Warp",
-          "x": 97,
-          "y": 111,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-79-112-7196",
-          "name": "Warp",
-          "x": 79,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/poru/dragon_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-117-112-1538",
-          "name": "Warp",
-          "x": 117,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-118-112-1539",
-          "name": "Warp",
-          "x": 118,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-119-112-1540",
-          "name": "Warp",
-          "x": 119,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-120-112-1541",
-          "name": "Warp",
-          "x": 120,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-121-112-1542",
-          "name": "Warp",
-          "x": 121,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-49-116-1529",
-          "name": "Warp",
-          "x": 49,
-          "y": 116,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-49-117-1530",
-          "name": "Warp",
-          "x": 49,
-          "y": 117,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-63-117-6375",
-          "name": "Warp",
-          "x": 63,
-          "y": 117,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-49-118-1531",
-          "name": "Warp",
-          "x": 49,
-          "y": 118,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-63-118-6378",
-          "name": "Warp",
-          "x": 63,
-          "y": 118,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1000-49-119-1532",
-          "name": "Warp",
-          "x": 49,
-          "y": 119,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -61027,32 +57783,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/sainasu/bukiya01.conf"
           }
-        },
-        {
-          "id": "1001-10-15-6336",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1001-10-16-6338",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -61352,32 +58082,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1002_18_15"
           }
-        },
-        {
-          "id": "1002-10-15-6341",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1002-10-16-6343",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -61630,32 +58334,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1003_16_13"
           }
-        },
-        {
-          "id": "1003-15-21-6348",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1003-16-21-6346",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -61823,32 +58501,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1004_17_13"
           }
-        },
-        {
-          "id": "1004-15-21-6352",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1004-16-21-6350",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -62240,32 +58892,6 @@ export const WORLD = {
           "script": "npcgen_charm",
           "template": "npcgen_charm",
           "graphic": "16065"
-        },
-        {
-          "id": "1005-15-21-6356",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1005-16-21-6354",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -62507,32 +59133,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "1006-10-20-6358",
-          "name": "Warp",
-          "x": 10,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1006-10-21-6360",
-          "name": "Warp",
-          "x": 10,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -62593,34 +59193,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "1007-48-62-6365",
-          "name": "Warp",
-          "x": 48,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1007-49-62-6366",
-          "name": "Warp",
-          "x": 49,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "1000-0",
@@ -62987,32 +59560,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1008_28_21"
           }
-        },
-        {
-          "id": "1008-12-20-6370",
-          "name": "Warp",
-          "x": 12,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1008-12-21-6371",
-          "name": "Warp",
-          "x": 12,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -66251,32 +62798,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/extra/event/M_1000",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1009-10-25-6362",
-          "name": "Warp",
-          "x": 10,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1009-10-26-6364",
-          "name": "Warp",
-          "x": 10,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -66837,32 +63358,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1011-10-15-6376",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1011-10-16-6377",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -67175,32 +63670,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_1012_14_13",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1012-15-21-6382",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1012-16-21-6384",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -67626,32 +64095,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/poru/girl",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1013-10-15-7194",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/poru/dragon_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1013-10-16-7195",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/poru/dragon_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -68218,32 +64661,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/newbie/worksell_1014.conf",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1014-10-15-6380",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1014-10-16-6379",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -68376,19 +64793,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_1020_18_12",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1020-4-12-6368",
-          "name": "Warp",
-          "x": 4,
-          "y": 12,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -74041,266 +70445,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/doujyou/samdou001.arg"
           }
-        },
-        {
-          "id": "1021-10-18-723",
-          "name": "跳跃点",
-          "x": 10,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-54-18-693",
-          "name": "跳跃点",
-          "x": 54,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-98-18-663",
-          "name": "跳跃点",
-          "x": 98,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-142-18-633",
-          "name": "跳跃点",
-          "x": 142,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-186-18-603",
-          "name": "跳跃点",
-          "x": 186,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-230-18-573",
-          "name": "跳跃点",
-          "x": 230,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-274-18-543",
-          "name": "跳跃点",
-          "x": 274,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-318-18-513",
-          "name": "跳跃点",
-          "x": 318,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-362-18-483",
-          "name": "跳跃点",
-          "x": 362,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-406-18-453",
-          "name": "跳跃点",
-          "x": 406,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-10-19-724",
-          "name": "跳跃点",
-          "x": 10,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-54-19-694",
-          "name": "跳跃点",
-          "x": 54,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-98-19-664",
-          "name": "跳跃点",
-          "x": 98,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-142-19-634",
-          "name": "跳跃点",
-          "x": 142,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-186-19-604",
-          "name": "跳跃点",
-          "x": 186,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-230-19-574",
-          "name": "跳跃点",
-          "x": 230,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-274-19-544",
-          "name": "跳跃点",
-          "x": 274,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-318-19-514",
-          "name": "跳跃点",
-          "x": 318,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-362-19-484",
-          "name": "跳跃点",
-          "x": 362,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "1021-406-19-454",
-          "name": "跳跃点",
-          "x": 406,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/samdou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
         }
       ],
       "exits": [
@@ -78264,45 +74408,6 @@ export const WORLD = {
           "script": "npcgen_healer",
           "template": "npcgen_healer",
           "graphic": "16012"
-        },
-        {
-          "id": "1022-6-14-6372",
-          "name": "Warp",
-          "x": 6,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1022-7-14-6373",
-          "name": "Warp",
-          "x": 7,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1022-8-14-6374",
-          "name": "Warp",
-          "x": 8,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -79457,123 +75562,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm1_3",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1040-59-25-4226",
-          "name": "Warp",
-          "x": 59,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-60-25-4228",
-          "name": "Warp",
-          "x": 60,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-23-41-4219",
-          "name": "Warp",
-          "x": 23,
-          "y": 41,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-23-42-4220",
-          "name": "Warp",
-          "x": 23,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-23-43-4221",
-          "name": "Warp",
-          "x": 23,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-23-44-4222",
-          "name": "Warp",
-          "x": 23,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-23-45-4223",
-          "name": "Warp",
-          "x": 23,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-51-56-4238",
-          "name": "Warp",
-          "x": 51,
-          "y": 56,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1040-51-57-4240",
-          "name": "Warp",
-          "x": 51,
-          "y": 57,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -79807,32 +75795,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "1041-0-10-4224",
-          "name": "Warp",
-          "x": 0,
-          "y": 10,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1041-0-11-4225",
-          "name": "Warp",
-          "x": 0,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -80077,32 +76039,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_1043_4_3",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1043-4-11-4227",
-          "name": "Warp",
-          "x": 4,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1043-5-11-4229",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -80163,34 +76099,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "1044-15-31-4230",
-          "name": "Warp",
-          "x": 15,
-          "y": 31,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1044-16-31-4231",
-          "name": "Warp",
-          "x": 16,
-          "y": 31,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "1043-0",
@@ -80306,32 +76215,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_4"
           }
-        },
-        {
-          "id": "1045-5-11-4232",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1045-6-11-4233",
-          "name": "Warp",
-          "x": 6,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -80584,32 +76467,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_1"
           }
-        },
-        {
-          "id": "1046-4-11-4234",
-          "name": "Warp",
-          "x": 4,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1046-5-11-4235",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -80802,32 +76659,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_3"
           }
-        },
-        {
-          "id": "1047-0-6-4236",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1047-0-7-4237",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -80960,32 +76791,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_2"
           }
-        },
-        {
-          "id": "1048-0-6-4239",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1048-0-7-4241",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -82662,253 +78467,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1100_56_111"
           }
-        },
-        {
-          "id": "1100-63-34-1564",
-          "name": "Warp",
-          "x": 63,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-64-34-1565",
-          "name": "Warp",
-          "x": 64,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-65-34-1566",
-          "name": "Warp",
-          "x": 65,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-66-34-1567",
-          "name": "Warp",
-          "x": 66,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-67-34-1568",
-          "name": "Warp",
-          "x": 67,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-96-62-2320",
-          "name": "Warp",
-          "x": 96,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-52-72-6385",
-          "name": "Warp",
-          "x": 52,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-68-77-6390",
-          "name": "Warp",
-          "x": 68,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-69-77-6388",
-          "name": "Warp",
-          "x": 69,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-88-79-6402",
-          "name": "Warp",
-          "x": 88,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-88-80-6400",
-          "name": "Warp",
-          "x": 88,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-54-93-6406",
-          "name": "Warp",
-          "x": 54,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-55-93-6404",
-          "name": "Warp",
-          "x": 55,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-68-97-6396",
-          "name": "Warp",
-          "x": 68,
-          "y": 97,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-69-97-6398",
-          "name": "Warp",
-          "x": 69,
-          "y": 97,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-61-109-6392",
-          "name": "Warp",
-          "x": 61,
-          "y": 109,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-62-109-6394",
-          "name": "Warp",
-          "x": 62,
-          "y": 109,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-82-112-6408",
-          "name": "Warp",
-          "x": 82,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1100-82-113-6410",
-          "name": "Warp",
-          "x": 82,
-          "y": 113,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -83787,32 +79345,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1101_12_18"
           }
-        },
-        {
-          "id": "1101-15-21-6386",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1101-16-21-6387",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -84359,32 +79891,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1102_18_16"
           }
-        },
-        {
-          "id": "1102-15-21-6391",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1102-16-21-6389",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -84513,32 +80019,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100256"
-        },
-        {
-          "id": "1103-15-21-6393",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1103-16-21-6395",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -84886,32 +80366,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/lbis_1104_17_13"
           }
-        },
-        {
-          "id": "1104-15-21-6397",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1104-16-21-6399",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -85230,32 +80684,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1105_13_14"
           }
-        },
-        {
-          "id": "1105-10-15-6403",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1105-10-16-6401",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -85334,32 +80762,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1106_20_14"
           }
-        },
-        {
-          "id": "1106-20-21-6407",
-          "name": "Warp",
-          "x": 20,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1106-21-21-6405",
-          "name": "Warp",
-          "x": 21,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -85621,32 +81023,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sainasu/event/event13_1",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1112-10-15-6409",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1112-10-16-6411",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -86358,240 +81734,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1200_77_114"
           }
-        },
-        {
-          "id": "1200-49-26-2319",
-          "name": "Warp",
-          "x": 49,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-39-34-6515",
-          "name": "Warp",
-          "x": 39,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-40-34-6517",
-          "name": "Warp",
-          "x": 40,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-33-39-6519",
-          "name": "Warp",
-          "x": 33,
-          "y": 39,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-34-39-6521",
-          "name": "Warp",
-          "x": 34,
-          "y": 39,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-61-50-6523",
-          "name": "Warp",
-          "x": 61,
-          "y": 50,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-61-51-6525",
-          "name": "Warp",
-          "x": 61,
-          "y": 51,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-51-72-6507",
-          "name": "Warp",
-          "x": 51,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-52-72-6509",
-          "name": "Warp",
-          "x": 52,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-68-77-6511",
-          "name": "Warp",
-          "x": 68,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-69-77-6513",
-          "name": "Warp",
-          "x": 69,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-54-92-6527",
-          "name": "Warp",
-          "x": 54,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-55-92-6529",
-          "name": "Warp",
-          "x": 55,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-56-92-6531",
-          "name": "Warp",
-          "x": 56,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-87-103-6536",
-          "name": "Warp",
-          "x": 87,
-          "y": 103,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-87-104-6538",
-          "name": "Warp",
-          "x": 87,
-          "y": 104,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-82-112-6532",
-          "name": "Warp",
-          "x": 82,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1200-82-113-6534",
-          "name": "Warp",
-          "x": 82,
-          "y": 113,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -86931,7 +82073,7 @@ export const WORLD = {
         {
           "id": "1209-9",
           "label": "去 柯尔克的便利商店",
-          "detail": "柯尔克的便利商店 | floor 1209 | 目标 (11,26) | 入口 (91,67)",
+          "detail": "柯尔克的便利商店 | floor 1209 | 目标 (21,31) | 入口 (91,67)",
           "to": "1209",
           "x": 91,
           "y": 67,
@@ -86942,8 +82084,8 @@ export const WORLD = {
             67
           ],
           "target": [
-            11,
-            26
+            21,
+            31
           ],
           "tiles": [
             {
@@ -86952,6 +82094,14 @@ export const WORLD = {
               "target": [
                 11,
                 26
+              ]
+            },
+            {
+              "x": 91,
+              "y": 67,
+              "target": [
+                30,
+                35
               ]
             }
           ],
@@ -87528,32 +82678,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1201_17_13"
           }
-        },
-        {
-          "id": "1201-15-21-6508",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1201-16-21-6510",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -87751,32 +82875,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1202_15_13"
           }
-        },
-        {
-          "id": "1202-15-21-6512",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1202-16-21-6514",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -87918,32 +83016,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100267"
-        },
-        {
-          "id": "1203-15-21-6516",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1203-16-21-6518",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -88291,32 +83363,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/lbis_1204_18_15"
           }
-        },
-        {
-          "id": "1204-15-21-6520",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1204-16-21-6522",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -88617,32 +83663,6 @@ export const WORLD = {
           "script": "npcgen_winhealer",
           "template": "npcgen_winhealer",
           "graphic": "16012"
-        },
-        {
-          "id": "1205-10-15-6524",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1205-10-16-6526",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -88721,32 +83741,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1206_23_16"
           }
-        },
-        {
-          "id": "1206-20-21-6528",
-          "name": "Warp",
-          "x": 20,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1206-21-21-6530",
-          "name": "Warp",
-          "x": 21,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -88833,7 +83827,7 @@ export const WORLD = {
         {
           "id": "1200-0",
           "label": "去 柯尔克村",
-          "detail": "柯尔克村 | floor 1200 | 目标 (88,67) | 入口 2 格 (10,25)-(10,26)",
+          "detail": "柯尔克村 | floor 1200 | 目标 (86,67) | 入口 3 格 (10,25)-(10,26)",
           "to": "1200",
           "x": 10,
           "y": 26,
@@ -88844,7 +83838,7 @@ export const WORLD = {
             26
           ],
           "target": [
-            88,
+            86,
             67
           ],
           "tiles": [
@@ -88862,6 +83856,14 @@ export const WORLD = {
               "target": [
                 84,
                 67
+              ]
+            },
+            {
+              "x": 10,
+              "y": 26,
+              "target": [
+                84,
+                68
               ]
             }
           ],
@@ -89041,32 +84043,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1210_16_13"
           }
-        },
-        {
-          "id": "1210-10-15-6533",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1210-10-16-6535",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -89555,32 +84531,6 @@ export const WORLD = {
           "script": "npcgen_man",
           "template": "npcgen_man",
           "graphic": "100259"
-        },
-        {
-          "id": "1212-10-15-6537",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1212-10-16-6539",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -91221,305 +86171,6 @@ export const WORLD = {
           "script": "file:genout/msg_1300_40_71",
           "template": "npcgen_man",
           "graphic": "16033"
-        },
-        {
-          "id": "1300-52-26-6434",
-          "name": "Warp",
-          "x": 52,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-53-26-6432",
-          "name": "Warp",
-          "x": 53,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-54-26-6436",
-          "name": "Warp",
-          "x": 54,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-33-42-6418",
-          "name": "Warp",
-          "x": 33,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-34-42-6416",
-          "name": "Warp",
-          "x": 34,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-66-42-6424",
-          "name": "Warp",
-          "x": 66,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-67-42-6426",
-          "name": "Warp",
-          "x": 67,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-43-6420",
-          "name": "Warp",
-          "x": 23,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-24-43-6422",
-          "name": "Warp",
-          "x": 24,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-43-43-6412",
-          "name": "Warp",
-          "x": 43,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-44-43-6414",
-          "name": "Warp",
-          "x": 44,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-68-44-6438",
-          "name": "Warp",
-          "x": 68,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-68-45-6440",
-          "name": "Warp",
-          "x": 68,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-54-49-6430",
-          "name": "Warp",
-          "x": 54,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-54-50-6428",
-          "name": "Warp",
-          "x": 54,
-          "y": 50,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-59-1577",
-          "name": "Warp",
-          "x": 23,
-          "y": 59,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-60-1578",
-          "name": "Warp",
-          "x": 23,
-          "y": 60,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-61-1579",
-          "name": "Warp",
-          "x": 23,
-          "y": 61,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-62-1580",
-          "name": "Warp",
-          "x": 23,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-63-1581",
-          "name": "Warp",
-          "x": 23,
-          "y": 63,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-64-1582",
-          "name": "Warp",
-          "x": 23,
-          "y": 64,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-65-1583",
-          "name": "Warp",
-          "x": 23,
-          "y": 65,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1300-23-66-1584",
-          "name": "Warp",
-          "x": 23,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -92409,32 +87060,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1301_19_17"
           }
-        },
-        {
-          "id": "1301-15-21-6413",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1301-16-21-6415",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -93268,32 +87893,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1302_14_15"
           }
-        },
-        {
-          "id": "1302-15-21-6419",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1302-16-21-6417",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -93492,32 +88091,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100367"
-        },
-        {
-          "id": "1303-15-21-6421",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1303-16-21-6423",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -93865,32 +88438,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/lbis_1304_18_16"
           }
-        },
-        {
-          "id": "1304-15-21-6425",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1304-16-21-6427",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -94209,32 +88756,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1305_14_12"
           }
-        },
-        {
-          "id": "1305-10-15-6431",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1305-10-16-6429",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -94353,52 +88874,13 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10063"
-        },
-        {
-          "id": "1306-20-21-6435",
-          "name": "Warp",
-          "x": 20,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1306-21-21-6433",
-          "name": "Warp",
-          "x": 21,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1306-21-21-6437",
-          "name": "Warp",
-          "x": 21,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "1300-0",
           "label": "去 霍特尔村",
-          "detail": "霍特尔村 | floor 1300 | 目标 (53,26) | 入口 2 格 (20,21)-(21,21)",
+          "detail": "霍特尔村 | floor 1300 | 目标 (53,26) | 入口 3 格 (20,21)-(21,21)",
           "to": "1300",
           "x": 21,
           "y": 21,
@@ -94426,6 +88908,14 @@ export const WORLD = {
               "y": 21,
               "target": [
                 52,
+                26
+              ]
+            },
+            {
+              "x": 21,
+              "y": 21,
+              "target": [
+                54,
                 26
               ]
             }
@@ -94760,32 +89250,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1310_18_15"
           }
-        },
-        {
-          "id": "1310-10-15-6439",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1310-10-16-6441",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -96453,214 +90917,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_1400_100_97",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "1400-89-76-6458",
-          "name": "Warp",
-          "x": 89,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-90-76-6460",
-          "name": "Warp",
-          "x": 90,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-81-83-6442",
-          "name": "Warp",
-          "x": 81,
-          "y": 83,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-82-83-6444",
-          "name": "Warp",
-          "x": 82,
-          "y": 83,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-87-84-6466",
-          "name": "Warp",
-          "x": 87,
-          "y": 84,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-87-85-6462",
-          "name": "Warp",
-          "x": 87,
-          "y": 85,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-88-85-6464",
-          "name": "Warp",
-          "x": 88,
-          "y": 85,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-74-89-6454",
-          "name": "Warp",
-          "x": 74,
-          "y": 89,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-75-89-6456",
-          "name": "Warp",
-          "x": 75,
-          "y": 89,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-90-90-6446",
-          "name": "Warp",
-          "x": 90,
-          "y": 90,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-90-91-6448",
-          "name": "Warp",
-          "x": 90,
-          "y": 91,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-84-97-6450",
-          "name": "Warp",
-          "x": 84,
-          "y": 97,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-84-98-6452",
-          "name": "Warp",
-          "x": 84,
-          "y": 98,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-70-116-1588",
-          "name": "Warp",
-          "x": 70,
-          "y": 116,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-71-116-1589",
-          "name": "Warp",
-          "x": 71,
-          "y": 116,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1400-72-116-1590",
-          "name": "Warp",
-          "x": 72,
-          "y": 116,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -97473,32 +91729,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1401_19_17"
           }
-        },
-        {
-          "id": "1401-15-21-6443",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1401-16-21-6445",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -98270,32 +92500,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1402_19_15"
           }
-        },
-        {
-          "id": "1402-10-15-6447",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1402-10-16-6449",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -98424,32 +92628,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100250"
-        },
-        {
-          "id": "1403-10-15-6451",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1403-10-16-6453",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -98797,32 +92975,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/lbis_1404_16_13"
           }
-        },
-        {
-          "id": "1404-15-21-6455",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1404-16-21-6457",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -99141,32 +93293,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_1405_22_18"
           }
-        },
-        {
-          "id": "1405-15-21-6459",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1405-16-21-6461",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -99285,45 +93411,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "1406-11-24-6467",
-          "name": "Warp",
-          "x": 11,
-          "y": 24,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1406-11-25-6463",
-          "name": "Warp",
-          "x": 11,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "1406-12-25-6465",
-          "name": "Warp",
-          "x": 12,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -105261,357 +99348,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_2000_85_79",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2000-74-33-1547",
-          "name": "Warp",
-          "x": 74,
-          "y": 33,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-74-34-1548",
-          "name": "Warp",
-          "x": 74,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-74-35-1549",
-          "name": "Warp",
-          "x": 74,
-          "y": 35,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-74-36-1550",
-          "name": "Warp",
-          "x": 74,
-          "y": 36,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-56-48-6487",
-          "name": "Warp",
-          "x": 56,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-57-48-6489",
-          "name": "Warp",
-          "x": 57,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-58-48-6491",
-          "name": "Warp",
-          "x": 58,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-69-51-5289",
-          "name": "Warp",
-          "x": 69,
-          "y": 51,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-75-57-6476",
-          "name": "Warp",
-          "x": 75,
-          "y": 57,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-75-58-6478",
-          "name": "Warp",
-          "x": 75,
-          "y": 58,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-50-71-6503",
-          "name": "Warp",
-          "x": 50,
-          "y": 71,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-51-71-6505",
-          "name": "Warp",
-          "x": 51,
-          "y": 71,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-73-73-6472",
-          "name": "Warp",
-          "x": 73,
-          "y": 73,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-74-73-6474",
-          "name": "Warp",
-          "x": 74,
-          "y": 73,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-92-77-6480",
-          "name": "Warp",
-          "x": 92,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-93-77-6482",
-          "name": "Warp",
-          "x": 93,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-108-79-1555",
-          "name": "Warp",
-          "x": 108,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-102-80-6500",
-          "name": "Warp",
-          "x": 102,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-103-80-6497",
-          "name": "Warp",
-          "x": 103,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-108-80-1556",
-          "name": "Warp",
-          "x": 108,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-108-81-1557",
-          "name": "Warp",
-          "x": 108,
-          "y": 81,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-66-82-6485",
-          "name": "Warp",
-          "x": 66,
-          "y": 82,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-108-82-1558",
-          "name": "Warp",
-          "x": 108,
-          "y": 82,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/100warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-92-89-6468",
-          "name": "Warp",
-          "x": 92,
-          "y": 89,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-92-90-6470",
-          "name": "Warp",
-          "x": 92,
-          "y": 90,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-73-103-6492",
-          "name": "Warp",
-          "x": 73,
-          "y": 103,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2000-73-104-6494",
-          "name": "Warp",
-          "x": 73,
-          "y": 104,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -105700,7 +99436,7 @@ export const WORLD = {
         {
           "id": "100-2",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (114,662) | 入口 7 格 (108,79)-(108,85)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (114,662) | 入口 8 格 (108,79)-(108,85)",
           "to": "100",
           "x": 108,
           "y": 82,
@@ -105745,6 +99481,14 @@ export const WORLD = {
               "target": [
                 114,
                 663
+              ]
+            },
+            {
+              "x": 108,
+              "y": 82,
+              "target": [
+                114,
+                660
               ]
             },
             {
@@ -105941,7 +99685,7 @@ export const WORLD = {
         {
           "id": "2005-7",
           "label": "去 玛丽娜丝的医院",
-          "detail": "玛丽娜丝的医院 | floor 2005 | 目标 (18,33) | 入口 2 格 (66,81)-(66,82)",
+          "detail": "玛丽娜丝的医院 | floor 2005 | 目标 (20,38) | 入口 3 格 (66,81)-(66,82)",
           "to": "2005",
           "x": 66,
           "y": 82,
@@ -105952,8 +99696,8 @@ export const WORLD = {
             82
           ],
           "target": [
-            18,
-            33
+            20,
+            38
           ],
           "tiles": [
             {
@@ -105969,6 +99713,14 @@ export const WORLD = {
               "y": 81,
               "target": [
                 25,
+                49
+              ]
+            },
+            {
+              "x": 66,
+              "y": 82,
+              "target": [
+                26,
                 49
               ]
             }
@@ -106277,7 +100029,7 @@ export const WORLD = {
         {
           "id": "2002-15",
           "label": "去 玛丽娜丝的道具店",
-          "detail": "玛丽娜丝的道具店 | floor 2002 | 目标 (15,21) | 入口 (77,75)",
+          "detail": "玛丽娜丝的道具店 | floor 2002 | 目标 (16,21) | 入口 (77,75)",
           "to": "2002",
           "x": 77,
           "y": 75,
@@ -106288,7 +100040,7 @@ export const WORLD = {
             75
           ],
           "target": [
-            15,
+            16,
             21
           ],
           "tiles": [
@@ -106297,6 +100049,14 @@ export const WORLD = {
               "y": 75,
               "target": [
                 15,
+                21
+              ]
+            },
+            {
+              "x": 77,
+              "y": 75,
+              "target": [
+                16,
                 21
               ]
             }
@@ -106931,39 +100691,13 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2001_18_18"
           }
-        },
-        {
-          "id": "2001-10-15-6469",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2001-10-16-6471",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (92,90) | 入口 2 格 (10,15)-(10,16)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (95,91) | 入口 4 格 (10,15)-(10,16)",
           "to": "2000",
           "x": 10,
           "y": 16,
@@ -106974,8 +100708,8 @@ export const WORLD = {
             16
           ],
           "target": [
-            92,
-            90
+            95,
+            91
           ],
           "tiles": [
             {
@@ -106992,6 +100726,22 @@ export const WORLD = {
               "target": [
                 92,
                 90
+              ]
+            },
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                97,
+                92
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                97,
+                93
               ]
             }
           ],
@@ -107241,39 +100991,13 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/sainasu/jujutu01.conf"
           }
-        },
-        {
-          "id": "2002-15-21-6473",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2002-16-21-6475",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (74,73) | 入口 2 格 (15,21)-(16,21)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,74) | 入口 4 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -107284,8 +101008,8 @@ export const WORLD = {
             21
           ],
           "target": [
-            74,
-            73
+            75,
+            74
           ],
           "tiles": [
             {
@@ -107302,6 +101026,22 @@ export const WORLD = {
               "target": [
                 74,
                 73
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                76,
+                75
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                77,
+                75
               ]
             }
           ],
@@ -107513,39 +101253,13 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100252"
-        },
-        {
-          "id": "2003-10-15-6477",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2003-10-16-6479",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (75,58) | 入口 2 格 (10,15)-(10,16)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (81,59) | 入口 4 格 (10,15)-(10,16)",
           "to": "2000",
           "x": 10,
           "y": 16,
@@ -107556,8 +101270,8 @@ export const WORLD = {
             16
           ],
           "target": [
-            75,
-            58
+            81,
+            59
           ],
           "tiles": [
             {
@@ -107574,6 +101288,22 @@ export const WORLD = {
               "target": [
                 75,
                 58
+              ]
+            },
+            {
+              "x": 10,
+              "y": 15,
+              "target": [
+                86,
+                60
+              ]
+            },
+            {
+              "x": 10,
+              "y": 16,
+              "target": [
+                87,
+                60
               ]
             }
           ],
@@ -107706,39 +101436,13 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2004_17_13"
           }
-        },
-        {
-          "id": "2004-15-21-6481",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2004-16-21-6483",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (93,77) | 入口 2 格 (15,21)-(16,21)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (94,77) | 入口 4 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -107749,7 +101453,7 @@ export const WORLD = {
             21
           ],
           "target": [
-            93,
+            94,
             77
           ],
           "tiles": [
@@ -107766,6 +101470,22 @@ export const WORLD = {
               "y": 21,
               "target": [
                 93,
+                77
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                94,
+                77
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                95,
                 77
               ]
             }
@@ -108063,32 +101783,6 @@ export const WORLD = {
           "script": "npcgen_charm",
           "template": "npcgen_charm",
           "graphic": "16065"
-        },
-        {
-          "id": "2005-10-15-6484",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2005-10-16-6486",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -108508,32 +102202,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "2006-20-21-6488",
-          "name": "Warp",
-          "x": 20,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2006-21-21-6490",
-          "name": "Warp",
-          "x": 21,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -108623,21 +102291,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "2007-48-76-6496",
-          "name": "Warp",
-          "x": 48,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "2000-0",
@@ -112791,39 +106445,13 @@ export const WORLD = {
             "source": "gmsv-data/npc/eden2/fight/fight-authu",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2009-10-25-6493",
-          "name": "Warp",
-          "x": 10,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2009-10-26-6495",
-          "name": "Warp",
-          "x": 10,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (73,104) | 入口 2 格 (10,25)-(10,26)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (73,105) | 入口 4 格 (10,25)-(10,26)",
           "to": "2000",
           "x": 10,
           "y": 26,
@@ -112835,7 +106463,7 @@ export const WORLD = {
           ],
           "target": [
             73,
-            104
+            105
           ],
           "tiles": [
             {
@@ -112852,6 +106480,22 @@ export const WORLD = {
               "target": [
                 73,
                 104
+              ]
+            },
+            {
+              "x": 10,
+              "y": 25,
+              "target": [
+                73,
+                106
+              ]
+            },
+            {
+              "x": 10,
+              "y": 26,
+              "target": [
+                73,
+                106
               ]
             }
           ],
@@ -113377,39 +107021,13 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2011-15-21-6498",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2011-16-21-6499",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (103,80) | 入口 2 格 (15,21)-(16,21)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (102,79) | 入口 4 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -113420,8 +107038,8 @@ export const WORLD = {
             21
           ],
           "target": [
-            103,
-            80
+            102,
+            79
           ],
           "tiles": [
             {
@@ -113438,6 +107056,22 @@ export const WORLD = {
               "target": [
                 103,
                 80
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                101,
+                78
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                102,
+                78
               ]
             }
           ],
@@ -113715,39 +107349,13 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_2012_14_13",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2012-15-21-6504",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2012-16-21-6506",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (51,71) | 入口 2 格 (15,21)-(16,21)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (51,73) | 入口 4 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -113759,7 +107367,7 @@ export const WORLD = {
           ],
           "target": [
             51,
-            71
+            73
           ],
           "tiles": [
             {
@@ -113776,6 +107384,22 @@ export const WORLD = {
               "target": [
                 51,
                 71
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                51,
+                74
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                51,
+                74
               ]
             }
           ],
@@ -114307,39 +107931,13 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/newbie/worksell_2014.conf",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2014-15-21-6502",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2014-16-21-6501",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (102,80) | 入口 2 格 (15,21)-(16,21)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (102,79) | 入口 4 格 (15,21)-(16,21)",
           "to": "2000",
           "x": 16,
           "y": 21,
@@ -114351,7 +107949,7 @@ export const WORLD = {
           ],
           "target": [
             102,
-            80
+            79
           ],
           "tiles": [
             {
@@ -114368,6 +107966,22 @@ export const WORLD = {
               "target": [
                 102,
                 80
+              ]
+            },
+            {
+              "x": 16,
+              "y": 21,
+              "target": [
+                102,
+                78
+              ]
+            },
+            {
+              "x": 15,
+              "y": 21,
+              "target": [
+                102,
+                78
               ]
             }
           ],
@@ -114673,65 +108287,13 @@ export const WORLD = {
             "source": "gmsv-data/npc/quiz/uketuke",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2020-11-9-5293",
-          "name": "Warp",
-          "x": 11,
-          "y": 9,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2020-11-9-5295",
-          "name": "Warp",
-          "x": 11,
-          "y": 9,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2020-12-9-5291",
-          "name": "Warp",
-          "x": 12,
-          "y": 9,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2020-4-12-5290",
-          "name": "Warp",
-          "x": 4,
-          "y": 12,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "2000-0",
           "label": "去 玛丽娜丝渔村",
-          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (69,51) | 入口 (4,12)",
+          "detail": "玛丽娜丝渔村 | floor 2000 | 目标 (72,51) | 入口 (4,12)",
           "to": "2000",
           "x": 4,
           "y": 12,
@@ -114742,7 +108304,7 @@ export const WORLD = {
             12
           ],
           "target": [
-            69,
+            72,
             51
           ],
           "tiles": [
@@ -114753,6 +108315,14 @@ export const WORLD = {
                 69,
                 51
               ]
+            },
+            {
+              "x": 4,
+              "y": 12,
+              "target": [
+                75,
+                51
+              ]
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
@@ -114760,9 +108330,9 @@ export const WORLD = {
         {
           "id": "811-1",
           "label": "去 猜谜三兄弟的家１楼",
-          "detail": "猜谜三兄弟的家１楼 | floor 811 | 目标 (29,29) | 入口 2 格 (11,9)-(12,9)",
+          "detail": "猜谜三兄弟的家１楼 | floor 811 | 目标 (29,29) | 入口 3 格 (11,9)-(12,9)",
           "to": "811",
-          "x": 12,
+          "x": 11,
           "y": 9,
           "bounds": [
             11,
@@ -114788,6 +108358,14 @@ export const WORLD = {
               "y": 9,
               "target": [
                 30,
+                29
+              ]
+            },
+            {
+              "x": 11,
+              "y": 9,
+              "target": [
+                29,
                 29
               ]
             }
@@ -115843,149 +109421,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm2_2",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2030-46-30-4258",
-          "name": "Warp",
-          "x": 46,
-          "y": 30,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-47-30-4260",
-          "name": "Warp",
-          "x": 47,
-          "y": 30,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-34-40-4264",
-          "name": "Warp",
-          "x": 34,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-35-40-4266",
-          "name": "Warp",
-          "x": 35,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-65-63-4249",
-          "name": "Warp",
-          "x": 65,
-          "y": 63,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-64-64-4250",
-          "name": "Warp",
-          "x": 64,
-          "y": 64,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-65-64-4253",
-          "name": "Warp",
-          "x": 65,
-          "y": 64,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-63-65-4251",
-          "name": "Warp",
-          "x": 63,
-          "y": 65,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-64-65-4254",
-          "name": "Warp",
-          "x": 64,
-          "y": 65,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-62-66-4252",
-          "name": "Warp",
-          "x": 62,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2030-63-66-4255",
-          "name": "Warp",
-          "x": 63,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -116235,32 +109670,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "2031-0-10-4256",
-          "name": "Warp",
-          "x": 0,
-          "y": 10,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2031-0-11-4257",
-          "name": "Warp",
-          "x": 0,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -116505,32 +109914,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_2033_4_3",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "2033-4-11-4259",
-          "name": "Warp",
-          "x": 4,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2033-5-11-4261",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -116591,34 +109974,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "2034-9-19-4262",
-          "name": "Warp",
-          "x": 9,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2034-10-19-4263",
-          "name": "Warp",
-          "x": 10,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "2033-0",
@@ -116749,32 +110105,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_2"
           }
-        },
-        {
-          "id": "2035-5-11-4265",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2035-6-11-4267",
-          "name": "Warp",
-          "x": 6,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -116892,32 +110222,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_4"
           }
-        },
-        {
-          "id": "2036-5-11-4268",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2036-6-11-4269",
-          "name": "Warp",
-          "x": 6,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -117170,32 +110474,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_1"
           }
-        },
-        {
-          "id": "2037-0-5-4270",
-          "name": "Warp",
-          "x": 0,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2037-0-6-4271",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -117388,32 +110666,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_3"
           }
-        },
-        {
-          "id": "2038-0-6-4272",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "2038-0-7-4273",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -121044,437 +114296,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/mouse/mouse1.arg",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3000-73-54-1758",
-          "name": "Warp",
-          "x": 73,
-          "y": 54,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-73-55-1759",
-          "name": "Warp",
-          "x": 73,
-          "y": 55,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-73-56-1760",
-          "name": "Warp",
-          "x": 73,
-          "y": 56,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-73-57-1761",
-          "name": "Warp",
-          "x": 73,
-          "y": 57,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-73-58-1762",
-          "name": "Warp",
-          "x": 73,
-          "y": 58,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-73-59-1763",
-          "name": "Warp",
-          "x": 73,
-          "y": 59,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-90-60-6560",
-          "name": "Warp",
-          "x": 90,
-          "y": 60,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-99-62-1172",
-          "name": "Warp",
-          "x": 99,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：gmsv-data/npc/eden3/gan/warppoint.arg",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/eden3/gan/gan.create",
-          "script": "file:eden3/gan/warppoint.arg",
-          "template": "npcgen_warp",
-          "graphic": "",
-          "warp": {
-            "kind": "warpman",
-            "target": {
-              "mapId": "3015",
-              "floor": 3015,
-              "x": 0,
-              "y": 5
-            },
-            "free": "LV>29&ENDEV=4&PET>0-962",
-            "money": "",
-            "cost": null,
-            "deleteItems": [],
-            "freeMessage": "",
-            "payMessage": "",
-            "normalMessage": "",
-            "moneyMessage": "",
-            "partyMessage": "",
-            "warpMessage": "",
-            "source": "gmsv-data/npc/eden3/gan/warppoint.arg"
-          },
-          "scriptHints": {
-            "actions": [
-              "warp",
-              "questLead"
-            ],
-            "hints": [
-              "FREE:LV>29&ENDEV=4&ITEM=20215",
-              "FREE:LV>29&ENDEV=4&ITEM=20220",
-              "FREE:LV>29&ENDEV=4&PET>0-953",
-              "FREE:LV>29&ENDEV=4&PET>0-961",
-              "FREE:LV>29&ENDEV=4&PET>0-962"
-            ],
-            "source": "gmsv-data/npc/eden3/gan/warppoint.arg"
-          },
-          "questLead": {
-            "title": "Warp 的原脚本线索",
-            "summary": "FREE:LV>29&ENDEV=4&ITEM=20215",
-            "source": "gmsv-data/npc/eden3/gan/warppoint.arg",
-            "status": "source-lead"
-          }
-        },
-        {
-          "id": "3000-99-63-1173",
-          "name": "Warp",
-          "x": 99,
-          "y": 63,
-          "type": "Warp",
-          "dialogue": "脚本入口：gmsv-data/npc/eden3/gan/warppoint.arg",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/eden3/gan/gan.create",
-          "script": "file:eden3/gan/warppoint.arg",
-          "template": "npcgen_warp",
-          "graphic": "",
-          "warp": {
-            "kind": "warpman",
-            "target": {
-              "mapId": "3015",
-              "floor": 3015,
-              "x": 0,
-              "y": 5
-            },
-            "free": "LV>29&ENDEV=4&PET>0-962",
-            "money": "",
-            "cost": null,
-            "deleteItems": [],
-            "freeMessage": "",
-            "payMessage": "",
-            "normalMessage": "",
-            "moneyMessage": "",
-            "partyMessage": "",
-            "warpMessage": "",
-            "source": "gmsv-data/npc/eden3/gan/warppoint.arg"
-          },
-          "scriptHints": {
-            "actions": [
-              "warp",
-              "questLead"
-            ],
-            "hints": [
-              "FREE:LV>29&ENDEV=4&ITEM=20215",
-              "FREE:LV>29&ENDEV=4&ITEM=20220",
-              "FREE:LV>29&ENDEV=4&PET>0-953",
-              "FREE:LV>29&ENDEV=4&PET>0-961",
-              "FREE:LV>29&ENDEV=4&PET>0-962"
-            ],
-            "source": "gmsv-data/npc/eden3/gan/warppoint.arg"
-          },
-          "questLead": {
-            "title": "Warp 的原脚本线索",
-            "summary": "FREE:LV>29&ENDEV=4&ITEM=20215",
-            "source": "gmsv-data/npc/eden3/gan/warppoint.arg",
-            "status": "source-lead"
-          }
-        },
-        {
-          "id": "3000-105-66-6571",
-          "name": "Warp",
-          "x": 105,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-106-66-6574",
-          "name": "Warp",
-          "x": 106,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-82-72-6577",
-          "name": "Warp",
-          "x": 82,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-83-72-6579",
-          "name": "Warp",
-          "x": 83,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-112-80-6563",
-          "name": "Warp",
-          "x": 112,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-112-81-6565",
-          "name": "Warp",
-          "x": 112,
-          "y": 81,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-77-91-6550",
-          "name": "Warp",
-          "x": 77,
-          "y": 91,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-107-92-6553",
-          "name": "Warp",
-          "x": 107,
-          "y": 92,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-107-93-6555",
-          "name": "Warp",
-          "x": 107,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-68-103-6544",
-          "name": "Warp",
-          "x": 68,
-          "y": 103,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-83-106-6557",
-          "name": "Warp",
-          "x": 83,
-          "y": 106,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-107-110-6583",
-          "name": "Warp",
-          "x": 107,
-          "y": 110,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-107-111-6585",
-          "name": "Warp",
-          "x": 107,
-          "y": 111,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-71-116-6547",
-          "name": "Warp",
-          "x": 71,
-          "y": 116,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-56-117-1748",
-          "name": "Warp",
-          "x": 56,
-          "y": 117,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-56-118-1749",
-          "name": "Warp",
-          "x": 56,
-          "y": 118,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-56-119-1750",
-          "name": "Warp",
-          "x": 56,
-          "y": 119,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3000-56-120-1751",
-          "name": "Warp",
-          "x": 56,
-          "y": 120,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -121950,6 +114771,63 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "3015-13",
+          "label": "去 水井地下通道",
+          "detail": "水井地下通道 | floor 3015 | 目标 (0,5) | 入口 2 格 (99,62)-(99,63)",
+          "to": "3015",
+          "x": 99,
+          "y": 63,
+          "bounds": [
+            99,
+            62,
+            99,
+            63
+          ],
+          "target": [
+            0,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 99,
+              "y": 62,
+              "target": [
+                0,
+                5
+              ]
+            },
+            {
+              "x": 99,
+              "y": 63,
+              "target": [
+                0,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/npc/eden3/gan/gan.create",
+          "warp": {
+            "kind": "warpman",
+            "target": {
+              "mapId": "3015",
+              "floor": 3015,
+              "x": 0,
+              "y": 5
+            },
+            "free": "LV>29&ENDEV=4&PET>0-962",
+            "money": "",
+            "cost": null,
+            "deleteItems": [],
+            "freeMessage": "",
+            "payMessage": "",
+            "normalMessage": "",
+            "moneyMessage": "",
+            "partyMessage": "",
+            "warpMessage": "",
+            "source": "gmsv-data/npc/eden3/gan/warppoint.arg"
+          }
         }
       ]
     },
@@ -122512,32 +115390,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3001_18_19"
           }
-        },
-        {
-          "id": "3001-15-21-6545",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3001-16-21-6546",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -122867,32 +115719,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/sainasu/jujutu01.conf"
           }
-        },
-        {
-          "id": "3002-10-15-6548",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3002-10-16-6549",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -123126,32 +115952,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3003_12_19"
           }
-        },
-        {
-          "id": "3003-15-21-6551",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3003-16-21-6552",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -123319,32 +116119,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3004_18_16"
           }
-        },
-        {
-          "id": "3004-10-15-6554",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3004-10-16-6556",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -123676,32 +116450,6 @@ export const WORLD = {
           "script": "npcgen_charm",
           "template": "npcgen_charm",
           "graphic": "16066"
-        },
-        {
-          "id": "3005-10-15-6558",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3005-10-16-6559",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -123982,32 +116730,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "3006-20-21-6561",
-          "name": "Warp",
-          "x": 20,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3006-21-21-6562",
-          "name": "Warp",
-          "x": 21,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -124104,32 +116826,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3007_52_63"
           }
-        },
-        {
-          "id": "3007-49-69-6582",
-          "name": "Warp",
-          "x": 49,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3007-50-69-6581",
-          "name": "Warp",
-          "x": 50,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -124699,32 +117395,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3008_28_20"
           }
-        },
-        {
-          "id": "3008-13-20-6566",
-          "name": "Warp",
-          "x": 13,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3008-13-21-6567",
-          "name": "Warp",
-          "x": 13,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -128657,32 +121327,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_39"
           }
-        },
-        {
-          "id": "3009-10-25-6584",
-          "name": "Warp",
-          "x": 10,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3009-10-26-6586",
-          "name": "Warp",
-          "x": 10,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -129256,32 +121900,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3011-15-21-6572",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3011-16-21-6573",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -129594,32 +122212,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_3012_14_13",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3012-15-21-6578",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3012-16-21-6580",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -130199,32 +122791,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/sa60/newbie/worksell_3014.conf",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3014-15-21-6576",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3014-16-21-6575",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -130285,60 +122851,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "3015-0-5-3585",
-          "name": "Warp",
-          "x": 0,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3015-28-5-3587",
-          "name": "Warp",
-          "x": 28,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3015-0-6-3586",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3015-28-6-3589",
-          "name": "Warp",
-          "x": 28,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "3000-0",
@@ -131111,32 +123624,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/eden3/gan/wuwan",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3016-0-50-3588",
-          "name": "Warp",
-          "x": 0,
-          "y": 50,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3016-0-51-3590",
-          "name": "Warp",
-          "x": 0,
-          "y": 51,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/eden2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -131269,19 +123756,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_3020_18_12",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3020-4-12-6564",
-          "name": "Warp",
-          "x": 4,
-          "y": 12,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -136934,266 +129408,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/doujyou/jyajyadou001.arg"
           }
-        },
-        {
-          "id": "3021-10-18-423",
-          "name": "跳跃点",
-          "x": 10,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-54-18-393",
-          "name": "跳跃点",
-          "x": 54,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-98-18-363",
-          "name": "跳跃点",
-          "x": 98,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-142-18-333",
-          "name": "跳跃点",
-          "x": 142,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-186-18-303",
-          "name": "跳跃点",
-          "x": 186,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-230-18-273",
-          "name": "跳跃点",
-          "x": 230,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-274-18-243",
-          "name": "跳跃点",
-          "x": 274,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-318-18-213",
-          "name": "跳跃点",
-          "x": 318,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-362-18-183",
-          "name": "跳跃点",
-          "x": 362,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-406-18-153",
-          "name": "跳跃点",
-          "x": 406,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-10-19-424",
-          "name": "跳跃点",
-          "x": 10,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-54-19-394",
-          "name": "跳跃点",
-          "x": 54,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-98-19-364",
-          "name": "跳跃点",
-          "x": 98,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-142-19-334",
-          "name": "跳跃点",
-          "x": 142,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-186-19-304",
-          "name": "跳跃点",
-          "x": 186,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-230-19-274",
-          "name": "跳跃点",
-          "x": 230,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-274-19-244",
-          "name": "跳跃点",
-          "x": 274,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-318-19-214",
-          "name": "跳跃点",
-          "x": 318,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-362-19-184",
-          "name": "跳跃点",
-          "x": 362,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
-        },
-        {
-          "id": "3021-406-19-154",
-          "name": "跳跃点",
-          "x": 406,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/doujyou/jyajyadou.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": "0"
         }
       ],
       "exits": [
@@ -141157,45 +133371,6 @@ export const WORLD = {
           "script": "npcgen_healer",
           "template": "npcgen_healer",
           "graphic": "16058"
-        },
-        {
-          "id": "3022-6-14-6568",
-          "name": "Warp",
-          "x": 6,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3022-7-14-6569",
-          "name": "Warp",
-          "x": 7,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3022-8-14-6570",
-          "name": "Warp",
-          "x": 8,
-          "y": 14,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -142254,149 +134429,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm3_2",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3030-14-39-4283",
-          "name": "Warp",
-          "x": 14,
-          "y": 39,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-40-4284",
-          "name": "Warp",
-          "x": 14,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-41-4285",
-          "name": "Warp",
-          "x": 14,
-          "y": 41,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-42-4286",
-          "name": "Warp",
-          "x": 14,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-43-4287",
-          "name": "Warp",
-          "x": 14,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-44-4288",
-          "name": "Warp",
-          "x": 14,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-45-4289",
-          "name": "Warp",
-          "x": 14,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-46-4290",
-          "name": "Warp",
-          "x": 14,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-14-47-4291",
-          "name": "Warp",
-          "x": 14,
-          "y": 47,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-58-49-4294",
-          "name": "Warp",
-          "x": 58,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3030-58-50-4296",
-          "name": "Warp",
-          "x": 58,
-          "y": 50,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -142662,32 +134694,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "3031-7-18-4292",
-          "name": "Warp",
-          "x": 7,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3031-8-18-4293",
-          "name": "Warp",
-          "x": 8,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -142932,32 +134938,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_3033_4_2",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3033-0-5-4295",
-          "name": "Warp",
-          "x": 0,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3033-0-6-4297",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -143018,34 +134998,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "3034-8-17-4298",
-          "name": "Warp",
-          "x": 8,
-          "y": 17,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3034-9-17-4299",
-          "name": "Warp",
-          "x": 9,
-          "y": 17,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "3033-0",
@@ -143296,32 +135249,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_1"
           }
-        },
-        {
-          "id": "3035-5-11-4300",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3035-6-11-4301",
-          "name": "Warp",
-          "x": 6,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -143534,32 +135461,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_3"
           }
-        },
-        {
-          "id": "3036-4-11-4302",
-          "name": "Warp",
-          "x": 4,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3036-5-11-4303",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -143677,32 +135578,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_4"
           }
-        },
-        {
-          "id": "3037-0-6-4304",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3037-0-7-4305",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -143835,32 +135710,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_2"
           }
-        },
-        {
-          "id": "3038-0-5-4306",
-          "name": "Warp",
-          "x": 0,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3038-0-6-4307",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -144966,214 +136815,6 @@ export const WORLD = {
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10062"
-        },
-        {
-          "id": "3100-44-55-6644",
-          "name": "Warp",
-          "x": 44,
-          "y": 55,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-59-62-6636",
-          "name": "Warp",
-          "x": 59,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-59-63-6638",
-          "name": "Warp",
-          "x": 59,
-          "y": 63,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-44-69-6626",
-          "name": "Warp",
-          "x": 44,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-61-72-6629",
-          "name": "Warp",
-          "x": 61,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-32-77-1793",
-          "name": "Warp",
-          "x": 32,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-85-77-1786",
-          "name": "Warp",
-          "x": 85,
-          "y": 77,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-32-78-1794",
-          "name": "Warp",
-          "x": 32,
-          "y": 78,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-41-78-6632",
-          "name": "Warp",
-          "x": 41,
-          "y": 78,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-85-78-1787",
-          "name": "Warp",
-          "x": 85,
-          "y": 78,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-32-79-1795",
-          "name": "Warp",
-          "x": 32,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-41-79-6634",
-          "name": "Warp",
-          "x": 41,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-85-79-1788",
-          "name": "Warp",
-          "x": 85,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-85-80-1789",
-          "name": "Warp",
-          "x": 85,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-52-84-6640",
-          "name": "Warp",
-          "x": 52,
-          "y": 84,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3100-52-85-6642",
-          "name": "Warp",
-          "x": 52,
-          "y": 85,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -145561,32 +137202,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100257"
-        },
-        {
-          "id": "3103-15-21-6627",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3103-16-21-6628",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -145754,32 +137369,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3104_18_15"
           }
-        },
-        {
-          "id": "3104-10-15-6641",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3104-10-16-6643",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -146328,32 +137917,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3105_17_20"
           }
-        },
-        {
-          "id": "3105-10-15-6630",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3105-10-16-6631",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -146432,32 +137995,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3106_18_20"
           }
-        },
-        {
-          "id": "3106-10-20-6637",
-          "name": "Warp",
-          "x": 10,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3106-10-21-6639",
-          "name": "Warp",
-          "x": 10,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -147548,32 +139085,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3109_27_35"
           }
-        },
-        {
-          "id": "3109-10-25-6633",
-          "name": "Warp",
-          "x": 10,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3109-10-26-6635",
-          "name": "Warp",
-          "x": 10,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -147765,32 +139276,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3110_14_13"
           }
-        },
-        {
-          "id": "3110-15-21-6645",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3110-16-21-6646",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -148678,188 +140163,6 @@ export const WORLD = {
           "script": "file:genout/msg_3200_54_71",
           "template": "npcgen_man",
           "graphic": "16017"
-        },
-        {
-          "id": "3200-59-40-1780",
-          "name": "Warp",
-          "x": 59,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-60-40-1781",
-          "name": "Warp",
-          "x": 60,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-38-43-6655",
-          "name": "Warp",
-          "x": 38,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-39-43-6657",
-          "name": "Warp",
-          "x": 39,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-48-43-6647",
-          "name": "Warp",
-          "x": 48,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-49-43-6649",
-          "name": "Warp",
-          "x": 49,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-27-44-1775",
-          "name": "Warp",
-          "x": 27,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-27-45-1776",
-          "name": "Warp",
-          "x": 27,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-27-46-1777",
-          "name": "Warp",
-          "x": 27,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-61-46-6659",
-          "name": "Warp",
-          "x": 61,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-61-47-6661",
-          "name": "Warp",
-          "x": 61,
-          "y": 47,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-53-64-6663",
-          "name": "Warp",
-          "x": 53,
-          "y": 64,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-58-73-6651",
-          "name": "Warp",
-          "x": 58,
-          "y": 73,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3200-58-74-6653",
-          "name": "Warp",
-          "x": 58,
-          "y": 74,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -149210,32 +140513,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100336"
-        },
-        {
-          "id": "3203-15-21-6648",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3203-16-21-6650",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -149583,32 +140860,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/lbis_3204_18_16"
           }
-        },
-        {
-          "id": "3204-10-15-6652",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3204-10-16-6654",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -149927,32 +141178,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3205_13_14"
           }
-        },
-        {
-          "id": "3205-15-21-6656",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3205-16-21-6658",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -150089,32 +141314,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3206_19_22"
           }
-        },
-        {
-          "id": "3206-10-20-6664",
-          "name": "Warp",
-          "x": 10,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3206-10-21-6665",
-          "name": "Warp",
-          "x": 10,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -150965,32 +142164,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3209_27_36"
           }
-        },
-        {
-          "id": "3209-10-25-6660",
-          "name": "Warp",
-          "x": 10,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3209-10-26-6662",
-          "name": "Warp",
-          "x": 10,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -152444,149 +143617,6 @@ export const WORLD = {
           "script": "file:genout/msg_3300_54_69",
           "template": "npcgen_man",
           "graphic": "16220"
-        },
-        {
-          "id": "3300-54-43-6676",
-          "name": "Warp",
-          "x": 54,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-59-45-6673",
-          "name": "Warp",
-          "x": 59,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-73-45-1802",
-          "name": "Warp",
-          "x": 73,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-73-46-1803",
-          "name": "Warp",
-          "x": 73,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-51-60-6666",
-          "name": "Warp",
-          "x": 51,
-          "y": 60,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-48-64-6669",
-          "name": "Warp",
-          "x": 48,
-          "y": 64,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-48-65-6671",
-          "name": "Warp",
-          "x": 48,
-          "y": 65,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-43-66-1798",
-          "name": "Warp",
-          "x": 43,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-43-67-1799",
-          "name": "Warp",
-          "x": 43,
-          "y": 67,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-54-70-6679",
-          "name": "Warp",
-          "x": 54,
-          "y": 70,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3300-54-71-6681",
-          "name": "Warp",
-          "x": 54,
-          "y": 71,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -152913,32 +143943,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100296"
-        },
-        {
-          "id": "3303-15-20-6667",
-          "name": "Warp",
-          "x": 15,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3303-16-20-6668",
-          "name": "Warp",
-          "x": 16,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -153323,32 +144327,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/lbis_3304_17_16"
           }
-        },
-        {
-          "id": "3304-11-15-6670",
-          "name": "Warp",
-          "x": 11,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3304-11-16-6672",
-          "name": "Warp",
-          "x": 11,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -153897,32 +144875,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_3305_18_14"
           }
-        },
-        {
-          "id": "3305-11-15-6674",
-          "name": "Warp",
-          "x": 11,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3305-11-16-6675",
-          "name": "Warp",
-          "x": 11,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -154041,32 +144993,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "3306-15-20-6677",
-          "name": "Warp",
-          "x": 15,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3306-16-20-6678",
-          "name": "Warp",
-          "x": 16,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -154778,32 +145704,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3309_20_20"
           }
-        },
-        {
-          "id": "3309-11-15-6680",
-          "name": "Warp",
-          "x": 11,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3309-11-16-6682",
-          "name": "Warp",
-          "x": 11,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -155753,214 +146653,6 @@ export const WORLD = {
           "script": "file:genout/msg_3400_50_81",
           "template": "npcgen_man",
           "graphic": "16018"
-        },
-        {
-          "id": "3400-60-40-1806",
-          "name": "Warp",
-          "x": 60,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-61-40-1807",
-          "name": "Warp",
-          "x": 61,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-53-49-6683",
-          "name": "Warp",
-          "x": 53,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-54-49-6685",
-          "name": "Warp",
-          "x": 54,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-59-54-6691",
-          "name": "Warp",
-          "x": 59,
-          "y": 54,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-59-55-6693",
-          "name": "Warp",
-          "x": 59,
-          "y": 55,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-47-57-6687",
-          "name": "Warp",
-          "x": 47,
-          "y": 57,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-48-57-6689",
-          "name": "Warp",
-          "x": 48,
-          "y": 57,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-54-62-6699",
-          "name": "Warp",
-          "x": 54,
-          "y": 62,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-51-73-6695",
-          "name": "Warp",
-          "x": 51,
-          "y": 73,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-51-74-6697",
-          "name": "Warp",
-          "x": 51,
-          "y": 74,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-59-75-6702",
-          "name": "Warp",
-          "x": 59,
-          "y": 75,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-59-76-6704",
-          "name": "Warp",
-          "x": 59,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-46-79-1811",
-          "name": "Warp",
-          "x": 46,
-          "y": 79,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-46-80-1812",
-          "name": "Warp",
-          "x": 46,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3400-46-81-1813",
-          "name": "Warp",
-          "x": 46,
-          "y": 81,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -156201,32 +146893,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/jaruga/event/ruri02",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "3413-10-15-5567",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/ruri.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "3413-10-16-5569",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/ruri.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -159200,279 +149866,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_4000_88_61",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4000-65-46-6591",
-          "name": "Warp",
-          "x": 65,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-66-46-6593",
-          "name": "Warp",
-          "x": 66,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-76-47-6599",
-          "name": "Warp",
-          "x": 76,
-          "y": 47,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-77-47-6601",
-          "name": "Warp",
-          "x": 77,
-          "y": 47,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-82-48-6619",
-          "name": "Warp",
-          "x": 82,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-104-55-1766",
-          "name": "Warp",
-          "x": 104,
-          "y": 55,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-104-56-1767",
-          "name": "Warp",
-          "x": 104,
-          "y": 56,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-99-65-6587",
-          "name": "Warp",
-          "x": 99,
-          "y": 65,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-99-66-6589",
-          "name": "Warp",
-          "x": 99,
-          "y": 66,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-99-72-6595",
-          "name": "Warp",
-          "x": 99,
-          "y": 72,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-40-73-6622",
-          "name": "Warp",
-          "x": 40,
-          "y": 73,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-99-73-6597",
-          "name": "Warp",
-          "x": 99,
-          "y": 73,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-40-74-6624",
-          "name": "Warp",
-          "x": 40,
-          "y": 74,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-100-80-6603",
-          "name": "Warp",
-          "x": 100,
-          "y": 80,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-80-90-6606",
-          "name": "Warp",
-          "x": 80,
-          "y": 90,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-80-91-6608",
-          "name": "Warp",
-          "x": 80,
-          "y": 91,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-55-93-6610",
-          "name": "Warp",
-          "x": 55,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-56-93-6613",
-          "name": "Warp",
-          "x": 56,
-          "y": 93,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-101-96-1770",
-          "name": "Warp",
-          "x": 101,
-          "y": 96,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-101-97-1771",
-          "name": "Warp",
-          "x": 101,
-          "y": 97,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/200warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4000-82-107-5438",
-          "name": "Warp",
-          "x": 82,
-          "y": 107,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -160523,32 +150916,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4001_18_17"
           }
-        },
-        {
-          "id": "4001-10-15-6588",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4001-10-16-6590",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -160848,32 +151215,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/sainasu/jujutu01.conf"
           }
-        },
-        {
-          "id": "4002-15-21-6592",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4002-16-21-6594",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -161107,32 +151448,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_4003_18_18"
           }
-        },
-        {
-          "id": "4003-10-15-6596",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4003-10-16-6598",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -161300,32 +151615,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4004_16_13"
           }
-        },
-        {
-          "id": "4004-15-21-6600",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4004-16-21-6602",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -161657,32 +151946,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_4005_15_19"
           }
-        },
-        {
-          "id": "4005-10-15-6604",
-          "name": "Warp",
-          "x": 10,
-          "y": 15,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4005-10-16-6605",
-          "name": "Warp",
-          "x": 10,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -161924,32 +152187,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_4006_16_27"
           }
-        },
-        {
-          "id": "4006-10-20-6607",
-          "name": "Warp",
-          "x": 10,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4006-10-21-6609",
-          "name": "Warp",
-          "x": 10,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -162041,45 +152278,6 @@ export const WORLD = {
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10063"
-        },
-        {
-          "id": "4007-47-76-6616",
-          "name": "Warp",
-          "x": 47,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4007-48-76-6617",
-          "name": "Warp",
-          "x": 48,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4007-49-76-6618",
-          "name": "Warp",
-          "x": 49,
-          "y": 76,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -165320,32 +155518,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/extra/event/M_4000",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4009-10-25-6623",
-          "name": "Warp",
-          "x": 10,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4009-10-26-6625",
-          "name": "Warp",
-          "x": 10,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -165906,32 +156078,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/msg_4014_17_19",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4011-15-21-6611",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4011-16-21-6612",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -166244,32 +156390,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_4012_14_13",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4012-15-21-6620",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4012-16-21-6621",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -166836,32 +156956,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/msg_4014_17_19",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4014-15-21-6615",
-          "name": "Warp",
-          "x": 15,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4014-16-21-6614",
-          "name": "Warp",
-          "x": 16,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/warp_y2.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -167128,58 +157222,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/quiz/uketuke2",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4020-11-9-5442",
-          "name": "Warp",
-          "x": 11,
-          "y": 9,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4020-11-9-5444",
-          "name": "Warp",
-          "x": 11,
-          "y": 9,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4020-12-9-5440",
-          "name": "Warp",
-          "x": 12,
-          "y": 9,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4020-4-12-5439",
-          "name": "Warp",
-          "x": 4,
-          "y": 12,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/quiz.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -167215,9 +157257,9 @@ export const WORLD = {
         {
           "id": "851-1",
           "label": "去 猜谜三兄弟的家１楼",
-          "detail": "猜谜三兄弟的家１楼 | floor 851 | 目标 (29,29) | 入口 2 格 (11,9)-(12,9)",
+          "detail": "猜谜三兄弟的家１楼 | floor 851 | 目标 (29,29) | 入口 3 格 (11,9)-(12,9)",
           "to": "851",
-          "x": 12,
+          "x": 11,
           "y": 9,
           "bounds": [
             11,
@@ -167243,6 +157285,14 @@ export const WORLD = {
               "y": 9,
               "target": [
                 30,
+                29
+              ]
+            },
+            {
+              "x": 11,
+              "y": 9,
+              "target": [
+                29,
                 29
               ]
             }
@@ -168259,58 +158309,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/family/npc/wpm4_3",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4030-50-18-4314",
-          "name": "Warp",
-          "x": 50,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4030-50-19-4316",
-          "name": "Warp",
-          "x": 50,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4030-62-34-4310",
-          "name": "Warp",
-          "x": 62,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4030-62-35-4311",
-          "name": "Warp",
-          "x": 62,
-          "y": 35,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -168520,32 +158518,6 @@ export const WORLD = {
           "script": "npcgen_fmdengon",
           "template": "npcgen_fmdengon",
           "graphic": "10062"
-        },
-        {
-          "id": "4031-9-19-4312",
-          "name": "Warp",
-          "x": 9,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4031-10-19-4313",
-          "name": "Warp",
-          "x": 10,
-          "y": 19,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -168790,32 +158762,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_4033_4_3",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "4033-0-5-4315",
-          "name": "Warp",
-          "x": 0,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4033-0-6-4317",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -168876,34 +158822,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "4034-8-17-4318",
-          "name": "Warp",
-          "x": 8,
-          "y": 17,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4034-9-17-4319",
-          "name": "Warp",
-          "x": 9,
-          "y": 17,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "4033-0",
@@ -169129,32 +159048,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/freeshop/freeshop01.arg"
           }
-        },
-        {
-          "id": "4035-5-11-4320",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4035-6-11-4321",
-          "name": "Warp",
-          "x": 6,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -169287,32 +159180,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_2"
           }
-        },
-        {
-          "id": "4036-4-11-4322",
-          "name": "Warp",
-          "x": 4,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4036-5-11-4323",
-          "name": "Warp",
-          "x": 5,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -169430,32 +159297,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_4"
           }
-        },
-        {
-          "id": "4037-0-6-4324",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4037-0-7-4325",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -169708,32 +159549,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_1"
           }
-        },
-        {
-          "id": "4038-0-6-4326",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "4038-0-7-4327",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/family_warp.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -171278,7 +161093,7 @@ export const WORLD = {
         {
           "id": "100-10",
           "label": "去 萨伊那斯",
-          "detail": "萨伊那斯 | floor 100 | 目标 (396,186) | 入口 (216,6)",
+          "detail": "萨伊那斯 | floor 100 | 目标 (396,187) | 入口 (216,6)",
           "to": "100",
           "x": 216,
           "y": 6,
@@ -171290,7 +161105,7 @@ export const WORLD = {
           ],
           "target": [
             396,
-            186
+            187
           ],
           "tiles": [
             {
@@ -171299,6 +161114,14 @@ export const WORLD = {
               "target": [
                 396,
                 186
+              ]
+            },
+            {
+              "x": 216,
+              "y": 6,
+              "target": [
+                396,
+                187
               ]
             }
           ],
@@ -191413,6 +181236,14 @@ export const WORLD = {
                 41,
                 7
               ]
+            },
+            {
+              "x": 22,
+              "y": 6,
+              "target": [
+                40,
+                7
+              ]
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
@@ -191511,6 +181342,14 @@ export const WORLD = {
               "y": 6,
               "target": [
                 41,
+                7
+              ]
+            },
+            {
+              "x": 22,
+              "y": 6,
+              "target": [
+                40,
                 7
               ]
             }
@@ -191706,32 +181545,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_10001_16_4"
           }
-        },
-        {
-          "id": "10001-40-3-2298",
-          "name": "Warp",
-          "x": 40,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10001-25-42-2299",
-          "name": "Warp",
-          "x": 25,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -191918,32 +181731,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_10002_6_2"
           }
-        },
-        {
-          "id": "10002-8-18-2301",
-          "name": "Warp",
-          "x": 8,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10002-16-41-2300",
-          "name": "Warp",
-          "x": 16,
-          "y": 41,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -192215,32 +182002,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_10003_4_44"
           }
-        },
-        {
-          "id": "10003-36-3-2303",
-          "name": "Warp",
-          "x": 36,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10003-26-25-2302",
-          "name": "Warp",
-          "x": 26,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -192409,34 +182170,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10004-26-25-2304",
-          "name": "Warp",
-          "x": 26,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10004-24-33-2305",
-          "name": "Warp",
-          "x": 24,
-          "y": 33,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10003-0",
@@ -192915,32 +182649,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_10005_26_34"
           }
-        },
-        {
-          "id": "10005-47-23-2306",
-          "name": "Warp",
-          "x": 47,
-          "y": 23,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10005-19-26-2307",
-          "name": "Warp",
-          "x": 19,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -193323,32 +183031,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/signb_10006_6_86"
           }
-        },
-        {
-          "id": "10006-17-3-2308",
-          "name": "Warp",
-          "x": 17,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10006-14-91-2309",
-          "name": "Warp",
-          "x": 14,
-          "y": 91,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -194603,32 +184285,6 @@ export const WORLD = {
           "script": "npcgen_dengon",
           "template": "npcgen_dengon",
           "graphic": "10063"
-        },
-        {
-          "id": "10007-34-8-2311",
-          "name": "Warp",
-          "x": 34,
-          "y": 8,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10007-41-48-2310",
-          "name": "Warp",
-          "x": 41,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -194835,34 +184491,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10101-41-40-2314",
-          "name": "Warp",
-          "x": 41,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10101-14-49-2313",
-          "name": "Warp",
-          "x": 14,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "100-0",
@@ -195029,34 +184658,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10102-13-1-2316",
-          "name": "Warp",
-          "x": 13,
-          "y": 1,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10102-46-44-2315",
-          "name": "Warp",
-          "x": 46,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10101-0",
@@ -195223,34 +184825,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10103-13-8-2317",
-          "name": "Warp",
-          "x": 13,
-          "y": 8,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10103-43-49-2318",
-          "name": "Warp",
-          "x": 43,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10102-0",
@@ -195519,34 +185094,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10201-6-4-2321",
-          "name": "Warp",
-          "x": 6,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10201-18-48-2322",
-          "name": "Warp",
-          "x": 18,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "1100-0",
@@ -195892,32 +185440,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_10202_22_32",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "10202-9-7-2323",
-          "name": "Warp",
-          "x": 9,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10202-33-49-2324",
-          "name": "Warp",
-          "x": 33,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -196225,34 +185747,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10203-8-6-2325",
-          "name": "Warp",
-          "x": 8,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10203-31-46-2329",
-          "name": "Warp",
-          "x": 31,
-          "y": 46,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10202-0",
@@ -196650,32 +186145,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/jaruga/event/event04_2",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "10204-0-6-2326",
-          "name": "Warp",
-          "x": 0,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10204-0-7-2327",
-          "name": "Warp",
-          "x": 0,
-          "y": 7,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -196838,32 +186307,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/100/sb_nusu1.arg"
           }
-        },
-        {
-          "id": "10701-12-4-1620",
-          "name": "Warp",
-          "x": 12,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10701-76-67-1619",
-          "name": "Warp",
-          "x": 76,
-          "y": 67,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -197023,34 +186466,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10702-37-2-1622",
-          "name": "Warp",
-          "x": 37,
-          "y": 2,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10702-22-3-1621",
-          "name": "Warp",
-          "x": 22,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10701-0",
@@ -197587,45 +187003,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/signb_10703_40_44"
           }
-        },
-        {
-          "id": "10703-64-3-1623",
-          "name": "Warp",
-          "x": 64,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10703-39-18-1626",
-          "name": "Warp",
-          "x": 39,
-          "y": 18,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10703-6-52-1624",
-          "name": "Warp",
-          "x": 6,
-          "y": 52,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -197814,60 +187191,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "10704-46-11-1627",
-          "name": "Warp",
-          "x": 46,
-          "y": 11,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10704-4-26-1625",
-          "name": "Warp",
-          "x": 4,
-          "y": 26,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10704-19-45-1628",
-          "name": "Warp",
-          "x": 19,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10704-44-45-1630",
-          "name": "Warp",
-          "x": 44,
-          "y": 45,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10703-0",
@@ -198107,58 +187431,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/100/sb_nusu3.arg"
           }
-        },
-        {
-          "id": "10705-39-28-1632",
-          "name": "Warp",
-          "x": 39,
-          "y": 28,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10705-10-47-1633",
-          "name": "Warp",
-          "x": 10,
-          "y": 47,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10705-76-67-1631",
-          "name": "Warp",
-          "x": 76,
-          "y": 67,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10705-53-74-1629",
-          "name": "Warp",
-          "x": 53,
-          "y": 74,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/10701d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -198391,45 +187663,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_10901_46_6"
           }
-        },
-        {
-          "id": "10901-46-4-2416",
-          "name": "Warp",
-          "x": 46,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10901-25-49-2393",
-          "name": "Warp",
-          "x": 25,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10901-26-49-2395",
-          "name": "Warp",
-          "x": 26,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -198519,21 +187752,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "10902-46-25-2396",
-          "name": "Warp",
-          "x": 46,
-          "y": 25,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10903-0",
@@ -198584,34 +187803,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "10903-17-24-2398",
-          "name": "Warp",
-          "x": 17,
-          "y": 24,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10903-27-43-2397",
-          "name": "Warp",
-          "x": 27,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10902-0",
@@ -198691,34 +187883,7 @@ export const WORLD = {
       ],
       "encounterPets": [],
       "encounterAreas": [],
-      "npcs": [
-        {
-          "id": "10904-36-20-2400",
-          "name": "Warp",
-          "x": 36,
-          "y": 20,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10904-26-48-2399",
-          "name": "Warp",
-          "x": 26,
-          "y": 48,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "10903-0",
@@ -199022,32 +188187,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_10912_21_21"
           }
-        },
-        {
-          "id": "10912-6-3-2417",
-          "name": "Warp",
-          "x": 6,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "10912-23-34-2418",
-          "name": "Warp",
-          "x": 23,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -199159,47 +188298,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "11001-44-5-2434",
-          "name": "Warp",
-          "x": 44,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "11001-0-43-2431",
-          "name": "Warp",
-          "x": 0,
-          "y": 43,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "11001-0-44-2433",
-          "name": "Warp",
-          "x": 0,
-          "y": 44,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "100-0",
@@ -199542,32 +188641,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/signb_11002_25_42"
           }
-        },
-        {
-          "id": "11002-7-6-2436",
-          "name": "Warp",
-          "x": 7,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "11002-46-42-2435",
-          "name": "Warp",
-          "x": 46,
-          "y": 42,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -199774,34 +188847,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "11003-42-3-2437",
-          "name": "Warp",
-          "x": 42,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "11003-6-5-2438",
-          "name": "Warp",
-          "x": 6,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "11002-0",
@@ -200203,32 +189249,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/signb_11004_20_7"
           }
-        },
-        {
-          "id": "11004-45-3-2440",
-          "name": "Warp",
-          "x": 45,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "11004-7-5-2439",
-          "name": "Warp",
-          "x": 7,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -200415,32 +189435,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_11005_41_30"
           }
-        },
-        {
-          "id": "11005-7-27-2442",
-          "name": "Warp",
-          "x": 7,
-          "y": 27,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "11005-45-30-2441",
-          "name": "Warp",
-          "x": 45,
-          "y": 30,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -200932,19 +189926,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100355"
-        },
-        {
-          "id": "11006-43-3-2443",
-          "name": "Warp",
-          "x": 43,
-          "y": 3,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon00.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -201105,60 +190086,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "20101-13-4-2498",
-          "name": "Warp",
-          "x": 13,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20101-37-6-2500",
-          "name": "Warp",
-          "x": 37,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20101-29-69-2495",
-          "name": "Warp",
-          "x": 29,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20101-30-69-2497",
-          "name": "Warp",
-          "x": 30,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "200-0",
@@ -201787,130 +190715,13 @@ export const WORLD = {
             "source": "gmsv-data/npc/genout/wpm_20301_200_39",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "20301-18-6-2511",
-          "name": "Warp",
-          "x": 18,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-18-6-2513",
-          "name": "Warp",
-          "x": 18,
-          "y": 6,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-275-21-2524",
-          "name": "Warp",
-          "x": 275,
-          "y": 21,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-240-24-2520",
-          "name": "Warp",
-          "x": 240,
-          "y": 24,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-228-27-2518",
-          "name": "Warp",
-          "x": 228,
-          "y": 27,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-254-30-2522",
-          "name": "Warp",
-          "x": 254,
-          "y": 30,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-200-40-2546",
-          "name": "Warp",
-          "x": 200,
-          "y": 40,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-281-125-2515",
-          "name": "Warp",
-          "x": 281,
-          "y": 125,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20301-281-125-2517",
-          "name": "Warp",
-          "x": 281,
-          "y": 125,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
         {
           "id": "200-0",
           "label": "去 加鲁卡",
-          "detail": "加鲁卡 | floor 200 | 目标 (421,577) | 入口 (18,6)",
+          "detail": "加鲁卡 | floor 200 | 目标 (421,578) | 入口 (18,6)",
           "to": "200",
           "x": 18,
           "y": 6,
@@ -201922,7 +190733,7 @@ export const WORLD = {
           ],
           "target": [
             421,
-            577
+            578
           ],
           "tiles": [
             {
@@ -201932,6 +190743,14 @@ export const WORLD = {
                 421,
                 577
               ]
+            },
+            {
+              "x": 18,
+              "y": 6,
+              "target": [
+                421,
+                578
+              ]
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
@@ -201939,7 +190758,7 @@ export const WORLD = {
         {
           "id": "200-1",
           "label": "去 加鲁卡",
-          "detail": "加鲁卡 | floor 200 | 目标 (501,647) | 入口 (281,125)",
+          "detail": "加鲁卡 | floor 200 | 目标 (502,647) | 入口 (281,125)",
           "to": "200",
           "x": 281,
           "y": 125,
@@ -201950,7 +190769,7 @@ export const WORLD = {
             125
           ],
           "target": [
-            501,
+            502,
             647
           ],
           "tiles": [
@@ -201959,6 +190778,14 @@ export const WORLD = {
               "y": 125,
               "target": [
                 501,
+                647
+              ]
+            },
+            {
+              "x": 281,
+              "y": 125,
+              "target": [
+                502,
                 647
               ]
             }
@@ -202398,58 +191225,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/jaruga/event/event07_4",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "20401-42-10-2554",
-          "name": "Warp",
-          "x": 42,
-          "y": 10,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20401-41-31-2552",
-          "name": "Warp",
-          "x": 41,
-          "y": 31,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20401-28-49-2551",
-          "name": "Warp",
-          "x": 28,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20401-29-49-2549",
-          "name": "Warp",
-          "x": 29,
-          "y": 49,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -202598,73 +191373,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "20501-56-5-2567",
-          "name": "Warp",
-          "x": 56,
-          "y": 5,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20501-27-22-2568",
-          "name": "Warp",
-          "x": 27,
-          "y": 22,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20501-37-34-2577",
-          "name": "Warp",
-          "x": 37,
-          "y": 34,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20501-8-53-2570",
-          "name": "Warp",
-          "x": 8,
-          "y": 53,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20501-8-53-2572",
-          "name": "Warp",
-          "x": 8,
-          "y": 53,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "200-0",
@@ -203184,45 +191893,6 @@ export const WORLD = {
             "hints": [],
             "source": "gmsv-data/npc/genout/signb_20601_24_43"
           }
-        },
-        {
-          "id": "20601-49-4-2601",
-          "name": "Warp",
-          "x": 49,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20601-9-59-2598",
-          "name": "Warp",
-          "x": 9,
-          "y": 59,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20601-10-59-2600",
-          "name": "Warp",
-          "x": 10,
-          "y": 59,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -203442,45 +192112,6 @@ export const WORLD = {
           "script": "npcgen_mugon",
           "template": "npcgen_mugon",
           "graphic": "100272"
-        },
-        {
-          "id": "20701-18-16-2620",
-          "name": "Warp",
-          "x": 18,
-          "y": 16,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20701-0-23-2617",
-          "name": "Warp",
-          "x": 0,
-          "y": 23,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20701-0-24-2619",
-          "name": "Warp",
-          "x": 0,
-          "y": 24,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon01.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -203860,45 +192491,6 @@ export const WORLD = {
             "source": "gmsv-data/npc/jaruga/event/event17_4",
             "status": "source-lead"
           }
-        },
-        {
-          "id": "20801-12-4-1859",
-          "name": "Warp",
-          "x": 12,
-          "y": 4,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/20801d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20801-33-69-1857",
-          "name": "Warp",
-          "x": 33,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/20801d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "20801-34-69-1858",
-          "name": "Warp",
-          "x": 34,
-          "y": 69,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/20801d.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
         }
       ],
       "exits": [
@@ -204217,34 +192809,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "31401-12-2-2865",
-          "name": "Warp",
-          "x": 12,
-          "y": 2,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "31401-94-27-2866",
-          "name": "Warp",
-          "x": 94,
-          "y": 27,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "100-0",
@@ -204469,34 +193034,7 @@ export const WORLD = {
           "source": "gmsv-data/encount.txt"
         }
       ],
-      "npcs": [
-        {
-          "id": "31501-34-2-2869",
-          "name": "Warp",
-          "x": 34,
-          "y": 2,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        },
-        {
-          "id": "31501-6-112-2868",
-          "name": "Warp",
-          "x": 6,
-          "y": 112,
-          "type": "Warp",
-          "dialogue": "脚本入口：未配置脚本参数",
-          "dialogueLines": [],
-          "source": "gmsv-data/npc/genout/dungeon03.create",
-          "script": "npcgen_warp",
-          "template": "npcgen_warp",
-          "graphic": ""
-        }
-      ],
+      "npcs": [],
       "exits": [
         {
           "id": "200-0",

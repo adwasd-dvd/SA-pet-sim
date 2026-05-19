@@ -1087,6 +1087,21 @@ function applyExit(game, exit) {
   const dir = normalizeDir(game.player?.dir ?? game.location?.dir);
   const now = new Date().toISOString();
   const to = { mapId: exit.to, x: exit.target[0], y: exit.target[1] };
+  const permission = exit.warp ? warpPermission(game, exit.warp) : null;
+  if (permission && !permission.ok) {
+    const line = exit.warp.payMessage || exit.warp.moneyMessage || `这个入口现在还不能通过。`;
+    addLog(game, `${line} 条件：${exit.warp.free || "未满足"}`);
+    return withMap(game);
+  }
+  if (permission?.cost > 0) {
+    if (Number(game.player.stone || 0) < permission.cost) {
+      addLog(game, exit.warp.moneyMessage || `这个入口需要 ${permission.cost} 石币，你现在的石币不够。`);
+      return withMap(game);
+    }
+    game.player.stone = Number(game.player.stone || 0) - permission.cost;
+    syncStoneItem(game);
+  }
+  const consumed = permission?.free ? consumeWarpItems(game, exit.warp) : [];
   game.location = { ...to, dir };
   setCharacterDir(game, dir);
   game.encounter = null;
@@ -1105,7 +1120,9 @@ function applyExit(game, exit) {
   game.transition = warpTransition("mapwarp", exit.label, from, to, exit.source, now);
   game.character ||= {};
   game.character.updatedAt = now;
-  addLog(game, `你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
+  const ticket = consumed.length ? `消耗 ${consumed.join("、")}，` : "";
+  const paid = permission?.cost > 0 ? `花费 ${permission.cost} 石币，` : "";
+  addLog(game, `${ticket}${paid}你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
   updateQuestProgress(game, "enterMap", { mapId: exit.to });
   return withMap(game);
 }

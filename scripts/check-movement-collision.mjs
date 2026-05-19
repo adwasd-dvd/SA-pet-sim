@@ -76,6 +76,8 @@ const exactExit = WORLD.maps["1000"].exits
   .find((exit) => exit.to === "100" && exit.tiles?.some((tile) => tile.x === 49 && tile.y === 116));
 if (!exactExit) throw new Error("missing exact mapwarp fixture");
 
+assertNoPseudoMapWarpNpcs();
+
 route = await api("/api/game/route-exit", {
   game: { ...game, location: { mapId: "1000", x: 49, y: 116, dir: 2 } },
   exitId: exactExit.id
@@ -144,7 +146,7 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, source-style blocked-target facing, NPC cells, Worker exit routes, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, and NPC approach routes are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, source-style blocked-target facing, NPC cells, Worker exit routes, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -164,4 +166,13 @@ function assertLog(state, text) {
 
 function distance(ax, ay, bx, by) {
   return Math.max(Math.abs(Number(ax) - Number(bx)), Math.abs(Number(ay) - Number(by)));
+}
+
+function assertNoPseudoMapWarpNpcs() {
+  for (const map of Object.values(WORLD.maps)) {
+    const leaked = (map.npcs || []).find((npc) => /^npcgen_warp$/i.test(npc.template || "") || /^Warp$/i.test(npc.type || ""));
+    if (leaked) {
+      throw new Error(`map teleport point leaked into NPC list: floor ${map.id} at (${leaked.x},${leaked.y})`);
+    }
+  }
 }

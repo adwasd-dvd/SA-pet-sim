@@ -561,7 +561,21 @@ function onMapCanvasClick(event) {
     return;
   }
   if (mapView.moved) return;
-  const npc = npcFromMapEvent(event, 2);
+  const exitMarker = explicitExitFromMapEvent(event);
+  if (exitMarker) {
+    lastNpcMapClick = { id: "", at: 0 };
+    handleMapExitClick(exitMarker);
+    return;
+  }
+  const explicitNpc = explicitNpcFromMapEvent(event);
+  const tile = mapTileFromPointer(event);
+  const tileExit = !explicitNpc ? exitFromTile(tile) : null;
+  if (tileExit) {
+    lastNpcMapClick = { id: "", at: 0 };
+    handleMapExitClick(tileExit);
+    return;
+  }
+  const npc = explicitNpc || (tile ? nearestNpcToTile(tile, 2) : null);
   if (npc) {
     const now = performance.now();
     const repeated = lastNpcMapClick.id === npc.id && now - lastNpcMapClick.at < 520;
@@ -571,12 +585,7 @@ function onMapCanvasClick(event) {
     return;
   }
   lastNpcMapClick = { id: "", at: 0 };
-  const exitBtn = event.target.closest("[data-exit]");
-  if (exitBtn && els.mapCanvas.contains(exitBtn)) {
-    goToExit(exitBtn.dataset.exit);
-    return;
-  }
-  const target = mapTileFromPointer(event);
+  const target = tile || mapTileFromPointer(event);
   if (target) {
     setMapHoverTile(target);
     followRouteTo(target);
@@ -585,7 +594,23 @@ function onMapCanvasClick(event) {
 
 function onMapCanvasDoubleClick(event) {
   if (isBattleOpen() || game?.dialog?.open) return;
-  const npc = npcFromMapEvent(event, 2);
+  const exitMarker = explicitExitFromMapEvent(event);
+  if (exitMarker) {
+    event.preventDefault();
+    lastNpcMapClick = { id: "", at: 0 };
+    handleMapExitClick(exitMarker);
+    return;
+  }
+  const explicitNpc = explicitNpcFromMapEvent(event);
+  const tile = mapTileFromPointer(event);
+  const tileExit = !explicitNpc ? exitFromTile(tile) : null;
+  if (tileExit) {
+    event.preventDefault();
+    lastNpcMapClick = { id: "", at: 0 };
+    handleMapExitClick(tileExit);
+    return;
+  }
+  const npc = explicitNpc || (tile ? nearestNpcToTile(tile, 2) : null);
   if (!npc) return;
   event.preventDefault();
   lastNpcMapClick = { id: npc.id, at: performance.now() };
@@ -593,13 +618,17 @@ function onMapCanvasDoubleClick(event) {
 }
 
 function npcFromMapEvent(event, maxTileDistance = 1) {
-  const npcBtn = event.target.closest("[data-npc]");
-  if (npcBtn && els.mapCanvas.contains(npcBtn)) return npcById(npcBtn.dataset.npc);
-  const spriteNpc = npcFromSpriteHitbox(event);
-  if (spriteNpc) return spriteNpc;
+  const explicitNpc = explicitNpcFromMapEvent(event);
+  if (explicitNpc) return explicitNpc;
   const tile = mapTileFromPointer(event);
   if (!tile) return null;
   return nearestNpcToTile(tile, maxTileDistance);
+}
+
+function explicitNpcFromMapEvent(event) {
+  const npcBtn = event.target.closest("[data-npc]");
+  if (npcBtn && els.mapCanvas.contains(npcBtn)) return npcById(npcBtn.dataset.npc);
+  return npcFromSpriteHitbox(event);
 }
 
 function npcFromSpriteHitbox(event) {
@@ -628,6 +657,42 @@ function nearestNpcToTile(tile, maxDistance) {
     if (!best || distance < best.distance) best = { npc, distance };
   }
   return best?.npc || null;
+}
+
+function explicitExitFromMapEvent(event) {
+  const exitBtn = event.target.closest("[data-exit]");
+  if (!exitBtn || !els.mapCanvas.contains(exitBtn)) return null;
+  return exitById(exitBtn.dataset.exit);
+}
+
+function exitById(exitId) {
+  const map = game?.world?.map;
+  return (map?.exits || []).find((item) => item.id === exitId) || null;
+}
+
+function exitFromTile(tile) {
+  if (!tile) return null;
+  const map = game?.world?.map;
+  const active = (map?.exits || []).find((exit) => exitContainsTile(exit, tile));
+  if (active) return active;
+  const closed = (map?.profileClosedExits || []).find((exit) => exitContainsTile(exit, tile));
+  return closed ? { ...closed, closedProfile: true } : null;
+}
+
+function exitContainsTile(exit, tile) {
+  if (!exit || !tile) return false;
+  const tx = Number(tile.x);
+  const ty = Number(tile.y);
+  if (!Number.isFinite(tx) || !Number.isFinite(ty)) return false;
+  if ((exit.tiles || []).some((item) => Number(item.x) === tx && Number(item.y) === ty)) return true;
+  if (Array.isArray(exit.bounds) && exit.bounds.length >= 4) {
+    const minX = Math.min(Number(exit.bounds[0]), Number(exit.bounds[2]));
+    const maxX = Math.max(Number(exit.bounds[0]), Number(exit.bounds[2]));
+    const minY = Math.min(Number(exit.bounds[1]), Number(exit.bounds[3]));
+    const maxY = Math.max(Number(exit.bounds[1]), Number(exit.bounds[3]));
+    if (tx >= minX && tx <= maxX && ty >= minY && ty <= maxY) return true;
+  }
+  return Number(exit.x) === tx && Number(exit.y) === ty;
 }
 
 function zoomMap(value, anchor = null) {
@@ -1023,6 +1088,16 @@ async function goToExit(exitId) {
   } catch (error) {
     addClientLog(error.message || `无法到达 ${exit.label}。`);
   }
+}
+
+function handleMapExitClick(exit) {
+  if (!exit) return;
+  if (exit.closedProfile) {
+    const target = exit.toName || exit.to || "目标地图";
+    addClientLog(`这个入口通往 ${target}，当前内容 profile 暂未开放。`);
+    return;
+  }
+  goToExit(exit.id);
 }
 
 function cellDistance(ax, ay, bx, by) {
