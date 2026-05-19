@@ -12275,6 +12275,8 @@ function clampInt(value, min, max, fallback) {
 }
 
 function withMap(game, extra = {}) {
+  hydrateGameInventoryFromSource(game);
+  hydrateGameInventoryRuntimeEffects(game);
   const map = currentMap(game);
   const responseMap = clientMapForResponse(map);
   ensureSaveIdentity(game);

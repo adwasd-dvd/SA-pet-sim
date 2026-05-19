@@ -277,11 +277,17 @@ memoryFeatherGame = await api("/api/game/use-item", { game: memoryFeatherGame, i
 assertEqual(inventoryQty(memoryFeatherGame, 1345), 0, "ITEM_useWarpForNum consumes the item on the final charge");
 let rawFeatherGame = await api("/api/game/new", { name: "item-effect-raw-feather-test" });
 rawFeatherGame.inventory.push({ id: 20912, name: "精灵的羽毛", qty: 1 });
+rawFeatherGame = await api("/api/game/sync", { game: rawFeatherGame });
+assertEqual(rawFeatherGame.inventory.find((item) => Number(item.id) === 20912)?.functionName, "ITEM_useWarp", "sync hydrates raw saved feather so client item buttons can enable use");
+assert(String(rawFeatherGame.inventory.find((item) => Number(item.id) === 20912)?.option || "").includes("7000"), "sync exposes raw saved feather warp target from source itemset6");
 rawFeatherGame = await api("/api/game/use-item", { game: rawFeatherGame, itemId: 20912 });
 assertEqual(rawFeatherGame.location.mapId, "7000", "raw saved feather id hydrates ITEM_useWarp from itemset6 before use");
 assertEqual(inventoryQty(rawFeatherGame, 20912), 0, "raw saved feather consumes after hydrated warp use");
 let rawMemoryFeatherGame = await api("/api/game/new", { name: "item-effect-raw-memory-feather-test" });
 rawMemoryFeatherGame.inventory.push({ id: 1345, name: "记忆的羽毛", qty: 1 });
+rawMemoryFeatherGame = await api("/api/game/sync", { game: rawMemoryFeatherGame });
+assertEqual(rawMemoryFeatherGame.inventory.find((item) => Number(item.id) === 1345)?.functionName, "ITEM_useWarpForNum", "sync hydrates raw saved memory feather use function for client item windows");
+assert(Number(rawMemoryFeatherGame.inventory.find((item) => Number(item.id) === 1345)?.usesRemaining || 0) > 0, "sync exposes raw saved memory feather remaining source uses");
 rawMemoryFeatherGame = await api("/api/game/use-item", { game: rawMemoryFeatherGame, itemId: 1345 });
 assertEqual(rawMemoryFeatherGame.location.mapId, "1000", "raw saved memory feather hydrates ITEM_useWarpForNum target from itemset6");
 assertEqual(Number(rawMemoryFeatherGame.inventory.find((item) => Number(item.id) === 1345)?.usesRemaining), 1, "raw saved memory feather hydrates and decrements source damageBreak uses");
@@ -293,6 +299,9 @@ rawDeathCounterGame.location = {
   dir: 0
 };
 rawDeathCounterGame.inventory.push({ id: 20129, name: "恶魔宝石LV1", qty: 1 });
+rawDeathCounterGame = await api("/api/game/sync", { game: rawDeathCounterGame });
+assertEqual(rawDeathCounterGame.inventory.find((item) => Number(item.id) === 20129)?.functionName, "ITEM_useDeathcounter", "sync hydrates raw saved demon gem use function for main inventory use");
+assert(Number(rawDeathCounterGame.inventory.find((item) => Number(item.id) === 20129)?.usesRemaining || 0) > 0, "sync exposes raw saved demon gem source charge count before use");
 rawDeathCounterGame = await api("/api/game/use-item", { game: rawDeathCounterGame, itemId: 20129 });
 assert(rawDeathCounterGame.encounter, "raw saved demon gem id hydrates ITEM_useDeathcounter from itemset6 before use");
 assertEqual(Number(rawDeathCounterGame.inventory.find((item) => Number(item.id) === 20129)?.usesRemaining), 2, "raw saved demon gem hydrates and decrements source damageBreak uses");
