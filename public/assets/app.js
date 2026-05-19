@@ -2011,14 +2011,16 @@ function uniqueNumbers(values) {
     .sort((a, b) => a - b);
 }
 
-function petSpriteMarkup(tileId, label = "", className = "") {
+function petSpriteMarkup(tileId, label = "", className = "", options = {}) {
   const source = Number(tileId || 0);
-  const id = sourceFieldSpriteTileId(source, { fallback: source });
+  const useFieldFrame = Boolean(options.fieldFrame);
+  const id = useFieldFrame ? sourceFieldSpriteTileId(source, { fallback: source }) : source;
   const aria = label ? `role="img" aria-label="${escapeHtml(label)}"` : `aria-hidden="true"`;
-  const missingLabel = source >= SPR_START ? `SpriteNo ${source}` : `ImgNo ${id || "-"}`;
+  const missingLabel = useFieldFrame && source >= SPR_START ? `SpriteNo ${source}` : `ImgNo ${id || "-"}`;
+  const spriteAttrs = useFieldFrame ? sourceSpriteAttrs(source, id) : "";
   return `
     <span class="atlas-sprite-frame ${className}" data-imgno="${source || id}" data-missing="${missingLabel}" ${aria}>
-      <span class="client-atlas-sprite ui-atlas-sprite" data-atlas-sprite="${id}"${sourceSpriteAttrs(source, id)} aria-hidden="true"></span>
+      <span class="client-atlas-sprite ui-atlas-sprite" data-atlas-sprite="${id}"${spriteAttrs} aria-hidden="true"></span>
     </span>
   `;
 }
