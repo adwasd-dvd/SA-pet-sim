@@ -14,6 +14,7 @@
     "check:npc": "node scripts/check-npc-actions.mjs",
     "report:npc-scripts": "node scripts/report-npc-script-coverage.mjs",
     "report:pet-resources": "node scripts/report-pet-resource-coverage.mjs",
+    "report:pet-animations": "node scripts/report-pet-animation-coverage.mjs",
     "audit:classic-core": "node scripts/audit-classic-core-content.mjs",
     "closure:classic-core": "node scripts/build-classic-content-closure.mjs",
     "report:classic-core": "node scripts/report-classic-core-package.mjs",

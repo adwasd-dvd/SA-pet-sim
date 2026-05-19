@@ -53,6 +53,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - Keep the default `public/` boot package small enough for Cloudflare Workers/Pages static asset limits; large optional original-resource packs should be split or served through R2 with cache-versioned manifests.
 - The imported slim guide is now part of the development stack. Use `profiles/content-profiles.json` and `scripts/resource-tools/*` to generate texture keep-sets, pack plans, pack PNG/JSON outputs, and pixel-diff validation before switching runtime loading away from the current monolithic atlas.
 - `npm run report:pet-resources` writes `docs/planning/PET_RESOURCE_COVERAGE_REPORT.md` and `docs/planning/pet-resource-coverage-report.json`. As of 2026-05-19, enemybase static `ImgNo` coverage is complete, but true pet field/battle animation packs are not wired yet; that is the likely reason pets such as 乌力 can still look wrong even when no sprite frame is missing.
+- `npm run report:pet-animations` writes `docs/planning/PET_ANIMATION_COVERAGE_REPORT.md` and `docs/planning/pet-animation-coverage-report.json`. As of 2026-05-19, classic-core has 56 locally verified source sprite numbers, 0 missing `spradrn_115` entries, 5920 unique field stand/walk bitmap frames, and 7828 unique battle-core bitmap frames. Do not add these to the boot atlas; build lazy `pet-field-animation` first, then `pet-battle-animation`.
 
 ## Content Slimming Strategy
 
