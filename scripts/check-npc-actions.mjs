@@ -19,16 +19,18 @@ const env = {
   }
 };
 
-const api = async (pathName, body) => {
+const apiWithEnv = async (customEnv, pathName, body) => {
   const response = await worker.fetch(new Request(`http://local.test${pathName}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body)
-  }), env);
+  }), customEnv);
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || `API failed: ${pathName}`);
   return data;
 };
+
+const api = (pathName, body) => apiWithEnv(env, pathName, body);
 
 let game = await api("/api/game/new", { name: "npc-action-test" });
 assertEqual(game.player.EarthAT, 50, "new player keeps source-style Earth attribute default");
@@ -225,6 +227,22 @@ assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" &
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes(teacher.script)), "source query replies with script path");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.status === "ok"), "source query records debug VM event");
 assert(teacherGame.save.json.npcVmEvents.some((event) => event.action === "debug" && event.npcId === teacher.id), "save json carries recent NPC VM events");
+let disabledNpcAiCalls = 0;
+const envWithNpcAi = {
+  ...env,
+  AI: {
+    async run() {
+      disabledNpcAiCalls += 1;
+      return { response: "这条远程 AI 回复不应该在普通 NPC 对话里出现。" };
+    }
+  }
+};
+const noAiEffectCutoff = Date.now();
+teacherGame = await apiWithEnv(envWithNpcAi, "/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "能不能帮我一段时间不会遇到野外敌人" });
+assertEqual(disabledNpcAiCalls, 0, "disabled NPC AI mode never calls Workers AI");
+assertEqual(teacherGame.dialog.aiMode, false, "ordinary NPC dialog keeps AI mode off");
+assert(!teacherGame.effects?.noEncounterUntil || Number(teacherGame.effects.noEncounterUntil) <= noAiEffectCutoff, "ordinary NPC dialog does not apply AI negotiated no-encounter");
+assert(!teacherGame.dialog.messages.at(-1)?.text.includes("远程 AI"), "ordinary NPC dialog does not display AI response text");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "AI对话" });
 assertEqual(teacherGame.dialog.aiMode, true, "AI dialog toggle is reflected in dialog state");
 assert(teacherGame.dialog.suggestions.includes("请求避敌"), "AI mode exposes negotiated no-encounter suggestion");

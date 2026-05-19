@@ -4336,10 +4336,10 @@ async function npcReply(env, request, game, npc, text) {
   if (!game.encounter && isAiModeOn(lower)) return setNpcAiModeReply(game, npc, true);
   if (!game.encounter && isAiModeOff(lower)) return setNpcAiModeReply(game, npc, false);
   if (hasAny(lower, ["来源", "來源", "脚本", "腳本", "source", "debug"])) return sourceReply(game, npc);
-  if (!game.encounter && isNpcEnemy(npc) && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
+  if (!game.encounter && isNpcEnemy(npc) && isNpcAiMode(game, npc) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isNpcEnemy(npc)) return npcEnemyReply(env, request, game, npc, lower);
   if (isGreeting(lower)) return runNpcTalk(game, npc, "hi");
-  if (!game.encounter && (isNpcAiMode(game, npc) || isAiRequest(lower)) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
+  if (!game.encounter && isNpcAiMode(game, npc) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"])) return savePointReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
@@ -4355,8 +4355,7 @@ async function npcReply(env, request, game, npc, text) {
     const reply = localStoneAgeKnowledgeReply(buildStoneAgeKnowledgeContext(game, currentMap(game), text, npc), npc.name);
     if (reply) return reply;
   }
-  if (isNpcAiMode(game, npc) || isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
-  if (env.AI && typeof env.AI.run === "function") return aiNpcReply(env, request, game, npc, text);
+  if (isNpcAiMode(game, npc)) return aiNpcReply(env, request, game, npc, text);
   recordNpcVmEvent(game, npc, "unsupported", "unsupported", { text: text.slice(0, 80) });
   return fallbackNpcReply(npc);
 }
