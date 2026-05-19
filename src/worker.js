@@ -67,6 +67,8 @@ const BATTLE_ENTRY_MAX = 10;
 const BATTLE_PLAYER_MAX = 5;
 const BATTLE_SIDE_OFFSET = 10;
 const BATTLE_TURN_SECONDS = 30;
+const BATTLE_GETITEM_MAX = 3;
+const ENEMY_DROP_ROLL_BASE = 1000;
 const PLAYER_LEVEL_SKILL_POINTS = 3;
 const PLAYER_POINT_STEP = 100;
 const PLAYER_INITIAL_CHARM = 60;
@@ -3079,12 +3081,86 @@ function createEnemyFromEnemySpec(data, enemyId, npcEnemy = null) {
   enemy.EnemyLvMax = spec.lvMax;
   enemy.EnemyCreateMin = spec.createMin;
   enemy.EnemyCreateMax = spec.createMax;
-  enemy.WorkTactics = 1;
+  enemy.WorkTactics = Number(spec.tactics || 1);
   enemy.WorkTacticsOption = spec.tacticsOption || enemy.WorkTacticsOption || "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0";
+  if (Number(spec.exp || 0) > 0) {
+    enemy.Exp = Number(spec.exp);
+    enemy.SourceExp = Number(spec.exp);
+    enemy.EnemyExp = Number(spec.exp);
+  }
+  enemy.DuelPoint = Number(spec.duelPoint || enemy.DuelPoint || 0);
+  enemy.EnemyStyle = Number(spec.style || 0);
+  enemy.WorkPetFlag = Number(spec.petFlg || enemy.WorkPetFlag || 0);
+  enemy.EnemyDropTable = enemyDropTableForSpec(data, spec);
+  enemy.EnemyDropItems = rollEnemyDropItems(data, spec);
   enemy.CaptureRate = 0;
   enemy.source = `${GMSV_DATA_SOURCE}/enemy1.txt enemy ${spec.id} -> ${GMSV_DATA_SOURCE}/enemybase2.txt ${spec.tempNo}`;
   if (npcEnemy) enemy.npcEnemy = npcEnemy;
   return enemy;
+}
+
+function enemyDropTableForSpec(data, spec = {}) {
+  return (spec.drops || [])
+    .map((entry) => battleDropItemFromSource(data, entry.itemId, {
+      slot: Number(entry.slot || 0),
+      probability: Number(entry.probability || 0),
+      rollBase: ENEMY_DROP_ROLL_BASE,
+      source: `${GMSV_DATA_SOURCE}/enemy1.txt enemy ${spec.id} ITEM${Number(entry.slot || 0) || ""}/ITEMPROB${Number(entry.slot || 0) || ""}`
+    }))
+    .filter(Boolean);
+}
+
+function rollEnemyDropItems(data, spec = {}) {
+  return (spec.drops || [])
+    .filter((entry) => Number(entry.itemId || 0) > 0 && Number(entry.probability || 0) > 0)
+    .filter((entry) => randInt(ENEMY_DROP_ROLL_BASE) < Number(entry.probability || 0))
+    .map((entry) => battleDropItemFromSource(data, entry.itemId, {
+      slot: Number(entry.slot || 0),
+      probability: Number(entry.probability || 0),
+      rollBase: ENEMY_DROP_ROLL_BASE,
+      source: `${GMSV_DATA_SOURCE}/enemy1.txt enemy ${spec.id} ITEM${Number(entry.slot || 0) || ""}/ITEMPROB${Number(entry.slot || 0) || ""}`
+    }))
+    .filter(Boolean);
+}
+
+function battleDropItemFromSource(data, itemId, meta = {}) {
+  const id = Number(itemId || 0);
+  if (!id) return null;
+  const sourceItem = data?.itemSet?.get(id) || cache?.itemSet?.get(id) || worldTradeItemIndex().get(id);
+  const item = {
+    ...(sourceItem || {}),
+    id,
+    name: sourceItem?.name || `item ${id}`,
+    qty: 1,
+    source: meta.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
+  };
+  hydrateRuntimeItemEffect(item, data);
+  return {
+    id: item.id,
+    name: item.name,
+    qty: 1,
+    image: item.image,
+    type: item.type,
+    useField: item.useField,
+    target: item.target,
+    level: item.level,
+    price: item.price,
+    cost: item.cost,
+    description: item.description,
+    secretName: item.secretName,
+    category: item.category,
+    option: item.option,
+    effectOption: item.effectOption,
+    functionName: item.functionName,
+    useFunction: item.useFunction,
+    damageBreak: item.damageBreak,
+    maxUses: item.maxUses,
+    usesRemaining: item.usesRemaining,
+    slot: Number(meta.slot || 0),
+    probability: Number(meta.probability || 0),
+    rollBase: Number(meta.rollBase || ENEMY_DROP_ROLL_BASE),
+    source: item.source
+  };
 }
 
 function captureGame(game) {
@@ -4210,6 +4286,12 @@ function recordBattleOutcome(game, outcome = null) {
       name: item.name || "",
       qty: Number(item.qty || 1)
     })),
+    skippedLootItems: (outcome.skippedLootItems || []).slice(0, 8).map((item) => ({
+      id: item.id,
+      name: item.name || "",
+      qty: Number(item.qty || 1),
+      reason: item.reason || ""
+    })),
     turns: Number(outcome.turns || 0),
     log: (outcome.log || []).slice(-4)
   };
@@ -4427,7 +4509,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
   let stone = 0;
   let defeatedEnemies = [];
   let escapedEnemies = [];
-  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [], sourceResults: [] };
+  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [], sourceResults: [], lootItems: [], skippedLootItems: [] };
   if (options.enemyEscaped && enemy.Hp > 0 && battleActorHp(game, activeActor) > 0) {
     escapedEnemies = [...(game.battle?.escapedEnemies || [])];
     const nextEnemy = advanceBattleEscapedEnemy(game, enemy, battleLog);
@@ -4500,18 +4582,25 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
       playerExp: Number(reward.playerExp || 0),
       petExp: Number(reward.petExp || 0),
       levelUps: [...(reward.levelUps || [])],
-      sourceResults: [...(reward.sourceResults || [])]
+      sourceResults: [...(reward.sourceResults || [])],
+      lootItems: [],
+      skippedLootItems: []
     };
     exp = reward.playerExp;
     stone = defeatedEnemies.reduce((sum, item) => sum + 12 + Number(item.Lv || 1) * 4, 0);
     game.player.stone += stone;
     syncStoneItem(game);
+    const loot = grantBattleLoot(game, defeatedEnemies);
+    rewardSummary.lootItems = loot.items;
+    rewardSummary.skippedLootItems = loot.skipped;
     const defeatedText = defeatedEnemies.length > 1
       ? `击败敌方 ${defeatedEnemies.length} 人`
       : `击败 ${enemy.Name}`;
     const petReward = reward.petName ? `，${reward.petName} 获得 ${reward.petExp} 经验` : "";
     const levelText = reward.levelUps.length ? ` ${reward.levelUps.join(" ")}` : "";
-    battleLog.push(`${defeatedText}，人物获得 ${reward.playerExp} 经验${petReward}，获得 ${stone} 石币。${levelText}`.trim());
+    const lootText = loot.items.length ? ` 掉落：${formatLootList(loot.items)}。` : "";
+    const skippedText = loot.skipped.length ? ` 背包已满，未能获得 ${formatLootList(loot.skipped)}。` : "";
+    battleLog.push(`${defeatedText}，人物获得 ${reward.playerExp} 经验${petReward}，获得 ${stone} 石币。${lootText}${skippedText}${levelText}`.trim());
     updateQuestProgress(game, "fieldWin", {
       mapId: game.location.mapId,
       petName: enemy.Name,
@@ -4559,10 +4648,65 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
     defeatedEnemies,
     escapedEnemies,
     sourceResults: rewardSummary.sourceResults,
-    lootItems: [],
+    lootItems: rewardSummary.lootItems,
+    skippedLootItems: rewardSummary.skippedLootItems,
     turns: turnCount,
     log: battleLog
   };
+}
+
+function grantBattleLoot(game, defeatedEnemies = []) {
+  const rolled = [];
+  for (const enemy of defeatedEnemies || []) {
+    rolled.push(...compactBattleLootItems(enemy.EnemyDropItems || enemy.lootItems || []));
+  }
+  const awardedSlots = [];
+  for (const item of rolled) {
+    if (awardedSlots.length < BATTLE_GETITEM_MAX) {
+      awardedSlots.push(item);
+      continue;
+    }
+    // Source BATTLE_AddExpItem gives each player only GETITEM_MAX result slots;
+    // overflow has a 50% chance to replace one of those slots, otherwise it is lost.
+    if (randInt(2) === 1) awardedSlots[randInt(BATTLE_GETITEM_MAX)] = item;
+  }
+
+  const items = [];
+  const skipped = [];
+  for (const item of awardedSlots) {
+    if (!item?.id) continue;
+    if (!canCarryItem(game, item)) {
+      skipped.push({ ...item, reason: "inventory-full" });
+      continue;
+    }
+    addInventoryItem(game, item, Number(item.qty || 1));
+    items.push(item);
+  }
+  return {
+    items: mergeBattleLootItems(items),
+    skipped: mergeBattleLootItems(skipped)
+  };
+}
+
+function mergeBattleLootItems(items = []) {
+  const byId = new Map();
+  for (const item of items || []) {
+    const id = Number(item?.id || 0);
+    if (!id) continue;
+    const existing = byId.get(id);
+    if (existing) {
+      existing.qty = Number(existing.qty || 1) + Number(item.qty || 1);
+    } else {
+      byId.set(id, { ...item, id, qty: Math.max(1, Number(item.qty || 1)) });
+    }
+  }
+  return [...byId.values()];
+}
+
+function formatLootList(items = []) {
+  return (items || [])
+    .map((item) => `${item.name || `item ${item.id}`} x${Math.max(1, Number(item.qty || 1))}`)
+    .join("、");
 }
 
 function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
@@ -4629,8 +4773,42 @@ function enemyBattleSummary(enemy) {
     WaterAT: enemy.WaterAT,
     FireAT: enemy.FireAT,
     WindAT: enemy.WindAT,
-    BattleStatuses: compactBattleStatuses(enemy)
+    BattleStatuses: compactBattleStatuses(enemy),
+    EnemyDropItems: compactBattleLootItems(enemy.EnemyDropItems || enemy.lootItems || []),
+    EnemyDropTable: compactBattleLootItems(enemy.EnemyDropTable || enemy.dropTable || [])
   };
+}
+
+function compactBattleLootItems(items = []) {
+  return (items || [])
+    .filter(Boolean)
+    .slice(0, 10)
+    .map((item) => ({
+      id: Number(item.id || 0),
+      name: item.name || `item ${item.id || 0}`,
+      qty: Math.max(1, Number(item.qty || 1)),
+      image: item.image,
+      type: item.type,
+      useField: item.useField,
+      target: item.target,
+      level: item.level,
+      cost: item.cost,
+      description: item.description,
+      secretName: item.secretName,
+      category: item.category,
+      option: item.option,
+      effectOption: item.effectOption,
+      functionName: item.functionName,
+      useFunction: item.useFunction,
+      damageBreak: item.damageBreak,
+      maxUses: item.maxUses,
+      usesRemaining: item.usesRemaining,
+      slot: Number(item.slot || 0),
+      probability: Number(item.probability || 0),
+      rollBase: Number(item.rollBase || ENEMY_DROP_ROLL_BASE),
+      source: item.source || `${GMSV_DATA_SOURCE}/enemy1.txt`
+    }))
+    .filter((item) => item.id > 0);
 }
 
 function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
@@ -13061,7 +13239,7 @@ async function loadGameData(env, request) {
     enemyBaseSet.set(eb.No, eb);
     enemyNoList.push(eb.No);
   }
-  const enemySpecsById = parseEnemySpecs(enemyText, enemyBaseSet);
+  const enemySpecsById = parseEnemySpecs(enemyText, enemyBaseSet, itemSet);
   cache = { enemyBaseSet, enemyNoList, enemySpecsById, itemSet, skills };
   return cache;
 }
@@ -13095,7 +13273,7 @@ function parseItemSet(text) {
   return items;
 }
 
-function parseEnemySpecs(text, enemyBaseSet) {
+function parseEnemySpecs(text, enemyBaseSet, itemSet = null) {
   const specs = new Map();
   for (const line of lines(text)) {
     const rows = line.split(",");
@@ -13109,6 +13287,20 @@ function parseEnemySpecs(text, enemyBaseSet) {
     const rawMax = toInt(rows[offset + 3]);
     const maxLevel = Math.max(1, rawMax || rawMin || 1);
     const minLevel = Math.max(1, rawMin || maxLevel);
+    const drops = [];
+    for (let i = 0; i < 10; i += 1) {
+      const itemId = toInt(rows[offset + 11 + i]);
+      const probability = toInt(rows[offset + 21 + i]);
+      if (itemId > 0 && probability > 0) {
+        drops.push({
+          slot: i + 1,
+          itemId,
+          probability,
+          name: itemSet?.get(itemId)?.name || `item ${itemId}`,
+          source: `${GMSV_DATA_SOURCE}/enemy1.txt ITEM${i + 1}/ITEMPROB${i + 1}`
+        });
+      }
+    }
     specs.set(id, {
       id,
       tempNo,
@@ -13116,7 +13308,13 @@ function parseEnemySpecs(text, enemyBaseSet) {
       lvMax: Math.max(minLevel, maxLevel),
       createMax: Math.max(1, toInt(rows[offset + 4]) || 1),
       createMin: Math.max(1, toInt(rows[offset + 5]) || 1),
+      tactics: toInt(rows[offset + 6]),
+      exp: toInt(rows[offset + 7]),
+      duelPoint: toInt(rows[offset + 8]),
+      style: toInt(rows[offset + 9]),
+      petFlg: toInt(rows[offset + 10]),
       tacticsOption,
+      drops,
       source: `${GMSV_DATA_SOURCE}/enemy1.txt`
     });
   }

@@ -270,6 +270,36 @@ deathCounterGame = await api("/api/game/use-item", { game: deathCounterGame, ite
 assert(deathCounterGame.encounter, "ITEM_useDeathcounter starts an immediate source encounter");
 assertEqual(inventoryQty(deathCounterGame, 5019), 1, "ITEM_useDeathcounter keeps the stack while charges remain");
 assertEqual(Number(deathCounterGame.inventory.find((item) => Number(item.id) === 5019)?.usesRemaining), 2, "ITEM_useDeathcounter decrements ITEM_DAMAGEBREAK-style uses");
+let battleLootGame = await api("/api/game/new", { name: "source-battle-loot-test" });
+const battleLootFixture = sourceLootEncounterFixture();
+battleLootGame.location = {
+  mapId: battleLootFixture.map.id,
+  x: Math.trunc((Number(battleLootFixture.area.bounds[0]) + Number(battleLootFixture.area.bounds[2])) / 2),
+  y: Math.trunc((Number(battleLootFixture.area.bounds[1]) + Number(battleLootFixture.area.bounds[3])) / 2),
+  dir: 0
+};
+const originalRandomForLoot = Math.random;
+Math.random = () => 0;
+try {
+  battleLootGame = await api("/api/game/encounter", { game: battleLootGame });
+  assert(battleLootGame.encounter?.EnemyDropItems?.length, "source enemy1 drop probabilities roll item inventory onto spawned enemies");
+  const expectedLootId = battleLootGame.encounter.EnemyDropItems[0].id;
+  battleLootGame.encounter.Hp = 1;
+  battleLootGame.encounter.WorkFixDex = 0;
+  battleLootGame.encounter.WorkQuick = 0;
+  battleLootGame.pets[0].WorkFixStr = 999;
+  battleLootGame.pets[0].WorkAttackPower = 999;
+  battleLootGame.pets[0].WorkFixDex = 999;
+  battleLootGame.pets[0].WorkQuick = 999;
+  battleLootGame = await api("/api/game/battle", { game: battleLootGame, action: "攻击" });
+  assertEqual(battleLootGame.battleOutcome.result, "victory", "source battle loot test wins the encounter");
+  assert(battleLootGame.battleOutcome.lootItems.some((item) => Number(item.id) === expectedLootId), "victory outcome reports source enemy1 loot");
+  assert(inventoryQty(battleLootGame, expectedLootId) > 0, "source enemy1 loot is added to inventory after victory");
+  assert(battleLootGame.lastBattleOutcome.lootItems.some((item) => Number(item.id) === expectedLootId), "last battle telemetry persists source loot");
+  assert(battleLootGame.log.some((line) => line.includes("掉落")), "battle log announces dropped items");
+} finally {
+  Math.random = originalRandomForLoot;
+}
 let featherGame = await api("/api/game/new", { name: "item-effect-feather-test" });
 featherGame.inventory.push({ id: 20912, name: "精灵的羽毛", qty: 1, description: "可瞬间飞行至伊甸大陆", option: "0 7000 106 49", functionName: "ITEM_useWarp" });
 featherGame = await api("/api/game/use-item", { game: featherGame, itemId: 20912 });
@@ -2485,6 +2515,46 @@ function pointInBounds(x, y, bounds = []) {
     && y >= Number(bounds[1] || 0)
     && x <= Number(bounds[2] || 0)
     && y <= Number(bounds[3] || 0);
+}
+
+function sourceLootEncounterFixture() {
+  const droppableEnemyIds = sourceEnemyDropIds();
+  for (const map of Object.values(WORLD.maps || {})) {
+    for (const area of map.encounterAreas || []) {
+      const firstAvailableGroup = (area.groups || []).find((group) => (
+        group.enemies?.length
+        && !group.appearByItemId
+        && !group.notAppearByItemId
+        && Number(group.weight || 0) > 0
+      ));
+      const firstEnemy = firstAvailableGroup?.enemies?.find((enemy) => Number(enemy.weight || 0) > 0);
+      if (firstEnemy && droppableEnemyIds.has(Number(firstEnemy.enemyId))) {
+        return { map, area, group: firstAvailableGroup, enemy: firstEnemy };
+      }
+    }
+  }
+  throw new Error("missing source enemy1 drop encounter fixture");
+}
+
+function sourceEnemyDropIds() {
+  const text = readFileSync(path.join(publicRoot, "data", "enemy1.txt"), "utf8");
+  const ids = new Set();
+  for (const line of text.split(/\r?\n/)) {
+    const rows = line.split(",");
+    if (rows.length < 10) continue;
+    const offset = Number.isFinite(Number.parseInt(rows[2], 10)) && Number.parseInt(rows[2], 10) > 0 ? 2 : 3;
+    const enemyId = Number(rows[offset]);
+    if (!Number.isFinite(enemyId) || enemyId <= 0) continue;
+    for (let i = 0; i < 10; i += 1) {
+      const itemId = Number(rows[offset + 11 + i]) || 0;
+      const probability = Number(rows[offset + 21 + i]) || 0;
+      if (itemId > 0 && probability > 0) {
+        ids.add(enemyId);
+        break;
+      }
+    }
+  }
+  return ids;
 }
 
 function inventoryQty(game, id) {

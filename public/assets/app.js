@@ -4992,6 +4992,10 @@ function battleOutcomeSummary(outcome = {}) {
   if (exp > 0) parts.push(`人物 +${exp}EXP`);
   if (petExp > 0) parts.push(`${petName} +${petExp}EXP`);
   if (stone > 0) parts.push(`石币 +${stone}`);
+  const lootItems = (outcome.lootItems || []).slice(0, 3);
+  if (lootItems.length) parts.push(`掉落 ${lootItems.map((item) => `${item.name || `item ${item.id}`} x${Number(item.qty || 1)}`).join("、")}`);
+  const skippedLootItems = (outcome.skippedLootItems || []).slice(0, 2);
+  if (skippedLootItems.length) parts.push(`背包满 ${skippedLootItems.map((item) => item.name || `item ${item.id}`).join("、")}`);
   if (levelUps) parts.push(levelUps);
   return parts.join(" | ");
 }
