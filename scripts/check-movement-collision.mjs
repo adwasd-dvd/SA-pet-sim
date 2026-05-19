@@ -133,8 +133,23 @@ assertEqual(route.target.y, 116, "route-exit selects nearest exact source tile y
 assertEqual(route.route.length, 1, "route-exit returns route to exact warp tile");
 assertEqual(route.exit.to, "100", "route-exit keeps source mapwarp destination");
 
+route = await api("/api/game/route-exit", {
+  game: { ...game, location: { mapId: "1000", x: 48, y: 116 } },
+  exitId: exactExit.id,
+  targetX: 49,
+  targetY: 119
+});
+assertEqual(route.blocked, false, "route-exit honors a clicked warp-side preference");
+assertEqual(route.target.x, 49, "route-exit preferred exact source tile x");
+assertEqual(route.target.y, 119, "route-exit preferred exact source tile y");
+assertEqual(route.exit.target[1], 494, "route-exit preferred tile preserves that source mapwarp target");
+
 game.location = { mapId: "1000", x: 48, y: 116 };
-for (const step of route.route) {
+const directExitRoute = await api("/api/game/route-exit", {
+  game: { ...game, location: { mapId: "1000", x: 48, y: 116 } },
+  exitId: exactExit.id
+});
+for (const step of directExitRoute.route) {
   game = await api("/api/game/walk", { game, dx: step.dx, dy: step.dy });
 }
 assertEqual(game.location.mapId, "100", "stepping onto mapwarp changes floor");
@@ -156,6 +171,15 @@ let npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.
 assertEqual(npcRoute.blocked, false, "route-npc finds reachable interaction tile");
 assert(npcRoute.route.length > 0, "route-npc returns route steps from spawn");
 assert(distance(npcRoute.target.x, npcRoute.target.y, teacher.x, teacher.y) <= 2, "route-npc target is in interaction range");
+const preferredNpcRoute = await api("/api/game/route-npc", {
+  game: npcGame,
+  npcId: teacher.id,
+  targetX: teacher.x + 2,
+  targetY: teacher.y
+});
+assertEqual(preferredNpcRoute.blocked, false, "route-npc honors a clicked NPC-side preference");
+assertEqual(preferredNpcRoute.target.x, teacher.x + 2, "route-npc preferred interaction tile x");
+assertEqual(preferredNpcRoute.target.y, teacher.y, "route-npc preferred interaction tile y");
 for (const step of npcRoute.route) {
   npcGame = await api("/api/game/walk", { game: npcGame, dx: step.dx, dy: step.dy });
 }
@@ -164,7 +188,7 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, and NPC approach routes are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

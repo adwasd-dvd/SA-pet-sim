@@ -258,11 +258,11 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/route-npc" && request.method === "POST") {
       const body = await readJson(request);
-      return json(await routeNpcGame(env, request, body.game, String(body.npcId || "")));
+      return json(await routeNpcGame(env, request, body.game, String(body.npcId || ""), Number(body.targetX), Number(body.targetY)));
     }
     if (url.pathname === "/api/game/route-exit" && request.method === "POST") {
       const body = await readJson(request);
-      return json(await routeExitGame(env, request, body.game, String(body.exitId || "")));
+      return json(await routeExitGame(env, request, body.game, String(body.exitId || ""), Number(body.targetX), Number(body.targetY)));
     }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
@@ -630,7 +630,7 @@ function faceTargetFrom(from, target) {
   return { dir, dx, dy, x: target.x, y: target.y };
 }
 
-async function routeNpcGame(env, request, game, npcId) {
+async function routeNpcGame(env, request, game, npcId, preferredX = NaN, preferredY = NaN) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
@@ -642,6 +642,7 @@ async function routeNpcGame(env, request, game, npcId) {
     x: clampInt(game.location.x, 0, width - 1, 0),
     y: clampInt(game.location.y, 0, height - 1, 0)
   };
+  const preferred = preferredRouteTile(preferredX, preferredY, width, height);
   if (distance(from.x, from.y, npc.x, npc.y) <= NPC_INTERACTION_RANGE) {
     return {
       from,
@@ -652,7 +653,7 @@ async function routeNpcGame(env, request, game, npcId) {
       npc: routeNpcSummary(npc)
     };
   }
-  for (const target of npcApproachTargets(map, collision, npc, from)) {
+  for (const target of npcApproachTargets(map, collision, npc, from, preferred)) {
     const route = findRoute(map, collision, from, target);
     if (route.length) {
       return {
@@ -675,7 +676,7 @@ async function routeNpcGame(env, request, game, npcId) {
   };
 }
 
-function npcApproachTargets(map, collision, npc, from) {
+function npcApproachTargets(map, collision, npc, from, preferred = null) {
   const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
   const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
   const targets = [];
@@ -694,18 +695,25 @@ function npcApproachTargets(map, collision, npc, from) {
         x,
         y,
         npcDistance,
-        distance: distance(from.x, from.y, x, y)
+        distance: distance(from.x, from.y, x, y),
+        preferredDistance: preferred ? distance(preferred.x, preferred.y, x, y) : 0
       });
     }
   }
-  return targets.sort((a, b) => a.distance - b.distance || a.npcDistance - b.npcDistance || a.y - b.y || a.x - b.x);
+  return targets.sort((a, b) => (
+    a.preferredDistance - b.preferredDistance
+    || a.distance - b.distance
+    || a.npcDistance - b.npcDistance
+    || a.y - b.y
+    || a.x - b.x
+  ));
 }
 
 function routeNpcSummary(npc) {
   return { id: npc.id, name: npc.name, x: npc.x, y: npc.y, type: npc.type };
 }
 
-async function routeExitGame(env, request, game, exitId) {
+async function routeExitGame(env, request, game, exitId, preferredX = NaN, preferredY = NaN) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const exit = findExit(map, exitId);
@@ -721,7 +729,8 @@ async function routeExitGame(env, request, game, exitId) {
     x: clampInt(game.location.x, 0, width - 1, 0),
     y: clampInt(game.location.y, 0, height - 1, 0)
   };
-  for (const target of exitRouteTargets(map, collision, exit, from)) {
+  const preferred = preferredRouteTile(preferredX, preferredY, width, height);
+  for (const target of exitRouteTargets(map, collision, exit, from, preferred)) {
     if (from.x === target.x && from.y === target.y) {
       return {
         from,
@@ -754,7 +763,7 @@ async function routeExitGame(env, request, game, exitId) {
   };
 }
 
-function exitRouteTargets(map, collision, exit, from) {
+function exitRouteTargets(map, collision, exit, from, preferred = null) {
   const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
   const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
   const rawTiles = Array.isArray(exit.tiles) && exit.tiles.length
@@ -766,7 +775,8 @@ function exitRouteTargets(map, collision, exit, from) {
       x: Number(tile.x),
       y: Number(tile.y),
       target: tile.target || exit.target,
-      distance: distance(from.x, from.y, tile.x, tile.y)
+      distance: distance(from.x, from.y, tile.x, tile.y),
+      preferredDistance: preferred ? distance(preferred.x, preferred.y, tile.x, tile.y) : 0
     }))
     .filter((tile) => Number.isFinite(tile.x) && Number.isFinite(tile.y))
     .filter((tile) => tile.x >= 0 && tile.y >= 0 && tile.x < width && tile.y < height)
@@ -777,7 +787,15 @@ function exitRouteTargets(map, collision, exit, from) {
       return true;
     })
     .filter((tile) => canStandAt(map, collision, tile.x, tile.y))
-    .sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x);
+    .sort((a, b) => a.preferredDistance - b.preferredDistance || a.distance - b.distance || a.y - b.y || a.x - b.x);
+}
+
+function preferredRouteTile(x, y, width, height) {
+  if (!Number.isFinite(Number(x)) || !Number.isFinite(Number(y))) return null;
+  return {
+    x: clampInt(x, 0, Math.max(0, width - 1), 0),
+    y: clampInt(y, 0, Math.max(0, height - 1), 0)
+  };
 }
 
 function exitBoundsTiles(exit) {
