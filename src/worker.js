@@ -500,11 +500,14 @@ async function walkGame(env, request, game, dx, dy) {
   const dir = dirFromDelta(dx, dy, game.player?.dir ?? game.location?.dir);
   const delta = deltaForDir(dir);
   setCharacterDir(game, dir);
-  const nextX = clampInt(Number(game.location.x || 0) + delta.dx, 0, width - 1, game.location.x);
-  const nextY = clampInt(Number(game.location.y || 0) + delta.dy, 0, height - 1, game.location.y);
+  const currentX = Number(game.location.x || 0);
+  const currentY = Number(game.location.y || 0);
+  const nextX = clampInt(currentX + delta.dx, 0, width - 1, game.location.x);
+  const nextY = clampInt(currentY + delta.dy, 0, height - 1, game.location.y);
   const exit = exitAt(map, nextX, nextY);
   const closedExit = exit ? null : closedExitAt(map, nextX, nextY);
-  if (!exit && (await blocksMove(env, request, map, nextX, nextY))) {
+  const collision = await loadCollisionMap(env, request, map);
+  if (!exit && !canStepTo(map, collision, currentX, currentY, nextX, nextY, delta.dx, delta.dy)) {
     noteBlockedMove(game, map, nextX, nextY);
     noteNearby(game, map);
     return withMap(game);
@@ -858,11 +861,6 @@ function exitAt(map, x, y) {
   return null;
 }
 
-async function blocksMove(env, request, map, x, y) {
-  const collision = await loadCollisionMap(env, request, map);
-  return !canStandAt(map, collision, x, y);
-}
-
 function noteBlockedMove(game, map, x, y) {
   game.walk ||= { steps: 0, encounterSteps: 0 };
   const key = `${map.id}:${x}:${y}`;
@@ -994,6 +992,16 @@ function canStandAt(map, collision, x, y) {
   return collision.hitMap[y * collision.width + x] !== MAP_BLOCKED;
 }
 
+function canStepTo(map, collision, fromX, fromY, toX, toY, dx, dy) {
+  if (!canStandAt(map, collision, toX, toY)) return false;
+  if (dx !== 0 && dy !== 0) {
+    const sideX = canStandAt(map, collision, fromX + dx, fromY);
+    const sideY = canStandAt(map, collision, fromX, fromY + dy);
+    if (!sideX || !sideY) return false;
+  }
+  return true;
+}
+
 function findRoute(map, collision, from, target) {
   const startKey = routeKey(from.x, from.y);
   const targetKey = routeKey(target.x, target.y);
@@ -1019,12 +1027,7 @@ function findRoute(map, collision, from, target) {
     for (const move of moves) {
       const nx = current.x + move.dx;
       const ny = current.y + move.dy;
-      if (!canStandAt(map, collision, nx, ny)) continue;
-      if (move.dx !== 0 && move.dy !== 0) {
-        const sideA = canStandAt(map, collision, current.x + move.dx, current.y);
-        const sideB = canStandAt(map, collision, current.x, current.y + move.dy);
-        if (!sideA && !sideB) continue;
-      }
+      if (!canStepTo(map, collision, current.x, current.y, nx, ny, move.dx, move.dy)) continue;
       const key = routeKey(nx, ny);
       const nextG = current.g + 1;
       if (nextG >= (best.get(key) ?? Infinity)) continue;

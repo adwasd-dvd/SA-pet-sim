@@ -26,6 +26,7 @@ const DIALOG_SCROLL_STEP = 56;
 const AUTOMATION_TICK_MS = 760;
 const AUTOMATION_BATTLE_STEP_MS = 520;
 const AUTOMATION_ROUTE_ESCAPE_LIMIT = 10;
+const ROUTE_RETRY_LIMIT = 3;
 const BATTLE_KEY_ACTIONS = Object.freeze({
   "1": "attack",
   h: "attack",
@@ -68,39 +69,49 @@ const SA_DIRECTION_DELTAS = Object.freeze([
   [-1, 0],
   [-1, -1]
 ]);
-const SCREEN_DIRECTION_KEYS = Object.freeze({
-  q: 0,
-  home: 0,
-  numpad7: 0,
-  "7": 0,
-  w: 1,
-  arrowup: 1,
-  numpad8: 1,
-  "8": 1,
-  e: 2,
-  pageup: 2,
-  numpad9: 2,
-  "9": 2,
-  d: 3,
-  arrowright: 3,
-  numpad6: 3,
-  "6": 3,
-  c: 4,
-  pagedown: 4,
-  numpad3: 4,
-  "3": 4,
-  s: 5,
-  arrowdown: 5,
-  numpad2: 5,
-  "2": 5,
-  z: 6,
-  end: 6,
-  numpad1: 6,
-  "1": 6,
-  a: 7,
-  arrowleft: 7,
-  numpad4: 7,
-  "4": 7
+const SCREEN_KEY_VECTORS = Object.freeze({
+  q: [-1, -1],
+  home: [-1, -1],
+  numpad7: [-1, -1],
+  "7": [-1, -1],
+  w: [0, -1],
+  arrowup: [0, -1],
+  numpad8: [0, -1],
+  "8": [0, -1],
+  e: [1, -1],
+  pageup: [1, -1],
+  numpad9: [1, -1],
+  "9": [1, -1],
+  d: [1, 0],
+  arrowright: [1, 0],
+  numpad6: [1, 0],
+  "6": [1, 0],
+  c: [1, 1],
+  pagedown: [1, 1],
+  numpad3: [1, 1],
+  "3": [1, 1],
+  s: [0, 1],
+  arrowdown: [0, 1],
+  numpad2: [0, 1],
+  "2": [0, 1],
+  z: [-1, 1],
+  end: [-1, 1],
+  numpad1: [-1, 1],
+  "1": [-1, 1],
+  a: [-1, 0],
+  arrowleft: [-1, 0],
+  numpad4: [-1, 0],
+  "4": [-1, 0]
+});
+const SCREEN_VECTOR_DIRECTIONS = Object.freeze({
+  "0,-1": 1,
+  "1,-1": 2,
+  "1,0": 3,
+  "1,1": 4,
+  "0,1": 5,
+  "-1,1": 6,
+  "-1,0": 7,
+  "-1,-1": 0
 });
 const DEFAULT_PLAYER_DIRECTION = 5;
 const PLAYER_WALK_FRAME_MS = 95;
@@ -161,6 +172,7 @@ let battlePendingAction = "";
 let battleFxTimer = 0;
 let automationTimer = 0;
 let automationInFlight = false;
+const pressedMoveKeys = new Set();
 let aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
 let npcSortMode = "source";
 let exitSortMode = "source";
@@ -380,6 +392,11 @@ function bindEvents() {
   els.assistPanelBody.addEventListener("keydown", onAssistPanelKeyDown);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
+  window.addEventListener("keyup", onGameKeyUp);
+  window.addEventListener("blur", clearPressedMoveKeys);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) clearPressedMoveKeys();
+  });
   els.guideBtn.addEventListener("click", () => {
     showTab("ai", { openClientWindow: true });
     askGuide();
@@ -789,9 +806,13 @@ function onGameKeyDown(event) {
   if (!game || els.game.hidden) return;
   if (event.altKey || event.ctrlKey || event.metaKey) return;
   const tag = event.target?.tagName?.toLowerCase();
-  if (tag === "input" || tag === "textarea" || tag === "select" || event.target?.isContentEditable) return;
+  if (tag === "input" || tag === "textarea" || tag === "select" || event.target?.isContentEditable) {
+    clearPressedMoveKeys();
+    return;
+  }
   const key = event.key.toLowerCase();
   if (game.dialog?.open) {
+    clearPressedMoveKeys();
     if (key === "escape") closeDialog();
     else if (key === "pageup") scrollDialogMessages(-DIALOG_SCROLL_STEP * 3);
     else if (key === "pagedown") scrollDialogMessages(DIALOG_SCROLL_STEP * 3);
@@ -800,6 +821,7 @@ function onGameKeyDown(event) {
     return;
   }
   if (isBattleOpen()) {
+    clearPressedMoveKeys();
     const action = BATTLE_KEY_ACTIONS[key];
     if (action === "item") {
       toggleBattleItemMenu();
@@ -818,12 +840,47 @@ function onGameKeyDown(event) {
   walkPlayer(direction[0], direction[1]);
 }
 
+function onGameKeyUp(event) {
+  const keyId = movementKeyId(event.key, event.code);
+  if (keyId) pressedMoveKeys.delete(keyId);
+}
+
+function clearPressedMoveKeys() {
+  pressedMoveKeys.clear();
+}
+
 function screenDirectionForKey(key, code = "") {
-  const dir = SCREEN_DIRECTION_KEYS[String(code || "").toLowerCase()] ?? SCREEN_DIRECTION_KEYS[key];
+  const keyId = movementKeyId(key, code);
+  if (!keyId) return null;
+  pressedMoveKeys.add(keyId);
+  const dir = pressedScreenDirection();
   return directionDelta(dir);
 }
 
+function movementKeyId(key, code = "") {
+  const codeId = String(code || "").toLowerCase();
+  if (SCREEN_KEY_VECTORS[codeId]) return codeId;
+  const keyId = String(key || "").toLowerCase();
+  if (SCREEN_KEY_VECTORS[keyId]) return keyId;
+  return "";
+}
+
+function pressedScreenDirection() {
+  let sx = 0;
+  let sy = 0;
+  for (const key of pressedMoveKeys) {
+    const vector = SCREEN_KEY_VECTORS[key];
+    if (!vector) continue;
+    sx += vector[0];
+    sy += vector[1];
+  }
+  const screenX = Math.sign(sx);
+  const screenY = Math.sign(sy);
+  return SCREEN_VECTOR_DIRECTIONS[`${screenX},${screenY}`];
+}
+
 function directionDelta(dir) {
+  if (dir === undefined || dir === null) return null;
   const delta = SA_DIRECTION_DELTAS[normalizeDirection(dir)];
   return delta ? [...delta] : null;
 }
@@ -1000,30 +1057,52 @@ async function followRouteTo(target, routeData = null) {
   routeInFlight = true;
   try {
     if (!await waitForWalkSlot(token)) return false;
-    const data = routeData || await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
-    const route = Array.isArray(data.route) ? data.route : [];
-    if (!route.length) {
-      if (data.blocked) addClientLog("那里无法通行。");
-      if (data.face && token === routeToken) return turnPlayer(data.face);
-      return !data.blocked;
+    let data = routeData || await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
+    const initialFace = routeData?.face || null;
+    for (let attempt = 0; attempt < ROUTE_RETRY_LIMIT; attempt += 1) {
+      if (attempt > 0) data = await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
+      const route = Array.isArray(data.route) ? data.route : [];
+      const routeTarget = data.target || target;
+      if (!route.length) {
+        if (data.blocked) addClientLog("那里无法通行。");
+        const face = data.face || initialFace;
+        if (face && token === routeToken) return turnPlayer(face);
+        return !data.blocked || isAtRouteTarget(routeTarget);
+      }
+      let shouldRetry = false;
+      for (const step of route) {
+        if (token !== routeToken) return false;
+        if (!await waitForWalkSlot(token)) return false;
+        const beforeMap = game.location.mapId;
+        const moved = await walkPlayer(step.dx, step.dy);
+        if (game.location.mapId !== beforeMap) return moved;
+        if (!moved) {
+          shouldRetry = true;
+          break;
+        }
+        if (game.encounter && !await resolveRouteEncounter(token)) return false;
+        await wait(85);
+      }
+      if (shouldRetry && attempt < ROUTE_RETRY_LIMIT - 1) continue;
+      const face = data.face || initialFace;
+      if (face && token === routeToken) return turnPlayer(face);
+      if (isAtRouteTarget(routeTarget)) return true;
+      if (attempt < ROUTE_RETRY_LIMIT - 1) continue;
+      if (shouldRetry) addClientLog("路线中途被挡住，已重新计算但仍无法到达。");
+      return false;
     }
-    for (const step of route) {
-      if (token !== routeToken) return false;
-      if (!await waitForWalkSlot(token)) return false;
-      const beforeMap = game.location.mapId;
-      const moved = await walkPlayer(step.dx, step.dy);
-      if (!moved || game.location.mapId !== beforeMap) return moved;
-      if (game.encounter && !await resolveRouteEncounter(token)) return false;
-      await wait(85);
-    }
-    if (data.face && token === routeToken) return turnPlayer(data.face);
-    return true;
+    return false;
   } catch (error) {
     addClientLog(error.message || "无法计算路线。");
     return false;
   } finally {
     if (token === routeToken) routeInFlight = false;
   }
+}
+
+function isAtRouteTarget(target) {
+  if (!game || !target) return false;
+  return Number(game.location.x) === Number(target.x) && Number(game.location.y) === Number(target.y);
 }
 
 async function resolveRouteEncounter(token) {

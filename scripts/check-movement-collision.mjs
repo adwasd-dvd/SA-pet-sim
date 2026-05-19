@@ -66,6 +66,24 @@ assertEqual(game.player.dir, 3, "open terrain records southeast source direction
 assertEqual(game.location.dir, 3, "location records southeast source direction");
 assert(game.save.option.includes("dir=3"), "saac-like option records walking direction");
 
+let cornerGame = await api("/api/game/new", { name: "corner-walk-test" });
+cornerGame.location = { mapId: "1000", x: 110, y: 1, dir: 1 };
+cornerGame.player = { ...cornerGame.player, dir: 1 };
+cornerGame = await api("/api/game/walk", { game: cornerGame, dx: 1, dy: -1 });
+assertEqual(cornerGame.location.x, 110, "source-style diagonal corner keeps x when side cell is blocked");
+assertEqual(cornerGame.location.y, 1, "source-style diagonal corner keeps y when side cell is blocked");
+assertEqual(cornerGame.player.dir, 1, "source-style diagonal corner still turns toward northeast");
+assertLog(cornerGame, "被地形或 NPC 挡住");
+const cornerRoute = await api("/api/game/route", {
+  game: { ...cornerGame, location: { mapId: "1000", x: 110, y: 1, dir: 1 } },
+  targetX: 111,
+  targetY: 0
+});
+assert(
+  !(cornerRoute.route.length === 1 && cornerRoute.route[0].dx === 1 && cornerRoute.route[0].dy === -1),
+  "route avoids diagonal corner cutting that source walking would reject"
+);
+
 game.location = { ...game.location, x: 41, y: 72 };
 game = await api("/api/game/walk", { game, dx: 1, dy: 0 });
 assertEqual(game.location.x, 41, "NPC collision keeps x");
@@ -146,7 +164,7 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, source-style blocked-target facing, NPC cells, Worker exit routes, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, and NPC approach routes are enforced.");
+console.log("Movement collision OK: routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, and NPC approach routes are enforced.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
