@@ -10,7 +10,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=floor-5000-map-pack-v1";
+const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v1";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
