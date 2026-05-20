@@ -219,6 +219,38 @@ assertEqual(inventoryQty(itemPoolGame, poolCandidate.id), itemPoolQtyBefore, "it
 assertEqual(itemPoolGame.itemPoolState.used, 0, "item pool withdraw clears the source-style pool slot");
 assert(itemPoolGame.save.info.includes("POOLITEMCOUNT=0"), "saac-like save info records pool item count");
 
+const raceManEntry = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.raceMan || npc.template === "npc_raceman");
+assert(raceManEntry, "world build parses source npc_raceman scripts");
+assert(raceManEntry.npc.raceMan, "npc_raceman exposes compact raceMan metadata");
+assert(!raceManEntry.npc.itemPoolShop, "npc_raceman is not misclassified as itemPoolShop by itemfull_msg");
+assert(raceManEntry.npc.scriptHints?.actions?.includes("raceMan"), "npc_raceman script hints expose raceMan action");
+assert(
+  (raceManEntry.npc.raceMan.modes || []).length || (raceManEntry.npc.raceMan.history || []).length || Number(raceManEntry.npc.raceMan.gameMode || 0) > 0,
+  "npc_raceman parses source mode/history/game metadata"
+);
+let raceManGame = await api("/api/game/new", { name: "npc-raceman-test" });
+raceManGame.location = {
+  mapId: raceManEntry.map.id,
+  x: Math.max(0, Number(raceManEntry.npc.x || 0) - 1),
+  y: Number(raceManEntry.npc.y || 0),
+  dir: 2
+};
+raceManGame = await api("/api/game/talk", { game: raceManGame, npcId: raceManEntry.npc.id });
+assert(raceManGame.dialog?.raceMan, "raceMan dialog exposes compact race metadata");
+assert(raceManGame.dialog?.debug?.actions?.includes("raceMan"), "raceMan dialog debug exposes raceMan action profile");
+assert(!raceManGame.dialog?.debug?.actions?.includes("itemPoolShop"), "raceMan dialog debug no longer exposes itemPoolShop");
+assert(
+  raceManGame.dialog?.messages?.some((message) => /竞赛|比赛|報名|报名|赛程|来源/.test(String(message.text || ""))),
+  "raceMan dialog explains source race metadata"
+);
+raceManGame = await api("/api/game/dialog", { game: raceManGame, npcId: raceManEntry.npc.id, message: "规则" });
+assert(
+  raceManGame.dialog?.debug?.vmTrace?.some((event) => event.action === "raceMan" && event.status === "ok"),
+  "raceMan dialog records deterministic raceMan VM trace"
+);
+
 const routeServiceEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => {

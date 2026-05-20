@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T11:26:34.480Z
+Generated: 2026-05-20T14:58:55.866Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -59,35 +59,35 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Mode1 | unknown | 5 | 5 | 5 | 10 | external/sources/ref___data/npc/race/DEADJOE:29 |
-| History1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/race2/second.arg:35 |
 | CostPoint | candidate-action | 2 | 2 | 2 | 3 | external/sources/ref___data/npc/my/ruieryasi/rou.arg:19 |
 | ADDEGGID | unknown | 2 | 2 | 2 | 2 | external/sources/ref___data/npc/sa50/petfusion/petfusion.arg:4 |
 | trans | unknown | 1 | 3 | 3 | 6 | external/sources/ref___data/npc/sa70/hunsk2:9 |
-| normal | unknown | 1 | 1 | 1 | 10 | external/sources/ref___data/npc/genout/act_31603_20_22:2 |
 | REPLACEMENT | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/sa50/dodo/dodopupk1-8.arg:4 |
 | selectmsg | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/777/ten.arg:9 |
-| Time_Msg | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/eden3/karo/chara:7 |
-| card_msg | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:8 |
-| caution_msg | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:9 |
-| CheckItem | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:22 |
-| CheckPet | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:24 |
-| DelFlag | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:21 |
-| EndFlag | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:27 |
-| First | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:37 |
-| FornewLv | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:20 |
-| GameMode | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:26 |
-| haditem_msg | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:11 |
-| LowLevel | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:36 |
-| nonitem_msg | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:12 |
-| PetLevel | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:25 |
-| RankNum | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:34 |
-| Second | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:38 |
-| subject_msg | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:6 |
+| CHECK_MSG | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/demale/testnpc01.arg:2 |
+| msg | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/genout/ss_1100_86_107:9 |
+| gym | unknown | 0 | 0 | 0 | 346 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:6 |
+| enemypetno | candidate-action | 0 | 0 | 0 | 325 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:9 |
+| PET | candidate-action | 0 | 0 | 0 | 246 | external/sources/ref___data/npc/pettalk/pettalk01.arg:10 |
+| EVENTRUN2 | candidate-action | 0 | 0 | 0 | 138 | external/sources/ref___data/npc/pettalk/pettalk01.arg:93 |
+| herobattlefield | candidate-action | 0 | 0 | 0 | 133 | external/sources/ref___data/npc/heroic/DEADJOE:18 |
+| Floor | candidate-action | 0 | 0 | 0 | 131 | external/sources/ref___data/npc/genout/wpm_1012_14_13:2 |
+| sktype | unknown | 0 | 0 | 0 | 125 | external/sources/ref___data/npc/heroic/DEADJOE:13 |
+| LimitLevel | candidate-action | 0 | 0 | 0 | 68 | external/sources/ref___data/npc/pettalk/pettalk01.arg:96 |
+| mainmsg | unknown | 0 | 0 | 0 | 48 | external/sources/ref___data/npc/777/ten.arg:8 |
+| BOTH1 | unknown | 0 | 0 | 0 | 32 | external/sources/ref___data/npc/pettalk/pettalk01.arg:282 |
+| EntryItem | candidate-action | 0 | 0 | 0 | 31 | external/sources/ref___data/npc/genout/jan_802_29_19:2 |
+| WAVE | unknown | 0 | 0 | 0 | 30 | external/sources/ref___data/npc/eden1/animal01.arg:2 |
+| MenuStr | unknown | 0 | 0 | 0 | 27 | external/sources/ref___data/npc/eden3/transfer.arg:6 |
+| WARPPOINT | candidate-action | 0 | 0 | 0 | 27 | external/sources/ref___data/npc/eden3/transfer.arg:9 |
+| LeavepkMsg | unknown | 0 | 0 | 0 | 26 | external/sources/ref___data/npc/family/fmpoint10/wpm_7530_51_51:6 |
+| gamble_msg01 | unknown | 0 | 0 | 0 | 25 | external/sources/ref___data/npc/bank/bankman01.arg:5 |
+| CHECKPARTY | unknown | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/eden1/saveking/saveking4:14 |
+| Event_Now | candidate-action | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/eden2/kraken/kraken88_06:26 |
 
 ## Recommended Next Slice
 
-- Start with `Mode1`, because it appears in classic-core source references 5 times.
+- Start with `CostPoint`, because it appears in classic-core source references 2 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

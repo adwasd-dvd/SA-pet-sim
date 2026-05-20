@@ -121,6 +121,7 @@ const NPC_VM_ACTIONS = new Set([
   "shop",
   "petShop",
   "itemPoolShop",
+  "raceMan",
   "routeService",
   "petSkillShop",
   "itemChange",
@@ -6422,6 +6423,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
+  if (isRaceManNpc(npc) && isRaceManRequestText(lower)) return raceManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
   if (npc.itemPoolShop && hasAny(lower, ["道具寄放", "寄放道具", "寄存道具", "道具仓库", "道具倉庫", "保管", "取回道具", "取出道具", "领取道具", "寄放", "寄存", "取回", "取出"])) return itemPoolShopReply(game, npc);
   if (isRouteServiceNpc(npc) && hasAny(lower, ["路线", "路線", "搭乘", "坐车", "坐車", "上车", "上車", "巴士", "客运", "客運", "飞机", "飛機", "航班", "出发", "出發", "前往", "去", "route", "ride"])) return routeServiceReply(game, npc, text);
@@ -6572,6 +6574,7 @@ function applyNpcHi(game, npc) {
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isLuckyManNpc(npc)) return luckyManPromptReply(game, npc);
+  if (isRaceManNpc(npc)) return raceManReply(game, npc, "hi");
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   if (npc.petShop) return petShopReply(game, npc);
   if (isRouteServiceNpc(npc)) return routeServicePromptReply(game, npc);
@@ -6619,6 +6622,7 @@ function npcDefaultLine(npc) {
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
   if (isLuckyManNpc(npc)) return luckyManPromptText(null, npc);
+  if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
   if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
   return "有什么事吗？";
 }
@@ -9356,7 +9360,137 @@ function eventFlagForNpcAction(npcId, action) {
 
 function fallbackNpcReply(npc) {
   if (npc.itemPoolShop) return npc.itemPoolShop.messages?.main || "这里可以寄放或取回道具。";
+  if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
   return npcDialogueLines(npc)[0] || npcDefaultLine(npc);
+}
+
+function isRaceManNpc(npc) {
+  return Boolean(npc?.raceMan) || /npc_raceman|raceman/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""} ${npc?.source || ""}`);
+}
+
+function isRaceManRequestText(text = "") {
+  return hasAny(text, ["竞赛", "競賽", "比赛", "比賽", "报名", "報名", "参加", "參加", "登记", "登記", "规则", "規則", "名次", "排名", "奖励", "獎勵", "资格", "資格", "卡片", "赛程", "賽程", "race"]);
+}
+
+function raceManDefaultLine(npc) {
+  const race = npc?.raceMan || {};
+  const messages = race.messages || {};
+  return messages.subject || messages.card || messages.caution || "这里是竞赛登记窗口。";
+}
+
+function raceManReply(game, npc, text = "") {
+  const state = buildRaceManState(game, npc);
+  if (!state) {
+    recordNpcVmEvent(game, npc, "raceMan", "unsupported", { reason: "missing-race-metadata" });
+    return raceManDefaultLine(npc);
+  }
+  recordNpcVmEvent(game, npc, "raceMan", "ok", {
+    reason: "source-race-summary",
+    gameMode: state.gameMode,
+    gameCode: state.gameCode,
+    modes: state.modes.map((item) => item.code).slice(0, 5),
+    missing: state.eligibility.missing.map((item) => item.kind),
+    source: state.source,
+    text: String(text || "").slice(0, 80)
+  });
+  const lines = [
+    raceManDefaultLine(npc),
+    raceManRequirementLine(state),
+    raceManModeLine(state),
+    raceManRewardLine(state),
+    state.eligibility.ok ? "你现在的条件看起来可以继续询问报名；真正报名和赛程结算还需要接入对应源码流程。" : `现在还缺：${state.eligibility.missing.map((item) => item.text).join("、")}。`,
+    state.messages.caution,
+    `来源：${state.source || npc.script || npc.source || "gmsv race arg"}`
+  ].filter(Boolean);
+  return lines.join("\n");
+}
+
+function buildRaceManState(game, npc) {
+  const race = npc?.raceMan;
+  if (!race) return null;
+  const state = {
+    kind: race.kind || "race-man",
+    source: race.source || npc.script || npc.source || "",
+    gameMode: Number(race.gameMode || 0) || 0,
+    gameCode: race.gameCode || "",
+    hasGame: Number(race.hasGame || 0) || 0,
+    modes: (race.modes || []).slice(0, 5),
+    history: (race.history || []).slice(0, 5),
+    rankNum: Number(race.rankNum || 0) || 0,
+    lowLevel: Number(race.lowLevel || 0) || 0,
+    fornewLv: Number(race.fornewLv || 0) || 0,
+    fornewTran: race.fornewTran || "",
+    delFlag: race.delFlag || "",
+    endFlag: race.endFlag || "",
+    requiredItem: race.requiredItem || null,
+    rewardItem: race.rewardItem || null,
+    requiredPetId: Number(race.requiredPetId || 0) || 0,
+    petLevel: Number(race.petLevel || 0) || 0,
+    rewards: race.rewards || {},
+    messages: race.messages || {}
+  };
+  return {
+    ...state,
+    eligibility: raceManEligibility(game, state)
+  };
+}
+
+function raceManEligibility(game, race) {
+  const missing = [];
+  if (race.requiredItem?.id && inventoryQty(game, race.requiredItem.id) <= 0) {
+    missing.push({ kind: "item", text: `${raceItemLabel(race.requiredItem)} x1` });
+  }
+  if (race.requiredPetId) {
+    const pet = (game.pets || []).find((item) => Number(item.PetId || item.id || item.petId || item.enemyId || 0) === Number(race.requiredPetId));
+    if (!pet) missing.push({ kind: "pet", text: `指定宠物 ${race.requiredPetId}` });
+    else if (race.petLevel && Number(pet.Lv || pet.level || 0) < race.petLevel) missing.push({ kind: "petLevel", text: `${pet.Name || pet.name || `宠物 ${race.requiredPetId}`} Lv.${race.petLevel}` });
+  }
+  if (race.lowLevel && Number(game.player?.level || game.player?.Lv || 1) < race.lowLevel) {
+    missing.push({ kind: "level", text: `人物等级 ${race.lowLevel}` });
+  }
+  return { ok: missing.length === 0, missing };
+}
+
+function raceManRequirementLine(state) {
+  const parts = [];
+  if (state.requiredItem) parts.push(`报名道具：${raceItemLabel(state.requiredItem)} x1`);
+  if (state.rewardItem) parts.push(`报名卡/回执：${raceItemLabel(state.rewardItem)} x1`);
+  if (state.requiredPetId) parts.push(`宠物条件：${state.requiredPetId}${state.petLevel ? ` Lv.${state.petLevel}+` : ""}`);
+  if (state.lowLevel) parts.push(`最低等级：${state.lowLevel}`);
+  if (state.rankNum) parts.push(`排名记录：前 ${state.rankNum}`);
+  return parts.length ? parts.join("；") : "";
+}
+
+function raceManModeLine(state) {
+  const parts = [];
+  if (state.gameMode) parts.push(`赛制 ${state.gameMode}`);
+  if (state.gameCode) parts.push(`赛程 ${state.gameCode}`);
+  if (state.modes.length) parts.push(`当前赛程 ${state.modes.length} 条`);
+  if (state.history.length) parts.push(`历史记录 ${state.history.length} 条`);
+  return parts.length ? `赛程资料：${parts.join("；")}` : "";
+}
+
+function raceManRewardLine(state) {
+  const lines = [];
+  const first = raceRewardNames(state.rewards.first);
+  const second = raceRewardNames(state.rewards.second);
+  const third = raceRewardNames(state.rewards.third);
+  const normal = raceRewardNames(state.rewards.normal, 4);
+  if (first) lines.push(`第一名 ${first}`);
+  if (second) lines.push(`第二名 ${second}`);
+  if (third) lines.push(`第三名 ${third}`);
+  if (normal) lines.push(`普通奖励 ${normal}`);
+  return lines.length ? `奖励：${lines.join("；")}` : "";
+}
+
+function raceRewardNames(items = [], limit = 3) {
+  const names = (items || []).map(raceItemLabel).filter(Boolean).slice(0, limit);
+  return names.length ? `${names.join("、")}${items.length > limit ? " 等" : ""}` : "";
+}
+
+function raceItemLabel(item) {
+  if (!item) return "";
+  return item.name || item.secretName || `道具 ${item.id || "?"}`;
 }
 
 function tradeReply(game, npc) {
@@ -9509,6 +9643,7 @@ async function aiNpcReply(env, request, game, npc, text) {
         scriptReferences: compactScriptReferences,
         trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
         warp: npc.warp || null,
+        raceMan: buildRaceManState(game, npc),
         routeService: buildRouteServiceState(game, npc),
         savePoint: compactNpcSavePointStatus(game, npc),
         warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
@@ -9577,6 +9712,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
         source: npc.trade.source
       } : null,
       warp: npc.warp || null,
+      raceMan: buildRaceManState(game, npc),
       routeService: buildRouteServiceState(game, npc),
       savePoint: compactNpcSavePointStatus(game, npc),
       warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
@@ -10440,6 +10576,7 @@ function openDialog(game, npc, messages, extra = {}) {
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petShop: extra.petShop || buildPetShopState(game, npc),
     itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),
+    raceMan: buildRaceManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     petSkillShop: extra.petSkillShop || null,
     itemChange: extra.itemChange || buildItemChangeState(game, npc),
@@ -10460,6 +10597,7 @@ function npcDebugInfo(npc, game = null) {
     template: npc.template || "",
     type: npc.type || "",
     graphic: npc.graphic || "",
+    raceMan: buildRaceManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     actions,
     allowedActions: actions.filter((action) => NPC_VM_ACTIONS.has(action)),
@@ -10485,6 +10623,7 @@ function npcActionProfile(npc) {
   if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0)) actions.push("adjustFame");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
   if (npc.itemPoolShop || /PoolItemShop|poolitemshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemPoolShop");
+  if (isRaceManNpc(npc)) actions.push("raceMan", "window", "say");
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
   if (isLuckyManNpc(npc)) actions.push("window", "take", "fortune");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
@@ -11837,6 +11976,7 @@ function dialogSuggestions(npc, game = null) {
   let base = ["hi", "任务", "地图"];
   if (npc.petShop) base = ["hi", "整理宠物", "寄放", "取回"];
   else if (npc.itemPoolShop) base = ["hi", "寄放道具", "取回道具", "地图"];
+  else if (isRaceManNpc(npc)) base = ["hi", "规则", "报名", "奖励"];
   else if (isRouteServiceNpc(npc)) base = ["hi", "路线", "搭乘"];
   else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];

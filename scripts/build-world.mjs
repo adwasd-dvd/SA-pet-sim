@@ -453,7 +453,8 @@ function parseNpcs() {
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
       const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
-      const itemPoolShop = readNpcItemPoolShop(argPath, file, functionset, enemy.template);
+      const raceMan = readNpcRaceMan(argPath, file, functionset, enemy.template);
+      const itemPoolShop = raceMan ? null : readNpcItemPoolShop(argPath, file, functionset, enemy.template);
       const routeService = readNpcRouteService(argPath, file, functionset, enemy.template, floor);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
       const itemChange = readNpcItemChange(argPath, file);
@@ -463,7 +464,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -479,6 +480,7 @@ function parseNpcs() {
         ...(trade ? { trade } : {}),
         ...(petShop ? { petShop } : {}),
         ...(itemPoolShop ? { itemPoolShop } : {}),
+        ...(raceMan ? { raceMan } : {}),
         ...(routeService ? { routeService } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
         ...(itemChange ? { itemChange } : {}),
@@ -965,8 +967,11 @@ function readNpcItemPoolShop(argPath, createFile, functionset = "", template = "
   const file = resolveNpcArg(argPath, createFile);
   if (!file) return null;
   const text = readText(file);
-  if (!/PoolItemShop|npcgen_poolitemshop/i.test(`${functionset} ${template} ${argPath}`)
-    && !/^\s*(?:pool_main|draw_main|poolfull_msg|itemfull_msg)\s*:/im.test(text)) {
+  const serviceText = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  const explicitPoolNpc = /PoolItemShop|npcgen_poolitemshop/i.test(serviceText);
+  const hasPoolActions = /^\s*(?:pool_main|draw_main)\s*:/im.test(text);
+  const hasPoolCostAndLimit = /^\s*cost\s*:/im.test(text) && /^\s*(?:poolfull_msg|itemfull_msg)\s*:/im.test(text);
+  if (!explicitPoolNpc && !hasPoolActions && !hasPoolCostAndLimit) {
     return null;
   }
   const kv = parseColonFile(text);
@@ -989,6 +994,90 @@ function readNpcItemPoolShop(argPath, createFile, functionset = "", template = "
       itemFull: cleanScriptText(kv.itemfull_msg || "")
     }
   };
+}
+
+function readNpcRaceMan(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const serviceText = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  if (!/npc_raceman|Raceman|\/race2?\//i.test(serviceText)) return null;
+  const kv = parseColonFile(readText(file));
+  const modes = [];
+  const history = [];
+  for (let index = 1; index <= 5; index += 1) {
+    const mode = cleanRaceToken(kv[`mode${index}`]);
+    if (mode) modes.push({ index, code: mode });
+    const historyCode = cleanRaceToken(kv[`history${index}`]);
+    if (historyCode) history.push({ index, code: historyCode });
+  }
+  const rewards = {
+    first: raceRewardItems(kv.first, 1),
+    second: raceRewardItems(kv.second, 1),
+    third: raceRewardItems(kv.third, 1),
+    normal: raceRewardItems(kv.normal, 12)
+  };
+  return {
+    kind: "race-man",
+    source: relativeRef(file),
+    hasGame: positiveNumber(kv.hasgame),
+    gameMode: positiveNumber(kv.gamemode),
+    gameCode: cleanRaceToken(kv.gamecode),
+    modes,
+    history,
+    rankNum: positiveNumber(kv.ranknum),
+    lowLevel: positiveNumber(kv.lowlevel),
+    fornewLv: positiveNumber(kv.fornewlv),
+    fornewTran: cleanRaceToken(kv.fornewtran),
+    delFlag: cleanRaceToken(kv.delflag),
+    endFlag: cleanRaceToken(kv.endflag),
+    requiredItem: raceSingleItem(kv.checkitem),
+    rewardItem: raceSingleItem(kv.getitem),
+    requiredPetId: positiveNumber(kv.checkpet),
+    petLevel: positiveNumber(kv.petlevel),
+    rewards,
+    messages: {
+      subject: cleanScriptText(kv.subject_msg || ""),
+      time: cleanScriptText(kv.time_msg || ""),
+      card: cleanScriptText(kv.card_msg || ""),
+      caution: cleanScriptText(kv.caution_msg || ""),
+      itemFull: cleanScriptText(kv.itemfull_msg || ""),
+      hadItem: cleanScriptText(kv.haditem_msg || ""),
+      nonItem: cleanScriptText(kv.nonitem_msg || ""),
+      notEnd: cleanScriptText(kv.notend_msg || ""),
+      wrongAnswer: cleanScriptText(kv.wrongans_msg || ""),
+      fmLeader: cleanScriptText(kv.fmleader_msg || ""),
+      notNew: cleanScriptText(kv.notnew_msg || ""),
+      repeat: cleanScriptText(kv.repeat_msg || ""),
+      thanks: [
+        cleanScriptText(kv.thanks1_msg || ""),
+        cleanScriptText(kv.thanks2_msg || ""),
+        cleanScriptText(kv.thanks3_msg || ""),
+        cleanScriptText(kv.thanks_msg || "")
+      ].filter(Boolean)
+    }
+  };
+}
+
+function cleanRaceToken(value = "") {
+  return cleanScriptText(value).replace(/\s+/g, " ").trim();
+}
+
+function positiveNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number > 0 ? number : 0;
+}
+
+function raceSingleItem(value = "") {
+  const id = Number(String(value || "").split(/[,\s]+/).find(Boolean));
+  return Number.isFinite(id) && id > 0 ? compactScriptItem(id) : null;
+}
+
+function raceRewardItems(value = "", limit = 12) {
+  return String(value || "")
+    .split(",")
+    .map((part) => compactScriptItem(Number(part.trim())))
+    .filter(Boolean)
+    .slice(0, limit);
 }
 
 function readNpcRouteService(argPath, createFile, functionset = "", template = "", floor = 0) {
@@ -1830,12 +1919,13 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petShop) actions.push("petShop");
   if (itemPoolShop) actions.push("itemPoolShop");
+  if (raceMan) actions.push("raceMan");
   if (routeService) actions.push("routeService");
   if (petSkillShop) actions.push("petSkillShop");
   if (itemChange) actions.push("itemChange");
@@ -1846,6 +1936,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];
+  for (const item of raceManHints(raceMan)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
@@ -1863,6 +1957,21 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     hints,
     source: relativeRef(file)
   };
+}
+
+function raceManHints(raceMan) {
+  if (!raceMan) return [];
+  return [
+    raceMan.requiredItem ? `CheckItem:${raceMan.requiredItem.id}` : "",
+    raceMan.requiredPetId ? `CheckPet:${raceMan.requiredPetId}` : "",
+    raceMan.petLevel ? `PetLevel:${raceMan.petLevel}` : "",
+    raceMan.gameMode ? `GameMode:${raceMan.gameMode}` : "",
+    raceMan.gameCode ? `GameCode:${raceMan.gameCode}` : "",
+    ...((raceMan.modes || []).map((mode) => `Mode${mode.index}:${mode.code}`)),
+    ...((raceMan.history || []).map((item) => `History${item.index}:${item.code}`)),
+    raceMan.rankNum ? `RankNum:${raceMan.rankNum}` : "",
+    raceMan.lowLevel ? `LowLevel:${raceMan.lowLevel}` : ""
+  ].filter(Boolean);
 }
 
 function questLeadForNpc(npc, scriptHints) {

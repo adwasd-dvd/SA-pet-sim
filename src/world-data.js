@@ -13585,28 +13585,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_100_412_337",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个吧。",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_100_412_337"
@@ -23806,28 +23787,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_3_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_3_3"
@@ -24082,28 +24044,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_9_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "有什么事吗？",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以了吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_9_3"
@@ -24358,28 +24301,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_16_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "等等、道具不是满了吗。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_16_3"
@@ -24799,28 +24723,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_23_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "可以了吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "抱歉、道具很像已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_23_3"
@@ -25035,28 +24940,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_28_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_28_3"
@@ -25326,28 +25212,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_43_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "等等、道具不是满了吗。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_43_3"
@@ -25392,28 +25259,9 @@ export const WORLD = {
               "getFull": "宠物太多没办法再拿了。"
             }
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ps_130_49_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临宠物店。你要卖宠物 或者是寄放呢。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这只宠物的话、大概这样吧！",
-              "stone": "",
-              "poolFull": "已经无法在收存了。",
-              "itemFull": ""
-            }
-          },
           "scriptHints": {
             "actions": [
-              "petShop",
-              "itemPoolShop"
+              "petShop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_130_49_3"
@@ -25713,28 +25561,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_3_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "有什么需要吗？",
-              "pool": "",
-              "draw": "",
-              "confirm": "那样就可以了吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "哎呀、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_3_14"
@@ -25989,28 +25818,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_1_26",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "所持金已经满了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_1_26"
@@ -26073,28 +25883,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_130_1_38",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "所持金已满。",
-              "poolFull": "",
-              "itemFull": "道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_130_1_38"
@@ -65323,28 +65114,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1000_94_101",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1000_94_101"
@@ -65544,28 +65316,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1000_64_112",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱已经太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1000_64_112"
@@ -70498,28 +70251,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1001_17_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "手头的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1001_17_13"
@@ -70763,28 +70497,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1001_17_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1001_17_15"
@@ -71112,28 +70827,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1002_18_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "等等！道具都满了不是吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1002_18_15"
@@ -71237,28 +70933,9 @@ export const WORLD = {
               "getFull": "宠物已经太多了无法再拿了。"
             }
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ps_1003_12_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临宠物店。你的宠物要卖还是寄放都可以。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这只宠物的话、大概是这个价钱吧！",
-              "stone": "",
-              "poolFull": "已经无法再寄放了。",
-              "itemFull": ""
-            }
-          },
           "scriptHints": {
             "actions": [
-              "petShop",
-              "itemPoolShop"
+              "petShop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_1003_12_13"
@@ -71740,28 +71417,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1004_17_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的吗？？？",
-              "stone": "钱已经太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1004_17_13"
@@ -72053,28 +71711,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1005_14_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "到了",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个好吗？",
-              "stone": "钱很多吧！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1005_14_14"
@@ -72834,28 +72473,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1008_28_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1008_28_18"
@@ -73119,28 +72739,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1009_20_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "接任务要先买委托书喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "您带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "您的道具满了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1009_20_12"
@@ -73285,28 +72886,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1009_27_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1009_27_15"
@@ -73838,28 +73420,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1009_27_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1009_27_17"
@@ -74391,28 +73954,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1009_27_24",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "嗯，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1009_27_24"
@@ -74944,28 +74488,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1009_27_28",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个就好···再一个如何？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1009_27_28"
@@ -75524,28 +75049,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1009_27_37",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "很多钱喔！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1009_27_37"
@@ -76564,28 +76070,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1011_13_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "谢谢！今天是来打工的吗？ 还是送东西来的呢？",
-              "pool": "",
-              "draw": "",
-              "confirm": "就麻烦你运到目的地啰！",
-              "stone": "你的金额已满。",
-              "poolFull": "",
-              "itemFull": "哎呀！道具已经装满了啊....。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1011_13_13"
@@ -88258,28 +87745,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1022_3_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "嗯，钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1022_3_3"
@@ -88416,28 +87884,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop1_5",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_5"
@@ -90229,28 +89678,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop1_4",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_4"
@@ -90534,28 +89964,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop1_1",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_1"
@@ -90768,28 +90179,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop1_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_3"
@@ -90938,28 +90330,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop1_2",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop1_2"
@@ -91181,28 +90554,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1100_59_49",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "你带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、嗯，道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1100_59_49"
@@ -91269,28 +90623,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1100_86_107",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "对不起，项目已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1100_86_107"
@@ -93534,28 +92869,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1101_18_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "嗯，钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "喂，道具已经满了不是吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1101_18_13"
@@ -93784,28 +93100,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1101_12_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "嗯~钱带的很多喔!",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1101_12_18"
@@ -94004,28 +93301,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1102_18_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的这样就可以了吗？",
-              "stone": "嗯，钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "东西满了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1102_18_13"
@@ -94321,28 +93599,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1102_14_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1102_14_14"
@@ -94406,28 +93665,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1102_18_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1102_18_16"
@@ -95247,28 +94487,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1105_18_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1105_18_16"
@@ -97202,28 +96423,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1201_14_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "喂喂喂！道具已经满了不是吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1201_14_13"
@@ -97452,28 +96654,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1201_17_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "钱带的很多喔！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1201_17_13"
@@ -97672,28 +96855,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1202_15_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个真的可以吗？",
-              "stone": "唉呀！钱好多喔！",
-              "poolFull": "",
-              "itemFull": "啊！东西已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1202_15_13"
@@ -98528,28 +97692,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1205_14_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个可以吗？",
-              "stone": "钱是带的很多啦！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1205_14_14"
@@ -98929,28 +98074,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1210_18_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "那个好吗？",
-              "stone": "钱很多的。",
-              "poolFull": "",
-              "itemFull": "东西太多了吧！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1210_18_15"
@@ -100032,28 +99158,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1300_56_55",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "你带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1300_56_55"
@@ -102213,28 +101320,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1301_18_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "那个可以吗？",
-              "stone": "好多钱喔！",
-              "poolFull": "",
-              "itemFull": "道具太多了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1301_18_13"
@@ -102523,28 +101611,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1301_19_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "带的钱好像满了耶！",
-              "poolFull": "",
-              "itemFull": "客人，道具已满了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1301_19_17"
@@ -102749,28 +101818,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1302_18_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "你带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "那个～道具是不是已经满了呀？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1302_18_13"
@@ -103066,28 +102116,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1302_12_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1302_12_15"
@@ -103383,28 +102414,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1302_12_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1302_12_15"
@@ -103468,28 +102480,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1302_14_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1302_14_15"
@@ -104378,28 +103371,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1305_17_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个可以吗？",
-              "stone": "客人您所带的钱已经满了！",
-              "poolFull": "",
-              "itemFull": "真不好意思，道具已满了！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1305_17_18"
@@ -104940,28 +103914,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1310_18_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1310_18_15"
@@ -105085,28 +104040,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1400_75_102",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1400_75_102"
@@ -107636,28 +106572,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1401_18_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "嘿！欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "钱好多喔！",
-              "poolFull": "",
-              "itemFull": "真不好意思，道具已满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1401_18_13"
@@ -107946,28 +106863,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1401_19_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "好多钱喔！",
-              "poolFull": "",
-              "itemFull": "喂！道具已经满了不是吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1401_19_17"
@@ -108323,28 +107221,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1402_14_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "你带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1402_14_13"
@@ -108640,28 +107519,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1402_14_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "你带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1402_14_13"
@@ -108800,28 +107660,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1402_19_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "好多钱喔！",
-              "poolFull": "",
-              "itemFull": "道具满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1402_19_15"
@@ -109639,28 +108480,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_1405_18_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_1405_18_14"
@@ -110253,28 +109075,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/my/ruieryasi/weapon2shop.arg",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/my/ruieryasi/weapon2shop.arg"
@@ -110461,28 +109264,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/my/ruieryasi/weapon1shop.arg",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/my/ruieryasi/weapon1shop.arg"
@@ -110652,28 +109436,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2000_67_62",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2000_67_62"
@@ -110909,28 +109674,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/scipt_plus/test2nd/c_can_mm",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "PK道具，恶魔宝石。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/scipt_plus/test2nd/c_can_mm"
@@ -111303,28 +110049,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/scipt_plus/test2nd/item",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "出售各种羽毛。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/scipt_plus/test2nd/item"
@@ -111441,28 +110168,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/scipt_plus/postman/sell_at_2000",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "好吧，我是走私的。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/scipt_plus/postman/sell_at_2000"
@@ -118006,28 +116714,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2001_18_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "钱好多喔！",
-              "poolFull": "",
-              "itemFull": "喂！喂！道具已满了不是吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2001_18_15"
@@ -118286,28 +116975,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2001_18_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2001_18_18"
@@ -118582,28 +117252,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2002_15_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "道具不是都满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2002_15_13"
@@ -118819,28 +117470,9 @@ export const WORLD = {
               "getFull": "宠物已经太多了无法再拿了。"
             }
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ps_2003_18_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "玛丽娜丝～、宠物店～ 欢迎光临～",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个宠物是～、这样左右吧～",
-              "stone": "",
-              "poolFull": "已经无法再寄放了～。",
-              "itemFull": ""
-            }
-          },
           "scriptHints": {
             "actions": [
-              "petShop",
-              "itemPoolShop"
+              "petShop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_2003_18_17"
@@ -119247,28 +117879,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2004_17_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的吗？？？",
-              "stone": "你带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2004_17_13"
@@ -119584,28 +118197,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2005_15_7",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样可以吗?",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "对不起，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2005_15_7"
@@ -120407,28 +119001,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_20_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "接任务要先买委托书喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "您带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "您的道具满了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_20_12"
@@ -120747,28 +119322,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_15"
@@ -121274,28 +119830,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "不好意思，道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_17"
@@ -121666,28 +120203,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_23",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "您好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了吗？这个怎么样？",
-              "stone": "钱带的好多啊！",
-              "poolFull": "",
-              "itemFull": "不好意思！道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_23"
@@ -122182,28 +120700,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_26",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_26"
@@ -122623,28 +121122,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_29",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "所带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_29"
@@ -123175,28 +121655,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_34",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "只要这个就好了吗？",
-              "stone": "钱带的很多的话～",
-              "poolFull": "",
-              "itemFull": "不好意思！道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_34"
@@ -123751,28 +122212,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2009_27_37",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "所带的钱太多了喔。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2009_27_37"
@@ -124825,28 +123267,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_2011_18_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你今天要打工吗？还是 运东西来的呢？",
-              "pool": "",
-              "draw": "",
-              "confirm": "啊！这个可以吧！",
-              "stone": "你的金额已满了喔！",
-              "poolFull": "",
-              "itemFull": "哎呀！道具已经装满了啊....。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_2011_18_18"
@@ -126764,28 +125187,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop2_5",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_5"
@@ -128392,28 +126796,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop2_2",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_2"
@@ -128534,28 +126919,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop2_4",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_4"
@@ -128839,28 +127205,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop2_1",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_1"
@@ -129073,28 +127420,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop2_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop2_3"
@@ -129302,28 +127630,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3000_94_94",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3000_94_94"
@@ -133790,28 +132099,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3001_18_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3001_18_14"
@@ -134055,28 +132345,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3001_18_19",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3001_18_19"
@@ -134380,28 +132651,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3002_18_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3002_18_16"
@@ -134533,28 +132785,9 @@ export const WORLD = {
               "getFull": "宠物太多无法再拿了。"
             }
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ps_3003_12_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎到收买宠物的商店来 买取你所拥有的宠物",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个宠物的话、大概值这个价钱吧！",
-              "stone": "",
-              "poolFull": "已经没有办法再保存了。",
-              "itemFull": ""
-            }
-          },
           "scriptHints": {
             "actions": [
-              "petShop",
-              "itemPoolShop"
+              "petShop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_3003_12_13"
@@ -135000,28 +133233,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3004_18_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的可以吗？",
-              "stone": "带的钱变得太多了。",
-              "poolFull": "",
-              "itemFull": "抱歉、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3004_18_16"
@@ -135321,28 +133535,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3005_18_20",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "可以了吗？",
-              "stone": "您持有的金钱过多了唷！",
-              "poolFull": "",
-              "itemFull": "东西太多了唷！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3005_18_20"
@@ -136147,28 +134342,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3008_28_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3008_28_17"
@@ -136627,28 +134803,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_20_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "接任务要先买委托书喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "您带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "您的道具满了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_20_12"
@@ -136967,28 +135124,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_15"
@@ -137464,28 +135602,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎～！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_17"
@@ -137886,28 +136005,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_23",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_23"
@@ -138417,28 +136517,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_26",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_26"
@@ -138858,28 +136939,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_29",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_29"
@@ -140052,28 +138114,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_36",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_36"
@@ -140596,28 +138639,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3009_27_39",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3009_27_39"
@@ -140788,28 +138812,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3011_18_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "想打工吗？ 还是你是运东西来的呢？",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个可以吧？",
-              "stone": "你的金额已满了喔！",
-              "poolFull": "",
-              "itemFull": "哎呀！道具已经装满了啊！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3011_18_18"
@@ -152940,28 +150945,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3022_11_10",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3022_11_10"
@@ -153125,28 +151111,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop3_5",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_5"
@@ -154904,28 +152871,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop3_1",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_1"
@@ -155172,28 +153120,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop3_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_3"
@@ -155314,28 +153243,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop3_4",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_4"
@@ -155484,28 +153394,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop3_2",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop3_2"
@@ -155669,28 +153560,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3100_83_72",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3100_83_72"
@@ -157363,28 +155235,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3104_18_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3104_18_15"
@@ -157676,28 +155529,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3105_17_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "可以了吗？",
-              "stone": "您持有的金钱过多了唷！",
-              "poolFull": "",
-              "itemFull": "东西太多了唷！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3105_17_17"
@@ -158203,28 +156037,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3109_19_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3109_19_13"
@@ -158363,28 +156178,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3109_27_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3109_27_14"
@@ -158680,28 +156476,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3109_27_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3109_27_15"
@@ -158990,28 +156767,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3109_27_26",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3109_27_26"
@@ -159240,28 +156998,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3109_27_35",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3109_27_35"
@@ -162365,29 +160104,97 @@ export const WORLD = {
           "script": "file:race2/second.arg",
           "template": "npc_raceman",
           "graphic": "16171",
-          "itemPoolShop": {
-            "kind": "item-pool",
+          "raceMan": {
+            "kind": "race-man",
             "source": "gmsv-data/npc/race2/second.arg",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
+            "hasGame": 5,
+            "gameMode": 5,
+            "gameCode": "41206",
+            "modes": [
+              {
+                "index": 5,
+                "code": "5041208"
+              }
+            ],
+            "history": [
+              {
+                "index": 1,
+                "code": "1041126-1"
+              },
+              {
+                "index": 2,
+                "code": "2041126-1"
+              }
+            ],
+            "rankNum": 30,
+            "lowLevel": 230,
+            "fornewLv": 0,
+            "fornewTran": "",
+            "delFlag": "off",
+            "endFlag": "off",
+            "requiredItem": {
+              "id": 20760,
+              "name": "家族猎宠证",
+              "image": 24363,
+              "cost": 0,
+              "type": 16,
+              "useField": 2,
+              "target": 0,
+              "level": 0,
+              "description": "第二届猎宠大会专用",
+              "functionName": "",
+              "option": ""
+            },
+            "rewardItem": {
+              "id": 20760,
+              "name": "家族猎宠证",
+              "image": 24363,
+              "cost": 0,
+              "type": 16,
+              "useField": 2,
+              "target": 0,
+              "level": 0,
+              "description": "第二届猎宠大会专用",
+              "functionName": "",
+              "option": ""
+            },
+            "requiredPetId": 0,
+            "petLevel": 0,
+            "rewards": {
+              "first": [],
+              "second": [],
+              "third": [],
+              "normal": []
             },
             "messages": {
-              "main": "",
-              "pool": "",
-              "draw": "",
-              "confirm": "",
-              "stone": "",
-              "poolFull": "",
-              "itemFull": "道具已满，猎宠证无法交付给你"
+              "subject": "家族赛开打啦！族长请带领着族员们，依照猎宠证上的指示，抓宠向我来登记吧！",
+              "time": "比赛截止时间为2004年12月22日",
+              "card": "族长们～猎宠证无法交易，丢出后立即消失，比赛记录可是会归零！！ 注意看猎宠证的题目，不要抓错宠物给我！",
+              "caution": "猎宠证无法交易或丢弃",
+              "itemFull": "道具已满，猎宠证无法交付给你",
+              "hadItem": "您已经有猎宠证啰！",
+              "nonItem": "您没有猎宠证，要参加猎宠比赛请族长领取猎宠证，且需由他来登记才行喔～",
+              "notEnd": "比赛还在进行中，还不能领奖喔～请再继续努力加油！",
+              "wrongAnswer": "你猜错了哦～再来一次吧！",
+              "fmLeader": "您不是家族族长唷！",
+              "notNew": "",
+              "repeat": "",
+              "thanks": []
             }
           },
           "scriptHints": {
             "actions": [
-              "itemPoolShop"
+              "raceMan"
             ],
             "hints": [
+              "CheckItem:20760",
+              "GameMode:5",
+              "GameCode:41206",
+              "Mode5:5041208",
+              "History1:1041126-1",
+              "History2:2041126-1",
+              "RankNum:30",
+              "LowLevel:230",
               "GetItem:20760"
             ],
             "source": "gmsv-data/npc/race2/second.arg"
@@ -162583,28 +160390,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3209_14_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3209_14_14"
@@ -162668,28 +160456,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3209_16_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3209_16_14"
@@ -162828,28 +160597,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3209_27_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3209_27_16"
@@ -163123,28 +160873,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3209_27_25",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3209_27_25"
@@ -163373,28 +161104,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3209_27_36",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3209_27_36"
@@ -163557,28 +161269,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3300_69_44",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3300_69_44"
@@ -166933,28 +164626,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3309_20_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3309_20_12"
@@ -167243,28 +164917,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3309_20_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3309_20_16"
@@ -167493,28 +165148,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3309_20_20",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3309_20_20"
@@ -167638,28 +165274,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3400_63_46",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3400_63_46"
@@ -170632,28 +168249,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3409_27_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3409_27_16"
@@ -170942,28 +168540,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3409_27_26",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3409_27_26"
@@ -171192,28 +168771,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_3409_27_36",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好呢吗？",
-              "stone": "你的钱太多了唷！",
-              "poolFull": "",
-              "itemFull": "哎呀！你的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_3409_27_36"
@@ -171925,28 +169485,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4000_68_57",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4000_68_57"
@@ -172051,28 +169592,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4000_36_70",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4000_36_70"
@@ -172139,28 +169661,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4000_99_85",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4000_99_85"
@@ -176300,28 +173803,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4001_18_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4001_18_15"
@@ -176565,28 +174049,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4001_18_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4001_18_17"
@@ -176860,28 +174325,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4002_16_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4002_16_13"
@@ -177013,28 +174459,9 @@ export const WORLD = {
               "getFull": "宠物太多没有办法再拿了。"
             }
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ps_4003_13_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎到收买宠物的商店来 买取你所拥有的宠物",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个宠物的话、大概值这个价钱吧！",
-              "stone": "",
-              "poolFull": "已经没有办法再保存了。",
-              "itemFull": ""
-            }
-          },
           "scriptHints": {
             "actions": [
-              "petShop",
-              "itemPoolShop"
+              "petShop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_4003_13_13"
@@ -177481,28 +174908,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4004_16_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的吗？？？",
-              "stone": "所持金已满",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4004_16_13"
@@ -177794,28 +175202,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4005_18_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "可以了吗？",
-              "stone": "您持有的金钱过多了唷！",
-              "poolFull": "",
-              "itemFull": "东西太多了唷！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4005_18_13"
@@ -178452,28 +175841,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4009_20_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "接任务要先买委托书喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "您带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "您的道具满了喔！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4009_20_12"
@@ -178618,28 +175988,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4009_27_15",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "那个就可以了吗？",
-              "stone": "携带的钱太多了",
-              "poolFull": "",
-              "itemFull": "不好意思、道具太多了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4009_27_15"
@@ -179171,28 +176522,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4009_27_17",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多！",
-              "poolFull": "",
-              "itemFull": "不好意思、道具太多了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4009_27_17"
@@ -179724,28 +177056,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4009_27_24",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4009_27_24"
@@ -180277,28 +177590,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4009_27_28",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4009_27_28"
@@ -180857,28 +178151,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4009_27_37",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就好了？",
-              "stone": "你的钱已经满了。",
-              "poolFull": "",
-              "itemFull": "真不好意思，已经装不下了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4009_27_37"
@@ -181870,28 +179145,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_4011_13_16",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你要来打工啊？还是 帮我送东西来的呢？",
-              "pool": "",
-              "draw": "",
-              "confirm": "这件可以了吧？",
-              "stone": "你的金额已满了喔！",
-              "poolFull": "",
-              "itemFull": "哎呀！道具已经满了呢！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_4011_13_16"
@@ -183615,28 +180871,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop4_5",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_5"
@@ -185314,28 +182551,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop4_3",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_3"
@@ -185524,28 +182742,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop4_2",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_2"
@@ -185666,28 +182865,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop4_4",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_4"
@@ -185971,28 +183151,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/family/npc/shop4_1",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "就那个了吧？！",
-              "stone": "你的金钱限额已满了唷！",
-              "poolFull": "",
-              "itemFull": "啊！道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/family/npc/shop4_1"
@@ -186976,28 +184137,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_5001_25_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_5001_25_12"
@@ -187241,28 +184383,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_5001_14_13",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "似乎已经不能再多拿其他东西了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_5001_14_13"
@@ -187551,28 +184674,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_5001_28_14",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎大驾光临。",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已经爆表了。",
-              "poolFull": "",
-              "itemFull": "哎呀！你的东西已经满了呀。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_5001_28_14"
@@ -187846,28 +184950,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_5001_28_18",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "您好",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，你所持的金钱已满了。",
-              "poolFull": "",
-              "itemFull": "哎呀！你的东西已经满了呀。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_5001_28_18"
@@ -188637,28 +185722,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_5005_14_7",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个就可以了吗？",
-              "stone": "所携带的钱已经太多了。",
-              "poolFull": "",
-              "itemFull": "行李已经太多了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_5005_14_7"
@@ -189826,28 +186892,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_5106_16_12",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "我有卖很神奇的东西喔！",
-              "pool": "",
-              "draw": "",
-              "confirm": "确定要吗？",
-              "stone": "你带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "耶，道具不是满了吗？"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_5106_16_12"
@@ -192688,28 +189735,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/msg_7000_110_45",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "有什么要帮忙的?",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "携带的钱太多了。",
-              "poolFull": "",
-              "itemFull": "不好意思、道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/msg_7000_110_45"
@@ -208172,28 +205200,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_7005_7_26",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！这里是彩卷兑换处",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "",
-              "poolFull": "",
-              "itemFull": "您身上已经放不下多余的物品了……"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_7005_7_26"
@@ -209540,28 +206549,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_7010_6_2",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "你好！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这个就可以了吗？",
-              "stone": "钱太多了吧！",
-              "poolFull": "",
-              "itemFull": "对不起，您的道具已经满了。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_7010_6_2"
@@ -210563,28 +207553,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_7012_2_4",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "您好！今天是来打工的吗？ 还是送货来的呢？",
-              "pool": "",
-              "draw": "",
-              "confirm": "就麻烦你运到目的地啰！",
-              "stone": "你的钱太多了啦！",
-              "poolFull": "",
-              "itemFull": "哎呀！道具已经装满了啊....。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_7012_2_4"
@@ -210834,28 +207805,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_7012_8_4",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "这样就可以了吗？",
-              "stone": "哎呀，您已经拿不动这么多钱了。",
-              "poolFull": "",
-              "itemFull": "您已经拿不动其他东西了……"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_7012_8_4"
@@ -238703,28 +235655,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_10007_38_24",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好了吗？",
-              "stone": "你的金额已满，无法交易。",
-              "poolFull": "",
-              "itemFull": "啊！道具已经装满了唷！"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_10007_38_24"
@@ -239291,28 +236224,9 @@ export const WORLD = {
               }
             ]
           },
-          "itemPoolShop": {
-            "kind": "item-pool",
-            "source": "gmsv-data/npc/genout/ss_10007_39_35",
-            "cost": 200,
-            "supports": {
-              "deposit": true,
-              "withdraw": true
-            },
-            "messages": {
-              "main": "欢迎光临！",
-              "pool": "",
-              "draw": "",
-              "confirm": "真的好了吗？",
-              "stone": "你的金额已满，无法交易。",
-              "poolFull": "",
-              "itemFull": "你的道具已满。"
-            }
-          },
           "scriptHints": {
             "actions": [
-              "shop",
-              "itemPoolShop"
+              "shop"
             ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ss_10007_39_35"

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T11:26:34.480Z",
+  "generatedAt": "2026-05-20T14:58:55.866Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -211,13 +211,13 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12585,
-      "candidate-action": 1291,
-      "unknown": 1312,
-      "supported-message": 10924,
+      "supported-config": 12334,
+      "candidate-action": 1275,
+      "unknown": 1253,
+      "supported-message": 11251,
       "condition-control": 11752,
       "supported-action": 3714,
-      "blocked-or-later-system": 27
+      "blocked-or-later-system": 26
     },
     "keyRecords": [
       {
@@ -1423,7 +1423,7 @@
       {
         "key": "card_msg",
         "normalized": "card_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -1460,7 +1460,7 @@
       {
         "key": "caution_msg",
         "normalized": "caution_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -1920,7 +1920,7 @@
       {
         "key": "CheckItem",
         "normalized": "checkitem",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -2009,7 +2009,7 @@
       {
         "key": "CheckPet",
         "normalized": "checkpet",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -2484,7 +2484,7 @@
       {
         "key": "DelFlag",
         "normalized": "delflag",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -3073,7 +3073,7 @@
       {
         "key": "EndFlag",
         "normalized": "endflag",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -4110,7 +4110,7 @@
       {
         "key": "First",
         "normalized": "first",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -4199,7 +4199,7 @@
       {
         "key": "fmleader_msg",
         "normalized": "fmleader_msg",
-        "category": "blocked-or-later-system",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -4263,7 +4263,7 @@
       {
         "key": "FornewLv",
         "normalized": "fornewlv",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -4300,7 +4300,7 @@
       {
         "key": "FornewTran",
         "normalized": "fornewtran",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -4703,7 +4703,7 @@
       {
         "key": "GameCode",
         "normalized": "gamecode",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -4735,7 +4735,7 @@
       {
         "key": "GameMode",
         "normalized": "gamemode",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -5294,7 +5294,7 @@
       {
         "key": "haditem_msg",
         "normalized": "haditem_msg",
-        "category": "candidate-action",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -5383,7 +5383,7 @@
       {
         "key": "HasGame",
         "normalized": "hasgame",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -5519,7 +5519,7 @@
       {
         "key": "History1",
         "normalized": "history",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 5,
         "files": 1,
         "profiles": {
@@ -5675,7 +5675,7 @@
       {
         "key": "itemfull_msg",
         "normalized": "itemfull_msg",
-        "category": "supported-config",
+        "category": "supported-message",
         "occurrences": 303,
         "files": 303,
         "profiles": {
@@ -6489,7 +6489,7 @@
       {
         "key": "LowLevel",
         "normalized": "lowlevel",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -6996,7 +6996,7 @@
       {
         "key": "Mode1",
         "normalized": "mode",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 10,
         "files": 2,
         "profiles": {
@@ -8607,7 +8607,7 @@
       {
         "key": "nonitem_msg",
         "normalized": "nonitem_msg",
-        "category": "candidate-action",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -8644,7 +8644,7 @@
       {
         "key": "normal",
         "normalized": "normal",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -8852,7 +8852,7 @@
       {
         "key": "notend_msg",
         "normalized": "notend_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -8936,7 +8936,7 @@
       {
         "key": "notnew_msg",
         "normalized": "notnew_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -9933,7 +9933,7 @@
       {
         "key": "PetLevel",
         "normalized": "petlevel",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -10611,7 +10611,7 @@
       {
         "key": "RankNum",
         "normalized": "ranknum",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -10752,7 +10752,7 @@
       {
         "key": "repeat_msg",
         "normalized": "repeat_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -11187,7 +11187,7 @@
       {
         "key": "Second",
         "normalized": "second",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -12473,7 +12473,7 @@
       {
         "key": "subject_msg",
         "normalized": "subject_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -12718,7 +12718,7 @@
       {
         "key": "thanks1_msg",
         "normalized": "thanks1_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -12755,7 +12755,7 @@
       {
         "key": "thanks2_msg",
         "normalized": "thanks2_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -12792,7 +12792,7 @@
       {
         "key": "thanks3_msg",
         "normalized": "thanks3_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -12881,7 +12881,7 @@
       {
         "key": "Third",
         "normalized": "third",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 2,
         "profiles": {
@@ -13022,7 +13022,7 @@
       {
         "key": "Time_Msg",
         "normalized": "time_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 3,
         "files": 3,
         "profiles": {
@@ -13809,7 +13809,7 @@
       {
         "key": "wrongans_msg",
         "normalized": "wrongans_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -13892,110 +13892,6 @@
       }
     ],
     "unsupportedCandidates": [
-      {
-        "key": "Mode1",
-        "normalized": "mode",
-        "category": "unknown",
-        "occurrences": 10,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 5,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 29,
-            "text": "Mode1:20041111"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 30,
-            "text": "Mode2:20041111-1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 31,
-            "text": "Mode3:20041030"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 32,
-            "text": "Mode4:20041104"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 33,
-            "text": "Mode5:20041108"
-          }
-        ]
-      },
-      {
-        "key": "History1",
-        "normalized": "history",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 5,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 35,
-            "text": "History1:1041126-1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 36,
-            "text": "History2:2041126-1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 37,
-            "text": "History3:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 38,
-            "text": "History4:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 39,
-            "text": "History5:"
-          }
-        ]
-      },
       {
         "key": "CostPoint",
         "normalized": "costpoint",
@@ -14128,58 +14024,6 @@
         ]
       },
       {
-        "key": "normal",
-        "normalized": "normal",
-        "category": "unknown",
-        "occurrences": 10,
-        "files": 10,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 2,
-            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 2,
-            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 2,
-            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 2,
-            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 2,
-            "text": "normal:请照我的想法和感觉到的来行动。请听好。"
-          }
-        ]
-      },
-      {
         "key": "REPLACEMENT",
         "normalized": "replacement",
         "category": "unknown",
@@ -14264,788 +14108,6 @@
         ]
       },
       {
-        "key": "Time_Msg",
-        "normalized": "time_msg",
-        "category": "unknown",
-        "occurrences": 3,
-        "files": 3,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden3/karo/chara",
-            "line": 7,
-            "text": "Time_Msg:吼吼～～吼吼～～吼吼～～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 7,
-            "text": "time_msg:比赛截止时间为2004年11月12日"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 2,
-            "text": "time_msg:比赛截止时间为2004年12月22日"
-          }
-        ]
-      },
-      {
-        "key": "card_msg",
-        "normalized": "card_msg",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 8,
-            "text": "card_msg:请小心，猎宠证无法交易，丢出后即消失，比赛记录可是会归零喔～\\n还有砂鲨宠最好抓５００只以上喔～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 3,
-            "text": "card_msg:族长们～猎宠证无法交易，丢出后立即消失，比赛记录可是会归零！！\\n注意看猎宠证的题目，不要抓错宠物给我！"
-          }
-        ]
-      },
-      {
-        "key": "caution_msg",
-        "normalized": "caution_msg",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 9,
-            "text": "caution_msg:猎宠证无法交易或丢弃"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 4,
-            "text": "caution_msg:猎宠证无法交易或丢弃"
-          }
-        ]
-      },
-      {
-        "key": "CheckItem",
-        "normalized": "checkitem",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 22,
-            "text": "CheckItem:20706"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 20,
-            "text": "CheckItem:20760"
-          }
-        ]
-      },
-      {
-        "key": "CheckPet",
-        "normalized": "checkpet",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 24,
-            "text": "CheckPet:1618"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 22,
-            "text": "CheckPet:"
-          }
-        ]
-      },
-      {
-        "key": "DelFlag",
-        "normalized": "delflag",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 21,
-            "text": "DelFlag:on"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 19,
-            "text": "DelFlag:off"
-          }
-        ]
-      },
-      {
-        "key": "EndFlag",
-        "normalized": "endflag",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 27,
-            "text": "EndFlag:off"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 26,
-            "text": "EndFlag:off"
-          }
-        ]
-      },
-      {
-        "key": "First",
-        "normalized": "first",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 37,
-            "text": "First:20708"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 42,
-            "text": "First:"
-          }
-        ]
-      },
-      {
-        "key": "FornewLv",
-        "normalized": "fornewlv",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 20,
-            "text": "FornewLv:0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 18,
-            "text": "FornewLv:"
-          }
-        ]
-      },
-      {
-        "key": "GameMode",
-        "normalized": "gamemode",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 26,
-            "text": "GameMode:2"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 24,
-            "text": "GameMode:5"
-          }
-        ]
-      },
-      {
-        "key": "haditem_msg",
-        "normalized": "haditem_msg",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 11,
-            "text": "haditem_msg:您已经有猎宠证啰！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 6,
-            "text": "haditem_msg:您已经有猎宠证啰！"
-          }
-        ]
-      },
-      {
-        "key": "LowLevel",
-        "normalized": "lowlevel",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 36,
-            "text": "LowLevel:5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 41,
-            "text": "LowLevel:230"
-          }
-        ]
-      },
-      {
-        "key": "nonitem_msg",
-        "normalized": "nonitem_msg",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 12,
-            "text": "nonitem_msg:您没有猎宠证，要参加猎宠比赛请领取猎宠证"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 7,
-            "text": "nonitem_msg:您没有猎宠证，要参加猎宠比赛请族长领取猎宠证，且需由他来登记才行喔～"
-          }
-        ]
-      },
-      {
-        "key": "PetLevel",
-        "normalized": "petlevel",
-        "category": "candidate-action",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 25,
-            "text": "PetLevel:85"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 23,
-            "text": "PetLevel:"
-          }
-        ]
-      },
-      {
-        "key": "RankNum",
-        "normalized": "ranknum",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 34,
-            "text": "RankNum:30"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 33,
-            "text": "RankNum:30"
-          }
-        ]
-      },
-      {
-        "key": "Second",
-        "normalized": "second",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 38,
-            "text": "Second:20284"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 43,
-            "text": "Second:"
-          }
-        ]
-      },
-      {
-        "key": "subject_msg",
-        "normalized": "subject_msg",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 6,
-            "text": "subject_msg:请您尽情狩猎８５级上的砂鲨宠吧！！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 1,
-            "text": "subject_msg:家族赛开打啦！族长请带领着族员们，依照猎宠证上的指示，抓宠向我来登记吧！"
-          }
-        ]
-      },
-      {
-        "key": "thanks1_msg",
-        "normalized": "thanks1_msg",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 13,
-            "text": "thanks1_msg:您真是英雄！！荣登狩猎砂鲨比赛第一名，获得神秘神物兑换券一张，请到萨村宠物店附近找毛克利兑换喔～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 8,
-            "text": "thanks1_msg:"
-          }
-        ]
-      },
-      {
-        "key": "thanks2_msg",
-        "normalized": "thanks2_msg",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 14,
-            "text": "thanks2_msg:您真是不赖！！赢得狩猎砂鲨比赛第二名，获得我们精心制造的武器一把，希望您会喜欢喔～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 9,
-            "text": "thanks2_msg:"
-          }
-        ]
-      },
-      {
-        "key": "thanks3_msg",
-        "normalized": "thanks3_msg",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 15,
-            "text": "thanks3_msg:狩猎砂鲨比赛的第三名就是您啦！！获得我们精心制造的武器一把，希望您会喜欢喔～"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 10,
-            "text": "thanks3_msg:"
-          }
-        ]
-      },
-      {
-        "key": "Third",
-        "normalized": "third",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 2,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race/DEADJOE",
-            "line": 39,
-            "text": "Third:20278"
-          },
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 44,
-            "text": "Third:"
-          }
-        ]
-      },
-      {
         "key": "CHECK_MSG",
         "normalized": "check_msg",
         "category": "unknown",
@@ -15078,102 +14140,6 @@
         ]
       },
       {
-        "key": "FornewTran",
-        "normalized": "fornewtran",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 17,
-            "text": "FornewTran:"
-          }
-        ]
-      },
-      {
-        "key": "GameCode",
-        "normalized": "gamecode",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 25,
-            "text": "GameCode:41206"
-          }
-        ]
-      },
-      {
-        "key": "HasGame",
-        "normalized": "hasgame",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 16,
-            "text": "HasGame:5"
-          }
-        ]
-      },
-      {
         "key": "msg",
         "normalized": "msg",
         "category": "unknown",
@@ -15202,70 +14168,6 @@
             "file": "external/sources/ref___data/npc/genout/ss_1100_86_107",
             "line": 9,
             "text": "msg:最近如何？"
-          }
-        ]
-      },
-      {
-        "key": "notend_msg",
-        "normalized": "notend_msg",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 12,
-            "text": "notend_msg:比赛还在进行中，还不能领奖喔～请再继续努力加油！"
-          }
-        ]
-      },
-      {
-        "key": "wrongans_msg",
-        "normalized": "wrongans_msg",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/race2/second.arg",
-            "line": 13,
-            "text": "wrongans_msg:你猜错了哦～再来一次吧！"
           }
         ]
       },
@@ -15474,6 +14376,1514 @@
             "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
             "line": 119,
             "text": "EVENTRUN6:"
+          }
+        ]
+      },
+      {
+        "key": "herobattlefield",
+        "normalized": "herobattlefield",
+        "category": "candidate-action",
+        "occurrences": 133,
+        "files": 133,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/heroic/DEADJOE",
+            "line": 18,
+            "text": "herobattlefield:75"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic1.arg",
+            "line": 20,
+            "text": "herobattlefield:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic10.arg",
+            "line": 10,
+            "text": "herobattlefield:10"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic100.arg",
+            "line": 20,
+            "text": "herobattlefield:100"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic101.arg",
+            "line": 11,
+            "text": "herobattlefield:101"
+          }
+        ]
+      },
+      {
+        "key": "Floor",
+        "normalized": "floor",
+        "category": "candidate-action",
+        "occurrences": 131,
+        "files": 14,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1012_14_13",
+            "line": 2,
+            "text": "Floor:111,112,113,114,115,116"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_130_57_48",
+            "line": 2,
+            "text": "Floor:111,112,113,114,115,116"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_2012_14_13",
+            "line": 2,
+            "text": "Floor:111,112,113,114,115,116"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_3012_14_13",
+            "line": 2,
+            "text": "Floor:111,112,113,114,115,116"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_4012_14_13",
+            "line": 2,
+            "text": "Floor:111,112,113,114,115,116"
+          }
+        ]
+      },
+      {
+        "key": "sktype",
+        "normalized": "sktype",
+        "category": "unknown",
+        "occurrences": 125,
+        "files": 125,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/heroic/DEADJOE",
+            "line": 13,
+            "text": "sktype:2"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic10.arg",
+            "line": 5,
+            "text": "sktype:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic101.arg",
+            "line": 6,
+            "text": "sktype:2"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic102.arg",
+            "line": 5,
+            "text": "sktype:2"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic103.arg",
+            "line": 5,
+            "text": "sktype:2"
+          }
+        ]
+      },
+      {
+        "key": "LimitLevel",
+        "normalized": "limitlevel",
+        "category": "candidate-action",
+        "occurrences": 68,
+        "files": 4,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 96,
+            "text": "LimitLevel:79"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 103,
+            "text": "LimitLevel:79"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 116,
+            "text": "LimitLevel:75"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 129,
+            "text": "LimitLevel:70"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 143,
+            "text": "LimitLevel:65"
+          }
+        ]
+      },
+      {
+        "key": "mainmsg",
+        "normalized": "mainmsg",
+        "category": "unknown",
+        "occurrences": 48,
+        "files": 37,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 8,
+            "text": "mainmsg:\\n玛蕾菲雅：谢谢你让我和精灵王重聚，让我与精灵王赐予你宠物转生的力量吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 19,
+            "text": "mainmsg:\\n转生是把你最强的力量给激发出来\\n把你的身体回复到刚出生时的状态\\n可是，当你的身体成长之后\\n你就知道转生的美妙之处\\n\\n你下定决心要进行转生了吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 27,
+            "text": "mainmsg:\\n转生是把你最强的力量给激发出来\\n把你的身体回复到刚出生时的状态\\n可是，当你的身体成长之后\\n你就知道转生的美妙之处\\n\\n你下定决心要进行转生了吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 35,
+            "text": "mainmsg:\\n转生是把你最强的力量给激发出来\\n把你的身体回复到刚出生时的状态\\n可是，当你的身体成长之后\\n你就知道转生的美妙之处\\n\\n你下定决心要进行转生了吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 44,
+            "text": "mainmsg:\\n转生是把你最强的力量给激发出来\\n把你的身体回复到刚出生时的状态\\n可是，当你的身体成长之后\\n你就知道转生的美妙之处\\n\\n你下定决心要进行转生了吗？"
+          }
+        ]
+      },
+      {
+        "key": "BOTH1",
+        "normalized": "both",
+        "category": "unknown",
+        "occurrences": 32,
+        "files": 6,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 282,
+            "text": "BOTH1:"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 287,
+            "text": "BOTH2:"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 292,
+            "text": "BOTH3:"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 297,
+            "text": "BOTH4:"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 302,
+            "text": "BOTH5:"
+          }
+        ]
+      },
+      {
+        "key": "EntryItem",
+        "normalized": "entryitem",
+        "category": "candidate-action",
+        "occurrences": 31,
+        "files": 31,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/jan_802_29_19",
+            "line": 2,
+            "text": "EntryItem:2751*1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/jan_804_29_19",
+            "line": 2,
+            "text": "EntryItem:2751*1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/jan_807_18_19",
+            "line": 2,
+            "text": "EntryItem:2751*1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/jan_822_29_19",
+            "line": 2,
+            "text": "EntryItem:2751*1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/jan_824_29_19",
+            "line": 2,
+            "text": "EntryItem:2751*1"
+          }
+        ]
+      },
+      {
+        "key": "WAVE",
+        "normalized": "wave",
+        "category": "unknown",
+        "occurrences": 30,
+        "files": 30,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden1/animal01.arg",
+            "line": 2,
+            "text": "WAVE:56"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/animal02.arg",
+            "line": 2,
+            "text": "WAVE:56"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/animal03.arg",
+            "line": 2,
+            "text": "WAVE:56"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/animal04.arg",
+            "line": 2,
+            "text": "WAVE:54"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/animal05.arg",
+            "line": 2,
+            "text": "WAVE:54"
+          }
+        ]
+      },
+      {
+        "key": "MenuStr",
+        "normalized": "menustr",
+        "category": "unknown",
+        "occurrences": 27,
+        "files": 7,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 6,
+            "text": "MenuStr:尼克斯城 2500石币"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 14,
+            "text": "MenuStr:弗烈顿城 2500石币"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 22,
+            "text": "MenuStr:亚伊欧城 2800石币"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 30,
+            "text": "MenuStr:伊甸园　 4000石币"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer1.arg",
+            "line": 6,
+            "text": "MenuStr:塔耳塔城 2500石币"
+          }
+        ]
+      },
+      {
+        "key": "WARPPOINT",
+        "normalized": "warppoint",
+        "category": "candidate-action",
+        "occurrences": 27,
+        "files": 7,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 9,
+            "text": "WARPPOINT:7200,37,33"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 17,
+            "text": "WARPPOINT:7300,87,101"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 25,
+            "text": "WARPPOINT:7400,99,90"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer.arg",
+            "line": 33,
+            "text": "WARPPOINT:7000,35,128"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/transfer1.arg",
+            "line": 9,
+            "text": "WARPPOINT:7112,18,6"
+          }
+        ]
+      },
+      {
+        "key": "LeavepkMsg",
+        "normalized": "leavepkmsg",
+        "category": "unknown",
+        "occurrences": 26,
+        "files": 26,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_51_51",
+            "line": 6,
+            "text": "LeavepkMsg:\\n你好！想要回到记录点吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7532_18_23",
+            "line": 5,
+            "text": "LeavepkMsg:\\n想要离开家族对战场吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_48_25",
+            "line": 6,
+            "text": "LeavepkMsg:\\n你好！想要回到记录点吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1042_17_29",
+            "line": 5,
+            "text": "LeavepkMsg:\\n想要离开家族对战场吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_26_16",
+            "line": 6,
+            "text": "LeavepkMsg:\\n你好！想要回到记录点吗？"
+          }
+        ]
+      },
+      {
+        "key": "gamble_msg01",
+        "normalized": "gamble_msg",
+        "category": "unknown",
+        "occurrences": 25,
+        "files": 5,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
+            "line": 5,
+            "text": "gamble_msg01:          有什麽需要我服务的吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
+            "line": 6,
+            "text": "gamble_msg02:               ＜ 银    行 ＞"
+          },
+          {
+            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
+            "line": 7,
+            "text": "gamble_msg03:               ＜ 兑换奖品 ＞"
+          },
+          {
+            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
+            "line": 8,
+            "text": "gamble_msg04:NULL"
+          },
+          {
+            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
+            "line": 9,
+            "text": "gamble_msg05:                 ＜ 离开 ＞"
+          }
+        ]
+      },
+      {
+        "key": "CHECKPARTY",
+        "normalized": "checkparty",
+        "category": "unknown",
+        "occurrences": 24,
+        "files": 9,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden1/saveking/saveking4",
+            "line": 14,
+            "text": "CHECKPARTY:FALSE"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/saveking/saveking4",
+            "line": 22,
+            "text": "CHECKPARTY:FALSE"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/saveking/saveking6",
+            "line": 14,
+            "text": "CHECKPARTY:TRUE"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/saveking/saveking6",
+            "line": 22,
+            "text": "CHECKPARTY:TRUE"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/warppoint2.arg",
+            "line": 2,
+            "text": "CHECKPARTY:TRUE"
+          }
+        ]
+      },
+      {
+        "key": "Event_Now",
+        "normalized": "event_now",
+        "category": "candidate-action",
+        "occurrences": 24,
+        "files": 13,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden2/kraken/kraken88_06",
+            "line": 26,
+            "text": "Event_Now:89"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden2/kraken/kraken88_08",
+            "line": 27,
+            "text": "Event_Now:89"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic1.arg",
+            "line": 21,
+            "text": "Event_Now:151"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic120.arg",
+            "line": 21,
+            "text": "Event_Now:154"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic40.arg",
+            "line": 22,
+            "text": "Event_Now:152"
+          }
+        ]
+      },
+      {
+        "key": "PETTEMPNO",
+        "normalized": "pettempno",
+        "category": "candidate-action",
+        "occurrences": 24,
+        "files": 11,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk.mem",
+            "line": 1,
+            "text": "PETTEMPNO:ptalk01.arg,718&"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk.mem",
+            "line": 2,
+            "text": "PETTEMPNO:ptalk02.arg,693"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk.menu",
+            "line": 1,
+            "text": "PETTEMPNO:ptalk01.arg,718END"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk.menu",
+            "line": 2,
+            "text": "PETTEMPNO:ptalk02.arg,2END"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk.menu",
+            "line": 3,
+            "text": "PETTEMPNO:ptalk04.arg,914END"
+          }
+        ]
+      },
+      {
+        "key": "Answer",
+        "normalized": "answer",
+        "category": "unknown",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 2,
+            "text": "Answer:4"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 2,
+            "text": "Answer:7"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 2,
+            "text": "Answer:7"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 2,
+            "text": "Answer:7"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 2,
+            "text": "Answer:7"
+          }
+        ]
+      },
+      {
+        "key": "Border",
+        "normalized": "border",
+        "category": "unknown",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 5,
+            "text": "Border:1,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 5,
+            "text": "Border:1,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 5,
+            "text": "Border:2,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 5,
+            "text": "Border:2,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 5,
+            "text": "Border:3,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
+          }
+        ]
+      },
+      {
+        "key": "FailureMsg",
+        "normalized": "failuremsg",
+        "category": "unknown",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 8,
+            "text": "FailureMsg:真是可惜呢、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 9,
+            "text": "FailureMsg:真是可惜呢、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 8,
+            "text": "FailureMsg:真是可惜呢、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 8,
+            "text": "FailureMsg:真是可惜呢、再次来挑战吧。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 8,
+            "text": "FailureMsg:真是可惜呢、再次来挑战吧。"
+          }
+        ]
+      },
+      {
+        "key": "Level",
+        "normalized": "level",
+        "category": "candidate-action",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 3,
+            "text": "Level:8"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 3,
+            "text": "Level:16"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 3,
+            "text": "Level:3"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 3,
+            "text": "Level:6"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 3,
+            "text": "Level:12"
+          }
+        ]
+      },
+      {
+        "key": "NoEntryMsg",
+        "normalized": "noentrymsg",
+        "category": "unknown",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 10,
+            "text": "NoEntryMsg:\\n你没有参加券吗\\n那么就不能比赛胜负啰。\\n因为参加券在每层楼的弟子们的手上\\n跟他们战斗之后就可以拿到了。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 13,
+            "text": "NoEntryMsg:\\n你没有参加券吗\\n那么就不能比赛胜负啰。\\n因为参加券在每层楼的弟子们的手上\\n跟他们战斗之后就可以拿到了。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 11,
+            "text": "NoEntryMsg:\\n你没有参加券吗\\n那么就不能比赛胜负啰。\\n因为参加券在每层楼的弟子们的手上\\n跟他们战斗之后就可以拿到了。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 11,
+            "text": "NoEntryMsg:\\n你没有参加券吗\\n那么就不能比赛胜负啰。\\n因为参加券在每层楼的弟子们的手上\\n跟他们战斗之后就可以拿到了。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 11,
+            "text": "NoEntryMsg:\\n你没有参加券吗\\n那么就不能比赛胜负啰。\\n因为参加券在每层楼的弟子们的手上\\n跟他们战斗之后就可以拿到了。"
+          }
+        ]
+      },
+      {
+        "key": "Party",
+        "normalized": "party",
+        "category": "unknown",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 9,
+            "text": "Party:团队无法参加喔！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 12,
+            "text": "Party:团队无法参加喔！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 10,
+            "text": "Party:团队无法参加喔！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 10,
+            "text": "Party:团队无法参加喔！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 10,
+            "text": "Party:团队无法参加喔！"
+          }
+        ]
+      },
+      {
+        "key": "Quiznum",
+        "normalized": "quiznum",
+        "category": "unknown",
+        "occurrences": 23,
+        "files": 23,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
+            "line": 4,
+            "text": "Quiznum:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
+            "line": 4,
+            "text": "Quiznum:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
+            "line": 4,
+            "text": "Quiznum:2"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
+            "line": 4,
+            "text": "Quiznum:3"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
+            "line": 4,
+            "text": "Quiznum:5"
+          }
+        ]
+      },
+      {
+        "key": "yesmsg1",
+        "normalized": "yesmsg",
+        "category": "unknown",
+        "occurrences": 22,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 20,
+            "text": "yesmsg1:\\n你被一片光芒包围，自己出生村庄的风景，还有很多以前所经历过的事情\\n全都在脑海浮现。\\n\\n在这之中，帖拉所依朵因为这个光景\\n而不被允许到外面的世界\\n而他被精灵王封印的事\\n说不定就是表现他的存在意义啊’’’"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 21,
+            "text": "yesmsg2:\\n\\n在想这件事的时候，意识越来越模糊’’’"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 28,
+            "text": "yesmsg1:\\n你被一片光芒包围，自己出生村庄的风景，还有很多以前所经历过的事情\\n全都在脑海浮现。\\n\\n在这之中，帖拉所依朵因为这个光景\\n而不被允许到外面的世界\\n而他被精灵王封印的事\\n说不定就是表现他的存在意义啊’’’"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 29,
+            "text": "yesmsg2:\\n\\n在想这件事的时候，你的意识越来越模糊’’’"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 36,
+            "text": "yesmsg1:\\n你被一片光芒包围，自己出生村庄的风景，还有很多以前所经历过的事情\\n全都在脑海浮现。\\n\\n在这之中，帖拉所依朵因为这个光景\\n而不被允许到外面的世界\\n而他被精灵王封印的事\\n说不定就是表现他的存在意义啊’’’"
+          }
+        ]
+      },
+      {
+        "key": "Event_End",
+        "normalized": "event_end",
+        "category": "candidate-action",
+        "occurrences": 21,
+        "files": 9,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic100.arg",
+            "line": 21,
+            "text": "Event_End:153"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic132.arg",
+            "line": 19,
+            "text": "Event_End:154"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic20.arg",
+            "line": 21,
+            "text": "Event_End:151"
+          },
+          {
+            "file": "external/sources/ref___data/npc/heroic/heroic60.arg",
+            "line": 21,
+            "text": "Event_End:152"
+          },
+          {
+            "file": "external/sources/ref___data/npc/my/ruieryasi/shameijia.arg",
+            "line": 24,
+            "text": "Event_End:190"
+          }
+        ]
+      },
+      {
+        "key": "item",
+        "normalized": "item",
+        "category": "candidate-action",
+        "occurrences": 20,
+        "files": 20,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/100/sb_mimi.arg",
+            "line": 5,
+            "text": "item:2697"
+          },
+          {
+            "file": "external/sources/ref___data/npc/100/sb_nusu1.arg",
+            "line": 7,
+            "text": "item:2431"
+          },
+          {
+            "file": "external/sources/ref___data/npc/100/sb_nusu2.arg",
+            "line": 6,
+            "text": "item:2431"
+          },
+          {
+            "file": "external/sources/ref___data/npc/100/sb_nusu3.arg",
+            "line": 7,
+            "text": "item:2431"
+          },
+          {
+            "file": "external/sources/ref___data/npc/300/sb_bac.arg",
+            "line": 6,
+            "text": "item:2535"
+          }
+        ]
+      },
+      {
+        "key": "AddPet",
+        "normalized": "addpet",
+        "category": "candidate-action",
+        "occurrences": 15,
+        "files": 4,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden2/kraken/kraken88_06",
+            "line": 27,
+            "text": "AddPet:1802"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden2/kraken/kraken88_08",
+            "line": 28,
+            "text": "AddPet:1802"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa60/newbie/m_tiger",
+            "line": 17,
+            "text": "AddPet:2483"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa60/newbie/m_tiger",
+            "line": 26,
+            "text": "AddPet:2483"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa60/newbie/m_tiger",
+            "line": 35,
+            "text": "AddPet:2483"
+          }
+        ]
+      },
+      {
+        "key": "AskMsg",
+        "normalized": "askmsg",
+        "category": "unknown",
+        "occurrences": 15,
+        "files": 15,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_55_51",
+            "line": 8,
+            "text": "AskMsg:\\n【%s。vs。%s】\\n\\n目前有家族正在使用，\\n若您想使用，请族长先预约吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_47_23",
+            "line": 8,
+            "text": "AskMsg:\\n【%s。vs。%s】\\n\\n目前有家族正在使用，\\n若您想使用，请族长先预约吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_29_47",
+            "line": 8,
+            "text": "AskMsg:\\n【%s。vs。%s】\\n\\n目前有家族正在使用，\\n若您想使用，请族长先预约吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_2_15",
+            "line": 8,
+            "text": "AskMsg:\\n【%s。vs。%s】\\n\\n目前有家族正在使用，\\n若您想使用，请族长先预约吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_2_31",
+            "line": 8,
+            "text": "AskMsg:\\n【%s。vs。%s】\\n\\n目前有家族正在使用，\\n若您想使用，请族长先预约吧！"
+          }
+        ]
+      },
+      {
+        "key": "BusyMsg",
+        "normalized": "busymsg",
+        "category": "unknown",
+        "occurrences": 15,
+        "files": 15,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_55_51",
+            "line": 7,
+            "text": "BusyMsg:\\n您来的太迟了，现在已经不能进场啦！\\n目前场内人数：\\n%s家族：%4d人\\n%s家族：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_47_23",
+            "line": 7,
+            "text": "BusyMsg:\\n您来的太迟了，现在已经不能进场啦！\\n目前场内人数：\\n%s家族：%4d人\\n%s家族：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_29_47",
+            "line": 7,
+            "text": "BusyMsg:\\n您来的太迟了，现在已经不能进场啦！\\n目前场内人数：\\n%s家族：%4d人\\n%s家族：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_2_15",
+            "line": 7,
+            "text": "BusyMsg:\\n您来的太迟了，现在已经不能进场啦！\\n目前场内人数：\\n%s家族：%4d人\\n%s家族：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_2_31",
+            "line": 7,
+            "text": "BusyMsg:\\n您来的太迟了，现在已经不能进场啦！\\n目前场内人数：\\n%s家族：%4d人\\n%s家族：%4d人\\n系统时间：%4d点%4d分！"
+          }
+        ]
+      },
+      {
+        "key": "NextMsg",
+        "normalized": "nextmsg",
+        "category": "unknown",
+        "occurrences": 15,
+        "files": 15,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_55_51",
+            "line": 10,
+            "text": "NextMsg:\\n咦～你是登记下一场次的家族嘛！\\n时间还没到啦！\\n目前场内人数：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_47_23",
+            "line": 10,
+            "text": "NextMsg:\\n咦～你是登记下一场次的家族嘛！\\n时间还没到啦！\\n目前场内人数：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_29_47",
+            "line": 10,
+            "text": "NextMsg:\\n咦～你是登记下一场次的家族嘛！\\n时间还没到啦！\\n目前场内人数：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_2_15",
+            "line": 10,
+            "text": "NextMsg:\\n咦～你是登记下一场次的家族嘛！\\n时间还没到啦！\\n目前场内人数：%4d人\\n系统时间：%4d点%4d分！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_2_31",
+            "line": 10,
+            "text": "NextMsg:\\n咦～你是登记下一场次的家族嘛！\\n时间还没到啦！\\n目前场内人数：%4d人\\n系统时间：%4d点%4d分！"
           }
         ]
       }
