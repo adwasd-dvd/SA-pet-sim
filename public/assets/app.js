@@ -1511,7 +1511,7 @@ async function goToExit(exitId, options = {}) {
       addClientLog(`无法到达 ${exit.label}。`);
       return;
     }
-    followRouteTo(approach.target, approach);
+    await followRouteTo(approach.target, approach);
   } catch (error) {
     addClientLog(error.message || `无法到达 ${exit.label}。`);
   }
@@ -3391,7 +3391,7 @@ function onAssistPanelClick(event) {
 }
 
 function onAssistPanelDoubleClick(event) {
-  if (event.target.closest("[data-assist-go-npc], [data-assist-go-exit]")) return;
+  if (event.target.closest("[data-assist-go-npc], [data-assist-go-exit], [data-assist-paid-jump-npc], [data-assist-paid-jump-exit]")) return;
   if (event.target.closest("[data-npc-sort], [data-exit-sort]")) return;
   const btn = event.target.closest("[data-npc], [data-exit]");
   if (!btn) return;
