@@ -3473,10 +3473,10 @@ h3 {
 
 .shop-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(72px, auto);
+  align-items: start;
   gap: 7px;
-  min-height: 36px;
+  min-height: 42px;
   min-width: 0;
   border: 1px solid rgb(209 161 85 / 56%);
   border-radius: 2px;
@@ -3495,12 +3495,19 @@ h3 {
   background: linear-gradient(180deg, #c18a3a, #65411a);
 }
 
-.shop-item span {
+.shop-item > span {
   display: grid;
   gap: 3px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.shop-item-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
 }
 
 .shop-item strong {
@@ -3510,22 +3517,84 @@ h3 {
   white-space: nowrap;
 }
 
+.shop-badge {
+  flex: 0 0 auto;
+  border: 1px solid rgb(255 239 124 / 46%);
+  border-radius: 2px;
+  padding: 0 4px;
+  background: rgb(28 64 54 / 88%);
+  color: #fff4c8;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.shop-badge-discount {
+  border-color: rgb(255 239 124 / 72%);
+  background: #ffef7c;
+  color: #241706;
+}
+
 .shop-item small {
   overflow: hidden;
   color: #e2d8bd;
+  display: -webkit-box;
   font-size: 11px;
   font-weight: 500;
+  line-height: 1.18;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.shop-item b {
+.shop-item b,
+.shop-price {
   color: #fff4c8;
   font-size: 11px;
   white-space: nowrap;
 }
 
-.shop-item:disabled b {
+.shop-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px;
+  justify-self: end;
+  min-width: 72px;
+  overflow: visible;
+  text-align: right;
+}
+
+.shop-price-old {
+  color: #cdbb8f;
+  font-size: 9px;
+  text-decoration: line-through;
+}
+
+.shop-price-arrow {
+  color: #ffef7c;
+  font-size: 10px;
+}
+
+.shop-price-now {
+  color: #fff4c8;
+  font-weight: 900;
+}
+
+.shop-price em {
+  color: #fff4c8;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.shop-item:disabled b,
+.shop-item:disabled .shop-price,
+.shop-item:disabled .shop-price-now,
+.shop-item:disabled .shop-price-old,
+.shop-item:disabled .shop-price-arrow,
+.shop-item:disabled .shop-price em {
   color: #92856c;
 }
 

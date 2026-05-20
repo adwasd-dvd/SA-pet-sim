@@ -4102,25 +4102,36 @@ function renderDialogShop(dialog) {
   const sellItems = dialog.trade?.sellItems || [];
   if (!items.length && !sellItems.length) return "";
   const state = dialog.trade.inventory || inventoryState();
-  const buyList = items.slice(0, 8).map((item) => `
-    <button class="shop-item" type="button" data-buy="${item.id}" ${shopDisabled(item) ? "disabled" : ""}>
-      <span>
-        <strong>${escapeHtml(item.name)}</strong>
-        <small>${escapeHtml(shopItemHint(item))}</small>
-      </span>
-      <b>${shopPriceLabel(item)}</b>
-    </button>
-  `).join("");
-  const sellList = sellItems.length
-    ? sellItems.slice(0, 8).map((item) => `
-      <button class="shop-item shop-item-sell" type="button" data-sell="${item.id}" ${sellDisabled(item) ? "disabled" : ""}>
-        <span>
-          <strong>${escapeHtml(item.name)} x${Number(item.qty || 0)}</strong>
-          <small>${escapeHtml(sellItemHint(item, dialog.trade))}</small>
+  const buyList = items.slice(0, 8).map((item) => {
+    const hint = shopItemHint(item);
+    return `
+      <button class="shop-item" type="button" data-buy="${item.id}" title="${escapeHtml(hint || item.name)}" ${shopDisabled(item) ? "disabled" : ""}>
+        <span class="shop-item-main">
+          <span class="shop-item-title">
+            <strong>${escapeHtml(item.name)}</strong>
+            ${shopItemBadges(item)}
+          </span>
+          <small>${escapeHtml(hint)}</small>
         </span>
-        <b>${sellPriceLabel(item)}</b>
+        <span class="shop-price">${shopPriceMarkup(item)}</span>
       </button>
-    `).join("")
+    `;
+  }).join("");
+  const sellList = sellItems.length
+    ? sellItems.slice(0, 8).map((item) => {
+      const hint = sellItemHint(item, dialog.trade);
+      return `
+        <button class="shop-item shop-item-sell" type="button" data-sell="${item.id}" title="${escapeHtml(hint || item.name)}" ${sellDisabled(item) ? "disabled" : ""}>
+          <span class="shop-item-main">
+            <span class="shop-item-title">
+              <strong>${escapeHtml(item.name)} x${Number(item.qty || 0)}</strong>
+            </span>
+            <small>${escapeHtml(hint)}</small>
+          </span>
+          <span class="shop-price">${escapeHtml(sellPriceLabel(item))}</span>
+        </button>
+      `;
+    }).join("")
     : `<p class="shop-empty">背包里没有可卖给店家的道具。</p>`;
   return `
     <div class="shop-box">
@@ -4259,19 +4270,31 @@ function shopItemHint(item) {
     const remaining = effectRemainingLabel(item.offMenuUntil);
     details.push(`临时商品${remaining ? ` ${remaining}` : ""}`);
   }
-  if (Number(item.discountPercent || 0) > 0 && Number(item.sourcePrice || 0) > Number(item.price || 0)) {
-    details.push(`AI 优惠 ${Number(item.discountPercent)}%：原价 ${Number(item.sourcePrice)}`);
-  }
   if (item.level) details.push(`Lv.${item.level}`);
   if (item.description) details.push(item.description);
   return details.join(" | ") || `item ${item.id}`;
 }
 
-function shopPriceLabel(item) {
+function isDiscountedShopItem(item) {
   const price = Number(item.price || item.discountPrice || 0);
   const source = Number(item.sourcePrice || price);
-  if (Number(item.discountPercent || 0) > 0 && source > price) return `${source}->${price} 石币`;
-  return `${price} 石币`;
+  return Number(item.discountPercent || 0) > 0 && source > price;
+}
+
+function shopItemBadges(item) {
+  const badges = [];
+  if (isDiscountedShopItem(item)) badges.push(`<i class="shop-badge shop-badge-discount">-${Number(item.discountPercent)}%</i>`);
+  if (item.offMenu) badges.push(`<i class="shop-badge">临时</i>`);
+  return badges.join("");
+}
+
+function shopPriceMarkup(item) {
+  const price = Number(item.price || item.discountPrice || 0);
+  const source = Number(item.sourcePrice || price);
+  if (isDiscountedShopItem(item)) {
+    return `<span class="shop-price-old">${source}</span><span class="shop-price-arrow">→</span><span class="shop-price-now">${price}</span><em>石币</em>`;
+  }
+  return `<span class="shop-price-now">${price}</span><em>石币</em>`;
 }
 
 function sellDisabled(item) {
