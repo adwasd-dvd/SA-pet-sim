@@ -3775,6 +3775,64 @@ function isNpcEnemyStartChoice(text) {
     || hasAny(text, ["挑战", "挑戰", "打一架", "打架", "开打", "開打", "攻击", "攻擊", "我要打", "我要战斗", "我要戰鬥", "开始战斗", "開始戰鬥"]);
 }
 
+function npcEnemyItemEntries(game, items = []) {
+  return (Array.isArray(items) ? items : [])
+    .map((item) => {
+      const id = Number(item?.id ?? item?.itemId ?? item);
+      if (!Number.isFinite(id) || id <= 0) return null;
+      const sourceItem = cache?.itemSet?.get(id) || worldTradeItemIndex().get(id) || {};
+      const qty = Math.max(1, Number(item?.qty || item?.amount || 1));
+      return {
+        ...sourceItem,
+        ...item,
+        id,
+        qty,
+        name: item?.name || sourceItem.name || conditionItemName(game, id) || `item ${id}`,
+        source: item?.source || sourceItem.source || `${GMSV_DATA_SOURCE}/npc_npcenemy.c item`
+      };
+    })
+    .filter(Boolean);
+}
+
+function npcEnemyBattleGate(game, npc) {
+  const npcEnemy = npc?.npcEnemy || {};
+  const missingRequired = npcEnemyItemEntries(game, npcEnemy.requiredItems)
+    .map((item) => ({ ...item, have: inventoryQty(game, item.id) }))
+    .filter((item) => item.have < item.qty);
+  const forbiddenHeld = npcEnemyItemEntries(game, npcEnemy.forbiddenItems)
+    .map((item) => ({ ...item, have: inventoryQty(game, item.id) }))
+    .filter((item) => item.have > 0);
+  const ok = missingRequired.length === 0 && forbiddenHeld.length === 0;
+  if (ok) return { ok: true, missingRequired, forbiddenHeld };
+  const parts = [];
+  if (missingRequired.length) {
+    parts.push(`需要：${missingRequired.map((item) => `${item.name} ${item.have}/${item.qty}`).join("、")}`);
+  }
+  if (forbiddenHeld.length) {
+    parts.push(`不能携带：${forbiddenHeld.map((item) => `${item.name} x${item.have}`).join("、")}`);
+  }
+  const denied = npcEnemyDeniedMessage(npc);
+  const message = [denied, parts.join("；")].filter(Boolean).join("\n");
+  return { ok: false, missingRequired, forbiddenHeld, message };
+}
+
+function takeNpcEnemyStealItems(game, npc) {
+  if (!npc?.npcEnemy?.stealItems) return [];
+  const stolen = [];
+  for (const item of npcEnemyItemEntries(game, npc.npcEnemy.requiredItems)) {
+    const event = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      reason: "npcenemy-steal",
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    });
+    if (event.ok) stolen.push(item);
+  }
+  return stolen;
+}
+
 async function startNpcEnemyBattle(env, request, game, npc) {
   if (npc.npcEnemy?.oneBattle && game.encounter && game.battle?.npcEnemy?.npcId === npc.id) {
     const already = npc.npcEnemy?.alreadyMessage || `${npc.name} 已经在战斗中。`;
@@ -3784,6 +3842,17 @@ async function startNpcEnemyBattle(env, request, game, npc) {
     });
     recordNpcVmEvent(game, npc, "say", "ok", { line: already, reason: "npcenemy-onebattle" });
     return already;
+  }
+  const gate = npcEnemyBattleGate(game, npc);
+  if (!gate.ok) {
+    recordNpcVmEvent(game, npc, "startBattle", "blocked", {
+      reason: gate.missingRequired.length ? "npcenemy-required-item" : "npcenemy-forbidden-item",
+      missingRequired: gate.missingRequired.map((item) => ({ id: item.id, name: item.name, qty: item.qty, have: item.have })),
+      forbiddenHeld: gate.forbiddenHeld.map((item) => ({ id: item.id, name: item.name, qty: item.qty, have: item.have })),
+      source: npc.npcEnemy?.source || npc.script || npc.source || ""
+    });
+    recordNpcVmEvent(game, npc, "say", "ok", { line: gate.message, reason: "npcenemy-item-gate" });
+    return gate.message;
   }
   const enemies = await createNpcEnemyEncounterParty(env, request, game, npc);
   if (!enemies.length) {
@@ -3811,6 +3880,7 @@ async function startNpcEnemyBattle(env, request, game, npc) {
     source: npc.npcEnemy?.source || npc.script || npc.source || ""
   });
   if (!event.ok) return `${npc.name} 找不到可用的敌人资料：${event.error || "startBattle 被 VM 拒绝"}。`;
+  const stolenItems = takeNpcEnemyStealItems(game, npc);
   if (game.battle) {
     const startMessage = npcEnemyStartMessage(npc);
     game.battle.source = `gmsv/npc/npc_npcenemy.c NPC_NPCEnemy_BattleIn + ${npc.npcEnemy?.source || npc.script || npc.source || ""}`;
@@ -3826,13 +3896,22 @@ async function startNpcEnemyBattle(env, request, game, npc) {
       startMessage,
       endMessage: npc.npcEnemy?.endMessage || "",
       warp: npc.npcEnemy?.warp || null,
+      requiredItems: npcEnemyItemEntries(game, npc.npcEnemy?.requiredItems),
+      forbiddenItems: npcEnemyItemEntries(game, npc.npcEnemy?.forbiddenItems),
+      stealItems: Boolean(npc.npcEnemy?.stealItems),
+      stolenItems,
+      addItems: npcEnemyItemEntries(game, npc.npcEnemy?.addItems),
       postBattleEvents: Array.isArray(npc.npcEnemy?.postBattleEvents) ? npc.npcEnemy.postBattleEvents : []
     };
     if (startMessage) game.battle.log = [...(game.battle.log || []), `${npc.name}：${startMessage}`].slice(-8);
+    if (stolenItems.length) {
+      game.battle.log = [...(game.battle.log || []), `${npc.name} 收走了 ${stolenItems.map((item) => `${item.name} x${item.qty}`).join("、")}。`].slice(-8);
+    }
   }
   const startMessage = npcEnemyStartMessage(npc);
   const enemyList = enemies.map((item) => `${item.Name} Lv.${item.Lv}`).join("、");
   if (startMessage) addLog(game, `${npc.name}：${startMessage}`);
+  if (stolenItems.length) addLog(game, `${npc.name} 收走了 ${stolenItems.map((item) => `${item.name} x${item.qty}`).join("、")}。`);
   addLog(game, `${npc.name} 召出 ${enemyList}。`);
   return `${startMessage}\n${enemyList} 出现了。`;
 }
@@ -5623,6 +5702,7 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
     npcName: npcEnemy.npcName || "",
     mapId: game.location.mapId
   });
+  grantNpcEnemyAddItems(game, npcEnemy, battleLog);
   const postBattleEvent = chooseNpcEnemyPostBattleEvent(game, npcEnemy);
   if (postBattleEvent?.event) {
     const event = postBattleEvent.event;
@@ -5665,6 +5745,37 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
     until: new Date(Date.now() + respawnSeconds * 1000).toISOString()
   };
   battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 暂时退开，通路打开 ${respawnSeconds} 秒。`);
+}
+
+function grantNpcEnemyAddItems(game, npcEnemy, battleLog) {
+  const addItems = npcEnemyItemEntries(game, npcEnemy?.addItems);
+  if (!addItems.length) return [];
+  const found = findWorldNpcWithMap(npcEnemy.npcId);
+  const npc = found?.npc || {
+    id: npcEnemy.npcId,
+    name: npcEnemy.npcName || "NPCEnemy",
+    type: "NPCEnemy",
+    source: npcEnemy.source || ""
+  };
+  const granted = [];
+  for (const item of addItems) {
+    const event = runNpcVmAction(game, npc, {
+      type: "give",
+      item,
+      itemId: item.id,
+      itemName: item.name,
+      qty: item.qty,
+      reason: "npcenemy-additem",
+      source: npcEnemy.source || ""
+    });
+    if (event.ok) {
+      granted.push(item);
+      battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 交给你 ${item.name} x${item.qty}。`);
+    } else {
+      battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 想交给你 ${item.name}，但 ${event.error || "背包放不下"}。`);
+    }
+  }
+  return granted;
 }
 
 function chooseNpcEnemyPostBattleEvent(game, npcEnemy = {}) {
@@ -11018,6 +11129,8 @@ function dialogSourceLine(debug) {
 function npcActionProfile(npc) {
   const actions = [];
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
+  if (isNpcEnemy(npc) && npc.npcEnemy?.stealItems) actions.push("take");
+  if (isNpcEnemy(npc) && npc.npcEnemy?.addItems?.length) actions.push("give");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0)) actions.push("adjustFame");
   if (npc.trade?.hasCostPoint || npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0)) actions.push("adjustAmPoint");

@@ -19509,7 +19509,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -19561,7 +19567,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -19613,7 +19625,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -19665,7 +19683,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -19717,7 +19741,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -19769,7 +19799,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -21718,7 +21754,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -21770,7 +21812,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -21822,7 +21870,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -21874,7 +21928,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -21926,7 +21986,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -21978,7 +22044,13 @@ export const WORLD = {
             "endMessage": "",
             "dieAct": 0,
             "respawnSeconds": 60,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2697,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -187718,6 +187790,21 @@ export const WORLD = {
             "dieAct": 1,
             "respawnSeconds": 0,
             "warp": null,
+            "requiredItems": [
+              {
+                "id": 1817,
+                "qty": 1
+              },
+              {
+                "id": 2231,
+                "qty": 1
+              },
+              {
+                "id": 1940,
+                "qty": 1
+              }
+            ],
+            "stealItems": true,
             "postBattleEvents": [
               {
                 "source": "gmsv-data/npc/sa70/true/true2.arg",
@@ -238947,7 +239034,13 @@ export const WORLD = {
             "endMessage": "畜、畜生…",
             "dieAct": 0,
             "respawnSeconds": 300,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2431,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -239289,7 +239382,13 @@ export const WORLD = {
             "endMessage": "呜哇哇…我、我输了。",
             "dieAct": 0,
             "respawnSeconds": 300,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2431,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [
@@ -240077,7 +240176,13 @@ export const WORLD = {
             "endMessage": "我居然会输…。",
             "dieAct": 0,
             "respawnSeconds": 300,
-            "warp": null
+            "warp": null,
+            "requiredItems": [
+              {
+                "id": 2431,
+                "qty": 1
+              }
+            ]
           },
           "scriptHints": {
             "actions": [

@@ -949,6 +949,37 @@ assert(noAskNpcEnemyGame.npcVmEvents.some((event) => (
   && event.detail?.reason === "missing-enemyno"
 )), "no-ask NPCEnemy immediately attempts the source battle path even when its compact enemy data is unavailable");
 
+const requiredItemNpcEnemy = WORLD.maps["10701"]?.npcs.find((npc) => npc.name === "怪力的小阵" && npc.npcEnemy?.requiredItems?.length);
+if (!requiredItemNpcEnemy) throw new Error("missing source NPCEnemy required-item fixture");
+let requiredItemNpcEnemyGame = await api("/api/game/new", { name: "npcenemy-required-item-test" });
+requiredItemNpcEnemyGame.location = { mapId: "10701", x: requiredItemNpcEnemy.x, y: requiredItemNpcEnemy.y + 1 };
+requiredItemNpcEnemyGame.player.level = 40;
+requiredItemNpcEnemyGame.pets[0].Lv = 40;
+requiredItemNpcEnemyGame = await api("/api/game/dialog", { game: requiredItemNpcEnemyGame, npcId: requiredItemNpcEnemy.id, message: "开战" });
+assert(!requiredItemNpcEnemyGame.encounter, "NPCEnemy source item gate blocks battle when required item is missing");
+assert(requiredItemNpcEnemyGame.dialog.messages.at(-1)?.text.includes("需要"), "NPCEnemy item gate explains missing source item");
+assert(requiredItemNpcEnemyGame.dialog.debug.vmTrace.some((event) => event.action === "startBattle" && event.status === "blocked" && event.detail?.reason === "npcenemy-required-item"), "NPCEnemy missing item records blocked startBattle VM trace");
+requiredItemNpcEnemyGame.inventory.push({ id: 2431, name: "盗贼们的足迹", qty: 1 });
+requiredItemNpcEnemyGame = await api("/api/game/dialog", { game: requiredItemNpcEnemyGame, npcId: requiredItemNpcEnemy.id, message: "开战" });
+assert(requiredItemNpcEnemyGame.encounter, "NPCEnemy starts the source battle after required item is present");
+assertEqual(inventoryQty(requiredItemNpcEnemyGame, 2431), 1, "NPCEnemy without steal:1 keeps the required source item after battle start");
+
+const stealItemNpcEnemy = WORLD.maps["6000"]?.npcs.find((npc) => npc.name === "尊尼" && npc.npcEnemy?.stealItems && npc.npcEnemy?.requiredItems?.length);
+if (!stealItemNpcEnemy) throw new Error("missing source NPCEnemy steal-item fixture");
+let stealItemNpcEnemyGame = await api("/api/game/new", { name: "npcenemy-steal-item-test" });
+stealItemNpcEnemyGame.location = { mapId: "6000", x: stealItemNpcEnemy.x, y: stealItemNpcEnemy.y + 1 };
+stealItemNpcEnemyGame.player.level = 80;
+stealItemNpcEnemyGame.pets[0].Lv = 80;
+for (const item of stealItemNpcEnemy.npcEnemy.requiredItems) {
+  stealItemNpcEnemyGame.inventory.push({ id: item.id, name: `source item ${item.id}`, qty: Number(item.qty || 1) });
+}
+stealItemNpcEnemyGame = await api("/api/game/dialog", { game: stealItemNpcEnemyGame, npcId: stealItemNpcEnemy.id, message: "开战" });
+assert(stealItemNpcEnemyGame.encounter, "NPCEnemy steal fixture starts battle after all required items are present");
+for (const item of stealItemNpcEnemy.npcEnemy.requiredItems) {
+  assertEqual(inventoryQty(stealItemNpcEnemyGame, item.id), 0, "NPCEnemy steal:1 removes every required source item on battle start");
+}
+assert(stealItemNpcEnemyGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "npcenemy-steal"), "NPCEnemy steal:1 runs through deterministic take VM action");
+
 let ganzoBattleGame = await api("/api/game/new", { name: "ganzo-battle-test" });
 ganzoBattleGame.location = { mapId: "100", x: ganzo.x, y: ganzo.y + 1 };
 ganzoBattleGame.player.level = 5;

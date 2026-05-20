@@ -1961,6 +1961,9 @@ function readNpcEnemy(argPath, createFile, functionset) {
   const text = readText(file);
   const kv = parseNpcEnemyFile(text);
   const enemyNos = splitNumberList(kv.enemyno || "");
+  const requiredItems = expandItemList(kv.item || "", 32).map((id) => ({ id, qty: 1 }));
+  const forbiddenItems = expandItemList(kv.noitem || "", 32).map((id) => ({ id, qty: 1 }));
+  const addItems = expandItemList(kv.additem || "", 1).map((id) => ({ id, qty: 1 }));
   const askBattleMessages = [];
   for (let i = 1; i <= 6; i += 1) {
     const line = cleanScriptText(kv[`askbattlemsg${i}`] || "");
@@ -1981,6 +1984,10 @@ function readNpcEnemy(argPath, createFile, functionset) {
     dieAct: Number(kv.dieact || 0) || 0,
     respawnSeconds: Number(kv.time || 0) || 0,
     warp: parseNpcEnemyWarp(kv),
+    ...(requiredItems.length ? { requiredItems } : {}),
+    ...(forbiddenItems.length ? { forbiddenItems } : {}),
+    ...(Number(kv.steal || 0) === 1 ? { stealItems: true } : {}),
+    ...(addItems.length ? { addItems } : {}),
     ...(postBattleEvents.length ? { postBattleEvents } : {})
   };
 }
