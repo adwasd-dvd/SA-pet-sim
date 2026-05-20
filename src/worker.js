@@ -83,8 +83,14 @@ const DEFAULT_OPENAI_MODEL = "gpt-5.4-mini";
 const NPC_INTERACTION_RANGE = 2;
 const NPC_WINDOW_ACTION_RANGE = 3;
 const SOURCE_SCRIPT_TASKS = Object.freeze(buildSourceScriptTaskIndex(WORLD));
-const ROUTE_MAX_STEPS = 160;
-const ROUTE_MAX_VISITS = 12000;
+const ROUTE_MAX_STEPS = 900;
+const ROUTE_MAX_VISITS = 60000;
+const PAID_JUMP_BASE_COST = 2000;
+const PAID_JUMP_FIRST_TIER_STEPS = 300;
+const PAID_JUMP_SECOND_TIER_STEPS = 500;
+const PAID_JUMP_FIRST_TIER_COST = 30;
+const PAID_JUMP_SECOND_TIER_COST = 50;
+const PAID_JUMP_THIRD_TIER_COST = 80;
 const DEFAULT_CHAR_DIR = 5;
 const AI_WORKSPACE_SCHEMA = "stoneage-ai-workspace-v1";
 const AI_WORKSPACE_MAX_MEMORIES = 60;
@@ -220,6 +226,18 @@ let charId = 0;
 let tileMetaPromise = null;
 const collisionCache = new Map();
 
+class UserFacingError extends Error {
+  constructor(message, status = 400) {
+    super(message);
+    this.name = "UserFacingError";
+    this.status = status;
+  }
+}
+
+function userError(message, status = 400) {
+  return new UserFacingError(message, status);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -269,6 +287,10 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/route-exit" && request.method === "POST") {
       const body = await readJson(request);
       return json(await routeExitGame(env, request, body.game, String(body.exitId || ""), Number(body.targetX), Number(body.targetY)));
+    }
+    if (url.pathname === "/api/game/paid-jump" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await paidJumpGame(env, request, body.game, String(body.kind || ""), String(body.id || ""), Number(body.targetX), Number(body.targetY)));
     }
     if (url.pathname === "/api/game/return-savepoint" && request.method === "POST") {
       const body = await readJson(request);
@@ -397,7 +419,10 @@ async function handleApi(request, env, url) {
     }
     return json({ error: "not found" }, 404);
   } catch (error) {
-    return json({ error: error.message || "server error" }, 500);
+    const status = Number.isFinite(error?.status) && error.status >= 400 && error.status <= 599
+      ? error.status
+      : 500;
+    return json({ error: error.message || "server error" }, status);
   }
 }
 
@@ -845,6 +870,108 @@ function routeExitSummary(exit, target = null) {
   };
 }
 
+async function paidJumpGame(env, request, game, kind, id, preferredX = NaN, preferredY = NaN) {
+  game = normalizeGame(game);
+  if (game.encounter || game.battle) throw userError("战斗中不能付费跳转");
+  const map = currentMap(game);
+  const collision = await loadCollisionMap(env, request, map);
+  const width = collision?.width || Math.max(1, Number(map.size?.[0]) || 1);
+  const height = collision?.height || Math.max(1, Number(map.size?.[1]) || 1);
+  const from = {
+    mapId: map.id,
+    x: clampInt(game.location.x, 0, width - 1, 0),
+    y: clampInt(game.location.y, 0, height - 1, 0)
+  };
+  const preferred = preferredRouteTile(preferredX, preferredY, width, height);
+  const type = kind === "exit" ? "exit" : "npc";
+
+  if (type === "exit") {
+    const exit = findExit(map, id);
+    if (!exit) {
+      const closedExit = findClosedExit(map, id);
+      if (closedExit) throw userError(closedExitMessage(closedExit));
+      throw userError("这个出口不在当前地图");
+    }
+    const target = exitRouteTargets(map, collision, exit, from, preferred)[0];
+    if (!target) throw userError(`无法定位 ${exit.label} 的入口。`);
+    const jumpCost = paidJumpCost(distance(from.x, from.y, target.x, target.y));
+    const warpPermissionState = exit.warp ? warpPermission(game, exit.warp) : null;
+    if (warpPermissionState && !warpPermissionState.ok) {
+      throw userError(`${exit.warp.payMessage || exit.warp.moneyMessage || "这个入口现在还不能通过。"} 条件：${exit.warp.free || "未满足"}`);
+    }
+    const extraCost = Number(warpPermissionState?.cost || 0);
+    assertPaidJumpFunds(game, jumpCost + extraCost);
+    chargePaidJump(game, jumpCost);
+    game.location = { ...game.location, x: target.x, y: target.y };
+    game.dialog = null;
+    game.paidJump = paidJumpSummary(type, exit.label, from, { mapId: map.id, x: target.x, y: target.y }, jumpCost);
+    addLog(game, `付费跳转花费 ${jumpCost} 石币，抵达「${exit.label}」入口。`);
+    return applyExit(game, {
+      ...exit,
+      x: target.x,
+      y: target.y,
+      target: target.target || exit.target,
+      sourceTile: { x: target.x, y: target.y, target: target.target || exit.target }
+    });
+  }
+
+  const npc = map.npcs.find((item) => item.id === id);
+  if (!npc) throw userError("这个 NPC 不在当前地图");
+  const target = distance(from.x, from.y, npc.x, npc.y) <= NPC_INTERACTION_RANGE
+    ? { x: from.x, y: from.y }
+    : npcApproachTargets(map, collision, npc, from, preferred)[0];
+  if (!target) throw userError(`无法定位 ${npc.name} 附近的可站立位置。`);
+  const jumpCost = paidJumpCost(distance(from.x, from.y, target.x, target.y));
+  assertPaidJumpFunds(game, jumpCost);
+  chargePaidJump(game, jumpCost);
+  game.location = { ...game.location, x: target.x, y: target.y };
+  game.dialog = null;
+  setCharacterDir(game, dirFromDelta(Number(npc.x) - target.x, Number(npc.y) - target.y, game.player?.dir ?? game.location?.dir));
+  game.walk = { steps: 0, encounterSteps: 0 };
+  game.paidJump = paidJumpSummary(type, npc.name, from, { mapId: map.id, x: target.x, y: target.y }, jumpCost);
+  addLog(game, jumpCost > 0
+    ? `付费跳转花费 ${jumpCost} 石币，来到 ${npc.name} 附近。`
+    : `你已经在 ${npc.name} 附近。`);
+  noteNearby(game, map);
+  return withMap(game, { npc: routeNpcSummary(npc) });
+}
+
+function paidJumpCost(stepDistance) {
+  const steps = Math.max(0, Math.trunc(Number(stepDistance) || 0));
+  if (steps <= 0) return 0;
+  const first = Math.min(steps, PAID_JUMP_FIRST_TIER_STEPS);
+  const second = Math.min(Math.max(steps - PAID_JUMP_FIRST_TIER_STEPS, 0), PAID_JUMP_SECOND_TIER_STEPS - PAID_JUMP_FIRST_TIER_STEPS);
+  const third = Math.max(steps - PAID_JUMP_SECOND_TIER_STEPS, 0);
+  return PAID_JUMP_BASE_COST
+    + first * PAID_JUMP_FIRST_TIER_COST
+    + second * PAID_JUMP_SECOND_TIER_COST
+    + third * PAID_JUMP_THIRD_TIER_COST;
+}
+
+function assertPaidJumpFunds(game, cost) {
+  if (Number(game.player?.stone || 0) < cost) {
+    throw userError(`石币不够：付费跳转需要 ${cost} 石币。`);
+  }
+}
+
+function chargePaidJump(game, cost) {
+  if (cost <= 0) return;
+  game.player.stone = Number(game.player.stone || 0) - cost;
+  syncStoneItem(game);
+}
+
+function paidJumpSummary(kind, label, from, to, cost) {
+  return {
+    kind,
+    label,
+    from,
+    to,
+    cost,
+    source: "worker deterministic paid jump",
+    at: new Date().toISOString()
+  };
+}
+
 function assertNpcInteractionRange(game, npc, range = NPC_INTERACTION_RANGE, action = "和 NPC 对话") {
   const currentDistance = distance(game.location.x, game.location.y, npc.x, npc.y);
   if (currentDistance <= range) return;
@@ -1061,21 +1188,22 @@ function canStepTo(map, collision, fromX, fromY, toX, toY, dx, dy) {
 function findRoute(map, collision, from, target) {
   const startKey = routeKey(from.x, from.y);
   const targetKey = routeKey(target.x, target.y);
-  const open = [{
+  const open = new RouteMinHeap();
+  open.push({
     x: from.x,
     y: from.y,
     key: startKey,
     g: 0,
     f: routeHeuristic(from.x, from.y, target.x, target.y)
-  }];
+  });
   const best = new Map([[startKey, 0]]);
   const cameFrom = new Map();
   const moves = routeMoves();
   let visits = 0;
 
   while (open.length && visits < ROUTE_MAX_VISITS) {
-    open.sort((a, b) => a.f - b.f || a.g - b.g);
-    const current = open.shift();
+    const current = open.pop();
+    if (current.g !== best.get(current.key)) continue;
     if (current.key === targetKey) return reconstructRoute(cameFrom, current.key);
     if (current.g >= ROUTE_MAX_STEPS) continue;
     visits += 1;
@@ -1099,6 +1227,57 @@ function findRoute(map, collision, from, target) {
     }
   }
   return [];
+}
+
+class RouteMinHeap {
+  constructor() {
+    this.items = [];
+  }
+
+  get length() {
+    return this.items.length;
+  }
+
+  push(item) {
+    this.items.push(item);
+    this.bubbleUp(this.items.length - 1);
+  }
+
+  pop() {
+    const first = this.items[0];
+    const last = this.items.pop();
+    if (this.items.length && last) {
+      this.items[0] = last;
+      this.sinkDown(0);
+    }
+    return first;
+  }
+
+  bubbleUp(index) {
+    while (index > 0) {
+      const parent = Math.floor((index - 1) / 2);
+      if (routeHeapCompare(this.items[parent], this.items[index]) <= 0) break;
+      [this.items[parent], this.items[index]] = [this.items[index], this.items[parent]];
+      index = parent;
+    }
+  }
+
+  sinkDown(index) {
+    while (true) {
+      const left = index * 2 + 1;
+      const right = left + 1;
+      let best = index;
+      if (left < this.items.length && routeHeapCompare(this.items[left], this.items[best]) < 0) best = left;
+      if (right < this.items.length && routeHeapCompare(this.items[right], this.items[best]) < 0) best = right;
+      if (best === index) break;
+      [this.items[index], this.items[best]] = [this.items[best], this.items[index]];
+      index = best;
+    }
+  }
+}
+
+function routeHeapCompare(a, b) {
+  return a.f - b.f || a.g - b.g || a.y - b.y || a.x - b.x;
 }
 
 function reconstructRoute(cameFrom, key) {

@@ -26,7 +26,11 @@ const api = async (pathName, body) => {
     body: JSON.stringify(body)
   }), env);
   const data = await response.json();
-  if (!response.ok) throw new Error(data.error || `API failed: ${pathName}`);
+  if (!response.ok) {
+    const error = new Error(data.error || `API failed: ${pathName}`);
+    error.status = response.status;
+    throw error;
+  }
   return data;
 };
 
@@ -188,7 +192,41 @@ npcRoute = await api("/api/game/route-npc", { game: npcGame, npcId: teacher.id }
 assertEqual(npcRoute.reason, "already-near", "route-npc reports already-near in interaction range");
 assertEqual(npcRoute.route.length, 0, "route-npc does not route when already near");
 
-console.log("Movement collision OK: routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, and NPC approach routes are enforced.");
+let paidJumpGame = await api("/api/game/new", { name: "paid-jump-test" });
+paidJumpGame.player.stone = 100000;
+paidJumpGame.inventory = [{ id: "stone", name: "石币", qty: 100000 }];
+const paidJumpToNpc = await api("/api/game/paid-jump", { game: paidJumpGame, kind: "npc", id: teacher.id });
+assertEqual(paidJumpToNpc.location.mapId, "1000", "paid-jump to NPC stays on source floor");
+assert(distance(paidJumpToNpc.location.x, paidJumpToNpc.location.y, teacher.x, teacher.y) <= 2, "paid-jump lands within NPC interaction range");
+assert(paidJumpToNpc.paidJump.cost > 0, "paid-jump charges for a nonzero NPC jump");
+assertEqual(paidJumpToNpc.player.stone, 100000 - paidJumpToNpc.paidJump.cost, "paid-jump deducts NPC jump stone");
+assertLog(paidJumpToNpc, "付费跳转花费");
+
+await assertRejects(
+  () => api("/api/game/paid-jump", {
+    game: { ...paidJumpGame, player: { ...paidJumpGame.player, stone: 1 }, inventory: [{ id: "stone", name: "石币", qty: 1 }] },
+    kind: "npc",
+    id: teacher.id
+  }),
+  "石币不够",
+  400,
+  "paid-jump rejects insufficient stone"
+);
+
+let paidExitGame = {
+  ...game,
+  player: { ...game.player, stone: 10000 },
+  inventory: [{ id: "stone", name: "石币", qty: 10000 }],
+  location: { mapId: "1000", x: 48, y: 116, dir: 2 }
+};
+const paidExit = await api("/api/game/paid-jump", { game: paidExitGame, kind: "exit", id: exactExit.id });
+assertEqual(paidExit.location.mapId, "100", "paid-jump to map exit applies the original mapwarp");
+assertEqual(paidExit.location.x, 637, "paid-jump mapwarp target x follows source mapwarp");
+assertEqual(paidExit.location.y, 491, "paid-jump mapwarp target y follows source mapwarp");
+assertEqual(paidExit.paidJump.cost, paidJumpCostForTest(1), "paid-jump exit cost uses tiered distance pricing");
+assertEqual(paidExit.player.stone, 10000 - paidJumpCostForTest(1), "paid-jump exit deducts jump cost");
+
+console.log("Movement collision OK: routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -206,8 +244,32 @@ function assertLog(state, text) {
   }
 }
 
+async function assertRejects(fn, messagePart, expectedStatus, label) {
+  try {
+    await fn();
+  } catch (error) {
+    if (!String(error.message || "").includes(messagePart)) {
+      throw new Error(`${label}: expected message containing ${messagePart}, got ${error.message}`);
+    }
+    if (expectedStatus && error.status !== expectedStatus) {
+      throw new Error(`${label}: expected status ${expectedStatus}, got ${error.status}`);
+    }
+    return;
+  }
+  throw new Error(`${label}: expected rejection`);
+}
+
 function distance(ax, ay, bx, by) {
   return Math.max(Math.abs(Number(ax) - Number(bx)), Math.abs(Number(ay) - Number(by)));
+}
+
+function paidJumpCostForTest(stepDistance) {
+  const steps = Math.max(0, Math.trunc(Number(stepDistance) || 0));
+  if (steps <= 0) return 0;
+  const first = Math.min(steps, 300);
+  const second = Math.min(Math.max(steps - 300, 0), 200);
+  const third = Math.max(steps - 500, 0);
+  return 2000 + first * 30 + second * 50 + third * 80;
 }
 
 function assertNoPseudoMapWarpNpcs() {

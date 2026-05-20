@@ -29,6 +29,12 @@ const AUTOMATION_TICK_MS = 760;
 const AUTOMATION_BATTLE_STEP_MS = 520;
 const AUTOMATION_ROUTE_ESCAPE_LIMIT = 10;
 const ROUTE_RETRY_LIMIT = 3;
+const PAID_JUMP_BASE_COST = 2000;
+const PAID_JUMP_FIRST_TIER_STEPS = 300;
+const PAID_JUMP_SECOND_TIER_STEPS = 500;
+const PAID_JUMP_FIRST_TIER_COST = 30;
+const PAID_JUMP_SECOND_TIER_COST = 50;
+const PAID_JUMP_THIRD_TIER_COST = 80;
 const BATTLE_KEY_ACTIONS = Object.freeze({
   "1": "attack",
   h: "attack",
@@ -1507,6 +1513,32 @@ async function goToExit(exitId, options = {}) {
     followRouteTo(approach.target, approach);
   } catch (error) {
     addClientLog(error.message || `无法到达 ${exit.label}。`);
+  }
+}
+
+async function paidJumpTo(kind, id, options = {}) {
+  if (!game) return;
+  if (isBattleOpen()) {
+    addClientLog("战斗中不能付费跳转。");
+    return;
+  }
+  routeToken += 1;
+  routeInFlight = false;
+  clearPressedMoveKeys();
+  try {
+    const payload = { game, kind, id };
+    const preferredTile = normalizeRoutePreference(options.preferredTile);
+    if (preferredTile) {
+      payload.targetX = preferredTile.x;
+      payload.targetY = preferredTile.y;
+    }
+    game = await api("/api/game/paid-jump", payload);
+    playerAnimState.active = false;
+    mapView.centerOnNextRender = true;
+    save();
+    render();
+  } catch (error) {
+    addClientLog(error.message || "付费跳转失败。");
   }
 }
 
@@ -3102,10 +3134,37 @@ function renderNpcListHtml(map) {
           <span>距离 ${formatCellDistance(npc.x, npc.y)}</span>
           ${renderNpcContextLines(npc)}
         </div>
-        <button class="assist-go-btn" type="button" data-assist-go-npc="${escapeHtml(npc.id)}">自动前往</button>
+        ${renderAssistMapActions("npc", npc.id, pointDistance(npc.x, npc.y))}
       </div>
     </article>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
+}
+
+function renderAssistMapActions(kind, id, distance) {
+  const normalizedKind = kind === "exit" ? "exit" : "npc";
+  const escapedId = escapeHtml(id);
+  const price = paidJumpCost(distance);
+  return `
+    <div class="assist-map-actions">
+      <button class="assist-go-btn" type="button" data-assist-go-${normalizedKind}="${escapedId}">自动前往</button>
+      <button class="assist-go-btn paid" type="button" data-assist-paid-jump-${normalizedKind}="${escapedId}" title="${escapeHtml(price > 0 ? `预计 ${price} 石币，Worker 会按实际距离校验扣费` : "已经在附近，不收跳转费")}">
+        <span>付费跳转</span>
+        <small>${price > 0 ? `${price} 石币` : "脚下"}</small>
+      </button>
+    </div>
+  `;
+}
+
+function paidJumpCost(stepDistance) {
+  const steps = Math.max(0, Math.trunc(Number(stepDistance) || 0));
+  if (steps <= 0) return 0;
+  const first = Math.min(steps, PAID_JUMP_FIRST_TIER_STEPS);
+  const second = Math.min(Math.max(steps - PAID_JUMP_FIRST_TIER_STEPS, 0), PAID_JUMP_SECOND_TIER_STEPS - PAID_JUMP_FIRST_TIER_STEPS);
+  const third = Math.max(steps - PAID_JUMP_SECOND_TIER_STEPS, 0);
+  return PAID_JUMP_BASE_COST
+    + first * PAID_JUMP_FIRST_TIER_COST
+    + second * PAID_JUMP_SECOND_TIER_COST
+    + third * PAID_JUMP_THIRD_TIER_COST;
 }
 
 function renderNpcContextLines(npc) {
@@ -3211,6 +3270,20 @@ function onAssistPanelClick(event) {
     event.preventDefault();
     event.stopPropagation();
     goToExit(goExitBtn.dataset.assistGoExit);
+    return;
+  }
+  const paidNpcBtn = event.target.closest("[data-assist-paid-jump-npc]");
+  if (paidNpcBtn) {
+    event.preventDefault();
+    event.stopPropagation();
+    paidJumpTo("npc", paidNpcBtn.dataset.assistPaidJumpNpc);
+    return;
+  }
+  const paidExitBtn = event.target.closest("[data-assist-paid-jump-exit]");
+  if (paidExitBtn) {
+    event.preventDefault();
+    event.stopPropagation();
+    paidJumpTo("exit", paidExitBtn.dataset.assistPaidJumpExit);
     return;
   }
   const npcBtn = event.target.closest("[data-npc]");
@@ -4623,7 +4696,7 @@ function renderExitListHtml(map) {
           <strong>${escapeHtml(exit.label)}</strong>
           <span>距离 ${formatExitDistance(exit)}</span>
         </div>
-        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(exit.id)}">自动前往</button>
+        ${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit))}
       </div>
     </article>
   `).join("");
@@ -4665,6 +4738,11 @@ function formatCellDistance(x, y) {
 }
 
 function distanceToExitClient(exit) {
+  if (Array.isArray(exit.tiles) && exit.tiles.length) {
+    const x = Number(game.location.x || 0);
+    const y = Number(game.location.y || 0);
+    return Math.min(...exit.tiles.map((tile) => cellDistance(x, y, tile.x, tile.y)));
+  }
   if (Array.isArray(exit.bounds) && exit.bounds.length >= 4) {
     const x = Number(game.location.x || 0);
     const y = Number(game.location.y || 0);

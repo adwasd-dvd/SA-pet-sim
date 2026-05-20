@@ -2115,6 +2115,13 @@ h3 {
   min-width: 0;
 }
 
+.assist-map-actions {
+  display: grid;
+  grid-template-columns: 86px 112px;
+  gap: 6px;
+  align-items: stretch;
+}
+
 .assist-map-copy {
   display: grid;
   gap: 3px;
@@ -2130,7 +2137,7 @@ h3 {
 }
 
 .assist-go-btn {
-  min-width: 82px;
+  min-width: 0;
   min-height: 34px;
   border-color: #d7a943;
   border-radius: 5px;
@@ -2139,6 +2146,22 @@ h3 {
   color: #fff5c0;
   font-size: 13px;
   font-weight: 900;
+}
+
+.assist-go-btn.paid {
+  display: grid;
+  gap: 1px;
+  justify-items: center;
+  line-height: 1.05;
+}
+
+.assist-go-btn.paid small {
+  max-width: 100%;
+  overflow: hidden;
+  color: #ead89a;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .assist-go-btn:hover,
@@ -4442,6 +4465,14 @@ mark {
   .assist-stat-grid,
   .assist-action-grid {
     grid-template-columns: 1fr;
+  }
+
+  .assist-map-card-main {
+    grid-template-columns: 1fr;
+  }
+
+  .assist-map-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .encounter-panel {
