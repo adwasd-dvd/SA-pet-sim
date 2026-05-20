@@ -303,7 +303,7 @@ async function handleApi(request, env, url) {
     }
     if (url.pathname === "/api/game/talk" && request.method === "POST") {
       const body = await readJson(request);
-      return json(talkGame(body.game, String(body.npcId || "")));
+      return json(await talkGame(env, request, body.game, String(body.npcId || "")));
     }
     if (url.pathname === "/api/game/dialog" && request.method === "POST") {
       const body = await readJson(request);
@@ -3209,14 +3209,18 @@ function itemUseLogLine(itemUse) {
   return `使用 ${itemUse.itemName}，${itemUse.summary || itemUseSummary(itemUse.itemName, itemUse.effects)}。`;
 }
 
-function talkGame(game, npcId) {
+async function talkGame(env, request, game, npcId) {
   game = normalizeGame(game);
   const map = currentMap(game);
   const npc = map.npcs.find((item) => item.id === npcId);
   if (!npc) throw new Error("这个 NPC 不在当前地图");
   assertNpcInteractionRange(game, npc);
   if (isNpcEnemy(npc)) {
-    openNpcEnemyStartWindow(game, npc);
+    if (npcEnemyRequiresStartWindow(npc)) {
+      openNpcEnemyStartWindow(game, npc);
+    } else {
+      await startNpcEnemyBattle(env, request, game, npc);
+    }
     return withMap(game, { npc });
   }
   const reply = runNpcTalk(game, npc, "hi");
@@ -3239,7 +3243,11 @@ async function dialogGame(env, request, game, npcId, message) {
   const text = message.trim().slice(0, 160);
   if (!text) {
     if (isNpcEnemy(npc)) {
-      openNpcEnemyStartWindow(game, npc);
+      if (npcEnemyRequiresStartWindow(npc)) {
+        openNpcEnemyStartWindow(game, npc);
+      } else {
+        await startNpcEnemyBattle(env, request, game, npc);
+      }
       return withMap(game, { npc });
     }
     const reply = runNpcTalk(game, npc, "hi");
@@ -9333,6 +9341,10 @@ function isNpcEnemy(npc) {
   return Boolean(npc?.npcEnemy) || /npcenemy/i.test(`${npc?.type || ""} ${npc?.template || ""}`);
 }
 
+function npcEnemyRequiresStartWindow(npc) {
+  return (npc?.npcEnemy?.askBattleMessages || []).filter(Boolean).length > 0;
+}
+
 function npcEnemyAskMessage(npc) {
   const askMessages = (npc?.npcEnemy?.askBattleMessages || []).filter(Boolean);
   if (askMessages.length) return askMessages.join("\n");
@@ -10593,7 +10605,7 @@ function openDialog(game, npc, messages, extra = {}) {
     open: true,
     npcId: npc.id,
     npcName: npc.name,
-    npcType: npc.type,
+    npcType: isNpcEnemy(npc) ? "NPCEnemy" : npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petShop: extra.petShop || buildPetShopState(game, npc),
     itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),

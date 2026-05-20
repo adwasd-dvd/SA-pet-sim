@@ -890,11 +890,25 @@ if (!chahan) throw new Error("missing Chahan NPCEnemy fixture");
 let chahanPromptGame = await api("/api/game/new", { name: "chahan-prompt-test" });
 chahanPromptGame.location = { mapId: "10007", x: chahan.x + 1, y: chahan.y };
 chahanPromptGame = await api("/api/game/dialog", { game: chahanPromptGame, npcId: chahan.id });
+assertEqual(chahanPromptGame.dialog.npcType, "NPCEnemy", "NPCEnemy dialogs normalize npcType for client confirm buttons");
 assert(chahanPromptGame.dialog.messages.some((message) => message.text.includes("只有我们三兄弟承认的人") && message.text.includes("你要试试看吗")), "NPCEnemy prompt keeps all source askbattlemsg lines");
 assert(chahanPromptGame.dialog.suggestions.includes("开战"), "NPCEnemy prompt exposes explicit start battle command");
 chahanPromptGame = await api("/api/game/dialog", { game: chahanPromptGame, npcId: chahan.id, message: "攻击" });
 assert(chahanPromptGame.encounter, "NPCEnemy natural attack intent starts the source battle");
 assertEqual(chahanPromptGame.battle?.npcEnemy?.npcId, chahan.id, "NPCEnemy natural attack intent keeps source NPC metadata");
+
+const noAskNpcEnemy = WORLD.maps["1021"]?.npcs.find((npc) => npc.name === "第 100 个弟子" && npc.npcEnemy && !(npc.npcEnemy.askBattleMessages || []).length);
+if (!noAskNpcEnemy) throw new Error("missing no-ask NPCEnemy fixture");
+let noAskNpcEnemyGame = await api("/api/game/new", { name: "npcenemy-no-ask-direct-battle-test" });
+noAskNpcEnemyGame.location = { mapId: "1021", x: noAskNpcEnemy.x, y: noAskNpcEnemy.y + 1 };
+noAskNpcEnemyGame = await api("/api/game/dialog", { game: noAskNpcEnemyGame, npcId: noAskNpcEnemy.id });
+assert(!noAskNpcEnemyGame.dialog, "NPCEnemy without source askbattlemsg skips the YES/NO dialog window");
+assert(noAskNpcEnemyGame.npcVmEvents.some((event) => (
+  event.npcId === noAskNpcEnemy.id
+  && event.action === "startBattle"
+  && event.status === "blocked"
+  && event.detail?.reason === "missing-enemyno"
+)), "no-ask NPCEnemy immediately attempts the source battle path even when its compact enemy data is unavailable");
 
 let ganzoBattleGame = await api("/api/game/new", { name: "ganzo-battle-test" });
 ganzoBattleGame.location = { mapId: "100", x: ganzo.x, y: ganzo.y + 1 };
