@@ -3420,7 +3420,7 @@ function pickWeighted(items, weightOf) {
 }
 
 async function npcEnemyReply(env, request, game, npc, lower) {
-  if (isYesChoice(lower)) return startNpcEnemyBattle(env, request, game, npc);
+  if (isNpcEnemyStartChoice(lower)) return startNpcEnemyBattle(env, request, game, npc);
   if (isNoChoice(lower)) {
     runNpcVmAction(game, npc, {
       type: "window",
@@ -3446,12 +3446,17 @@ async function npcEnemyReply(env, request, game, npc, lower) {
 
 function isYesChoice(text) {
   return /(^|\s)(yes|y|ok)(\s|$)/i.test(text)
-    || hasAny(text, ["是", "好", "确定", "確定", "愿意", "願意", "决胜负", "決勝負", "战斗", "戰鬥", "开战", "開始", "开始"]);
+    || hasAny(text, ["是", "好", "确定", "確定", "确认", "確認", "愿意", "願意", "可以", "来吧", "來吧", "决胜负", "決勝負", "战斗", "戰鬥", "开战", "開戰", "開始", "开始"]);
 }
 
 function isNoChoice(text) {
   return /(^|\s)(no|n|cancel)(\s|$)/i.test(text)
-    || hasAny(text, ["否", "不", "算了", "取消", "不要", "拒绝", "拒絕"]);
+    || hasAny(text, ["否", "不", "算了", "取消", "不要", "拒绝", "拒絕", "离开", "離開", "不开战", "不開戰", "先不"]);
+}
+
+function isNpcEnemyStartChoice(text) {
+  return isYesChoice(text)
+    || hasAny(text, ["挑战", "挑戰", "打一架", "打架", "开打", "開打", "攻击", "攻擊", "我要打", "我要战斗", "我要戰鬥", "开始战斗", "開始戰鬥"]);
 }
 
 async function startNpcEnemyBattle(env, request, game, npc) {
@@ -9309,8 +9314,9 @@ function isNpcEnemy(npc) {
 }
 
 function npcEnemyAskMessage(npc) {
-  return npc?.npcEnemy?.askBattleMessages?.find(Boolean)
-    || npcDialogueLines(npc).find(Boolean)
+  const askMessages = (npc?.npcEnemy?.askBattleMessages || []).filter(Boolean);
+  if (askMessages.length) return askMessages.join("\n");
+  return npcDialogueLines(npc).find(Boolean)
     || "如果能赢过我的话就让你通过。要决胜负吗？";
 }
 
@@ -11821,8 +11827,8 @@ function dialogSuggestions(npc, game = null) {
   if (game?.encounter && game?.battle?.npcEnemy) return ["攻击", "防御", "道具", "逃跑"];
   if (game?.encounter) return ["攻击", "捕获", "道具", "放走"];
   if (isNpcEnemy(npc)) return isNpcAiMode(game, npc)
-    ? ["是", "否", "试着交涉"]
-    : ["是", "否"];
+    ? ["开战", "离开", "试着交涉"]
+    : ["开战", "离开"];
   const aiHints = isNpcAiMode(game, npc)
     ? (isHealerNpc(npc)
       ? ["请求急救药", "请求治疗", "试着交涉"]

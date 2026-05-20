@@ -3555,6 +3555,7 @@ function renderDialog() {
 
 function defaultDialogSubmitText(dialog) {
   const suggestions = dialog?.suggestions || [];
+  if (dialog?.npcType === "NPCEnemy" && suggestions.includes("开战")) return "开战";
   if (dialog?.npcType === "NPCEnemy" && suggestions.includes("是")) return "是";
   return "";
 }
@@ -3565,7 +3566,7 @@ function renderDialogCommandButtons(dialog) {
   const isBattleCommand = Boolean(game?.encounter) && suggestions.some((item) => ["攻击", "防御", "道具", "逃跑"].includes(item));
   if (!isNpcEnemyPrompt && !isBattleCommand) return "";
   const allowed = isNpcEnemyPrompt
-    ? new Set(["是", "否", "试着交涉"])
+    ? new Set(["开战", "离开", "是", "否", "试着交涉"])
     : new Set(["攻击", "防御", "道具", "逃跑", "捕获", "放走"]);
   const commands = suggestions.filter((item) => allowed.has(item));
   if (!commands.length) return "";
