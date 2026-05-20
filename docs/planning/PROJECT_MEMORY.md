@@ -105,6 +105,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - character, pet, item bag, status, dialogue, shop, and save surfaces should feel like in-game windows/panels
   - read `external/sources/client-source/system/menu.cpp`, `talkwindow.cpp`, `field.cpp`, `mouse.cpp`, and `sprdisp.cpp` before major UI changes
 - 2026-05-20 trade dialog polish: discounted shop rows now show the AI-negotiated discount as a compact summary badge plus source-price -> current-price markup, while item descriptions strip old `AI 优惠 xx%` prefixes. The trade window uses tighter rows and a wider price column so original item descriptions and discount prices do not collide.
+- 2026-05-20 assist map UX: the lower 地图 assist tab now keeps NPC/map-point rows compact by showing only distance on the visible second line, moves source coordinates/detail text into titles, and adds explicit `自动前往` buttons. Single-clicking a row no longer starts routing by accident; the button and row double-click use the existing Worker `/route-npc` and `/route-exit` deterministic pathing, not AI. Map marker sync no longer builds dynamic CSS attribute selectors from source ids, avoiding browser `The string did not match the expected pattern` selector errors.
 
 ## Save Model
 

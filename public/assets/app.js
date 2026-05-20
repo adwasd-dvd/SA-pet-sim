@@ -2518,8 +2518,8 @@ function mapClientPoint(map, x, y) {
 function syncMapMarkers(map) {
   const pairs = [
     [els.mapCanvas.querySelector(".map-marker.player"), mapClientPoint(map, game.location?.x, game.location?.y)],
-    ...map.npcs.map((npc) => [els.mapCanvas.querySelector(`[data-npc="${cssEscape(npc.id)}"]`), mapClientPoint(map, npc.x, npc.y)]),
-    ...map.exits.map((exit) => [els.mapCanvas.querySelector(`[data-exit="${cssEscape(exit.id)}"]`), mapClientPoint(map, exit.x, exit.y)])
+    ...map.npcs.map((npc) => [mapCanvasDataMarker("npc", npc.id), mapClientPoint(map, npc.x, npc.y)]),
+    ...map.exits.map((exit) => [mapCanvasDataMarker("exit", exit.id), mapClientPoint(map, exit.x, exit.y)])
   ];
   for (const [el, point] of pairs) {
     if (!el) continue;
@@ -2532,6 +2532,13 @@ function syncMapMarkers(map) {
     const label = player.querySelector("span");
     if (label) label.textContent = game.player.name;
   }
+}
+
+function mapCanvasDataMarker(kind, value) {
+  const attr = kind === "exit" ? "exit" : "npc";
+  const expected = String(value || "");
+  return Array.from(els.mapCanvas.querySelectorAll(`[data-${attr}]`))
+    .find((el) => String(el.dataset[attr] || "") === expected) || null;
 }
 
 function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
@@ -3087,12 +3094,17 @@ function renderAssistMap(map) {
 function renderNpcListHtml(map) {
   const npcs = sortMapPoints(map.npcs, npcSortMode, (npc) => pointDistance(npc.x, npc.y));
   return npcs.map((npc) => `
-    <button class="list-btn" type="button" data-npc="${npc.id}">
-      <strong>${escapeHtml(npc.name)}</strong>
-      ${renderNpcTags(npc)}
-      <span>${escapeHtml(npc.type)} | (${npc.x}, ${npc.y}) | 距离 ${formatCellDistance(npc.x, npc.y)}</span>
-      ${renderNpcContextLines(npc)}
-    </button>
+    <article class="list-btn assist-map-card" role="button" tabindex="0" data-npc="${escapeHtml(npc.id)}" title="${escapeHtml(`${npc.type || "NPC"} | (${npc.x}, ${npc.y})`)}">
+      <div class="assist-map-card-main">
+        <div class="assist-map-copy">
+          <strong>${escapeHtml(npc.name)}</strong>
+          ${renderNpcTags(npc)}
+          <span>距离 ${formatCellDistance(npc.x, npc.y)}</span>
+          ${renderNpcContextLines(npc)}
+        </div>
+        <button class="assist-go-btn" type="button" data-assist-go-npc="${escapeHtml(npc.id)}">自动前往</button>
+      </div>
+    </article>
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
 }
 
@@ -3187,14 +3199,26 @@ function onAssistPanelClick(event) {
     renderAssistPanel(game.world.map);
     return;
   }
+  const goNpcBtn = event.target.closest("[data-assist-go-npc]");
+  if (goNpcBtn) {
+    event.preventDefault();
+    event.stopPropagation();
+    goToNpc(goNpcBtn.dataset.assistGoNpc, { openWhenNear: false });
+    return;
+  }
+  const goExitBtn = event.target.closest("[data-assist-go-exit]");
+  if (goExitBtn) {
+    event.preventDefault();
+    event.stopPropagation();
+    goToExit(goExitBtn.dataset.assistGoExit);
+    return;
+  }
   const npcBtn = event.target.closest("[data-npc]");
   if (npcBtn) {
-    goToNpc(npcBtn.dataset.npc, { openWhenNear: false });
     return;
   }
   const exitBtn = event.target.closest("[data-exit]");
   if (exitBtn) {
-    goToExit(exitBtn.dataset.exit);
     return;
   }
   const activePetBtn = event.target.closest("[data-assist-active-pet]");
@@ -3260,6 +3284,7 @@ function onAssistPanelClick(event) {
 }
 
 function onAssistPanelDoubleClick(event) {
+  if (event.target.closest("[data-assist-go-npc], [data-assist-go-exit]")) return;
   if (event.target.closest("[data-npc-sort], [data-exit-sort]")) return;
   const btn = event.target.closest("[data-npc], [data-exit]");
   if (!btn) return;
@@ -3273,6 +3298,15 @@ function onAssistPanelDoubleClick(event) {
 
 function onAssistPanelKeyDown(event) {
   if (event.key === "Enter" && event.target?.id === "assistDataQuery") searchAssistData();
+  if (!["Enter", " "].includes(event.key)) return;
+  const card = event.target.closest?.(".assist-map-card[data-npc], .assist-map-card[data-exit]");
+  if (!card || card.classList.contains("closed-profile-exit")) return;
+  event.preventDefault();
+  if (card.dataset.npc) {
+    goToNpc(card.dataset.npc, { openWhenNear: false });
+    return;
+  }
+  if (card.dataset.exit) goToExit(card.dataset.exit);
 }
 
 function currentClientMap() {
@@ -4583,17 +4617,22 @@ function renderExitListHtml(map) {
   const exits = sortMapPoints(map.exits || [], exitSortMode, (exit) => distanceToExitClient(exit));
   const closedExits = sortMapPoints(map.profileClosedExits || [], exitSortMode, (exit) => distanceToExitClient(exit));
   const activeHtml = exits.map((exit) => `
-    <button class="list-btn" type="button" data-exit="${exit.id}">
-      <strong>${escapeHtml(exit.label)}</strong>
-      <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
-    </button>
+    <article class="list-btn assist-map-card" role="button" tabindex="0" data-exit="${escapeHtml(exit.id)}" title="${escapeHtml(`${exit.detail || exit.source || ""} | 入口 (${exit.x}, ${exit.y})`)}">
+      <div class="assist-map-card-main">
+        <div class="assist-map-copy">
+          <strong>${escapeHtml(exit.label)}</strong>
+          <span>距离 ${formatExitDistance(exit)}</span>
+        </div>
+        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(exit.id)}">自动前往</button>
+      </div>
+    </article>
   `).join("");
   const closedHtml = closedExits.map((exit) => `
-    <button class="list-btn closed-profile-exit" type="button" disabled title="${escapeHtml(exit.reason || "当前内容 profile 暂未开放")}">
+    <article class="list-btn assist-map-card closed-profile-exit" aria-disabled="true" title="${escapeHtml(exit.reason || "当前内容 profile 暂未开放")}">
       <strong>${escapeHtml(exit.label)}</strong>
-      <span>${escapeHtml(exit.detail || exit.source)} | 入口 (${exit.x}, ${exit.y}) | 距离 ${formatExitDistance(exit)}</span>
+      <span>距离 ${formatExitDistance(exit)}</span>
       <small>暂未开放：${escapeHtml(exit.toName || exit.to || "目标地图")}</small>
-    </button>
+    </article>
   `).join("");
   return activeHtml || closedHtml ? `${activeHtml}${closedHtml}` : `<p class="empty">当前地图没有出口。</p>`;
 }

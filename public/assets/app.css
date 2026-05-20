@@ -2089,10 +2089,62 @@ h3 {
   gap: 3px;
   min-height: 54px;
   width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
   text-align: left;
   background: rgb(255 255 255 / 92%);
   color: var(--ink);
   border-color: var(--line);
+}
+
+.assist-map-card {
+  cursor: pointer;
+}
+
+.assist-map-card:focus-visible {
+  outline: 2px solid #f2ce68;
+  outline-offset: 2px;
+}
+
+.assist-map-card-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.assist-map-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.assist-map-copy strong,
+.assist-map-copy span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assist-go-btn {
+  min-width: 82px;
+  min-height: 34px;
+  border-color: #d7a943;
+  border-radius: 5px;
+  padding: 3px 8px;
+  background: #214a3e;
+  color: #fff5c0;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.assist-go-btn:hover,
+.assist-go-btn:focus-visible {
+  background: #16392f;
+  box-shadow: inset 0 0 0 2px rgb(231 185 90 / 28%);
 }
 
 .list-btn span {
