@@ -119,6 +119,7 @@ const NPC_VM_ACTIONS = new Set([
   "warp",
   "heal",
   "save",
+  "fortune",
   "give",
   "take",
   "givePet",
@@ -6080,6 +6081,7 @@ async function npcReply(env, request, game, npc, text) {
   if (!game.encounter && isNpcAiMode(game, npc) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
+  if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
   if (isRouteServiceNpc(npc) && hasAny(lower, ["路线", "路線", "搭乘", "坐车", "坐車", "上车", "上車", "巴士", "客运", "客運", "飞机", "飛機", "航班", "出发", "出發", "前往", "去", "route", "ride"])) return routeServiceReply(game, npc, text);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
@@ -6228,6 +6230,7 @@ function applyNpcHi(game, npc) {
   if (hasNpcScriptEvents(npc)) return sourceScriptEventReply(game, npc, "hi");
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
+  if (isLuckyManNpc(npc)) return luckyManPromptReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   if (npc.petShop) return petShopReply(game, npc);
   if (isRouteServiceNpc(npc)) return routeServicePromptReply(game, npc);
@@ -6274,6 +6277,7 @@ function npcDefaultLine(npc) {
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
+  if (isLuckyManNpc(npc)) return luckyManPromptText(null, npc);
   if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
   return "有什么事吗？";
 }
@@ -7916,6 +7920,102 @@ function savePointReply(game, npc, text = "") {
   const message = formatSavePointMessage(game, savePoint.messages?.[key] || `${npc.name} 已记录你的冒险进度。`);
   const bornLine = born ? `记录点：floor ${born.mapId} (${born.x},${born.y})。` : "";
   return `${message}\n${bornLine}来源：gmsv npc_savepoint 会设置 CHAR_SAVEPOINT / LASTTALKELDER 并触发 SAAC 角色保存。`;
+}
+
+function isLuckyManNpc(npc) {
+  return Boolean(npc?.luckyMan)
+    || /LuckyMan|luckyman/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""}`);
+}
+
+function isLuckyManRequestText(text) {
+  return hasAny(text, ["占卜", "算命", "运势", "運勢", "看看运", "看看運", "fortune", "luck"]);
+}
+
+function isLuckyManConfirmText(text) {
+  return /(^|\s)(yes|ok|y)(\s|$)/i.test(text)
+    || hasAny(text, ["是", "好", "可以", "确认", "確定", "确定", "请", "請", "来吧", "占卜吧"]);
+}
+
+function luckyManCost(game, npc) {
+  const expr = npc?.luckyMan?.stoneExpr || "0";
+  return sourceScriptStoneAmount(game, { expr, source: expr, amount: Number(expr) || 0 });
+}
+
+function luckyManPromptText(game, npc) {
+  if (!game) return `${npc.name}：要占卜一次吗？`;
+  const cost = game ? luckyManCost(game, npc) : 0;
+  const raw = npc?.luckyMan?.mainMessage || `${npc.name}：要占卜一次吗？需要 ${cost} 石币。`;
+  return formatLuckyManText(raw, cost) || `${npc.name}：要占卜一次吗？需要 ${cost} 石币。`;
+}
+
+function formatLuckyManText(text, cost) {
+  return String(text || "")
+    .replace(/%8d|%4d|%d/gi, String(cost))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function luckyManPromptReply(game, npc) {
+  ensureFlags(game);
+  const cost = luckyManCost(game, npc);
+  game.flags.pendingLuckyMan = {
+    npcId: npc.id,
+    cost,
+    source: npc.luckyMan?.source || npc.script || npc.source || ""
+  };
+  runNpcVmAction(game, npc, {
+    type: "window",
+    reason: "source-luckyman-confirm",
+    cost,
+    sourceExpression: npc.luckyMan?.stoneExpr || "",
+    source: npc.luckyMan?.source || npc.script || npc.source || ""
+  });
+  return `${luckyManPromptText(game, npc)}\n输入“是”开始占卜。`;
+}
+
+function luckyManReply(game, npc, text = "") {
+  ensureFlags(game);
+  const pending = game.flags.pendingLuckyMan;
+  const confirmed = isLuckyManConfirmText(String(text || "").toLowerCase());
+  if (!confirmed || !pending || String(pending.npcId || "") !== String(npc.id)) return luckyManPromptReply(game, npc);
+  const cost = luckyManCost(game, npc);
+  if (cost > 0) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      item: "stone",
+      qty: cost,
+      reason: "source-luckyman",
+      sourceExpression: npc.luckyMan?.stoneExpr || "",
+      source: npc.luckyMan?.source || npc.script || npc.source || ""
+    });
+    if (!taken.ok) {
+      game.flags.pendingLuckyMan = null;
+      runNpcVmAction(game, npc, {
+        type: "fortune",
+        status: "blocked",
+        reason: "source-luckyman-nomoney",
+        cost,
+        source: npc.luckyMan?.source || npc.script || npc.source || ""
+      });
+      return npc.luckyMan?.noMoneyMessage || `${npc.name}：占卜需要 ${cost} 石币，你现在的石币不够。`;
+    }
+  }
+  normalizePlayerRuntime(game.player);
+  const luck = clampInt(game.player.WorkFixLuck ?? game.player.Luck ?? 1, 1, 5, 1);
+  const messages = npc.luckyMan?.luckMessages?.[luck] || npc.luckyMan?.luckMessages?.[String(luck)] || [];
+  const message = messages.length ? messages[randInt(messages.length)] : `${npc.name} 看了看你的运势，没有说出更多内容。`;
+  game.flags.pendingLuckyMan = null;
+  const event = runNpcVmAction(game, npc, {
+    type: "fortune",
+    reason: "source-luckyman",
+    luck,
+    cost,
+    message,
+    source: npc.luckyMan?.source || npc.script || npc.source || ""
+  });
+  setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "luckyman"), "now", "source-luckyman");
+  addLog(game, `${npc.name}：${message}`);
+  return `${npc.name}：${message}\n来源：${event.detail?.source || npc.luckyMan?.source || npc.script || "gmsv npc_luckyman"}。`;
 }
 
 function applySourceSavePointRecord(game, npc, reason = "source-savepoint") {
@@ -10012,6 +10112,7 @@ function npcActionProfile(npc) {
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
+  if (isLuckyManNpc(npc)) actions.push("window", "take", "fortune");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
   if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
@@ -11289,6 +11390,7 @@ function dialogSuggestions(npc, game = null) {
   else if (isRouteServiceNpc(npc)) base = ["hi", "路线", "搭乘"];
   else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
+  else if (isLuckyManNpc(npc)) base = ["hi", "占卜", "是"];
   else if (npc.warp || /warp/i.test(npc.type)) base = ["hi", "传送", "出口"];
   else if (npc.itemChange?.recipes?.length) base = ["hi", "加工", "地图"];
   else if (/save/i.test(npc.type)) base = ["hi", "记录", "地图"];

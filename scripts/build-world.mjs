@@ -457,11 +457,12 @@ function parseNpcs() {
       const petSkillShop = readNpcPetSkillShop(argPath, file);
       const itemChange = readNpcItemChange(argPath, file);
       const savePoint = readNpcSavePoint(argPath, file);
+      const luckyMan = readNpcLuckyMan(argPath, file, functionset, enemy.template);
       const warp = readNpcWarp(argPath, file);
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService, luckyMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -480,6 +481,7 @@ function parseNpcs() {
         ...(petSkillShop ? { petSkillShop } : {}),
         ...(itemChange ? { itemChange } : {}),
         ...(savePoint ? { savePoint } : {}),
+        ...(luckyMan ? { luckyMan } : {}),
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
         ...(scriptEvents?.length ? { scriptEvents } : {}),
@@ -1137,6 +1139,39 @@ function readNpcSavePoint(argPath, createFile) {
   };
 }
 
+function readNpcLuckyMan(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  if (!/LuckyMan|luckyman/i.test(`${functionset} ${template} ${argPath} ${relativeRef(file)}`)
+    && !/^\s*luck[1-5]\s*:/im.test(text)) {
+    return null;
+  }
+  const kv = parseColonFile(text);
+  const luckMessages = {};
+  for (let index = 1; index <= 5; index += 1) {
+    const messages = splitScriptMessageChoices(kv[`luck${index}`] || "");
+    if (messages.length) luckMessages[index] = messages;
+  }
+  if (!Object.keys(luckMessages).length) return null;
+  return {
+    kind: "lucky-man",
+    source: relativeRef(file),
+    stoneExpr: cleanName(kv.stone || "0"),
+    mainMessage: cleanName(String(kv.main_msg || "").replace(/\\n/g, "\n")),
+    noMoneyMessage: cleanScriptText(kv.nomoney || ""),
+    luckMessages
+  };
+}
+
+function splitScriptMessageChoices(value = "") {
+  return String(value || "")
+    .split(",")
+    .map((part) => cleanScriptText(part))
+    .filter(Boolean)
+    .slice(0, 16);
+}
+
 function parseSavePointRequirementAlternatives(value = "") {
   return String(value || "")
     .split(",")
@@ -1731,7 +1766,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService, luckyMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
@@ -1742,6 +1777,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (savePoint) actions.push("save");
   if (warp) actions.push("warp");
   if (npcEnemy) actions.push("battle");
+  if (luckyMan) actions.push("fortune");
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];

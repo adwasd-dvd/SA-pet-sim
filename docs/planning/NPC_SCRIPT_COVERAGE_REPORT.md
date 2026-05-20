@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T04:06:44.531Z
+Generated: 2026-05-20T05:40:55.493Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -60,7 +60,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | Mode1 | unknown | 5 | 5 | 5 | 10 | external/sources/ref___data/npc/race/DEADJOE:29 |
 | History1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/race2/second.arg:35 |
-| luck1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/sainasu/uranai:4 |
 | NPCPOINT | unknown | 4 | 4 | 4 | 34 | external/sources/ref___data/npc/eden2/kraken/kraken88_08:29 |
 | cost | candidate-action | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:1 |
 | draw_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:4 |
@@ -83,6 +82,7 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | GameMode | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:26 |
 | haditem_msg | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:11 |
 | LowLevel | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:36 |
+| nonitem_msg | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:12 |
 
 ## Recommended Next Slice
 

@@ -769,6 +769,27 @@ if (saveNpc.npc.savePoint?.born) {
   assertEqual(savePointFavorGame.savePoint.born.y, saveNpc.npc.savePoint.born.y, "AI savepoint favor records source Born y");
 }
 
+const luckyManEntry = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.luckyMan?.luckMessages);
+if (!luckyManEntry) throw new Error("missing LuckyMan NPC fixture");
+let luckyManGame = await api("/api/game/new", { name: "luckyman-source-test" });
+luckyManGame.location = { mapId: luckyManEntry.map.id, x: luckyManEntry.npc.x + 1, y: luckyManEntry.npc.y };
+luckyManGame.player.level = 12;
+luckyManGame.player.stone = 100;
+luckyManGame.player.Luck = 1;
+luckyManGame.player.WorkFixLuck = 1;
+luckyManGame = await api("/api/game/dialog", { game: luckyManGame, npcId: luckyManEntry.npc.id, message: "hi" });
+assert(luckyManGame.flags.pendingLuckyMan?.npcId === luckyManEntry.npc.id, "LuckyMan source dialog asks for confirmation before charging stone");
+assert(luckyManGame.dialog.debug.actions.includes("fortune"), "LuckyMan debug exposes fortune VM action");
+assert(luckyManGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.reason === "source-luckyman-confirm"), "LuckyMan prompt records source window VM trace");
+luckyManGame = await api("/api/game/dialog", { game: luckyManGame, npcId: luckyManEntry.npc.id, message: "是" });
+assertEqual(luckyManGame.player.stone, 88, "LuckyMan charges source LV*1 stone cost");
+assert(!luckyManGame.flags.pendingLuckyMan, "LuckyMan clears pending confirmation after fortune");
+assert(luckyManGame.dialog.messages.at(-1)?.text.includes("来源："), "LuckyMan result keeps source attribution for debug tab");
+assert(luckyManGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-luckyman" && event.detail?.qty === 12), "LuckyMan stone charge runs through NPC VM take");
+assert(luckyManGame.dialog.debug.vmTrace.some((event) => event.action === "fortune" && event.detail?.luck === 1), "LuckyMan fortune result records source luck tier through VM");
+
 const ganzo = WORLD.maps["100"]?.npcs.find((npc) => npc.name === "坏心眼的愿藏");
 if (!ganzo) throw new Error("missing Ganzo NPCEnemy fixture");
 assertEqual(ganzo.graphic, "100401", "Ganzo uses source graphicname 100401");
@@ -2597,7 +2618,7 @@ npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEven
 assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
 assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

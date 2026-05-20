@@ -86,6 +86,7 @@ const MESSAGE_KEYS = new Set([
   "failmsg",
   "hint_msg",
   "itemfullmsg",
+  "luck",
   "main_msg",
   "moneymessage",
   "moneymsg",
@@ -125,6 +126,7 @@ const MESSAGE_KEYS = new Set([
   "msg_overparty",
   "msg_start",
   "msg_stone",
+  "nomoney",
   "warp_msg"
 ]);
 
@@ -203,6 +205,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "special_pet",
   "special_rate",
   "startmsg",
+  "stone",
   "stone_msg",
   "time",
   "waittime",

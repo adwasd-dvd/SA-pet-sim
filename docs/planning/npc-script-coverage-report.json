@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T04:06:44.531Z",
+  "generatedAt": "2026-05-20T05:40:55.493Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,10 +206,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12521,
-      "candidate-action": 1302,
-      "unknown": 1369,
-      "supported-message": 10900,
+      "supported-config": 12522,
+      "candidate-action": 1300,
+      "unknown": 1364,
+      "supported-message": 10906,
       "condition-control": 11752,
       "supported-action": 3680,
       "blocked-or-later-system": 81
@@ -6521,7 +6521,7 @@
       {
         "key": "luck1",
         "normalized": "luck",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 5,
         "files": 1,
         "profiles": {
@@ -8466,7 +8466,7 @@
       {
         "key": "NoMoney",
         "normalized": "nomoney",
-        "category": "candidate-action",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -12228,7 +12228,7 @@
       {
         "key": "Stone",
         "normalized": "stone",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -13992,58 +13992,6 @@
         ]
       },
       {
-        "key": "luck1",
-        "normalized": "luck",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 5,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 5,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/sainasu/uranai",
-            "line": 4,
-            "text": "luck1:今天你的运势非常不好喔...。最好小心一点。,凶...真糟糕...。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sainasu/uranai",
-            "line": 5,
-            "text": "luck2:虽然不是说非常好，不过只要你努力的话还是有机会的...。,小吉....吧.."
-          },
-          {
-            "file": "external/sources/ref___data/npc/sainasu/uranai",
-            "line": 6,
-            "text": "luck3:嗯...普普通通啦！,不好也不坏。,大概算是吉吧！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sainasu/uranai",
-            "line": 7,
-            "text": "luck4:还不错嘛...！去小赌一下也没关系喔！,嗯....非常好嘛！,可以算是中吉喔！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sainasu/uranai",
-            "line": 8,
-            "text": "luck5:今天你的运势无人可档！加油加油...,喔喔喔喔喔！这是大吉！"
-          }
-        ]
-      },
-      {
         "key": "NPCPOINT",
         "normalized": "npcpoint",
         "category": "unknown",
@@ -15461,9 +15409,9 @@
         ]
       },
       {
-        "key": "NoMoney",
-        "normalized": "nomoney",
-        "category": "candidate-action",
+        "key": "notend_msg",
+        "normalized": "notend_msg",
+        "category": "unknown",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -15486,9 +15434,41 @@
         },
         "samples": [
           {
-            "file": "external/sources/ref___data/npc/sainasu/uranai",
-            "line": 2,
-            "text": "NoMoney:抱歉！你钱不够喔！"
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 12,
+            "text": "notend_msg:比赛还在进行中，还不能领奖喔～请再继续努力加油！"
+          }
+        ]
+      },
+      {
+        "key": "wrongans_msg",
+        "normalized": "wrongans_msg",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 13,
+            "text": "wrongans_msg:你猜错了哦～再来一次吧！"
           }
         ]
       }

@@ -71725,8 +71725,41 @@ export const WORLD = {
           "script": "file:sainasu/uranai",
           "template": "luckyman",
           "graphic": "16021",
+          "luckyMan": {
+            "kind": "lucky-man",
+            "source": "gmsv-data/npc/sainasu/uranai",
+            "stoneExpr": "LV*1",
+            "mainMessage": "想要我帮你占卜今日运势的话 %8dS是少不了的...。",
+            "noMoneyMessage": "抱歉！你钱不够喔！",
+            "luckMessages": {
+              "1": [
+                "今天你的运势非常不好喔...。最好小心一点。",
+                "凶...真糟糕...。"
+              ],
+              "2": [
+                "虽然不是说非常好，不过只要你努力的话还是有机会的...。",
+                "小吉....吧.."
+              ],
+              "3": [
+                "嗯...普普通通啦！",
+                "不好也不坏。",
+                "大概算是吉吧！"
+              ],
+              "4": [
+                "还不错嘛...！去小赌一下也没关系喔！",
+                "嗯....非常好嘛！",
+                "可以算是中吉喔！"
+              ],
+              "5": [
+                "今天你的运势无人可档！加油加油...",
+                "喔喔喔喔喔！这是大吉！"
+              ]
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "fortune"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/sainasu/uranai"
           }
@@ -117934,8 +117967,41 @@ export const WORLD = {
           "script": "file:sainasu/uranai",
           "template": "luckyman",
           "graphic": "16034",
+          "luckyMan": {
+            "kind": "lucky-man",
+            "source": "gmsv-data/npc/sainasu/uranai",
+            "stoneExpr": "LV*1",
+            "mainMessage": "想要我帮你占卜今日运势的话 %8dS是少不了的...。",
+            "noMoneyMessage": "抱歉！你钱不够喔！",
+            "luckMessages": {
+              "1": [
+                "今天你的运势非常不好喔...。最好小心一点。",
+                "凶...真糟糕...。"
+              ],
+              "2": [
+                "虽然不是说非常好，不过只要你努力的话还是有机会的...。",
+                "小吉....吧.."
+              ],
+              "3": [
+                "嗯...普普通通啦！",
+                "不好也不坏。",
+                "大概算是吉吧！"
+              ],
+              "4": [
+                "还不错嘛...！去小赌一下也没关系喔！",
+                "嗯....非常好嘛！",
+                "可以算是中吉喔！"
+              ],
+              "5": [
+                "今天你的运势无人可档！加油加油...",
+                "喔喔喔喔喔！这是大吉！"
+              ]
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "fortune"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/sainasu/uranai"
           }
@@ -133179,8 +133245,41 @@ export const WORLD = {
           "script": "file:sainasu/uranai",
           "template": "luckyman",
           "graphic": "16021",
+          "luckyMan": {
+            "kind": "lucky-man",
+            "source": "gmsv-data/npc/sainasu/uranai",
+            "stoneExpr": "LV*1",
+            "mainMessage": "想要我帮你占卜今日运势的话 %8dS是少不了的...。",
+            "noMoneyMessage": "抱歉！你钱不够喔！",
+            "luckMessages": {
+              "1": [
+                "今天你的运势非常不好喔...。最好小心一点。",
+                "凶...真糟糕...。"
+              ],
+              "2": [
+                "虽然不是说非常好，不过只要你努力的话还是有机会的...。",
+                "小吉....吧.."
+              ],
+              "3": [
+                "嗯...普普通通啦！",
+                "不好也不坏。",
+                "大概算是吉吧！"
+              ],
+              "4": [
+                "还不错嘛...！去小赌一下也没关系喔！",
+                "嗯....非常好嘛！",
+                "可以算是中吉喔！"
+              ],
+              "5": [
+                "今天你的运势无人可档！加油加油...",
+                "喔喔喔喔喔！这是大吉！"
+              ]
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "fortune"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/sainasu/uranai"
           }
@@ -174644,8 +174743,41 @@ export const WORLD = {
           "script": "file:sainasu/uranai",
           "template": "luckyman",
           "graphic": "16034",
+          "luckyMan": {
+            "kind": "lucky-man",
+            "source": "gmsv-data/npc/sainasu/uranai",
+            "stoneExpr": "LV*1",
+            "mainMessage": "想要我帮你占卜今日运势的话 %8dS是少不了的...。",
+            "noMoneyMessage": "抱歉！你钱不够喔！",
+            "luckMessages": {
+              "1": [
+                "今天你的运势非常不好喔...。最好小心一点。",
+                "凶...真糟糕...。"
+              ],
+              "2": [
+                "虽然不是说非常好，不过只要你努力的话还是有机会的...。",
+                "小吉....吧.."
+              ],
+              "3": [
+                "嗯...普普通通啦！",
+                "不好也不坏。",
+                "大概算是吉吧！"
+              ],
+              "4": [
+                "还不错嘛...！去小赌一下也没关系喔！",
+                "嗯....非常好嘛！",
+                "可以算是中吉喔！"
+              ],
+              "5": [
+                "今天你的运势无人可档！加油加油...",
+                "喔喔喔喔喔！这是大吉！"
+              ]
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "fortune"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/sainasu/uranai"
           }
