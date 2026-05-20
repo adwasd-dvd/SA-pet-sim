@@ -90,6 +90,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - future accuracy work should include `adrn` hit/prio metadata and port `setPartsPrio` more exactly
 - 2026-05-19 visual fallback: some original client `.dat` visual maps, including 吉鲁岛 `floor=300` and 福尔德村温 `floor=5000`, omit large areas of ground tiles that are present in the gmsv `.ls2map`. The browser renderer now keeps client `.dat` as primary visual data but fills missing ground/object cells from the matching `.ls2map`, preserving original assets without editing maps or painting fake terrain.
 - 2026-05-20 profile runtime-pack guard: `npm run check:profile-runtime-packs` verifies every `classic-core` keep-set floor has runtime-loadable profile packs covering its required map tile ids. This specifically guards against future black-floor regressions where `floorPacks` exist in the plan but `runtimeManifestSketch.floors` omits the actual floor delta pack.
+- 2026-05-20 map asset cache guard: map DAT/LS2 fetches now append a shared map-resource version, the classic-core profile pack plan query was bumped, and service-worker/app script versions were aligned. This forces browsers to refresh current original map resources after profile-pack rebuilds instead of rendering stale black-floor data.
 - Current default zoom is `100%`.
 - Camera recenters on the player using the rendered client-map coordinate space.
 

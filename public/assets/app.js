@@ -10,7 +10,8 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v1";
+const MAP_RESOURCE_VERSION = "map-assets-v20260520-furuudo-ground-v1";
+const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
@@ -1718,16 +1719,30 @@ function syncMapCursor(map) {
   cursor.hidden = false;
 }
 
+function versionedStaticAssetUrl(url, version) {
+  if (!url || !version) return url;
+  try {
+    const parsed = new URL(url, window.location.origin);
+    parsed.searchParams.set("v", version);
+    if (parsed.origin === window.location.origin) return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+    return parsed.toString();
+  } catch {
+    const joiner = String(url).includes("?") ? "&" : "?";
+    return `${url}${joiner}v=${encodeURIComponent(version)}`;
+  }
+}
+
 async function renderLs2Map(map, renderVersion) {
   if (!map.clientMapFile && !map.mapFile) return;
   const canvas = els.mapCanvas.querySelector(".ls2-map");
   if (!canvas) return;
-  const mapUrl = map.clientMapFile || map.mapFile;
+  const baseMapUrl = map.clientMapFile || map.mapFile;
+  const mapUrl = versionedStaticAssetUrl(baseMapUrl, MAP_RESOURCE_VERSION);
   const rsp = await fetch(mapUrl);
   if (!rsp.ok) throw new Error("map file missing");
   const buf = await rsp.arrayBuffer();
   if (renderVersion !== mapRenderVersion) return;
-  if (mapUrl === map.clientMapFile) {
+  if (baseMapUrl === map.clientMapFile) {
     await renderClientDatMap(canvas, buf, map, renderVersion);
     return;
   }
@@ -1778,7 +1793,7 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
   }
   if (missingGround / cells < 0.05) return null;
   try {
-    const rsp = await fetch(map.mapFile);
+    const rsp = await fetch(versionedStaticAssetUrl(map.mapFile, MAP_RESOURCE_VERSION));
     if (!rsp.ok) return null;
     const fallback = parseLs2MapReader(await rsp.arrayBuffer());
     if (!fallback || fallback.width !== width || fallback.height !== height) return null;
