@@ -13,6 +13,7 @@
     "check:movement": "node scripts/check-movement-collision.mjs",
     "check:npc": "node scripts/check-npc-actions.mjs",
     "check:pet-assets": "node scripts/check-pet-asset-resolution.mjs",
+    "check:profile-runtime-packs": "node scripts/check-profile-runtime-packs.mjs",
     "report:npc-scripts": "node scripts/report-npc-script-coverage.mjs",
     "report:pet-resources": "node scripts/report-pet-resource-coverage.mjs",
     "report:pet-animations": "node scripts/report-pet-animation-coverage.mjs",
@@ -28,7 +29,7 @@
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:pet-assets && wrangler deploy --dry-run"
+    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "wrangler": "^4.15.0"
