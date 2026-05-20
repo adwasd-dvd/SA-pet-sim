@@ -1394,6 +1394,27 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && even
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "sell" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs item take through NPC VM executor");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "sell" && event.detail?.stone === sellPrice && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs stone give through NPC VM executor");
 
+const fixedCostShop = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.trade?.items?.some((item) => (
+    Number.isFinite(Number(item.changeItemCost))
+    && Number(item.changeItemCost) > 0
+    && Number(item.changeItemCost) !== Number(item.sourceCost ?? item.cost ?? 0)
+  )));
+if (!fixedCostShop) throw new Error("missing ChangeItemCost shop fixture");
+const fixedCostItem = fixedCostShop.npc.trade.items.find((item) => (
+  Number.isFinite(Number(item.changeItemCost))
+  && Number(item.changeItemCost) > 0
+  && Number(item.changeItemCost) !== Number(item.sourceCost ?? item.cost ?? 0)
+));
+let fixedCostGame = await api("/api/game/new", { name: "shop-changeitemcost-test" });
+fixedCostGame.location = { mapId: fixedCostShop.map.id, x: fixedCostShop.npc.x + 1, y: fixedCostShop.npc.y };
+fixedCostGame.player.stone = Number(fixedCostItem.price) + 123;
+fixedCostGame = await api("/api/game/buy", { game: fixedCostGame, npcId: fixedCostShop.npc.id, itemId: fixedCostItem.id });
+assertEqual(fixedCostGame.player.stone, 123, "shop buy uses source ChangeItemCost instead of itemset6 base cost");
+assertEqual(inventoryQty(fixedCostGame, fixedCostItem.id), 1, "ChangeItemCost shop buy still gives the selected source item");
+assert(fixedCostGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "buy" && event.detail?.sourcePrice === Number(fixedCostItem.price)), "ChangeItemCost buy records the fixed source price in shop VM trace");
+
 const petSkillNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.petSkillShop?.skillIds?.length);

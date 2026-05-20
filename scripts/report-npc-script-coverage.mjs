@@ -154,6 +154,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "buy_rate",
   "born",
   "changeitem",
+  "changeitemcost",
   "changemsg",
   "delitem",
   "denieditem",

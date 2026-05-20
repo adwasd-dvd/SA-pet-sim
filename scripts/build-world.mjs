@@ -852,7 +852,9 @@ function readNpcTrade(argPath, createFile) {
   const kv = parseColonFile(readText(file));
   const itemSpec = kv.itemlist || kv.limititemno || "";
   if (!itemSpec) return null;
-  const ids = expandItemList(itemSpec);
+  const entries = expandShopItemEntries(itemSpec, {
+    changeItemCostSpec: kv.changeitemcost || ""
+  });
   const limitItemRanges = parseItemRanges(kv.limititemno || "", 2000);
   const limitItemTypes = splitWords(kv.limititemtype)
     .map((item) => item.toUpperCase())
@@ -861,10 +863,21 @@ function readNpcTrade(argPath, createFile) {
   const specialRate = Number(kv.special_rate);
   const buyRate = Number(kv.buy_rate || 1) || 1;
   const sellRate = Number(kv.sell_rate || 0) || 0;
-  const items = ids.map((id) => itemDb.get(id)).filter(Boolean).map((item) => ({
-    ...item,
-    price: Math.max(0, Math.round(item.cost * buyRate))
-  }));
+  const items = [];
+  const seen = new Set();
+  for (const entry of entries) {
+    if (seen.has(entry.id)) continue;
+    const item = itemDb.get(entry.id);
+    if (!item) continue;
+    seen.add(entry.id);
+    const sourceCost = Number(item.cost || 0);
+    const priceBase = entry.changeItemCost == null ? sourceCost : entry.changeItemCost;
+    items.push({
+      ...item,
+      price: Math.max(0, Math.round(priceBase * buyRate)),
+      ...(entry.changeItemCost == null ? {} : { changeItemCost: entry.changeItemCost, sourceCost })
+    });
+  }
   if (!items.length) return null;
   return {
     kind: "shop",
@@ -878,6 +891,7 @@ function readNpcTrade(argPath, createFile) {
     ...(limitItemTypes.length ? { limitItemTypes: [...new Set(limitItemTypes)] } : {}),
     ...(specialItems.length ? { specialItems: specialItems.slice(0, 120) } : {}),
     ...(Number.isFinite(specialRate) ? { specialRate } : {}),
+    ...(items.some((item) => item.changeItemCost != null) ? { hasChangeItemCost: true } : {}),
     items: items.slice(0, 40)
   };
 }
@@ -1927,6 +1941,45 @@ function expandItemList(spec, maxItems = 120) {
     if (Number.isFinite(id) && ids.length < maxItems) ids.push(id);
   }
   return [...new Set(ids)];
+}
+
+function expandShopItemEntries(spec, { changeItemCostSpec = "", maxItems = 120 } = {}) {
+  const entries = [];
+  const changeCostTokens = changeItemCostSpec.split(",").map((part) => part.trim());
+  const hasChangeCost = changeItemCostSpec.trim().length > 0;
+  let currentChangeCost = hasChangeCost ? 0 : null;
+  let specIndex = 0;
+  for (const part of spec.split(",")) {
+    if (entries.length >= maxItems) break;
+    const value = part.trim();
+    if (!value) continue;
+    specIndex += 1;
+    if (hasChangeCost) {
+      const rawCost = Number(changeCostTokens[specIndex - 1]);
+      if (Number.isFinite(rawCost)) currentChangeCost = Math.max(0, rawCost);
+    }
+    const range = value.match(/^(\d+)-(\d+)$/);
+    if (range) {
+      const start = Number(range[1]);
+      const end = Number(range[2]);
+      const min = Math.min(start, end);
+      const max = Math.max(start, end);
+      for (let id = min; id <= max && entries.length < maxItems; id += 1) {
+        entries.push(shopItemEntry(id, currentChangeCost));
+      }
+      continue;
+    }
+    const id = Number(value);
+    if (Number.isFinite(id)) entries.push(shopItemEntry(id, currentChangeCost));
+  }
+  return entries;
+}
+
+function shopItemEntry(id, changeItemCost) {
+  return {
+    id,
+    ...(changeItemCost == null ? {} : { changeItemCost })
+  };
 }
 
 function parseItemRanges(spec, maxItems = 2000) {

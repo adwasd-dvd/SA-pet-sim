@@ -89318,6 +89318,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1724,
@@ -89332,7 +89333,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 400000,
+                "changeItemCost": 400000,
+                "sourceCost": 10
               }
             ]
           },
@@ -89436,6 +89439,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 20172,
@@ -89452,7 +89456,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 100,
                 "maxUses": 100,
-                "price": 0
+                "price": 60000,
+                "changeItemCost": 60000,
+                "sourceCost": 0
               },
               {
                 "id": 20130,
@@ -89467,7 +89473,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 10
               },
               {
                 "id": 1627,
@@ -89482,7 +89490,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 1628,
@@ -89497,7 +89507,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 18548,
@@ -89512,7 +89524,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20128,
@@ -89527,7 +89541,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20580,
@@ -89542,7 +89558,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 80,
-                "price": 10000
+                "price": 5000,
+                "changeItemCost": 5000,
+                "sourceCost": 10000
               },
               {
                 "id": 20132,
@@ -89557,7 +89575,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 10000,
+                "changeItemCost": 10000,
+                "sourceCost": 0
               },
               {
                 "id": 19013,
@@ -89572,7 +89592,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 1,
                 "level": 0,
-                "price": 10
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 10
               },
               {
                 "id": 20577,
@@ -89587,7 +89609,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 30,
-                "price": 500
+                "price": 100,
+                "changeItemCost": 100,
+                "sourceCost": 500
               }
             ]
           },
@@ -89691,6 +89715,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1345,
@@ -89707,7 +89732,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 2,
                 "maxUses": 2,
-                "price": 4000
+                "price": 30000,
+                "changeItemCost": 30000,
+                "sourceCost": 4000
               },
               {
                 "id": 13088,
@@ -89722,7 +89749,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13089,
@@ -89737,7 +89766,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13090,
@@ -89752,7 +89783,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13091,
@@ -89767,7 +89800,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13092,
@@ -89782,7 +89817,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               }
             ]
           },
@@ -89896,6 +89933,7 @@ export const WORLD = {
               ]
             ],
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 11859,
@@ -89910,7 +89948,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 24750
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 24750
               },
               {
                 "id": 13079,
@@ -89925,7 +89965,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 31000
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 31000
               }
             ]
           },
@@ -108453,6 +108495,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1929,
@@ -108467,7 +108510,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 84500
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 84500
               },
               {
                 "id": 1942,
@@ -108482,7 +108527,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 78000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 78000
               },
               {
                 "id": 1943,
@@ -108497,7 +108544,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 65000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 65000
               },
               {
                 "id": 1946,
@@ -108512,7 +108561,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 84500
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 84500
               },
               {
                 "id": 1947,
@@ -108527,7 +108578,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 78000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 78000
               },
               {
                 "id": 1948,
@@ -108542,7 +108595,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 65000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 65000
               },
               {
                 "id": 1951,
@@ -108557,7 +108612,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 84500
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 84500
               },
               {
                 "id": 1952,
@@ -108572,7 +108629,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 78000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 78000
               },
               {
                 "id": 1953,
@@ -108587,7 +108646,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 65000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 65000
               },
               {
                 "id": 1956,
@@ -108602,7 +108663,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 84500
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 84500
               },
               {
                 "id": 1957,
@@ -108617,7 +108680,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 78000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 78000
               },
               {
                 "id": 1958,
@@ -108632,7 +108697,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 65000
+                "price": 250000,
+                "changeItemCost": 250000,
+                "sourceCost": 65000
               }
             ]
           },
@@ -108676,6 +108743,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1944,
@@ -108690,7 +108758,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1945,
@@ -108705,7 +108775,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1949,
@@ -108720,7 +108792,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1950,
@@ -108735,7 +108809,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1954,
@@ -108750,7 +108826,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1955,
@@ -108765,7 +108843,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1959,
@@ -108780,7 +108860,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               },
               {
                 "id": 1960,
@@ -108795,7 +108877,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 110,
-                "price": 97500
+                "price": 150000,
+                "changeItemCost": 150000,
+                "sourceCost": 97500
               }
             ]
           },
@@ -126158,6 +126242,7 @@ export const WORLD = {
               ]
             ],
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 11879,
@@ -126172,7 +126257,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 27000
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 27000
               },
               {
                 "id": 13081,
@@ -126187,7 +126274,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 34000
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 34000
               }
             ]
           },
@@ -126291,6 +126380,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1726,
@@ -126305,7 +126395,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 400000,
+                "changeItemCost": 400000,
+                "sourceCost": 10
               }
             ]
           },
@@ -126409,6 +126501,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 20172,
@@ -126425,7 +126518,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 100,
                 "maxUses": 100,
-                "price": 0
+                "price": 60000,
+                "changeItemCost": 60000,
+                "sourceCost": 0
               },
               {
                 "id": 20130,
@@ -126440,7 +126535,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 10
               },
               {
                 "id": 1627,
@@ -126455,7 +126552,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 1628,
@@ -126470,7 +126569,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 18548,
@@ -126485,7 +126586,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20128,
@@ -126500,7 +126603,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20580,
@@ -126515,7 +126620,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 80,
-                "price": 10000
+                "price": 5000,
+                "changeItemCost": 5000,
+                "sourceCost": 10000
               },
               {
                 "id": 20132,
@@ -126530,7 +126637,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 10000,
+                "changeItemCost": 10000,
+                "sourceCost": 0
               },
               {
                 "id": 19013,
@@ -126545,7 +126654,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 1,
                 "level": 0,
-                "price": 10
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 10
               },
               {
                 "id": 20577,
@@ -126560,7 +126671,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 30,
-                "price": 500
+                "price": 100,
+                "changeItemCost": 100,
+                "sourceCost": 500
               }
             ]
           },
@@ -126664,6 +126777,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1346,
@@ -126680,7 +126794,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 2,
                 "maxUses": 2,
-                "price": 4000
+                "price": 30000,
+                "changeItemCost": 30000,
+                "sourceCost": 4000
               },
               {
                 "id": 13088,
@@ -126695,7 +126811,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13089,
@@ -126710,7 +126828,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13090,
@@ -126725,7 +126845,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13091,
@@ -126740,7 +126862,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13092,
@@ -126755,7 +126879,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               }
             ]
           },
@@ -151951,6 +152077,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 20172,
@@ -151967,7 +152094,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 100,
                 "maxUses": 100,
-                "price": 0
+                "price": 60000,
+                "changeItemCost": 60000,
+                "sourceCost": 0
               },
               {
                 "id": 20130,
@@ -151982,7 +152111,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 10
               },
               {
                 "id": 1627,
@@ -151997,7 +152128,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 1628,
@@ -152012,7 +152145,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 18548,
@@ -152027,7 +152162,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20128,
@@ -152042,7 +152179,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20580,
@@ -152057,7 +152196,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 80,
-                "price": 10000
+                "price": 5000,
+                "changeItemCost": 5000,
+                "sourceCost": 10000
               },
               {
                 "id": 20132,
@@ -152072,7 +152213,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 10000,
+                "changeItemCost": 10000,
+                "sourceCost": 0
               },
               {
                 "id": 19013,
@@ -152087,7 +152230,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 1,
                 "level": 0,
-                "price": 10
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 10
               },
               {
                 "id": 20577,
@@ -152102,7 +152247,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 30,
-                "price": 500
+                "price": 100,
+                "changeItemCost": 100,
+                "sourceCost": 500
               }
             ]
           },
@@ -152240,6 +152387,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1347,
@@ -152256,7 +152404,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 2,
                 "maxUses": 2,
-                "price": 4000
+                "price": 30000,
+                "changeItemCost": 30000,
+                "sourceCost": 4000
               },
               {
                 "id": 13088,
@@ -152271,7 +152421,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13089,
@@ -152286,7 +152438,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13090,
@@ -152301,7 +152455,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13091,
@@ -152316,7 +152472,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13092,
@@ -152331,7 +152489,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               }
             ]
           },
@@ -152435,6 +152595,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1727,
@@ -152449,7 +152610,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 400000,
+                "changeItemCost": 400000,
+                "sourceCost": 10
               }
             ]
           },
@@ -152563,6 +152726,7 @@ export const WORLD = {
               ]
             ],
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 11899,
@@ -152577,7 +152741,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 5625
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 5625
               },
               {
                 "id": 13083,
@@ -152592,7 +152758,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 8000
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 8000
               }
             ]
           },
@@ -181477,6 +181645,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1348,
@@ -181493,7 +181662,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 2,
                 "maxUses": 2,
-                "price": 4000
+                "price": 30000,
+                "changeItemCost": 30000,
+                "sourceCost": 4000
               },
               {
                 "id": 1349,
@@ -181510,7 +181681,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 2,
                 "maxUses": 2,
-                "price": 4000
+                "price": 30000,
+                "changeItemCost": 30000,
+                "sourceCost": 4000
               },
               {
                 "id": 13088,
@@ -181525,7 +181698,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13089,
@@ -181540,7 +181715,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13090,
@@ -181555,7 +181732,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13091,
@@ -181570,7 +181749,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               },
               {
                 "id": 13092,
@@ -181585,7 +181766,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 2000
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 2000
               }
             ]
           },
@@ -181739,6 +181922,7 @@ export const WORLD = {
               ]
             ],
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 11929,
@@ -181753,7 +181937,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 5063
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 5063
               },
               {
                 "id": 13086,
@@ -181768,7 +181954,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 9000
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 9000
               }
             ]
           },
@@ -181872,6 +182060,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 1725,
@@ -181886,7 +182075,9 @@ export const WORLD = {
                 "useField": 2,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 400000,
+                "changeItemCost": 400000,
+                "sourceCost": 10
               }
             ]
           },
@@ -181990,6 +182181,7 @@ export const WORLD = {
             ],
             "mainMessage": "欢迎光临！",
             "specialRate": 0,
+            "hasChangeItemCost": true,
             "items": [
               {
                 "id": 20172,
@@ -182006,7 +182198,9 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 100,
                 "maxUses": 100,
-                "price": 0
+                "price": 60000,
+                "changeItemCost": 60000,
+                "sourceCost": 0
               },
               {
                 "id": 20130,
@@ -182021,7 +182215,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 10
+                "price": 100000,
+                "changeItemCost": 100000,
+                "sourceCost": 10
               },
               {
                 "id": 1627,
@@ -182036,7 +182232,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 1628,
@@ -182051,7 +182249,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 20000,
+                "changeItemCost": 20000,
+                "sourceCost": 0
               },
               {
                 "id": 18548,
@@ -182066,7 +182266,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20128,
@@ -182081,7 +182283,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 120,
-                "price": 120000
+                "price": 500000,
+                "changeItemCost": 500000,
+                "sourceCost": 120000
               },
               {
                 "id": 20580,
@@ -182096,7 +182300,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 80,
-                "price": 10000
+                "price": 5000,
+                "changeItemCost": 5000,
+                "sourceCost": 10000
               },
               {
                 "id": 20132,
@@ -182111,7 +182317,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 0,
-                "price": 0
+                "price": 10000,
+                "changeItemCost": 10000,
+                "sourceCost": 0
               },
               {
                 "id": 19013,
@@ -182126,7 +182334,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 1,
                 "level": 0,
-                "price": 10
+                "price": 200000,
+                "changeItemCost": 200000,
+                "sourceCost": 10
               },
               {
                 "id": 20577,
@@ -182141,7 +182351,9 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 30,
-                "price": 500
+                "price": 100,
+                "changeItemCost": 100,
+                "sourceCost": 500
               }
             ]
           },

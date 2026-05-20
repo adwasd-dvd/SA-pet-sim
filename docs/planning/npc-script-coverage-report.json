@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T03:30:21.510Z",
+  "generatedAt": "2026-05-20T04:06:44.531Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,8 +206,8 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12469,
-      "candidate-action": 1354,
+      "supported-config": 12521,
+      "candidate-action": 1302,
       "unknown": 1369,
       "supported-message": 10900,
       "condition-control": 11752,
@@ -1779,7 +1779,7 @@
       {
         "key": "ChangeItemCost",
         "normalized": "changeitemcost",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 52,
         "files": 52,
         "profiles": {
@@ -14252,58 +14252,6 @@
         ]
       },
       {
-        "key": "ChangeItemCost",
-        "normalized": "changeitemcost",
-        "category": "candidate-action",
-        "occurrences": 52,
-        "files": 52,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-rebirth": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 2,
-            "files": 2
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_1",
-            "line": 19,
-            "text": "ChangeItemCost:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_2",
-            "line": 19,
-            "text": "ChangeItemCost:60000,100000,20000,20000,500000,500000,5000,10000,200000,100"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_3",
-            "line": 20,
-            "text": "ChangeItemCost:30000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop10_4",
-            "line": 20,
-            "text": "ChangeItemCost:60000,100000,100000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/npc/shop1_1",
-            "line": 19,
-            "text": "ChangeItemCost:60000,100000,20000,20000,500000,500000,5000,10000,200000,100"
-          }
-        ]
-      },
-      {
         "key": "CostPoint",
         "normalized": "costpoint",
         "category": "candidate-action",
@@ -15509,6 +15457,38 @@
             "file": "external/sources/ref___data/npc/genout/ss_1100_86_107",
             "line": 9,
             "text": "msg:最近如何？"
+          }
+        ]
+      },
+      {
+        "key": "NoMoney",
+        "normalized": "nomoney",
+        "category": "candidate-action",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/sainasu/uranai",
+            "line": 2,
+            "text": "NoMoney:抱歉！你钱不够喔！"
           }
         ]
       }

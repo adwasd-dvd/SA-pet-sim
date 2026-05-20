@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T03:30:21.510Z
+Generated: 2026-05-20T04:06:44.531Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -65,7 +65,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | cost | candidate-action | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:1 |
 | draw_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:4 |
 | pool_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:3 |
-| ChangeItemCost | candidate-action | 2 | 2 | 2 | 52 | external/sources/ref___data/npc/family/npc/shop10_1:19 |
 | CostPoint | candidate-action | 2 | 2 | 2 | 3 | external/sources/ref___data/npc/my/ruieryasi/rou.arg:19 |
 | ADDEGGID | unknown | 2 | 2 | 2 | 2 | external/sources/ref___data/npc/sa50/petfusion/petfusion.arg:4 |
 | trans | unknown | 1 | 3 | 3 | 6 | external/sources/ref___data/npc/sa70/hunsk2:9 |
@@ -83,6 +82,7 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | FornewLv | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:20 |
 | GameMode | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:26 |
 | haditem_msg | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:11 |
+| LowLevel | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:36 |
 
 ## Recommended Next Slice
 
