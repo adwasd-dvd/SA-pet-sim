@@ -127,6 +127,7 @@ const NPC_VM_ACTIONS = new Set([
   "petSkillShop",
   "professionShop",
   "itemChange",
+  "appearance",
   "warp",
   "heal",
   "save",
@@ -6956,6 +6957,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
   if (isRaceManNpc(npc) && isRaceManRequestText(lower)) return raceManReply(game, npc, text);
+  if (isNewNpcManNpc(npc) && isNewNpcManRequestText(lower)) return newNpcManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
   if (isPetFusionNpc(npc) && hasAny(lower, ["融合", "合成宠", "合成寵", "宠物蛋", "寵物蛋", "合宠", "合寵", "petfusion", "fusion"])) return petFusionReply(game, npc, text);
   if (npc.itemPoolShop && hasAny(lower, ["道具寄放", "寄放道具", "寄存道具", "道具仓库", "道具倉庫", "保管", "取回道具", "取出道具", "领取道具", "寄放", "寄存", "取回", "取出"])) return itemPoolShopReply(game, npc);
@@ -7109,6 +7111,7 @@ function applyNpcHi(game, npc) {
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isLuckyManNpc(npc)) return luckyManPromptReply(game, npc);
   if (isRaceManNpc(npc)) return raceManReply(game, npc, "hi");
+  if (isNewNpcManNpc(npc)) return newNpcManPromptReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   if (npc.petShop) return petShopReply(game, npc);
   if (isPetFusionNpc(npc)) return petFusionReply(game, npc, "hi");
@@ -7161,6 +7164,7 @@ function npcDefaultLine(npc) {
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
   if (isLuckyManNpc(npc)) return luckyManPromptText(null, npc);
   if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
+  if (isNewNpcManNpc(npc)) return newNpcManDefaultLine(npc);
   if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
   return "有什么事吗？";
 }
@@ -10083,6 +10087,112 @@ function raceItemLabel(item) {
   return item.name || item.secretName || `道具 ${item.id || "?"}`;
 }
 
+function isNewNpcManNpc(npc) {
+  return Boolean(npc?.newNpcMan)
+    || /npc_newnpcman|NPC_NewNpcMan/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""} ${npc?.source || ""}`);
+}
+
+function isNewNpcManRequestText(text = "") {
+  const raw = String(text || "").toLowerCase();
+  const compact = guideSearchText(raw);
+  return hasAny(raw, ["appearance", "metamo"])
+    || hasAny(compact, ["确认造型", "確認造型", "确定造型", "確定造型", "人物造型", "恢复造型", "恢復造型", "恢复人物", "恢復人物", "变回", "變回", "外观", "外觀", "造型"]);
+}
+
+function isNewNpcManConfirmText(text = "") {
+  const raw = String(text || "").trim().toLowerCase();
+  const compact = guideSearchText(raw);
+  return /^(y|yes|ok|okay|confirm)$/i.test(raw)
+    || ["是", "是的", "确定", "確定", "确认", "確認", "好", "好的", "可以"].includes(compact)
+    || hasAny(compact, ["确认造型", "確認造型", "确定造型", "確定造型", "恢复造型", "恢復造型", "恢复人物", "恢復人物", "变回", "變回"]);
+}
+
+function newNpcManDefaultLine(npc) {
+  return npc?.newNpcMan?.messages?.start || "这里可以确认人物造型。";
+}
+
+function newNpcManPromptReply(game, npc) {
+  runNpcVmAction(game, npc, {
+    type: "window",
+    windowType: "NPC_PROGRAMEGINEER_START",
+    buttons: "YESNO",
+    source: npc.newNpcMan?.source || npc.script || npc.source || "",
+    reason: "source-newnpcman-start"
+  });
+  recordNpcVmEvent(game, npc, "say", "ok", {
+    reason: "source-newnpcman-prompt",
+    source: npc.newNpcMan?.source || npc.script || npc.source || ""
+  });
+  const lines = [newNpcManDefaultLine(npc)];
+  const check = npc?.newNpcMan?.messages?.check;
+  if (check) lines.push(check);
+  lines.push("如果要按原脚本确认当前人物造型，请输入“确认造型”；没有变身时不会凭空改造型。");
+  return lines.join("\n");
+}
+
+function newNpcManReply(game, npc, text = "") {
+  if (!isNewNpcManConfirmText(text)) return newNpcManPromptReply(game, npc);
+  const faceImageNo = sourceNewNpcManFaceImageNo(game);
+  const imageNo = sourceNewNpcManRestoreImageNo(game, faceImageNo);
+  const event = runNpcVmAction(game, npc, {
+    type: "appearance",
+    imageNo,
+    faceImageNo,
+    force: true,
+    mode: "source-newnpcman-check-msg",
+    reason: "source-newnpcman-confirm",
+    source: npc.newNpcMan?.source || npc.script || npc.source || "",
+    checkMessage: npc.newNpcMan?.messages?.check || ""
+  });
+  if (!event.ok) return `${npc.name}：${event.error || "无法确认人物造型"}。`;
+  const check = npc?.newNpcMan?.messages?.check || "确定是这个人物造型吗？";
+  return `${check}\n${npc.name}：已经按原版工程人员流程确认人物造型，当前图像 ${imageNo}。`;
+}
+
+function sourceNewNpcManFaceImageNo(game) {
+  return Number(
+    game.player?.CHAR_FACEIMAGENUMBER
+    || game.player?.FaceImageNumber
+    || game.player?.faceImageNumber
+    || 0
+  );
+}
+
+function sourceNewNpcManRestoreImageNo(game, faceImageNo = 0) {
+  const face = Number(faceImageNo || 0);
+  if (Number.isFinite(face) && face > 0) {
+    for (let index = 0; index < 48; index += 1) {
+      const start = 30000 + index * 25;
+      const end = 30024 + index * 25;
+      if (face >= start && face < end) return 100000 + index * 5;
+    }
+  }
+  return Number(
+    game.effects?.metamo?.originalImageNo
+    || game.player?.CHAR_BASEBASEIMAGENUMBER
+    || game.player?.BaseBaseImageNumber
+    || game.player?.CHAR_BASEIMAGENUMBER
+    || game.player?.BaseImageNumber
+    || 100000
+  );
+}
+
+function buildNewNpcManState(game, npc) {
+  if (!isNewNpcManNpc(npc)) return null;
+  return {
+    kind: "new-npc-man",
+    source: npc.newNpcMan?.source || npc.script || npc.source || "",
+    messages: npc.newNpcMan?.messages || {},
+    appearanceRestore: true,
+    player: {
+      imageNo: Number(game?.player?.CHAR_BASEIMAGENUMBER || game?.player?.BaseImageNumber || 0),
+      baseImageNo: Number(game?.player?.CHAR_BASEBASEIMAGENUMBER || game?.player?.BaseBaseImageNumber || 0),
+      faceImageNo: sourceNewNpcManFaceImageNo(game || {}),
+      metamoUntil: Number(game?.effects?.metamo?.until || game?.effects?.metamoUntil || 0)
+    }
+  };
+}
+
 function isPetFusionNpc(npc) {
   return Boolean(npc?.petFusion) || /npc_petfusion|petfusion/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""} ${npc?.source || ""}`);
 }
@@ -11241,6 +11351,7 @@ function openDialog(game, npc, messages, extra = {}) {
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petShop: extra.petShop || buildPetShopState(game, npc),
     petFusion: extra.petFusion || buildPetFusionState(game, npc),
+    newNpcMan: buildNewNpcManState(game, npc),
     itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),
     raceMan: buildRaceManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
@@ -11265,6 +11376,7 @@ function npcDebugInfo(npc, game = null) {
     type: npc.type || "",
     graphic: npc.graphic || "",
     raceMan: buildRaceManState(game, npc),
+    newNpcMan: buildNewNpcManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     professionShop: buildProfessionShopState(game, npc),
     actions,
@@ -11301,6 +11413,7 @@ function npcActionProfile(npc) {
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
   if (isProfessionShopNpc(npc)) actions.push("professionShop", "window");
   if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
+  if (isNewNpcManNpc(npc)) actions.push("appearance", "window", "say");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
   if (isSavePointNpc(npc)) actions.push("save");
@@ -11381,10 +11494,38 @@ function applyNpcVmMutation(game, type, action) {
   if (type === "takePet") return applyNpcVmTakePet(game, action);
   if (type === "givePet") return applyNpcVmGivePet(game, action);
   if (type === "save") return applyNpcVmSave(game, action);
+  if (type === "appearance") return applyNpcVmAppearance(game, action);
   if (type === "effect") return applyNpcVmEffect(game, action);
   if (type === "startBattle") return applyNpcVmStartBattle(game, action);
   if (type === "battleAction") return applyNpcVmBattleAction(game, action);
   return { ok: true, mutated: false };
+}
+
+function applyNpcVmAppearance(game, action) {
+  game.player ||= {};
+  const before = Number(game.player.CHAR_BASEIMAGENUMBER || game.player.BaseImageNumber || 0);
+  const target = Number(action.imageNo || game.player.CHAR_BASEBASEIMAGENUMBER || game.player.BaseBaseImageNumber || before || 0);
+  if (!Number.isFinite(target) || target <= 0) {
+    return { ok: false, mutated: false, error: "没有可恢复的人物图像编号" };
+  }
+  game.effects ||= {};
+  delete game.effects.metamo;
+  delete game.effects.metamoUntil;
+  game.player.CHAR_WORKITEMMETAMO = 0;
+  game.player.CHAR_WORKNPCMETAMO = -1;
+  game.player.CHAR_BASEIMAGENUMBER = target;
+  game.player.CHAR_BASEBASEIMAGENUMBER = target;
+  game.player.BaseImageNumber = target;
+  game.player.BaseBaseImageNumber = target;
+  syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated: before !== target || Boolean(action.force),
+    before,
+    imageNo: target,
+    faceImageNo: Number(action.faceImageNo || 0),
+    mode: action.mode || "source-npc-newnpcman"
+  };
 }
 
 function applyNpcVmSave(game, action) {

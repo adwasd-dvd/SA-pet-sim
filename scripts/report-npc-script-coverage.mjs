@@ -82,6 +82,8 @@ const MESSAGE_KEYS = new Set([
   "acceptmsg",
   "card_msg",
   "caution_msg",
+  "check_msg",
+  "checkmsg",
   "cleanflagmsg",
   "cleanflgmsg",
   "cleanmainmsg",

@@ -293,6 +293,34 @@ assert(
   "raceMan dialog records deterministic raceMan VM trace"
 );
 
+const newNpcManEntry = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.newNpcMan);
+assert(newNpcManEntry, "world build parses source npc_newnpcman CHECK_MSG scripts");
+assert(newNpcManEntry.npc.scriptHints?.actions?.includes("appearance"), "npc_newnpcman script hints expose appearance action");
+assert(String(newNpcManEntry.npc.newNpcMan?.messages?.check || "").includes("造型"), "npc_newnpcman preserves source CHECK_MSG");
+let newNpcManGame = await api("/api/game/new", { name: "npc-newnpcman-checkmsg-test" });
+newNpcManGame.location = {
+  mapId: newNpcManEntry.map.id,
+  x: Math.max(0, Number(newNpcManEntry.npc.x || 0) - 1),
+  y: Number(newNpcManEntry.npc.y || 0),
+  dir: 2
+};
+newNpcManGame.player.CHAR_FACEIMAGENUMBER = 30025;
+newNpcManGame.player.CHAR_BASEIMAGENUMBER = 101578;
+newNpcManGame.player.CHAR_BASEBASEIMAGENUMBER = 101578;
+newNpcManGame.effects ||= {};
+newNpcManGame.effects.metamo = { imageNo: 101578, originalImageNo: 100000, until: Date.now() + 60000 };
+newNpcManGame = await api("/api/game/talk", { game: newNpcManGame, npcId: newNpcManEntry.npc.id });
+assert(newNpcManGame.dialog?.newNpcMan?.appearanceRestore, "npc_newnpcman dialog exposes appearance metadata");
+assert(newNpcManGame.dialog?.debug?.actions?.includes("appearance"), "npc_newnpcman dialog debug exposes appearance action profile");
+assert(newNpcManGame.dialog?.messages?.some((message) => String(message.text || "").includes("确认造型")), "npc_newnpcman prompt keeps source check flow visible");
+newNpcManGame = await api("/api/game/dialog", { game: newNpcManGame, npcId: newNpcManEntry.npc.id, message: "确认造型" });
+assertEqual(Number(newNpcManGame.player.CHAR_BASEIMAGENUMBER || 0), 100005, "npc_newnpcman maps CHAR_FACEIMAGENUMBER through source checkPc table");
+assertEqual(Number(newNpcManGame.player.CHAR_BASEBASEIMAGENUMBER || 0), 100005, "npc_newnpcman confirms CHAR_BASEBASEIMAGENUMBER after appearance restore");
+assert(!newNpcManGame.effects?.metamo, "npc_newnpcman clears temporary metamo state deterministically");
+assert(newNpcManGame.dialog?.debug?.vmTrace?.some((event) => event.action === "appearance" && event.status === "ok"), "npc_newnpcman CHECK_MSG runs through appearance VM action");
+
 const routeServiceEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => {

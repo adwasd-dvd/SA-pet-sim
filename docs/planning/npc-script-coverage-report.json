@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:55:45.204Z",
+  "generatedAt": "2026-05-20T23:34:20.395Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -213,8 +213,8 @@
     "byCategory": {
       "supported-config": 12371,
       "candidate-action": 1272,
-      "unknown": 1239,
-      "supported-message": 11251,
+      "unknown": 1238,
+      "supported-message": 11252,
       "condition-control": 11752,
       "supported-action": 3714,
       "blocked-or-later-system": 6
@@ -1888,7 +1888,7 @@
       {
         "key": "CHECK_MSG",
         "normalized": "check_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -13893,38 +13893,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "CHECK_MSG",
-        "normalized": "check_msg",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/demale/testnpc01.arg",
-            "line": 2,
-            "text": "CHECK_MSG:确定是这个人物造型吗？"
-          }
-        ]
-      },
-      {
         "key": "msg",
         "normalized": "msg",
         "category": "unknown",
@@ -15929,6 +15897,58 @@
             "file": "external/sources/ref___data/npc/777/ten.arg",
             "line": 56,
             "text": "nonemsg:\\n转生所需要的条件\\n你好像还没有达成哦。\\n等你达成之后，再来我这里。END"
+          }
+        ]
+      },
+      {
+        "key": "NoSetupMsg",
+        "normalized": "nosetupmsg",
+        "category": "unknown",
+        "occurrences": 11,
+        "files": 11,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_51_51",
+            "line": 3,
+            "text": "NoSetupMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n不过您的家族尚未正式成立，\\n请先招募１０位家族成员后，\\n再与其他家族对战！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_48_25",
+            "line": 3,
+            "text": "NoSetupMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n不过您的家族尚未正式成立，\\n请先招募１０位家族成员后，\\n再与其他家族对战！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_26_16",
+            "line": 3,
+            "text": "NoSetupMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n不过您的家族尚未正式成立，\\n请先招募１０位家族成员后，\\n再与其他家族对战！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_2030_59_43",
+            "line": 3,
+            "text": "NoSetupMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n不过您的家族尚未正式成立，\\n请先招募１０位家族成员后，\\n再与其他家族对战！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_3030_62_42",
+            "line": 3,
+            "text": "NoSetupMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n不过您的家族尚未正式成立，\\n请先招募１０位家族成员后，\\n再与其他家族对战！"
           }
         ]
       }

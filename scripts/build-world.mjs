@@ -457,6 +457,7 @@ function parseNpcs() {
       const trade = readNpcTrade(argPath, file);
       const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
       const petFusion = readNpcPetFusion(argPath, file, functionset, enemy.template);
+      const newNpcMan = readNpcNewNpcMan(argPath, file, functionset, enemy.template);
       const raceMan = readNpcRaceMan(argPath, file, functionset, enemy.template);
       const itemPoolShop = raceMan ? null : readNpcItemPoolShop(argPath, file, functionset, enemy.template);
       const routeService = readNpcRouteService(argPath, file, functionset, enemy.template, floor);
@@ -469,7 +470,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion, newNpcMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -485,6 +486,7 @@ function parseNpcs() {
         ...(trade ? { trade } : {}),
         ...(petShop ? { petShop } : {}),
         ...(petFusion ? { petFusion } : {}),
+        ...(newNpcMan ? { newNpcMan } : {}),
         ...(itemPoolShop ? { itemPoolShop } : {}),
         ...(raceMan ? { raceMan } : {}),
         ...(routeService ? { routeService } : {}),
@@ -1121,6 +1123,29 @@ function readNpcPetFusion(argPath, createFile, functionset = "", template = "") 
       start: cleanScriptText(kv.startmsg || ""),
       select: cleanScriptText(kv.selectmsg || "")
     }
+  };
+}
+
+function readNpcNewNpcMan(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const serviceText = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  if (!/npc_newnpcman|NPC_NewNpcMan/i.test(serviceText) && !/^\s*CHECK_MSG\s*:/im.test(text)) {
+    return null;
+  }
+  const kv = parseColonFile(text);
+  const start = cleanScriptText(kv.start_msg || kv.startmsg || "");
+  const check = cleanScriptText(kv.check_msg || kv.checkmsg || "");
+  if (!start && !check) return null;
+  return {
+    kind: "new-npc-man",
+    source: relativeRef(file),
+    messages: {
+      start,
+      check
+    },
+    appearanceRestore: true
   };
 }
 
@@ -2122,12 +2147,13 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion, newNpcMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petShop) actions.push("petShop");
   if (petFusion) actions.push("petFusion");
+  if (newNpcMan) actions.push("appearance");
   if (itemPoolShop) actions.push("itemPoolShop");
   if (raceMan) actions.push("raceMan");
   if (routeService) actions.push("routeService");
@@ -2153,6 +2179,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
   }
+  for (const item of newNpcManHints(newNpcMan)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
@@ -2170,6 +2200,15 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     hints,
     source: relativeRef(file)
   };
+}
+
+function newNpcManHints(newNpcMan) {
+  if (!newNpcMan) return [];
+  return [
+    newNpcMan.messages?.start ? `StartMsg:${newNpcMan.messages.start}` : "",
+    newNpcMan.messages?.check ? `CheckMsg:${newNpcMan.messages.check}` : "",
+    newNpcMan.appearanceRestore ? "AppearanceRestore:CHAR_BASEBASEIMAGENUMBER" : ""
+  ].filter(Boolean);
 }
 
 function professionShopHints(professionShop) {

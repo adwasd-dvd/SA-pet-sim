@@ -69755,9 +69755,24 @@ export const WORLD = {
           "script": "file:demale/testnpc01.arg",
           "template": "npc_newnpcman",
           "graphic": "100401",
+          "newNpcMan": {
+            "kind": "new-npc-man",
+            "source": "gmsv-data/npc/demale/testnpc01.arg",
+            "messages": {
+              "start": "你的图号有问题我可以帮你换成原先的人物造型，要更换吗？灵力铠要处理吗？晚上9点更新后来喔。",
+              "check": "确定是这个人物造型吗？"
+            },
+            "appearanceRestore": true
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "appearance"
+            ],
+            "hints": [
+              "StartMsg:你的图号有问题我可以帮你换成原先的人物造型，要更换吗？灵力铠要处理吗？晚上9点更新后来喔。",
+              "CheckMsg:确定是这个人物造型吗？",
+              "AppearanceRestore:CHAR_BASEBASEIMAGENUMBER"
+            ],
             "source": "gmsv-data/npc/demale/testnpc01.arg"
           }
         },
