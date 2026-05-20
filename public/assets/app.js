@@ -10,7 +10,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json";
+const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=floor-5000-map-pack-v1";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
 const ENCOUNTER_UI_ENABLED = false;
@@ -1753,9 +1753,11 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
   };
   const visualFallback = await loadClientMapVisualFallback(map, width, height, tileAt);
   const visualTileAt = visualFallback?.tileAt || tileAt;
-  const atlas = await loadTileAtlas(map);
+  let atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
+    atlas = await ensureMapAtlasCoverage(width, height, visualTileAt, atlas);
+    if (renderVersion !== mapRenderVersion) return;
     drawViewportTileMap(canvas, width, height, visualTileAt, atlas, map, visualFallback?.label || "client DAT viewport", renderVersion);
     return;
   }
@@ -1835,6 +1837,35 @@ async function loadTileAtlas(map = null) {
   const profileAtlas = await loadProfileTileAtlasForMap(map);
   if (profileAtlas) return profileAtlas;
   return loadMonolithicTileAtlas();
+}
+
+async function ensureMapAtlasCoverage(width, height, tileAt, atlas) {
+  if (!atlas) return atlas;
+  const missing = missingMapFrameIds(width, height, tileAt, atlas);
+  if (!missing.length) return atlas;
+  let nextAtlas = atlas;
+  const loadedProfileFrames = await ensureProfileAtlasFramesLoaded(missing);
+  if (loadedProfileFrames) {
+    nextAtlas = setLoadedTileAtlas(atlasWithProfileFrames(nextAtlas));
+  }
+  const stillMissing = missingMapFrameIds(width, height, tileAt, nextAtlas);
+  if (!stillMissing.length) return nextAtlas;
+  if (String(nextAtlas.mode || "").includes("monolithic")) return nextAtlas;
+  const monolithicAtlas = await loadMonolithicTileAtlas();
+  if (!monolithicAtlas) return nextAtlas;
+  return setLoadedTileAtlas(atlasWithProfileFrames(monolithicAtlas));
+}
+
+function missingMapFrameIds(width, height, tileAt, atlas) {
+  const frames = atlas?.frames || {};
+  const missing = new Set();
+  const cells = Math.max(0, width * height);
+  for (let index = 0; index < cells; index += 1) {
+    const [ground, object] = tileAt(index);
+    if (ground > CG_INVISIBLE && !frames[ground]) missing.add(Number(ground));
+    if (isStaticMapObjectTile(object) && !frames[object]) missing.add(Number(object));
+  }
+  return [...missing];
 }
 
 async function loadProfileTileAtlasForMap(map) {
@@ -2631,9 +2662,11 @@ async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRe
   const reader = parseLs2MapReader(buf);
   if (!reader) throw new Error("invalid LS2MAP");
   const { width, height, tileAt } = reader;
-  const atlas = await loadTileAtlas(map);
+  let atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
+    atlas = await ensureMapAtlasCoverage(width, height, tileAt, atlas);
+    if (renderVersion !== mapRenderVersion) return;
     drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "LS2MAP viewport", renderVersion);
     return;
   }
