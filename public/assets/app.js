@@ -10,12 +10,10 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const MAP_RESOURCE_VERSION = "map-assets-v20260520-furuudo-ground-v1";
+const MAP_RESOURCE_VERSION = "map-assets-v20260520-furuudo-outside-black-v1";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
-const SPARSE_INTERIOR_VISUAL_GROUND_FLOORS = new Set(["5001", "5003", "5005"]);
-const SPARSE_INTERIOR_VISUAL_GROUND_TILE = 2;
 const ENCOUNTER_UI_ENABLED = false;
 const PET_CAPACITY_FALLBACK = 5;
 const BATTLE_PLAYER_MAX = 5;
@@ -1802,7 +1800,6 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
     if (clientTileAt(index)[0] <= CG_INVISIBLE) missingGround += 1;
   }
   if (missingGround / cells < 0.05) return null;
-  const sparseInteriorGround = SPARSE_INTERIOR_VISUAL_GROUND_FLOORS.has(String(map.id || map.floorId || ""));
   try {
     const rsp = await fetch(versionedStaticAssetUrl(map.mapFile, MAP_RESOURCE_VERSION));
     if (!rsp.ok) return null;
@@ -1810,26 +1807,19 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
     if (!fallback || fallback.width !== width || fallback.height !== height) return null;
     let groundFill = 0;
     let objectFill = 0;
-    let sparseGroundFill = 0;
     for (let index = 0; index < cells; index += 1) {
       const [ground, object] = clientTileAt(index);
       const [fallbackGround, fallbackObject] = fallback.tileAt(index);
       if (ground <= CG_INVISIBLE && fallbackGround > CG_INVISIBLE) groundFill += 1;
       if (!isStaticMapObjectTile(object) && isStaticMapObjectTile(fallbackObject)) objectFill += 1;
-      if (sparseInteriorGround && ground <= CG_INVISIBLE && object === SPARSE_INTERIOR_VISUAL_GROUND_TILE) sparseGroundFill += 1;
     }
-    if (!groundFill && !objectFill && !sparseGroundFill) return null;
+    if (!groundFill && !objectFill) return null;
     return {
-      label: sparseGroundFill && !groundFill && !objectFill
-        ? `client DAT viewport + sparse interior floor`
-        : `client DAT viewport + LS2 visual fallback`,
-      lowGroundTiles: sparseGroundFill ? [SPARSE_INTERIOR_VISUAL_GROUND_TILE] : [],
+      label: `client DAT viewport + LS2 visual fallback`,
+      lowGroundTiles: [],
       tileAt(index) {
         const [ground, object, overlay] = clientTileAt(index);
         const [fallbackGround, fallbackObject] = fallback.tileAt(index);
-        if (sparseInteriorGround && ground <= CG_INVISIBLE && object === SPARSE_INTERIOR_VISUAL_GROUND_TILE) {
-          return [SPARSE_INTERIOR_VISUAL_GROUND_TILE, 0, overlay];
-        }
         return [
           ground > CG_INVISIBLE ? ground : fallbackGround,
           isStaticMapObjectTile(object) ? object : fallbackObject,

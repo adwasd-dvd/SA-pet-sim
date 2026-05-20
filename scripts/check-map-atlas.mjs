@@ -9,7 +9,6 @@ const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
 const CG_INVISIBLE = 99;
 const VISUAL_FALLBACK_SAMPLE_FLOORS = ["300", "5000"];
 const SPARSE_INTERIOR_SAMPLE_FLOORS = ["5001", "5003", "5005"];
-const SPARSE_INTERIOR_VISUAL_GROUND_IDS = [2];
 
 const atlas = readJson(atlasPath);
 const frames = atlas?.frames || {};
@@ -68,9 +67,9 @@ if (visualFallbackCoverage.length) {
 }
 if (sparseInteriorCoverage.length) {
   const summary = sparseInteriorCoverage
-    .map((item) => `${item.floor}:${item.missingGround} missing/${item.visualGroundRefs} visual-ground`)
+    .map((item) => `${item.floor}:${item.missingGround} missing/${item.lowControlRefs} low-control`)
     .join(", ");
-  console.log(`Sparse original interior visual floor OK: ${summary}; original low-id floor tiles render only in these guarded maps.`);
+  console.log(`Sparse original interior outside-black OK: ${summary}; low-id part refs stay non-drawable outside the real floor.`);
 }
 for (const line of largest) console.log(`  ${line}`);
 
@@ -98,12 +97,6 @@ function checkVisualFallbackCoverage() {
 }
 
 function checkSparseInteriorGuard() {
-  for (const tileId of SPARSE_INTERIOR_VISUAL_GROUND_IDS) {
-    if (!frames[tileId]) {
-      throw new Error(`Sparse interior visual ground tile ${tileId} is missing from the atlas`);
-    }
-  }
-
   const coverage = [];
   for (const floor of SPARSE_INTERIOR_SAMPLE_FLOORS) {
     const clientFile = path.join(clientMapRoot, `${floor}.dat`);
@@ -117,13 +110,13 @@ function checkSparseInteriorGuard() {
 
     let missingGround = 0;
     let groundFill = 0;
-    let visualGroundRefs = 0;
+    let lowControlRefs = 0;
     for (let index = 0; index < clientMap.cells; index += 1) {
       const clientGround = clientMap.ground(index);
       const logicGround = logicMap.ground(index);
       if (clientGround <= CG_INVISIBLE) missingGround += 1;
       if (clientGround <= CG_INVISIBLE && logicGround > CG_INVISIBLE) groundFill += 1;
-      if (clientGround <= CG_INVISIBLE && SPARSE_INTERIOR_VISUAL_GROUND_IDS.includes(clientMap.part(index))) visualGroundRefs += 1;
+      if (clientGround <= CG_INVISIBLE && clientMap.part(index) > 0 && clientMap.part(index) <= CG_INVISIBLE) lowControlRefs += 1;
     }
 
     if (missingGround < Math.floor(clientMap.cells / 2)) {
@@ -132,10 +125,10 @@ function checkSparseInteriorGuard() {
     if (groundFill) {
       throw new Error(`Floor ${floor} has LS2 ground fallback cells; move it to VISUAL_FALLBACK_SAMPLE_FLOORS instead of sparse guard`);
     }
-    if (!visualGroundRefs) {
-      throw new Error(`Expected visual ground tile refs on sparse original interior floor ${floor}`);
+    if (!lowControlRefs) {
+      throw new Error(`Expected low control part refs on sparse original interior floor ${floor}`);
     }
-    coverage.push({ floor, missingGround, visualGroundRefs });
+    coverage.push({ floor, missingGround, lowControlRefs });
   }
   return coverage;
 }
