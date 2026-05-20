@@ -857,7 +857,8 @@ function readNpcTrade(argPath, createFile) {
   const itemSpec = kv.itemlist || kv.limititemno || "";
   if (!itemSpec) return null;
   const entries = expandShopItemEntries(itemSpec, {
-    changeItemCostSpec: kv.changeitemcost || ""
+    changeItemCostSpec: kv.changeitemcost || "",
+    costFameSpec: kv.costfame || ""
   });
   const limitItemRanges = parseItemRanges(kv.limititemno || "", 2000);
   const limitItemTypes = splitWords(kv.limititemtype)
@@ -879,7 +880,8 @@ function readNpcTrade(argPath, createFile) {
     items.push({
       ...item,
       price: Math.max(0, Math.round(priceBase * buyRate)),
-      ...(entry.changeItemCost == null ? {} : { changeItemCost: entry.changeItemCost, sourceCost })
+      ...(entry.changeItemCost == null ? {} : { changeItemCost: entry.changeItemCost, sourceCost }),
+      ...(Number(entry.costFame || 0) > 0 ? { costFame: entry.costFame } : {})
     });
   }
   if (!items.length) return null;
@@ -896,6 +898,7 @@ function readNpcTrade(argPath, createFile) {
     ...(specialItems.length ? { specialItems: specialItems.slice(0, 120) } : {}),
     ...(Number.isFinite(specialRate) ? { specialRate } : {}),
     ...(items.some((item) => item.changeItemCost != null) ? { hasChangeItemCost: true } : {}),
+    ...(items.some((item) => Number(item.costFame || 0) > 0) ? { hasCostFame: true } : {}),
     items: items.slice(0, 40)
   };
 }
@@ -2012,11 +2015,14 @@ function expandItemList(spec, maxItems = 120) {
   return [...new Set(ids)];
 }
 
-function expandShopItemEntries(spec, { changeItemCostSpec = "", maxItems = 120 } = {}) {
+function expandShopItemEntries(spec, { changeItemCostSpec = "", costFameSpec = "", maxItems = 120 } = {}) {
   const entries = [];
   const changeCostTokens = changeItemCostSpec.split(",").map((part) => part.trim());
   const hasChangeCost = changeItemCostSpec.trim().length > 0;
+  const costFameTokens = costFameSpec.split(",").map((part) => part.trim());
+  const hasCostFame = costFameSpec.trim().length > 0;
   let currentChangeCost = hasChangeCost ? 0 : null;
+  let currentCostFame = hasCostFame ? 0 : null;
   let specIndex = 0;
   for (const part of spec.split(",")) {
     if (entries.length >= maxItems) break;
@@ -2027,6 +2033,10 @@ function expandShopItemEntries(spec, { changeItemCostSpec = "", maxItems = 120 }
       const rawCost = Number(changeCostTokens[specIndex - 1]);
       if (Number.isFinite(rawCost)) currentChangeCost = Math.max(0, rawCost);
     }
+    if (hasCostFame) {
+      const rawCostFame = Number(costFameTokens[specIndex - 1]);
+      if (Number.isFinite(rawCostFame)) currentCostFame = rawCostFame;
+    }
     const range = value.match(/^(\d+)-(\d+)$/);
     if (range) {
       const start = Number(range[1]);
@@ -2034,20 +2044,21 @@ function expandShopItemEntries(spec, { changeItemCostSpec = "", maxItems = 120 }
       const min = Math.min(start, end);
       const max = Math.max(start, end);
       for (let id = min; id <= max && entries.length < maxItems; id += 1) {
-        entries.push(shopItemEntry(id, currentChangeCost));
+        entries.push(shopItemEntry(id, currentChangeCost, currentCostFame));
       }
       continue;
     }
     const id = Number(value);
-    if (Number.isFinite(id)) entries.push(shopItemEntry(id, currentChangeCost));
+    if (Number.isFinite(id)) entries.push(shopItemEntry(id, currentChangeCost, currentCostFame));
   }
   return entries;
 }
 
-function shopItemEntry(id, changeItemCost) {
+function shopItemEntry(id, changeItemCost, costFame) {
   return {
     id,
-    ...(changeItemCost == null ? {} : { changeItemCost })
+    ...(changeItemCost == null ? {} : { changeItemCost }),
+    ...(Number(costFame || 0) > 0 ? { costFame: Number(costFame) } : {})
   };
 }
 

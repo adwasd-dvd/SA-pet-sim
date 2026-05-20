@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:03:46.412Z",
+  "generatedAt": "2026-05-20T11:00:10.182Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,13 +206,13 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12531,
+      "supported-config": 12585,
       "candidate-action": 1291,
       "unknown": 1346,
       "supported-message": 10924,
       "condition-control": 11752,
       "supported-action": 3680,
-      "blocked-or-later-system": 81
+      "blocked-or-later-system": 27
     },
     "keyRecords": [
       {
@@ -2333,7 +2333,7 @@
       {
         "key": "CostFame",
         "normalized": "costfame",
-        "category": "blocked-or-later-system",
+        "category": "supported-config",
         "occurrences": 54,
         "files": 54,
         "profiles": {

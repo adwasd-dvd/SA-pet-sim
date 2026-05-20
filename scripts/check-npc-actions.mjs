@@ -38,6 +38,9 @@ assertEqual(game.player.WaterAT, 50, "new player keeps source-style Water attrib
 assertEqual(game.player.FireAT, 0, "new player starts without opposite Fire attribute");
 assertEqual(game.player.WindAT, 0, "new player starts without opposite Wind attribute");
 assertEqual(game.player.charm, 60, "new player starts with source CHAR_CHARM default");
+assertEqual(game.player.fame, 0, "new player starts with source CHAR_FAME default");
+assertEqual(game.characterFields?.base?.fame, 0, "character fields expose source CHAR_FAME");
+assert(game.save.info.includes("FAME=0"), "saac-like save info includes source CHAR_FAME");
 
 let playerPointGame = await api("/api/game/new", { name: "player-point-test" });
 playerPointGame.player.skillUpPoint = 2;
@@ -1471,10 +1474,37 @@ const fixedCostItem = fixedCostShop.npc.trade.items.find((item) => (
 let fixedCostGame = await api("/api/game/new", { name: "shop-changeitemcost-test" });
 fixedCostGame.location = { mapId: fixedCostShop.map.id, x: fixedCostShop.npc.x + 1, y: fixedCostShop.npc.y };
 fixedCostGame.player.stone = Number(fixedCostItem.price) + 123;
+fixedCostGame.player.fame = Number(fixedCostItem.costFame || 0);
 fixedCostGame = await api("/api/game/buy", { game: fixedCostGame, npcId: fixedCostShop.npc.id, itemId: fixedCostItem.id });
 assertEqual(fixedCostGame.player.stone, 123, "shop buy uses source ChangeItemCost instead of itemset6 base cost");
 assertEqual(inventoryQty(fixedCostGame, fixedCostItem.id), 1, "ChangeItemCost shop buy still gives the selected source item");
 assert(fixedCostGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "buy" && event.detail?.sourcePrice === Number(fixedCostItem.price)), "ChangeItemCost buy records the fixed source price in shop VM trace");
+
+const costFameShop = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0));
+if (!costFameShop) throw new Error("missing CostFame shop fixture");
+const costFameItem = costFameShop.npc.trade.items.find((item) => Number(item.costFame || 0) > 0);
+let costFameGame = await api("/api/game/new", { name: "shop-costfame-test" });
+costFameGame.location = { mapId: costFameShop.map.id, x: costFameShop.npc.x + 1, y: costFameShop.npc.y };
+costFameGame.player.stone = Number(costFameItem.price || costFameItem.cost || 0) + 123;
+costFameGame.player.fame = Number(costFameItem.costFame) - 1;
+await expectApiError(
+  "/api/game/buy",
+  { game: costFameGame, npcId: costFameShop.npc.id, itemId: costFameItem.id },
+  "声望不足",
+  "CostFame shop buy rejects insufficient source CHAR_FAME"
+);
+costFameGame.player.fame = Number(costFameItem.costFame) + 100;
+costFameGame = await api("/api/game/buy", { game: costFameGame, npcId: costFameShop.npc.id, itemId: costFameItem.id });
+assertEqual(costFameGame.player.stone, 123, "CostFame shop buy still charges source stone price");
+assertEqual(costFameGame.player.fame, 100, "CostFame shop buy deducts source CHAR_FAME");
+assertEqual(costFameGame.characterFields?.base?.fame, 100, "CostFame buy syncs character fields");
+assert(costFameGame.save.info.includes("FAME=100"), "CostFame buy persists CHAR_FAME into save info");
+assertEqual(inventoryQty(costFameGame, costFameItem.id), 1, "CostFame shop buy gives the selected source item");
+assert(costFameGame.dialog.trade.items.some((item) => Number(item.id) === Number(costFameItem.id) && Number(item.costFame || 0) === Number(costFameItem.costFame)), "CostFame shop dialog exposes source fame requirement");
+assert(costFameGame.dialog.debug.actions.includes("adjustFame"), "CostFame shop debug exposes source fame mutation action");
+assert(costFameGame.dialog.debug.vmTrace.some((event) => event.action === "adjustFame" && event.detail?.fameAmount === -Number(costFameItem.costFame)), "CostFame shop buy runs fame deduction through NPC VM executor");
 
 const petSkillNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
