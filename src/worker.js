@@ -9253,7 +9253,7 @@ function inferNpcAiAction(game, npc, text) {
   if (npc.trade?.items?.length && hasAny(lower, ["打折", "折扣", "便宜", "优惠", "優待", "优待", "少一点", "少一點"])) {
     return { type: "shopDiscount", percent: aiShopDiscountPercent(game, npc, lower), seconds: 600 };
   }
-  if (npc.trade?.items?.length && hasAny(lower, ["平时不卖", "平常不卖", "隐藏", "有没有", "能不能给", "给我", "卖我", "要一个", "要把", "特殊", "稀有"])) {
+  if (npc.trade?.items?.length && hasAny(lower, ["平时不卖", "平常不卖", "隐藏", "有没有", "有沒有", "能不能给", "能不能給", "给我", "給我", "卖我", "賣我", "要一个", "要一個", "要把", "必须", "必須", "一定要", "指定", "只要", "就要", "特殊", "稀有"])) {
     return { type: "offMenuItem", text: lower };
   }
   if (isNpcEnemy(npc) && hasAny(lower, ["贿赂", "收钱", "买路", "给你石币", "给钱", "威胁", "恐吓", "让我过去", "放我过去", "让开"])) {
@@ -10530,6 +10530,18 @@ function sourceItemPrice(item) {
   return Number.isFinite(worldPrice) && worldPrice > 0 ? worldPrice : 0;
 }
 
+function sourceItemBasePriceForNpc(npc, item) {
+  const ownPrice = sourceItemPrice(item);
+  if (ownPrice > 0) return ownPrice;
+  const shopPrices = (npc?.trade?.items || [])
+    .map((entry) => Number(entry.price || entry.cost || 0))
+    .filter((price) => Number.isFinite(price) && price > 0)
+    .sort((a, b) => a - b);
+  if (!shopPrices.length) return 1;
+  const middle = shopPrices[Math.floor(shopPrices.length / 2)];
+  return Math.max(1, middle);
+}
+
 function tradeSellRate(npc) {
   const raw = Number(npc?.trade?.sellRate);
   if (!Number.isFinite(raw)) return 0.2;
@@ -10559,13 +10571,14 @@ function chooseRoleFitOffMenuItem(game, npc, text) {
   const role = npcShopRole(npc);
   const sold = new Set((npc.trade?.items || []).map((item) => Number(item.id)));
   const queryTags = requestedItemTags(text);
+  const queryTerms = requestedItemTerms(text);
   if (role.includes("meat") && queryTags.includes("knife")) {
     return { item: null, role, reason: "working-tool", queryTags };
   }
-  const candidates = worldTradeItems()
+  const candidates = worldOffMenuItems()
     .filter((item) => !sold.has(Number(item.id)))
-    .map((item) => ({ item, score: roleItemScore(role, item, queryTags, text) }))
-    .filter((entry) => entry.score > 0)
+    .map((item) => ({ item, score: roleItemScore(role, item, queryTags, queryTerms, text) }))
+    .filter((entry) => entry.score > 0 && roleAllowsOffMenuItem(role, entry.item))
     .sort((a, b) => b.score - a.score || Number(a.item.price || a.item.cost || 0) - Number(b.item.price || b.item.cost || 0));
   const entry = candidates[0];
   if (!entry) return { item: null, role, reason: queryTags.length ? "role-mismatch" : "no-hidden-item", queryTags };
@@ -10573,7 +10586,7 @@ function chooseRoleFitOffMenuItem(game, npc, text) {
     ...entry.item,
     source: entry.item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`
   };
-  const basePrice = Math.max(1, Number(item.price || item.cost || 1));
+  const basePrice = sourceItemBasePriceForNpc(npc, item);
   const mode = shouldGiftOffMenuItem(game, npc, item, text) ? "gift" : "sale";
   const price = mode === "gift" ? 0 : Math.max(1, Math.round(basePrice * 1.2));
   return {
@@ -10617,10 +10630,56 @@ function requestedItemTags(text) {
   return out;
 }
 
-function roleItemScore(role, item, queryTags, text) {
+function requestedItemTerms(text) {
+  const source = String(text || "").toLowerCase();
+  const rawParts = source
+    .replace(/[，。？！、,?!;；|/]+/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+  const itemish = source.match(/[\u3400-\u9fffA-Za-z0-9]{1,18}(?:肉|药|藥|宝石|寶石|羽毛|石|斧头|斧|刀|枪|槍|棍棒|棍|棒|爪|弓|戒指|项链|項鍊|衣|帽|兜|铠|鎧)/g) || [];
+  const terms = [...rawParts, ...itemish]
+    .map(cleanRequestedItemTerm)
+    .filter((term) => term.length >= 2);
+  if (/乌力/.test(source) && /肉/.test(source)) terms.push("乌力肉", "乌力斯坦肉");
+  return [...new Set(terms)];
+}
+
+function cleanRequestedItemTerm(value) {
+  return String(value || "")
+    .replace(/请问|請問|有没有|有沒有|能不能|可不可以|可以|帮我|幫我|给我|給我|我要|需要|必须|必須|一定要|只要|就要|就是|不是|没有|沒有|卖我|賣我|卖|賣|买|買|拿出|拿|给|給|帮|幫|帮忙|幫忙|这个|這個|那个|那個|一种|一種|一个|一個|一些|的|吗|嗎|嘛|呢|吧|你|我|他|她|它|这里|這裡|那边|那邊|店里|店裡|柜台|櫃台|后面|後面|平时|平時|平常|不卖|不賣|隐藏|隱藏|特殊|稀有/g, "")
+    .replace(/[^\u3400-\u9fffA-Za-z0-9]+/g, "");
+}
+
+function compactItemName(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/的/g, "")
+    .replace(/[^\u3400-\u9fffA-Za-z0-9]+/g, "");
+}
+
+function requestedItemNameScore(item, queryTerms, text) {
+  const name = compactItemName(item?.name);
+  if (!name) return 0;
+  const itemText = compactItemName(`${item?.name || ""} ${item?.secretName || ""} ${item?.description || ""}`);
+  const raw = compactItemName(text);
+  let score = 0;
+  if (raw.includes(name)) score += 36;
+  for (const term of queryTerms || []) {
+    const normalized = compactItemName(term);
+    if (!normalized || normalized.length < 2) continue;
+    if (itemText.includes(normalized)) score += normalized.length >= 4 ? 30 : 18;
+    else if (normalized.includes(name)) score += 24;
+  }
+  if (/乌力/.test(raw) && /肉/.test(raw) && /乌力.*肉/.test(name)) score += 28;
+  return score;
+}
+
+function roleItemScore(role, item, queryTags, queryTerms, text) {
   const itemText = `${item.name || ""} ${item.description || ""}`;
   const itemTags = itemRoleTags(item);
   let score = 0;
+  const nameScore = requestedItemNameScore(item, queryTerms, text);
+  score += nameScore;
   for (const tag of role) {
     if (itemTags.includes(tag)) score += 8;
   }
@@ -10630,21 +10689,32 @@ function roleItemScore(role, item, queryTags, text) {
   }
   if (queryTags.includes("knife") && !/刀/.test(itemText)) score -= 20;
   if (/平时不卖|平常不卖|隐藏|特殊|稀有/.test(text)) score += 2;
+  if (nameScore > 0 && role.some((tag) => itemTags.includes(tag))) score += 12;
   return score;
 }
 
 function itemRoleTags(item) {
   const text = `${item.name || ""} ${item.description || ""}`;
   const tags = [];
+  const sourceType = Number(item.type);
+  const looksLikeWorkTool = /开采|開採|矿用|礦用|工具/.test(text) && sourceType !== 1;
+  const sourceTypeKnown = Number.isFinite(sourceType) && sourceType > 0;
+  const weaponByName = /斧|枪|槍|棍|棒|爪|弓|投掷|刀/.test(item.name || "");
   if (/肉/.test(text)) tags.push("meat");
   if (/药|藥|耐久|气力|復活|复活/.test(text)) tags.push("medicine");
-  if (/斧|枪|槍|棍|棒|爪|弓|投掷|刀/.test(text) || Number(item.type) === 1) tags.push("weapon");
+  if (!looksLikeWorkTool && (sourceType === 1 || (!sourceTypeKnown && weaponByName))) tags.push("weapon");
   if (/兜|铠|鎧|衣|帽|甲/.test(text)) tags.push("armor");
   if (/首饰|首飾|戒|项链|項鍊/.test(text)) tags.push("accessory");
-  if (/石|木|矿|礦|草|皮|素材/.test(text)) tags.push("material");
+  if (looksLikeWorkTool || /石|木|矿|礦|草|皮|素材/.test(text)) tags.push("material");
   if (/宠|寵|饲|飼|技能/.test(text)) tags.push("pet");
   if (/攻|防|敏|耐久|气力/.test(text)) tags.push("stat");
   return [...new Set(tags)];
+}
+
+function roleAllowsOffMenuItem(role, item) {
+  if (!role?.length || role.includes("general")) return true;
+  const itemTags = itemRoleTags(item);
+  return role.some((tag) => itemTags.includes(tag));
 }
 
 function shouldGiftOffMenuItem(game, npc, item, text) {
@@ -10721,6 +10791,51 @@ function worldTradeItems() {
     }
   }
   return [...byId.values()];
+}
+
+function worldOffMenuItems() {
+  const byKey = new Map();
+  const addItem = (item, meta = {}) => {
+    const id = Number(item?.id);
+    if (!Number.isFinite(id) || id <= 0) return;
+    const sourceItem = cache?.itemSet?.get(id) || {};
+    const name = cleanReferenceText(item?.name) || sourceItem.name || `道具 ${id}`;
+    const key = `${id}:${name}`;
+    if (byKey.has(key)) return;
+    byKey.set(key, {
+      ...sourceItem,
+      ...item,
+      id,
+      name,
+      price: Number(item?.price || item?.cost || sourceItem.price || sourceItem.cost || 0),
+      cost: Number(item?.cost || sourceItem.cost || item?.price || sourceItem.price || 0),
+      source: item?.source || meta.source || sourceItem.source || `${GMSV_DATA_SOURCE}/itemset6.txt`,
+      offMenuSourceKind: meta.kind || item?.offMenuSourceKind || "",
+      sourceNpcName: meta.npcName || item?.sourceNpcName || "",
+      sourceMapId: meta.mapId || item?.sourceMapId || ""
+    });
+  };
+  for (const item of worldTradeItems()) addItem(item, { kind: "trade" });
+  for (const map of Object.values(WORLD.maps || {})) {
+    for (const npc of map.npcs || []) {
+      const source = npc.savePoint?.source || npc.script || npc.source || "";
+      for (const alternative of npc.savePoint?.requiredAlternatives || []) {
+        for (const item of alternative || []) {
+          addItem(item, { kind: "savepoint-requirement", source, npcName: npc.name, mapId: map.id });
+        }
+      }
+    }
+  }
+  for (const task of SOURCE_SCRIPT_TASKS || []) {
+    for (const item of [...(task.requiredItems || []), ...(task.rewardItems || [])]) {
+      addItem(item, { kind: "script-task", source: (task.sources || [])[0] || task.sourceCluster || "", npcName: task.title || "", mapId: "" });
+    }
+    for (const item of (task.rewardItems || []).flatMap((entry) => entry.candidates || [])) {
+      addItem(item, { kind: "script-task-random", source: (task.sources || [])[0] || task.sourceCluster || "", npcName: task.title || "", mapId: "" });
+    }
+  }
+  for (const item of cache?.itemSet?.values?.() || []) addItem(item, { kind: "itemset" });
+  return [...byKey.values()];
 }
 
 function dialogSuggestions(npc, game = null) {

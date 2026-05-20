@@ -1477,6 +1477,19 @@ specialSellGame = await api("/api/game/sell", { game: specialSellGame, npcId: me
 assertEqual(specialSellGame.player.stone, specialSellPrice, "shop sell applies source special_item special_rate");
 assert(specialSellGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.specialSellRate === Number(meatShop.npc.trade.specialRate)), "special-rate sell records shop VM trace");
 
+let aiMeatSpecialGame = await api("/api/game/new", { name: "ai-meat-special-source-item-test" });
+aiMeatSpecialGame.location = { mapId: meatShop.map.id, x: meatShop.npc.x + 1, y: meatShop.npc.y };
+aiMeatSpecialGame.player.stone = 10000;
+aiMeatSpecialGame = await api("/api/game/dialog", { game: aiMeatSpecialGame, npcId: meatShop.npc.id, message: "AI对话" });
+aiMeatSpecialGame = await api("/api/game/dialog", { game: aiMeatSpecialGame, npcId: meatShop.npc.id, message: "有没有乌力的肉，必须是乌力斯坦的肉" });
+const sourceMeatOffer = aiMeatSpecialGame.effects?.offMenuShop?.[meatShop.npc.id]?.items?.find((item) => /乌力斯坦的肉/.test(item.name || ""));
+assert(sourceMeatOffer, "AI meat shop resolves pet-specific meat from source requirement items");
+assert(aiMeatSpecialGame.dialog.trade.items.some((item) => Number(item.id) === Number(sourceMeatOffer.id) && /乌力斯坦的肉/.test(item.name || "") && item.offMenu), "AI meat shop exposes source meat in temporary shop list");
+assert(aiMeatSpecialGame.dialog.messages.some((message) => message.speaker === "npc" && /乌力斯坦的肉/.test(message.text || "")), "AI meat shop reply names the resolved source meat");
+const sourceMeatBefore = inventoryQty(aiMeatSpecialGame, sourceMeatOffer.id);
+aiMeatSpecialGame = await api("/api/game/buy", { game: aiMeatSpecialGame, npcId: meatShop.npc.id, itemId: sourceMeatOffer.id });
+assertEqual(inventoryQty(aiMeatSpecialGame, sourceMeatOffer.id), sourceMeatBefore + 1, "AI source meat can be bought through shop VM");
+
 let aiMeatGame = await api("/api/game/new", { name: "ai-meat-knife-reject-test" });
 aiMeatGame.location = { mapId: meatShop.map.id, x: meatShop.npc.x + 1, y: meatShop.npc.y };
 aiMeatGame = await api("/api/game/dialog", { game: aiMeatGame, npcId: meatShop.npc.id, message: "AI对话" });
