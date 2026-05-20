@@ -373,7 +373,8 @@ function bindEvents() {
   els.dialogForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const text = els.dialogInput.value.trim();
-    if (text) sendDialog(text);
+    const fallback = defaultDialogSubmitText(game?.dialog);
+    if (text || fallback) sendDialog(text || fallback);
   });
   els.dialogAiToggleBtn.addEventListener("click", () => {
     const enabled = Boolean(game?.dialog?.aiMode);
@@ -3480,6 +3481,7 @@ function renderDialog() {
     return `<p class="dialog-bubble ${kind}"><span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>${escapeHtml(message.text)}</p>`;
   }).join("");
   const auxiliary = [
+    renderDialogCommandButtons(dialog),
     renderDialogShop(dialog),
     renderDialogPetShop(dialog),
     renderDialogItemPoolShop(dialog),
@@ -3511,8 +3513,32 @@ function renderDialog() {
   els.dialogSuggestions.querySelectorAll("[data-change-item]").forEach((btn) => {
     btn.addEventListener("click", () => changeItem(Number(btn.dataset.changeItem)));
   });
+  els.dialogSuggestions.querySelectorAll("[data-dialog-command]").forEach((btn) => {
+    btn.addEventListener("click", () => sendDialog(btn.dataset.dialogCommand || ""));
+  });
   els.dialogMessages.scrollTop = els.dialogMessages.scrollHeight;
   updateDialogScrollButtons();
+}
+
+function defaultDialogSubmitText(dialog) {
+  const suggestions = dialog?.suggestions || [];
+  if (dialog?.npcType === "NPCEnemy" && suggestions.includes("是")) return "是";
+  return "";
+}
+
+function renderDialogCommandButtons(dialog) {
+  const suggestions = (dialog?.suggestions || []).filter(Boolean);
+  const isNpcEnemyPrompt = dialog?.npcType === "NPCEnemy";
+  const isBattleCommand = Boolean(game?.encounter) && suggestions.some((item) => ["攻击", "防御", "道具", "逃跑"].includes(item));
+  if (!isNpcEnemyPrompt && !isBattleCommand) return "";
+  const allowed = isNpcEnemyPrompt
+    ? new Set(["是", "否", "试着交涉"])
+    : new Set(["攻击", "防御", "道具", "逃跑", "捕获", "放走"]);
+  const commands = suggestions.filter((item) => allowed.has(item));
+  if (!commands.length) return "";
+  return commands.map((item) => (
+    `<button type="button" class="dialog-command-btn" data-dialog-command="${escapeHtml(item)}">${escapeHtml(item)}</button>`
+  )).join("");
 }
 
 function updateDialogAiToggleButton(dialog) {
