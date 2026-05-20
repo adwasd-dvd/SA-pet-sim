@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:14:13.536Z",
+  "generatedAt": "2026-05-20T03:30:21.510Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,10 +206,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12227,
-      "candidate-action": 1428,
-      "unknown": 1633,
-      "supported-message": 10804,
+      "supported-config": 12469,
+      "candidate-action": 1354,
+      "unknown": 1369,
+      "supported-message": 10900,
       "condition-control": 11752,
       "supported-action": 3680,
       "blocked-or-later-system": 81
@@ -2724,7 +2724,7 @@
       {
         "key": "denieditem",
         "normalized": "denieditem",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 15,
         "files": 15,
         "profiles": {
@@ -7226,7 +7226,7 @@
       {
         "key": "msg_denieditem",
         "normalized": "msg_denieditem",
-        "category": "candidate-action",
+        "category": "supported-message",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -7278,7 +7278,7 @@
       {
         "key": "msg_end",
         "normalized": "msg_end",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -7330,7 +7330,7 @@
       {
         "key": "msg_gettingon",
         "normalized": "msg_gettingon",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -7382,7 +7382,7 @@
       {
         "key": "msg_notparty",
         "normalized": "msg_notparty",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -7434,7 +7434,7 @@
       {
         "key": "msg_overparty",
         "normalized": "msg_overparty",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -7486,7 +7486,7 @@
       {
         "key": "msg_start",
         "normalized": "msg_start",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -7746,7 +7746,7 @@
       {
         "key": "needstone",
         "normalized": "needstone",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 43,
         "files": 43,
         "profiles": {
@@ -9203,7 +9203,7 @@
       {
         "key": "oneway",
         "normalized": "oneway",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -10905,7 +10905,7 @@
       {
         "key": "routename1",
         "normalized": "routename",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 43,
         "files": 43,
         "profiles": {
@@ -10957,7 +10957,7 @@
       {
         "key": "routenum",
         "normalized": "routenum",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 43,
         "files": 43,
         "profiles": {
@@ -11009,7 +11009,7 @@
       {
         "key": "routeto",
         "normalized": "routeto",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 46,
         "files": 46,
         "profiles": {
@@ -13284,7 +13284,7 @@
       {
         "key": "waittime",
         "normalized": "waittime",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 43,
         "files": 43,
         "profiles": {
@@ -13888,630 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "routeto",
-        "normalized": "routeto",
-        "category": "unknown",
-        "occurrences": 46,
-        "files": 46,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/casino/petracepet1.arg",
-            "line": 1,
-            "text": "routeto:33,33;33,32;33,31;33,30;33,29;33,28;33,27;33,26;33,25;33,24;33,23;33,22;33,21;33,20;33,19;33,18;33,17;33,16;33,15;33,14;33,13;33,12;32,11;31,11;30,11;29,11;28,11;27,11;26,…"
-          },
-          {
-            "file": "external/sources/ref___data/npc/casino/petracepet2.arg",
-            "line": 1,
-            "text": "routeto:35,26;35,25;35,24;35,23;35,22;35,21;35,20;35,19;35,18;35,17;35,16;35,15;35,14;35,13;35,12;35,11;35,10;34,9;33,9;32,9;31,9;30,9;29,9;28,9;27,9;26,9;25,9;24,9;23,9;22,9;21,9…"
-          },
-          {
-            "file": "external/sources/ref___data/npc/casino/petracepet3.arg",
-            "line": 1,
-            "text": "routeto:37,18;37,17;37,16;37,15;37,14;37,13;37,12;37,11;37,10;37,9;37,8;36,7;35,7;34,7;33,7;32,7;31,7;30,7;29,7;28,7;27,7;26,7;25,7;24,7;23,7;22,7;21,7;20,7;19,7;18,7;17,7;16,7;15…"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 2,
-            "text": "routeto1:2000,105,87;2000,105,93;2000,108,93;100,114,674;100,116,674;999,10,100;999,14,100;400,10,135;400,10,137;400,30,97;6000,28,79;6000,46,79;6000,46,84"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 2,
-            "text": "routeto1:5543,20,24;5543,10,24;5540,390,634;5540,380,634;5540,280,734;999,190,100;999,120,100;400,137,137;400,29,137;400,29,97;400,30,97;6000,27,79;6000,39,79"
-          }
-        ]
-      },
-      {
-        "key": "needstone",
-        "normalized": "needstone",
-        "category": "candidate-action",
-        "occurrences": 43,
-        "files": 43,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 6,
-            "text": "needstone:1500"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 6,
-            "text": "needstone:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 6,
-            "text": "needstone:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 6,
-            "text": "needstone:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 5,
-            "text": "needstone:3000"
-          }
-        ]
-      },
-      {
-        "key": "routename1",
-        "normalized": "routename",
-        "category": "unknown",
-        "occurrences": 43,
-        "files": 43,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 3,
-            "text": "routename1:玛丽娜丝～奇努伊"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 3,
-            "text": "routename1:米兰达～奇努伊"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 3,
-            "text": "routename1:卡鲁他那～奇努伊"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 3,
-            "text": "routename1:达那～奇努伊"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 3,
-            "text": "routename1:福尔德～西吉鲁区"
-          }
-        ]
-      },
-      {
-        "key": "routenum",
-        "normalized": "routenum",
-        "category": "unknown",
-        "occurrences": 43,
-        "files": 43,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 1,
-            "text": "routenum:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 1,
-            "text": "routenum:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 1,
-            "text": "routenum:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 1,
-            "text": "routenum:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 1,
-            "text": "routenum:1"
-          }
-        ]
-      },
-      {
-        "key": "waittime",
-        "normalized": "waittime",
-        "category": "unknown",
-        "occurrences": 43,
-        "files": 43,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 5,
-            "text": "waittime:100"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 5,
-            "text": "waittime:180"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 5,
-            "text": "waittime:180"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 5,
-            "text": "waittime:180"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 7,
-            "text": "waittime:180"
-          }
-        ]
-      },
-      {
-        "key": "msg_denieditem",
-        "normalized": "msg_denieditem",
-        "category": "candidate-action",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 10,
-            "text": "msg_denieditem:嘎～～咕！（危险物品请勿携带上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 10,
-            "text": "msg_denieditem:嘎～～咕！（危险物品请勿携带上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 10,
-            "text": "msg_denieditem:嘎～～咕！（危险物品请勿携带上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 10,
-            "text": "msg_denieditem:嘎～～咕！（危险物品请勿携带上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 11,
-            "text": "msg_denieditem:嘎～～咕！（危险物品请勿携带上机）"
-          }
-        ]
-      },
-      {
-        "key": "msg_end",
-        "normalized": "msg_end",
-        "category": "unknown",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 13,
-            "text": "msg_end:嘎（到～～～～达了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 13,
-            "text": "msg_end:嘎（到～～～～达了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 13,
-            "text": "msg_end:嘎（到～～～～达了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 13,
-            "text": "msg_end:嘎（到～～～～达了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 14,
-            "text": "msg_end:嘎（到～～～～达了！开始空投啰，请做好着地准备！）"
-          }
-        ]
-      },
-      {
-        "key": "msg_gettingon",
-        "normalized": "msg_gettingon",
-        "category": "unknown",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 7,
-            "text": "msg_gettingon:嘎～（在飞行中搭机非常的危险请小心）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 7,
-            "text": "msg_gettingon:嘎～（在飞行中搭机非常的危险请小心）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 7,
-            "text": "msg_gettingon:嘎～（在飞行中搭机非常的危险请小心）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 7,
-            "text": "msg_gettingon:嘎～（在飞行中搭机非常的危险请小心）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 8,
-            "text": "msg_gettingon:嘎～（在飞行中搭机非常的危险请小心）"
-          }
-        ]
-      },
-      {
-        "key": "msg_notparty",
-        "normalized": "msg_notparty",
-        "category": "unknown",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 8,
-            "text": "msg_notparty:嘎嘎～～（请勿以团队的形式上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 8,
-            "text": "msg_notparty:嘎嘎～～（请勿以团队的形式上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 8,
-            "text": "msg_notparty:嘎嘎～～（请勿以团队的形式上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 8,
-            "text": "msg_notparty:嘎嘎～～（请勿以团队的形式上机）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 9,
-            "text": "msg_notparty:嘎嘎～～（请勿以团队的形式上机）"
-          }
-        ]
-      },
-      {
-        "key": "msg_overparty",
-        "normalized": "msg_overparty",
-        "category": "unknown",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 9,
-            "text": "msg_overparty:嘎嘎嘎～～（人数已经满了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 9,
-            "text": "msg_overparty:嘎嘎嘎～～（人数已经满了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 9,
-            "text": "msg_overparty:嘎嘎嘎～～（人数已经满了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 9,
-            "text": "msg_overparty:嘎嘎嘎～～（人数已经满了）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 10,
-            "text": "msg_overparty:嘎嘎嘎～～（人数已经满了）"
-          }
-        ]
-      },
-      {
-        "key": "msg_start",
-        "normalized": "msg_start",
-        "category": "unknown",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 12,
-            "text": "msg_start:嘎～～～（起飞～～～啰）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 12,
-            "text": "msg_start:嘎～～～（起飞～～～啰）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 12,
-            "text": "msg_start:嘎～～～（起飞～～～啰）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 12,
-            "text": "msg_start:嘎～～～（起飞～～～啰）"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 13,
-            "text": "msg_start:嘎～～～（起飞～～～啰！还没停好就跳下去会很痛的！）"
-          }
-        ]
-      },
-      {
-        "key": "denieditem",
-        "normalized": "denieditem",
-        "category": "candidate-action",
-        "occurrences": 15,
-        "files": 15,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 5,
-            "files": 5
-          },
-          "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 4,
-            "text": "denieditem:2402,403,2404,2405,2406,2407,2408,2409,2410,2411,2412,2413"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 4,
-            "text": "denieditem:2402,403,2404,2405,2406,2407,2408,2409,2410,2411,2412,2413"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 4,
-            "text": "denieditem:2402,403,2404,2405,2406,2407,2408,2409,2410,2411,2412,2413"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 4,
-            "text": "denieditem:2402,403,2404,2405,2406,2407,2408,2409,2410,2411,2412,2413"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 4,
-            "text": "denieditem:2402,2403,2404,2405,2406,2407,2408,2409,2410,2411,2412,2413"
-          }
-        ]
-      },
-      {
         "key": "Mode1",
         "normalized": "mode",
         "category": "unknown",
@@ -14924,58 +14300,6 @@
             "file": "external/sources/ref___data/npc/family/npc/shop1_1",
             "line": 19,
             "text": "ChangeItemCost:60000,100000,20000,20000,500000,500000,5000,10000,200000,100"
-          }
-        ]
-      },
-      {
-        "key": "oneway",
-        "normalized": "oneway",
-        "category": "unknown",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-rebirth": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 2,
-            "files": 2
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane.arg",
-            "line": 14,
-            "text": "oneway:0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane1.arg",
-            "line": 14,
-            "text": "oneway:0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane2.arg",
-            "line": 14,
-            "text": "oneway:0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane3.arg",
-            "line": 14,
-            "text": "oneway:0"
-          },
-          {
-            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
-            "line": 15,
-            "text": "oneway:1"
           }
         ]
       },
@@ -15729,6 +15053,462 @@
             "file": "external/sources/ref___data/npc/race2/second.arg",
             "line": 7,
             "text": "nonitem_msg:您没有猎宠证，要参加猎宠比赛请族长领取猎宠证，且需由他来登记才行喔～"
+          }
+        ]
+      },
+      {
+        "key": "PetLevel",
+        "normalized": "petlevel",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 25,
+            "text": "PetLevel:85"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 23,
+            "text": "PetLevel:"
+          }
+        ]
+      },
+      {
+        "key": "RankNum",
+        "normalized": "ranknum",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 34,
+            "text": "RankNum:30"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 33,
+            "text": "RankNum:30"
+          }
+        ]
+      },
+      {
+        "key": "Second",
+        "normalized": "second",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 38,
+            "text": "Second:20284"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 43,
+            "text": "Second:"
+          }
+        ]
+      },
+      {
+        "key": "subject_msg",
+        "normalized": "subject_msg",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 6,
+            "text": "subject_msg:请您尽情狩猎８５级上的砂鲨宠吧！！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 1,
+            "text": "subject_msg:家族赛开打啦！族长请带领着族员们，依照猎宠证上的指示，抓宠向我来登记吧！"
+          }
+        ]
+      },
+      {
+        "key": "thanks1_msg",
+        "normalized": "thanks1_msg",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 13,
+            "text": "thanks1_msg:您真是英雄！！荣登狩猎砂鲨比赛第一名，获得神秘神物兑换券一张，请到萨村宠物店附近找毛克利兑换喔～"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 8,
+            "text": "thanks1_msg:"
+          }
+        ]
+      },
+      {
+        "key": "thanks2_msg",
+        "normalized": "thanks2_msg",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 14,
+            "text": "thanks2_msg:您真是不赖！！赢得狩猎砂鲨比赛第二名，获得我们精心制造的武器一把，希望您会喜欢喔～"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 9,
+            "text": "thanks2_msg:"
+          }
+        ]
+      },
+      {
+        "key": "thanks3_msg",
+        "normalized": "thanks3_msg",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 15,
+            "text": "thanks3_msg:狩猎砂鲨比赛的第三名就是您啦！！获得我们精心制造的武器一把，希望您会喜欢喔～"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 10,
+            "text": "thanks3_msg:"
+          }
+        ]
+      },
+      {
+        "key": "Third",
+        "normalized": "third",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 39,
+            "text": "Third:20278"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 44,
+            "text": "Third:"
+          }
+        ]
+      },
+      {
+        "key": "CHECK_MSG",
+        "normalized": "check_msg",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/demale/testnpc01.arg",
+            "line": 2,
+            "text": "CHECK_MSG:确定是这个人物造型吗？"
+          }
+        ]
+      },
+      {
+        "key": "FornewTran",
+        "normalized": "fornewtran",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 17,
+            "text": "FornewTran:"
+          }
+        ]
+      },
+      {
+        "key": "GameCode",
+        "normalized": "gamecode",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 25,
+            "text": "GameCode:41206"
+          }
+        ]
+      },
+      {
+        "key": "HasGame",
+        "normalized": "hasgame",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 16,
+            "text": "HasGame:5"
+          }
+        ]
+      },
+      {
+        "key": "msg",
+        "normalized": "msg",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/genout/ss_1100_86_107",
+            "line": 9,
+            "text": "msg:最近如何？"
           }
         ]
       }

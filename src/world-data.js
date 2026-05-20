@@ -17449,8 +17449,115 @@ export const WORLD = {
           "script": "file:chatroom/bus.arg",
           "template": "bus",
           "graphic": "100355",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/chatroom/bus.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "萨姆吉尔～玛丽那丝之间",
+                "points": [
+                  {
+                    "mapId": "100",
+                    "x": 628,
+                    "y": 485
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 628,
+                    "y": 491
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 572,
+                    "y": 502
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 563,
+                    "y": 560
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 537,
+                    "y": 582
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 489,
+                    "y": 534
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 159,
+                    "y": 560
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 130,
+                    "y": 589
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 118,
+                    "y": 601
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 118,
+                    "y": 620
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 117,
+                    "y": 640
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 117,
+                    "y": 654
+                  }
+                ],
+                "target": {
+                  "mapId": "100",
+                  "x": 117,
+                  "y": 654
+                },
+                "stepCount": 66
+              }
+            ],
+            "needStone": 50,
+            "deniedItems": [
+              2402,
+              403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "叭～（在途中乘车非常的危险请小心）",
+              "notParty": "叭叭～～（谢绝团队的乘车）",
+              "overParty": "叭叭～～（人数已经满了）",
+              "deniedItem": "叭叭叭叭叭！（请不要拿那个道具上车）",
+              "stone": "叭叭～～（钱不够）",
+              "start": "叭叭叭～～～（出发～～～啰）",
+              "end": "叭（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/bus.arg"
           }
@@ -17467,8 +17574,105 @@ export const WORLD = {
           "script": "file:chatroom/bus3.arg",
           "template": "bus",
           "graphic": "100355",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/chatroom/bus3.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "萨姆吉尔～柯奥之间",
+                "points": [
+                  {
+                    "mapId": "100",
+                    "x": 631,
+                    "y": 485
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 631,
+                    "y": 488
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 631,
+                    "y": 520
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 566,
+                    "y": 515
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 572,
+                    "y": 581
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 536,
+                    "y": 615
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 514,
+                    "y": 615
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 501,
+                    "y": 622
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 465,
+                    "y": 622
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 464,
+                    "y": 628
+                  }
+                ],
+                "target": {
+                  "mapId": "100",
+                  "x": 464,
+                  "y": 628
+                },
+                "stepCount": 10
+              }
+            ],
+            "needStone": 25,
+            "deniedItems": [
+              2402,
+              2403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "叭～（在途中乘车非常的危险请小心）",
+              "notParty": "叭叭～～（谢绝团队的乘车）",
+              "overParty": "叭叭～～（人数已经满了）",
+              "deniedItem": "叭叭叭叭叭！（请不要拿那个道具上车）",
+              "stone": "叭叭～～（钱不够）",
+              "start": "叭叭叭～～～（出发～～～啰）",
+              "end": "叭（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/bus3.arg"
           }
@@ -17701,8 +17905,115 @@ export const WORLD = {
           "script": "file:chatroom/bus4.arg",
           "template": "bus",
           "graphic": "100355",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/chatroom/bus4.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "玛丽那丝～柯奥之间",
+                "points": [
+                  {
+                    "mapId": "100",
+                    "x": 120,
+                    "y": 655
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 121,
+                    "y": 649
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 147,
+                    "y": 624
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 229,
+                    "y": 624
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 259,
+                    "y": 654
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 275,
+                    "y": 654
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 417,
+                    "y": 611
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 423,
+                    "y": 605
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 424,
+                    "y": 605
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 446,
+                    "y": 605
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 462,
+                    "y": 621
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 461,
+                    "y": 628
+                  }
+                ],
+                "target": {
+                  "mapId": "100",
+                  "x": 461,
+                  "y": 628
+                },
+                "stepCount": 15
+              }
+            ],
+            "needStone": 30,
+            "deniedItems": [
+              2402,
+              2403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "叭～（在途中乘车非常的危险请小心）",
+              "notParty": "叭叭～～（谢绝团队的乘车）",
+              "overParty": "叭叭～～（人数已经满了）",
+              "deniedItem": "叭叭叭叭叭！（请不要拿那个道具上车）",
+              "stone": "叭叭～～（钱不够）",
+              "start": "叭叭叭～～～（出发～～～啰）",
+              "end": "叭（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/bus4.arg"
           }
@@ -43058,8 +43369,115 @@ export const WORLD = {
           "script": "file:chatroom/bus2.arg",
           "template": "bus",
           "graphic": "100355",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/chatroom/bus2.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "°緗ウêぇ丁",
+                "points": [
+                  {
+                    "mapId": "200",
+                    "x": 566,
+                    "y": 386
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 542,
+                    "y": 386
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 522,
+                    "y": 386
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 518,
+                    "y": 382
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 508,
+                    "y": 382
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 499,
+                    "y": 382
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 292,
+                    "y": 511
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 292,
+                    "y": 539
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 297,
+                    "y": 546
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 297,
+                    "y": 568
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 306,
+                    "y": 586
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 308,
+                    "y": 602
+                  }
+                ],
+                "target": {
+                  "mapId": "200",
+                  "x": 308,
+                  "y": 602
+                },
+                "stepCount": 45
+              }
+            ],
+            "needStone": 50,
+            "deniedItems": [
+              2402,
+              2403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "°礄いó獶盽繧叫み",
+              "notParty": "°°諒蕩刮釘ó",
+              "overParty": "°°計竒骸",
+              "deniedItem": "叫ぃ璶ê笵ㄣó",
+              "stone": "°°窺ぃ鎊",
+              "start": "°°°祇°°°舘",
+              "end": "°°°°笷"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/bus2.arg"
           }
@@ -43094,8 +43512,115 @@ export const WORLD = {
           "script": "file:chatroom/bus5.arg",
           "template": "bus",
           "graphic": "100355",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/chatroom/bus5.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "加加～塔姆塔姆之间",
+                "points": [
+                  {
+                    "mapId": "200",
+                    "x": 566,
+                    "y": 389
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 560,
+                    "y": 390
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 561,
+                    "y": 370
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 561,
+                    "y": 357
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 562,
+                    "y": 345
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 566,
+                    "y": 342
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 452,
+                    "y": 123
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 450,
+                    "y": 123
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 446,
+                    "y": 119
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 435,
+                    "y": 119
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 424,
+                    "y": 108
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 424,
+                    "y": 101
+                  }
+                ],
+                "target": {
+                  "mapId": "200",
+                  "x": 424,
+                  "y": 101
+                },
+                "stepCount": 55
+              }
+            ],
+            "needStone": 20,
+            "deniedItems": [
+              2402,
+              2403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "叭～（在途中乘车非常的危险请小心）",
+              "notParty": "叭叭～～（谢绝团队的乘车）",
+              "overParty": "叭叭～～（人数已经满了）",
+              "deniedItem": "叭叭叭叭叭！（请不要拿那个道具上车）",
+              "stone": "叭叭～～（钱不够）",
+              "start": "叭叭叭～～～（出发～～～啰）",
+              "end": "叭（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/bus5.arg"
           }
@@ -43256,8 +43781,115 @@ export const WORLD = {
           "script": "file:chatroom/bus6.arg",
           "template": "bus",
           "graphic": "100355",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/chatroom/bus6.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "卡鲁它那～塔姆塔姆之间",
+                "points": [
+                  {
+                    "mapId": "200",
+                    "x": 311,
+                    "y": 602
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 311,
+                    "y": 594
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 305,
+                    "y": 588
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 297,
+                    "y": 580
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 297,
+                    "y": 569
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 297,
+                    "y": 558
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 401,
+                    "y": 84
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 409,
+                    "y": 84
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 412,
+                    "y": 87
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 420,
+                    "y": 87
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 421,
+                    "y": 88
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 421,
+                    "y": 101
+                  }
+                ],
+                "target": {
+                  "mapId": "200",
+                  "x": 421,
+                  "y": 101
+                },
+                "stepCount": 109
+              }
+            ],
+            "needStone": 40,
+            "deniedItems": [
+              2402,
+              2403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "叭～（在途中乘车非常的危险请小心）",
+              "notParty": "叭叭～～（谢绝团队的乘车）",
+              "overParty": "叭叭～～（人数已经满了）",
+              "deniedItem": "叭叭叭叭叭！（请不要拿那个道具上车）",
+              "stone": "叭叭～～（钱不够）",
+              "start": "叭叭叭～～～（出发～～～啰）",
+              "end": "叭（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/bus6.arg"
           }
@@ -50196,8 +50828,97 @@ export const WORLD = {
           "script": "file:giiru/banam.arg",
           "template": "bus",
           "graphic": "100461",
+          "routeService": {
+            "kind": "bus-route",
+            "source": "gmsv-data/npc/giiru/banam.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "带路去巴那姆湖的人",
+                "points": [
+                  {
+                    "mapId": "300",
+                    "x": 394,
+                    "y": 340
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 396,
+                    "y": 338
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 397,
+                    "y": 334
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 398,
+                    "y": 326
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 395,
+                    "y": 322
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 389,
+                    "y": 322
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 389,
+                    "y": 309
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 400,
+                    "y": 309
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 404,
+                    "y": 302
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 407,
+                    "y": 302
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 407,
+                    "y": 301
+                  }
+                ],
+                "target": {
+                  "mapId": "300",
+                  "x": 407,
+                  "y": 301
+                },
+                "stepCount": 11
+              }
+            ],
+            "needStone": 0,
+            "deniedItems": [],
+            "waitTime": 120,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "我不能从中硚开始带路，所以请你在那边单我回来。",
+              "notParty": "抱歉我不跃团钉带路。请一个人一个人依顺序来。",
+              "overParty": "霹真多摆···请你稍单一下。",
+              "deniedItem": "我不跃有这个道具的人带路。",
+              "stone": "你身上的硿好粻不潣哦。",
+              "start": "那我们出发吧。",
+              "end": "已经到了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/giiru/banam.arg"
           }
@@ -113891,8 +114612,115 @@ export const WORLD = {
           "script": "file:chatroom/airplane.arg",
           "template": "airplane",
           "graphic": "100259",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/chatroom/airplane.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "玛丽娜丝～奇努伊",
+                "points": [
+                  {
+                    "mapId": "2000",
+                    "x": 105,
+                    "y": 87
+                  },
+                  {
+                    "mapId": "2000",
+                    "x": 105,
+                    "y": 93
+                  },
+                  {
+                    "mapId": "2000",
+                    "x": 108,
+                    "y": 93
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 114,
+                    "y": 674
+                  },
+                  {
+                    "mapId": "100",
+                    "x": 116,
+                    "y": 674
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 10,
+                    "y": 100
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 10,
+                    "y": 135
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 10,
+                    "y": 137
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 30,
+                    "y": 97
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 28,
+                    "y": 79
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 46,
+                    "y": 79
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 46,
+                    "y": 84
+                  }
+                ],
+                "target": {
+                  "mapId": "6000",
+                  "x": 46,
+                  "y": 84
+                },
+                "stepCount": 13
+              }
+            ],
+            "needStone": 1500,
+            "deniedItems": [
+              2402,
+              403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 100,
+            "oneWay": false,
+            "messages": {
+              "gettingOn": "嘎～（在飞行中搭机非常的危险请小心）",
+              "notParty": "嘎嘎～～（请勿以团队的形式上机）",
+              "overParty": "嘎嘎嘎～～（人数已经满了）",
+              "deniedItem": "嘎～～咕！（危险物品请勿携带上机）",
+              "stone": "嘎嘎～～（钱不够）",
+              "start": "嘎～～～（起飞～～～啰）",
+              "end": "嘎（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/airplane.arg"
           }
@@ -170969,8 +171797,115 @@ export const WORLD = {
           "script": "file:chatroom/airplane2.arg",
           "template": "airplane",
           "graphic": "100259",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/chatroom/airplane2.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "卡鲁他那～奇努伊",
+                "points": [
+                  {
+                    "mapId": "4000",
+                    "x": 92,
+                    "y": 72
+                  },
+                  {
+                    "mapId": "4000",
+                    "x": 92,
+                    "y": 58
+                  },
+                  {
+                    "mapId": "4000",
+                    "x": 100,
+                    "y": 50
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 299,
+                    "y": 594
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 255,
+                    "y": 550
+                  },
+                  {
+                    "mapId": "200",
+                    "x": 255,
+                    "y": 545
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 10,
+                    "y": 135
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 10,
+                    "y": 117
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 30,
+                    "y": 97
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 28,
+                    "y": 79
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 44,
+                    "y": 79
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 44,
+                    "y": 84
+                  }
+                ],
+                "target": {
+                  "mapId": "6000",
+                  "x": 44,
+                  "y": 84
+                },
+                "stepCount": 14
+              }
+            ],
+            "needStone": 1000,
+            "deniedItems": [
+              2402,
+              403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": false,
+            "messages": {
+              "gettingOn": "嘎～（在飞行中搭机非常的危险请小心）",
+              "notParty": "嘎嘎～～（请勿以团队的形式上机）",
+              "overParty": "嘎嘎嘎～～（人数已经满了）",
+              "deniedItem": "嘎～～咕！（危险物品请勿携带上机）",
+              "stone": "嘎嘎～～（钱不够）",
+              "start": "嘎～～～（起飞～～～啰）",
+              "end": "嘎（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/airplane2.arg"
           }
@@ -181668,8 +182603,100 @@ export const WORLD = {
           "script": "file:chatroom/airplane5.arg",
           "template": "airplane",
           "graphic": "100259",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/chatroom/airplane5.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "福尔德～北吉鲁区",
+                "points": [
+                  {
+                    "mapId": "5000",
+                    "x": 43,
+                    "y": 59
+                  },
+                  {
+                    "mapId": "5000",
+                    "x": 43,
+                    "y": 70
+                  },
+                  {
+                    "mapId": "5000",
+                    "x": 24,
+                    "y": 70
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 162,
+                    "y": 123
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 142,
+                    "y": 123
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 142,
+                    "y": 74
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 170,
+                    "y": 74
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 79,
+                    "y": 94
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 166,
+                    "y": 94
+                  }
+                ],
+                "target": {
+                  "mapId": "300",
+                  "x": 166,
+                  "y": 94
+                },
+                "stepCount": 9
+              }
+            ],
+            "needStone": 3000,
+            "deniedItems": [
+              2402,
+              403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "嘎～（在飞行中搭机非常的危险请小心）",
+              "notParty": "嘎嘎～～（请勿以团队的形式上机）",
+              "overParty": "嘎嘎嘎～～（人数已经满了）",
+              "deniedItem": "嘎～～咕！（危险物品请勿携带上机）",
+              "stone": "嘎嘎～～（钱不够）",
+              "start": "嘎～～～（起飞～～～啰！还没停好就跳下去会很痛的！）",
+              "end": "嘎（到～～～～达了！开始空投啰，请做好着地准备！）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/airplane5.arg"
           }
@@ -181686,8 +182713,100 @@ export const WORLD = {
           "script": "file:chatroom/airplane4.arg",
           "template": "airplane",
           "graphic": "100259",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/chatroom/airplane4.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "福尔德～西吉鲁区",
+                "points": [
+                  {
+                    "mapId": "5000",
+                    "x": 45,
+                    "y": 60
+                  },
+                  {
+                    "mapId": "5000",
+                    "x": 45,
+                    "y": 70
+                  },
+                  {
+                    "mapId": "5000",
+                    "x": 27,
+                    "y": 70
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 173,
+                    "y": 110
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 158,
+                    "y": 110
+                  },
+                  {
+                    "mapId": "999",
+                    "x": 158,
+                    "y": 66
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 141,
+                    "y": 392
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 141,
+                    "y": 314
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 159,
+                    "y": 296
+                  }
+                ],
+                "target": {
+                  "mapId": "300",
+                  "x": 159,
+                  "y": 296
+                },
+                "stepCount": 9
+              }
+            ],
+            "needStone": 3000,
+            "deniedItems": [
+              2402,
+              2403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "嘎～（在飞行中搭机非常的危险请小心）",
+              "notParty": "嘎嘎～～（请勿以团队的形式上机）",
+              "overParty": "嘎嘎嘎～～（人数已经满了）",
+              "deniedItem": "嘎～～咕！（危险物品请勿携带上机）",
+              "stone": "嘎嘎～～（钱不够）",
+              "start": "嘎～～～（起飞～～～啰！还没停好就跳下去会很痛的！）",
+              "end": "嘎（到～～～～达了！开始空投啰，请做好着地准备！）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/airplane4.arg"
           }
@@ -184427,8 +185546,115 @@ export const WORLD = {
           "script": "file:chatroom/airplane3.arg",
           "template": "airplane",
           "graphic": "100259",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/chatroom/airplane3.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "达那～奇努伊",
+                "points": [
+                  {
+                    "mapId": "5100",
+                    "x": 43,
+                    "y": 37
+                  },
+                  {
+                    "mapId": "5100",
+                    "x": 39,
+                    "y": 37
+                  },
+                  {
+                    "mapId": "5100",
+                    "x": 39,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "5100",
+                    "x": 50,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 511,
+                    "y": 152
+                  },
+                  {
+                    "mapId": "300",
+                    "x": 582,
+                    "y": 152
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 20,
+                    "y": 50
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 20,
+                    "y": 97
+                  },
+                  {
+                    "mapId": "400",
+                    "x": 30,
+                    "y": 97
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 28,
+                    "y": 79
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 42,
+                    "y": 79
+                  },
+                  {
+                    "mapId": "6000",
+                    "x": 42,
+                    "y": 84
+                  }
+                ],
+                "target": {
+                  "mapId": "6000",
+                  "x": 42,
+                  "y": 84
+                },
+                "stepCount": 16
+              }
+            ],
+            "needStone": 1000,
+            "deniedItems": [
+              2402,
+              403,
+              2404,
+              2405,
+              2406,
+              2407,
+              2408,
+              2409,
+              2410,
+              2411,
+              2412,
+              2413
+            ],
+            "waitTime": 180,
+            "oneWay": false,
+            "messages": {
+              "gettingOn": "嘎～（在飞行中搭机非常的危险请小心）",
+              "notParty": "嘎嘎～～（请勿以团队的形式上机）",
+              "overParty": "嘎嘎嘎～～（人数已经满了）",
+              "deniedItem": "嘎～～咕！（危险物品请勿携带上机）",
+              "stone": "嘎嘎～～（钱不够）",
+              "start": "嘎～～～（起飞～～～啰）",
+              "end": "嘎（到～～～～达了）"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/chatroom/airplane3.arg"
           }
@@ -200378,8 +201604,77 @@ export const WORLD = {
           "script": "file:eden1/animal01.arg",
           "template": "airplane",
           "graphic": "100916",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal01.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "鲁斯",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 3,
+                    "y": 4
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 3,
+                    "y": 6
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 6,
+                    "y": 3
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 9,
+                    "y": 6
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 11,
+                    "y": 6
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 11,
+                    "y": 4
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 3,
+                    "y": 4
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 3,
+                  "y": 4
+                },
+                "stepCount": 7
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 15,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal01.arg"
           }
@@ -200396,8 +201691,67 @@ export const WORLD = {
           "script": "file:eden1/animal03.arg",
           "template": "airplane",
           "graphic": "100919",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal03.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "克斯",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 10,
+                    "y": 7
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 6,
+                    "y": 3
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 6,
+                    "y": 7
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 10,
+                    "y": 3
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 10,
+                    "y": 7
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 10,
+                  "y": 7
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 19,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal03.arg"
           }
@@ -200414,8 +201768,67 @@ export const WORLD = {
           "script": "file:eden1/animal02.arg",
           "template": "airplane",
           "graphic": "100918",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal02.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "巴克",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 11,
+                    "y": 7
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 4,
+                    "y": 7
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 4,
+                    "y": 4
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 11,
+                    "y": 4
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 11,
+                    "y": 7
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 11,
+                  "y": 7
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 17,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal02.arg"
           }
@@ -200450,8 +201863,67 @@ export const WORLD = {
           "script": "file:eden1/animal16.arg",
           "template": "airplane",
           "graphic": "100876",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal16.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "耶布",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 16
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 16
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 16
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 46,
+                  "y": 16
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 3,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal16.arg"
           }
@@ -200468,8 +201940,67 @@ export const WORLD = {
           "script": "file:eden1/animal18.arg",
           "template": "airplane",
           "graphic": "100878",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal18.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "玻洛",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 16
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 16
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 29
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 29
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 16
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 45,
+                  "y": 16
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 7,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal18.arg"
           }
@@ -200486,8 +202017,67 @@ export const WORLD = {
           "script": "file:eden1/animal19.arg",
           "template": "airplane",
           "graphic": "100876",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal19.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "加耶",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 44,
+                    "y": 17
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 17
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 28
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 44,
+                    "y": 28
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 44,
+                    "y": 17
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 44,
+                  "y": 17
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 9,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal19.arg"
           }
@@ -200504,8 +202094,72 @@ export const WORLD = {
           "script": "file:eden1/animal20.arg",
           "template": "airplane",
           "graphic": "100877",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal20.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "米布",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 17
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 21
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 29
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 29
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 17
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 45,
+                  "y": 17
+                },
+                "stepCount": 6
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 11,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal20.arg"
           }
@@ -200540,8 +202194,67 @@ export const WORLD = {
           "script": "file:eden1/animal04.arg",
           "template": "airplane",
           "graphic": "100902",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal04.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "格里格里",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 20
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 26,
+                  "y": 20
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 1,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal04.arg"
           }
@@ -200558,8 +202271,77 @@ export const WORLD = {
           "script": "file:eden1/animal09.arg",
           "template": "airplane",
           "graphic": "100905",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal09.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "塔夫",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 27,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 27,
+                    "y": 26
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 26
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 20
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 33,
+                  "y": 20
+                },
+                "stepCount": 7
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 11,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal09.arg"
           }
@@ -200576,8 +202358,67 @@ export const WORLD = {
           "script": "file:eden1/animal08.arg",
           "template": "airplane",
           "graphic": "100905",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal08.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "塔斯",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 22
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 28,
+                    "y": 22
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 28,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 22
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 31,
+                  "y": 22
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 9,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal08.arg"
           }
@@ -200594,8 +202435,67 @@ export const WORLD = {
           "script": "file:eden1/animal17.arg",
           "template": "airplane",
           "graphic": "100877",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal17.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "迪米",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 22
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 28
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 28
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 22
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 22
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 46,
+                  "y": 22
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 5,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal17.arg"
           }
@@ -200612,8 +202512,67 @@ export const WORLD = {
           "script": "file:eden1/animal07.arg",
           "template": "airplane",
           "graphic": "100903",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal07.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "小摩",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 24
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 24
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 24
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 26,
+                  "y": 24
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 7,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal07.arg"
           }
@@ -200648,8 +202607,67 @@ export const WORLD = {
           "script": "file:eden1/animal06.arg",
           "template": "airplane",
           "graphic": "100903",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal06.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "摩里",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 32,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 28,
+                    "y": 25
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 28,
+                    "y": 21
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 32,
+                    "y": 21
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 32,
+                    "y": 25
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 32,
+                  "y": 25
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 5,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal06.arg"
           }
@@ -200666,8 +202684,67 @@ export const WORLD = {
           "script": "file:eden1/animal05.arg",
           "template": "airplane",
           "graphic": "100902",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal05.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "里兰",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 26
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 27,
+                    "y": 26
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 27,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 20
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 26
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 33,
+                  "y": 26
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 3,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal05.arg"
           }
@@ -200684,8 +202761,57 @@ export const WORLD = {
           "script": "file:eden1/animal21.arg",
           "template": "airplane",
           "graphic": "100878",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal21.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "洛布",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 43,
+                    "y": 28
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 43,
+                    "y": 17
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 43,
+                    "y": 28
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 43,
+                  "y": 28
+                },
+                "stepCount": 3
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 13,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal21.arg"
           }
@@ -200720,8 +202846,67 @@ export const WORLD = {
           "script": "file:eden1/animal10.arg",
           "template": "airplane",
           "graphic": "100883",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal10.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "小尤",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 9,
+                    "y": 32
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 9,
+                    "y": 37
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 13,
+                    "y": 33
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 13,
+                    "y": 37
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 9,
+                    "y": 32
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 9,
+                  "y": 32
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 10,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal10.arg"
           }
@@ -200738,8 +202923,57 @@ export const WORLD = {
           "script": "file:eden1/animal11.arg",
           "template": "airplane",
           "graphic": "100884",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal11.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "裘丽",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 9,
+                    "y": 35
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 15,
+                    "y": 35
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 9,
+                    "y": 35
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 9,
+                  "y": 35
+                },
+                "stepCount": 3
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 12,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal11.arg"
           }
@@ -200774,8 +203008,67 @@ export const WORLD = {
           "script": "file:eden1/animal12.arg",
           "template": "airplane",
           "graphic": "100885",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal12.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "艾尔比",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 15,
+                    "y": 37
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 15,
+                    "y": 33
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 10,
+                    "y": 33
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 10,
+                    "y": 37
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 15,
+                    "y": 37
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 15,
+                  "y": 37
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 14,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal12.arg"
           }
@@ -200792,8 +203085,57 @@ export const WORLD = {
           "script": "file:eden1/animal26.arg",
           "template": "airplane",
           "graphic": "100897",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal26.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "酷罗",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 38
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 42,
+                  "y": 38
+                },
+                "stepCount": 3
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 13,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal26.arg"
           }
@@ -200828,8 +203170,67 @@ export const WORLD = {
           "script": "file:eden1/animal25.arg",
           "template": "airplane",
           "graphic": "100896",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal25.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "志旺",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 43
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 47
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 47
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 43
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 43
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 42,
+                  "y": 43
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 11,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal25.arg"
           }
@@ -200864,8 +203265,67 @@ export const WORLD = {
           "script": "file:eden1/animal22.arg",
           "template": "airplane",
           "graphic": "100894",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal22.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "阿固",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 49
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 40
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 40
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 49
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 49
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 46,
+                  "y": 49
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 5,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal22.arg"
           }
@@ -200900,8 +203360,77 @@ export const WORLD = {
           "script": "file:eden1/animal13.arg",
           "template": "airplane",
           "graphic": "100867",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal13.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "小欧",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 51
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 53
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 28,
+                    "y": 51
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 51
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 51
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 26,
+                    "y": 51
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 26,
+                  "y": 51
+                },
+                "stepCount": 7
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 2,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal13.arg"
           }
@@ -200918,8 +203447,87 @@ export const WORLD = {
           "script": "file:eden1/animal14.arg",
           "template": "airplane",
           "graphic": "100868",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal14.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "斯卡阿勾勾",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 51
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 52
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 52
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 53
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 53
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 51
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 34,
+                  "y": 51
+                },
+                "stepCount": 9
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 4,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal14.arg"
           }
@@ -200936,8 +203544,67 @@ export const WORLD = {
           "script": "file:eden1/animal23.arg",
           "template": "airplane",
           "graphic": "100894",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal23.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "小力",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 53
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 53
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 42,
+                    "y": 53
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 42,
+                  "y": 53
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 7,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal23.arg"
           }
@@ -200972,8 +203639,72 @@ export const WORLD = {
           "script": "file:eden1/animal15.arg",
           "template": "airplane",
           "graphic": "100870",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal15.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "芭芭",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 31,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 33,
+                    "y": 56
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 56
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 34,
+                    "y": 54
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 34,
+                  "y": 54
+                },
+                "stepCount": 6
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 6,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal15.arg"
           }
@@ -200990,8 +203721,67 @@ export const WORLD = {
           "script": "file:eden1/animal24.arg",
           "template": "airplane",
           "graphic": "100896",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal24.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "米索",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 44,
+                    "y": 56
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 44,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 56
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 44,
+                    "y": 56
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 44,
+                  "y": 56
+                },
+                "stepCount": 5
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 9,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal24.arg"
           }
@@ -201008,8 +203798,97 @@ export const WORLD = {
           "script": "file:eden1/animal27.arg",
           "template": "airplane",
           "graphic": "100897",
+          "routeService": {
+            "kind": "airplane-route",
+            "source": "gmsv-data/npc/eden1/animal27.arg",
+            "routeCount": 1,
+            "routes": [
+              {
+                "index": 1,
+                "name": "酷哲",
+                "points": [
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 54
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 52
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 52
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 40
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 40
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 45,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 38
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 41,
+                    "y": 57
+                  },
+                  {
+                    "mapId": "7001",
+                    "x": 46,
+                    "y": 57
+                  }
+                ],
+                "target": {
+                  "mapId": "7001",
+                  "x": 46,
+                  "y": 57
+                },
+                "stepCount": 11
+              }
+            ],
+            "needStone": 100000,
+            "deniedItems": [],
+            "waitTime": 15,
+            "oneWay": true,
+            "messages": {
+              "gettingOn": "",
+              "notParty": "",
+              "overParty": "",
+              "deniedItem": "",
+              "stone": "嘎嘎嘎（动物很惊慌地四处逃窜）",
+              "start": "",
+              "end": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "routeService"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/eden1/animal27.arg"
           }

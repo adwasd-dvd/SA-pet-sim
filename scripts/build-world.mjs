@@ -453,6 +453,7 @@ function parseNpcs() {
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
       const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
+      const routeService = readNpcRouteService(argPath, file, functionset, enemy.template, floor);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
       const itemChange = readNpcItemChange(argPath, file);
       const savePoint = readNpcSavePoint(argPath, file);
@@ -460,7 +461,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -475,6 +476,7 @@ function parseNpcs() {
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
         ...(petShop ? { petShop } : {}),
+        ...(routeService ? { routeService } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
         ...(itemChange ? { itemChange } : {}),
         ...(savePoint ? { savePoint } : {}),
@@ -936,6 +938,81 @@ function readNpcPetShop(argPath, createFile, functionset = "", template = "") {
       getFull: cleanScriptText(kv.getfull_msg || "")
     }
   };
+}
+
+function readNpcRouteService(argPath, createFile, functionset = "", template = "", floor = 0) {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const kv = parseColonFile(text);
+  const routeCount = Math.max(0, Number(kv.routenum || 0) || 0);
+  if (!routeCount || !kv.routeto1) return null;
+  const routeKind = routeServiceKind(`${functionset} ${template} ${argPath} ${relativeRef(file)}`);
+  const routes = [];
+  for (let index = 1; index <= routeCount; index += 1) {
+    const points = parseNpcRoutePoints(kv[`routeto${index}`] || "", floor);
+    if (!points.length) continue;
+    const target = routeTargetFromPoints(points);
+    routes.push({
+      index,
+      name: cleanScriptText(kv[`routename${index}`] || "") || `路线 ${index}`,
+      points: compactNpcRoutePoints(points),
+      target,
+      stepCount: points.length
+    });
+  }
+  if (!routes.length) return null;
+  return {
+    kind: routeKind,
+    source: relativeRef(file),
+    routeCount,
+    routes,
+    needStone: Math.max(0, Number(kv.needstone || 0) || 0),
+    deniedItems: expandItemList(kv.denieditem || "", 80).filter((id) => Number(id) > 0),
+    waitTime: Math.max(0, Number(kv.waittime || 0) || 0),
+    oneWay: Number(kv.oneway ?? 1) === 1,
+    messages: {
+      gettingOn: cleanScriptText(kv.msg_gettingon || ""),
+      notParty: cleanScriptText(kv.msg_notparty || ""),
+      overParty: cleanScriptText(kv.msg_overparty || ""),
+      deniedItem: cleanScriptText(kv.msg_denieditem || ""),
+      stone: cleanScriptText(kv.msg_stone || ""),
+      start: cleanScriptText(kv.msg_start || ""),
+      end: cleanScriptText(kv.msg_end || "")
+    }
+  };
+}
+
+function routeServiceKind(text) {
+  if (/airplane|npc_airplane|飞机|飛機/i.test(text)) return "airplane-route";
+  if (/bus|npc_bus|客运|客運|巴士/i.test(text)) return "bus-route";
+  return "route-service";
+}
+
+function parseNpcRoutePoints(value = "", floor = 0) {
+  const defaultMapId = String(Number(floor) || floor || "");
+  return String(value || "")
+    .split(";")
+    .map((entry) => {
+      const nums = entry.split(",").map((part) => Number(part.trim())).filter((num) => Number.isFinite(num));
+      if (nums.length >= 3) return { mapId: String(nums[0]), x: nums[1], y: nums[2] };
+      if (nums.length >= 2 && defaultMapId) return { mapId: defaultMapId, x: nums[0], y: nums[1] };
+      return null;
+    })
+    .filter((point) => point && point.mapId !== "0" && Number.isFinite(point.x) && Number.isFinite(point.y));
+}
+
+function routeTargetFromPoints(points = []) {
+  const target = [...points].reverse().find((point) => point?.mapId && point.mapId !== "0");
+  return target ? { mapId: target.mapId, x: target.x, y: target.y } : null;
+}
+
+function compactNpcRoutePoints(points = []) {
+  if (points.length <= 12) return points;
+  return [
+    ...points.slice(0, 6),
+    ...points.slice(-6)
+  ];
 }
 
 function positiveRate(value, fallback) {
@@ -1640,11 +1717,12 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petShop) actions.push("petShop");
+  if (routeService) actions.push("routeService");
   if (petSkillShop) actions.push("petSkillShop");
   if (itemChange) actions.push("itemChange");
   if (savePoint) actions.push("save");

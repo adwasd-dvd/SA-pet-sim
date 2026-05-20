@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T02:14:13.536Z
+Generated: 2026-05-20T03:30:21.510Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -58,18 +58,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| routeto | unknown | 5 | 8 | 8 | 46 | external/sources/ref___data/npc/casino/petracepet1.arg:1 |
-| needstone | candidate-action | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:6 |
-| routename1 | unknown | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:3 |
-| routenum | unknown | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:1 |
-| waittime | unknown | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:5 |
-| msg_denieditem | candidate-action | 5 | 8 | 8 | 16 | external/sources/ref___data/npc/chatroom/airplane.arg:10 |
-| msg_end | unknown | 5 | 8 | 8 | 16 | external/sources/ref___data/npc/chatroom/airplane.arg:13 |
-| msg_gettingon | unknown | 5 | 8 | 8 | 16 | external/sources/ref___data/npc/chatroom/airplane.arg:7 |
-| msg_notparty | unknown | 5 | 8 | 8 | 16 | external/sources/ref___data/npc/chatroom/airplane.arg:8 |
-| msg_overparty | unknown | 5 | 8 | 8 | 16 | external/sources/ref___data/npc/chatroom/airplane.arg:9 |
-| msg_start | unknown | 5 | 8 | 8 | 16 | external/sources/ref___data/npc/chatroom/airplane.arg:12 |
-| denieditem | candidate-action | 5 | 8 | 8 | 15 | external/sources/ref___data/npc/chatroom/airplane.arg:4 |
 | Mode1 | unknown | 5 | 5 | 5 | 10 | external/sources/ref___data/npc/race/DEADJOE:29 |
 | History1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/race2/second.arg:35 |
 | luck1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/sainasu/uranai:4 |
@@ -78,15 +66,27 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | draw_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:4 |
 | pool_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:3 |
 | ChangeItemCost | candidate-action | 2 | 2 | 2 | 52 | external/sources/ref___data/npc/family/npc/shop10_1:19 |
-| oneway | unknown | 2 | 2 | 2 | 9 | external/sources/ref___data/npc/chatroom/airplane.arg:14 |
 | CostPoint | candidate-action | 2 | 2 | 2 | 3 | external/sources/ref___data/npc/my/ruieryasi/rou.arg:19 |
 | ADDEGGID | unknown | 2 | 2 | 2 | 2 | external/sources/ref___data/npc/sa50/petfusion/petfusion.arg:4 |
 | trans | unknown | 1 | 3 | 3 | 6 | external/sources/ref___data/npc/sa70/hunsk2:9 |
 | normal | unknown | 1 | 1 | 1 | 10 | external/sources/ref___data/npc/genout/act_31603_20_22:2 |
+| REPLACEMENT | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/sa50/dodo/dodopupk1-8.arg:4 |
+| selectmsg | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/777/ten.arg:9 |
+| Time_Msg | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/eden3/karo/chara:7 |
+| card_msg | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:8 |
+| caution_msg | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:9 |
+| CheckItem | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:22 |
+| CheckPet | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:24 |
+| DelFlag | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:21 |
+| EndFlag | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:27 |
+| First | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:37 |
+| FornewLv | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:20 |
+| GameMode | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:26 |
+| haditem_msg | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:11 |
 
 ## Recommended Next Slice
 
-- Start with `routeto`, because it appears in classic-core source references 5 times.
+- Start with `Mode1`, because it appears in classic-core source references 5 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

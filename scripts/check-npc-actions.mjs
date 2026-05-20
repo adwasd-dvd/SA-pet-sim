@@ -176,6 +176,34 @@ assertEqual(petShopGame.pets.length, petShopPetCountBefore, "pet shop withdraw r
 assertEqual(petShopGame.petPoolState.used, 0, "pet shop withdraw clears the source-style pool slot");
 assert(petShopGame.save.info.includes("POOLPETCOUNT=0"), "saac-like save info records pool pet count");
 
+const routeServiceEntry = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .find(({ npc }) => {
+    const route = npc.routeService?.routes?.[0];
+    return route?.target && WORLD.maps[String(route.target.mapId)] && Number(npc.routeService.needStone || 0) > 0;
+  });
+assert(routeServiceEntry, "world build parses source bus/airplane routeto service scripts");
+let routeServiceGame = await api("/api/game/new", { name: "route-service-test" });
+const routeServiceCost = Number(routeServiceEntry.npc.routeService.needStone || 0);
+routeServiceGame.player.stone = routeServiceCost + 100;
+routeServiceGame.location = {
+  mapId: routeServiceEntry.map.id,
+  x: routeServiceEntry.npc.x,
+  y: Math.max(0, routeServiceEntry.npc.y - 1),
+  dir: 4
+};
+routeServiceGame = await api("/api/game/talk", { game: routeServiceGame, npcId: routeServiceEntry.npc.id });
+assert(routeServiceGame.dialog?.routeService?.routes?.length, "route service dialog exposes compact route metadata");
+routeServiceGame = await api("/api/game/dialog", { game: routeServiceGame, npcId: routeServiceEntry.npc.id, message: "路线" });
+assert(routeServiceGame.dialog?.messages?.some((message) => String(message.text || "").includes("路线")), "route service can explain source routes");
+const routeServiceTarget = routeServiceEntry.npc.routeService.routes[0].target;
+routeServiceGame = await api("/api/game/dialog", { game: routeServiceGame, npcId: routeServiceEntry.npc.id, message: "搭乘" });
+assertEqual(routeServiceGame.location.mapId, String(routeServiceTarget.mapId), "route service moves player to parsed source route target map");
+assertEqual(routeServiceGame.location.x, routeServiceTarget.x, "route service moves player to parsed source route target x");
+assertEqual(routeServiceGame.location.y, routeServiceTarget.y, "route service moves player to parsed source route target y");
+assertEqual(routeServiceGame.player.stone, 100, "route service charges source needstone cost");
+assert(routeServiceGame.dialog?.debug?.vmTrace?.some((event) => event.action === "routeService" && event.status === "ok"), "route service records a deterministic routeService VM trace");
+
 let petReleaseGame = await api("/api/game/new", { name: "pet-release-active-test" });
 petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "中间宠", PetId: 101, Lv: 2 });
 petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "后排宠", PetId: 102, Lv: 3 });

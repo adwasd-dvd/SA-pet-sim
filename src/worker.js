@@ -113,6 +113,7 @@ const NPC_VM_ACTIONS = new Set([
   "window",
   "shop",
   "petShop",
+  "routeService",
   "petSkillShop",
   "itemChange",
   "warp",
@@ -6080,6 +6081,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
+  if (isRouteServiceNpc(npc) && hasAny(lower, ["路线", "路線", "搭乘", "坐车", "坐車", "上车", "上車", "巴士", "客运", "客運", "飞机", "飛機", "航班", "出发", "出發", "前往", "去", "route", "ride"])) return routeServiceReply(game, npc, text);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (npc.itemChange?.recipes?.length && hasAny(lower, ["加工", "合成", "制作", "製作", "打造", "换物", "交換", "交换", "change"])) return itemChangePromptReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
@@ -6228,6 +6230,7 @@ function applyNpcHi(game, npc) {
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   if (npc.petShop) return petShopReply(game, npc);
+  if (isRouteServiceNpc(npc)) return routeServicePromptReply(game, npc);
   if (npc.itemChange?.recipes?.length) return itemChangePromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   const questIds = npcQuestIds(npc);
@@ -6266,6 +6269,7 @@ function npcDefaultLine(npc) {
     const state = npc.petShop.poolEnabled ? "寄放、取回或出售宠物" : "出售宠物";
     return npc.petShop.messages?.main || `这里可以${state}。`;
   }
+  if (isRouteServiceNpc(npc)) return routeServiceDefaultLine(npc);
   if (npc.itemChange?.recipes?.length) return "要加工什么？";
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
@@ -8075,6 +8079,165 @@ function warpNpcReply(game, npc) {
   return `${npc.name} 启动传送，${ticket}${paid}你来到 ${arrived.name} (${game.location.x},${game.location.y})。\n来源：gmsv npc_warpman WARP:${target.mapId},${target.x},${target.y}`;
 }
 
+function routeServicePromptReply(game, npc) {
+  const state = buildRouteServiceState(game, npc);
+  if (!state?.routes?.length) return fallbackNpcReply(npc);
+  recordNpcVmEvent(game, npc, "window", "ok", {
+    action: "routePrompt",
+    routes: state.routes.length,
+    source: state.source
+  });
+  return [
+    routeServiceDefaultLine(npc),
+    `路线：${state.routes.map((route) => `${route.index}.${route.name} -> ${route.targetName} (${route.target?.x ?? "?"},${route.target?.y ?? "?"})`).join("；")}`,
+    state.needStone > 0 ? `费用：${state.needStone} 石币。` : "费用：免费。",
+    `输入“搭乘”或“双击/对话输入目的地”即可按原路线出发。`
+  ].filter(Boolean).join("\n");
+}
+
+function routeServiceReply(game, npc, text = "") {
+  const route = chooseRouteServiceRoute(npc.routeService, text);
+  if (!route) return routeServicePromptReply(game, npc);
+  const lower = String(text || "").toLowerCase();
+  if (!isRouteRideText(lower)) return routeServicePromptReply(game, npc);
+  return rideRouteService(game, npc, route);
+}
+
+function routeServiceDefaultLine(npc) {
+  const service = npc.routeService || {};
+  const label = service.kind === "airplane-route" ? "航线" : service.kind === "bus-route" ? "客运路线" : "路线";
+  const count = service.routes?.length || 0;
+  return `${npc.name} 经营 ${count || 1} 条${label}。`;
+}
+
+function chooseRouteServiceRoute(service, text = "") {
+  const routes = service?.routes || [];
+  if (!routes.length) return null;
+  const query = guideSearchText(text);
+  const number = String(text || "").match(/(?:路线|路線|route)?\s*(\d+)/i);
+  if (number) {
+    const byIndex = routes.find((route) => Number(route.index) === Number(number[1]));
+    if (byIndex) return byIndex;
+  }
+  const scored = routes.map((route) => {
+    const targetMap = routeServiceTargetMap(route);
+    const haystack = guideSearchText(`${route.name || ""} ${targetMap?.name || ""} ${route.target?.mapId || ""}`);
+    let score = 0;
+    if (haystack && query.includes(haystack)) score += 10;
+    for (const token of guideSearchTokens(text)) {
+      if (haystack.includes(token)) score += token.length;
+    }
+    return { route, score };
+  }).sort((a, b) => b.score - a.score || Number(a.route.index || 0) - Number(b.route.index || 0));
+  return scored[0]?.score > 0 ? scored[0].route : routes[0];
+}
+
+function isRouteRideText(text = "") {
+  return hasAny(text, ["搭乘", "坐车", "坐車", "上车", "上車", "出发", "出發", "走吧", "去", "前往", "送我", "带我", "帶我", "ride", "go"]);
+}
+
+function rideRouteService(game, npc, route) {
+  if (!route) return routeServicePromptReply(game, npc);
+  const service = npc.routeService || {};
+  const target = routeServiceTarget(route);
+  const targetMap = target ? WORLD.maps[String(target.mapId)] : null;
+  if (!target || !targetMap) {
+    recordNpcVmEvent(game, npc, "routeService", "unsupported", {
+      reason: "target-map-missing",
+      routeIndex: route.index,
+      target,
+      source: service.source || ""
+    });
+    return `${npc.name} 的原路线终点是 floor ${target?.mapId || "?"} (${target?.x ?? "?"},${target?.y ?? "?"})，但目标地图还没打包进当前 Worker。`;
+  }
+  const denied = routeServiceDeniedItems(game, service);
+  if (denied.length) {
+    recordNpcVmEvent(game, npc, "routeService", "blocked", {
+      reason: "denied-item",
+      routeIndex: route.index,
+      itemIds: denied.map((item) => item.id),
+      source: service.source || ""
+    });
+    return service.messages?.deniedItem || `${npc.name}：你身上带着不能带上车/飞机的物品：${denied.map((item) => item.name).join("、")}。`;
+  }
+  const cost = Math.max(0, Number(service.needStone || 0) || 0);
+  if (cost > 0) {
+    const paid = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "routeService" });
+    if (!paid.ok) {
+      recordNpcVmEvent(game, npc, "routeService", "blocked", {
+        reason: "stone",
+        routeIndex: route.index,
+        cost,
+        source: service.source || ""
+      });
+      return service.messages?.stone || `${npc.name}：这条路线需要 ${cost} 石币，你现在不够。`;
+    }
+  }
+  const arrived = applyWarpTarget(game, {
+    ...target,
+    source: `${service.source || "gmsv route"} route ${route.index}`
+  }, `${npc.name} ${route.name || "路线"}`);
+  runNpcVmAction(game, npc, {
+    type: "routeService",
+    routeIndex: route.index,
+    routeName: route.name,
+    target,
+    cost,
+    source: service.source || ""
+  });
+  const paidLine = cost > 0 ? `支付 ${cost} 石币，` : "";
+  const endLine = service.messages?.end || "";
+  return [
+    service.messages?.start || `${npc.name} 按原路线让你出发。`,
+    `${paidLine}你抵达 ${arrived.name} (${game.location.x},${game.location.y})。`,
+    endLine,
+    `来源：${service.source || npc.script || npc.source} route ${route.index}`
+  ].filter(Boolean).join("\n");
+}
+
+function buildRouteServiceState(game, npc) {
+  const service = npc?.routeService;
+  if (!service?.routes?.length) return null;
+  return {
+    kind: service.kind || "route-service",
+    source: service.source || "",
+    needStone: Math.max(0, Number(service.needStone || 0) || 0),
+    waitTime: Number(service.waitTime || 0) || 0,
+    deniedItemIds: service.deniedItems || [],
+    blockedItems: routeServiceDeniedItems(game, service).map((item) => ({ id: item.id, name: item.name })),
+    routes: service.routes.map((route) => {
+      const target = routeServiceTarget(route);
+      const targetMap = target ? WORLD.maps[String(target.mapId)] : null;
+      return {
+        index: route.index,
+        name: route.name,
+        target,
+        targetName: targetMap?.name || `floor ${target?.mapId || "?"}`,
+        stepCount: route.stepCount || route.points?.length || 0,
+        available: Boolean(targetMap)
+      };
+    })
+  };
+}
+
+function routeServiceTarget(route) {
+  if (route?.target?.mapId && WORLD.maps[String(route.target.mapId)]) return route.target;
+  return (route?.points || []).slice().reverse().find((point) => point?.mapId && WORLD.maps[String(point.mapId)]) || route?.target || null;
+}
+
+function routeServiceTargetMap(route) {
+  const target = routeServiceTarget(route);
+  return target ? WORLD.maps[String(target.mapId)] : null;
+}
+
+function routeServiceDeniedItems(game, service) {
+  const ids = new Set((service?.deniedItems || []).map(Number).filter((id) => Number.isFinite(id) && id > 0));
+  if (!ids.size) return [];
+  return (game.inventory || [])
+    .filter((item) => ids.has(Number(item.id)) && Number(item.qty || 0) > 0)
+    .map((item) => ({ id: Number(item.id), name: item.name || `item ${item.id}` }));
+}
+
 function warpPermission(game, warp) {
   const hasFreeSpec = Boolean(String(warp.free || "").trim());
   const free = warpFreeStatus(game, warp.free || "");
@@ -8675,8 +8838,12 @@ function isWarpNpc(npc) {
   return Boolean(npc.warp?.target) || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`);
 }
 
+function isRouteServiceNpc(npc) {
+  return Array.isArray(npc?.routeService?.routes) && npc.routeService.routes.length > 0;
+}
+
 function isTransportNpc(npc) {
-  return /bus|巴士|客运|客運|长毛象|長毛象/i.test(`${npc.name || ""} ${npc.type || ""} ${npc.template || ""} ${npc.script || ""}`);
+  return isRouteServiceNpc(npc) || /bus|airplane|巴士|客运|客運|长毛象|長毛象|飞机|飛機/i.test(`${npc.name || ""} ${npc.type || ""} ${npc.template || ""} ${npc.script || ""}`);
 }
 
 function npcTeleportInfoReply(game, npc, text) {
@@ -8871,6 +9038,7 @@ async function aiNpcReply(env, request, game, npc, text) {
         scriptReferences: compactScriptReferences,
         trade: npc.trade ? { items: npc.trade.items?.slice(0, 8).map((item) => item.name) || [], source: npc.trade.source } : null,
         warp: npc.warp || null,
+        routeService: buildRouteServiceState(game, npc),
         savePoint: compactNpcSavePointStatus(game, npc),
         warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
         scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc)
@@ -8938,6 +9106,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
         source: npc.trade.source
       } : null,
       warp: npc.warp || null,
+      routeService: buildRouteServiceState(game, npc),
       savePoint: compactNpcSavePointStatus(game, npc),
       warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
       scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc),
@@ -9403,6 +9572,12 @@ function localNpcAiFallback(game, npc, text, error = null) {
     const samples = npc.trade.items.slice(0, 5).map((item) => item.name).join("、");
     return `${intro}我这里能谈交易，货架上有 ${samples || "商品"}。想要折扣、柜台后面的东西可以直接说，但物品必须符合我的店铺身份。`;
   }
+  if (isRouteServiceNpc(npc)) {
+    const state = buildRouteServiceState(game, npc);
+    const routes = state?.routes?.map((route) => `${route.name}->${route.targetName}`).join("、") || "原路线";
+    const cost = state?.needStone > 0 ? `，费用 ${state.needStone} 石币` : "";
+    return `${intro}我是交通路线 NPC，可以按原脚本路线搭乘：${routes}${cost}。你可以问路线，也可以直接说“搭乘”。`;
+  }
   if (isWarpNpc(npc)) {
     const target = npc.warp?.target;
     const targetName = target ? WORLD.maps[target.mapId]?.name || `floor ${target.mapId}` : "目标地图";
@@ -9453,7 +9628,7 @@ function aiNoEncounterSeconds(game, npc, text) {
   const polite = hasAny(text, ["请", "拜托", "能不能", "可以吗", "商量", "帮"]);
   const base = polite ? 240 : 150;
   const levelBonus = Math.min(90, Math.max(0, Number(game.player.level || 1) - 1) * 5);
-  const serviceNpc = npc.trade || isHealerNpc(npc) || isSavePointNpc(npc) || isWarpNpc(npc);
+  const serviceNpc = npc.trade || isHealerNpc(npc) || isSavePointNpc(npc) || isWarpNpc(npc) || isRouteServiceNpc(npc);
   return clampInt(base + levelBonus + (serviceNpc ? 60 : 0), 90, 420, 180);
 }
 
@@ -9690,6 +9865,10 @@ function applyNpcAiAction(game, npc, action) {
       const reply = warpNpcReply(game, npc);
       return `${npc.name} 听完你的请求，决定按原版传送脚本处理。\n${reply}`;
     }
+    if (isRouteServiceNpc(npc)) {
+      const reply = rideRouteService(game, npc, chooseRouteServiceRoute(npc.routeService, action.text || ""));
+      return `${npc.name} 听完你的请求，按原版路线服务处理。\n${reply}`;
+    }
     const teleport = chooseGuideTeleport(game, action.text || "");
     if (!teleport) return `${npc.name} 摇摇头：我能帮你坐车，但你得说清楚要去哪个村或地图。`;
     const targetMap = teleport.exit ? WORLD.maps[teleport.exit.to] : WORLD.maps[teleport.target.mapId];
@@ -9789,6 +9968,7 @@ function openDialog(game, npc, messages, extra = {}) {
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petShop: extra.petShop || buildPetShopState(game, npc),
+    routeService: buildRouteServiceState(game, npc),
     petSkillShop: extra.petSkillShop || null,
     itemChange: extra.itemChange || buildItemChangeState(game, npc),
     warp: npc.warp || null,
@@ -9808,6 +9988,7 @@ function npcDebugInfo(npc, game = null) {
     template: npc.template || "",
     type: npc.type || "",
     graphic: npc.graphic || "",
+    routeService: buildRouteServiceState(game, npc),
     actions,
     allowedActions: actions.filter((action) => NPC_VM_ACTIONS.has(action)),
     supportedActions: [...NPC_VM_ACTIONS],
@@ -9830,6 +10011,7 @@ function npcActionProfile(npc) {
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
+  if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
   if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
@@ -11104,6 +11286,7 @@ function dialogSuggestions(npc, game = null) {
     : [];
   let base = ["hi", "任务", "地图"];
   if (npc.petShop) base = ["hi", "整理宠物", "寄放", "取回"];
+  else if (isRouteServiceNpc(npc)) base = ["hi", "路线", "搭乘"];
   else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
   else if (npc.warp || /warp/i.test(npc.type)) base = ["hi", "传送", "出口"];
