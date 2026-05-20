@@ -14,6 +14,8 @@ const MAP_RESOURCE_VERSION = "map-assets-v20260520-furuudo-ground-v1";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
+const SPARSE_INTERIOR_VISUAL_GROUND_FLOORS = new Set(["5001", "5003", "5005"]);
+const SPARSE_INTERIOR_VISUAL_GROUND_TILE = 2;
 const ENCOUNTER_UI_ENABLED = false;
 const PET_CAPACITY_FALLBACK = 5;
 const BATTLE_PLAYER_MAX = 5;
@@ -1777,9 +1779,11 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
   let atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
-    atlas = await ensureMapAtlasCoverage(width, height, visualTileAt, atlas);
+    atlas = await ensureMapAtlasCoverage(width, height, visualTileAt, atlas, visualFallback?.lowGroundTiles || []);
     if (renderVersion !== mapRenderVersion) return;
-    drawViewportTileMap(canvas, width, height, visualTileAt, atlas, map, visualFallback?.label || "client DAT viewport", renderVersion);
+    drawViewportTileMap(canvas, width, height, visualTileAt, atlas, map, visualFallback?.label || "client DAT viewport", renderVersion, {
+      lowGroundTiles: visualFallback?.lowGroundTiles || []
+    });
     return;
   }
   if (width * height > REAL_TILE_CELL_LIMIT) {
@@ -1798,6 +1802,7 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
     if (clientTileAt(index)[0] <= CG_INVISIBLE) missingGround += 1;
   }
   if (missingGround / cells < 0.05) return null;
+  const sparseInteriorGround = SPARSE_INTERIOR_VISUAL_GROUND_FLOORS.has(String(map.id || map.floorId || ""));
   try {
     const rsp = await fetch(versionedStaticAssetUrl(map.mapFile, MAP_RESOURCE_VERSION));
     if (!rsp.ok) return null;
@@ -1805,18 +1810,26 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
     if (!fallback || fallback.width !== width || fallback.height !== height) return null;
     let groundFill = 0;
     let objectFill = 0;
+    let sparseGroundFill = 0;
     for (let index = 0; index < cells; index += 1) {
       const [ground, object] = clientTileAt(index);
       const [fallbackGround, fallbackObject] = fallback.tileAt(index);
       if (ground <= CG_INVISIBLE && fallbackGround > CG_INVISIBLE) groundFill += 1;
       if (!isStaticMapObjectTile(object) && isStaticMapObjectTile(fallbackObject)) objectFill += 1;
+      if (sparseInteriorGround && ground <= CG_INVISIBLE && object === SPARSE_INTERIOR_VISUAL_GROUND_TILE) sparseGroundFill += 1;
     }
-    if (!groundFill && !objectFill) return null;
+    if (!groundFill && !objectFill && !sparseGroundFill) return null;
     return {
-      label: `client DAT viewport + LS2 visual fallback`,
+      label: sparseGroundFill && !groundFill && !objectFill
+        ? `client DAT viewport + sparse interior floor`
+        : `client DAT viewport + LS2 visual fallback`,
+      lowGroundTiles: sparseGroundFill ? [SPARSE_INTERIOR_VISUAL_GROUND_TILE] : [],
       tileAt(index) {
         const [ground, object, overlay] = clientTileAt(index);
         const [fallbackGround, fallbackObject] = fallback.tileAt(index);
+        if (sparseInteriorGround && ground <= CG_INVISIBLE && object === SPARSE_INTERIOR_VISUAL_GROUND_TILE) {
+          return [SPARSE_INTERIOR_VISUAL_GROUND_TILE, 0, overlay];
+        }
         return [
           ground > CG_INVISIBLE ? ground : fallbackGround,
           isStaticMapObjectTile(object) ? object : fallbackObject,
@@ -1860,16 +1873,17 @@ async function loadTileAtlas(map = null) {
   return loadMonolithicTileAtlas();
 }
 
-async function ensureMapAtlasCoverage(width, height, tileAt, atlas) {
+async function ensureMapAtlasCoverage(width, height, tileAt, atlas, lowGroundTiles = []) {
   if (!atlas) return atlas;
-  const missing = missingMapFrameIds(width, height, tileAt, atlas);
+  const lowGroundSet = new Set(lowGroundTiles || []);
+  const missing = missingMapFrameIds(width, height, tileAt, atlas, lowGroundSet);
   if (!missing.length) return atlas;
   let nextAtlas = atlas;
   const loadedProfileFrames = await ensureProfileAtlasFramesLoaded(missing);
   if (loadedProfileFrames) {
     nextAtlas = setLoadedTileAtlas(atlasWithProfileFrames(nextAtlas));
   }
-  const stillMissing = missingMapFrameIds(width, height, tileAt, nextAtlas);
+  const stillMissing = missingMapFrameIds(width, height, tileAt, nextAtlas, lowGroundSet);
   if (!stillMissing.length) return nextAtlas;
   if (String(nextAtlas.mode || "").includes("monolithic")) return nextAtlas;
   const monolithicAtlas = await loadMonolithicTileAtlas();
@@ -1877,13 +1891,13 @@ async function ensureMapAtlasCoverage(width, height, tileAt, atlas) {
   return setLoadedTileAtlas(atlasWithProfileFrames(monolithicAtlas));
 }
 
-function missingMapFrameIds(width, height, tileAt, atlas) {
+function missingMapFrameIds(width, height, tileAt, atlas, lowGroundTiles = null) {
   const frames = atlas?.frames || {};
   const missing = new Set();
   const cells = Math.max(0, width * height);
   for (let index = 0; index < cells; index += 1) {
     const [ground, object] = tileAt(index);
-    if (ground > CG_INVISIBLE && !frames[ground]) missing.add(Number(ground));
+    if (isDrawableGroundTile(ground, lowGroundTiles) && !frames[ground]) missing.add(Number(ground));
     if (isStaticMapObjectTile(object) && !frames[object]) missing.add(Number(object));
   }
   return [...missing];
@@ -2345,7 +2359,7 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
     const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
     const px = screenX - bounds.minX;
     const py = screenY - bounds.minY;
-    if (ground > CG_INVISIBLE) drawAtlasTile(ctx, atlas, ground, px, py);
+    if (isDrawableGroundTile(ground)) drawAtlasTile(ctx, atlas, ground, px, py);
     if (isStaticMapObjectTile(object) && atlas.frames?.[object]) {
       sprites.push(mapDepthSprite(atlas, object, px, py, screenX, screenY, x, y, "part", order++));
     }
@@ -2446,6 +2460,11 @@ function isUsablePlayerFrame(tileId, frame) {
 function isStaticMapObjectTile(tileId) {
   const id = Number(tileId || 0);
   return id > CG_INVISIBLE && !PLAYER_FRAME_IDS.has(id);
+}
+
+function isDrawableGroundTile(tileId, lowGroundTiles = null) {
+  const id = Number(tileId || 0);
+  return id > CG_INVISIBLE || Boolean(lowGroundTiles?.has?.(id));
 }
 
 function mapDepthSprite(atlas, tileId, x, y, screenX, screenY, gridX, gridY, type, order) {
@@ -2633,7 +2652,7 @@ function mapPixelBounds(width, height, tileAt, atlas, halfW, halfH) {
       const [ground, object] = tileAt(y * width + x);
       const [mapX, mapY] = mapRenderPoint(x, y, width, height);
       const [px, py] = isoPoint(mapX, mapY, halfW, halfH);
-      if (ground > CG_INVISIBLE) includeTileBounds(bounds, atlas.frames?.[ground], px, py);
+      if (isDrawableGroundTile(ground)) includeTileBounds(bounds, atlas.frames?.[ground], px, py);
       if (isStaticMapObjectTile(object)) includeTileBounds(bounds, atlas.frames?.[object], px, py);
     }
   }
@@ -2698,7 +2717,7 @@ async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRe
   drawTilePreview(canvas, width, height, tileAt);
 }
 
-function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLabel, renderVersion) {
+function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLabel, renderVersion, options = {}) {
   const metrics = mapMetrics(map || { size: [width, height] });
   const fullWidth = Math.max(1, Math.ceil(metrics.width));
   const fullHeight = Math.max(1, Math.ceil(metrics.height));
@@ -2727,6 +2746,7 @@ function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLa
     minY,
     tileAt,
     atlas,
+    lowGroundTiles: new Set(options.lowGroundTiles || []),
     map: map || game.world.map,
     raf: 0,
     spriteCanvas,
@@ -2873,7 +2893,7 @@ function drawViewportBaseTiles(ctx, renderer, state) {
   forEachClientDisplayTile(x1, y1, x2, y2, (x, y) => {
     const [ground, object] = renderer.tileAt(y * renderer.width + x);
     const [screenX, screenY] = mapTileContentPoint(renderer, x, y);
-    if (ground > CG_INVISIBLE) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
+    if (isDrawableGroundTile(ground, renderer.lowGroundTiles)) drawAtlasTile(ctx, renderer.atlas, ground, screenX, screenY);
     if (isStaticMapObjectTile(object) && renderer.atlas.frames?.[object]) {
       drawAtlasTile(ctx, renderer.atlas, object, screenX, screenY);
     }
