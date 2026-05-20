@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T11:00:10.182Z
+Generated: 2026-05-20T11:26:34.480Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -12,7 +12,7 @@ This report is generated from local NPC source files and generated world data. I
 | Generated world NPCs | 1749 |
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
-| Parsed action kinds | 21 |
+| Parsed action kinds | 22 |
 | Unsupported action candidates | 40 |
 
 ## Profile Impact
@@ -48,7 +48,8 @@ This report is generated from local NPC source files and generated world data. I
 | MISSIONCLEAN | 0 | 0 | 0 | 0 | 0 |
 | MISSIONOVER | 0 | 0 | 0 | 0 | 0 |
 | NotDel | 6 | 0 | 0 | 0 | 0 |
-| NpcWarp | 42 | 10 | 11 | 11 | 11 |
+| NpcWarp | 57 | 14 | 15 | 15 | 15 |
+| NpcPoint | 15 | 4 | 4 | 4 | 4 |
 | Pet_Name | 2 | 0 | 0 | 0 | 0 |
 | StopMsg | 46 | 27 | 28 | 28 | 28 |
 
@@ -60,7 +61,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | Mode1 | unknown | 5 | 5 | 5 | 10 | external/sources/ref___data/npc/race/DEADJOE:29 |
 | History1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/race2/second.arg:35 |
-| NPCPOINT | unknown | 4 | 4 | 4 | 34 | external/sources/ref___data/npc/eden2/kraken/kraken88_08:29 |
 | CostPoint | candidate-action | 2 | 2 | 2 | 3 | external/sources/ref___data/npc/my/ruieryasi/rou.arg:19 |
 | ADDEGGID | unknown | 2 | 2 | 2 | 2 | external/sources/ref___data/npc/sa50/petfusion/petfusion.arg:4 |
 | trans | unknown | 1 | 3 | 3 | 6 | external/sources/ref___data/npc/sa70/hunsk2:9 |
@@ -83,6 +83,7 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | PetLevel | candidate-action | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:25 |
 | RankNum | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:34 |
 | Second | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:38 |
+| subject_msg | unknown | 1 | 1 | 1 | 2 | external/sources/ref___data/npc/race/DEADJOE:6 |
 
 ## Recommended Next Slice
 

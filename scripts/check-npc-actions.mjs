@@ -1001,11 +1001,13 @@ riderGame.player.transmigration = 5;
 riderGame.player.Trans = 5;
 riderGame.player.trans = 5;
 assertEqual(inventoryQty(riderGame, 20296), 0, "rider test starts without riding consent item");
+riderGame = await api("/api/game/sync", { game: riderGame });
+const riderSummary = riderGame.world.map.npcs.find((npc) => npc.id === riderTrainer.id)?.scriptEventSummary?.actions || [];
+assert(riderSummary.includes("AddItem"), "client payload exposes compact AddItem summary before source NPCPOINT relocation");
 riderGame = await api("/api/game/dialog", { game: riderGame, npcId: riderTrainer.id });
 assertEqual(inventoryQty(riderGame, 20296), 1, "source AddItem grants riding consent item");
 assert(riderGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-eventaction-additem" && event.detail?.itemId === 20296), "source AddItem records give VM action");
-const riderSummary = riderGame.world.map.npcs.find((npc) => npc.id === riderTrainer.id)?.scriptEventSummary?.actions || [];
-assert(riderSummary.includes("AddItem"), "client payload exposes compact AddItem summary");
+assert(riderGame.dialog.debug.vmTrace.some((event) => event.action === "moveNpc" && event.detail?.reason === "source-changeevent-npcpoint"), "source AddItem event also runs NPCPOINT relocation through NPC VM");
 
 const battleTutor = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "战斗技巧指导员");
 if (!battleTutor) throw new Error("missing battle tutor source message fixture");
@@ -1070,6 +1072,34 @@ assert(!npcWarpGame.world.map.npcs.some((npc) => npc.id === npcWarpFixture.id), 
 npcWarpGame.location = { mapId: "200", x: 10, y: 10 };
 npcWarpGame = await api("/api/game/dialog", { game: npcWarpGame, npcId: npcWarpFixture.id });
 assertEqual(npcWarpGame.flags.npcPositions[npcWarpFixture.id]?.mapId, "1000", "source NpcWarp injected NPC can be talked to on the target map and cycles back");
+
+const npcPointFixture = {
+  id: "source-npcpoint-fixture",
+  name: "源码 NPCPOINT 位置测试",
+  type: "newwarpman",
+  template: "npcgen_man",
+  x: 43,
+  y: 40,
+  source: "gmsv-data/npc/eden2/kraken/kraken88_08",
+  script: "file:eden2/kraken/kraken88_08",
+  scriptEvents: [{
+    type: "MESSAGE",
+    eventNo: -1,
+    condition: "LV>0",
+    messages: { normal: "我按 NPCPOINT 去下一个位置。" },
+    npcWarps: [
+      { mapId: "1000", x: 44, y: 40, sourceAction: "NPCPOINT" },
+      { mapId: "200", x: 11, y: 10, sourceAction: "NPCPOINT" }
+    ]
+  }]
+};
+WORLD.maps["1000"].npcs.push(npcPointFixture);
+let npcPointGame = await api("/api/game/new", { name: "source-npcpoint-test" });
+npcPointGame.location = { mapId: "1000", x: 42, y: 40 };
+npcPointGame = await api("/api/game/dialog", { game: npcPointGame, npcId: npcPointFixture.id });
+assertEqual(npcPointGame.flags.npcPositions[npcPointFixture.id]?.x, 44, "source NPCPOINT records first NPC runtime x");
+assert(npcPointGame.dialog.debug.vmTrace.some((event) => event.action === "moveNpc" && event.detail?.reason === "source-changeevent-npcpoint" && event.detail?.target?.x === 44), "source NPCPOINT runs through NPC VM moveNpc action");
+assert(npcPointGame.world.map.npcs.find((npc) => npc.id === npcPointFixture.id)?.scriptEventSummary?.actions?.includes("NpcPoint"), "client payload exposes compact NPCPOINT summary");
 
 const sourceCharmNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs || [])

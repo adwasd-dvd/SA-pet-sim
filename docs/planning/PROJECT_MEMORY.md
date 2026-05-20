@@ -126,7 +126,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - `GetRandItem`, preserving duplicate source IDs as weighted random reward candidates
   - `GetStone` / `DelStone`, including source-style dynamic costs such as `LV*3`
   - `CleanFlg`, clearing both NOWEV and ENDEV for the source event id through the VM `clearFlag` action
-  - `NpcWarp`, moving the NPC's runtime position through the VM `moveNpc` action without editing the original map data
+  - `NpcWarp` / `NPCPOINT`, moving the NPC's runtime position through the VM `moveNpc` action without editing the original map data
   - `MISSIONOVER` / `MISSIONCLEAN`, using a compact source-style angel/hero mission table state; `HERO_*` / `ANGEL_*` / `HEROCNT` conditions now gate branches and `MISSIONOVER` marks the active hero mission complete while incrementing `CHAR_HEROCNT`
 - Source NPC full/shortage messages are parsed into runtime messages, including `ItemFullMsg`, `PetFullMsg`, `StoneFullMsg`, and `StoneLessMsg`.
 - Source `TYPE:CLEAN`, `CleanMainMsg`, and `CleanFlgMsg` branches are parsed so reset/cancel style NPCs can show their original text and clear task flags.
@@ -142,6 +142,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
 - 2026-05-19/20 npcgen_petshop: `scripts/build-world.mjs` now parses `pool_flg`, `pool_cost`, `nomal_rate`, `special_rate`, `special_pet`, and source messages from original pet shop args. Worker exposes deterministic `/api/game/pool-pet` actions for deposit/withdraw/sell, persists a SAAC-like `petPool`, charges source-style pet costs, and the dialog window renders carried pets plus pool slots. `check:npc` covers source pet shop pool metadata, VM traces, save info, deposit, and withdraw.
 - 2026-05-20 npc_bus/npc_airplane route services: `scripts/build-world.mjs` now parses `routenum`, `routeto*`, `routename*`, `needstone`, `denieditem`, `waittime`, `oneway`, and route messages from original chatroom bus/airplane args. Worker exposes route prompts and deterministic搭乘 through the NPC VM: denied carried items block, stone cost is charged, and the player is moved to the source final route target. Route NPCs stay map/transport services instead of generic AI dialogue, and `check:npc` covers source route metadata, ride, stone deduction, and trace.
 - 2026-05-20 npc_itemshop `ChangeItemCost`: `scripts/build-world.mjs` now parses source fixed-price overrides beside `ItemList`/ranges and `buy_rate`, preserving original shop prices such as family coral/demon-gem shops instead of falling back to `itemset6` base costs. Generated trade items keep `price`, `changeItemCost`, and `sourceCost` when fixed pricing differs, Worker buy already charges the generated price through the NPC VM, and `check:npc` covers a fixed-price buy trace.
+- 2026-05-20 source `NPCPOINT`: `scripts/build-world.mjs` now parses `NPCPOINT`/`NPC_POINT` from both changeevent and FREE/TALKEVENT scripts into compact `npcWarps` points tagged `sourceAction: "NPCPOINT"`. Worker executes them through the same deterministic `moveNpc` VM path with `source-changeevent-npcpoint`, so scripts such as rider trainers and moving NPC/event actors can relocate themselves without mutating source map data or exposing raw script text to the client. `npm run report:npc-scripts` now counts `NpcPoint` as a supported parsed action.
 
 ## Current Done Tasks
 

@@ -1326,6 +1326,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.npcWarps.push(...parseScriptNpcWarpSpecs(value));
       continue;
     }
+    if (key === "npcpoint" || key === "npc_point") {
+      event.npcWarps.push(...parseScriptNpcPointSpecs(value));
+      continue;
+    }
     if (key === "charm") {
       event.charms.push(...splitNumberList(value));
       continue;
@@ -1468,6 +1472,10 @@ function parseNpcFreeScriptEvents(text, file) {
       event.delStones.push(...parseScriptStoneSpecs(value));
       continue;
     }
+    if (key === "npcpoint" || key === "npc_point") {
+      event.npcWarps.push(...parseScriptNpcPointSpecs(value));
+      continue;
+    }
     if (key === "addexps" || key === "addexp") {
       event.addExps = Number(value) || 0;
       continue;
@@ -1580,6 +1588,27 @@ function parseScriptNpcWarpSpecs(value = "") {
         mapId: String(Number(mapId)),
         x: Number(x),
         y: Number(y)
+      };
+    })
+    .filter((target) => target && target.mapId !== "0" && Number.isFinite(target.x) && Number.isFinite(target.y));
+}
+
+function parseScriptNpcPointSpecs(value = "") {
+  return String(value || "")
+    .split(";")
+    .map((part) => {
+      const text = part.trim();
+      if (!text) return null;
+      const pieces = text.includes(".")
+        ? text.split(".")
+        : text.split(",");
+      const [mapId, x, y] = pieces.map((piece) => piece.trim());
+      if (!mapId || x === undefined || y === undefined) return null;
+      return {
+        mapId: String(Number(mapId)),
+        x: Number(x),
+        y: Number(y),
+        sourceAction: "NPCPOINT"
       };
     })
     .filter((target) => target && target.mapId !== "0" && Number.isFinite(target.x) && Number.isFinite(target.y));

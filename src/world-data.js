@@ -63350,7 +63350,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "817",
+                  "x": 148,
+                  "y": 26,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 168,
+                  "y": 85,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 268,
+                  "y": 59,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 370,
+                  "y": 113,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 355,
+                  "y": 102,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure2.arg",
@@ -63439,7 +63471,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "817",
+                  "x": 148,
+                  "y": 35,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 210,
+                  "y": 91,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 253,
+                  "y": 42,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 299,
+                  "y": 78,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 245,
+                  "y": 261,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure3.arg",
@@ -63528,7 +63592,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "817",
+                  "x": 153,
+                  "y": 44,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 267,
+                  "y": 123,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 353,
+                  "y": 159,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 354,
+                  "y": 64,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 365,
+                  "y": 158,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure4.arg",
@@ -63617,7 +63713,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "817",
+                  "x": 242,
+                  "y": 72,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 315,
+                  "y": 53,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 327,
+                  "y": 23,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 318,
+                  "y": 93,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 155,
+                  "y": 53,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure5.arg",
@@ -63706,7 +63834,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "817",
+                  "x": 237,
+                  "y": 98,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 136,
+                  "y": 81,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 357,
+                  "y": 89,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 350,
+                  "y": 216,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "817",
+                  "x": 366,
+                  "y": 105,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/treasure/treasure6.arg",
@@ -88446,7 +88606,111 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "2030",
+                  "x": 63,
+                  "y": 12,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "3030",
+                  "x": 63,
+                  "y": 12,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "4030",
+                  "x": 45,
+                  "y": 30,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "5030",
+                  "x": 50,
+                  "y": 12,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "6030",
+                  "x": 31,
+                  "y": 43,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "7030",
+                  "x": 35,
+                  "y": 12,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8030",
+                  "x": 31,
+                  "y": 21,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "9030",
+                  "x": 44,
+                  "y": 40,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "300",
+                  "x": 212,
+                  "y": 62,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "400",
+                  "x": 117,
+                  "y": 75,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "200",
+                  "x": 417,
+                  "y": 255,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "100",
+                  "x": 481,
+                  "y": 132,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "3200",
+                  "x": 75,
+                  "y": 41,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "1400",
+                  "x": 111,
+                  "y": 75,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "7400",
+                  "x": 146,
+                  "y": 127,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "703",
+                  "x": 45,
+                  "y": 56,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "708",
+                  "x": 112,
+                  "y": 255,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/eden3/rider.arg",
@@ -116426,7 +116690,27 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "2000",
+                  "x": 53,
+                  "y": 71,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "2000",
+                  "x": 49,
+                  "y": 43,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "2000",
+                  "x": 79,
+                  "y": 43,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/cat/cat.arg",
@@ -116464,7 +116748,27 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "2000",
+                  "x": 62,
+                  "y": 33,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "2000",
+                  "x": 42,
+                  "y": 73,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "2000",
+                  "x": 84,
+                  "y": 61,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/cat/cat.arg",
@@ -116492,7 +116796,27 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "2000",
+                  "x": 79,
+                  "y": 67,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "2000",
+                  "x": 104,
+                  "y": 70,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "2000",
+                  "x": 101,
+                  "y": 85,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/cat/cat.arg",
@@ -132556,7 +132880,27 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "3000",
+                  "x": 119,
+                  "y": 93,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "3000",
+                  "x": 88,
+                  "y": 77,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "3000",
+                  "x": 78,
+                  "y": 120,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/mouse/mouse1.arg",
@@ -232319,7 +232663,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "8219",
+                  "x": 37,
+                  "y": 21,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 28,
+                  "y": 9,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 29,
+                  "y": 29,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 25,
+                  "y": 19,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 15,
+                  "y": 20,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest3",
@@ -232357,7 +232733,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "8219",
+                  "x": 37,
+                  "y": 21,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 28,
+                  "y": 9,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 29,
+                  "y": 29,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 25,
+                  "y": 19,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 15,
+                  "y": 20,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest3",
@@ -232395,7 +232803,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "8219",
+                  "x": 37,
+                  "y": 21,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 28,
+                  "y": 9,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 29,
+                  "y": 29,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 25,
+                  "y": 19,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 15,
+                  "y": 20,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest3",
@@ -232433,7 +232873,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "8219",
+                  "x": 37,
+                  "y": 21,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 28,
+                  "y": 9,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 29,
+                  "y": 29,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 25,
+                  "y": 19,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 15,
+                  "y": 20,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest3",
@@ -232461,7 +232933,39 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "npcWarps": [
+                {
+                  "mapId": "8219",
+                  "x": 37,
+                  "y": 21,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 28,
+                  "y": 9,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 29,
+                  "y": 29,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 25,
+                  "y": 19,
+                  "sourceAction": "NPCPOINT"
+                },
+                {
+                  "mapId": "8219",
+                  "x": 15,
+                  "y": 20,
+                  "sourceAction": "NPCPOINT"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/wquest3",

@@ -39,6 +39,7 @@ const PARSED_EVENT_ACTIONS = [
   "MISSIONOVER",
   "NotDel",
   "NpcWarp",
+  "NpcPoint",
   "Pet_Name",
   "StopMsg"
 ];
@@ -70,6 +71,8 @@ const ACTION_KEYS = new Set([
   "notdelitem",
   "nowsetflag",
   "nowsetflg",
+  "npcpoint",
+  "npc_point",
   "npcwarp",
   "pet_name",
   "petname"
@@ -534,6 +537,7 @@ function scriptEventActions(event) {
   if (event.getStones?.some((stone) => stone?.source === "AddGold")) actions.push("AddGold");
   if (event.delStones?.length) actions.push("DelStone");
   if (event.npcWarps?.length) actions.push("NpcWarp");
+  if (event.npcWarps?.some((point) => point?.sourceAction === "NPCPOINT")) actions.push("NpcPoint");
   if (event.charms?.length) actions.push("Charm");
   if (event.keyword) actions.push("KeyWord");
   if (event.petName) actions.push("Pet_Name");

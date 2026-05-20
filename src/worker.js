@@ -6915,13 +6915,16 @@ function runNpcScriptClean(game, npc, event, detail) {
 
 function runNpcScriptNpcWarps(game, npc, event, detail, phase) {
   if (!event.npcWarps?.length) return;
+  const sourceAction = event.npcWarps.some((point) => point?.sourceAction === "NPCPOINT")
+    ? "npcpoint"
+    : "npcwarp";
   runNpcVmAction(game, npc, {
     type: "moveNpc",
     npcId: npc.id,
     points: event.npcWarps,
     ...detail,
     phase,
-    reason: "source-changeevent-npcwarp"
+    reason: `source-changeevent-${sourceAction}`
   });
 }
 
@@ -14102,6 +14105,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.getStones?.some((stone) => stone?.source === "AddGold")) pushUniqueCompact(actions, "AddGold", 8);
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
     if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
+    if (event.npcWarps?.some((point) => point?.sourceAction === "NPCPOINT")) pushUniqueCompact(actions, "NpcPoint", 8);
     if (event.charms?.length) pushUniqueCompact(actions, "Charm", 8);
     if (event.keyword) pushUniqueCompact(actions, "KeyWord", 8);
     if (event.petName) pushUniqueCompact(actions, "Pet_Name", 8);
