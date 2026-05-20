@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-19T20:12:25.533Z
+Generated: 2026-05-20T02:14:13.536Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -58,7 +58,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| special_pet | candidate-action | 9 | 9 | 9 | 16 | external/sources/ref___data/npc/genout/ps_1003_12_13:13 |
 | routeto | unknown | 5 | 8 | 8 | 46 | external/sources/ref___data/npc/casino/petracepet1.arg:1 |
 | needstone | candidate-action | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:6 |
 | routename1 | unknown | 5 | 8 | 8 | 43 | external/sources/ref___data/npc/chatroom/airplane.arg:3 |
@@ -75,18 +74,19 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | History1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/race2/second.arg:35 |
 | luck1 | unknown | 5 | 5 | 5 | 5 | external/sources/ref___data/npc/sainasu/uranai:4 |
 | NPCPOINT | unknown | 4 | 4 | 4 | 34 | external/sources/ref___data/npc/eden2/kraken/kraken88_08:29 |
-| cost_msg | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:6 |
-| getfull_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:9 |
-| pool_cost | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:11 |
-| pool_flg | candidate-action | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:10 |
-| poolfull_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:8 |
-| pooltanks_msg | unknown | 4 | 4 | 4 | 11 | external/sources/ref___data/npc/genout/ps_1003_12_13:7 |
 | cost | candidate-action | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:1 |
 | draw_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:4 |
+| pool_main | unknown | 3 | 3 | 3 | 9 | external/sources/ref___data/npc/genout/pis_1009_14_13:3 |
+| ChangeItemCost | candidate-action | 2 | 2 | 2 | 52 | external/sources/ref___data/npc/family/npc/shop10_1:19 |
+| oneway | unknown | 2 | 2 | 2 | 9 | external/sources/ref___data/npc/chatroom/airplane.arg:14 |
+| CostPoint | candidate-action | 2 | 2 | 2 | 3 | external/sources/ref___data/npc/my/ruieryasi/rou.arg:19 |
+| ADDEGGID | unknown | 2 | 2 | 2 | 2 | external/sources/ref___data/npc/sa50/petfusion/petfusion.arg:4 |
+| trans | unknown | 1 | 3 | 3 | 6 | external/sources/ref___data/npc/sa70/hunsk2:9 |
+| normal | unknown | 1 | 1 | 1 | 10 | external/sources/ref___data/npc/genout/act_31603_20_22:2 |
 
 ## Recommended Next Slice
 
-- Start with `special_pet`, because it appears in classic-core source references 9 times.
+- Start with `routeto`, because it appears in classic-core source references 5 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

@@ -137,6 +137,45 @@ await expectApiError(
   "至少要保留一只宠物",
   "pet release refuses to remove the last pet"
 );
+
+const petShopEntry = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.petShop?.poolEnabled);
+assert(petShopEntry, "world build parses source npcgen_petshop pool scripts");
+let petShopGame = await api("/api/game/new", { name: "pet-shop-pool-test" });
+petShopGame.player.stone = 1000;
+petShopGame.location = {
+  mapId: petShopEntry.map.id,
+  x: petShopEntry.npc.x,
+  y: Math.max(0, petShopEntry.npc.y - 1),
+  dir: 4
+};
+petShopGame.pets.push({
+  ...petShopGame.pets[0],
+  Name: "寄放测试奥卡洛斯",
+  PetId: Number(petShopGame.pets[0].PetId || 100) + 10,
+  Lv: 4,
+  PetGetLv: 1,
+  Hp: 62,
+  WorkMaxHp: 62,
+  Loyalty: 80,
+  Rare: 0
+});
+const petShopPetCountBefore = petShopGame.pets.length;
+const petShopStoneBefore = Number(petShopGame.player.stone || 0);
+petShopGame = await api("/api/game/talk", { game: petShopGame, npcId: petShopEntry.npc.id });
+assert(petShopGame.dialog?.petShop?.poolEnabled, "pet shop dialog exposes source pool metadata");
+assert(petShopGame.dialog?.messages?.some((message) => String(message.text || "").includes("随身宠物")), "pet shop talk explains carried pets");
+petShopGame = await api("/api/game/pool-pet", { game: petShopGame, npcId: petShopEntry.npc.id, action: "deposit", petIndex: 1 });
+assertEqual(petShopGame.pets.length, petShopPetCountBefore - 1, "pet shop deposit moves a pet out of carried pets");
+assertEqual(petShopGame.petPoolState.used, 1, "pet shop deposit fills one source-style pool slot");
+assert(Number(petShopGame.player.stone || 0) < petShopStoneBefore, "pet shop deposit charges source-style stone cost");
+assert(petShopGame.dialog?.debug?.vmTrace?.some((event) => event.action === "petShop" && event.detail?.action === "deposit"), "pet shop deposit records a petShop VM trace");
+petShopGame = await api("/api/game/pool-pet", { game: petShopGame, npcId: petShopEntry.npc.id, action: "withdraw", poolIndex: 0 });
+assertEqual(petShopGame.pets.length, petShopPetCountBefore, "pet shop withdraw returns a pet to carried pets");
+assertEqual(petShopGame.petPoolState.used, 0, "pet shop withdraw clears the source-style pool slot");
+assert(petShopGame.save.info.includes("POOLPETCOUNT=0"), "saac-like save info records pool pet count");
+
 let petReleaseGame = await api("/api/game/new", { name: "pet-release-active-test" });
 petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "中间宠", PetId: 101, Lv: 2 });
 petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "后排宠", PetId: 102, Lv: 3 });

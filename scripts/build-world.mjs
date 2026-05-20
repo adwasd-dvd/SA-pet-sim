@@ -449,17 +449,18 @@ function parseNpcs() {
       }
       const template = templates.get(enemy.template) || {};
       const argPath = enemy.argPath || "";
+      const functionset = template.functionset || enemy.template || "NPC";
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
+      const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
       const itemChange = readNpcItemChange(argPath, file);
       const savePoint = readNpcSavePoint(argPath, file);
       const warp = readNpcWarp(argPath, file);
-      const functionset = template.functionset || enemy.template || "NPC";
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -473,6 +474,7 @@ function parseNpcs() {
         template: enemy.template,
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
+        ...(petShop ? { petShop } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
         ...(itemChange ? { itemChange } : {}),
         ...(savePoint ? { savePoint } : {}),
@@ -895,6 +897,70 @@ function readNpcPetSkillShop(argPath, createFile) {
     startMessage: cleanName(kv.start_msg || ""),
     nothingMessage: cleanName(kv.nothing_msg || "")
   };
+}
+
+function readNpcPetShop(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  if (!/npcgen_petshop|PetShop/i.test(`${functionset} ${template} ${argPath}`) && !/^\s*(?:pool_flg|pool_cost|special_pet|pooltanks_msg|getfull_msg)\s*:/im.test(text)) {
+    return null;
+  }
+  const kv = parseColonFile(text);
+  const poolEnabled = Number(kv.pool_flg || 0) === 1;
+  const poolCost = Math.max(1, Number(kv.pool_cost || 200) || 200);
+  const normalRate = positiveRate(kv.nomal_rate ?? kv.normal_rate, 1);
+  const specialRate = positiveRate(kv.special_rate, 1.2);
+  const specialPetImages = parseNumericRanges(kv.special_pet || "", 120);
+  return {
+    kind: poolEnabled ? "pet-pool" : "pet-shop",
+    source: relativeRef(file),
+    poolEnabled,
+    poolCost,
+    normalRate,
+    specialRate,
+    specialPetImages,
+    supports: {
+      sell: true,
+      deposit: poolEnabled,
+      withdraw: poolEnabled
+    },
+    messages: {
+      main: cleanScriptText(kv.main_msg || ""),
+      confirm: cleanScriptText(kv.realy_msg || kv.really_msg || ""),
+      over: cleanScriptText(kv.over_msg || ""),
+      thanks: cleanScriptText(kv.thanks_msg || ""),
+      cost: cleanScriptText(kv.cost_msg || ""),
+      poolThanks: cleanScriptText(kv.pooltanks_msg || kv.poolthanks_msg || ""),
+      poolFull: cleanScriptText(kv.poolfull_msg || ""),
+      getFull: cleanScriptText(kv.getfull_msg || "")
+    }
+  };
+}
+
+function positiveRate(value, fallback) {
+  const rate = Number(value);
+  return Number.isFinite(rate) && rate > 0 ? rate : fallback;
+}
+
+function parseNumericRanges(value = "", maxItems = 120) {
+  return String(value || "")
+    .split(",")
+    .map((part) => {
+      const text = part.trim();
+      if (!text) return null;
+      const range = text.match(/^(\d+)\s*-\s*(\d+)$/);
+      if (range) {
+        const a = Number(range[1]);
+        const b = Number(range[2]);
+        if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+        return [Math.min(a, b), Math.max(a, b)];
+      }
+      const id = Number(text);
+      return Number.isFinite(id) && id > 0 ? [id, id] : null;
+    })
+    .filter(Boolean)
+    .slice(0, maxItems);
 }
 
 function readNpcItemChange(argPath, createFile) {
@@ -1574,10 +1640,11 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
+  if (petShop) actions.push("petShop");
   if (petSkillShop) actions.push("petSkillShop");
   if (itemChange) actions.push("itemChange");
   if (savePoint) actions.push("save");

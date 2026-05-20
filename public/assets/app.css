@@ -3603,6 +3603,50 @@ h3 {
   opacity: .62;
 }
 
+.pet-shop-item {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.pet-shop-main {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+}
+
+.shop-pet-sprite {
+  display: grid;
+  place-items: end center;
+  width: 42px;
+  height: 38px;
+  overflow: hidden;
+}
+
+.pet-shop-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.pet-shop-actions button {
+  min-width: 30px;
+  min-height: 28px;
+  border: 1px solid rgb(255 239 124 / 58%);
+  border-radius: 2px;
+  background: rgb(20 58 48 / 92%);
+  color: #fff4c8;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.pet-shop-actions button:disabled {
+  border-color: rgb(180 166 132 / 28%);
+  color: #92856c;
+  cursor: not-allowed;
+  opacity: .6;
+}
+
 .shop-empty {
   min-height: 34px;
   margin: 0;

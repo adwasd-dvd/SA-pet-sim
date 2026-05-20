@@ -3374,6 +3374,7 @@ function renderDialog() {
   }).join("");
   const auxiliary = [
     renderDialogShop(dialog),
+    renderDialogPetShop(dialog),
     renderDialogPetSkillShop(dialog),
     renderDialogItemChange(dialog)
   ].filter(Boolean).join("");
@@ -3385,6 +3386,11 @@ function renderDialog() {
   });
   els.dialogSuggestions.querySelectorAll("[data-sell]").forEach((btn) => {
     btn.addEventListener("click", () => sellItem(Number(btn.dataset.sell)));
+  });
+  els.dialogSuggestions.querySelectorAll("[data-pool-pet]").forEach((btn) => {
+    const petIndex = btn.dataset.petIndex === undefined ? NaN : Number(btn.dataset.petIndex);
+    const poolIndex = btn.dataset.poolIndex === undefined ? NaN : Number(btn.dataset.poolIndex);
+    btn.addEventListener("click", () => poolPet(btn.dataset.poolPet, petIndex, poolIndex));
   });
   els.dialogSuggestions.querySelectorAll("[data-learn-pet-skill]").forEach((btn) => {
     btn.addEventListener("click", () => learnPetSkill(Number(btn.dataset.learnPetSkill), Number(btn.dataset.petIndex), Number(btn.dataset.slotIndex)));
@@ -4155,6 +4161,79 @@ function renderDialogShop(dialog) {
   `;
 }
 
+function renderDialogPetShop(dialog) {
+  const shop = dialog.petShop;
+  if (!shop) return "";
+  const carry = shop.carry || {};
+  const pool = shop.pool || {};
+  const pets = shop.pets || [];
+  const pooledPets = shop.pooledPets || [];
+  const canDeposit = shop.poolEnabled && Number(pool.used || 0) < Number(pool.capacity || 0);
+  const canWithdraw = shop.poolEnabled && Number(carry.used || 0) < Number(carry.capacity || 0);
+  const carryList = pets.length
+    ? pets.slice(0, 5).map((pet) => `
+        <div class="shop-item pet-shop-item">
+          <span class="pet-shop-main">
+            ${petSpriteMarkup(pet.image, pet.name, "shop-pet-sprite")}
+            <span>
+              <span class="shop-item-title">
+                <strong>${escapeHtml(pet.name)} Lv.${Number(pet.level || 1)}</strong>
+                ${pet.active ? `<i class="shop-badge">出战</i>` : ""}
+              </span>
+              <small>${escapeHtml(petShopPetHint(pet, shop))}</small>
+            </span>
+          </span>
+          <span class="pet-shop-actions">
+            <button type="button" data-pool-pet="deposit" data-pet-index="${pet.index}" ${canDeposit && pet.affordable ? "" : "disabled"}>寄</button>
+            <button type="button" data-pool-pet="sell" data-pet-index="${pet.index}" ${Number(carry.used || 0) > 1 ? "" : "disabled"}>卖</button>
+          </span>
+        </div>
+      `).join("")
+    : `<p class="shop-empty">没有随身宠物。</p>`;
+  const poolList = shop.poolEnabled
+    ? (pooledPets.length
+      ? pooledPets.slice(0, Number(pool.capacity || 10)).map((pet) => `
+          <div class="shop-item pet-shop-item shop-item-sell">
+            <span class="pet-shop-main">
+              ${petSpriteMarkup(pet.image, pet.name, "shop-pet-sprite")}
+              <span>
+                <strong>${escapeHtml(pet.name)} Lv.${Number(pet.level || 1)}</strong>
+                <small>HP ${Number(pet.hp || 0)}/${Number(pet.maxHp || 0)} | ${pet.specialRate ? "特殊倍率" : "普通倍率"}</small>
+              </span>
+            </span>
+            <span class="pet-shop-actions">
+              <button type="button" data-pool-pet="withdraw" data-pool-index="${pet.index}" ${canWithdraw ? "" : "disabled"}>取</button>
+            </span>
+          </div>
+        `).join("")
+      : `<p class="shop-empty">寄放栏空着。</p>`)
+    : `<p class="shop-empty">这间宠物店没有开放寄放栏。</p>`;
+  return `
+    <div class="shop-box pet-shop-box">
+      <div class="shop-summary">
+        <strong>宠物店</strong>
+        <span>随身 ${Number(carry.used || 0)}/${Number(carry.capacity || 0)} | 寄放 ${Number(pool.used || 0)}/${Number(pool.capacity || 0)} | 石币 ${Number(shop.stone || game.player.stone || 0)}</span>
+      </div>
+      <section class="shop-section">
+        <header><strong>随身宠物</strong><small>${shop.poolEnabled ? `寄放基础 ${Number(shop.poolCost || 0)}` : "可出售"}</small></header>
+        <div class="shop-list">${carryList}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>寄放栏</strong><small>${shop.poolEnabled ? "宠物店 pool" : "未开放"}</small></header>
+        <div class="shop-list">${poolList}</div>
+      </section>
+    </div>
+  `;
+}
+
+function petShopPetHint(pet, shop) {
+  const parts = [`HP ${Number(pet.hp || 0)}/${Number(pet.maxHp || 0)}`];
+  if (shop.poolEnabled) parts.push(`寄放 ${Number(pet.cost || 0)} 石币`);
+  parts.push(`出售 ${Number(pet.cost || 0)} 石币`);
+  if (pet.specialRate) parts.push("特殊倍率");
+  return parts.join(" | ");
+}
+
 function renderDialogPetSkillShop(dialog) {
   const shop = dialog.petSkillShop;
   if (!shop?.skills?.length) return "";
@@ -4345,6 +4424,23 @@ async function sellItem(itemId) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "出售失败");
+  }
+}
+
+async function poolPet(action, petIndex, poolIndex) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/pool-pet", {
+      game,
+      npcId: game.dialog.npcId,
+      action,
+      petIndex,
+      poolIndex
+    });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "宠物店操作失败");
   }
 }
 

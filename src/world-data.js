@@ -24924,8 +24924,34 @@ export const WORLD = {
           "script": "file:genout/ps_130_49_3",
           "template": "npcgen_petshop",
           "graphic": "16038",
+          "petShop": {
+            "kind": "pet-pool",
+            "source": "gmsv-data/npc/genout/ps_130_49_3",
+            "poolEnabled": true,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": true,
+              "withdraw": true
+            },
+            "messages": {
+              "main": "欢迎光临宠物店。你要卖宠物 或者是寄放呢。",
+              "confirm": "这只宠物的话、大概这样吧！",
+              "over": "超过你的限度额也没关系吗？ 限度额以上就无法给你啰。",
+              "thanks": "谢谢。 好好的养育你的宠物喔。",
+              "cost": "请再度光临。",
+              "poolThanks": "谢谢。",
+              "poolFull": "已经无法在收存了。",
+              "getFull": "宠物太多没办法再拿了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_130_49_3"
           }
@@ -69982,8 +70008,34 @@ export const WORLD = {
           "script": "file:genout/ps_1003_12_13",
           "template": "npcgen_petshop",
           "graphic": "16038",
+          "petShop": {
+            "kind": "pet-pool",
+            "source": "gmsv-data/npc/genout/ps_1003_12_13",
+            "poolEnabled": true,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": true,
+              "withdraw": true
+            },
+            "messages": {
+              "main": "欢迎光临宠物店。你的宠物要卖还是寄放都可以。",
+              "confirm": "这只宠物的话、大概是这个价钱吧！",
+              "over": "超出你的限度额也没关系吗？ 在限度额以上的话就没办法给你啰。",
+              "thanks": "谢谢。 要好好的饲养它喔。",
+              "cost": "钱不够喔。",
+              "poolThanks": "希望你再度光临。",
+              "poolFull": "已经无法再寄放了。",
+              "getFull": "宠物已经太多了无法再拿了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_1003_12_13"
           }
@@ -92615,8 +92667,34 @@ export const WORLD = {
           "script": "file:genout/ps_1103_19_17",
           "template": "npcgen_petshop",
           "graphic": "16046",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_1103_19_17",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "欢迎来到柯奥的宠物商店 想买什么宠物吗？",
+              "confirm": "这只大约这个价钱。",
+              "over": "超过现金限额没关系吗？ 超过限额的话不行耶！",
+              "thanks": "谢啦！ 要好好照顾它喔！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_1103_19_17"
           }
@@ -95738,8 +95816,34 @@ export const WORLD = {
           "script": "file:genout/ps_1203_14_13",
           "template": "npcgen_petshop",
           "graphic": "16035",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_1203_14_13",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 0.7,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "柯尔克的宠物商店 要挑那一只宠物呢？",
+              "confirm": "嗯！这只宠物的话，大约这个价格",
+              "over": "超过金额限度了，可以吗？ 额度以上的话不行喔！",
+              "thanks": "谢啦！ 下次是不同的宠物喔！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_1203_14_13"
           }
@@ -101377,8 +101481,34 @@ export const WORLD = {
           "script": "file:genout/ps_1303_16_13",
           "template": "npcgen_petshop",
           "graphic": "16048",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_1303_16_13",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "欢迎来到宠物商店 什么宠物都好喔！",
+              "confirm": "嗯！这只宠物的话，大约这个价格。",
+              "over": "超过金钱限额的话可以吗？ 超过限额的话不行耶！",
+              "thanks": "Ｔｈａｎｋ ｙｏｕ！不只是卖而已， 要好好教它喔！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_1303_16_13"
           }
@@ -106491,8 +106621,34 @@ export const WORLD = {
           "script": "file:genout/ps_1403_14_13",
           "template": "npcgen_petshop",
           "graphic": "16016",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_1403_14_13",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "买卖宠物请到宠物商店 要什么宠物？",
+              "confirm": "这只宠物的话，大约值这么多！",
+              "over": "超过额度了，可以吗？ 超过限额的话，不行的···",
+              "thanks": "谢啦！ 要好好照顾宠物喔！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_1403_14_13"
           }
@@ -115918,8 +116074,34 @@ export const WORLD = {
           "script": "file:genout/ps_2003_18_17",
           "template": "npcgen_petshop",
           "graphic": "16036",
+          "petShop": {
+            "kind": "pet-pool",
+            "source": "gmsv-data/npc/genout/ps_2003_18_17",
+            "poolEnabled": true,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": true,
+              "withdraw": true
+            },
+            "messages": {
+              "main": "玛丽娜丝～、宠物店～ 欢迎光临～",
+              "confirm": "这个宠物是～、这样左右吧～",
+              "over": "超过了你的限度额～、可以吗？ 到达限度额以上的话～就没办法给你了",
+              "thanks": "多谢～。要卖好的宠物吗～",
+              "cost": "钱不够喔。",
+              "poolThanks": "请你再度光临～。",
+              "poolFull": "已经无法再寄放了～。",
+              "getFull": "宠物已经太多了无法再拿了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_2003_18_17"
           }
@@ -131070,8 +131252,34 @@ export const WORLD = {
           "script": "file:genout/ps_3003_12_13",
           "template": "npcgen_petshop",
           "graphic": "16027",
+          "petShop": {
+            "kind": "pet-pool",
+            "source": "gmsv-data/npc/genout/ps_3003_12_13",
+            "poolEnabled": true,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": true,
+              "withdraw": true
+            },
+            "messages": {
+              "main": "欢迎到收买宠物的商店来 买取你所拥有的宠物",
+              "confirm": "这个宠物的话、大概值这个价钱吧！",
+              "over": "已经超出你的限度额了可以吗？ 限度额以上的话就没有办法给你啰。",
+              "thanks": "呼、谢啰。 你要好好的饲养它喔。",
+              "cost": "你的钱不够喔。",
+              "poolThanks": "期待您的再度利用。",
+              "poolFull": "已经没有办法再保存了。",
+              "getFull": "宠物太多无法再拿了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_3003_12_13"
           }
@@ -153138,8 +153346,34 @@ export const WORLD = {
           "script": "file:genout/ps_3103_16_13",
           "template": "npcgen_petshop",
           "graphic": "16035",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_3103_16_13",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.2,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "欢迎来到宠物店！ 我们买收您的宠物。",
+              "confirm": "如果是这个宠物的话，大概是这个价钱唷！",
+              "over": "超过限度额也可以吗？ 超过限度额是没办法给你的啦！",
+              "thanks": "谢谢你的光临。 好好地养育你的宠物唷！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_3103_16_13"
           }
@@ -157408,8 +157642,34 @@ export const WORLD = {
           "script": "file:genout/ps_3203_18_18",
           "template": "npcgen_petshop",
           "graphic": "16033",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_3203_18_18",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.2,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "欢迎来到宠物店！ 我们买收您的宠物。",
+              "confirm": "如果是这个宠物的话，大概是这个价钱唷！",
+              "over": "超过限度额也可以吗？ 超过限度额事没办法给你的啦！",
+              "thanks": "谢谢你的光临。 好好地养育你的宠物唷！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_3203_18_18"
           }
@@ -161335,8 +161595,34 @@ export const WORLD = {
           "script": "file:genout/ps_3303_16_14",
           "template": "npcgen_petshop",
           "graphic": "16218",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_3303_16_14",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "欢迎来到宠物店！ 我们买收您的宠物。",
+              "confirm": "如果是这个宠物的话，大概是这个价钱唷！",
+              "over": "超过限度额也可以吗？ 超过限度额是没办法给你的啦！",
+              "thanks": "谢谢你的光临。 好好地养育你的宠物唷！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_3303_16_14"
           }
@@ -164906,8 +165192,34 @@ export const WORLD = {
           "script": "file:genout/ps_3403_18_18",
           "template": "npcgen_petshop",
           "graphic": "16033",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_3403_18_18",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "欢迎来到宠物店！ 我们买收您的宠物。",
+              "confirm": "如果是这个宠物的话，大概是这个价钱唷！",
+              "over": "超过限度额也可以吗？ 超过限度额事没办法给你的啦！",
+              "thanks": "谢谢你的光临。 好好地养育你的宠物唷！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_3403_18_18"
           }
@@ -172302,8 +172614,34 @@ export const WORLD = {
           "script": "file:genout/ps_4003_13_13",
           "template": "npcgen_petshop",
           "graphic": "16038",
+          "petShop": {
+            "kind": "pet-pool",
+            "source": "gmsv-data/npc/genout/ps_4003_13_13",
+            "poolEnabled": true,
+            "poolCost": 200,
+            "normalRate": 1,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": true,
+              "withdraw": true
+            },
+            "messages": {
+              "main": "欢迎到收买宠物的商店来 买取你所拥有的宠物",
+              "confirm": "这个宠物的话、大概值这个价钱吧！",
+              "over": "已经超出你的限度额了可以吗？ 限度额以上的话就没有办法给你啰",
+              "thanks": "啊哈、谢啰。 你要好好的饲养它喔。",
+              "cost": "你的钱不够喔。",
+              "poolThanks": "衷心的期待您能够再度光临本店。",
+              "poolFull": "已经没有办法再保存了。",
+              "getFull": "宠物太多没有办法再拿了。"
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_4003_13_13"
           }
@@ -182863,8 +183201,34 @@ export const WORLD = {
           "script": "file:genout/ps_5003_21_13",
           "template": "npcgen_petshop",
           "graphic": "16027",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_5003_21_13",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 0.6,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "我们接受您宠物的转让。",
+              "confirm": "如果是这个宠物的话，大概是这个价钱吧！",
+              "over": "超过这个价钱我可是无法支付您的唷！",
+              "thanks": "多谢您的光临！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_5003_21_13"
           }
@@ -201712,8 +202076,34 @@ export const WORLD = {
           "script": "file:genout/ps_7009_10_5",
           "template": "npcgen_petshop",
           "graphic": "16027",
+          "petShop": {
+            "kind": "pet-shop",
+            "source": "gmsv-data/npc/genout/ps_7009_10_5",
+            "poolEnabled": false,
+            "poolCost": 200,
+            "normalRate": 0.6,
+            "specialRate": 1.5,
+            "specialPetImages": [],
+            "supports": {
+              "sell": true,
+              "deposit": false,
+              "withdraw": false
+            },
+            "messages": {
+              "main": "我们接受您宠物的转让。",
+              "confirm": "如果是这个宠物的话，大概是这个价钱吧……",
+              "over": "超过这个价钱我可是无法支付您的喔！",
+              "thanks": "多谢您的光临！欢迎再来！",
+              "cost": "",
+              "poolThanks": "",
+              "poolFull": "",
+              "getFull": ""
+            }
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "petShop"
+            ],
             "hints": [],
             "source": "gmsv-data/npc/genout/ps_7009_10_5"
           }

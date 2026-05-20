@@ -62,6 +62,7 @@ const SAVE_SCHEMA = "saac-pwa-v1";
 const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
 const PET_CAPACITY = 5;
+const PET_POOL_CAPACITY = 10;
 const CHAR_MAXGOLDHAVE = 10000 * 10000;
 const BATTLE_ENTRY_MAX = 10;
 const BATTLE_PLAYER_MAX = 5;
@@ -111,6 +112,7 @@ const NPC_VM_ACTIONS = new Set([
   "say",
   "window",
   "shop",
+  "petShop",
   "petSkillShop",
   "itemChange",
   "warp",
@@ -300,6 +302,16 @@ async function handleApi(request, env, url) {
         Number(body.skillId),
         Number(body.petIndex),
         Number(body.slotIndex)
+      ));
+    }
+    if (url.pathname === "/api/game/pool-pet" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(poolPetGame(
+        body.game,
+        String(body.npcId || ""),
+        String(body.action || ""),
+        Number(body.petIndex),
+        Number(body.poolIndex)
       ));
     }
     if (url.pathname === "/api/game/change-item" && request.method === "POST") {
@@ -1360,6 +1372,115 @@ async function learnPetSkillGame(env, request, game, npcId, skillId, petIndex = 
     npcMessage("system", `${pet.Name || "宠物"} 学会了 ${skill.Name}（技能格 ${teachSlot + 1}），花费 ${cost} 石币。`)
   ], { petSkillShop: buildPetSkillShopState(data, game, npc) });
   return withMap(game, { npc });
+}
+
+function poolPetGame(game, npcId, action, petIndex = NaN, poolIndex = NaN) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能整理宠物店寄放栏");
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作宠物店");
+  if (!npc.petShop) throw new Error("这个 NPC 没有宠物店脚本资料");
+
+  const mode = normalizePetShopAction(action);
+  let message = "";
+  if (mode === "deposit") message = depositPetAtShop(game, npc, petIndex);
+  else if (mode === "withdraw") message = withdrawPetAtShop(game, npc, poolIndex);
+  else if (mode === "sell") message = sellPetAtShop(game, npc, petIndex);
+  else throw new Error("宠物店动作不存在");
+
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+    npcMessage("system", message)
+  ], { petShop: buildPetShopState(game, npc) });
+  return withMap(game, { npc, petShopAction: { type: mode, message, source: npc.petShop.source } });
+}
+
+function normalizePetShopAction(action = "") {
+  const text = String(action || "").toLowerCase();
+  if (["deposit", "pool", "store", "寄放", "寄存"].includes(text)) return "deposit";
+  if (["withdraw", "draw", "take", "取回", "取出", "领取"].includes(text)) return "withdraw";
+  if (["sell", "卖", "卖出", "卖掉"].includes(text)) return "sell";
+  return "";
+}
+
+function depositPetAtShop(game, npc, petIndex) {
+  const shop = npc.petShop || {};
+  if (!shop.poolEnabled) throw new Error("这间宠物店没有开放宠物寄放功能");
+  const pool = ensurePetPool(game);
+  if (pool.length >= PET_POOL_CAPACITY) throw new Error(shop.messages?.poolFull || `宠物寄放栏已满，最多 ${PET_POOL_CAPACITY} 只`);
+  if ((game.pets || []).length <= 1) throw new Error("至少要保留一只随身宠物");
+  const index = exactPetIndex(game, petIndex);
+  const pet = game.pets[index];
+  const cost = petShopPetCost(game, npc, pet);
+  const paid = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "pet-shop-deposit" });
+  if (!paid.ok) throw new Error(shop.messages?.cost || paid.error || "石币不够");
+  const [removed] = game.pets.splice(index, 1);
+  pool.push({
+    ...removed,
+    PooledAt: new Date().toISOString(),
+    PoolNpcId: npc.id,
+    PoolSource: shop.source || npc.script || npc.source || ""
+  });
+  ensurePetFormation(game);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "petShop", "ok", {
+    action: "deposit",
+    petIndex: index,
+    petName: removed.Name,
+    cost,
+    poolUsed: pool.length,
+    source: shop.source || ""
+  });
+  addLog(game, `${npc.name} 寄放了 ${removed.Name}，花费 ${cost} 石币。`);
+  return `${removed.Name} 已寄放，花费 ${cost} 石币。${shop.messages?.poolThanks || ""}`.trim();
+}
+
+function withdrawPetAtShop(game, npc, poolIndex) {
+  const shop = npc.petShop || {};
+  if (!shop.poolEnabled) throw new Error("这间宠物店没有开放宠物取回功能");
+  const pool = ensurePetPool(game);
+  const index = Math.trunc(Number(poolIndex));
+  if (!Number.isFinite(index) || index < 0 || index >= pool.length) throw new Error("没有找到这只寄放宠物");
+  if ((game.pets || []).length >= PET_CAPACITY) throw new Error(shop.messages?.getFull || `宠物栏已满，最多携带 ${PET_CAPACITY} 只`);
+  const [pet] = pool.splice(index, 1);
+  delete pet.PooledAt;
+  delete pet.PoolNpcId;
+  delete pet.PoolSource;
+  game.pets.push(pet);
+  ensurePetFormation(game);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "petShop", "ok", {
+    action: "withdraw",
+    poolIndex: index,
+    petName: pet.Name,
+    poolUsed: pool.length,
+    source: shop.source || ""
+  });
+  addLog(game, `${npc.name} 取回了 ${pet.Name}。`);
+  return `${pet.Name} 已回到随身宠物栏。${shop.messages?.poolThanks || ""}`.trim();
+}
+
+function sellPetAtShop(game, npc, petIndex) {
+  if ((game.pets || []).length <= 1) throw new Error("至少要保留一只随身宠物");
+  const index = exactPetIndex(game, petIndex);
+  const pet = game.pets[index];
+  const price = petShopPetCost(game, npc, pet);
+  const [removed] = game.pets.splice(index, 1);
+  const paid = runNpcVmAction(game, npc, { type: "give", stone: price, reason: "pet-shop-sell" });
+  if (!paid.ok) throw new Error(paid.error || "出售失败");
+  ensurePetFormation(game);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "petShop", "ok", {
+    action: "sell",
+    petIndex: index,
+    petName: removed.Name,
+    price,
+    source: npc.petShop?.source || ""
+  });
+  addLog(game, `${npc.name} 收下了 ${removed.Name}，支付 ${price} 石币。`);
+  return `${removed.Name} 已交给宠物店，获得 ${price} 石币。${npc.petShop?.messages?.thanks || ""}`.trim();
 }
 
 function changeItemGame(game, npcId, recipeIndex = NaN) {
@@ -5958,6 +6079,7 @@ async function npcReply(env, request, game, npc, text) {
   if (!game.encounter && isNpcAiMode(game, npc) && isAiRequest(lower)) return aiNpcReply(env, request, game, npc, text);
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
+  if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (npc.itemChange?.recipes?.length && hasAny(lower, ["加工", "合成", "制作", "製作", "打造", "换物", "交換", "交换", "change"])) return itemChangePromptReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
@@ -6105,6 +6227,7 @@ function applyNpcHi(game, npc) {
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
+  if (npc.petShop) return petShopReply(game, npc);
   if (npc.itemChange?.recipes?.length) return itemChangePromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   const questIds = npcQuestIds(npc);
@@ -6139,6 +6262,10 @@ function nextNpcDialogueLine(game, npc) {
 
 function npcDefaultLine(npc) {
   if (npc.trade?.items?.length) return "欢迎光临。";
+  if (npc.petShop) {
+    const state = npc.petShop.poolEnabled ? "寄放、取回或出售宠物" : "出售宠物";
+    return npc.petShop.messages?.main || `这里可以${state}。`;
+  }
   if (npc.itemChange?.recipes?.length) return "要加工什么？";
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
@@ -8639,6 +8766,36 @@ function tradeReply(game, npc) {
   ].filter(Boolean).join("\n");
 }
 
+function petShopReply(game, npc) {
+  const state = buildPetShopState(game, npc);
+  const pets = state?.pets || [];
+  const pooledPets = state?.pooledPets || [];
+  recordNpcVmEvent(game, npc, "petShop", state ? "ok" : "unsupported", {
+    carry: pets.length,
+    pool: pooledPets.length,
+    poolEnabled: Boolean(state?.poolEnabled),
+    source: state?.source || npc.petShop?.source || ""
+  });
+  if (!state) return `${npc.name} 没有可解析的宠物店资料。`;
+  const carryText = pets.length
+    ? pets.slice(0, 5).map((pet) => `${pet.name} Lv.${pet.level}(${pet.cost}石币)`).join("、")
+    : "没有随身宠物";
+  const poolText = state.poolEnabled
+    ? (pooledPets.length
+      ? `寄放中：${pooledPets.slice(0, 5).map((pet) => `${pet.name} Lv.${pet.level}`).join("、")}`
+      : `寄放栏空着，可以寄放宠物；随身宠物至少要保留 1 只。`)
+    : "这间宠物店只处理出售，不开放寄放栏。";
+  const help = state.poolEnabled
+    ? "下面可以点“寄”把宠物寄放、点“取”领回，或点“卖”出售。费用会按宠物等级、稀有度和你的魅力计算。"
+    : "下面可以点“卖”出售宠物，价格会按宠物等级、稀有度和你的魅力计算。";
+  return [
+    state.messages?.main || "欢迎来到宠物店。",
+    `随身宠物 ${state.carry.used}/${state.carry.capacity}：${carryText}`,
+    `${poolText}`,
+    help
+  ].filter(Boolean).join("\n");
+}
+
 function itemChangePromptReply(game, npc) {
   const state = buildItemChangeState(game, npc);
   const recipes = state?.recipes || [];
@@ -9631,6 +9788,7 @@ function openDialog(game, npc, messages, extra = {}) {
     npcName: npc.name,
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
+    petShop: extra.petShop || buildPetShopState(game, npc),
     petSkillShop: extra.petSkillShop || null,
     itemChange: extra.itemChange || buildItemChangeState(game, npc),
     warp: npc.warp || null,
@@ -9671,6 +9829,7 @@ function npcActionProfile(npc) {
   const actions = [];
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
+  if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
   if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
@@ -10327,6 +10486,76 @@ function buildPetSkillShopState(data, game, npc) {
   };
 }
 
+function buildPetShopState(game, npc) {
+  const shop = npc?.petShop;
+  if (!shop) return null;
+  const pool = ensurePetPool(game);
+  const activeIndex = getActivePetIndex(game);
+  return {
+    kind: shop.kind || (shop.poolEnabled ? "pet-pool" : "pet-shop"),
+    source: shop.source || npc.script || npc.source || "",
+    poolEnabled: Boolean(shop.poolEnabled),
+    poolCost: Number(shop.poolCost || 200),
+    normalRate: Number(shop.normalRate || 1),
+    specialRate: Number(shop.specialRate || 1.2),
+    messages: shop.messages || {},
+    stone: Number(game.player?.stone || 0),
+    carry: {
+      used: (game.pets || []).length,
+      capacity: PET_CAPACITY,
+      activeIndex
+    },
+    pool: {
+      used: pool.length,
+      capacity: PET_POOL_CAPACITY
+    },
+    pets: (game.pets || []).map((pet, index) => compactPetShopPet(game, npc, pet, index, index === activeIndex)),
+    pooledPets: pool.map((pet, index) => compactPetShopPet(game, npc, pet, index, false))
+  };
+}
+
+function compactPetShopPet(game, npc, pet, index, active = false) {
+  const cost = petShopPetCost(game, npc, pet);
+  return {
+    index,
+    name: pet?.Name || `宠物 ${index + 1}`,
+    level: Number(pet?.Lv || 1),
+    hp: Number(pet?.Hp || 0),
+    maxHp: Number(pet?.WorkMaxHp || pet?.Hp || 0),
+    image: Number(pet?.ImgNo || pet?.BaseImageNumber || pet?.CHAR_BASEBASEIMAGENUMBER || 0),
+    petId: Number(pet?.PetId || 0),
+    active,
+    cost,
+    affordable: Number(game.player?.stone || 0) >= cost,
+    specialRate: isSpecialPetShopImage(npc, pet)
+  };
+}
+
+function petShopPetCost(game, npc, pet) {
+  const shop = npc?.petShop || {};
+  const level = Math.max(1, Number(pet?.Lv || 1) || 1);
+  const getLevel = Math.max(1, Number(pet?.PetGetLv || pet?.GetLv || pet?.GetLevel || 1) || 1);
+  const rareValue = Number(pet?.Rare ?? pet?.CHAR_RARE ?? 0);
+  const rare = rareValue <= 0 ? 1 : rareValue === 1 ? 5 : 8;
+  const levelCost = level * level * 10;
+  const getLevelCost = getLevel * getLevel * 10;
+  const baseCost = Math.max(0, (levelCost - getLevelCost) + (level * 10)) * rare;
+  const sourceRate = isSpecialPetShopImage(npc, pet)
+    ? Number(shop.specialRate || 1.2)
+    : Number(shop.normalRate || 1);
+  const playerCharm = Number(game.player?.WorkFixCharm ?? game.player?.charm ?? 50) || 50;
+  const petAi = Number(pet?.WorkFixAi ?? pet?.CHAR_WORKFIXAI ?? pet?.Loyalty ?? pet?.loyalty ?? 0) || 0;
+  const charmFactor = Math.max(20, playerCharm + petAi) / 200;
+  const cost = Math.round(baseCost * (Number.isFinite(sourceRate) && sourceRate > 0 ? sourceRate : 1) * charmFactor);
+  return clampInt(cost, 1, 1000000, Number(shop.poolCost || 200) || 200);
+}
+
+function isSpecialPetShopImage(npc, pet) {
+  const image = Number(pet?.ImgNo || pet?.BaseImageNumber || pet?.CHAR_BASEBASEIMAGENUMBER || 0);
+  if (!image) return false;
+  return (npc?.petShop?.specialPetImages || []).some(([start, end]) => image >= Number(start) && image <= Number(end));
+}
+
 function buildItemChangeState(game, npc) {
   const itemChange = npc?.itemChange;
   if (!itemChange?.recipes?.length) return null;
@@ -10873,17 +11102,13 @@ function dialogSuggestions(npc, game = null) {
       ? ["请求急救药", "请求治疗", "试着交涉"]
       : ["请求避敌", npc.trade?.items?.length ? "看看柜台后面" : "请求信息", isWarpNpc(npc) ? "试着交涉" : "试着交涉"])
     : [];
-  const base = npc.trade || /shop/i.test(npc.type)
-    ? ["hi", "买东西", "地图"]
-    : /healer/i.test(npc.type)
-      ? ["hi", "治疗", "地图"]
-      : npc.warp || /warp/i.test(npc.type)
-        ? ["hi", "传送", "出口"]
-        : npc.itemChange?.recipes?.length
-          ? ["hi", "加工", "地图"]
-          : /save/i.test(npc.type)
-            ? ["hi", "记录", "地图"]
-            : ["hi", "任务", "地图"];
+  let base = ["hi", "任务", "地图"];
+  if (npc.petShop) base = ["hi", "整理宠物", "寄放", "取回"];
+  else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
+  else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
+  else if (npc.warp || /warp/i.test(npc.type)) base = ["hi", "传送", "出口"];
+  else if (npc.itemChange?.recipes?.length) base = ["hi", "加工", "地图"];
+  else if (/save/i.test(npc.type)) base = ["hi", "记录", "地图"];
   return [...new Set([...base, ...aiHints])];
 }
 
@@ -11010,6 +11235,11 @@ function ensurePetFormation(game) {
     : -1;
   game.petFormation.source ||= `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE + client PET STATUS`;
   return game.petFormation;
+}
+
+function ensurePetPool(game) {
+  game.petPool = Array.isArray(game.petPool) ? game.petPool.filter(Boolean).slice(0, PET_POOL_CAPACITY) : [];
+  return game.petPool;
 }
 
 function getActivePetIndex(game) {
@@ -11209,6 +11439,25 @@ function petState(game) {
       maxHp: Number(pet.WorkMaxHp || pet.Hp || 0)
     })),
     source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPETHAVE`
+  };
+}
+
+function petPoolState(game) {
+  const pool = ensurePetPool(game);
+  return {
+    used: pool.length,
+    capacity: PET_POOL_CAPACITY,
+    remaining: Math.max(0, PET_POOL_CAPACITY - pool.length),
+    pets: pool.map((pet, index) => ({
+      index,
+      name: pet.Name,
+      level: Number(pet.Lv || 1),
+      hp: Number(pet.Hp || 0),
+      maxHp: Number(pet.WorkMaxHp || pet.Hp || 0),
+      image: Number(pet.ImgNo || 0),
+      source: pet.PoolSource || ""
+    })),
+    source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPOOLPETHAVE`
   };
 }
 
@@ -12700,6 +12949,7 @@ function normalizeGame(game) {
   setCharacterDir(game, game.player?.dir ?? game.location?.dir);
   game.pets ||= [];
   ensurePetFormation(game);
+  ensurePetPool(game);
   game.inventory ||= [];
   syncEquipmentState(game);
   normalizeProgressionRuntime(game);
@@ -12848,6 +13098,7 @@ function buildSaveJson(game) {
     player: { ...game.player },
     location: { ...game.location },
     pets: game.pets.map((pet) => ({ ...pet })),
+    petPool: ensurePetPool(game).map((pet) => ({ ...pet })),
     petFormation: { ...ensurePetFormation(game) },
     petState: petState(game),
     progression: progressionState(game),
@@ -12941,6 +13192,7 @@ function buildCharInfo(game) {
     `DIR=${normalizeDir(game.player.dir)}`,
     `LAST_WARP=${game.lastWarp?.to ? `${game.lastWarp.to.mapId},${game.lastWarp.to.x},${game.lastWarp.to.y}` : "NONE"}`,
     `PETCOUNT=${game.pets.length}`,
+    `POOLPETCOUNT=${ensurePetPool(game).length}`,
     `ITEMCOUNT=${game.inventory.length}`,
     `LAST_SAVEPOINT=${game.savePoint ? safeJson(game.savePoint) : ""}`,
     `WALK_STEPS=${game.walk?.steps || 0}`,
@@ -12954,6 +13206,7 @@ function buildCharInfo(game) {
     `CHARACTER_FIELDS=${safeJson(compactCharacterFields(game))}`,
     `AI_WORKSPACE=${safeJson(compactAiWorkspaceMemory(game))}`,
     `PETS=${safeJson(game.pets.map(petSaveSummary))}`,
+    `POOLPETS=${safeJson(ensurePetPool(game).map(petSaveSummary))}`,
     `ITEMS=${safeJson(game.inventory.map(itemSaveSummary))}`,
     `UPDATED=${game.character.updatedAt}`,
     "DATAEND=1"
@@ -13025,6 +13278,7 @@ function withMap(game, extra = {}) {
     nearby: nearbyState(game, map),
     inventoryState: inventoryState(game),
     petState: petState(game),
+    petPoolState: petPoolState(game),
     progression,
     world: {
       map: responseMap,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T20:12:25.533Z",
+  "generatedAt": "2026-05-20T02:14:13.536Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,10 +206,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12189,
-      "candidate-action": 1477,
-      "unknown": 1666,
-      "supported-message": 10760,
+      "supported-config": 12227,
+      "candidate-action": 1428,
+      "unknown": 1633,
+      "supported-message": 10804,
       "condition-control": 11752,
       "supported-action": 3680,
       "blocked-or-later-system": 81
@@ -2281,7 +2281,7 @@
       {
         "key": "cost_msg",
         "normalized": "cost_msg",
-        "category": "candidate-action",
+        "category": "supported-message",
         "occurrences": 11,
         "files": 11,
         "profiles": {
@@ -4767,7 +4767,7 @@
       {
         "key": "getfull_msg",
         "normalized": "getfull_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 11,
         "files": 11,
         "profiles": {
@@ -10143,7 +10143,7 @@
       {
         "key": "pool_cost",
         "normalized": "pool_cost",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 11,
         "files": 11,
         "profiles": {
@@ -10195,7 +10195,7 @@
       {
         "key": "pool_flg",
         "normalized": "pool_flg",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 11,
         "files": 11,
         "profiles": {
@@ -10299,7 +10299,7 @@
       {
         "key": "poolfull_msg",
         "normalized": "poolfull_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 11,
         "files": 11,
         "profiles": {
@@ -10351,7 +10351,7 @@
       {
         "key": "pooltanks_msg",
         "normalized": "pooltanks_msg",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 11,
         "files": 11,
         "profiles": {
@@ -11914,7 +11914,7 @@
       {
         "key": "special_pet",
         "normalized": "special_pet",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 16,
         "files": 16,
         "profiles": {
@@ -13888,58 +13888,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "special_pet",
-        "normalized": "special_pet",
-        "category": "candidate-action",
-        "occurrences": 16,
-        "files": 16,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 9,
-            "files": 9
-          },
-          "classic-rebirth": {
-            "occurrences": 9,
-            "files": 9
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 9,
-            "files": 9
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 9,
-            "files": 9
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 13,
-            "text": "special_pet:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1103_19_17",
-            "line": 7,
-            "text": "special_pet:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1203_14_13",
-            "line": 7,
-            "text": "special_pet:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1303_16_13",
-            "line": 7,
-            "text": "special_pet:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 13,
-            "text": "special_pet:"
-          }
-        ]
-      },
-      {
         "key": "routeto",
         "normalized": "routeto",
         "category": "unknown",
@@ -14772,318 +14720,6 @@
         ]
       },
       {
-        "key": "cost_msg",
-        "normalized": "cost_msg",
-        "category": "candidate-action",
-        "occurrences": 11,
-        "files": 11,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 4,
-            "files": 4
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 6,
-            "text": "cost_msg:钱不够喔。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 6,
-            "text": "cost_msg:请再度光临。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_2003_18_17",
-            "line": 6,
-            "text": "cost_msg:钱不够喔。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_3003_12_13",
-            "line": 6,
-            "text": "cost_msg:你的钱不够喔。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_4003_13_13",
-            "line": 6,
-            "text": "cost_msg:你的钱不够喔。"
-          }
-        ]
-      },
-      {
-        "key": "getfull_msg",
-        "normalized": "getfull_msg",
-        "category": "unknown",
-        "occurrences": 11,
-        "files": 11,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 4,
-            "files": 4
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 9,
-            "text": "getfull_msg:宠物已经太多了无法再拿了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 9,
-            "text": "getfull_msg:宠物太多没办法再拿了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_2003_18_17",
-            "line": 9,
-            "text": "getfull_msg:宠物已经太多了无法再拿了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_3003_12_13",
-            "line": 9,
-            "text": "getfull_msg:宠物太多无法再拿了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_4003_13_13",
-            "line": 9,
-            "text": "getfull_msg:宠物太多没有办法再拿了。"
-          }
-        ]
-      },
-      {
-        "key": "pool_cost",
-        "normalized": "pool_cost",
-        "category": "candidate-action",
-        "occurrences": 11,
-        "files": 11,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 4,
-            "files": 4
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 11,
-            "text": "pool_cost:200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 11,
-            "text": "pool_cost:200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_2003_18_17",
-            "line": 11,
-            "text": "pool_cost:200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_3003_12_13",
-            "line": 11,
-            "text": "pool_cost:200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_4003_13_13",
-            "line": 11,
-            "text": "pool_cost:200"
-          }
-        ]
-      },
-      {
-        "key": "pool_flg",
-        "normalized": "pool_flg",
-        "category": "candidate-action",
-        "occurrences": 11,
-        "files": 11,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 4,
-            "files": 4
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 10,
-            "text": "pool_flg:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 10,
-            "text": "pool_flg:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_2003_18_17",
-            "line": 10,
-            "text": "pool_flg:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_3003_12_13",
-            "line": 10,
-            "text": "pool_flg:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_4003_13_13",
-            "line": 10,
-            "text": "pool_flg:1"
-          }
-        ]
-      },
-      {
-        "key": "poolfull_msg",
-        "normalized": "poolfull_msg",
-        "category": "unknown",
-        "occurrences": 11,
-        "files": 11,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 4,
-            "files": 4
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 8,
-            "text": "poolfull_msg:已经无法再寄放了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 8,
-            "text": "poolfull_msg:已经无法在收存了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_2003_18_17",
-            "line": 8,
-            "text": "poolfull_msg:已经无法再寄放了～。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_3003_12_13",
-            "line": 8,
-            "text": "poolfull_msg:已经没有办法再保存了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_4003_13_13",
-            "line": 8,
-            "text": "poolfull_msg:已经没有办法再保存了。"
-          }
-        ]
-      },
-      {
-        "key": "pooltanks_msg",
-        "normalized": "pooltanks_msg",
-        "category": "unknown",
-        "occurrences": 11,
-        "files": 11,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-rebirth": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 4,
-            "files": 4
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 4,
-            "files": 4
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_1003_12_13",
-            "line": 7,
-            "text": "pooltanks_msg:希望你再度光临。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_130_49_3",
-            "line": 7,
-            "text": "pooltanks_msg:谢谢。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_2003_18_17",
-            "line": 7,
-            "text": "pooltanks_msg:请你再度光临～。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_3003_12_13",
-            "line": 7,
-            "text": "pooltanks_msg:期待您的再度利用。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/ps_4003_13_13",
-            "line": 7,
-            "text": "pooltanks_msg:衷心的期待您能够再度光临本店。"
-          }
-        ]
-      },
-      {
         "key": "cost",
         "normalized": "cost",
         "category": "candidate-action",
@@ -15834,6 +15470,265 @@
             "file": "external/sources/ref___data/npc/race2/second.arg",
             "line": 19,
             "text": "DelFlag:off"
+          }
+        ]
+      },
+      {
+        "key": "EndFlag",
+        "normalized": "endflag",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 27,
+            "text": "EndFlag:off"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 26,
+            "text": "EndFlag:off"
+          }
+        ]
+      },
+      {
+        "key": "First",
+        "normalized": "first",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 37,
+            "text": "First:20708"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 42,
+            "text": "First:"
+          }
+        ]
+      },
+      {
+        "key": "FornewLv",
+        "normalized": "fornewlv",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 20,
+            "text": "FornewLv:0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 18,
+            "text": "FornewLv:"
+          }
+        ]
+      },
+      {
+        "key": "GameMode",
+        "normalized": "gamemode",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 26,
+            "text": "GameMode:2"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 24,
+            "text": "GameMode:5"
+          }
+        ]
+      },
+      {
+        "key": "haditem_msg",
+        "normalized": "haditem_msg",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 11,
+            "text": "haditem_msg:您已经有猎宠证啰！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 6,
+            "text": "haditem_msg:您已经有猎宠证啰！"
+          }
+        ]
+      },
+      {
+        "key": "LowLevel",
+        "normalized": "lowlevel",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 36,
+            "text": "LowLevel:5"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 41,
+            "text": "LowLevel:230"
+          }
+        ]
+      },
+      {
+        "key": "nonitem_msg",
+        "normalized": "nonitem_msg",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-rebirth": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 1,
+            "files": 1
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/race/DEADJOE",
+            "line": 12,
+            "text": "nonitem_msg:您没有猎宠证，要参加猎宠比赛请领取猎宠证"
+          },
+          {
+            "file": "external/sources/ref___data/npc/race2/second.arg",
+            "line": 7,
+            "text": "nonitem_msg:您没有猎宠证，要参加猎宠比赛请族长领取猎宠证，且需由他来登记才行喔～"
           }
         ]
       }
