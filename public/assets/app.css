@@ -3759,6 +3759,56 @@ h3 {
   opacity: .6;
 }
 
+.pet-fusion-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 5px;
+  align-items: end;
+  min-width: 0;
+  border: 1px solid rgb(209 161 85 / 46%);
+  padding: 5px;
+  background: rgb(8 12 13 / 54%);
+}
+
+.pet-fusion-controls label {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  color: #ffef7c;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.pet-fusion-controls select {
+  min-width: 0;
+  height: 28px;
+  border: 1px solid rgb(255 239 124 / 45%);
+  border-radius: 2px;
+  background: rgb(12 32 31 / 96%);
+  color: #fffdf3;
+  font: inherit;
+  font-size: 11px;
+}
+
+.pet-fusion-controls button {
+  min-height: 28px;
+  border: 1px solid rgb(255 239 124 / 68%);
+  border-radius: 2px;
+  padding: 0 9px;
+  background: #ffef7c;
+  color: #241706;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.pet-fusion-controls button:disabled {
+  border-color: rgb(180 166 132 / 28%);
+  background: rgb(20 58 48 / 62%);
+  color: #92856c;
+  cursor: not-allowed;
+}
+
 .shop-empty {
   min-height: 34px;
   margin: 0;

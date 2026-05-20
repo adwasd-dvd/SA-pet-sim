@@ -184,6 +184,57 @@ const rankTab = [
   [530, 580],
   [550, 600]
 ];
+const PET_FUSION_PET_TABLE = Object.freeze([
+  [1, 2, 5, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 5, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5],
+  [2, 5, 1, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1],
+  [5, 1, 2, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2],
+  [1, 2, 5, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5],
+  [2, 5, 1, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1],
+  [2, 1, 2, 1, 2, 2, 2, 5, 5, 1, 2, 5, 2, 1, 2, 1, 2, 5, 2, 1, 2, 1, 2, 5, 2, 5, 2, 1, 2],
+  [1, 2, 5, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 1],
+  [2, 5, 1, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 2],
+  [10, 3, 10, 3, 10, 8, 10, 8, 10, 3, 10, 3, 10, 8, 10, 8, 10, 3, 10, 3, 10, 8, 10, 8, 10, 8, 10, 3, 10],
+  [3, 8, 3, 8, 3, 10, 3, 10, 8, 3, 3, 8, 3, 8, 3, 10, 3, 10, 3, 8, 3, 8, 3, 10, 3, 10, 3, 8, 3],
+  [3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8],
+  [5, 1, 5, 1, 5, 2, 5, 2, 5, 1, 5, 5, 5, 1, 5, 2, 5, 2, 5, 1, 5, 1, 5, 2, 5, 2, 5, 1, 5],
+  [8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10],
+  [10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3],
+  [3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8],
+  [5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1],
+  [9, 0, 9, 0, 9, 4, 9, 4, 9, 0, 9, 0, 9, 4, 9, 4, 9, 0, 9, 0, 9, 4, 9, 4, 9, 0, 9, 4, 9],
+  [1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2],
+  [6, 0, 6, 0, 6, 9, 6, 9, 6, 0, 6, 0, 6, 9, 6, 9, 6, 0, 6, 0, 6, 9, 6, 9, 6, 0, 6, 9, 6],
+  [4, 6, 4, 6, 4, 9, 4, 9, 4, 6, 4, 6, 4, 9, 4, 9, 4, 6, 4, 6, 4, 9, 4, 9, 4, 6, 4, 9, 4],
+  [8, 3, 8, 3, 8, 10, 8, 10, 8, 3, 8, 3, 8, 10, 8, 10, 8, 3, 8, 3, 8, 10, 8, 10, 8, 3, 8, 10, 8],
+  [8, 10, 3, 8, 10, 3, 8, 10, 10, 3, 8, 10, 3, 8, 10, 3, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10],
+  [1, 2, 5, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5],
+  [0, 4, 0, 4, 0, 6, 0, 6, 0, 4, 0, 4, 0, 6, 0, 6, 0, 4, 0, 4, 0, 6, 0, 4, 0, 6, 0, 4, 0],
+  [1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2, 5, 1, 2],
+  [3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8],
+  [10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3, 8, 10, 3],
+  [2, 1, 2, 1, 5, 1, 5, 1, 2, 1, 2, 1, 5, 1, 5, 1, 2, 1, 2, 1, 5, 1, 5, 1, 2, 1, 2, 5, 1],
+  [6, 9, 6, 9, 6, 0, 6, 0, 6, 9, 6, 9, 6, 0, 6, 0, 6, 9, 6, 9, 6, 0, 6, 0, 6, 9, 6, 0, 6]
+]);
+const PET_FUSION_PROPERTY_TABLE = Object.freeze([
+  [0, 4, 5, 6],
+  [7, 1, 8, 9],
+  [10, 11, 2, 12],
+  [13, 14, 15, 3]
+]);
+const PET_FUSION_RESULT_TABLE = Object.freeze([
+  [989, 990, 991, 992, 989, 992, 989, 990, 990, 990, 991, 991, 991, 992, 989, 992],
+  [1001, 1002, 1003, 1004, 1001, 1001, 1004, 1001, 1002, 1002, 1003, 1003, 1003, 1004, 1004, 1003],
+  [1005, 1006, 1007, 1008, 1005, 1005, 1005, 1006, 1006, 1006, 1007, 1006, 1007, 1008, 1008, 1008],
+  [1021, 1025, 1023, 1024, 1025, 1021, 1021, 1022, 1022, 1022, 1023, 1023, 1023, 1021, 1024, 1024],
+  [1030, 1031, 1032, 1033, 1030, 1030, 1030, 1031, 1031, 1031, 1032, 1031, 1032, 1030, 1033, 1033],
+  [1017, 1018, 1019, 1020, 1018, 1017, 1017, 1018, 1019, 1018, 1019, 1019, 1020, 1017, 1020, 1020],
+  [1009, 1010, 1011, 1012, 1010, 1009, 1009, 1010, 1010, 1010, 1011, 1011, 1011, 1012, 1012, 1011],
+  [993, 994, 995, 996, 994, 993, 993, 994, 995, 994, 995, 993, 996, 993, 996, 996],
+  [1026, 1027, 1028, 1029, 1026, 1026, 1026, 1026, 1028, 1027, 1028, 1028, 1029, 1029, 1029, 1029],
+  [997, 998, 999, 999, 1000, 997, 997, 1000, 998, 998, 1000, 998, 999, 999, 999, 999],
+  [1013, 1014, 1015, 1016, 1013, 1013, 1016, 1013, 1015, 1014, 1015, 1015, 1015, 1016, 1016, 1016]
+]);
+const PET_FUSION_ILLEGAL_SKILLS = new Set([41, 52, 600, 601, 602, 603, 604, 614, 617, 628, 630, 631, 635, 638, 641]);
 const OPENAI_GUIDE_SCHEMA = {
   type: "object",
   properties: {
@@ -342,6 +393,18 @@ async function handleApi(request, env, url) {
         String(body.action || ""),
         Number(body.petIndex),
         Number(body.poolIndex)
+      ));
+    }
+    if (url.pathname === "/api/game/pet-fusion" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await petFusionGame(
+        env,
+        request,
+        body.game,
+        String(body.npcId || ""),
+        Number(body.mainIndex),
+        Number(body.subIndex1),
+        Number(body.subIndex2)
       ));
     }
     if (url.pathname === "/api/game/pool-item" && request.method === "POST") {
@@ -1623,6 +1686,233 @@ function poolPetGame(game, npcId, action, petIndex = NaN, poolIndex = NaN) {
     npcMessage("system", message)
   ], { petShop: buildPetShopState(game, npc) });
   return withMap(game, { npc, petShopAction: { type: mode, message, source: npc.petShop.source } });
+}
+
+async function petFusionGame(env, request, game, npcId, mainIndex = NaN, subIndex1 = NaN, subIndex2 = NaN) {
+  const data = await loadGameData(env, request);
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能进行宠物融合");
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作宠物融合");
+  if (!isPetFusionNpc(npc)) throw new Error("这个 NPC 没有宠物融合脚本资料");
+  const state = buildPetFusionState(game, npc);
+  if (!state) throw new Error("这个 NPC 的宠物融合资料无法解析");
+  if (state.condition?.ok === false) throw new Error(state.condition.reason || "还不满足宠物融合条件");
+  if (!state.eggs.length) throw new Error("这个融合 NPC 没有配置 ADDEGGID 宠物蛋");
+  if ((game.pets || []).length < 2) throw new Error("原版宠物融合至少需要主宠和一只副宠");
+
+  const selectedIndexes = normalizePetFusionSelection(game, mainIndex, subIndex1, subIndex2);
+  const [mainPet, ...subPets] = selectedIndexes.map((index) => game.pets[index]);
+  validatePetFusionPet(data, mainPet, "主宠");
+  subPets.forEach((pet, index) => validatePetFusionPet(data, pet, `副宠${index + 1}`));
+
+  const eggEnemyId = Number(state.eggs[0].enemyId || 0);
+  const resultPetId = petFusionResultPetId(data, mainPet, subPets[0]);
+  if (resultPetId <= 0) throw new Error("这组宠物无法从原版融合表推导结果");
+  const resultTemplate = data.enemyBaseSet.get(resultPetId);
+  if (!resultTemplate) throw new Error(`融合结果宠物 ${resultPetId} 不在 enemybase2.txt 中`);
+  const eggEnemy = createEnemyFromEnemySpec(data, eggEnemyId, {
+    npcId: npc.id,
+    npcName: npc.name,
+    source: npc.petFusion?.source || npc.script || npc.source || ""
+  });
+  if (!eggEnemy) throw new Error(`ADDEGGID ${eggEnemyId} 无法从 enemy1.txt 生成宠物蛋`);
+
+  const parents = selectedIndexes.map((index) => petFusionParentSummary(game.pets[index], index));
+  const work = petFusionWorkStats(mainPet, subPets, `${npc.id}:${parents.map((pet) => `${pet.petId}:${pet.level}`).join("|")}`);
+  const skillIds = petFusionSkillIds(mainPet, subPets);
+  const egg = createPetFusionEgg(data, eggEnemy, resultTemplate, resultPetId, work, skillIds, parents, npc);
+
+  for (const index of [...selectedIndexes].sort((a, b) => b - a)) {
+    game.pets.splice(index, 1);
+  }
+  game.pets.push(egg);
+  ensurePetFormation(game);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "petFusion", "ok", {
+    action: "fuse",
+    mutated: true,
+    selectedIndexes,
+    parents,
+    eggEnemyId,
+    eggPetId: Number(egg.PetId || 0),
+    eggName: egg.Name || "",
+    fusionResultPetId: resultPetId,
+    fusionResultName: resultTemplate.Name || "",
+    fusionRaise: Number(egg.FusionRaise || egg.CHAR_FUSIONRAISE || 0),
+    source: npc.petFusion?.source || npc.script || npc.source || "",
+    executor: "npc-action-vm"
+  });
+  addLog(game, `${npc.name} 将 ${parents.map((pet) => pet.name).join("、")} 融合成 ${egg.Name || "宠物蛋"}。`);
+  const message = `${npc.name}：融合完成，获得 ${egg.Name || "宠物蛋"}。蛋内结果按原版表记录为 ${resultTemplate.Name || `Pet ${resultPetId}`}，孵化阶段会继续读取 FUSIONRAISE。`;
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+    npcMessage("system", message)
+  ], { petFusion: buildPetFusionState(game, npc) });
+  return withMap(game, { npc, petFusionAction: { type: "fuse", message, parents, egg: petFusionParentSummary(egg, game.pets.length - 1), resultPetId } });
+}
+
+function normalizePetFusionSelection(game, mainIndex, subIndex1, subIndex2 = NaN) {
+  const indexes = [exactPetIndex(game, mainIndex), exactPetIndex(game, subIndex1)];
+  if (Number.isFinite(Number(subIndex2))) indexes.push(exactPetIndex(game, subIndex2));
+  const unique = [...new Set(indexes)];
+  if (unique.length !== indexes.length) throw new Error("主宠和副宠不能选择同一只");
+  return unique.slice(0, 3);
+}
+
+function validatePetFusionPet(data, pet, label) {
+  if (!pet) throw new Error(`${label}不存在`);
+  if (Number(pet.FusionBeit ?? pet.CHAR_FUSIONBEIT ?? 0) === 1 || Number(pet.FusionRaise ?? pet.CHAR_FUSIONRAISE ?? 0) > 0) {
+    throw new Error(`${label}已经是融合蛋或正在孵化，不能再次融合`);
+  }
+  const code = petFusionCode(data, pet);
+  if (code < 0) throw new Error(`${label} ${pet.Name || ""} 没有原版融合分类，不能融合`);
+}
+
+function petFusionCode(data, pet) {
+  const petId = Number(pet?.PetId || pet?.petId || 0);
+  const template = data?.enemyBaseSet?.get(petId);
+  const code = Number(template?.FusionCode ?? pet?.FusionCode ?? pet?.CHAR_FUSIONCODE);
+  return Number.isFinite(code) ? Math.trunc(code) : -1;
+}
+
+function petFusionResultPetId(data, mainPet, subPet) {
+  const mainCode = petFusionCode(data, mainPet);
+  const subCode = petFusionCode(data, subPet);
+  const petRow = PET_FUSION_PET_TABLE[subCode];
+  if (!petRow) return 0;
+  const px = petRow[mainCode];
+  const mainElement = petFusionElementIndex(mainPet);
+  const subElement = petFusionElementIndex(subPet);
+  const py = PET_FUSION_PROPERTY_TABLE[mainElement]?.[subElement];
+  const result = PET_FUSION_RESULT_TABLE[px]?.[py];
+  return Number(result || 0);
+}
+
+function petFusionElementIndex(pet) {
+  const attrs = [
+    Number(pet?.EarthAT ?? pet?.Earth ?? 0),
+    Number(pet?.WaterAT ?? pet?.Water ?? 0),
+    Number(pet?.FireAT ?? pet?.Fire ?? 0),
+    Number(pet?.WindAT ?? pet?.WindAt ?? pet?.Wind ?? 0)
+  ];
+  let bestIndex = 0;
+  let bestValue = -1;
+  for (let i = 0; i < attrs.length; i += 1) {
+    if (attrs[i] > bestValue) {
+      bestValue = attrs[i];
+      bestIndex = i;
+    }
+  }
+  return bestIndex;
+}
+
+function petFusionWorkStats(mainPet, subPets, seed) {
+  const main = petFusionScaledWork(mainPet);
+  const subAverage = [0, 1, 2, 3].map((index) => {
+    const sum = subPets.reduce((total, pet) => total + petFusionScaledWork(pet)[index], 0);
+    return subPets.length ? Math.trunc(sum / subPets.length) : 0;
+  });
+  const work = [0, 1, 2, 3].map((index) => {
+    const base = Math.trunc(main[index] * 0.6 + subAverage[index] * 0.4);
+    const jitter = (stableHashInt(`${seed}:jitter:${index}`) % 5) - 2;
+    return clampInt(base + jitter, 1, 255, 1);
+  });
+  const rankWork = work.slice();
+  for (let i = 0; i < 10; i += 1) {
+    const stat = stableHashInt(`${seed}:growth:${i}`) % 4;
+    work[stat] = clampInt(work[stat] + 1, 1, 255, work[stat]);
+  }
+  work.rank = petFusionRank(rankWork);
+  work.rankWork = rankWork;
+  return work;
+}
+
+function petFusionScaledWork(pet) {
+  const alloc = Array.isArray(pet?.AllocPoint) && pet.AllocPoint.length >= 4
+    ? pet.AllocPoint
+    : [
+      pet?.WorkFixVital ?? pet?.Vital,
+      pet?.WorkFixStr ?? pet?.Str,
+      pet?.WorkFixTough ?? pet?.Tough,
+      pet?.WorkFixDex ?? pet?.Dex
+    ];
+  const level = clampInt(pet?.Lv ?? pet?.level, 1, CHAR_MAXUPLEVEL, 1);
+  const scale = level < 120 ? 0.7 : level < 140 ? 0.8 : 1;
+  return [0, 1, 2, 3].map((index) => Math.max(1, Math.trunc(Number(alloc[index] || 1) * scale)));
+}
+
+function petFusionRank(work = []) {
+  const sum = work.reduce((total, value) => total + Number(value || 0), 0);
+  const thresholds = [130, 100, 95, 85, 80, 0];
+  const index = thresholds.findIndex((value) => sum >= value);
+  return index >= 0 ? index : thresholds.length - 1;
+}
+
+function petFusionSkillIds(mainPet, subPets) {
+  const ids = [];
+  for (const pet of [mainPet, ...subPets]) {
+    const source = Array.isArray(pet?.PetSkillIds) ? pet.PetSkillIds : [];
+    for (const id of source) {
+      const skillId = Number(id || 0);
+      if (skillId > 0 && !PET_FUSION_ILLEGAL_SKILLS.has(skillId) && !ids.includes(skillId)) ids.push(skillId);
+      if (ids.length >= 7) break;
+    }
+    if (ids.length >= 7) break;
+  }
+  while (ids.length < 7) ids.push(0);
+  return ids.slice(0, 7);
+}
+
+function createPetFusionEgg(data, eggEnemy, resultTemplate, resultPetId, work, skillIds, parents, npc) {
+  const egg = normalizeCapturedPet(eggEnemy);
+  const init = Math.max(1, Number(resultTemplate.InitNum || 1));
+  egg.Vital = init * Number(resultTemplate.BaseVital || 1) * Number(work[0] || 1);
+  egg.Str = init * Number(resultTemplate.BaseStr || 1) * Number(work[1] || 1);
+  egg.Tough = init * Number(resultTemplate.BaseTgh || 1) * Number(work[2] || 1);
+  egg.Dex = init * Number(resultTemplate.BaseDex || 1) * Number(work[3] || 1);
+  egg.AllocPoint = work.slice(0, 4);
+  egg.PetRank = Number(work.rank ?? petFusionRank(work));
+  egg.PetSkillIds = skillIds.slice(0, 7);
+  egg.PetSkills = egg.PetSkillIds.map((id) => (id > 0 ? compactPetSkillForSave(data.skills.get(id) || { Id: id, Name: `技能 ${id}` }) : null));
+  egg.Slot = 7;
+  egg.Lv = 1;
+  egg.Exp = levelExp(1);
+  egg.SourceExp = 0;
+  egg.EnemyExp = 0;
+  egg.FusionCode = -1;
+  egg.CHAR_FUSIONCODE = -1;
+  egg.FusionRaise = 40;
+  egg.CHAR_FUSIONRAISE = 40;
+  egg.FusionBeit = 1;
+  egg.CHAR_FUSIONBEIT = 1;
+  egg.FusionTimeLimit = Math.floor(Date.now() / 1000);
+  egg.CHAR_FUSIONTIMELIMIT = egg.FusionTimeLimit;
+  egg.FusionIndex = resultPetId;
+  egg.CHAR_FUSIONINDEX = resultPetId;
+  egg.FusionResultPetId = resultPetId;
+  egg.FusionResultName = resultTemplate.Name || "";
+  egg.FusionParents = parents;
+  egg.FusionSource = npc.petFusion?.source || npc.script || npc.source || "";
+  egg.Transmigration = Number(egg.Transmigration || egg.CHAR_TRANSMIGRATION || 1);
+  egg.CHAR_TRANSMIGRATION = egg.Transmigration;
+  complianceParameter(egg);
+  egg.BornPoint = [egg.WorkMaxHp, egg.WorkFixStr, egg.WorkFixTough, egg.WorkFixDex];
+  normalizePetRuntime(egg);
+  return egg;
+}
+
+function petFusionParentSummary(pet, index) {
+  return {
+    index,
+    name: pet?.Name || pet?.name || `宠物 ${Number(index || 0) + 1}`,
+    petId: Number(pet?.PetId || pet?.petId || 0),
+    level: Number(pet?.Lv || pet?.level || 1),
+    hp: Number(pet?.Hp || 0),
+    maxHp: Number(pet?.WorkMaxHp || pet?.Hp || 0)
+  };
 }
 
 function normalizePetShopAction(action = "") {
@@ -9557,7 +9847,7 @@ function petFusionReply(game, npc, text = "") {
     petText,
     `成功后可能生成：${eggText}。`,
     conditionText,
-    "当前可以先查看融合窗口和条件；真正融合扣宠、生成蛋会继续按原版规则接入。"
+    "在下方融合窗口选择主宠和副宠后，Worker 会按原版条件扣除宠物并生成宠物蛋。"
   ].filter(Boolean).join("\n");
 }
 
@@ -14812,6 +15102,7 @@ async function loadGameData(env, request) {
       PetFlag: toInt(rows[37]),
       Size: toInt(rows[38]),
       LimitLevel: toInt(rows[54]),
+      FusionCode: toInt(rows[55]),
       Species: toInt(rows[55])
     };
     enemyBaseSet.set(eb.No, eb);

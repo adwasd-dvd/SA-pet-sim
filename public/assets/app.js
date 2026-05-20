@@ -3588,6 +3588,15 @@ function renderDialog() {
   els.dialogSuggestions.querySelectorAll("[data-change-item]").forEach((btn) => {
     btn.addEventListener("click", () => changeItem(Number(btn.dataset.changeItem)));
   });
+  els.dialogSuggestions.querySelectorAll("[data-pet-fusion-submit]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const box = btn.closest("[data-pet-fusion-controls]");
+      const mainIndex = Number(box?.querySelector("[data-pet-fusion-main]")?.value);
+      const subIndex1 = Number(box?.querySelector("[data-pet-fusion-sub1]")?.value);
+      const sub2Value = box?.querySelector("[data-pet-fusion-sub2]")?.value ?? "";
+      petFusion(mainIndex, subIndex1, sub2Value === "" ? NaN : Number(sub2Value));
+    });
+  });
   els.dialogSuggestions.querySelectorAll("[data-dialog-command]").forEach((btn) => {
     btn.addEventListener("click", () => sendDialog(btn.dataset.dialogCommand || ""));
   });
@@ -4459,6 +4468,11 @@ function renderDialogPetFusion(dialog) {
   const pets = fusion.pets || [];
   const eggs = fusion.eggs || [];
   const conditionOk = fusion.condition?.ok !== false;
+  const petOptions = (selectedIndex = NaN) => pets.slice(0, 5).map((pet, order) => `
+    <option value="${Number(pet.index)}" ${Number(pet.index) === Number(selectedIndex) ? "selected" : ""}>
+      ${escapeHtml(`${order + 1}. ${pet.name} Lv.${Number(pet.level || 1)}`)}
+    </option>
+  `).join("");
   const petList = pets.length
     ? pets.slice(0, 5).map((pet) => `
         <div class="shop-item pet-shop-item">
@@ -4482,6 +4496,28 @@ function renderDialogPetFusion(dialog) {
         </div>
       `).join("")
     : `<p class="shop-empty">这里暂时没有可生成的宠物蛋。</p>`;
+  const fusionControls = conditionOk && pets.length >= 2
+    ? `
+      <div class="pet-fusion-controls" data-pet-fusion-controls>
+        <label>
+          <span>主宠</span>
+          <select data-pet-fusion-main>${petOptions(pets[0]?.index)}</select>
+        </label>
+        <label>
+          <span>副宠</span>
+          <select data-pet-fusion-sub1>${petOptions(pets[1]?.index)}</select>
+        </label>
+        <label>
+          <span>副宠2</span>
+          <select data-pet-fusion-sub2>
+            <option value="">不选</option>
+            ${petOptions()}
+          </select>
+        </label>
+        <button type="button" data-pet-fusion-submit ${eggs.length ? "" : "disabled"}>开始融合</button>
+      </div>
+    `
+    : `<p class="shop-empty">${escapeHtml(fusion.condition?.reason || "原版宠物融合至少需要主宠和一只副宠。")}</p>`;
   return `
     <div class="shop-box pet-fusion-box">
       <div class="shop-summary">
@@ -4491,6 +4527,7 @@ function renderDialogPetFusion(dialog) {
       <section class="shop-section">
         <header><strong>随身宠物</strong><small>原版需要主宠 + 副宠</small></header>
         <div class="shop-list">${petList}</div>
+        ${fusionControls}
       </section>
       <section class="shop-section">
         <header><strong>融合结果</strong><small>按原版脚本条件判定</small></header>
@@ -4781,6 +4818,23 @@ async function poolPet(action, petIndex, poolIndex) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "宠物店操作失败");
+  }
+}
+
+async function petFusion(mainIndex, subIndex1, subIndex2) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/pet-fusion", {
+      game,
+      npcId: game.dialog.npcId,
+      mainIndex,
+      subIndex1,
+      subIndex2
+    });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "宠物融合失败");
   }
 }
 

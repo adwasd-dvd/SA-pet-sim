@@ -198,10 +198,12 @@ petFusionGame.location = {
 petFusionGame.pets.push({
   ...petFusionGame.pets[0],
   Name: "副宠测试奥卡洛斯",
-  PetId: Number(petFusionGame.pets[0].PetId || 100) + 20,
+  PetId: Number(petFusionGame.pets[0].PetId || 100),
   Lv: 6,
   Hp: 80,
-  WorkMaxHp: 80
+  WorkMaxHp: 80,
+  FusionBeit: 0,
+  FusionRaise: 0
 });
 petFusionGame = await api("/api/game/talk", { game: petFusionGame, npcId: petFusionEntry.npc.id });
 assert(petFusionGame.dialog?.petFusion?.eggs?.length, "pet fusion dialog exposes source egg metadata");
@@ -209,6 +211,15 @@ assert(petFusionGame.dialog?.debug?.actions?.includes("petFusion"), "pet fusion 
 assert(petFusionGame.dialog?.messages?.some((message) => /融合|宠物蛋|生成/.test(String(message.text || ""))), "pet fusion talk explains source fusion window and egg result without leaking script ids");
 petFusionGame = await api("/api/game/dialog", { game: petFusionGame, npcId: petFusionEntry.npc.id, message: "融合" });
 assert(petFusionGame.dialog?.debug?.vmTrace?.some((event) => event.action === "petFusion" && event.status === "ok"), "pet fusion dialog records deterministic petFusion VM trace");
+const petFusionPetCountBefore = petFusionGame.pets.length;
+petFusionGame = await api("/api/game/pet-fusion", { game: petFusionGame, npcId: petFusionEntry.npc.id, mainIndex: 0, subIndex1: 1 });
+assertEqual(petFusionGame.pets.length, petFusionPetCountBefore - 1, "pet fusion consumes two selected pets and adds one egg");
+const fusedEgg = petFusionGame.pets[0];
+assertEqual(Number(fusedEgg.FusionBeit || fusedEgg.CHAR_FUSIONBEIT || 0), 1, "pet fusion marks the generated pet as a source-style fusion egg");
+assertEqual(Number(fusedEgg.FusionRaise || fusedEgg.CHAR_FUSIONRAISE || 0), 40, "pet fusion keeps source FUSIONRAISE incubation value");
+assert(Number(fusedEgg.FusionIndex || fusedEgg.CHAR_FUSIONINDEX || fusedEgg.FusionResultPetId || 0) > 0, "pet fusion stores the source result pet id on the egg");
+assert(Array.isArray(fusedEgg.FusionParents) && fusedEgg.FusionParents.length === 2, "pet fusion records both consumed source pets");
+assert(petFusionGame.dialog?.debug?.vmTrace?.some((event) => event.action === "petFusion" && event.detail?.mutated === true), "pet fusion execution records a mutated petFusion VM trace");
 
 const itemPoolEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
