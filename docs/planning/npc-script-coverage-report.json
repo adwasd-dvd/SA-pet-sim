@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T14:58:55.866Z",
+  "generatedAt": "2026-05-20T15:49:29.262Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -211,8 +211,8 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12334,
-      "candidate-action": 1275,
+      "supported-config": 12337,
+      "candidate-action": 1272,
       "unknown": 1253,
       "supported-message": 11251,
       "condition-control": 11752,
@@ -2390,7 +2390,7 @@
       {
         "key": "CostPoint",
         "normalized": "costpoint",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 3,
         "files": 3,
         "profiles": {
@@ -13893,48 +13893,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "CostPoint",
-        "normalized": "costpoint",
-        "category": "candidate-action",
-        "occurrences": 3,
-        "files": 3,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-rebirth": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 2,
-            "files": 2
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 2,
-            "files": 2
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/my/ruieryasi/rou.arg",
-            "line": 19,
-            "text": "CostPoint:10000,10000,10000,10000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/scipt_plus/test2nd/c_can_mm",
-            "line": 10,
-            "text": "CostPoint:10000,10000,10000,10000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/scipt_plus/test2nd/item",
-            "line": 10,
-            "text": "CostPoint:10000,10000,10000,10000"
-          }
-        ]
-      },
-      {
         "key": "ADDEGGID",
         "normalized": "addeggid",
         "category": "unknown",
@@ -15884,6 +15842,58 @@
             "file": "external/sources/ref___data/npc/genout/wpm_141_2_31",
             "line": 10,
             "text": "NextMsg:\\n咦～你是登记下一场次的家族嘛！\\n时间还没到啦！\\n目前场内人数：%4d人\\n系统时间：%4d点%4d分！"
+          }
+        ]
+      },
+      {
+        "key": "ViewMsg",
+        "normalized": "viewmsg",
+        "category": "unknown",
+        "occurrences": 15,
+        "files": 15,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7532_18_23",
+            "line": 4,
+            "text": "ViewMsg:\\n目前两个家族的人数如下："
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1042_17_29",
+            "line": 4,
+            "text": "ViewMsg:\\n目前两个家族的人数如下："
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_142_3_15",
+            "line": 4,
+            "text": "ViewMsg:\\n目前两个家族的人数如下："
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_143_1_11",
+            "line": 4,
+            "text": "ViewMsg:\\n目前两个家族的人数如下："
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_144_1_11",
+            "line": 4,
+            "text": "ViewMsg:\\n目前两个家族的人数如下："
           }
         ]
       }

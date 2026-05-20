@@ -177,6 +177,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "born",
   "cost",
   "costfame",
+  "costpoint",
   "changeitem",
   "changeitemcost",
   "changemsg",

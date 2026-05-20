@@ -39,8 +39,11 @@ assertEqual(game.player.FireAT, 0, "new player starts without opposite Fire attr
 assertEqual(game.player.WindAT, 0, "new player starts without opposite Wind attribute");
 assertEqual(game.player.charm, 60, "new player starts with source CHAR_CHARM default");
 assertEqual(game.player.fame, 0, "new player starts with source CHAR_FAME default");
+assertEqual(game.player.amPoint, 0, "new player starts with source CHAR_AMPOINT default");
 assertEqual(game.characterFields?.base?.fame, 0, "character fields expose source CHAR_FAME");
+assertEqual(game.characterFields?.base?.amPoint, 0, "character fields expose source CHAR_AMPOINT");
 assert(game.save.info.includes("FAME=0"), "saac-like save info includes source CHAR_FAME");
+assert(game.save.info.includes("AMPOINT=0"), "saac-like save info includes source CHAR_AMPOINT");
 
 let playerPointGame = await api("/api/game/new", { name: "player-point-test" });
 playerPointGame.player.skillUpPoint = 2;
@@ -1578,6 +1581,34 @@ assertEqual(inventoryQty(costFameGame, costFameItem.id), 1, "CostFame shop buy g
 assert(costFameGame.dialog.trade.items.some((item) => Number(item.id) === Number(costFameItem.id) && Number(item.costFame || 0) === Number(costFameItem.costFame)), "CostFame shop dialog exposes source fame requirement");
 assert(costFameGame.dialog.debug.actions.includes("adjustFame"), "CostFame shop debug exposes source fame mutation action");
 assert(costFameGame.dialog.debug.vmTrace.some((event) => event.action === "adjustFame" && event.detail?.fameAmount === -Number(costFameItem.costFame)), "CostFame shop buy runs fame deduction through NPC VM executor");
+
+const costPointShop = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0));
+if (!costPointShop) throw new Error("missing CostPoint shop fixture");
+const costPointItem = costPointShop.npc.trade.items.find((item) => Number(item.costPoint || 0) > 0);
+let costPointGame = await api("/api/game/new", { name: "shop-costpoint-test" });
+costPointGame.location = { mapId: costPointShop.map.id, x: costPointShop.npc.x + 1, y: costPointShop.npc.y };
+costPointGame.player.stone = Number(costPointItem.price || costPointItem.cost || 0) + 77;
+costPointGame.player.fame = Number(costPointItem.costFame || 0) + 222;
+costPointGame.player.amPoint = Number(costPointItem.costPoint) - 1;
+await expectApiError(
+  "/api/game/buy",
+  { game: costPointGame, npcId: costPointShop.npc.id, itemId: costPointItem.id },
+  "点数不足",
+  "CostPoint shop buy rejects insufficient source CHAR_AMPOINT"
+);
+costPointGame.player.amPoint = Number(costPointItem.costPoint) + 333;
+costPointGame = await api("/api/game/buy", { game: costPointGame, npcId: costPointShop.npc.id, itemId: costPointItem.id });
+assertEqual(costPointGame.player.stone, 77, "CostPoint shop buy still charges source stone price");
+assertEqual(costPointGame.player.fame, 222, "CostPoint shop buy keeps deducting paired source CHAR_FAME");
+assertEqual(costPointGame.player.amPoint, 333, "CostPoint shop buy deducts source CHAR_AMPOINT");
+assertEqual(costPointGame.characterFields?.base?.amPoint, 333, "CostPoint buy syncs character fields");
+assert(costPointGame.save.info.includes("AMPOINT=333"), "CostPoint buy persists CHAR_AMPOINT into save info");
+assertEqual(inventoryQty(costPointGame, costPointItem.id), 1, "CostPoint shop buy gives the selected source item");
+assert(costPointGame.dialog.trade.items.some((item) => Number(item.id) === Number(costPointItem.id) && Number(item.costPoint || 0) === Number(costPointItem.costPoint)), "CostPoint shop dialog exposes source point requirement");
+assert(costPointGame.dialog.debug.actions.includes("adjustAmPoint"), "CostPoint shop debug exposes source point mutation action");
+assert(costPointGame.dialog.debug.vmTrace.some((event) => event.action === "adjustAmPoint" && event.detail?.amPointAmount === -Number(costPointItem.costPoint)), "CostPoint shop buy runs point deduction through NPC VM executor");
 
 const petSkillNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))

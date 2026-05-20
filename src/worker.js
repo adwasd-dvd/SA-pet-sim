@@ -140,6 +140,7 @@ const NPC_VM_ACTIONS = new Set([
   "moveNpc",
   "adjustCharm",
   "adjustFame",
+  "adjustAmPoint",
   "effect",
   "startBattle",
   "battleAction",
@@ -492,6 +493,7 @@ async function createPlayerGame(env, request, body) {
       Luck: 1,
       charm: PLAYER_INITIAL_CHARM,
       fame: 0,
+      amPoint: 0,
       skillUpPoint: 0,
       killPetCount: 0,
       deadCount: 0,
@@ -1444,12 +1446,16 @@ function buyGame(game, npcId, itemId) {
   const discount = shopDiscountForNpc(game, npc);
   const price = discountedShopPrice(game, npc, item);
   const costFame = Math.max(0, Number(item.costFame || 0));
+  const costPoint = Math.max(0, Number(item.costPoint || 0));
   if (Number(game.player.stone || 0) < price) throw new Error("石币不够");
   if (costFame > 0 && Number(game.player.fame || 0) < costFame) {
     throw new Error(`声望不足：需要 ${sourceFameDisplay(costFame)}，当前 ${sourceFameDisplay(game.player.fame || 0)}`);
   }
+  if (costPoint > 0 && Number(game.player.amPoint || 0) < costPoint) {
+    throw new Error(`点数不足：需要 ${sourcePointDisplay(costPoint)}，当前 ${sourcePointDisplay(game.player.amPoint || 0)}`);
+  }
   if (!canCarryItem(game, item)) throw new Error(`背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具`);
-  recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price, sourcePrice, costFame, discountPercent: discount?.percent || 0 });
+  recordNpcVmEvent(game, npc, "shop", "ok", { action: "buy", itemId, itemName: item.name, price, sourcePrice, costFame, costPoint, discountPercent: discount?.percent || 0 });
   if (price > 0) {
     const taken = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: price, reason: "buy" });
     if (!taken.ok) throw new Error(taken.error || "石币不够");
@@ -1458,14 +1464,19 @@ function buyGame(game, npcId, itemId) {
     const fameTaken = runNpcVmAction(game, npc, { type: "adjustFame", amount: -costFame, reason: "buy", source: npc.trade?.source || npc.source || "" });
     if (!fameTaken.ok) throw new Error(fameTaken.error || "声望不足");
   }
+  if (costPoint > 0) {
+    const pointTaken = runNpcVmAction(game, npc, { type: "adjustAmPoint", amount: -costPoint, reason: "buy", source: npc.trade?.source || npc.source || "" });
+    if (!pointTaken.ok) throw new Error(pointTaken.error || "点数不足");
+  }
   const given = runNpcVmAction(game, npc, { type: "give", item, itemId, itemName: item.name, qty: 1, reason: "buy" });
   if (!given.ok) throw new Error(given.error || "购买失败");
   const discountText = discount ? `（AI 协商 ${discount.percent}% 优待）` : "";
   const fameText = costFame > 0 ? `，消耗 ${sourceFameDisplay(costFame)}` : "";
-  addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币${fameText}${discountText}。`);
+  const pointText = costPoint > 0 ? `，消耗 ${sourcePointDisplay(costPoint)}` : "";
+  addLog(game, `向 ${npc.name} 购买了 ${item.name}，花费 ${price} 石币${fameText}${pointText}${discountText}。`);
   openDialog(game, npc, [
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
-    npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币${fameText}${discountText}。`)
+    npcMessage("system", `购买成功：${item.name} x1，花费 ${price} 石币${fameText}${pointText}${discountText}。`)
   ]);
   return withMap(game, { npc });
 }
@@ -1474,6 +1485,11 @@ function sourceFameDisplay(value) {
   const raw = Math.max(0, Math.floor(Number(value) || 0));
   const points = raw / 100;
   return `${Number.isInteger(points) ? points : points.toFixed(2)} 声望`;
+}
+
+function sourcePointDisplay(value) {
+  const raw = Math.max(0, Math.floor(Number(value) || 0));
+  return `${raw} 点`;
 }
 
 function sellGame(game, npcId, itemId, qty = 1) {
@@ -9502,7 +9518,10 @@ function tradeReply(game, npc) {
   const priceText = (item) => {
     const price = discountedShopPrice(game, npc, item);
     const sourcePrice = Number(item.price || item.cost || 0);
-    return discount && price < sourcePrice ? `${sourcePrice}->${price}石币` : `${price}石币`;
+    const base = discount && price < sourcePrice ? `${sourcePrice}->${price}石币` : `${price}石币`;
+    const point = Number(item.costPoint || 0) > 0 ? `+${sourcePointDisplay(item.costPoint)}` : "";
+    const fame = Number(item.costFame || 0) > 0 ? `+${sourceFameDisplay(item.costFame)}` : "";
+    return `${base}${point}${fame}`;
   };
   return [
     npc.trade.mainMessage || "欢迎光临！",
@@ -9707,6 +9726,8 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
           name: item.name,
           type: item.type,
           price: item.price || item.cost || 0,
+          costFame: Number(item.costFame || 0),
+          costPoint: Number(item.costPoint || 0),
           source: item.source
         })) || [],
         source: npc.trade.source
@@ -10621,6 +10642,7 @@ function npcActionProfile(npc) {
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0)) actions.push("adjustFame");
+  if (npc.trade?.hasCostPoint || npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0)) actions.push("adjustAmPoint");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
   if (npc.itemPoolShop || /PoolItemShop|poolitemshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemPoolShop");
   if (isRaceManNpc(npc)) actions.push("raceMan", "window", "say");
@@ -10702,6 +10724,7 @@ function applyNpcVmMutation(game, type, action) {
   if (type === "moveNpc") return applyNpcVmMoveNpc(game, action);
   if (type === "adjustCharm") return applyNpcVmAdjustCharm(game, action);
   if (type === "adjustFame") return applyNpcVmAdjustFame(game, action);
+  if (type === "adjustAmPoint") return applyNpcVmAdjustAmPoint(game, action);
   if (type === "take") return applyNpcVmTake(game, action);
   if (type === "give") return applyNpcVmGive(game, action);
   if (type === "takePet") return applyNpcVmTakePet(game, action);
@@ -11101,6 +11124,31 @@ function applyNpcVmAdjustFame(game, action) {
   };
 }
 
+function applyNpcVmAdjustAmPoint(game, action) {
+  const amount = Number(action.amount ?? action.point ?? action.amPoint ?? 0);
+  if (!Number.isFinite(amount) || amount === 0) return { ok: true, mutated: false };
+  game.player ||= {};
+  normalizePlayerRuntime(game.player);
+  const before = Number(game.player.amPoint || 0);
+  const after = Math.max(0, Math.floor(before + amount));
+  if (after === before) {
+    return { ok: amount >= 0, mutated: false, amPointBefore: before, amPointAfter: after, amPointAmount: amount };
+  }
+  if (amount < 0 && before + amount < 0) return { ok: false, mutated: false, error: "点数不足", amPointBefore: before, amPointAmount: amount };
+  game.player.amPoint = after;
+  game.player.AMPoint = after;
+  game.player.AMPOINT = after;
+  game.player.CHAR_AMPOINT = after;
+  syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated: true,
+    amPointBefore: before,
+    amPointAfter: after,
+    amPointAmount: amount
+  };
+}
+
 function npcVmActionDetail(action, mutation) {
   const { type: _type, action: _action, status: _status, item, enemy, points: _points, ...detail } = action;
   const out = {
@@ -11152,6 +11200,9 @@ function npcVmActionDetail(action, mutation) {
   if (mutation.fameBefore != null) out.fameBefore = mutation.fameBefore;
   if (mutation.fameAfter != null) out.fameAfter = mutation.fameAfter;
   if (mutation.fameAmount != null) out.fameAmount = mutation.fameAmount;
+  if (mutation.amPointBefore != null) out.amPointBefore = mutation.amPointBefore;
+  if (mutation.amPointAfter != null) out.amPointAfter = mutation.amPointAfter;
+  if (mutation.amPointAmount != null) out.amPointAmount = mutation.amPointAmount;
   if (mutation.playerLevel != null) out.playerLevel = mutation.playerLevel;
   if (mutation.playerExp != null) out.playerExp = mutation.playerExp;
   if (mutation.skillUpPoint != null) out.skillUpPoint = mutation.skillUpPoint;
@@ -11237,11 +11288,14 @@ function withTradeState(game, trade, npc = null) {
     sellRate: npc ? tradeSellRate(npc) : Number(trade.sellRate || 0),
     sellItems,
     playerFame: Number(game.player?.fame || 0),
+    playerPoint: Number(game.player?.amPoint || 0),
     items: items.map((item) => {
       const sourcePrice = Number(item.price || item.cost || 0);
       const price = npc ? discountedShopPrice(game, npc, item) : sourcePrice;
       const costFame = Math.max(0, Number(item.costFame || 0));
       const fameAffordable = Number(game.player?.fame || 0) >= costFame;
+      const costPoint = Math.max(0, Number(item.costPoint || 0));
+      const pointAffordable = Number(game.player?.amPoint || 0) >= costPoint;
       return {
         ...item,
         sourcePrice,
@@ -11250,7 +11304,9 @@ function withTradeState(game, trade, npc = null) {
         price,
         costFame,
         fameAffordable,
-        affordable: game.player.stone >= price && fameAffordable,
+        costPoint,
+        pointAffordable,
+        affordable: game.player.stone >= price && fameAffordable && pointAffordable,
         canCarry: canCarryItem(game, item)
       };
     })
@@ -13214,6 +13270,10 @@ function normalizePlayerRuntime(player) {
   player.fame = clampInt(player.fame ?? player.Fame ?? player.CHAR_FAME, 0, 999999999, 0);
   player.Fame = player.fame;
   player.CHAR_FAME = player.fame;
+  player.amPoint = clampInt(player.amPoint ?? player.AMPoint ?? player.AMPOINT ?? player.CHAR_AMPOINT, 0, 999999999, 0);
+  player.AMPoint = player.amPoint;
+  player.AMPOINT = player.amPoint;
+  player.CHAR_AMPOINT = player.amPoint;
   player.skillUpPoint = clampInt(player.skillUpPoint ?? player.SkillUpPoint, 0, 999999999, 0);
   player.killPetCount = clampInt(player.killPetCount ?? player.KillPetCount, 0, 999999999, 0);
   player.deadCount = clampInt(player.deadCount ?? player.DeadCount, 0, 999999999, 0);
@@ -13341,6 +13401,7 @@ function buildCharacterFields(game) {
       stone: Number(game.player?.stone || 0),
       charm: Number(game.player?.charm || 0),
       fame: Number(game.player?.fame || 0),
+      amPoint: Number(game.player?.amPoint || 0),
       startPoint: sourceStartPoint(game),
       savePointMask: Number(game.player?.savePointMask ?? game.player?.SavePoint ?? 0),
       mapId: String(game.location?.mapId || ""),
@@ -13755,6 +13816,7 @@ function compactPlayerContext(game) {
     dir: normalizeDir(game.player?.dir ?? game.location?.dir),
     charm: Number(game.player?.charm || 0),
     fame: Number(game.player?.fame || 0),
+    amPoint: Number(game.player?.amPoint || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0),
     heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0),
     angelMission: compactAngelMissionState(activeAngelMission(game)),
@@ -14072,6 +14134,7 @@ function buildCharInfo(game) {
     `MAXHP=${game.player.maxHp}`,
     `CHARM=${game.player.charm}`,
     `FAME=${game.player.fame}`,
+    `AMPOINT=${game.player.amPoint}`,
     `VITAL=${game.player.Vital}`,
     `STR=${game.player.Str}`,
     `TOUGH=${game.player.Tough}`,

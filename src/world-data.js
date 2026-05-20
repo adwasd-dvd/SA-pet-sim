@@ -109487,6 +109487,7 @@ export const WORLD = {
               ]
             ],
             "specialRate": 1,
+            "hasCostPoint": true,
             "items": [
               {
                 "id": 20172,
@@ -109503,7 +109504,8 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 100,
                 "maxUses": 100,
-                "price": 0
+                "price": 0,
+                "costPoint": 10000
               },
               {
                 "id": 2172,
@@ -109518,7 +109520,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 1,
                 "level": 0,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2173,
@@ -109533,7 +109536,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 1,
                 "level": 0,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2174,
@@ -109548,7 +109552,8 @@ export const WORLD = {
                 "useField": 1,
                 "target": 2,
                 "level": 0,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2175,
@@ -109565,7 +109570,8 @@ export const WORLD = {
                 "level": 0,
                 "damageBreak": 6,
                 "maxUses": 6,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2179,
@@ -109580,7 +109586,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 70,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2180,
@@ -109595,7 +109602,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 65,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2181,
@@ -109610,7 +109618,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 60,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2182,
@@ -109625,7 +109634,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 60,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2183,
@@ -109640,7 +109650,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 60,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2184,
@@ -109655,7 +109666,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 60,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               },
               {
                 "id": 2185,
@@ -109670,7 +109682,8 @@ export const WORLD = {
                 "useField": 0,
                 "target": 0,
                 "level": 20,
-                "price": 2400
+                "price": 2400,
+                "costPoint": 10000
               }
             ]
           },
@@ -109758,6 +109771,7 @@ export const WORLD = {
             ],
             "specialRate": 1,
             "hasCostFame": true,
+            "hasCostPoint": true,
             "items": [
               {
                 "id": 13061,
@@ -109773,7 +109787,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13062,
@@ -109789,7 +109804,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13063,
@@ -109805,7 +109821,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13064,
@@ -109821,7 +109838,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13065,
@@ -109837,7 +109855,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13066,
@@ -109853,7 +109872,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13067,
@@ -109869,7 +109889,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13068,
@@ -109885,7 +109906,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13069,
@@ -109901,7 +109923,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13070,
@@ -109917,7 +109940,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13071,
@@ -109933,7 +109957,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13072,
@@ -109949,7 +109974,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13073,
@@ -109965,7 +109991,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 59
+                "costFame": 59,
+                "costPoint": 10000
               },
               {
                 "id": 13088,
@@ -109981,7 +110008,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 299
+                "costFame": 299,
+                "costPoint": 10000
               },
               {
                 "id": 13089,
@@ -109997,7 +110025,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 299
+                "costFame": 299,
+                "costPoint": 10000
               },
               {
                 "id": 13090,
@@ -110013,7 +110042,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 299
+                "costFame": 299,
+                "costPoint": 10000
               },
               {
                 "id": 13091,
@@ -110029,7 +110059,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 299
+                "costFame": 299,
+                "costPoint": 10000
               },
               {
                 "id": 13092,
@@ -110045,7 +110076,8 @@ export const WORLD = {
                 "target": 0,
                 "level": 0,
                 "price": 12000,
-                "costFame": 299
+                "costFame": 299,
+                "costPoint": 10000
               }
             ]
           },

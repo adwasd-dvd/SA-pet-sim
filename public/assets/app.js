@@ -4598,17 +4598,29 @@ function shopDisabled(item) {
 }
 
 function shopItemHint(item) {
-  if (item.affordable === false) return "石币不足";
+  if (item.affordable === false) {
+    if (item.fameAffordable === false) return "声望不足";
+    if (item.pointAffordable === false) return "点数不足";
+    return "石币不足";
+  }
   if (item.canCarry === false) return "背包已满";
   const details = [];
   if (item.offMenu) {
     const remaining = effectRemainingLabel(item.offMenuUntil);
     details.push(`临时商品${remaining ? ` ${remaining}` : ""}`);
   }
+  if (Number(item.costPoint || 0) > 0) details.push(`点数 ${Number(item.costPoint)}`);
+  if (Number(item.costFame || 0) > 0) details.push(`声望 ${formatSourceFame(item.costFame)}`);
   if (item.level) details.push(`Lv.${item.level}`);
   const description = cleanShopItemDescription(item.description);
   if (description) details.push(description);
   return details.join(" | ") || `item ${item.id}`;
+}
+
+function formatSourceFame(value) {
+  const raw = Math.max(0, Math.floor(Number(value) || 0));
+  const points = raw / 100;
+  return Number.isInteger(points) ? String(points) : points.toFixed(2);
 }
 
 function cleanShopItemDescription(value) {
