@@ -236,6 +236,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "profession_skill",
   "ranknum",
   "realy_msg",
+  "replacement",
   "routename",
   "routenum",
   "routeto",

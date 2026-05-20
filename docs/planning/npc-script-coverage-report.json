@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:18:36.595Z",
+  "generatedAt": "2026-05-20T22:55:45.204Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -211,9 +211,9 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12368,
+      "supported-config": 12371,
       "candidate-action": 1272,
-      "unknown": 1242,
+      "unknown": 1239,
       "supported-message": 11251,
       "condition-control": 11752,
       "supported-action": 3714,
@@ -10784,7 +10784,7 @@
       {
         "key": "REPLACEMENT",
         "normalized": "replacement",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 3,
         "files": 3,
         "profiles": {
@@ -13893,48 +13893,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "REPLACEMENT",
-        "normalized": "replacement",
-        "category": "unknown",
-        "occurrences": 3,
-        "files": 3,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/sa50/dodo/dodopupk1-8.arg",
-            "line": 4,
-            "text": "REPLACEMENT:60067,80,85;60067,80,92;60067,78,72;60067,78,60;60067,87,109;60067,92,115;60067,111,117;60067,120,117"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa50/haidao/hijba1-1.arg",
-            "line": 4,
-            "text": "REPLACEMENT:60035,22,81;60035,23,81;60035,24,81"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa70/actuality/actuality1.arg",
-            "line": 4,
-            "text": "REPLACEMENT:1000,39,58;1000,77,37;2000,96,98;2000,97,78;1300,54,80;1300,39,26;1400,85,69;1400,81,93;1100,60,80;1100,59,63"
-          }
-        ]
-      },
-      {
         "key": "CHECK_MSG",
         "normalized": "check_msg",
         "category": "unknown",
@@ -15919,6 +15877,58 @@
             "file": "external/sources/ref___data/npc/777/ten.arg",
             "line": 55,
             "text": "nomsg:\\n这样子吗，如果你想转生的话，欢迎随时来我这里。"
+          }
+        ]
+      },
+      {
+        "key": "nonemsg",
+        "normalized": "nonemsg",
+        "category": "unknown",
+        "occurrences": 11,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 23,
+            "text": "nonemsg:\\n转生所需要的条件\\n你好像还没有达成哦。\\n等你达成之后，再来我这里。END"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 31,
+            "text": "nonemsg:\\n转生所需要的条件\\n你好像还没有达成哦。\\n等你达成之后，再来我这里。END"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 39,
+            "text": "nonemsg:\\n转生所需要的条件\\n你好像还没有达成哦。\\n等你达成之后，再来我这里。END"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 48,
+            "text": "nonemsg:\\n转生所需要的条件\\n你好像还没有达成哦。\\n等你达成之后，再来我这里。END"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 56,
+            "text": "nonemsg:\\n转生所需要的条件\\n你好像还没有达成哦。\\n等你达成之后，再来我这里。END"
           }
         ]
       }

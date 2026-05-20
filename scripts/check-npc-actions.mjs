@@ -2942,7 +2942,43 @@ npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEven
 assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
 assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop/profession skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+const replacementFixture = Object.entries(WORLD.maps)
+  .flatMap(([mapId, map]) => (map.npcs || []).map((npc) => ({ mapId, map, npc })))
+  .find(({ npc }) => npc.npcEnemy?.replacementPoints?.some((point) => WORLD.maps[String(point.mapId)]));
+assert(replacementFixture, "world data exposes source NPCEnemy REPLACEMENT points");
+const replacementTargets = replacementFixture.npc.npcEnemy.replacementPoints.filter((point) => WORLD.maps[String(point.mapId)]);
+let npcEnemyReplacementGame = await api("/api/game/new", { name: "npcenemy-replacement-test" });
+npcEnemyReplacementGame.location = { mapId: replacementFixture.mapId, x: replacementFixture.npc.x, y: replacementFixture.npc.y + 1, dir: 2 };
+npcEnemyReplacementGame.pets[0].WorkFixStr = 9999;
+npcEnemyReplacementGame.pets[0].WorkFixDex = 9999;
+npcEnemyReplacementGame.encounter = { ...newEventEnemy };
+npcEnemyReplacementGame.battle = {
+  mode: "command",
+  turn: 0,
+  log: [],
+  enemyParty: [{ ...newEventEnemy }],
+  activeEnemyIndex: 0,
+  npcEnemy: {
+    npcId: replacementFixture.npc.id,
+    npcName: replacementFixture.npc.name,
+    source: replacementFixture.npc.npcEnemy.source,
+    dieAct: 0,
+    respawnSeconds: 60,
+    replacementPoints: replacementTargets
+  }
+};
+npcEnemyReplacementGame = await api("/api/game/battle", { game: npcEnemyReplacementGame, action: "攻击" });
+const replacementPos = npcEnemyReplacementGame.flags.npcPositions?.[replacementFixture.npc.id];
+assert(replacementPos, "NPCEnemy REPLACEMENT victory moves source blocker through VM");
+assert(replacementTargets.some((point) => (
+  String(point.mapId) === String(replacementPos.mapId)
+  && Number(point.x) === Number(replacementPos.x)
+  && Number(point.y) === Number(replacementPos.y)
+)), "NPCEnemy REPLACEMENT selects one source point");
+assert(npcEnemyReplacementGame.battleOutcome.log.some((line) => line.includes("REPLACEMENT")), "NPCEnemy REPLACEMENT victory logs source relocation");
+assert(npcEnemyReplacementGame.npcVmEvents.some((event) => event.action === "moveNpc" && event.detail?.reason === "npcenemy-replacement"), "NPCEnemy REPLACEMENT runs through deterministic moveNpc VM action");
+
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop/profession skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp/REPLACEMENT relocation, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

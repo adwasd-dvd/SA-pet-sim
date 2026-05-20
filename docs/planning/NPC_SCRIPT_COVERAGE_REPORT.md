@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T22:18:36.595Z
+Generated: 2026-05-20T22:55:45.204Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -59,7 +59,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| REPLACEMENT | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/sa50/dodo/dodopupk1-8.arg:4 |
 | CHECK_MSG | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/demale/testnpc01.arg:2 |
 | msg | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/genout/ss_1100_86_107:9 |
 | gym | unknown | 0 | 0 | 0 | 346 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:6 |
@@ -84,10 +83,11 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | Answer | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:2 |
 | Border | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:5 |
 | FailureMsg | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:8 |
+| Level | candidate-action | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:3 |
 
 ## Recommended Next Slice
 
-- Start with `REPLACEMENT`, because it appears in classic-core source references 1 times.
+- Start with `CHECK_MSG`, because it appears in classic-core source references 1 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

@@ -66608,6 +66608,68 @@ export const WORLD = {
             "dieAct": 1,
             "respawnSeconds": 0,
             "warp": null,
+            "replacementPoints": [
+              {
+                "mapId": "1000",
+                "floor": 1000,
+                "x": 39,
+                "y": 58
+              },
+              {
+                "mapId": "1000",
+                "floor": 1000,
+                "x": 77,
+                "y": 37
+              },
+              {
+                "mapId": "2000",
+                "floor": 2000,
+                "x": 96,
+                "y": 98
+              },
+              {
+                "mapId": "2000",
+                "floor": 2000,
+                "x": 97,
+                "y": 78
+              },
+              {
+                "mapId": "1300",
+                "floor": 1300,
+                "x": 54,
+                "y": 80
+              },
+              {
+                "mapId": "1300",
+                "floor": 1300,
+                "x": 39,
+                "y": 26
+              },
+              {
+                "mapId": "1400",
+                "floor": 1400,
+                "x": 85,
+                "y": 69
+              },
+              {
+                "mapId": "1400",
+                "floor": 1400,
+                "x": 81,
+                "y": 93
+              },
+              {
+                "mapId": "1100",
+                "floor": 1100,
+                "x": 60,
+                "y": 80
+              },
+              {
+                "mapId": "1100",
+                "floor": 1100,
+                "x": 59,
+                "y": 63
+              }
+            ],
             "postBattleEvents": [
               {
                 "source": "gmsv-data/npc/sa70/actuality/actuality1.arg",

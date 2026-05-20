@@ -3970,6 +3970,7 @@ async function startNpcEnemyBattle(env, request, game, npc) {
       stealItems: Boolean(npc.npcEnemy?.stealItems),
       stolenItems,
       addItems: npcEnemyItemEntries(game, npc.npcEnemy?.addItems),
+      replacementPoints: Array.isArray(npc.npcEnemy?.replacementPoints) ? npc.npcEnemy.replacementPoints : [],
       postBattleEvents: Array.isArray(npc.npcEnemy?.postBattleEvents) ? npc.npcEnemy.postBattleEvents : []
     };
     if (startMessage) game.battle.log = [...(game.battle.log || []), `${npc.name}：${startMessage}`].slice(-8);
@@ -5776,7 +5777,10 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
   if (postBattleEvent?.event) {
     const event = postBattleEvent.event;
     if (event.endMessage) battleLog.push(event.endMessage);
-    if (!Array.isArray(event.warps) || !event.warps.length) return;
+    if (!Array.isArray(event.warps) || !event.warps.length) {
+      applyNpcEnemyReplacement(game, npcEnemy, battleLog);
+      return;
+    }
     if (postBattleEvent.target?.mapId && WORLD.maps[postBattleEvent.target.mapId]) {
       game.location = {
         ...game.location,
@@ -5785,13 +5789,16 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
         y: Number(postBattleEvent.target.y || 0)
       };
       battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 按 NEWEVENT${event.seq || ""} 把你送到 (${game.location.x},${game.location.y})。`);
+      applyNpcEnemyReplacement(game, npcEnemy, battleLog);
       return;
     }
     battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 的 NEWEVENT${event.seq || ""} 没有可加载的地图目标。`);
+    applyNpcEnemyReplacement(game, npcEnemy, battleLog);
     return;
   }
   if (Array.isArray(npcEnemy.postBattleEvents) && npcEnemy.postBattleEvents.length) {
     battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 的战后传送条件未满足。`);
+    applyNpcEnemyReplacement(game, npcEnemy, battleLog);
     return;
   }
   if (npcEnemy.endMessage) battleLog.push(npcEnemy.endMessage);
@@ -5803,6 +5810,7 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
       y: Number(npcEnemy.warp.y || 0)
     };
     battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 让开并把你送到 (${game.location.x},${game.location.y})。`);
+    applyNpcEnemyReplacement(game, npcEnemy, battleLog);
     return;
   }
   const respawnSeconds = Math.max(1, Number(npcEnemy.respawnSeconds || 60));
@@ -5814,6 +5822,35 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
     until: new Date(Date.now() + respawnSeconds * 1000).toISOString()
   };
   battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 暂时退开，通路打开 ${respawnSeconds} 秒。`);
+  applyNpcEnemyReplacement(game, npcEnemy, battleLog);
+}
+
+function applyNpcEnemyReplacement(game, npcEnemy, battleLog) {
+  const points = Array.isArray(npcEnemy?.replacementPoints) ? npcEnemy.replacementPoints : [];
+  if (!npcEnemy?.npcId || !points.length) return null;
+  const found = findWorldNpcWithMap(npcEnemy.npcId);
+  const npc = found?.npc || {
+    id: npcEnemy.npcId,
+    name: npcEnemy.npcName || "NPCEnemy",
+    type: "NPCEnemy",
+    source: npcEnemy.source || ""
+  };
+  const event = runNpcVmAction(game, npc, {
+    type: "moveNpc",
+    npcId: npcEnemy.npcId,
+    points,
+    reason: "npcenemy-replacement",
+    source: `gmsv/npc/npc_npcenemy.c Check_EnemyWarpMe + ${npcEnemy.source || ""}`
+  });
+  const target = event.detail?.target;
+  if (event.ok && target) {
+    battleLog?.push(`${npcEnemy.npcName || "NPCEnemy"} 按 REPLACEMENT 移到 (${target.x},${target.y})。`);
+    return target;
+  }
+  if (!event.ok) {
+    battleLog?.push(`${npcEnemy.npcName || "NPCEnemy"} 的 REPLACEMENT 目标不可用：${event.error || "moveNpc blocked"}。`);
+  }
+  return null;
 }
 
 function grantNpcEnemyAddItems(game, npcEnemy, battleLog) {
