@@ -3435,6 +3435,19 @@ h3 {
   white-space: nowrap;
 }
 
+.shop-summary-badge {
+  display: inline-block;
+  margin-right: 6px;
+  border: 1px solid rgb(255 239 124 / 62%);
+  border-radius: 2px;
+  padding: 0 5px;
+  background: rgb(45 73 55 / 86%);
+  color: #ffef7c;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 900;
+}
+
 .shop-section {
   display: grid;
   align-content: start;
@@ -3484,6 +3497,30 @@ h3 {
   background: linear-gradient(180deg, rgb(48 78 68 / 90%), rgb(16 36 38 / 92%));
   color: #fffdf3;
   text-align: left;
+}
+
+.trade-shop-box {
+  grid-template-columns: minmax(0, 1fr) minmax(185px, .72fr);
+  max-height: 198px;
+}
+
+.trade-shop-box .shop-item {
+  grid-template-columns: minmax(0, 1fr) minmax(88px, auto);
+  align-items: center;
+  min-height: 35px;
+  padding: 4px 7px;
+}
+
+.trade-shop-box .shop-list {
+  gap: 4px;
+}
+
+.trade-shop-box .shop-item small {
+  -webkit-line-clamp: 1;
+}
+
+.trade-shop-box .shop-price {
+  min-width: 88px;
 }
 
 .shop-item-sell {

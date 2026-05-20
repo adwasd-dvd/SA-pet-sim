@@ -104,6 +104,7 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - location/NPC/warp/action buttons live on or near the map where source data supports them
   - character, pet, item bag, status, dialogue, shop, and save surfaces should feel like in-game windows/panels
   - read `external/sources/client-source/system/menu.cpp`, `talkwindow.cpp`, `field.cpp`, `mouse.cpp`, and `sprdisp.cpp` before major UI changes
+- 2026-05-20 trade dialog polish: discounted shop rows now show the AI-negotiated discount as a compact summary badge plus source-price -> current-price markup, while item descriptions strip old `AI 优惠 xx%` prefixes. The trade window uses tighter rows and a wider price column so original item descriptions and discount prices do not collide.
 
 ## Save Model
 

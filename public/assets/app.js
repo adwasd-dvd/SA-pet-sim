@@ -4112,6 +4112,10 @@ function renderDialogShop(dialog) {
   const sellItems = dialog.trade?.sellItems || [];
   if (!items.length && !sellItems.length) return "";
   const state = dialog.trade.inventory || inventoryState();
+  const discount = dialog.trade?.discount;
+  const discountNote = discount?.percent
+    ? `<i class="shop-summary-badge">临时 ${Number(discount.percent)}% 优待</i>`
+    : "";
   const buyList = items.slice(0, 8).map((item) => {
     const hint = shopItemHint(item);
     return `
@@ -4144,10 +4148,10 @@ function renderDialogShop(dialog) {
     }).join("")
     : `<p class="shop-empty">背包里没有可卖给店家的道具。</p>`;
   return `
-    <div class="shop-box">
+    <div class="shop-box trade-shop-box">
       <div class="shop-summary">
         <strong>交易</strong>
-        <span>背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)}</span>
+        <span>${discountNote} 背包 ${state.used}/${state.capacity} | 石币 ${Number(game.player.stone || 0)}</span>
       </div>
       <section class="shop-section">
         <header><strong>买入</strong><small>店铺商品</small></header>
@@ -4354,8 +4358,16 @@ function shopItemHint(item) {
     details.push(`临时商品${remaining ? ` ${remaining}` : ""}`);
   }
   if (item.level) details.push(`Lv.${item.level}`);
-  if (item.description) details.push(item.description);
+  const description = cleanShopItemDescription(item.description);
+  if (description) details.push(description);
   return details.join(" | ") || `item ${item.id}`;
+}
+
+function cleanShopItemDescription(value) {
+  return String(value || "")
+    .replace(/^AI\s*优[惠待]\s*\d+%\s*[：:]\s*/i, "")
+    .replace(/^AI\s*協商\s*\d+%\s*[：:]\s*/i, "")
+    .trim();
 }
 
 function isDiscountedShopItem(item) {
