@@ -112657,12 +112657,51 @@ export const WORLD = {
           "script": "file:sa50/petfusion/petfusion.arg",
           "template": "npc_petfusion",
           "graphic": "16048",
+          "petFusion": {
+            "kind": "pet-fusion",
+            "source": "gmsv-data/npc/sa50/petfusion/petfusion.arg",
+            "free": "LV>0",
+            "primaryEggEnemyId": 2055,
+            "eggEnemyIds": [
+              2055,
+              1045
+            ],
+            "eggs": [
+              {
+                "enemyId": 2055,
+                "name": "宠物蛋",
+                "tempNo": 1045,
+                "levelMin": 1,
+                "levelMax": 1,
+                "createMin": 1,
+                "createMax": 1,
+                "source": "gmsv-data/enemy1.txt"
+              },
+              {
+                "enemyId": 1045,
+                "name": "火的使者",
+                "tempNo": 294,
+                "levelMin": 55,
+                "levelMax": 58,
+                "createMin": 1,
+                "createMax": 1,
+                "source": "gmsv-data/enemy1.txt"
+              }
+            ],
+            "messages": {
+              "start": "准备好要进行融合了吗？",
+              "select": "选出你要合体的宠物吧，最多只能三只喔…。"
+            }
+          },
           "scriptHints": {
             "actions": [
+              "petFusion",
               "questLead"
             ],
             "hints": [
-              "FREE:LV>0"
+              "FREE:LV>0",
+              "ADDEGGID:2055",
+              "ADDEGGID:1045"
             ],
             "source": "gmsv-data/npc/sa50/petfusion/petfusion.arg"
           },
@@ -171370,12 +171409,51 @@ export const WORLD = {
           "script": "file:sa50/petfusion/petfusion.arg",
           "template": "npc_petfusion",
           "graphic": "16048",
+          "petFusion": {
+            "kind": "pet-fusion",
+            "source": "gmsv-data/npc/sa50/petfusion/petfusion.arg",
+            "free": "LV>0",
+            "primaryEggEnemyId": 2055,
+            "eggEnemyIds": [
+              2055,
+              1045
+            ],
+            "eggs": [
+              {
+                "enemyId": 2055,
+                "name": "宠物蛋",
+                "tempNo": 1045,
+                "levelMin": 1,
+                "levelMax": 1,
+                "createMin": 1,
+                "createMax": 1,
+                "source": "gmsv-data/enemy1.txt"
+              },
+              {
+                "enemyId": 1045,
+                "name": "火的使者",
+                "tempNo": 294,
+                "levelMin": 55,
+                "levelMax": 58,
+                "createMin": 1,
+                "createMax": 1,
+                "source": "gmsv-data/enemy1.txt"
+              }
+            ],
+            "messages": {
+              "start": "准备好要进行融合了吗？",
+              "select": "选出你要合体的宠物吧，最多只能三只喔…。"
+            }
+          },
           "scriptHints": {
             "actions": [
+              "petFusion",
               "questLead"
             ],
             "hints": [
-              "FREE:LV>0"
+              "FREE:LV>0",
+              "ADDEGGID:2055",
+              "ADDEGGID:1045"
             ],
             "source": "gmsv-data/npc/sa50/petfusion/petfusion.arg"
           },
@@ -197502,12 +197580,51 @@ export const WORLD = {
           "script": "file:sa50/petfusion/petfusion.arg",
           "template": "npc_petfusion",
           "graphic": "16048",
+          "petFusion": {
+            "kind": "pet-fusion",
+            "source": "gmsv-data/npc/sa50/petfusion/petfusion.arg",
+            "free": "LV>0",
+            "primaryEggEnemyId": 2055,
+            "eggEnemyIds": [
+              2055,
+              1045
+            ],
+            "eggs": [
+              {
+                "enemyId": 2055,
+                "name": "宠物蛋",
+                "tempNo": 1045,
+                "levelMin": 1,
+                "levelMax": 1,
+                "createMin": 1,
+                "createMax": 1,
+                "source": "gmsv-data/enemy1.txt"
+              },
+              {
+                "enemyId": 1045,
+                "name": "火的使者",
+                "tempNo": 294,
+                "levelMin": 55,
+                "levelMax": 58,
+                "createMin": 1,
+                "createMax": 1,
+                "source": "gmsv-data/enemy1.txt"
+              }
+            ],
+            "messages": {
+              "start": "准备好要进行融合了吗？",
+              "select": "选出你要合体的宠物吧，最多只能三只喔…。"
+            }
+          },
           "scriptHints": {
             "actions": [
+              "petFusion",
               "questLead"
             ],
             "hints": [
-              "FREE:LV>0"
+              "FREE:LV>0",
+              "ADDEGGID:2055",
+              "ADDEGGID:1045"
             ],
             "source": "gmsv-data/npc/sa50/petfusion/petfusion.arg"
           },

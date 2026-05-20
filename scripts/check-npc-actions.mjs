@@ -182,6 +182,34 @@ assertEqual(petShopGame.pets.length, petShopPetCountBefore, "pet shop withdraw r
 assertEqual(petShopGame.petPoolState.used, 0, "pet shop withdraw clears the source-style pool slot");
 assert(petShopGame.save.info.includes("POOLPETCOUNT=0"), "saac-like save info records pool pet count");
 
+const petFusionEntry = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.petFusion?.eggEnemyIds?.length);
+assert(petFusionEntry, "world build parses source npc_petfusion ADDEGGID scripts");
+assert(petFusionEntry.npc.scriptHints?.actions?.includes("petFusion"), "npc_petfusion script hints expose petFusion action");
+assert(petFusionEntry.npc.petFusion.eggs?.some((egg) => egg.name && Number(egg.tempNo || 0) > 0), "npc_petfusion resolves ADDEGGID through enemy1 metadata");
+let petFusionGame = await api("/api/game/new", { name: "pet-fusion-window-test" });
+petFusionGame.location = {
+  mapId: petFusionEntry.map.id,
+  x: Math.max(0, Number(petFusionEntry.npc.x || 0) - 1),
+  y: Number(petFusionEntry.npc.y || 0),
+  dir: 2
+};
+petFusionGame.pets.push({
+  ...petFusionGame.pets[0],
+  Name: "副宠测试奥卡洛斯",
+  PetId: Number(petFusionGame.pets[0].PetId || 100) + 20,
+  Lv: 6,
+  Hp: 80,
+  WorkMaxHp: 80
+});
+petFusionGame = await api("/api/game/talk", { game: petFusionGame, npcId: petFusionEntry.npc.id });
+assert(petFusionGame.dialog?.petFusion?.eggs?.length, "pet fusion dialog exposes source egg metadata");
+assert(petFusionGame.dialog?.debug?.actions?.includes("petFusion"), "pet fusion dialog debug exposes petFusion action profile");
+assert(petFusionGame.dialog?.messages?.some((message) => /融合|宠物蛋|生成/.test(String(message.text || ""))), "pet fusion talk explains source fusion window and egg result without leaking script ids");
+petFusionGame = await api("/api/game/dialog", { game: petFusionGame, npcId: petFusionEntry.npc.id, message: "融合" });
+assert(petFusionGame.dialog?.debug?.vmTrace?.some((event) => event.action === "petFusion" && event.status === "ok"), "pet fusion dialog records deterministic petFusion VM trace");
+
 const itemPoolEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.itemPoolShop);
@@ -2806,7 +2834,7 @@ npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEven
 assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
 assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

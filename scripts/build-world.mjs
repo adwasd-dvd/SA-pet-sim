@@ -325,6 +325,7 @@ function parseEnemySpecs(file) {
     const rawMax = Number(rows[offset + 3]) || rawMin;
     out.set(id, {
       id,
+      name: cleanName(rows[0]) || `enemy ${id}`,
       tempNo,
       lvMin: Math.max(1, Math.min(rawMin, rawMax)),
       lvMax: Math.max(1, Math.max(rawMin, rawMax)),
@@ -453,6 +454,7 @@ function parseNpcs() {
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
       const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
+      const petFusion = readNpcPetFusion(argPath, file, functionset, enemy.template);
       const raceMan = readNpcRaceMan(argPath, file, functionset, enemy.template);
       const itemPoolShop = raceMan ? null : readNpcItemPoolShop(argPath, file, functionset, enemy.template);
       const routeService = readNpcRouteService(argPath, file, functionset, enemy.template, floor);
@@ -464,7 +466,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -479,6 +481,7 @@ function parseNpcs() {
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
         ...(petShop ? { petShop } : {}),
+        ...(petFusion ? { petFusion } : {}),
         ...(itemPoolShop ? { itemPoolShop } : {}),
         ...(raceMan ? { raceMan } : {}),
         ...(routeService ? { routeService } : {}),
@@ -964,6 +967,50 @@ function readNpcPetShop(argPath, createFile, functionset = "", template = "") {
       getFull: cleanScriptText(kv.getfull_msg || "")
     }
   };
+}
+
+function readNpcPetFusion(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const serviceText = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  if (!/npc_petfusion|PetFusion|petfusion/i.test(serviceText) && !/^\s*ADDEGGID\s*:/im.test(text)) {
+    return null;
+  }
+  const eggEnemyIds = [...new Set(parseRepeatedColonValues(text, "ADDEGGID")
+    .flatMap(parsePetFusionEggIds)
+    .filter((id) => Number.isFinite(id) && id > 0))];
+  if (!eggEnemyIds.length) return null;
+  const kv = parseColonFile(text);
+  return {
+    kind: "pet-fusion",
+    source: relativeRef(file),
+    free: cleanScriptText(kv.free || ""),
+    primaryEggEnemyId: eggEnemyIds[0],
+    eggEnemyIds,
+    eggs: eggEnemyIds.map(compactScriptEnemy).filter(Boolean),
+    messages: {
+      start: cleanScriptText(kv.startmsg || ""),
+      select: cleanScriptText(kv.selectmsg || "")
+    }
+  };
+}
+
+function parseRepeatedColonValues(text, key) {
+  const values = [];
+  const pattern = new RegExp(`^\\s*${key}\\s*:\\s*(.*)$`, "gim");
+  let match;
+  while ((match = pattern.exec(String(text || ""))) !== null) {
+    values.push(trimInlineValue(match[1] || ""));
+  }
+  return values;
+}
+
+function parsePetFusionEggIds(value = "") {
+  return String(value || "")
+    .split(",")
+    .map((part) => Number(String(part || "").trim().split(/[;|\s]+/)[0]))
+    .filter((id) => Number.isFinite(id) && id > 0);
 }
 
 function readNpcItemPoolShop(argPath, createFile, functionset = "", template = "") {
@@ -1758,6 +1805,22 @@ function compactScriptItem(id) {
   };
 }
 
+function compactScriptEnemy(id) {
+  const enemyId = Number(id);
+  if (!Number.isFinite(enemyId) || enemyId <= 0) return null;
+  const enemy = enemySpecs.get(enemyId);
+  return {
+    enemyId,
+    name: enemy?.name || `enemy ${enemyId}`,
+    tempNo: Number(enemy?.tempNo || 0),
+    levelMin: Number(enemy?.lvMin || 1),
+    levelMax: Number(enemy?.lvMax || enemy?.lvMin || 1),
+    createMin: Number(enemy?.createMin || 1),
+    createMax: Number(enemy?.createMax || 1),
+    source: `${GMSV_DATA_SOURCE}/enemy1.txt`
+  };
+}
+
 function parseScriptRandomItemSpecs(value = "") {
   const ids = [];
   for (const part of String(value || "").split(",")) {
@@ -1922,11 +1985,12 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petShop) actions.push("petShop");
+  if (petFusion) actions.push("petFusion");
   if (itemPoolShop) actions.push("itemPoolShop");
   if (raceMan) actions.push("raceMan");
   if (routeService) actions.push("routeService");
@@ -1939,6 +2003,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];
+  for (const item of petFusionHints(petFusion)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
   for (const item of raceManHints(raceMan)) {
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
@@ -1946,7 +2014,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
-    const match = line.match(/^(NEWEVENT\d*|EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM)\s*[:=]\s*(.*)$/i);
+    const match = line.match(/^(NEWEVENT\d*|EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM|ADDEGGID)\s*[:=]\s*(.*)$/i);
     if (!match) continue;
     const value = cleanScriptText(`${match[1]}:${match[2]}`).replace(/\s+/g, " ");
     if (value && !hints.includes(value)) hints.push(value);
@@ -1974,6 +2042,14 @@ function raceManHints(raceMan) {
     ...((raceMan.history || []).map((item) => `History${item.index}:${item.code}`)),
     raceMan.rankNum ? `RankNum:${raceMan.rankNum}` : "",
     raceMan.lowLevel ? `LowLevel:${raceMan.lowLevel}` : ""
+  ].filter(Boolean);
+}
+
+function petFusionHints(petFusion) {
+  if (!petFusion) return [];
+  return [
+    petFusion.free ? `FREE:${petFusion.free}` : "",
+    ...(petFusion.eggEnemyIds || []).slice(0, 4).map((id) => `ADDEGGID:${id}`)
   ].filter(Boolean);
 }
 

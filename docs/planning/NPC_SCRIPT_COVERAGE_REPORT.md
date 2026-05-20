@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T15:49:29.262Z
+Generated: 2026-05-20T18:11:28.863Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -59,10 +59,8 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| ADDEGGID | unknown | 2 | 2 | 2 | 2 | external/sources/ref___data/npc/sa50/petfusion/petfusion.arg:4 |
 | trans | unknown | 1 | 3 | 3 | 6 | external/sources/ref___data/npc/sa70/hunsk2:9 |
 | REPLACEMENT | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/sa50/dodo/dodopupk1-8.arg:4 |
-| selectmsg | unknown | 1 | 1 | 1 | 3 | external/sources/ref___data/npc/777/ten.arg:9 |
 | CHECK_MSG | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/demale/testnpc01.arg:2 |
 | msg | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/genout/ss_1100_86_107:9 |
 | gym | unknown | 0 | 0 | 0 | 346 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:6 |
@@ -84,10 +82,12 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | CHECKPARTY | unknown | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/eden1/saveking/saveking4:14 |
 | Event_Now | candidate-action | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/eden2/kraken/kraken88_06:26 |
 | PETTEMPNO | candidate-action | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/pettalk/pettalk.mem:1 |
+| Answer | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:2 |
+| Border | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:5 |
 
 ## Recommended Next Slice
 
-- Start with `ADDEGGID`, because it appears in classic-core source references 2 times.
+- Start with `trans`, because it appears in classic-core source references 1 times.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

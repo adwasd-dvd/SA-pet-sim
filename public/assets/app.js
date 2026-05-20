@@ -3558,6 +3558,7 @@ function renderDialog() {
     renderDialogCommandButtons(dialog),
     renderDialogShop(dialog),
     renderDialogPetShop(dialog),
+    renderDialogPetFusion(dialog),
     renderDialogItemPoolShop(dialog),
     renderDialogPetSkillShop(dialog),
     renderDialogItemChange(dialog)
@@ -4450,6 +4451,53 @@ function petShopPetHint(pet, shop) {
   parts.push(`出售 ${Number(pet.cost || 0)} 石币`);
   if (pet.specialRate) parts.push("特殊倍率");
   return parts.join(" | ");
+}
+
+function renderDialogPetFusion(dialog) {
+  const fusion = dialog.petFusion;
+  if (!fusion) return "";
+  const pets = fusion.pets || [];
+  const eggs = fusion.eggs || [];
+  const conditionOk = fusion.condition?.ok !== false;
+  const petList = pets.length
+    ? pets.slice(0, 5).map((pet) => `
+        <div class="shop-item pet-shop-item">
+          <span class="pet-shop-main">
+            ${petSpriteMarkup(pet.image, pet.name, "shop-pet-sprite")}
+            <span>
+              <strong>${escapeHtml(pet.name)} Lv.${Number(pet.level || 1)}</strong>
+              <small>HP ${Number(pet.hp || 0)}/${Number(pet.maxHp || 0)} | Pet ${Number(pet.petId || 0)}</small>
+            </span>
+          </span>
+        </div>
+      `).join("")
+    : `<p class="shop-empty">随身没有可用于融合的宠物。</p>`;
+  const eggList = eggs.length
+    ? eggs.map((egg) => `
+        <div class="shop-item">
+          <span>
+            <strong>${escapeHtml(egg.name || `宠物蛋 ${Number(egg.enemyId || 0)}`)}</strong>
+            <small>融合后可能生成的宠物蛋</small>
+          </span>
+        </div>
+      `).join("")
+    : `<p class="shop-empty">这里暂时没有可生成的宠物蛋。</p>`;
+  return `
+    <div class="shop-box pet-fusion-box">
+      <div class="shop-summary">
+        <strong>宠物融合</strong>
+        <span>${conditionOk ? "条件可继续" : escapeHtml(fusion.condition?.reason || "条件未满足")}</span>
+      </div>
+      <section class="shop-section">
+        <header><strong>随身宠物</strong><small>原版需要主宠 + 副宠</small></header>
+        <div class="shop-list">${petList}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>融合结果</strong><small>按原版脚本条件判定</small></header>
+        <div class="shop-list">${eggList}</div>
+      </section>
+    </div>
+  `;
 }
 
 function renderDialogItemPoolShop(dialog) {

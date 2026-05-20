@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:49:29.262Z",
+  "generatedAt": "2026-05-20T18:11:28.863Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -211,9 +211,9 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12337,
+      "supported-config": 12342,
       "candidate-action": 1272,
-      "unknown": 1253,
+      "unknown": 1248,
       "supported-message": 11251,
       "condition-control": 11752,
       "supported-action": 3714,
@@ -275,7 +275,7 @@
       {
         "key": "ADDEGGID",
         "normalized": "addeggid",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 2,
         "files": 1,
         "profiles": {
@@ -11256,7 +11256,7 @@
       {
         "key": "selectmsg",
         "normalized": "selectmsg",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 3,
         "files": 3,
         "profiles": {
@@ -13893,43 +13893,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "ADDEGGID",
-        "normalized": "addeggid",
-        "category": "unknown",
-        "occurrences": 2,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 2,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 2,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 2,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 2,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/sa50/petfusion/petfusion.arg",
-            "line": 4,
-            "text": "ADDEGGID:2055"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa50/petfusion/petfusion.arg",
-            "line": 5,
-            "text": "ADDEGGID:1045"
-          }
-        ]
-      },
-      {
         "key": "trans",
         "normalized": "trans",
         "category": "unknown",
@@ -14020,48 +13983,6 @@
             "file": "external/sources/ref___data/npc/sa70/actuality/actuality1.arg",
             "line": 4,
             "text": "REPLACEMENT:1000,39,58;1000,77,37;2000,96,98;2000,97,78;1300,54,80;1300,39,26;1400,85,69;1400,81,93;1100,60,80;1100,59,63"
-          }
-        ]
-      },
-      {
-        "key": "selectmsg",
-        "normalized": "selectmsg",
-        "category": "unknown",
-        "occurrences": 3,
-        "files": 3,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 1,
-            "files": 1
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/777/ten.arg",
-            "line": 9,
-            "text": "selectmsg:\\n玛蕾菲雅：你的宠物已经准备好要转生了吗？\\n切记！！一旦宠物进行二次转生，他的能力就会过于强大，你就无法骑乘它了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
-            "line": 9,
-            "text": "selectmsg:\\n玛蕾菲雅：你的宠物已经准备好要转生了吗？"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa50/petfusion/petfusion.arg",
-            "line": 2,
-            "text": "SelectMsg:选出你要合体的宠物吧，最多只能三只喔…。"
           }
         ]
       },
@@ -15894,6 +15815,110 @@
             "file": "external/sources/ref___data/npc/genout/wpm_144_1_11",
             "line": 4,
             "text": "ViewMsg:\\n目前两个家族的人数如下："
+          }
+        ]
+      },
+      {
+        "key": "CallMsg",
+        "normalized": "callmsg",
+        "category": "unknown",
+        "occurrences": 11,
+        "files": 11,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_51_51",
+            "line": 4,
+            "text": "CallMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n需要我为您服务吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_48_25",
+            "line": 4,
+            "text": "CallMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n需要我为您服务吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_26_16",
+            "line": 4,
+            "text": "CallMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n需要我为您服务吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_2030_59_43",
+            "line": 4,
+            "text": "CallMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n需要我为您服务吗？"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_3030_62_42",
+            "line": 4,
+            "text": "CallMsg:\\n\"%s\"－－族长你好！\\n我可以将家族成员传送到这里。\\n需要我为您服务吗？"
+          }
+        ]
+      },
+      {
+        "key": "NoLeaderMsg",
+        "normalized": "noleadermsg",
+        "category": "unknown",
+        "occurrences": 11,
+        "files": 11,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/family/fmpoint10/wpm_7530_51_51",
+            "line": 5,
+            "text": "NoLeaderMsg:\\n你好！我可以将家族成员传送到这里。\\nㄟ。。。原来你不是族长喔！\\n那么我无法做召唤成员的动作～\\n真是抱歉～请找族长来召唤吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_1040_48_25",
+            "line": 5,
+            "text": "NoLeaderMsg:\\n你好！我可以将家族成员传送到这里。\\nㄟ。。。原来你不是族长喔！\\n那么我无法做召唤成员的动作～\\n真是抱歉～请找族长来召唤吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_141_26_16",
+            "line": 5,
+            "text": "NoLeaderMsg:\\n你好！我可以将家族成员传送到这里。\\nㄟ。。。原来你不是族长喔！\\n那么我无法做召唤成员的动作～\\n真是抱歉～请找族长来召唤吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_2030_59_43",
+            "line": 5,
+            "text": "NoLeaderMsg:\\n你好！我可以将家族成员传送到这里。\\nㄟ。。。原来你不是族长喔！\\n那么我无法做召唤成员的动作～\\n真是抱歉～请找族长来召唤吧！"
+          },
+          {
+            "file": "external/sources/ref___data/npc/genout/wpm_3030_62_42",
+            "line": 5,
+            "text": "NoLeaderMsg:\\n你好！我可以将家族成员传送到这里。\\nㄟ。。。原来你不是族长喔！\\n那么我无法做召唤成员的动作～\\n真是抱歉～请找族长来召唤吧！"
           }
         ]
       }

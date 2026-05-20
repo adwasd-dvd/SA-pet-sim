@@ -120,6 +120,7 @@ const NPC_VM_ACTIONS = new Set([
   "window",
   "shop",
   "petShop",
+  "petFusion",
   "itemPoolShop",
   "raceMan",
   "routeService",
@@ -6449,6 +6450,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
   if (isRaceManNpc(npc) && isRaceManRequestText(lower)) return raceManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
+  if (isPetFusionNpc(npc) && hasAny(lower, ["融合", "合成宠", "合成寵", "宠物蛋", "寵物蛋", "合宠", "合寵", "petfusion", "fusion"])) return petFusionReply(game, npc, text);
   if (npc.itemPoolShop && hasAny(lower, ["道具寄放", "寄放道具", "寄存道具", "道具仓库", "道具倉庫", "保管", "取回道具", "取出道具", "领取道具", "寄放", "寄存", "取回", "取出"])) return itemPoolShopReply(game, npc);
   if (isRouteServiceNpc(npc) && hasAny(lower, ["路线", "路線", "搭乘", "坐车", "坐車", "上车", "上車", "巴士", "客运", "客運", "飞机", "飛機", "航班", "出发", "出發", "前往", "去", "route", "ride"])) return routeServiceReply(game, npc, text);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
@@ -6601,6 +6603,7 @@ function applyNpcHi(game, npc) {
   if (isRaceManNpc(npc)) return raceManReply(game, npc, "hi");
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   if (npc.petShop) return petShopReply(game, npc);
+  if (isPetFusionNpc(npc)) return petFusionReply(game, npc, "hi");
   if (isRouteServiceNpc(npc)) return routeServicePromptReply(game, npc);
   if (npc.itemChange?.recipes?.length) return itemChangePromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
@@ -6640,6 +6643,7 @@ function npcDefaultLine(npc) {
     const state = npc.petShop.poolEnabled ? "寄放、取回或出售宠物" : "出售宠物";
     return npc.petShop.messages?.main || `这里可以${state}。`;
   }
+  if (isPetFusionNpc(npc)) return npc.petFusion?.messages?.start || "这里可以进行宠物融合。";
   if (isRouteServiceNpc(npc)) return routeServiceDefaultLine(npc);
   if (npc.itemChange?.recipes?.length) return "要加工什么？";
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
@@ -9388,6 +9392,7 @@ function eventFlagForNpcAction(npcId, action) {
 
 function fallbackNpcReply(npc) {
   if (npc.itemPoolShop) return npc.itemPoolShop.messages?.main || "这里可以寄放或取回道具。";
+  if (isPetFusionNpc(npc)) return npc.petFusion?.messages?.start || "这里可以进行宠物融合。";
   if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
   return npcDialogueLines(npc)[0] || npcDefaultLine(npc);
 }
@@ -9519,6 +9524,76 @@ function raceRewardNames(items = [], limit = 3) {
 function raceItemLabel(item) {
   if (!item) return "";
   return item.name || item.secretName || `道具 ${item.id || "?"}`;
+}
+
+function isPetFusionNpc(npc) {
+  return Boolean(npc?.petFusion) || /npc_petfusion|petfusion/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""} ${npc?.source || ""}`);
+}
+
+function petFusionReply(game, npc, text = "") {
+  const state = buildPetFusionState(game, npc);
+  recordNpcVmEvent(game, npc, "petFusion", state ? "ok" : "unsupported", {
+    source: state?.source || npc.petFusion?.source || "",
+    eggEnemyIds: state?.eggs?.map((egg) => egg.enemyId).slice(0, 6) || [],
+    carryPets: state?.pets?.length || 0,
+    conditionOk: Boolean(state?.condition?.ok ?? true),
+    text: String(text || "").slice(0, 80)
+  });
+  if (!state) return `${npc.name} 没有可解析的宠物融合资料。`;
+  const start = state.messages.start || "这里可以帮你进行宠物融合。";
+  const select = state.messages.select || "请选择主宠和副宠。";
+  const eggText = state.eggs.length
+    ? state.eggs.map(petFusionEggLabel).join("、")
+    : "这里暂时没有可生成的宠物蛋";
+  const petText = state.pets.length >= 2
+    ? `可用于融合的随身宠物：${state.pets.slice(0, 5).map((pet) => `${pet.name} Lv.${pet.level}`).join("、")}。`
+    : "原版需要选择主宠和副宠；你现在随身可用宠物不足。";
+  const conditionText = state.condition?.ok
+    ? ""
+    : `脚本条件还不满足：${state.condition.reason || state.free || "FREE 条件未通过"}。`;
+  return [
+    start,
+    select,
+    petText,
+    `成功后可能生成：${eggText}。`,
+    conditionText,
+    "当前可以先查看融合窗口和条件；真正融合扣宠、生成蛋会继续按原版规则接入。"
+  ].filter(Boolean).join("\n");
+}
+
+function buildPetFusionState(game, npc) {
+  const fusion = npc?.petFusion;
+  if (!fusion) return null;
+  const free = String(fusion.free || "").trim();
+  const condition = free ? characterConditionStatus(game, free) : { ok: true, reason: "", groups: [] };
+  return {
+    kind: fusion.kind || "pet-fusion",
+    source: fusion.source || npc.script || npc.source || "",
+    free,
+    messages: fusion.messages || {},
+    condition,
+    eggs: (fusion.eggs || []).map((egg) => ({
+      enemyId: Number(egg.enemyId || 0),
+      name: egg.name || `宠物蛋 ${Number(egg.enemyId || 0)}`,
+      tempNo: Number(egg.tempNo || 0),
+      levelMin: Number(egg.levelMin || 1),
+      levelMax: Number(egg.levelMax || egg.levelMin || 1)
+    })),
+    pets: (game.pets || []).map((pet, index) => ({
+      index,
+      name: pet.Name || pet.name || `宠物 ${index + 1}`,
+      level: Number(pet.Lv || pet.level || 1),
+      hp: Number(pet.Hp || 0),
+      maxHp: Number(pet.WorkMaxHp || pet.MaxHp || pet.Hp || 0),
+      petId: Number(pet.PetId || pet.petId || 0),
+      image: Number(pet.ImgNo || pet.BaseImageNumber || 0)
+    }))
+  };
+}
+
+function petFusionEggLabel(egg) {
+  if (!egg) return "";
+  return egg.name || "宠物蛋";
 }
 
 function tradeReply(game, npc) {
@@ -10608,6 +10683,7 @@ function openDialog(game, npc, messages, extra = {}) {
     npcType: isNpcEnemy(npc) ? "NPCEnemy" : npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petShop: extra.petShop || buildPetShopState(game, npc),
+    petFusion: extra.petFusion || buildPetFusionState(game, npc),
     itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),
     raceMan: buildRaceManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
@@ -10656,6 +10732,7 @@ function npcActionProfile(npc) {
   if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0)) actions.push("adjustFame");
   if (npc.trade?.hasCostPoint || npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0)) actions.push("adjustAmPoint");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
+  if (isPetFusionNpc(npc)) actions.push("petFusion", "window");
   if (npc.itemPoolShop || /PoolItemShop|poolitemshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemPoolShop");
   if (isRaceManNpc(npc)) actions.push("raceMan", "window", "say");
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
@@ -12043,6 +12120,7 @@ function dialogSuggestions(npc, game = null) {
     : [];
   let base = ["hi", "任务", "地图"];
   if (npc.petShop) base = ["hi", "整理宠物", "寄放", "取回"];
+  else if (isPetFusionNpc(npc)) base = ["hi", "融合", "宠物蛋", "地图"];
   else if (npc.itemPoolShop) base = ["hi", "寄放道具", "取回道具", "地图"];
   else if (isRaceManNpc(npc)) base = ["hi", "规则", "报名", "奖励"];
   else if (isRouteServiceNpc(npc)) base = ["hi", "路线", "搭乘"];

@@ -171,6 +171,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "askbattlemsg4",
   "askbattlemsg5",
   "askbattlemsg6",
+  "addeggid",
   "buy_main",
   "buy_msg",
   "buy_rate",
@@ -241,6 +242,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "sell_msg",
   "sell_rate",
   "sellonly_msg",
+  "selectmsg",
   "skill_rate",
   "special_item",
   "special_pet",
@@ -383,6 +385,7 @@ function collectNpcSourceFiles(out, npc) {
   addSourceFile(out, npc?.source);
   addSourceFile(out, npc?.warp?.source);
   addSourceFile(out, npc?.trade?.source);
+  addSourceFile(out, npc?.petFusion?.source);
   addSourceFile(out, npc?.npcEnemy?.source);
   if (String(npc?.script || "").startsWith("file:")) {
     addSourceFile(out, `gmsv-data/npc/${npc.script.slice("file:".length)}`);
