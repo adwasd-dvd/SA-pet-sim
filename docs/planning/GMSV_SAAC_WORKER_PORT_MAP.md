@@ -46,7 +46,7 @@ Current Worker entry:
 | `lssproto_CharLogout_recv` / `closeAllConnectionandSaveData` -> `saacproto_ACCharSave_send` | Save character and optionally unlock | `CharacterSessionDO.saveSnapshot({ unlock })` | Next |
 | `lssproto_CharDelete_recv` -> `saacproto_ACCharDelete_send` | Delete character slot | `CharacterService.deleteCharacter(accountId, slot, confirm)` | Later |
 | `saacproto_ACLock_send` / `ACLock_recv` | Account lock/unlock | `CharacterSessionDO` lease plus D1 lock audit | Next |
-| `ACCharSavePoolItem/Pet`, `ACCharGetPoolItem/Pet` | Depot/pool item and pet storage | Bank/depot service | Later |
+| `ACCharSavePoolItem/Pet`, `ACCharGetPoolItem/Pet` | Depot/pool item and pet storage | Pet/item pool service | Pet pool and item pool MVP ported; broader bank/depot service later |
 | `mail.c`, `acfamily.c` callbacks | Mail, family, social persistence | Mail/family services | Later |
 
 ## Game Command Flow
@@ -83,7 +83,7 @@ These NPC source modules should drive the first `NpcActionVM` milestones:
 | `npc_savepoint.c` | Save location/state | `save`, `setFlag` |
 | `npc_windowman.c`, `npc_newnpcman.c`, `npc_eventaction.c`, `npc_storyteller.c` | Window menu, branch, flag/script events | `window`, `choice`, `setFlag`, `give`, `take` |
 | `npc_npcenemy.c` | NPC-triggered battle | `startBattle` |
-| `npc_bankman.c`, `npc_poolitemshop.c` | Bank/depot item storage | Bank/depot service later |
+| `npc_bankman.c`, `npc_poolitemshop.c` | Bank/depot item storage | `itemPoolShop` service ported; bank service later |
 | `npc_familyman.c`, `npc_fm*.c`, `npc_manorsman.c` | Family/manor systems | Social/manor services later |
 | `npc_quiz.c`, `npc_janken.c`, `npc_gambleroulette.c`, `npc_gamblemaster.c` | Mini-games | Mini-game action modules later |
 
@@ -102,6 +102,7 @@ The current Worker already exposes a thin command facade:
 | `POST /api/game/buy` | `buyItem` | Real parsed shop item purchase. |
 | `POST /api/game/sell` | `sellItem` | Sell one inventory item back to an item shop using parsed `trade.sellRate`, with item removal and stone payment routed through the NPC VM. |
 | `POST /api/game/use-item` | `inventoryAction(use)` | HP recovery first pass. |
+| `POST /api/game/pool-item` | `poolItem` | Source `npc_poolitemshop.c` item deposit/withdraw through Worker VM. |
 | `POST /api/game/encounter` | `startEncounter` | Manual/debug encounter. |
 | `POST /api/game/capture` | `battleAction(capture)` | Capture first pass. |
 | `POST /api/game/battle` | `battleAction(H/T/G/N/I/E)` | Source-command battle surface; victory/capture now grants cumulative EXP/NEXT through Worker settlement. |

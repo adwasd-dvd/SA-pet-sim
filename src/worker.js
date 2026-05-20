@@ -63,6 +63,7 @@ const MAXCHAR_PER_USER = 4;
 const INVENTORY_CAPACITY = 15;
 const PET_CAPACITY = 5;
 const PET_POOL_CAPACITY = 10;
+const ITEM_POOL_CAPACITY = 20;
 const CHAR_MAXGOLDHAVE = 10000 * 10000;
 const BATTLE_ENTRY_MAX = 10;
 const BATTLE_PLAYER_MAX = 5;
@@ -119,6 +120,7 @@ const NPC_VM_ACTIONS = new Set([
   "window",
   "shop",
   "petShop",
+  "itemPoolShop",
   "routeService",
   "petSkillShop",
   "itemChange",
@@ -335,6 +337,16 @@ async function handleApi(request, env, url) {
         String(body.npcId || ""),
         String(body.action || ""),
         Number(body.petIndex),
+        Number(body.poolIndex)
+      ));
+    }
+    if (url.pathname === "/api/game/pool-item" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(poolItemGame(
+        body.game,
+        String(body.npcId || ""),
+        String(body.action || ""),
+        Number(body.itemId),
         Number(body.poolIndex)
       ));
     }
@@ -1662,6 +1674,133 @@ function sellPetAtShop(game, npc, petIndex) {
   });
   addLog(game, `${npc.name} 收下了 ${removed.Name}，支付 ${price} 石币。`);
   return `${removed.Name} 已交给宠物店，获得 ${price} 石币。${npc.petShop?.messages?.thanks || ""}`.trim();
+}
+
+function poolItemGame(game, npcId, action, itemId = NaN, poolIndex = NaN) {
+  game = normalizeGame(game);
+  if (game.encounter) throw new Error("战斗中不能整理道具寄放栏");
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "操作道具寄放");
+  if (!npc.itemPoolShop) throw new Error("这个 NPC 没有道具寄放脚本资料");
+
+  const mode = normalizeItemPoolAction(action);
+  let message = "";
+  if (mode === "deposit") message = depositItemAtPoolShop(game, npc, itemId);
+  else if (mode === "withdraw") message = withdrawItemAtPoolShop(game, npc, poolIndex);
+  else throw new Error("道具寄放动作不存在");
+
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+    npcMessage("system", message)
+  ], { itemPoolShop: buildItemPoolShopState(game, npc) });
+  return withMap(game, { npc, itemPoolAction: { type: mode, message, source: npc.itemPoolShop.source } });
+}
+
+function normalizeItemPoolAction(action = "") {
+  const text = String(action || "").toLowerCase();
+  if (["deposit", "pool", "store", "寄放", "寄存", "存"].includes(text)) return "deposit";
+  if (["withdraw", "draw", "take", "取回", "取出", "领取", "取"].includes(text)) return "withdraw";
+  return "";
+}
+
+function depositItemAtPoolShop(game, npc, itemId) {
+  const shop = npc.itemPoolShop || {};
+  const pool = ensureItemPool(game);
+  if (pool.length >= ITEM_POOL_CAPACITY) throw new Error(shop.messages?.poolFull || `道具寄放栏已满，最多 ${ITEM_POOL_CAPACITY} 种`);
+  const id = Number(itemId);
+  const item = (game.inventory || []).find((entry) => Number(entry.id) === id && entry.id !== "stone" && Number(entry.qty || 0) > 0);
+  if (!item) throw new Error("背包里没有这个道具");
+  hydrateInventoryItemFromSource(item);
+  if (!canPoolInventoryItem(item)) throw new Error("这个道具不能寄放");
+  const cost = Math.max(0, Number(shop.cost || 0) || 0);
+  if (cost > 0) {
+    const paid = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: cost, reason: "item-pool-deposit" });
+    if (!paid.ok) throw new Error(shop.messages?.stone || paid.error || "石币不够");
+  }
+  const pooled = compactPooledInventoryItem(item, npc, shop);
+  item.qty = Number(item.qty || 0) - 1;
+  if (item.qty <= 0) {
+    game.inventory = (game.inventory || []).filter((entry) => entry !== item);
+  }
+  pool.push(pooled);
+  syncStoneItem(game);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "itemPoolShop", "ok", {
+    action: "deposit",
+    itemId: Number(pooled.id || 0),
+    itemName: pooled.name,
+    cost,
+    poolUsed: pool.length,
+    source: shop.source || ""
+  });
+  addLog(game, `${npc.name} 寄放了 ${pooled.name}，花费 ${cost} 石币。`);
+  return `${pooled.name} 已寄放${cost > 0 ? `，花费 ${cost} 石币` : ""}。${shop.messages?.confirm || ""}`.trim();
+}
+
+function withdrawItemAtPoolShop(game, npc, poolIndex) {
+  const shop = npc.itemPoolShop || {};
+  const pool = ensureItemPool(game);
+  const index = Math.trunc(Number(poolIndex));
+  if (!Number.isFinite(index) || index < 0 || index >= pool.length) throw new Error("没有找到这个寄放道具");
+  const item = { ...pool[index], qty: 1 };
+  hydrateInventoryItemFromSource(item);
+  if (!canCarryItem(game, item)) throw new Error(shop.messages?.itemFull || `背包已满，最多携带 ${INVENTORY_CAPACITY} 种道具`);
+  pool.splice(index, 1);
+  delete item.PooledAt;
+  delete item.PoolNpcId;
+  delete item.PoolSource;
+  addInventoryItem(game, item, 1);
+  syncStoneItem(game);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "itemPoolShop", "ok", {
+    action: "withdraw",
+    poolIndex: index,
+    itemId: Number(item.id || 0),
+    itemName: item.name,
+    poolUsed: pool.length,
+    source: shop.source || ""
+  });
+  addLog(game, `${npc.name} 取回了 ${item.name}。`);
+  return `${item.name} 已放回背包。${shop.messages?.confirm || ""}`.trim();
+}
+
+function canPoolInventoryItem(item = {}) {
+  if (!item || item.id === "stone") return false;
+  const id = Number(item.id);
+  if (!Number.isFinite(id) || id <= 0) return false;
+  if (item.equippedSlot) return false;
+  return Number(item.qty || 0) > 0;
+}
+
+function compactPooledInventoryItem(item, npc, shop) {
+  return {
+    id: Number(item.id),
+    name: item.name || item.secretName || `道具 ${Number(item.id)}`,
+    qty: 1,
+    image: Number(item.image || 0),
+    type: item.type,
+    useField: item.useField,
+    target: item.target,
+    level: item.level,
+    price: item.price,
+    cost: item.cost,
+    description: item.description,
+    secretName: item.secretName,
+    category: item.category,
+    option: item.option,
+    effectOption: item.effectOption,
+    functionName: item.functionName,
+    useFunction: item.useFunction,
+    damageBreak: item.damageBreak,
+    maxUses: item.maxUses,
+    usesRemaining: item.usesRemaining,
+    source: item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`,
+    PooledAt: new Date().toISOString(),
+    PoolNpcId: npc.id,
+    PoolSource: shop.source || npc.script || npc.source || ""
+  };
 }
 
 function changeItemGame(game, npcId, recipeIndex = NaN) {
@@ -6262,6 +6401,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
+  if (npc.itemPoolShop && hasAny(lower, ["道具寄放", "寄放道具", "寄存道具", "道具仓库", "道具倉庫", "保管", "取回道具", "取出道具", "领取道具", "寄放", "寄存", "取回", "取出"])) return itemPoolShopReply(game, npc);
   if (isRouteServiceNpc(npc) && hasAny(lower, ["路线", "路線", "搭乘", "坐车", "坐車", "上车", "上車", "巴士", "客运", "客運", "飞机", "飛機", "航班", "出发", "出發", "前往", "去", "route", "ride"])) return routeServiceReply(game, npc, text);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (npc.itemChange?.recipes?.length && hasAny(lower, ["加工", "合成", "制作", "製作", "打造", "换物", "交換", "交换", "change"])) return itemChangePromptReply(game, npc);
@@ -9189,6 +9329,7 @@ function eventFlagForNpcAction(npcId, action) {
 }
 
 function fallbackNpcReply(npc) {
+  if (npc.itemPoolShop) return npc.itemPoolShop.messages?.main || "这里可以寄放或取回道具。";
   return npcDialogueLines(npc)[0] || npcDefaultLine(npc);
 }
 
@@ -9239,6 +9380,31 @@ function petShopReply(game, npc) {
     `随身宠物 ${state.carry.used}/${state.carry.capacity}：${carryText}`,
     `${poolText}`,
     help
+  ].filter(Boolean).join("\n");
+}
+
+function itemPoolShopReply(game, npc) {
+  const state = buildItemPoolShopState(game, npc);
+  const items = state?.items || [];
+  const pooledItems = state?.pooledItems || [];
+  recordNpcVmEvent(game, npc, "itemPoolShop", state ? "ok" : "unsupported", {
+    carry: items.length,
+    pool: pooledItems.length,
+    cost: Number(state?.cost || 0),
+    source: state?.source || npc.itemPoolShop?.source || ""
+  });
+  if (!state) return `${npc.name} 没有可解析的道具寄放资料。`;
+  const carryText = items.length
+    ? items.slice(0, 6).map((item) => `${item.name} x${item.qty}`).join("、")
+    : "背包里没有可寄放道具";
+  const poolText = pooledItems.length
+    ? pooledItems.slice(0, 6).map((item) => `${item.name} x${item.qty}`).join("、")
+    : "寄放栏空着";
+  return [
+    state.messages?.main || "欢迎光临。",
+    `随身道具 ${state.inventory.used}/${state.inventory.capacity}：${carryText}`,
+    `寄放栏 ${state.pool.used}/${state.pool.capacity}：${poolText}`,
+    `下面可以点“寄”存 1 个道具、点“取”领回。寄放费用 ${Number(state.cost || 0)} 石币。`
   ].filter(Boolean).join("\n");
 }
 
@@ -10247,6 +10413,7 @@ function openDialog(game, npc, messages, extra = {}) {
     npcType: npc.type,
     trade: npc.trade ? withTradeState(game, npc.trade, npc) : null,
     petShop: extra.petShop || buildPetShopState(game, npc),
+    itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     petSkillShop: extra.petSkillShop || null,
     itemChange: extra.itemChange || buildItemChangeState(game, npc),
@@ -10290,6 +10457,7 @@ function npcActionProfile(npc) {
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
+  if (npc.itemPoolShop || /PoolItemShop|poolitemshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemPoolShop");
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
   if (isLuckyManNpc(npc)) actions.push("window", "take", "fortune");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
@@ -10976,6 +11144,44 @@ function buildPetShopState(game, npc) {
   };
 }
 
+function buildItemPoolShopState(game, npc) {
+  const shop = npc?.itemPoolShop;
+  if (!shop) return null;
+  const pool = ensureItemPool(game);
+  const inventoryItems = (game.inventory || [])
+    .filter((item) => canPoolInventoryItem(item))
+    .map((item) => {
+      hydrateInventoryItemFromSource(item);
+      return {
+        id: Number(item.id),
+        name: item.name || item.secretName || `道具 ${Number(item.id)}`,
+        qty: Number(item.qty || 0),
+        image: Number(item.image || 0),
+        description: truncateText(item.description || item.option || "", 54),
+        canDeposit: true
+      };
+    });
+  return {
+    kind: shop.kind || "item-pool",
+    source: shop.source || npc.script || npc.source || "",
+    cost: Math.max(0, Number(shop.cost || 0) || 0),
+    messages: shop.messages || {},
+    stone: Number(game.player?.stone || 0),
+    inventory: inventoryState(game),
+    pool: itemPoolState(game),
+    items: inventoryItems,
+    pooledItems: pool.map((item, index) => ({
+      index,
+      id: Number(item.id),
+      name: item.name || item.secretName || `道具 ${Number(item.id)}`,
+      qty: Number(item.qty || 1),
+      image: Number(item.image || 0),
+      description: truncateText(item.description || item.option || "", 54),
+      source: item.PoolSource || item.source || ""
+    }))
+  };
+}
+
 function compactPetShopPet(game, npc, pet, index, active = false) {
   const cost = petShopPetCost(game, npc, pet);
   return {
@@ -11566,6 +11772,7 @@ function dialogSuggestions(npc, game = null) {
     : [];
   let base = ["hi", "任务", "地图"];
   if (npc.petShop) base = ["hi", "整理宠物", "寄放", "取回"];
+  else if (npc.itemPoolShop) base = ["hi", "寄放道具", "取回道具", "地图"];
   else if (isRouteServiceNpc(npc)) base = ["hi", "路线", "搭乘"];
   else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
@@ -11704,6 +11911,15 @@ function ensurePetFormation(game) {
 function ensurePetPool(game) {
   game.petPool = Array.isArray(game.petPool) ? game.petPool.filter(Boolean).slice(0, PET_POOL_CAPACITY) : [];
   return game.petPool;
+}
+
+function ensureItemPool(game) {
+  game.itemPool = Array.isArray(game.itemPool) ? game.itemPool.filter(Boolean).slice(0, ITEM_POOL_CAPACITY) : [];
+  for (const item of game.itemPool) {
+    item.qty = Math.max(1, Number(item.qty || 1));
+    hydrateInventoryItemFromSource(item);
+  }
+  return game.itemPool;
 }
 
 function getActivePetIndex(game) {
@@ -11922,6 +12138,24 @@ function petPoolState(game) {
       source: pet.PoolSource || ""
     })),
     source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPOOLPETHAVE`
+  };
+}
+
+function itemPoolState(game) {
+  const pool = ensureItemPool(game);
+  return {
+    used: pool.length,
+    capacity: ITEM_POOL_CAPACITY,
+    remaining: Math.max(0, ITEM_POOL_CAPACITY - pool.length),
+    items: pool.map((item, index) => ({
+      index,
+      id: Number(item.id),
+      name: item.name || item.secretName || `道具 ${Number(item.id)}`,
+      qty: Number(item.qty || 1),
+      image: Number(item.image || 0),
+      source: item.PoolSource || item.source || ""
+    })),
+    source: `${GMSV_DATA_SOURCE}/include/char_base.h CHAR_MAXPOOLITEMHAVE`
   };
 }
 
@@ -12967,6 +13201,8 @@ function buildCharacterFields(game) {
       used: inventory.used,
       capacity: inventory.capacity,
       remaining: inventory.remaining,
+      poolUsed: itemPoolState(game).used,
+      poolCapacity: itemPoolState(game).capacity,
       items: game.inventory
         .filter((item) => item.id !== "stone" && Number(item.qty || 0) > 0)
         .slice(0, 12)
@@ -13414,6 +13650,7 @@ function normalizeGame(game) {
   game.pets ||= [];
   ensurePetFormation(game);
   ensurePetPool(game);
+  ensureItemPool(game);
   game.inventory ||= [];
   syncEquipmentState(game);
   normalizeProgressionRuntime(game);
@@ -13563,6 +13800,7 @@ function buildSaveJson(game) {
     location: { ...game.location },
     pets: game.pets.map((pet) => ({ ...pet })),
     petPool: ensurePetPool(game).map((pet) => ({ ...pet })),
+    itemPool: ensureItemPool(game).map((item) => ({ ...item })),
     petFormation: { ...ensurePetFormation(game) },
     petState: petState(game),
     progression: progressionState(game),
@@ -13657,6 +13895,7 @@ function buildCharInfo(game) {
     `LAST_WARP=${game.lastWarp?.to ? `${game.lastWarp.to.mapId},${game.lastWarp.to.x},${game.lastWarp.to.y}` : "NONE"}`,
     `PETCOUNT=${game.pets.length}`,
     `POOLPETCOUNT=${ensurePetPool(game).length}`,
+    `POOLITEMCOUNT=${ensureItemPool(game).length}`,
     `ITEMCOUNT=${game.inventory.length}`,
     `LAST_SAVEPOINT=${game.savePoint ? safeJson(game.savePoint) : ""}`,
     `WALK_STEPS=${game.walk?.steps || 0}`,
@@ -13671,6 +13910,7 @@ function buildCharInfo(game) {
     `AI_WORKSPACE=${safeJson(compactAiWorkspaceMemory(game))}`,
     `PETS=${safeJson(game.pets.map(petSaveSummary))}`,
     `POOLPETS=${safeJson(ensurePetPool(game).map(petSaveSummary))}`,
+    `POOLITEMS=${safeJson(ensureItemPool(game).map(itemSaveSummary))}`,
     `ITEMS=${safeJson(game.inventory.map(itemSaveSummary))}`,
     `UPDATED=${game.character.updatedAt}`,
     "DATAEND=1"
@@ -13743,6 +13983,7 @@ function withMap(game, extra = {}) {
     inventoryState: inventoryState(game),
     petState: petState(game),
     petPoolState: petPoolState(game),
+    itemPoolState: itemPoolState(game),
     progression,
     world: {
       map: responseMap,

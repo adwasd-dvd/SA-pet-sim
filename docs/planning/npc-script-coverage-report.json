@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T05:40:55.493Z",
+  "generatedAt": "2026-05-20T08:03:46.412Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -206,10 +206,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12522,
-      "candidate-action": 1300,
-      "unknown": 1364,
-      "supported-message": 10906,
+      "supported-config": 12531,
+      "candidate-action": 1291,
+      "unknown": 1346,
+      "supported-message": 10924,
       "condition-control": 11752,
       "supported-action": 3680,
       "blocked-or-later-system": 81
@@ -2229,7 +2229,7 @@
       {
         "key": "cost",
         "normalized": "cost",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -2932,7 +2932,7 @@
       {
         "key": "draw_main",
         "normalized": "draw_main",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -10247,7 +10247,7 @@
       {
         "key": "pool_main",
         "normalized": "pool_main",
-        "category": "unknown",
+        "category": "supported-message",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -14044,162 +14044,6 @@
         ]
       },
       {
-        "key": "cost",
-        "normalized": "cost",
-        "category": "candidate-action",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 3,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_1009_14_13",
-            "line": 1,
-            "text": "cost:50"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_2009_17_34",
-            "line": 1,
-            "text": "cost:50"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_3009_18_40",
-            "line": 1,
-            "text": "cost:50"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_4009_15_13",
-            "line": 1,
-            "text": "cost:50"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_7119_15_6",
-            "line": 1,
-            "text": "cost:50"
-          }
-        ]
-      },
-      {
-        "key": "draw_main",
-        "normalized": "draw_main",
-        "category": "unknown",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 3,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_1009_14_13",
-            "line": 4,
-            "text": "draw_main:要领取什么呢？"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_2009_17_34",
-            "line": 4,
-            "text": "draw_main:要卖什么呢？"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_3009_18_40",
-            "line": 4,
-            "text": "draw_main:领取什么东西？"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_4009_15_13",
-            "line": 4,
-            "text": "draw_main:领取什么东西？"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_7119_15_6",
-            "line": 4,
-            "text": "draw_main:要领取哪个道具呢？"
-          }
-        ]
-      },
-      {
-        "key": "pool_main",
-        "normalized": "pool_main",
-        "category": "unknown",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-rebirth": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 3,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_1009_14_13",
-            "line": 3,
-            "text": "pool_main:你要寄放哪个道具？\\n寄放一个要50?。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_2009_17_34",
-            "line": 3,
-            "text": "pool_main:你要寄放哪个道具？\\n寄放一个要50s。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_3009_18_40",
-            "line": 3,
-            "text": "pool_main:要寄放什么道具吗？\\n寄放一个要５０ｓ。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_4009_15_13",
-            "line": 3,
-            "text": "pool_main:要寄放什么道具吗？\\n寄放一个要５０ｓ。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/pis_7119_15_6",
-            "line": 3,
-            "text": "pool_main:您要寄放哪个道具呢？\\n寄放一个道具要50石币喔？"
-          }
-        ]
-      },
-      {
         "key": "CostPoint",
         "normalized": "costpoint",
         "category": "candidate-action",
@@ -15469,6 +15313,162 @@
             "file": "external/sources/ref___data/npc/race2/second.arg",
             "line": 13,
             "text": "wrongans_msg:你猜错了哦～再来一次吧！"
+          }
+        ]
+      },
+      {
+        "key": "gym",
+        "normalized": "gym",
+        "category": "unknown",
+        "occurrences": 346,
+        "files": 346,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou001.arg",
+            "line": 6,
+            "text": "gym:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou002.arg",
+            "line": 6,
+            "text": "gym:2"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou003.arg",
+            "line": 6,
+            "text": "gym:3"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou004.arg",
+            "line": 6,
+            "text": "gym:4"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou005.arg",
+            "line": 6,
+            "text": "gym:5"
+          }
+        ]
+      },
+      {
+        "key": "enemypetno",
+        "normalized": "enemypetno",
+        "category": "candidate-action",
+        "occurrences": 325,
+        "files": 325,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou001.arg",
+            "line": 9,
+            "text": "enemypetno:687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou002.arg",
+            "line": 9,
+            "text": "enemypetno:687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou003.arg",
+            "line": 9,
+            "text": "enemypetno:687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou004.arg",
+            "line": 9,
+            "text": "enemypetno:687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720"
+          },
+          {
+            "file": "external/sources/ref___data/npc/doujyou/jyajyadou005.arg",
+            "line": 9,
+            "text": "enemypetno:687,688,689,690,691,692,693,694,695,696,697,698,699,700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717,718,719,720"
+          }
+        ]
+      },
+      {
+        "key": "PET",
+        "normalized": "pet",
+        "category": "candidate-action",
+        "occurrences": 246,
+        "files": 9,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 10,
+            "text": "PET:LV>74&LV<79"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 15,
+            "text": "PET:LV>69&LV<75"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 20,
+            "text": "PET:LV>64&LV<70"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 25,
+            "text": "PET:LV>59&LV<65"
+          },
+          {
+            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
+            "line": 30,
+            "text": "PET:LV>54&LV<60"
           }
         ]
       }

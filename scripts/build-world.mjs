@@ -453,6 +453,7 @@ function parseNpcs() {
       const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
       const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
+      const itemPoolShop = readNpcItemPoolShop(argPath, file, functionset, enemy.template);
       const routeService = readNpcRouteService(argPath, file, functionset, enemy.template, floor);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
       const itemChange = readNpcItemChange(argPath, file);
@@ -462,7 +463,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService, luckyMan);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -477,6 +478,7 @@ function parseNpcs() {
         graphic: kv.graphicname || template.graphicname || "",
         ...(trade ? { trade } : {}),
         ...(petShop ? { petShop } : {}),
+        ...(itemPoolShop ? { itemPoolShop } : {}),
         ...(routeService ? { routeService } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
         ...(itemChange ? { itemChange } : {}),
@@ -952,6 +954,36 @@ function readNpcPetShop(argPath, createFile, functionset = "", template = "") {
       poolThanks: cleanScriptText(kv.pooltanks_msg || kv.poolthanks_msg || ""),
       poolFull: cleanScriptText(kv.poolfull_msg || ""),
       getFull: cleanScriptText(kv.getfull_msg || "")
+    }
+  };
+}
+
+function readNpcItemPoolShop(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  if (!/PoolItemShop|npcgen_poolitemshop/i.test(`${functionset} ${template} ${argPath}`)
+    && !/^\s*(?:pool_main|draw_main|poolfull_msg|itemfull_msg)\s*:/im.test(text)) {
+    return null;
+  }
+  const kv = parseColonFile(text);
+  const cost = Number(kv.cost);
+  return {
+    kind: "item-pool",
+    source: relativeRef(file),
+    cost: Math.max(0, Number.isFinite(cost) ? cost : 200),
+    supports: {
+      deposit: true,
+      withdraw: true
+    },
+    messages: {
+      main: cleanScriptText(kv.main_msg || ""),
+      pool: cleanScriptText(kv.pool_main || ""),
+      draw: cleanScriptText(kv.draw_main || ""),
+      confirm: cleanScriptText(kv.realy_msg || kv.really_msg || ""),
+      stone: cleanScriptText(kv.stone_msg || ""),
+      poolFull: cleanScriptText(kv.poolfull_msg || ""),
+      itemFull: cleanScriptText(kv.itemfull_msg || "")
     }
   };
 }
@@ -1766,11 +1798,12 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, routeService, luckyMan) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
   if (petShop) actions.push("petShop");
+  if (itemPoolShop) actions.push("itemPoolShop");
   if (routeService) actions.push("routeService");
   if (petSkillShop) actions.push("petSkillShop");
   if (itemChange) actions.push("itemChange");

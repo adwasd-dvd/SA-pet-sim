@@ -3482,6 +3482,7 @@ function renderDialog() {
   const auxiliary = [
     renderDialogShop(dialog),
     renderDialogPetShop(dialog),
+    renderDialogItemPoolShop(dialog),
     renderDialogPetSkillShop(dialog),
     renderDialogItemChange(dialog)
   ].filter(Boolean).join("");
@@ -3498,6 +3499,11 @@ function renderDialog() {
     const petIndex = btn.dataset.petIndex === undefined ? NaN : Number(btn.dataset.petIndex);
     const poolIndex = btn.dataset.poolIndex === undefined ? NaN : Number(btn.dataset.poolIndex);
     btn.addEventListener("click", () => poolPet(btn.dataset.poolPet, petIndex, poolIndex));
+  });
+  els.dialogSuggestions.querySelectorAll("[data-pool-item]").forEach((btn) => {
+    const itemId = btn.dataset.itemId === undefined ? NaN : Number(btn.dataset.itemId);
+    const poolIndex = btn.dataset.poolIndex === undefined ? NaN : Number(btn.dataset.poolIndex);
+    btn.addEventListener("click", () => poolItem(btn.dataset.poolItem, itemId, poolIndex));
   });
   els.dialogSuggestions.querySelectorAll("[data-learn-pet-skill]").forEach((btn) => {
     btn.addEventListener("click", () => learnPetSkill(Number(btn.dataset.learnPetSkill), Number(btn.dataset.petIndex), Number(btn.dataset.slotIndex)));
@@ -4345,6 +4351,60 @@ function petShopPetHint(pet, shop) {
   return parts.join(" | ");
 }
 
+function renderDialogItemPoolShop(dialog) {
+  const shop = dialog.itemPoolShop;
+  if (!shop) return "";
+  const inventory = shop.inventory || {};
+  const pool = shop.pool || {};
+  const items = shop.items || [];
+  const pooledItems = shop.pooledItems || [];
+  const canDeposit = Number(pool.used || 0) < Number(pool.capacity || 0);
+  const canWithdraw = Number(inventory.used || 0) < Number(inventory.capacity || 0);
+  const cost = Number(shop.cost || 0);
+  const carryList = items.length
+    ? items.slice(0, 12).map((item) => `
+        <div class="shop-item">
+          <span>
+            <strong>${escapeHtml(item.name)} x${Number(item.qty || 0)}</strong>
+            <small>${escapeHtml(item.description || `ImgNo ${Number(item.image || 0)}`)}</small>
+          </span>
+          <span class="pet-shop-actions">
+            <button type="button" data-pool-item="deposit" data-item-id="${Number(item.id)}" ${canDeposit && Number(shop.stone || 0) >= cost ? "" : "disabled"}>寄</button>
+          </span>
+        </div>
+      `).join("")
+    : `<p class="shop-empty">背包里没有可寄放道具。</p>`;
+  const poolList = pooledItems.length
+    ? pooledItems.slice(0, Number(pool.capacity || 20)).map((item) => `
+        <div class="shop-item shop-item-sell">
+          <span>
+            <strong>${escapeHtml(item.name)} x${Number(item.qty || 1)}</strong>
+            <small>${escapeHtml(item.description || item.source || "寄放道具")}</small>
+          </span>
+          <span class="pet-shop-actions">
+            <button type="button" data-pool-item="withdraw" data-pool-index="${Number(item.index)}" ${canWithdraw ? "" : "disabled"}>取</button>
+          </span>
+        </div>
+      `).join("")
+    : `<p class="shop-empty">寄放栏空着。</p>`;
+  return `
+    <div class="shop-box item-pool-shop-box">
+      <div class="shop-summary">
+        <strong>道具寄放</strong>
+        <span>背包 ${Number(inventory.used || 0)}/${Number(inventory.capacity || 0)} | 寄放 ${Number(pool.used || 0)}/${Number(pool.capacity || 0)} | 每件 ${cost} 石币</span>
+      </div>
+      <section class="shop-section">
+        <header><strong>背包</strong><small>寄放 1 个</small></header>
+        <div class="shop-list">${carryList}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>寄放栏</strong><small>CHAR_MAXPOOLITEMHAVE</small></header>
+        <div class="shop-list">${poolList}</div>
+      </section>
+    </div>
+  `;
+}
+
 function renderDialogPetSkillShop(dialog) {
   const shop = dialog.petSkillShop;
   if (!shop?.skills?.length) return "";
@@ -4560,6 +4620,23 @@ async function poolPet(action, petIndex, poolIndex) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "宠物店操作失败");
+  }
+}
+
+async function poolItem(action, itemId, poolIndex) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/pool-item", {
+      game,
+      npcId: game.dialog.npcId,
+      action,
+      itemId,
+      poolIndex
+    });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "道具寄放操作失败");
   }
 }
 

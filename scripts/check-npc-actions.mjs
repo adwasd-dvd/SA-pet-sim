@@ -176,6 +176,46 @@ assertEqual(petShopGame.pets.length, petShopPetCountBefore, "pet shop withdraw r
 assertEqual(petShopGame.petPoolState.used, 0, "pet shop withdraw clears the source-style pool slot");
 assert(petShopGame.save.info.includes("POOLPETCOUNT=0"), "saac-like save info records pool pet count");
 
+const itemPoolEntry = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.itemPoolShop);
+assert(itemPoolEntry, "world build parses source npcgen_poolitemshop scripts");
+let itemPoolGame = await api("/api/game/new", { name: "item-pool-shop-test" });
+itemPoolGame.player.stone = 1000;
+itemPoolGame.location = {
+  mapId: itemPoolEntry.map.id,
+  x: itemPoolEntry.npc.x,
+  y: Math.max(0, itemPoolEntry.npc.y - 1),
+  dir: 4
+};
+const poolCandidateSource = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).flatMap((npc) => npc.trade?.items || []))
+  .find((item) => Number(item.id || 0) > 0);
+assert(poolCandidateSource, "world data has at least one source item fixture for item pool test");
+itemPoolGame.inventory.push({
+  id: poolCandidateSource.id,
+  name: poolCandidateSource.name,
+  qty: 2,
+  image: poolCandidateSource.image,
+  source: poolCandidateSource.source || "WORLD trade fixture"
+});
+const poolCandidate = itemPoolGame.inventory.find((item) => item.id !== "stone" && Number(item.qty || 0) > 0);
+assert(poolCandidate, "new game has a source item that can be deposited in item pool");
+const itemPoolQtyBefore = inventoryQty(itemPoolGame, poolCandidate.id);
+const itemPoolStoneBefore = Number(itemPoolGame.player.stone || 0);
+itemPoolGame = await api("/api/game/talk", { game: itemPoolGame, npcId: itemPoolEntry.npc.id });
+assert(itemPoolGame.dialog?.itemPoolShop?.cost >= 0, "item pool dialog exposes source cost metadata");
+assert(itemPoolGame.dialog?.debug?.actions?.includes("itemPoolShop"), "item pool dialog exposes itemPoolShop action profile");
+itemPoolGame = await api("/api/game/pool-item", { game: itemPoolGame, npcId: itemPoolEntry.npc.id, action: "deposit", itemId: poolCandidate.id });
+assertEqual(inventoryQty(itemPoolGame, poolCandidate.id), itemPoolQtyBefore - 1, "item pool deposit moves one inventory item out of carried slots");
+assertEqual(itemPoolGame.itemPoolState.used, 1, "item pool deposit fills one source-style pool slot");
+assert(Number(itemPoolGame.player.stone || 0) <= itemPoolStoneBefore, "item pool deposit charges source-style stone cost when configured");
+assert(itemPoolGame.dialog?.debug?.vmTrace?.some((event) => event.action === "itemPoolShop" && event.detail?.action === "deposit"), "item pool deposit records an itemPoolShop VM trace");
+itemPoolGame = await api("/api/game/pool-item", { game: itemPoolGame, npcId: itemPoolEntry.npc.id, action: "withdraw", poolIndex: 0 });
+assertEqual(inventoryQty(itemPoolGame, poolCandidate.id), itemPoolQtyBefore, "item pool withdraw returns the item to carried inventory");
+assertEqual(itemPoolGame.itemPoolState.used, 0, "item pool withdraw clears the source-style pool slot");
+assert(itemPoolGame.save.info.includes("POOLITEMCOUNT=0"), "saac-like save info records pool item count");
+
 const routeServiceEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => {
@@ -2618,7 +2658,7 @@ npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEven
 assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
 assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
