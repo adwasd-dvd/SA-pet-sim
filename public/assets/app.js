@@ -1192,6 +1192,12 @@ async function followRouteTo(target, routeData = null) {
   }
 }
 
+function cancelActiveRoute({ clearKeys = false } = {}) {
+  routeToken += 1;
+  routeInFlight = false;
+  if (clearKeys) clearPressedMoveKeys();
+}
+
 function isAtRouteTarget(target) {
   if (!game || !target) return false;
   return Number(game.location.x) === Number(target.x) && Number(game.location.y) === Number(target.y);
@@ -1441,6 +1447,7 @@ async function goToNpc(npcId, options = {}) {
     addClientLog("战斗中无法和 NPC 对话。");
     return;
   }
+  cancelActiveRoute({ clearKeys: true });
   const openWhenNear = Boolean(options.openWhenNear);
   const preferredTile = normalizeRoutePreference(options.preferredTile);
   const map = game?.world?.map;
@@ -1497,6 +1504,7 @@ async function goToExit(exitId, options = {}) {
     addClientLog("战斗中无法移动到出口。");
     return;
   }
+  cancelActiveRoute({ clearKeys: true });
   const preferredTile = normalizeRoutePreference(options.preferredTile);
   const map = game?.world?.map;
   const exit = map?.exits?.find((item) => item.id === exitId);
@@ -1524,9 +1532,7 @@ async function paidJumpTo(kind, id, options = {}) {
     addClientLog("战斗中不能付费跳转。");
     return;
   }
-  routeToken += 1;
-  routeInFlight = false;
-  clearPressedMoveKeys();
+  cancelActiveRoute({ clearKeys: true });
   try {
     const payload = { game, kind, id };
     const preferredTile = normalizeRoutePreference(options.preferredTile);
