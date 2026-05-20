@@ -3432,6 +3432,18 @@ function normalizeBattleMove(action) {
       targetIndex
     };
   }
+  const targetNoMatch = value.match(/^(attackno|hno|captureno|catchno)[:|](\d+)$/);
+  if (targetNoMatch) {
+    const targetNo = Math.max(0, Math.trunc(Number(targetNoMatch[2]) || 0));
+    const targetIndex = enemyIndexFromBattleNo(targetNo);
+    const isCapture = ["captureno", "catchno"].includes(targetNoMatch[1]);
+    return {
+      type: isCapture ? "capture" : "attack",
+      command: sourceTargetBattleCommand(isCapture ? "T" : "H", targetNo),
+      targetIndex,
+      targetNo
+    };
+  }
   const targetMatch = value.match(/^(attack|h|攻击|打|capture|catch|捕获|抓宠|抓)[:|](\d+)$/);
   if (targetMatch) {
     const targetIndex = Math.max(0, Number(targetMatch[2]) || 0);
@@ -3456,6 +3468,16 @@ function normalizeBattleMove(action) {
   if (["wait", "待机", "等待", "n"].includes(value)) return { type: "wait", command: "N" };
   if (["attack", "攻击", "战斗", "打", "h", "h|0"].includes(value)) return { type: "attack", command: "H|0" };
   return { type: value, command: value };
+}
+
+function enemyIndexFromBattleNo(targetNo) {
+  const no = Math.max(0, Math.trunc(Number(targetNo) || 0));
+  return no >= BATTLE_SIDE_OFFSET ? no - BATTLE_SIDE_OFFSET : no;
+}
+
+function sourceTargetBattleCommand(prefix, targetNo) {
+  const no = Math.max(0, Math.trunc(Number(targetNo) || 0));
+  return `${prefix}|${no.toString(16).toUpperCase()}`;
 }
 
 function sourcePetSkillCommand(skillSlot, targetIndex) {
@@ -3487,6 +3509,7 @@ function sourcePlayerBattleAction(move, game, activeActor, enemy) {
     sourceCommand: "BATTLE_COM_ATTACK",
     targetKind: "enemy",
     targetSlot: targetIndex,
+    targetNo: Number(move.targetNo ?? BATTLE_SIDE_OFFSET + targetIndex),
     targetName: enemy?.Name || "enemy"
   };
 }
@@ -4310,6 +4333,7 @@ function compactBattleActionTelemetry(action) {
     actorName: action.actorName || "",
     targetKind: action.targetKind || "",
     targetSlot: Number(action.targetSlot || 0),
+    targetNo: Number(action.targetNo ?? action.targetSlot ?? 0),
     targetName: action.targetName || "",
     oldPetSlot: Number(action.oldPetSlot ?? -1),
     oldPetName: action.oldPetName || "",

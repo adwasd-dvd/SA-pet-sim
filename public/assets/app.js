@@ -3606,7 +3606,10 @@ function renderBattleFormation() {
     const pos = battleFormationUnitPosition(unit);
     const maxHp = Math.max(1, Number(unit.maxHp || unit.hp || 1));
     const hp = Math.max(0, Number(unit.hp || 0));
-    const targetAttr = unit.kind === "enemy" ? `data-battle-target="${Math.max(0, Number(unit.slot || 0))}"` : "";
+    const battleNo = Number(unit.battleNo || 0);
+    const targetAttr = unit.kind === "enemy"
+      ? `data-battle-target="${Math.max(0, Number(unit.slot || 0))}" data-battle-target-no="${battleNo}"`
+      : "";
     const buttonTag = unit.kind === "enemy" ? "button" : "div";
     const typeAttr = unit.kind === "enemy" ? `type="button"` : "";
     const imgNo = battleFormationUnitImageNo(unit);
@@ -3616,7 +3619,7 @@ function renderBattleFormation() {
       : sourceFieldSpriteTileId(imgNo, { fallback: Number(imgNo || 0), dir: faceDir });
     const spriteAttrs = unit.kind === "player" ? "" : sourceSpriteAttrs(imgNo, spriteId, { dir: faceDir });
     return `
-      <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${Number(unit.battleNo || 0)}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
+      <${buttonTag} ${typeAttr} class="battle-formation-unit ${escapeHtml(unit.sideClass)} ${escapeHtml(unit.kind || "")} ${unit.active ? "active" : ""}" ${targetAttr} data-battle-no="${battleNo}" style="--battle-x:${pos.x}%; --battle-y:${pos.y}%; --battle-z:${pos.z};" title="${escapeHtml(battleFormationUnitTitle(unit))}">
         <span class="battle-unit-hp"><b style="width:${clampPercent(hp, maxHp)}%"></b></span>
         ${unit.kind === "player" ? `<em class="battle-role-label">PLAYER</em>` : unit.kind === "pet" ? `<em class="battle-role-label">PET</em>` : ""}
         <span class="battle-unit-sprite client-atlas-sprite" data-atlas-sprite="${Number(spriteId || 0)}"${spriteAttrs} aria-hidden="true"></span>
@@ -3711,7 +3714,7 @@ function renderBattleEnemyParty(party, activeIndex, canTarget) {
       dir: BATTLE_ENEMY_FACE_DIRECTION
     });
     return `
-      <button type="button" data-battle-target="${index}" class="${active ? "active" : ""}" ${defeated || !canTarget ? "disabled" : ""} title="${escapeHtml(title)}">
+      <button type="button" data-battle-target="${index}" data-battle-target-no="${BATTLE_SIDE_OFFSET + index}" class="${active ? "active" : ""}" ${defeated || !canTarget ? "disabled" : ""} title="${escapeHtml(title)}">
         <span class="battle-enemy-thumb"><span class="client-atlas-sprite" data-atlas-sprite="${spriteId}"${sourceSpriteAttrs(enemy.ImgNo, spriteId, { dir: BATTLE_ENEMY_FACE_DIRECTION })} aria-hidden="true"></span></span>
         <b>${index + 1}</b>
         <em>${escapeHtml(enemy.Name || "敌人")}</em>
@@ -3784,8 +3787,9 @@ function onBattlePanelClick(event) {
   const targetBtn = event.target.closest("[data-battle-target]");
   if (targetBtn && els.battlePanel.contains(targetBtn) && !targetBtn.disabled) {
     const action = isTargetedBattleAction(battleSelectedAction) ? battleSelectedAction : "attack";
+    const targetToken = targetBtn.dataset.battleTargetNo || targetBtn.dataset.battleTarget;
     flashBattleElement(targetBtn, "battle-click-confirm");
-    sendBattleAction(`${action}:${targetBtn.dataset.battleTarget}`);
+    sendBattleAction(`${action}No:${targetToken}`);
     return;
   }
   const itemBtn = event.target.closest("[data-battle-item]");
