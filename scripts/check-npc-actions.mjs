@@ -1738,6 +1738,72 @@ await expectApiError(
   "pet skill shop refuses teaching when stone is insufficient"
 );
 
+const professionNpc = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => npc.professionShop?.skillIds?.length);
+if (professionNpc) {
+  let professionGame = await api("/api/game/new", { name: "profession-shop-test" });
+  professionGame.location = farLocation(professionNpc.map, professionNpc.npc);
+  await expectApiError(
+    "/api/game/learn-profession-skill",
+    { game: professionGame, npcId: professionNpc.npc.id, skillId: professionNpc.npc.professionShop.skillIds[0] },
+    "请先走近",
+    "profession shop rejects remote NPC window action"
+  );
+  professionGame.location = { mapId: professionNpc.map.id, x: professionNpc.npc.x + 1, y: professionNpc.npc.y };
+  professionGame.player.stone = 1000000;
+  professionGame = await api("/api/game/dialog", { game: professionGame, npcId: professionNpc.npc.id });
+  assert(professionGame.dialog.professionShop?.skills?.length, "profession shop dialog exposes source profession_skill list");
+  assert(professionGame.dialog.debug.actions.includes("professionShop"), "profession shop debug exposes source action profile");
+  const blockedSkill = professionGame.dialog.professionShop.skills[0];
+  await expectApiError(
+    "/api/game/learn-profession-skill",
+    { game: professionGame, npcId: professionNpc.npc.id, skillId: blockedSkill.id },
+    "尚未转职",
+    "profession shop refuses learning before profession class is set"
+  );
+
+  const learnableProfessionSkill = professionGame.dialog.professionShop.skills.find((skill) => Number(skill.professionClass || 0) > 0)
+    || professionGame.dialog.professionShop.skills[0];
+  const professionClass = Number(learnableProfessionSkill.professionClass || professionNpc.npc.professionShop.classId || 1);
+  professionGame.player.professionClass = professionClass === 4
+    ? Number(professionNpc.npc.professionShop.classId || 1)
+    : professionClass;
+  professionGame.player.ProfessionClass = professionGame.player.professionClass;
+  professionGame.player.PROFESSION_CLASS = professionGame.player.professionClass;
+  professionGame.player.transmigration = Number(professionNpc.npc.professionShop.minTrans || 0);
+  professionGame.player.Transmigration = professionGame.player.transmigration;
+  professionGame.player.TRANSMIGRATION = professionGame.player.transmigration;
+  professionGame.player.professionSkillPoint = 1;
+  professionGame.player.ProfessionSkillPoint = 1;
+  professionGame.player.PROFESSION_SKILL_POINT = 1;
+  professionGame.player.professionSkills = (learnableProfessionSkill.prerequisites || []).map((req) => ({
+    id: Number(req.skillId),
+    name: req.name || `职业技能 ${Number(req.skillId)}`,
+    level: Number(req.percent || 10),
+    percent: Number(req.percent || 10)
+  }));
+  professionGame = await api("/api/game/dialog", { game: professionGame, npcId: professionNpc.npc.id });
+  const skillToLearn = professionGame.dialog.professionShop.skills.find((skill) => skill.learnable);
+  if (!skillToLearn) throw new Error("missing learnable profession skill fixture after satisfying source conditions");
+  const professionStoneBefore = Number(professionGame.player.stone || 0);
+  professionGame = await api("/api/game/learn-profession-skill", {
+    game: professionGame,
+    npcId: professionNpc.npc.id,
+    skillId: skillToLearn.id
+  });
+  assert(professionGame.player.professionSkills.some((skill) => Number(skill.id) === Number(skillToLearn.id)), "profession shop stores learned source skill");
+  assertEqual(professionGame.player.professionSkillPoint, 0, "profession shop consumes one profession skill point");
+  assertEqual(professionGame.player.stone, professionStoneBefore - Number(skillToLearn.cost || 0), "profession shop charges source PROFESSION_SKILL_COST * skill_rate");
+  assert(professionGame.dialog.professionShop.skills.some((skill) => Number(skill.id) === Number(skillToLearn.id) && skill.alreadyKnown), "profession shop refreshes learned state after training");
+  assert(professionGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "profession-skill"), "profession shop deducts stone through NPC VM");
+  assert(professionGame.dialog.debug.vmTrace.some((event) => event.action === "professionShop" && event.detail?.skillId === skillToLearn.id), "profession shop records learn VM event");
+  assert(professionGame.save.info.includes("PROFESSION_SKILL_POINT=0"), "profession shop persists source profession skill point");
+  assert(professionGame.save.info.includes("PROFESSION_SKILLS="), "profession shop persists learned profession skills");
+} else {
+  console.warn("warning: no profession shop NPC fixture in generated WORLD; skipping profession shop runtime check");
+}
+
 const itemChangeNpc = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.itemChange?.recipes?.some(isSimpleItemChangeRecipe));
@@ -2876,7 +2942,7 @@ npcEnemyNewEventFlagGame = await api("/api/game/battle", { game: npcEnemyNewEven
 assertEqual(npcEnemyNewEventFlagGame.location.x, 640, "NPCEnemy NEWEVENT honors NOWEV source flags before fallback branches");
 assert(npcEnemyNewEventFlagGame.battleOutcome.log.some((line) => line.includes("NEWEVENT1")), "NPCEnemy NEWEVENT victory records the selected source branch");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop/profession skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T18:11:28.863Z",
+  "generatedAt": "2026-05-20T22:18:36.595Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -211,13 +211,13 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 12342,
+      "supported-config": 12368,
       "candidate-action": 1272,
-      "unknown": 1248,
+      "unknown": 1242,
       "supported-message": 11251,
       "condition-control": 11752,
       "supported-action": 3714,
-      "blocked-or-later-system": 26
+      "blocked-or-later-system": 6
     },
     "keyRecords": [
       {
@@ -10455,7 +10455,7 @@
       {
         "key": "profession_class",
         "normalized": "profession_class",
-        "category": "blocked-or-later-system",
+        "category": "supported-config",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -10507,7 +10507,7 @@
       {
         "key": "profession_skill",
         "normalized": "profession_skill",
-        "category": "blocked-or-later-system",
+        "category": "supported-config",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -13096,7 +13096,7 @@
       {
         "key": "trans",
         "normalized": "trans",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 6,
         "files": 6,
         "profiles": {
@@ -13892,58 +13892,6 @@
       }
     ],
     "unsupportedCandidates": [
-      {
-        "key": "trans",
-        "normalized": "trans",
-        "category": "unknown",
-        "occurrences": 6,
-        "files": 6,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 1,
-            "files": 1
-          },
-          "classic-rebirth": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 3,
-            "files": 3
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 3,
-            "files": 3
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/sa70/hunsk2",
-            "line": 9,
-            "text": "trans:1,2,3,4,5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa70/hunsk3",
-            "line": 9,
-            "text": "trans:1,2,3,4,5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa70/warsk2",
-            "line": 9,
-            "text": "trans:1,2,3,4,5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa70/warsk3",
-            "line": 9,
-            "text": "trans:1,2,3,4,5"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa70/wizsk2",
-            "line": 9,
-            "text": "trans:1,2,3,4,5"
-          }
-        ]
-      },
       {
         "key": "REPLACEMENT",
         "normalized": "replacement",
@@ -15919,6 +15867,58 @@
             "file": "external/sources/ref___data/npc/genout/wpm_3030_62_42",
             "line": 5,
             "text": "NoLeaderMsg:\\n你好！我可以将家族成员传送到这里。\\nㄟ。。。原来你不是族长喔！\\n那么我无法做召唤成员的动作～\\n真是抱歉～请找族长来召唤吧！"
+          }
+        ]
+      },
+      {
+        "key": "nomsg",
+        "normalized": "nomsg",
+        "category": "unknown",
+        "occurrences": 11,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 22,
+            "text": "nomsg:\\n这样子吗，如果你想转生的话，欢迎随时来我这里。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 30,
+            "text": "nomsg:\\n这样子吗，如果你想转生的话，欢迎随时来我这里。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 38,
+            "text": "nomsg:\\n这样子吗，如果你想转生的话，欢迎随时来我这里。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 47,
+            "text": "nomsg:\\n这样子吗，如果你想转生的话，欢迎随时来我这里。"
+          },
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 55,
+            "text": "nomsg:\\n这样子吗，如果你想转生的话，欢迎随时来我这里。"
           }
         ]
       }

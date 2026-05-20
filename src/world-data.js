@@ -13797,9 +13797,166 @@ export const WORLD = {
           "script": "file:sa70/warsk3",
           "template": "ProfessionShop",
           "graphic": "16185",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/warsk3",
+            "skillRate": 1,
+            "classId": 1,
+            "className": "战士",
+            "transRequirements": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "minTrans": 1,
+            "skillIds": [
+              39,
+              41,
+              42,
+              54
+            ],
+            "skills": [
+              {
+                "id": 39,
+                "name": "贯穿攻击",
+                "description": "同时伤害后排之人和宠物",
+                "func": "PROFESSION_THROUGH_ATTACK",
+                "option": "无|1|1|320|240|0|0|0|320|380|360|340|380|270|490|230|550|200|",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 21,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29216,
+                "imageBefore": 101660,
+                "imageAfter": 101661,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 24,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 35,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 40,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 41,
+                "name": "回旋攻击",
+                "description": "以回旋的力量攻击敌方一整排敌人",
+                "func": "PROFESSION_CONVOLUTE",
+                "option": "无|1|1|150|150|0|0|0|350|280|500|320|100|150|180|230",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 8,
+                "costMp": 28,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29219,
+                "imageBefore": 101655,
+                "imageAfter": 101656,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 40,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 42,
+                "name": "混乱攻击",
+                "description": "以发狂的怒气攻击敌复数",
+                "func": "PROFESSION_CHAOS",
+                "option": "效%1|",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 28,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29220,
+                "imageBefore": 101684,
+                "imageAfter": 0,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 24,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 43,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 54,
+                "name": "座骑攻击",
+                "description": "将攻击大部分集中在骑乘宠物身上",
+                "func": "PROFESSION_CAVALRY",
+                "option": "倍%2|次%2|攻%2|效%1",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 11,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29217,
+                "imageBefore": 101684,
+                "imageAfter": 26518,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 26,
+                    "percent": 0
+                  },
+                  {
+                    "skillId": 27,
+                    "percent": 0
+                  },
+                  {
+                    "skillId": 28,
+                    "percent": 0
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "这是白狼勇士工公会，准备好要学技能了吗？",
+            "startMessage": "您好，我是职业技能训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这技能你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:战士",
+              "Trans>=1",
+              "Skill:贯穿攻击",
+              "Skill:回旋攻击",
+              "Skill:混乱攻击",
+              "Skill:座骑攻击"
+            ],
             "source": "gmsv-data/npc/sa70/warsk3"
           }
         },
@@ -40402,9 +40559,342 @@ export const WORLD = {
           "script": "file:sa70/hunsk3",
           "template": "ProfessionShop",
           "graphic": "16187",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/hunsk3",
+            "skillRate": 1,
+            "classId": 3,
+            "className": "追猎者",
+            "transRequirements": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "minTrans": 1,
+            "skillIds": [
+              62,
+              48,
+              57,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72
+            ],
+            "skills": [
+              {
+                "id": 62,
+                "name": "遗忘",
+                "description": "使宠物暂时忘却所学习的技能",
+                "func": "PROFESSION_OBLIVION",
+                "option": "忘|成%100|回%3",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 21,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29241,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 52,
+                    "percent": 60
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 48,
+                "name": "天罗地网",
+                "description": "限制敌人行动",
+                "func": "PROFESSION_DRAGNET",
+                "option": "罗|成%30|效%1|回%2",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 11,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29226,
+                "imageBefore": 101698,
+                "imageAfter": 101683,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 46,
+                    "percent": 60
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 57,
+                "name": "激怒宠物",
+                "description": "暂时提升宠物能力",
+                "func": "PROFESSION_ENRAGE_PET",
+                "option": "攻%20|防%10|倍%2|效%1|回%3",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 13,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29225,
+                "imageBefore": 101698,
+                "imageAfter": 26521,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 51,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 62,
+                    "percent": 60
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 66,
+                "name": "自然威能",
+                "description": "提升火冰雷抗性",
+                "func": "PROFESSION_RESIST_F_I_T",
+                "option": "抗|成%100|回%3",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 5,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 3,
+                "icon": 29055,
+                "imageBefore": 101769,
+                "imageAfter": 101769,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 59,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 60,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 61,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 67,
+                "name": "号召自然",
+                "description": "召号大自然的力量转成HP",
+                "func": "PROFESSION_CALL_NATURE",
+                "option": "然|1|1|320|240|3200|4200|1|320|240",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 2,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29056,
+                "imageBefore": 101773,
+                "imageAfter": 101654,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 59,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 60,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 61,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 68,
+                "name": "地结界",
+                "description": "地属性减伤",
+                "func": "PROFESSION_BOUNDARY",
+                "option": "地结界|1|1|320|240|3200|4200|1|320|240",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 2,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29050,
+                "imageBefore": 101697,
+                "imageAfter": 101789,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 66,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 67,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 69,
+                "name": "水结界",
+                "description": "水属性减伤",
+                "func": "PROFESSION_BOUNDARY",
+                "option": "水结界|1|1|320|240|3200|4200|1|320|240",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 2,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29051,
+                "imageBefore": 101697,
+                "imageAfter": 101777,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 66,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 67,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 70,
+                "name": "火结界",
+                "description": "火属性减伤",
+                "func": "PROFESSION_BOUNDARY",
+                "option": "火结界|1|1|320|240|3200|4200|1|320|240",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 2,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29052,
+                "imageBefore": 101697,
+                "imageAfter": 101783,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 66,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 67,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 71,
+                "name": "风结界",
+                "description": "风属性减伤",
+                "func": "PROFESSION_BOUNDARY",
+                "option": "风结界|1|1|320|240|3200|4200|1|320|240",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 2,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29053,
+                "imageBefore": 101697,
+                "imageAfter": 101795,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 66,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 67,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 72,
+                "name": "破除结界",
+                "description": "破除地水火风结界",
+                "func": "PROFESSION_BOUNDARY",
+                "option": "破结界|1|2|320|240|3200|4200|1|320|240",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29054,
+                "imageBefore": 101697,
+                "imageAfter": 101771,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 66,
+                    "percent": 50
+                  },
+                  {
+                    "skillId": 67,
+                    "percent": 50
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "这里是追猎者公会，准备好要学技能了吗？",
+            "startMessage": "您好，我是职业技能训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这技能你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:追猎者",
+              "Trans>=1",
+              "Skill:遗忘",
+              "Skill:天罗地网",
+              "Skill:激怒宠物",
+              "Skill:自然威能"
+            ],
             "source": "gmsv-data/npc/sa70/hunsk3"
           }
         },
@@ -40422,9 +40912,258 @@ export const WORLD = {
           "script": "file:sa70/hunsk2",
           "template": "ProfessionShop",
           "graphic": "16187",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/hunsk2",
+            "skillRate": 1,
+            "classId": 3,
+            "className": "追猎者",
+            "transRequirements": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "minTrans": 1,
+            "skillIds": [
+              45,
+              52,
+              51,
+              46,
+              60,
+              59,
+              61,
+              50
+            ],
+            "skills": [
+              {
+                "id": 45,
+                "name": "回避战斗",
+                "description": "减低遇敌率",
+                "func": "PROFESSION_ESCAPE",
+                "option": "倍%5|降",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 3,
+                "costMp": 13,
+                "useFlag": 0,
+                "kind": 2,
+                "icon": 29228,
+                "imageBefore": 101629,
+                "imageAfter": 101638,
+                "sourceCost": 100000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 44,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 52,
+                "name": "挑拨",
+                "description": "使对方宠物不听使唤",
+                "func": "PROFESSION_INSTIGATE",
+                "option": "挑|成%20|敏%30|效%1|回%2",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 17,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29240,
+                "imageBefore": 101698,
+                "imageAfter": 101418,
+                "sourceCost": 100000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 56,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 51,
+                "name": "弱点攻击",
+                "description": "针对宠物弱点加以攻击，加强伤害力",
+                "func": "PROFESSION_ATTACK_WEAK",
+                "option": "攻%1|前|倍%1|效%1",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 9,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29239,
+                "imageBefore": 101698,
+                "imageAfter": 101681,
+                "sourceCost": 100000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 56,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 46,
+                "name": "树根缠绕",
+                "description": "降低敌敏捷",
+                "func": "PROFESSION_ENTWINE",
+                "option": "缠|成%40|敏%30|效%1|回%5",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 13,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29227,
+                "imageBefore": 101698,
+                "imageAfter": 101682,
+                "sourceCost": 100000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 47,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 60,
+                "name": "火抗性",
+                "description": "提升火焰抗性",
+                "func": "PROFESSION_RESIST_FIRE",
+                "option": "火|成%100|回%3",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 5,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29237,
+                "imageBefore": 101646,
+                "imageAfter": 101647,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 47,
+                    "percent": 0
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 59,
+                "name": "雷抗性",
+                "description": "提升电雷抗性",
+                "func": "PROFESSION_RESIST_THUNDER",
+                "option": "雷|成%100|回%3",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 5,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29236,
+                "imageBefore": 101658,
+                "imageAfter": 101659,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 47,
+                    "percent": 0
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 61,
+                "name": "冰抗性",
+                "description": "提升冰冻抗性",
+                "func": "PROFESSION_RESIST_ICE",
+                "option": "冰|成%100|回%3",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 5,
+                "costMp": 14,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29238,
+                "imageBefore": 101653,
+                "imageAfter": 101654,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 47,
+                    "percent": 0
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 50,
+                "name": "毒素武器",
+                "description": "让武器附上毒素使被击中之敌人中毒",
+                "func": "PROFESSION_TOXIN_WEAPON",
+                "option": "毒|前|成%20|敏%30|效%1|回%5",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 5,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29235,
+                "imageBefore": 101667,
+                "imageAfter": 101666,
+                "sourceCost": 100000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 30,
+                    "percent": 0
+                  },
+                  {
+                    "skillId": 31,
+                    "percent": 0
+                  },
+                  {
+                    "skillId": 32,
+                    "percent": 0
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "这里是追猎者公会，准备好要学技能了吗？",
+            "startMessage": "您好，我是职业技能训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这技能你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:追猎者",
+              "Trans>=1",
+              "Skill:回避战斗",
+              "Skill:挑拨",
+              "Skill:弱点攻击",
+              "Skill:树根缠绕"
+            ],
             "source": "gmsv-data/npc/sa70/hunsk2"
           }
         },
@@ -50553,9 +51292,258 @@ export const WORLD = {
           "script": "file:sa70/warsk2",
           "template": "ProfessionShop",
           "graphic": "16185",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/warsk2",
+            "skillRate": 1,
+            "classId": 1,
+            "className": "战士",
+            "transRequirements": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "minTrans": 1,
+            "skillIds": [
+              24,
+              43,
+              35,
+              40,
+              26,
+              27,
+              28,
+              33
+            ],
+            "skills": [
+              {
+                "id": 24,
+                "name": "双重攻击",
+                "description": "使用虚招后第二次攻击加强。",
+                "func": "PROFESSION_CHAIN_ATK_2",
+                "option": "倍%2|次%2|攻%2|效%1",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 13,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29208,
+                "imageBefore": 101684,
+                "imageAfter": 101418,
+                "sourceCost": 100000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 23,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 43,
+                "name": "二刀流",
+                "description": "可双手均装备武器提升攻击力，但左手武器之精灵将失效",
+                "func": "PROFESSION_DUAL_WEAPON",
+                "option": "倍%2|次%2|攻%2|效%1",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29214,
+                "imageBefore": 29201,
+                "imageAfter": 101418,
+                "sourceCost": 100000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 23,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 38,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 35,
+                "name": "激化攻击",
+                "description": "瞬间提升攻击力并下降些许防御力",
+                "func": "PROFESSION_ENRAGE",
+                "option": "攻%20|防%10|倍%2|效%1|回%3",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 5,
+                "costMp": 20,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29210,
+                "imageBefore": 101679,
+                "imageAfter": 101679,
+                "sourceCost": 100000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 22,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 40,
+                "name": "濒死攻击",
+                "description": "以身上的伤口痛楚逼迫自已专注以提升命中率",
+                "func": "PROFESSION_DEAD_ATTACK",
+                "option": "命%82|HP%10|倍%2|效%1|回%3",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 17,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29218,
+                "imageBefore": 101637,
+                "imageAfter": 101626,
+                "sourceCost": 100000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 37,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 26,
+                "name": "枪熟练度",
+                "description": "增加使用枪类武器的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "枪",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29203,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 37,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 27,
+                "name": "斧熟练度",
+                "description": "增加使用斧类武器的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "斧",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29205,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 37,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 28,
+                "name": "棍熟练度",
+                "description": "增加使用棍棒类武器的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "棍",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29204,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 37,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 33,
+                "name": "状态回复",
+                "description": "人物处于非正常情况下待机(昏睡、石化等)自动回复体力",
+                "func": "PROFESSION_REBACK",
+                "option": "HP%2",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29206,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 100000,
+                "fixValue": 10,
+                "prerequisites": [
+                  {
+                    "skillId": 34,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 36,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "这是白狼勇士工公会，准备好要学技能了吗？",
+            "startMessage": "您好，我是职业技能训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这技能你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:战士",
+              "Trans>=1",
+              "Skill:双重攻击",
+              "Skill:二刀流",
+              "Skill:激化攻击",
+              "Skill:濒死攻击"
+            ],
             "source": "gmsv-data/npc/sa70/warsk2"
           }
         },
@@ -52234,9 +53222,200 @@ export const WORLD = {
           "script": "file:sa70/wizsk3",
           "template": "ProfessionShop",
           "graphic": "16168",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/wizsk3",
+            "skillRate": 1,
+            "classId": 2,
+            "className": "魔法师",
+            "transRequirements": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "minTrans": 1,
+            "skillIds": [
+              2,
+              3,
+              5,
+              8,
+              13
+            ],
+            "skills": [
+              {
+                "id": 2,
+                "name": "针针相对",
+                "description": "将敌方之血量及法力转为已用",
+                "func": "PROFESSION_SIGN",
+                "option": "无|0|1|0|0|0|0|0",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 3,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 3,
+                "icon": 29257,
+                "imageBefore": 101697,
+                "imageAfter": 101633,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 10,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 3,
+                "name": "世界末日",
+                "description": "禁忌的咒术，具有大自然所有力量结合而成的破坏力",
+                "func": "PROFESSION_DOOM",
+                "option": "无|1|1|320|240|1000|4700|0|320|240",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 3,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 3,
+                "icon": 29267,
+                "imageBefore": 101697,
+                "imageAfter": 101640,
+                "sourceCost": 200000,
+                "fixValue": 30,
+                "prerequisites": [
+                  {
+                    "skillId": 13,
+                    "percent": 60
+                  },
+                  {
+                    "skillId": 8,
+                    "percent": 60
+                  },
+                  {
+                    "skillId": 5,
+                    "percent": 60
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 5,
+                "name": "附身术",
+                "description": "召唤顽皮精灵附于对方身上迷惑其心智",
+                "func": "PROFESSION_ENCLOSE",
+                "option": "无|0|1|0|-60|0|0|0|0|60",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29264,
+                "imageBefore": 101697,
+                "imageAfter": 101643,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 15,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 16,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 17,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 21,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 8,
+                "name": "电流术",
+                "description": "将落雷的力量分成数股电流射出",
+                "func": "PROFESSION_CURRENT",
+                "option": "电|0|1|0|0|0|0|0",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 3,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29250,
+                "imageBefore": 101697,
+                "imageAfter": 101624,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 7,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 16,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 13,
+                "name": "火龙枪",
+                "description": "操控火龙成枪形射向敌方",
+                "func": "PROFESSION_FIRE_SPEAR",
+                "option": "火|1|1|350|250|3200|4200|1|320|240",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29248,
+                "imageBefore": 101697,
+                "imageAfter": 101641,
+                "sourceCost": 200000,
+                "fixValue": 20,
+                "prerequisites": [
+                  {
+                    "skillId": 9,
+                    "percent": 70
+                  },
+                  {
+                    "skillId": 15,
+                    "percent": 70
+                  }
+                ],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "准备好要学一些法术了吗？",
+            "startMessage": "您好，我是专门教导新进人员的法术训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这法术你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:魔法师",
+              "Trans>=1",
+              "Skill:针针相对",
+              "Skill:世界末日",
+              "Skill:附身术",
+              "Skill:电流术"
+            ],
             "source": "gmsv-data/npc/sa70/wizsk3"
           }
         }
@@ -224566,9 +225745,182 @@ export const WORLD = {
           "script": "file:sa70/warsk",
           "template": "ProfessionShop",
           "graphic": "16185",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/warsk",
+            "skillRate": 1,
+            "classId": 1,
+            "className": "战士",
+            "transRequirements": [],
+            "minTrans": 0,
+            "skillIds": [
+              22,
+              23,
+              25,
+              36,
+              37,
+              38,
+              34
+            ],
+            "skills": [
+              {
+                "id": 22,
+                "name": "暴击",
+                "description": "攻击力提升攻击",
+                "func": "PROFESSION_BRUST",
+                "option": "攻%1|倍%1|效%1",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 7,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29207,
+                "imageBefore": 101684,
+                "imageAfter": 101626,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 23,
+                "name": "连环攻击",
+                "description": "一定机率发动攻击二次",
+                "func": "PROFESSION_CHAIN_ATK",
+                "option": "倍%2|次%2|攻%2|效%1",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 7,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29201,
+                "imageBefore": 101684,
+                "imageAfter": 101626,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 25,
+                "name": "回避",
+                "description": "增加人物物理攻击回避率",
+                "func": "PROFESSION_AVOID",
+                "option": "回",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29202,
+                "imageBefore": 101418,
+                "imageAfter": 101638,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 36,
+                "name": "能量聚集",
+                "description": "集中身上的能量以提升防御力",
+                "func": "PROFESSION_ENERGY_COLLECT",
+                "option": "防%20|敏%10|倍%2|效%1|回%3",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 5,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29211,
+                "imageBefore": 101645,
+                "imageAfter": 101645,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 37,
+                "name": "专注战斗",
+                "description": "集中精神于战斗中，强化自身命中率",
+                "func": "PROFESSION_FOCUS",
+                "option": "命%200|倍%2|效%1|回%2",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 5,
+                "costMp": 9,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29212,
+                "imageBefore": 101636,
+                "imageAfter": 101636,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 38,
+                "name": "盾击",
+                "description": "利用盾牌敲击对手（需装备盾）",
+                "func": "PROFESSION_SHIELD_ATTACK",
+                "option": "晕|成%30|效%2|回%2",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 1,
+                "costMp": 5,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29213,
+                "imageBefore": 101631,
+                "imageAfter": 101631,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 34,
+                "name": "舍已为友",
+                "description": "帮我方宠物或人物抵挡物理攻击。",
+                "func": "PROFESSION_SCAPEGOAT",
+                "option": "回%1",
+                "professionClass": 1,
+                "professionClassName": "战士",
+                "target": 5,
+                "costMp": 5,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29209,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "这是白狼勇士工公会，准备好要学技能了吗？",
+            "startMessage": "您好，我是职业技能训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这技能你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:战士",
+              "Skill:暴击",
+              "Skill:连环攻击",
+              "Skill:回避",
+              "Skill:能量聚集"
+            ],
             "source": "gmsv-data/npc/sa70/warsk"
           }
         },
@@ -226112,9 +227464,182 @@ export const WORLD = {
           "script": "file:sa70/hunsk",
           "template": "ProfessionShop",
           "graphic": "16187",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/hunsk",
+            "skillRate": 1,
+            "classId": 3,
+            "className": "追猎者",
+            "transRequirements": [],
+            "minTrans": 0,
+            "skillIds": [
+              44,
+              56,
+              47,
+              29,
+              30,
+              31,
+              32
+            ],
+            "skills": [
+              {
+                "id": 44,
+                "name": "追寻敌踪",
+                "description": "提升遇敌机率",
+                "func": "PROFESSION_TRACK",
+                "option": "倍%5|升",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 3,
+                "costMp": 13,
+                "useFlag": 0,
+                "kind": 2,
+                "icon": 29222,
+                "imageBefore": 101627,
+                "imageAfter": 101629,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 56,
+                "name": "驯服宠物",
+                "description": "提升捕获率，提升到一定等级可抓特殊宠",
+                "func": "PROFESSION_DOCILE",
+                "option": "倍%2|次%2|攻%2|效%1",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29223,
+                "imageBefore": 29221,
+                "imageAfter": 101625,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 47,
+                "name": "陷阱",
+                "description": "以陷阱反伤害物理攻击",
+                "func": "PROFESSION_TRAP",
+                "option": "效%1|回%5",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 5,
+                "costMp": 11,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29224,
+                "imageBefore": 101698,
+                "imageAfter": 100610,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 29,
+                "name": "弓熟练度",
+                "description": "增加装备弓的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "弓",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29233,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 30,
+                "name": "精通回力镖",
+                "description": "增加装备回旋标的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "镖",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29234,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 31,
+                "name": "精通投掷石",
+                "description": "增加装备投掷石的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "石",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29231,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 32,
+                "name": "精通投掷斧",
+                "description": "增加装备投掷斧的伤害力",
+                "func": "PROFESSION_WEAPON_FOCUS",
+                "option": "投",
+                "professionClass": 3,
+                "professionClassName": "追猎者",
+                "target": 1,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29232,
+                "imageBefore": 101418,
+                "imageAfter": 101418,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "这里是追猎者公会，准备好要学技能了吗？",
+            "startMessage": "您好，我是职业技能训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这技能你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:追猎者",
+              "Skill:追寻敌踪",
+              "Skill:驯服宠物",
+              "Skill:陷阱",
+              "Skill:弓熟练度"
+            ],
             "source": "gmsv-data/npc/sa70/hunsk"
           }
         },
@@ -227436,9 +228961,203 @@ export const WORLD = {
           "script": "file:sa70/wizsk",
           "template": "ProfessionShop",
           "graphic": "16168",
+          "professionShop": {
+            "kind": "profession-skill",
+            "source": "gmsv-data/npc/sa70/wizsk",
+            "skillRate": 1,
+            "classId": 2,
+            "className": "魔法师",
+            "transRequirements": [],
+            "minTrans": 0,
+            "skillIds": [
+              1,
+              6,
+              12,
+              11,
+              21,
+              15,
+              16,
+              17
+            ],
+            "skills": [
+              {
+                "id": 1,
+                "name": "火山泉",
+                "description": "以火焰喷泉烧伤敌人",
+                "func": "PROFESSION_VOLCANO_SPRINGS",
+                "option": "火|0|1|0|0|0|0|0|0|50|0|-50",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29246,
+                "imageBefore": 101697,
+                "imageAfter": 101686,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 6,
+                "name": "召雷术",
+                "description": "呼唤落雷击向敌方",
+                "func": "PROFESSION_SUMMON_THUNDER",
+                "option": "电|0|1|0|0|0|0|0",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29249,
+                "imageBefore": 101697,
+                "imageAfter": 101628,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 12,
+                "name": "冰箭术",
+                "description": "射出冰箭伤害敌人（附加冰冻效果）",
+                "func": "PROFESSION_ICE_ARROW",
+                "option": "冰|0|1|10|-20|0|0|0|10|20",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29252,
+                "imageBefore": 101697,
+                "imageAfter": 101648,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 11,
+                "name": "嗜血成性",
+                "description": "以自已的血液换取法力",
+                "func": "PROFESSION_BLOOD",
+                "option": "无|0|1|0|80|0|0|0|0|100",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 5,
+                "costMp": 0,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29255,
+                "imageBefore": 101697,
+                "imageAfter": 101689,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 21,
+                "name": "移形换位",
+                "description": "利用地形闪躲攻击",
+                "func": "PROFESSION_TRANSPOSE",
+                "option": "回%80|回%3",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 5,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 2,
+                "icon": 29265,
+                "imageBefore": 101697,
+                "imageAfter": 101695,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 15,
+                "name": "火附体",
+                "description": "召唤火焰附在武器或防具上增强其效能",
+                "func": "PROFESSION_FIRE_ENCLOSE",
+                "option": "炎|效%1|回%3|成%100",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29258,
+                "imageBefore": 101697,
+                "imageAfter": 101699,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 16,
+                "name": "雷附体",
+                "description": "召唤雷电附在武器或防具上增强其效能",
+                "func": "PROFESSION_THUNDER_ENCLOSE",
+                "option": "击|效%1|回%1|成%100",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29259,
+                "imageBefore": 101697,
+                "imageAfter": 101701,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              },
+              {
+                "id": 17,
+                "name": "冰附体",
+                "description": "召唤冰雾附在武器或防具上增强其效能",
+                "func": "PROFESSION_ICE_ENCLOSE",
+                "option": "冻|效%1|回%3|成%100",
+                "professionClass": 2,
+                "professionClassName": "魔法师",
+                "target": 1,
+                "costMp": 10,
+                "useFlag": 1,
+                "kind": 1,
+                "icon": 29260,
+                "imageBefore": 101697,
+                "imageAfter": 101700,
+                "sourceCost": 1000,
+                "fixValue": 0,
+                "prerequisites": [],
+                "source": "gmsv-data/profession.txt"
+              }
+            ],
+            "mainMessage": "准备好要学一些法术了吗？",
+            "startMessage": "您好，我是专门教导新进人员的法术训练师",
+            "nothingMessage": "这样就可以了．．．．",
+            "errorMessage": "这法术你不能学哦!",
+            "transMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "professionShop"
+            ],
+            "hints": [
+              "ProfessionClass:魔法师",
+              "Skill:火山泉",
+              "Skill:召雷术",
+              "Skill:冰箭术",
+              "Skill:嗜血成性"
+            ],
             "source": "gmsv-data/npc/sa70/wizsk"
           }
         },

@@ -6,6 +6,7 @@ const refRoot = path.resolve(process.env.SA_REF_DATA || path.join(appRoot, "exte
 const clientRoot = path.resolve(process.env.SA_CLIENT_ASSET_ROOT || path.join(appRoot, "external", "sources", "client-assets"));
 const mapRoot = path.join(refRoot, "map");
 const npcRoot = path.join(refRoot, "npc");
+const professionSkillPath = path.join(refRoot, "profession.txt");
 const clientMapRoot = path.join(clientRoot, "map");
 const publicMapRoot = path.join(appRoot, "public", "data", "maps");
 const publicClientMapRoot = path.join(appRoot, "public", "data", "client-maps");
@@ -69,6 +70,7 @@ const enemySpecs = parseEnemySpecs(path.join(refRoot, "enemy1.txt"));
 const enemyGroups = parseEnemyGroups(path.join(refRoot, "group1.txt"), enemySpecs);
 const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"), enemyGroups);
 const itemDb = parseItems(path.join(refRoot, "itemset6.txt"));
+let professionSkillCatalogCache = null;
 const npcWarpPoints = parseNpcWarpPoints();
 const npcsByFloor = parseNpcs();
 const contentProfile = loadContentProfile();
@@ -459,6 +461,7 @@ function parseNpcs() {
       const itemPoolShop = raceMan ? null : readNpcItemPoolShop(argPath, file, functionset, enemy.template);
       const routeService = readNpcRouteService(argPath, file, functionset, enemy.template, floor);
       const petSkillShop = readNpcPetSkillShop(argPath, file);
+      const professionShop = readNpcProfessionShop(argPath, file, functionset, enemy.template);
       const itemChange = readNpcItemChange(argPath, file);
       const savePoint = readNpcSavePoint(argPath, file);
       const luckyMan = readNpcLuckyMan(argPath, file, functionset, enemy.template);
@@ -466,7 +469,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -486,6 +489,7 @@ function parseNpcs() {
         ...(raceMan ? { raceMan } : {}),
         ...(routeService ? { routeService } : {}),
         ...(petSkillShop ? { petSkillShop } : {}),
+        ...(professionShop ? { professionShop } : {}),
         ...(itemChange ? { itemChange } : {}),
         ...(savePoint ? { savePoint } : {}),
         ...(luckyMan ? { luckyMan } : {}),
@@ -928,6 +932,130 @@ function readNpcPetSkillShop(argPath, createFile) {
     startMessage: cleanName(kv.start_msg || ""),
     nothingMessage: cleanName(kv.nothing_msg || "")
   };
+}
+
+function readNpcProfessionShop(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const serviceText = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  if (!/ProfessionShop|Profession/i.test(serviceText) && !/^\s*profession_skill\s*:/im.test(text)) {
+    return null;
+  }
+  const kv = parseColonFile(text);
+  const skillIds = expandItemList(kv.profession_skill || "", 120).filter((id) => Number(id) > 0);
+  if (!skillIds.length) return null;
+  const catalog = readProfessionSkillCatalog();
+  const skillRate = Number(kv.skill_rate || 1) || 1;
+  const classId = Math.max(0, Number(kv.profession_class || 0) || 0);
+  const transRequirements = expandItemList(kv.trans || "", 20).filter((id) => Number.isFinite(Number(id)));
+  const minTrans = transRequirements.length ? Number(transRequirements[0]) || 0 : 0;
+  const skills = skillIds.map((id) => catalog.get(Number(id)) || professionSkillFallback(id));
+  return {
+    kind: "profession-skill",
+    source: relativeRef(file),
+    skillRate,
+    classId,
+    className: professionClassName(classId),
+    transRequirements,
+    minTrans,
+    skillIds,
+    skills,
+    mainMessage: cleanName(kv.main_msg || kv.start_msg || ""),
+    startMessage: cleanName(kv.start_msg || ""),
+    nothingMessage: cleanName(kv.nothing_msg || ""),
+    errorMessage: cleanName(kv.err_msg || kv.nothing_msg || ""),
+    transMessage: cleanName(kv.trans_msg || "")
+  };
+}
+
+function readProfessionSkillCatalog() {
+  if (professionSkillCatalogCache) return professionSkillCatalogCache;
+  const out = new Map();
+  if (!exists(professionSkillPath)) {
+    professionSkillCatalogCache = out;
+    return out;
+  }
+  for (const line of readText(professionSkillPath).split(/\r?\n/)) {
+    const skill = parseProfessionSkillLine(line);
+    if (skill) out.set(skill.id, skill);
+  }
+  professionSkillCatalogCache = out;
+  return out;
+}
+
+function parseProfessionSkillLine(line) {
+  const raw = String(line || "").trim();
+  if (!raw || raw.startsWith("#")) return null;
+  const cols = raw.split(",");
+  if (cols.length < 15) return null;
+  const id = Number(cols[4]);
+  if (!Number.isFinite(id) || id <= 0) return null;
+  const professionClass = Number(cols[5]) || 0;
+  const prerequisites = [];
+  for (let index = 15; index <= 21; index += 2) {
+    const skillId = Number(cols[index] || 0);
+    const percent = Number(cols[index + 1] || 0);
+    if (skillId > 0) {
+      prerequisites.push({
+        skillId,
+        percent: Math.max(0, percent || 0)
+      });
+    }
+  }
+  return {
+    id,
+    name: cleanName(cols[0]) || `职业技能 ${id}`,
+    description: cleanName(cols[1]) || "",
+    func: cleanName(cols[2]) || "",
+    option: String(cols[3] || "").trim(),
+    professionClass,
+    professionClassName: professionClassName(professionClass),
+    target: Number(cols[6]) || 0,
+    costMp: Number(cols[7]) || 0,
+    useFlag: Number(cols[8]) || 0,
+    kind: Number(cols[9]) || 0,
+    icon: Number(cols[10]) || 0,
+    imageBefore: Number(cols[11]) || 0,
+    imageAfter: Number(cols[12]) || 0,
+    sourceCost: Math.max(0, Number(cols[13]) || 0),
+    fixValue: Number(cols[14]) || 0,
+    prerequisites,
+    source: `${GMSV_DATA_SOURCE}/profession.txt`
+  };
+}
+
+function professionSkillFallback(id) {
+  const skillId = Number(id);
+  return {
+    id: skillId,
+    name: `职业技能 ${skillId}`,
+    description: "",
+    func: "",
+    option: "",
+    professionClass: 0,
+    professionClassName: "未知",
+    target: 0,
+    costMp: 0,
+    useFlag: 0,
+    kind: 0,
+    icon: 0,
+    imageBefore: 0,
+    imageAfter: 0,
+    sourceCost: 0,
+    fixValue: 0,
+    prerequisites: [],
+    source: `${GMSV_DATA_SOURCE}/profession.txt`
+  };
+}
+
+function professionClassName(id) {
+  const value = Number(id) || 0;
+  if (value === 1) return "战士";
+  if (value === 2) return "魔法师";
+  if (value === 3) return "追猎者";
+  if (value === 4) return "通用";
+  return "未转职";
 }
 
 function readNpcPetShop(argPath, createFile, functionset = "", template = "") {
@@ -1992,7 +2120,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
@@ -2002,6 +2130,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (raceMan) actions.push("raceMan");
   if (routeService) actions.push("routeService");
   if (petSkillShop) actions.push("petSkillShop");
+  if (professionShop) actions.push("professionShop");
   if (itemChange) actions.push("itemChange");
   if (savePoint) actions.push("save");
   if (warp) actions.push("warp");
@@ -2011,6 +2140,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   const text = readText(file);
   const hints = [];
   for (const item of petFusionHints(petFusion)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
+  for (const item of professionShopHints(professionShop)) {
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
   }
@@ -2035,6 +2168,15 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     hints,
     source: relativeRef(file)
   };
+}
+
+function professionShopHints(professionShop) {
+  if (!professionShop) return [];
+  return [
+    professionShop.className ? `ProfessionClass:${professionShop.className}` : "",
+    Number(professionShop.minTrans || 0) > 0 ? `Trans>=${professionShop.minTrans}` : "",
+    ...((professionShop.skills || []).slice(0, 4).map((skill) => `Skill:${skill.name || skill.id}`))
+  ].filter(Boolean);
 }
 
 function raceManHints(raceMan) {

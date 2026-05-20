@@ -3551,6 +3551,7 @@ function renderDialog() {
     renderDialogPetFusion(dialog),
     renderDialogItemPoolShop(dialog),
     renderDialogPetSkillShop(dialog),
+    renderDialogProfessionShop(dialog),
     renderDialogItemChange(dialog)
   ].filter(Boolean).join("");
   els.dialogSuggestions.hidden = !auxiliary;
@@ -3574,6 +3575,9 @@ function renderDialog() {
   });
   els.dialogSuggestions.querySelectorAll("[data-learn-pet-skill]").forEach((btn) => {
     btn.addEventListener("click", () => learnPetSkill(Number(btn.dataset.learnPetSkill), Number(btn.dataset.petIndex), Number(btn.dataset.slotIndex)));
+  });
+  els.dialogSuggestions.querySelectorAll("[data-learn-profession-skill]").forEach((btn) => {
+    btn.addEventListener("click", () => learnProfessionSkill(Number(btn.dataset.learnProfessionSkill)));
   });
   els.dialogSuggestions.querySelectorAll("[data-change-item]").forEach((btn) => {
     btn.addEventListener("click", () => changeItem(Number(btn.dataset.changeItem)));
@@ -4623,6 +4627,43 @@ function renderDialogPetSkillShop(dialog) {
   `;
 }
 
+function renderDialogProfessionShop(dialog) {
+  const shop = dialog.professionShop;
+  if (!shop?.skills?.length) return "";
+  const player = shop.player || {};
+  const skillList = shop.skills.slice(0, 12).map((skill) => {
+    const disabled = !skill.learnable;
+    return `
+      <button class="shop-item" type="button"
+        data-learn-profession-skill="${Number(skill.id || 0)}"
+        ${disabled ? "disabled" : ""}>
+        <span>
+          <strong>${escapeHtml(skill.name || `职业技能 ${skill.id}`)}</strong>
+          <small>${escapeHtml(professionSkillShopHint(skill, shop))}</small>
+        </span>
+        <b>${Number(skill.cost || 0)} 石币</b>
+      </button>
+    `;
+  }).join("");
+  const learned = (player.learned || []).slice(0, 8).map((skill) => `${skill.name || `技能 ${skill.id}`} ${Number(skill.percent || skill.level || 0)}%`).join("、");
+  return `
+    <div class="shop-box profession-shop-box">
+      <div class="shop-summary">
+        <strong>职业技能</strong>
+        <span>${escapeHtml(player.professionClassName || "未转职")} | 转生 ${Number(player.transmigration || 0)} | 技能点 ${Number(player.professionSkillPoint || 0)} | 石币 ${Number(shop.stone || 0)}</span>
+      </div>
+      <section class="shop-section">
+        <header><strong>训练</strong><small>${escapeHtml(shop.className || "职业")} ${Number(shop.skillRate || 1)}x${Number(shop.minTrans || 0) ? ` | 转生 ${Number(shop.minTrans || 0)}+` : ""}</small></header>
+        <div class="shop-list">${skillList || `<p class="shop-empty">没有可学习技能。</p>`}</div>
+      </section>
+      <section class="shop-section">
+        <header><strong>已学</strong><small>PROFESSION_SKILL</small></header>
+        <p class="shop-empty">${escapeHtml(learned || "尚未学习职业技能。")}</p>
+      </section>
+    </div>
+  `;
+}
+
 function renderDialogItemChange(dialog) {
   const itemChange = dialog.itemChange;
   if (!itemChange?.recipes?.length) return "";
@@ -4686,6 +4727,19 @@ function petSkillShopHint(skill, pet) {
   if (skill.battleSupported) details.push("战斗可用");
   if (Number(skill.sourceCost || 0) !== Number(skill.cost || 0)) details.push(`原价 ${Number(skill.sourceCost || 0)}`);
   return details.join(" | ") || `petskill ${skill.id}`;
+}
+
+function professionSkillShopHint(skill, shop) {
+  if (skill.blockedReason) return skill.blockedReason;
+  const details = [];
+  if (skill.description) details.push(skill.description);
+  if (skill.professionClassName) details.push(skill.professionClassName);
+  if (Number(skill.costMp || 0) > 0) details.push(`气力 ${Number(skill.costMp || 0)}`);
+  if (Number(skill.sourceCost || 0) !== Number(skill.cost || 0)) details.push(`原价 ${Number(skill.sourceCost || 0)}`);
+  const prereq = (skill.prerequisites || []).filter((req) => Number(req.percent || 0) > 0);
+  if (prereq.length) details.push(`前置 ${prereq.map((req) => `${req.name || req.skillId} ${Number(req.current || 0)}/${Number(req.percent || 0)}`).join("、")}`);
+  if (shop?.source) details.push(shop.source);
+  return details.join(" | ") || `profession ${skill.id}`;
 }
 
 function shopDisabled(item) {
@@ -4859,6 +4913,21 @@ async function learnPetSkill(skillId, petIndex, slotIndex) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "学习宠物技能失败");
+  }
+}
+
+async function learnProfessionSkill(skillId) {
+  if (!game?.dialog?.npcId) return;
+  try {
+    game = await api("/api/game/learn-profession-skill", {
+      game,
+      npcId: game.dialog.npcId,
+      skillId
+    });
+    save();
+    render();
+  } catch (error) {
+    appendDialogSystem(error.message || "学习职业技能失败");
   }
 }
 

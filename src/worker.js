@@ -125,6 +125,7 @@ const NPC_VM_ACTIONS = new Set([
   "raceMan",
   "routeService",
   "petSkillShop",
+  "professionShop",
   "itemChange",
   "warp",
   "heal",
@@ -385,6 +386,14 @@ async function handleApi(request, env, url) {
         Number(body.slotIndex)
       ));
     }
+    if (url.pathname === "/api/game/learn-profession-skill" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(learnProfessionSkillGame(
+        body.game,
+        String(body.npcId || ""),
+        Number(body.skillId)
+      ));
+    }
     if (url.pathname === "/api/game/pool-pet" && request.method === "POST") {
       const body = await readJson(request);
       return json(poolPetGame(
@@ -559,6 +568,10 @@ async function createPlayerGame(env, request, body) {
       fame: 0,
       amPoint: 0,
       skillUpPoint: 0,
+      professionClass: 0,
+      transmigration: 0,
+      professionSkillPoint: 0,
+      professionSkills: [],
       killPetCount: 0,
       deadCount: 0,
       battleCount: 0,
@@ -1602,6 +1615,62 @@ function sellGame(game, npcId, itemId, qty = 1) {
     ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : []),
     npcMessage("system", `出售成功：${item.name} x${sellQty}，获得 ${totalPrice} 石币。`)
   ]);
+  return withMap(game, { npc });
+}
+
+function learnProfessionSkillGame(game, npcId, skillId) {
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_WINDOW_ACTION_RANGE, "学习职业技能");
+  if (!isProfessionShopNpc(npc)) throw new Error("这个 NPC 没有职业技能训练资料");
+
+  const state = buildProfessionShopState(game, npc);
+  const selectedSkillId = Number(skillId);
+  const skill = state?.skills?.find((entry) => Number(entry.id) === selectedSkillId);
+  if (!skill) throw new Error("这个训练师不会教这个职业技能");
+  if (!skill.learnable) throw new Error(skill.blockedReason || "现在还不能学习这个职业技能");
+
+  if (Number(skill.cost || 0) > 0) {
+    const paid = runNpcVmAction(game, npc, { type: "take", item: "stone", qty: Number(skill.cost || 0), reason: "profession-skill" });
+    if (!paid.ok) throw new Error(paid.error || "石币不够");
+  }
+
+  const learnedLevel = initialProfessionSkillLevel(selectedSkillId);
+  const existingSkills = normalizeProfessionSkills(game.player.professionSkills);
+  game.player.professionSkills = [
+    ...existingSkills.filter((entry) => Number(entry.id) !== selectedSkillId),
+    {
+      id: selectedSkillId,
+      name: skill.name,
+      level: learnedLevel,
+      percent: learnedLevel,
+      classId: Number(skill.professionClass || 0),
+      className: skill.professionClassName || professionClassName(skill.professionClass),
+      costMp: Number(skill.costMp || 0),
+      func: skill.func || "",
+      source: skill.source || npc.professionShop?.source || ""
+    }
+  ].sort((a, b) => Number(a.id || 0) - Number(b.id || 0));
+  game.player.professionSkillPoint = Math.max(0, Number(game.player.professionSkillPoint || 0) - 1);
+  syncProfessionAliases(game.player);
+  syncCharacterFields(game);
+  recordNpcVmEvent(game, npc, "professionShop", "ok", {
+    action: "learn",
+    skillId: selectedSkillId,
+    skillName: skill.name,
+    cost: Number(skill.cost || 0),
+    sourceCost: Number(skill.sourceCost || 0),
+    skillRate: Number(state.skillRate || 1),
+    professionClass: Number(skill.professionClass || 0),
+    source: npc.professionShop?.source || npc.source || ""
+  });
+  addLog(game, `${npc.name} 教会你职业技能 ${skill.name}，花费 ${Number(skill.cost || 0)} 石币。`);
+  openDialog(game, npc, [
+    ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+    npcMessage("system", `学会了 ${skill.name}，职业技能点剩余 ${Number(game.player.professionSkillPoint || 0)}。`)
+  ], { professionShop: buildProfessionShopState(game, npc) });
   return withMap(game, { npc });
 }
 
@@ -6854,6 +6923,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isPetFusionNpc(npc) && hasAny(lower, ["融合", "合成宠", "合成寵", "宠物蛋", "寵物蛋", "合宠", "合寵", "petfusion", "fusion"])) return petFusionReply(game, npc, text);
   if (npc.itemPoolShop && hasAny(lower, ["道具寄放", "寄放道具", "寄存道具", "道具仓库", "道具倉庫", "保管", "取回道具", "取出道具", "领取道具", "寄放", "寄存", "取回", "取出"])) return itemPoolShopReply(game, npc);
   if (isRouteServiceNpc(npc) && hasAny(lower, ["路线", "路線", "搭乘", "坐车", "坐車", "上车", "上車", "巴士", "客运", "客運", "飞机", "飛機", "航班", "出发", "出發", "前往", "去", "route", "ride"])) return routeServiceReply(game, npc, text);
+  if (isProfessionShopNpc(npc) && isProfessionShopRequestText(lower)) return professionShopReply(game, npc, text);
   if (npc.trade && hasAny(lower, ["买", "卖", "交易", "商品", "shop", "buy"])) return tradeReply(game, npc);
   if (npc.itemChange?.recipes?.length && hasAny(lower, ["加工", "合成", "制作", "製作", "打造", "换物", "交換", "交换", "change"])) return itemChangePromptReply(game, npc);
   if (isWarpNpc(npc) && hasAny(lower, ["传送", "傳送", "进入", "進入", "出发", "出發", "前往", "移动", "warp"])) return warpNpcReply(game, npc);
@@ -7006,6 +7076,7 @@ function applyNpcHi(game, npc) {
   if (npc.petShop) return petShopReply(game, npc);
   if (isPetFusionNpc(npc)) return petFusionReply(game, npc, "hi");
   if (isRouteServiceNpc(npc)) return routeServicePromptReply(game, npc);
+  if (isProfessionShopNpc(npc)) return professionShopReply(game, npc, "hi");
   if (npc.itemChange?.recipes?.length) return itemChangePromptReply(game, npc);
   const line = nextNpcDialogueLine(game, npc);
   const questIds = npcQuestIds(npc);
@@ -7046,6 +7117,7 @@ function npcDefaultLine(npc) {
   }
   if (isPetFusionNpc(npc)) return npc.petFusion?.messages?.start || "这里可以进行宠物融合。";
   if (isRouteServiceNpc(npc)) return routeServiceDefaultLine(npc);
+  if (isProfessionShopNpc(npc)) return professionShopDefaultLine(npc);
   if (npc.itemChange?.recipes?.length) return "要加工什么？";
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
@@ -9794,8 +9866,55 @@ function eventFlagForNpcAction(npcId, action) {
 function fallbackNpcReply(npc) {
   if (npc.itemPoolShop) return npc.itemPoolShop.messages?.main || "这里可以寄放或取回道具。";
   if (isPetFusionNpc(npc)) return npc.petFusion?.messages?.start || "这里可以进行宠物融合。";
+  if (isProfessionShopNpc(npc)) return professionShopDefaultLine(npc);
   if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
   return npcDialogueLines(npc)[0] || npcDefaultLine(npc);
+}
+
+function isProfessionShopNpc(npc) {
+  return Boolean(npc?.professionShop?.skills?.length)
+    || /ProfessionShop|Profession/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""} ${npc?.source || ""}`);
+}
+
+function isProfessionShopRequestText(text = "") {
+  return hasAny(text, ["职业", "職業", "转职", "轉職", "技能", "学习", "學習", "学技能", "學技能", "训练", "訓練", "修行", "profession"]);
+}
+
+function professionShopDefaultLine(npc) {
+  const shop = npc?.professionShop || {};
+  return shop.mainMessage || shop.startMessage || `这里可以学习${shop.className ? `${shop.className}的` : ""}职业技能。`;
+}
+
+function professionShopReply(game, npc, text = "") {
+  const state = buildProfessionShopState(game, npc);
+  if (!state) {
+    recordNpcVmEvent(game, npc, "professionShop", "unsupported", { reason: "missing-profession-shop", text: String(text || "").slice(0, 80) });
+    return "这里暂时没有可解析的职业技能资料。";
+  }
+  recordNpcVmEvent(game, npc, "professionShop", "ok", {
+    action: "window",
+    classId: state.classId,
+    className: state.className,
+    minTrans: state.minTrans,
+    skills: state.skills.map((skill) => skill.id).slice(0, 10),
+    text: String(text || "").slice(0, 80),
+    source: state.source
+  });
+  const learnable = state.skills.filter((skill) => skill.learnable).slice(0, 5);
+  const blocked = state.skills.find((skill) => !skill.learnable);
+  const classLine = `你的职业：${state.player.professionClassName}，转生 ${state.player.transmigration}，职业技能点 ${state.player.professionSkillPoint}。`;
+  const skillLine = learnable.length
+    ? `现在可学：${learnable.map((skill) => `${skill.name} ${skill.cost}石币`).join("、")}。`
+    : `暂时没有可学技能${blocked?.blockedReason ? `：${blocked.blockedReason}` : ""}。`;
+  const sourceLine = state.source ? `来源：${state.source}` : "";
+  return [
+    professionShopDefaultLine(npc),
+    `训练方向：${state.className}${state.minTrans ? `，需要转生 ${state.minTrans}+` : ""}。`,
+    classLine,
+    skillLine,
+    "在下方职业技能窗口选择技能后，Worker 会按原版职业、转生、技能点、前置技能和石币条件校验。",
+    sourceLine
+  ].filter(Boolean).join("\n");
 }
 
 function isRaceManNpc(npc) {
@@ -11089,6 +11208,7 @@ function openDialog(game, npc, messages, extra = {}) {
     raceMan: buildRaceManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     petSkillShop: extra.petSkillShop || null,
+    professionShop: extra.professionShop || buildProfessionShopState(game, npc),
     itemChange: extra.itemChange || buildItemChangeState(game, npc),
     warp: npc.warp || null,
     aiMode: isNpcAiMode(game, npc),
@@ -11109,6 +11229,7 @@ function npcDebugInfo(npc, game = null) {
     graphic: npc.graphic || "",
     raceMan: buildRaceManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
+    professionShop: buildProfessionShopState(game, npc),
     actions,
     allowedActions: actions.filter((action) => NPC_VM_ACTIONS.has(action)),
     supportedActions: [...NPC_VM_ACTIONS],
@@ -11141,6 +11262,7 @@ function npcActionProfile(npc) {
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
   if (isLuckyManNpc(npc)) actions.push("window", "take", "fortune");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
+  if (isProfessionShopNpc(npc)) actions.push("professionShop", "window");
   if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
   if (isHealerNpc(npc)) actions.push("heal");
@@ -11803,6 +11925,115 @@ function withTradeState(game, trade, npc = null) {
       };
     })
   };
+}
+
+function buildProfessionShopState(game, npc) {
+  const shop = npc?.professionShop;
+  if (!shop?.skills?.length) return null;
+  const player = game.player || {};
+  const professionClass = Number(player.professionClass || player.ProfessionClass || player.PROFESSION_CLASS || 0);
+  const transmigration = Number(player.transmigration || player.Transmigration || player.TRANSMIGRATION || 0);
+  const professionSkillPoint = Number(player.professionSkillPoint || player.ProfessionSkillPoint || player.PROFESSION_SKILL_POINT || 0);
+  const stone = Number(player.stone || 0);
+  const learned = normalizeProfessionSkills(player.professionSkills || player.ProfessionSkills || []);
+  const learnedLevel = (skillId) => playerProfessionSkillLevel(player, skillId);
+  const skillRate = Number(shop.skillRate || 1) || 1;
+  const minTrans = Number(shop.minTrans || 0) || 0;
+  const skills = (shop.skills || []).map((skill) => {
+    const skillClass = Number(skill.professionClass || 0);
+    const sourceCost = Math.max(0, Number(skill.sourceCost || 0));
+    const cost = Math.max(0, Math.round(sourceCost * skillRate));
+    const currentLevel = learnedLevel(skill.id);
+    const prerequisites = (skill.prerequisites || []).map((req) => {
+      const current = learnedLevel(req.skillId);
+      return {
+        skillId: Number(req.skillId || 0),
+        name: professionSkillName(shop, req.skillId),
+        percent: Number(req.percent || 0),
+        current,
+        ok: current >= Number(req.percent || 0)
+      };
+    });
+    const classEligible = professionClass > 0 && (!skillClass || skillClass === 4 || professionClass === skillClass);
+    const transEligible = !minTrans || transmigration >= minTrans;
+    const pointEligible = professionSkillPoint > 0;
+    const affordable = stone >= cost;
+    const alreadyKnown = currentLevel > 0;
+    const prereqOk = prerequisites.every((req) => req.ok);
+    const blockedReason = alreadyKnown
+      ? "已经学会"
+      : !professionClass
+        ? "尚未转职"
+        : !classEligible
+          ? `需要${skill.professionClassName || professionClassName(skillClass)}职业`
+          : !transEligible
+            ? `需要转生 ${minTrans} 次`
+            : !pointEligible
+              ? "职业技能点不足"
+              : !affordable
+                ? "石币不足"
+                : !prereqOk
+                  ? `前置技能不足：${prerequisites.filter((req) => !req.ok).map((req) => `${req.name} ${req.current}/${req.percent}`).join("、")}`
+                  : "";
+    return {
+      ...skill,
+      id: Number(skill.id || 0),
+      sourceCost,
+      cost,
+      currentLevel,
+      alreadyKnown,
+      prerequisites,
+      classEligible,
+      transEligible,
+      pointEligible,
+      affordable,
+      learnable: !blockedReason,
+      blockedReason
+    };
+  });
+  return {
+    kind: shop.kind || "profession-skill",
+    source: shop.source || `${GMSV_DATA_SOURCE}/npc`,
+    skillRate,
+    classId: Number(shop.classId || 0),
+    className: shop.className || professionClassName(shop.classId),
+    minTrans,
+    transRequirements: shop.transRequirements || [],
+    messages: {
+      main: shop.mainMessage || "",
+      start: shop.startMessage || "",
+      error: shop.errorMessage || "",
+      trans: shop.transMessage || "",
+      nothing: shop.nothingMessage || ""
+    },
+    player: {
+      professionClass,
+      professionClassName: professionClassName(professionClass),
+      transmigration,
+      professionSkillPoint,
+      learned
+    },
+    stone,
+    skills
+  };
+}
+
+function professionSkillName(shop, skillId) {
+  const id = Number(skillId || 0);
+  return (shop?.skills || []).find((skill) => Number(skill.id || 0) === id)?.name || `职业技能 ${id}`;
+}
+
+function initialProfessionSkillLevel(skillId) {
+  return [63, 64, 65].includes(Number(skillId)) ? 50 : 10;
+}
+
+function professionClassName(id) {
+  const value = Number(id) || 0;
+  if (value === 1) return "战士";
+  if (value === 2) return "魔法师";
+  if (value === 3) return "追猎者";
+  if (value === 4) return "通用";
+  return "未转职";
 }
 
 function buildPetSkillShopState(data, game, npc) {
@@ -12527,6 +12758,7 @@ function dialogSuggestions(npc, game = null) {
   else if (npc.itemPoolShop) base = ["hi", "寄放道具", "取回道具", "地图"];
   else if (isRaceManNpc(npc)) base = ["hi", "规则", "报名", "奖励"];
   else if (isRouteServiceNpc(npc)) base = ["hi", "路线", "搭乘"];
+  else if (isProfessionShopNpc(npc)) base = ["hi", "学技能", "职业", "地图"];
   else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
   else if (isLuckyManNpc(npc)) base = ["hi", "占卜", "是"];
@@ -13748,6 +13980,51 @@ function fallbackGuide(context, prompt = "", error = null) {
   return `${aiNote}你现在在${context.location.name}。附近 NPC：${nearbyNpc || "无"}；出口：${exits}。${effects ? `当前状态：${effects}。` : ""}`;
 }
 
+function normalizeProfessionSkills(value = []) {
+  const raw = Array.isArray(value) ? value : [];
+  const byId = new Map();
+  for (const entry of raw) {
+    const id = Number(entry?.id ?? entry?.Id ?? entry?.skillId ?? entry?.SkillId ?? 0);
+    if (!Number.isFinite(id) || id <= 0) continue;
+    const level = clampInt(entry?.level ?? entry?.Level ?? entry?.percent ?? entry?.Percent, 0, 100, 0);
+    byId.set(id, {
+      id,
+      name: String(entry?.name ?? entry?.Name ?? `职业技能 ${id}`),
+      level,
+      percent: clampInt(entry?.percent ?? entry?.Percent ?? level, 0, 100, level),
+      classId: Number(entry?.classId ?? entry?.professionClass ?? entry?.Class ?? 0) || 0,
+      className: String(entry?.className ?? entry?.professionClassName ?? ""),
+      costMp: Number(entry?.costMp ?? entry?.CostMp ?? 0) || 0,
+      func: String(entry?.func ?? entry?.FuncName ?? ""),
+      source: String(entry?.source ?? "")
+    });
+  }
+  return [...byId.values()].sort((a, b) => Number(a.id || 0) - Number(b.id || 0));
+}
+
+function playerProfessionSkillLevel(player, skillId) {
+  const id = Number(skillId || 0);
+  if (!id) return 0;
+  const skills = normalizeProfessionSkills(player?.professionSkills || player?.ProfessionSkills || []);
+  return Math.max(0, Number(skills.find((skill) => Number(skill.id) === id)?.percent || 0));
+}
+
+function syncProfessionAliases(player) {
+  player.professionClass = clampInt(player.professionClass ?? player.ProfessionClass ?? player.PROFESSION_CLASS ?? player.classId ?? player.Class, 0, 4, 0);
+  player.ProfessionClass = player.professionClass;
+  player.PROFESSION_CLASS = player.professionClass;
+  player.classId = player.professionClass;
+  player.transmigration = clampInt(player.transmigration ?? player.Transmigration ?? player.TRANSMIGRATION ?? player.Trans ?? player.trans ?? player.CHAR_TRANSMIGRATION, 0, 99, 0);
+  player.Transmigration = player.transmigration;
+  player.TRANSMIGRATION = player.transmigration;
+  player.trans = player.transmigration;
+  player.professionSkillPoint = clampInt(player.professionSkillPoint ?? player.ProfessionSkillPoint ?? player.PROFESSION_SKILL_POINT, 0, 999999999, 0);
+  player.ProfessionSkillPoint = player.professionSkillPoint;
+  player.PROFESSION_SKILL_POINT = player.professionSkillPoint;
+  player.professionSkills = normalizeProfessionSkills(player.professionSkills || player.ProfessionSkills || []);
+  player.ProfessionSkills = player.professionSkills;
+}
+
 function normalizePlayerRuntime(player) {
   player.level = clampInt(player.level ?? player.Lv, 1, CHAR_MAXUPLEVEL, 1);
   player.exp = clampInt(player.exp ?? player.Exp, 0, CHAR_MAX_EXP, 0);
@@ -13768,6 +14045,7 @@ function normalizePlayerRuntime(player) {
   player.AMPOINT = player.amPoint;
   player.CHAR_AMPOINT = player.amPoint;
   player.skillUpPoint = clampInt(player.skillUpPoint ?? player.SkillUpPoint, 0, 999999999, 0);
+  syncProfessionAliases(player);
   player.killPetCount = clampInt(player.killPetCount ?? player.KillPetCount, 0, 999999999, 0);
   player.deadCount = clampInt(player.deadCount ?? player.DeadCount, 0, 999999999, 0);
   player.battleCount = clampInt(player.battleCount, 0, 999999999, 0);
@@ -13875,6 +14153,8 @@ function buildCharacterFields(game) {
       tou: "Tough",
       dx: "Dex",
       skup: "skillUpPoint",
+      pcls: "professionClass",
+      psp: "professionSkillPoint",
       evt: "flags.endEvents",
       nev: "flags.nowEvents"
     },
@@ -13895,6 +14175,10 @@ function buildCharacterFields(game) {
       charm: Number(game.player?.charm || 0),
       fame: Number(game.player?.fame || 0),
       amPoint: Number(game.player?.amPoint || 0),
+      professionClass: Number(game.player?.professionClass || 0),
+      professionClassName: professionClassName(game.player?.professionClass),
+      transmigration: Number(game.player?.transmigration || 0),
+      professionSkillPoint: Number(game.player?.professionSkillPoint || 0),
       startPoint: sourceStartPoint(game),
       savePointMask: Number(game.player?.savePointMask ?? game.player?.SavePoint ?? 0),
       mapId: String(game.location?.mapId || ""),
@@ -13913,6 +14197,7 @@ function buildCharacterFields(game) {
     loseCount: Number(game.player?.loseCount || 0),
     duelPoint: Number(game.player?.duelPoint || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0),
+    professionSkillPoint: Number(game.player?.professionSkillPoint || 0),
     heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0)
     },
     attributes: {
@@ -13942,6 +14227,23 @@ function buildCharacterFields(game) {
       WaterAT: Number(game.player?.WaterAT || 0),
       FireAT: Number(game.player?.FireAT || 0),
       WindAT: Number(game.player?.WindAT || 0)
+    },
+    profession: {
+      classId: Number(game.player?.professionClass || 0),
+      className: professionClassName(game.player?.professionClass),
+      transmigration: Number(game.player?.transmigration || 0),
+      skillPoint: Number(game.player?.professionSkillPoint || 0),
+      skills: normalizeProfessionSkills(game.player?.professionSkills || []).map((skill) => ({
+        id: Number(skill.id || 0),
+        name: skill.name || `职业技能 ${Number(skill.id || 0)}`,
+        level: Number(skill.level || 0),
+        percent: Number(skill.percent || 0),
+        classId: Number(skill.classId || 0),
+        className: skill.className || professionClassName(skill.classId),
+        costMp: Number(skill.costMp || 0),
+        func: skill.func || "",
+        source: skill.source || ""
+      }))
     },
     equipment: Object.fromEntries(Object.entries(equipment).map(([slot, item]) => [slot, {
       id: item.id,
@@ -14259,6 +14561,7 @@ function compactCharacterFields(game) {
     attributes: fields.attributes,
     work: fields.work,
     elements: fields.elements,
+    profession: fields.profession || {},
     equipment: fields.equipment || {},
     events: {
       endEvents: fields.events?.endEvents || [],
@@ -14311,6 +14614,15 @@ function compactPlayerContext(game) {
     fame: Number(game.player?.fame || 0),
     amPoint: Number(game.player?.amPoint || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0),
+    professionClass: Number(game.player?.professionClass || 0),
+    professionClassName: professionClassName(game.player?.professionClass),
+    transmigration: Number(game.player?.transmigration || 0),
+    professionSkillPoint: Number(game.player?.professionSkillPoint || 0),
+    professionSkills: normalizeProfessionSkills(game.player?.professionSkills || []).map((skill) => ({
+      id: Number(skill.id || 0),
+      name: skill.name,
+      percent: Number(skill.percent || 0)
+    })),
     heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0),
     angelMission: compactAngelMissionState(activeAngelMission(game)),
     baseStats: {
@@ -14647,6 +14959,10 @@ function buildCharInfo(game) {
     `WORKQUICK=${game.player.WorkQuick}`,
     `DUELPOINT=${game.player.duelPoint}`,
     `SKILLUPPOINT=${game.player.skillUpPoint}`,
+    `PROFESSION_CLASS=${game.player.professionClass || 0}`,
+    `TRANSMIGRATION=${game.player.transmigration || 0}`,
+    `PROFESSION_SKILL_POINT=${game.player.professionSkillPoint || 0}`,
+    `PROFESSION_SKILLS=${safeJson(normalizeProfessionSkills(game.player.professionSkills || []))}`,
     `KILLPETCOUNT=${game.player.killPetCount}`,
     `DEADCOUNT=${game.player.deadCount}`,
     `BATTLECOUNT=${game.player.battleCount}`,
