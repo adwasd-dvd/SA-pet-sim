@@ -8,6 +8,8 @@ const atlasPath = path.join(projectRoot, "public/data/client-tiles/tiles.json");
 const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
 const CG_INVISIBLE = 99;
 const VISUAL_FALLBACK_SAMPLE_FLOORS = ["300", "5000"];
+const SPARSE_INTERIOR_SAMPLE_FLOORS = ["5001", "5003", "5005"];
+const LOW_CONTROL_TILE_GUARD_IDS = [2];
 
 const atlas = readJson(atlasPath);
 const frames = atlas?.frames || {};
@@ -17,6 +19,7 @@ const missingMetadata = new Map();
 const missingEnemyImages = new Map();
 const enemyImageCoverage = checkEnemyBaseImages();
 const visualFallbackCoverage = checkVisualFallbackCoverage();
+const sparseInteriorCoverage = checkSparseInteriorGuard();
 
 for (const file of listFiles(clientMapRoot, ".dat")) {
   const report = checkClientDat(file);
@@ -63,6 +66,12 @@ console.log(`Pet/enemy static ImgNo coverage OK: ${enemyImageCoverage.covered}/$
 if (visualFallbackCoverage.length) {
   console.log(`Client visual ground fallback OK: ${visualFallbackCoverage.map((item) => `${item.floor}:${item.groundFill}`).join(", ")} LS2 ground fills.`);
 }
+if (sparseInteriorCoverage.length) {
+  const summary = sparseInteriorCoverage
+    .map((item) => `${item.floor}:${item.missingGround} missing/${item.lowControlRefs} low-control`)
+    .join(", ");
+  console.log(`Sparse original interior guard OK: ${summary}; low control tiles stay non-drawable.`);
+}
 for (const line of largest) console.log(`  ${line}`);
 
 function checkVisualFallbackCoverage() {
@@ -84,6 +93,50 @@ function checkVisualFallbackCoverage() {
     }
     if (!groundFill) throw new Error(`Expected LS2 visual ground fallback cells for floor ${floor}`);
     coverage.push({ floor, groundFill });
+  }
+  return coverage;
+}
+
+function checkSparseInteriorGuard() {
+  for (const tileId of LOW_CONTROL_TILE_GUARD_IDS) {
+    if (tileId > CG_INVISIBLE) {
+      throw new Error(`Low-control guard tile ${tileId} unexpectedly became drawable`);
+    }
+  }
+
+  const coverage = [];
+  for (const floor of SPARSE_INTERIOR_SAMPLE_FLOORS) {
+    const clientFile = path.join(clientMapRoot, `${floor}.dat`);
+    const logicFile = path.join(logicMapRoot, `${floor}.ls2map`);
+    if (!fs.existsSync(clientFile) || !fs.existsSync(logicFile)) continue;
+    const clientMap = readClientDat(clientFile);
+    const logicMap = readLs2Map(logicFile);
+    if (clientMap.width !== logicMap.width || clientMap.height !== logicMap.height) {
+      throw new Error(`Sparse interior dimension mismatch on floor ${floor}`);
+    }
+
+    let missingGround = 0;
+    let groundFill = 0;
+    let lowControlRefs = 0;
+    for (let index = 0; index < clientMap.cells; index += 1) {
+      const clientGround = clientMap.ground(index);
+      const logicGround = logicMap.ground(index);
+      if (clientGround <= CG_INVISIBLE) missingGround += 1;
+      if (clientGround <= CG_INVISIBLE && logicGround > CG_INVISIBLE) groundFill += 1;
+      if (LOW_CONTROL_TILE_GUARD_IDS.includes(clientMap.part(index))) lowControlRefs += 1;
+      if (LOW_CONTROL_TILE_GUARD_IDS.includes(logicMap.part(index))) lowControlRefs += 1;
+    }
+
+    if (missingGround < Math.floor(clientMap.cells / 2)) {
+      throw new Error(`Expected sparse original interior ground cells for floor ${floor}`);
+    }
+    if (groundFill) {
+      throw new Error(`Floor ${floor} has LS2 ground fallback cells; move it to VISUAL_FALLBACK_SAMPLE_FLOORS instead of sparse guard`);
+    }
+    if (!lowControlRefs) {
+      throw new Error(`Expected low-control tile refs on sparse original interior floor ${floor}`);
+    }
+    coverage.push({ floor, missingGround, lowControlRefs });
   }
   return coverage;
 }
@@ -140,6 +193,9 @@ function readClientDat(file) {
     cells,
     ground(index) {
       return buf.readUInt16LE(8 + index * 2);
+    },
+    part(index) {
+      return buf.readUInt16LE(8 + layerSize + index * 2);
     }
   };
 }
@@ -159,6 +215,9 @@ function readLs2Map(file) {
     cells,
     ground(index) {
       return buf.readUInt16BE(44 + index * 2);
+    },
+    part(index) {
+      return buf.readUInt16BE(44 + layerSize + index * 2);
     }
   };
 }
