@@ -1632,8 +1632,8 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.notDelItems.push(...splitNumberList(value));
       continue;
     }
-    if (key === "getpet") {
-      getPets.push(...parseScriptGetPetSpecs(value));
+    if (key === "getpet" || key === "addpet") {
+      getPets.push(...parseScriptGetPetSpecs(value, key === "addpet" ? "AddPet" : "GetPet"));
       continue;
     }
     if (key === "delpet") {
@@ -1644,7 +1644,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.endSetFlags.push(...splitNumberList(value));
       continue;
     }
-    if (key === "nowsetflg" || key === "nowsetflag") {
+    if (key === "nowsetflg" || key === "nowsetflag" || key === "event_now" || key === "eventnow") {
       event.nowSetFlags.push(...splitNumberList(value));
       continue;
     }
@@ -1774,12 +1774,24 @@ function parseNpcFreeScriptEvents(text, file) {
       event.addExps = Number(value) || 0;
       continue;
     }
-    if (key === "getpet") {
-      getPets.push(...parseScriptGetPetSpecs(value));
+    if (key === "getpet" || key === "addpet") {
+      getPets.push(...parseScriptGetPetSpecs(value, key === "addpet" ? "AddPet" : "GetPet"));
       continue;
     }
     if (key === "delpet") {
       rawDelPetSpecs.push(value);
+      continue;
+    }
+    if (key === "endsetflg" || key === "endsetflag") {
+      event.endSetFlags.push(...splitNumberList(value));
+      continue;
+    }
+    if (key === "nowsetflg" || key === "nowsetflag" || key === "event_now" || key === "eventnow") {
+      event.nowSetFlags.push(...splitNumberList(value));
+      continue;
+    }
+    if (key === "cleanflg" || key === "cleanflag") {
+      event.cleanFlags.push(...splitNumberList(value));
       continue;
     }
     const messageSpec = npcScriptMessageSpec(key);
@@ -2015,14 +2027,14 @@ function parseScriptStoneSpecs(value = "") {
     .filter(Boolean);
 }
 
-function parseScriptGetPetSpecs(value = "") {
+function parseScriptGetPetSpecs(value = "", sourceAction = "GetPet") {
   const choices = String(value || "")
     .split(",")
     .map((part) => Number(part.trim()))
     .filter((id) => Number.isFinite(id) && id > 0);
   if (!choices.length) return [];
   // gmsv NPC_EventAddPet picks one enemy1 id from a comma list.
-  return [{ enemyIds: choices, qty: 1, source: "GetPet" }];
+  return [{ enemyIds: choices, qty: 1, source: sourceAction }];
 }
 
 function parseScriptDelPetSpecs(value = "", eventCondition = "") {

@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T14:53:01.450Z
+Generated: 2026-05-21T15:30:16.740Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -12,7 +12,7 @@ This report is generated from local NPC source files and generated world data. I
 | Generated world NPCs | 1749 |
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
-| Parsed action kinds | 22 |
+| Parsed action kinds | 24 |
 | Unsupported action candidates | 40 |
 
 ## Profile Impact
@@ -40,7 +40,8 @@ This report is generated from local NPC source files and generated world data. I
 | DelStone | 15 | 7 | 8 | 8 | 8 |
 | EndSetFlg | 56 | 33 | 34 | 34 | 34 |
 | GetItem | 345 | 167 | 186 | 186 | 186 |
-| GetPet | 16 | 11 | 11 | 11 | 11 |
+| AddPet | 49 | 0 | 0 | 0 | 0 |
+| GetPet | 65 | 11 | 11 | 11 | 11 |
 | GetRandItem | 56 | 30 | 30 | 30 | 30 |
 | GetStone | 119 | 63 | 63 | 63 | 63 |
 | KeyWord | 60 | 19 | 25 | 25 | 25 |
@@ -48,6 +49,7 @@ This report is generated from local NPC source files and generated world data. I
 | MISSIONCLEAN | 0 | 0 | 0 | 0 | 0 |
 | MISSIONOVER | 0 | 0 | 0 | 0 | 0 |
 | NotDel | 6 | 0 | 0 | 0 | 0 |
+| NowSetFlg | 51 | 0 | 0 | 0 | 0 |
 | NpcWarp | 57 | 14 | 15 | 15 | 15 |
 | NpcPoint | 15 | 4 | 4 | 4 | 4 |
 | Pet_Name | 2 | 0 | 0 | 0 | 0 |
@@ -66,7 +68,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | Quiznum | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:4 |
 | Event_End | candidate-action | 0 | 0 | 0 | 21 | external/sources/ref___data/npc/heroic/heroic100.arg:21 |
 | item | candidate-action | 0 | 0 | 0 | 20 | external/sources/ref___data/npc/100/sb_mimi.arg:5 |
-| AddPet | candidate-action | 0 | 0 | 0 | 15 | external/sources/ref___data/npc/eden2/kraken/kraken88_06:27 |
 | TENSEI | unknown | 0 | 0 | 0 | 11 | external/sources/ref___data/npc/777/ten.arg:17 |
 | challengewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:4 |
 | loop | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:2 |
@@ -84,6 +85,7 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | hand | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:7 |
 | msgcol | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:1 |
 | nod | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:12 |
+| pleasure | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:8 |
 
 ## Recommended Next Slice
 

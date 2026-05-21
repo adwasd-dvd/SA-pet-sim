@@ -30,6 +30,7 @@ const PARSED_EVENT_ACTIONS = [
   "DelStone",
   "EndSetFlg",
   "GetItem",
+  "AddPet",
   "GetPet",
   "GetRandItem",
   "GetStone",
@@ -38,6 +39,7 @@ const PARSED_EVENT_ACTIONS = [
   "MISSIONCLEAN",
   "MISSIONOVER",
   "NotDel",
+  "NowSetFlg",
   "NpcWarp",
   "NpcPoint",
   "Pet_Name",
@@ -60,6 +62,7 @@ const ACTION_KEYS = new Set([
   "endsetflg",
   "getgold",
   "getitem",
+  "addpet",
   "getpet",
   "getranditem",
   "getstone",
@@ -689,7 +692,9 @@ function scriptEventActions(event) {
   if (event.keyword) actions.push("KeyWord");
   if (event.petName) actions.push("Pet_Name");
   if (event.getPets?.length) actions.push("GetPet");
+  if (event.getPets?.some((pet) => pet?.source === "AddPet")) actions.push("AddPet");
   if (event.delPets?.length) actions.push("DelPet");
+  if (event.nowSetFlags?.length) actions.push("NowSetFlg");
   if (event.endSetFlags?.length) actions.push("EndSetFlg");
   if (event.cleanFlags?.length) actions.push("CleanFlg");
   if (event.messages?.stop || event.messages?.noStop || event.messages?.endStop) actions.push("StopMsg");

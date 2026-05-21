@@ -8056,7 +8056,8 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       enemyIds: pet.enemyIds,
       qty: pet.qty,
       ...detail,
-      reason: options.givePetReason || "source-changeevent-getpet"
+      source: pet.source || "GetPet",
+      reason: pet.source === "AddPet" ? "source-eventaction-addpet" : (options.givePetReason || "source-changeevent-getpet")
     });
     if (!given.ok) {
       recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: given.error || "give-pet-failed", enemyIds: pet.enemyIds });
@@ -9931,6 +9932,19 @@ function characterConditionMet(game, part, options = {}) {
       op: numericField[2]
     };
   }
+  const baseBodyImage = token.match(/^BBI\s*(!=|>=|<=|>|<|=)\s*(\d+)$/i);
+  if (baseBodyImage) {
+    const actual = sourceBaseBodyImageNo(game);
+    const expected = Number(baseBodyImage[2]);
+    return {
+      ok: compareNumber(actual, baseBodyImage[1], expected),
+      token,
+      type: "baseBodyImage",
+      actual,
+      expected,
+      op: baseBodyImage[1]
+    };
+  }
   return { ok: false, token, type: "unsupported" };
 }
 
@@ -9941,6 +9955,18 @@ function compareNumber(actual, op, expected) {
   if (op === "<=") return actual <= expected;
   if (op === "!=") return actual !== expected;
   return actual === expected;
+}
+
+function sourceBaseBodyImageNo(game) {
+  return Number(
+    game?.player?.CHAR_BASEBASEIMAGENUMBER
+    || game?.player?.BaseBaseImageNumber
+    || game?.player?.CHAR_BASEIMAGENUMBER
+    || game?.player?.BaseImageNumber
+    || game?.player?.baseImageNo
+    || game?.player?.imageNo
+    || 0
+  );
 }
 
 function eventFlagSet(game, shiftbit, kind = "end") {
@@ -16041,7 +16067,9 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.keyword) pushUniqueCompact(actions, "KeyWord", 8);
     if (event.petName) pushUniqueCompact(actions, "Pet_Name", 8);
     if (event.getPets?.length) pushUniqueCompact(actions, "GetPet", 8);
+    if (event.getPets?.some((pet) => pet?.source === "AddPet")) pushUniqueCompact(actions, "AddPet", 8);
     if (event.delPets?.length) pushUniqueCompact(actions, "DelPet", 8);
+    if (event.nowSetFlags?.length) pushUniqueCompact(actions, "NowSetFlg", 8);
     if (event.endSetFlags?.length) pushUniqueCompact(actions, "EndSetFlg", 8);
     if (event.cleanFlags?.length) pushUniqueCompact(actions, "CleanFlg", 8);
     if (event.messages?.stop || event.messages?.noStop || event.messages?.endStop) pushUniqueCompact(actions, "StopMsg", 8);

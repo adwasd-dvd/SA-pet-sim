@@ -2515,6 +2515,23 @@ assert(!dinoGame.pets.some((pet) => Number(pet.PetId) === 191), "dinosaur doctor
 assertEqual(dinoGame.pets.length, dinoPetCountBeforeReward, "dinosaur doctor removes one pet and gives one source reward pet");
 assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "givePet" && event.detail?.reason === "source-changeevent-getpet" && event.detail?.givenPets?.some((pet) => pet.enemyId === 95)), "source GetPet reward runs through NPC VM");
 
+const tigerTrainer = WORLD.maps["1040"]?.npcs.find((npc) => npc.script === "file:sa60/newbie/m_tiger");
+if (!tigerTrainer) throw new Error("missing source AddPet tiger trainer fixture");
+assert(tigerTrainer.scriptEvents?.some((event) => event.getPets?.some((pet) => pet.source === "AddPet" && pet.enemyIds?.includes(2483))), "tiger trainer parses source AddPet reward");
+assert(tigerTrainer.scriptEvents?.some((event) => event.nowSetFlags?.includes(166)), "tiger trainer parses source Event_Now flag");
+let tigerGame = await api("/api/game/new", { name: "source-addpet-tiger-test" });
+tigerGame.location = { mapId: "1040", x: tigerTrainer.x + 1, y: tigerTrainer.y };
+tigerGame.player.level = 30;
+tigerGame.player.CHAR_BASEBASEIMAGENUMBER = 100000;
+tigerGame.player.BaseBaseImageNumber = 100000;
+setTestEventFlag(tigerGame, 4, "end");
+const tigerPetCountBefore = tigerGame.pets.length;
+tigerGame = await api("/api/game/dialog", { game: tigerGame, npcId: tigerTrainer.id });
+assertEqual(tigerGame.pets.length, tigerPetCountBefore + 1, "source AddPet reward adds one pet through NPC VM");
+assert(testEventFlagSet(tigerGame, 166, "now"), "source Event_Now sets NOWEV=166 after AddPet reward");
+assert(tigerGame.pets.some((pet) => pet.EventSource === "AddPet"), "source AddPet reward marks the granted event pet");
+assert(tigerGame.dialog.debug.vmTrace.some((event) => event.action === "givePet" && event.detail?.reason === "source-eventaction-addpet" && event.detail?.source === "AddPet" && event.detail?.givenPets?.some((pet) => pet.enemyId === 2483)), "source AddPet reward runs through NPC VM");
+
 const commissionNpc = WORLD.maps["1009"]?.npcs.find((npc) => npc.name === "委托管理员" && npc.scriptEvents?.some((event) => event.getStones?.some((stone) => Number(stone.amount) === 350)));
 if (!commissionNpc) throw new Error("missing commission source GetStone fixture");
 assert(commissionNpc.scriptEvents?.some((event) => event.getStones?.some((stone) => Number(stone.amount) === 350)), "commission manager parses source GetStone reward");

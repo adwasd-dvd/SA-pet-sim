@@ -89893,8 +89893,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -89910,8 +89921,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -89927,8 +89949,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -89944,8 +89977,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -89961,8 +90005,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -89978,8 +90033,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -89995,8 +90061,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -90012,8 +90089,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -90029,8 +90117,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -90046,8 +90145,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -90063,8 +90173,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -90080,8 +90201,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126879,8 +127011,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126896,8 +127039,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126913,8 +127067,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126930,8 +127095,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126947,8 +127123,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126964,8 +127151,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126981,8 +127179,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -126998,8 +127207,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -127015,8 +127235,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -127032,8 +127263,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -127049,8 +127291,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -127066,8 +127319,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -152996,8 +153260,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153013,8 +153288,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153030,8 +153316,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153047,8 +153344,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153064,8 +153372,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153081,8 +153400,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153098,8 +153428,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153115,8 +153456,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153132,8 +153484,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153149,8 +153512,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153166,8 +153540,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -153183,8 +153568,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -182932,8 +183328,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -182949,8 +183356,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -182966,8 +183384,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2483
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -182983,8 +183412,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183000,8 +183440,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183017,8 +183468,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2481
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183034,8 +183496,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183051,8 +183524,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183068,8 +183552,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2484
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183085,8 +183580,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183102,8 +183608,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -183119,8 +183636,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                166
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2482
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa60/newbie/m_tiger",
@@ -227531,8 +228059,19 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
-              "endSetFlags": []
+              "nowSetFlags": [
+                145
+              ],
+              "endSetFlags": [],
+              "getPets": [
+                {
+                  "enemyIds": [
+                    2393
+                  ],
+                  "qty": 1,
+                  "source": "AddPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/war.arg",
@@ -229047,7 +229586,9 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
+              "nowSetFlags": [
+                147
+              ],
               "endSetFlags": []
             },
             {
@@ -230516,7 +231057,9 @@ export const WORLD = {
               "getStones": [],
               "delStones": [],
               "cleanFlags": [],
-              "nowSetFlags": [],
+              "nowSetFlags": [
+                146
+              ],
               "endSetFlags": []
             },
             {

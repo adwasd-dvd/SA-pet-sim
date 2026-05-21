@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T14:53:01.450Z",
+  "generatedAt": "2026-05-21T15:30:16.740Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -7,7 +7,7 @@
     "worldNpcs": 1749,
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
-    "parsedActionKinds": 22,
+    "parsedActionKinds": 24,
     "unsupportedCandidateKeys": 40
   },
   "profiles": {
@@ -56,17 +56,19 @@
         "GetItem": 345,
         "MessagePages": 217,
         "GetStone": 119,
+        "GetPet": 65,
         "DelPet": 63,
         "KeyWord": 60,
         "NpcWarp": 57,
         "EndSetFlg": 56,
         "GetRandItem": 56,
+        "NowSetFlg": 51,
+        "AddPet": 49,
         "StopMsg": 46,
         "AddItem": 45,
         "CleanFlg": 26,
         "AddExps": 24,
         "AddGold": 24,
-        "GetPet": 16,
         "DelStone": 15,
         "NpcPoint": 15,
         "DelItemEVDEL": 6,
@@ -213,10 +215,10 @@
     "byCategory": {
       "supported-config": 9599,
       "supported-message": 15677,
-      "candidate-action": 252,
+      "candidate-action": 237,
       "unknown": 302,
       "condition-control": 12055,
-      "supported-action": 3714,
+      "supported-action": 3729,
       "blocked-or-later-system": 6
     },
     "keyRecords": [
@@ -468,7 +470,7 @@
       {
         "key": "AddPet",
         "normalized": "addpet",
-        "category": "candidate-action",
+        "category": "supported-action",
         "occurrences": 15,
         "files": 4,
         "profiles": {
@@ -14257,58 +14259,6 @@
         ]
       },
       {
-        "key": "AddPet",
-        "normalized": "addpet",
-        "category": "candidate-action",
-        "occurrences": 15,
-        "files": 4,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/eden2/kraken/kraken88_06",
-            "line": 27,
-            "text": "AddPet:1802"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden2/kraken/kraken88_08",
-            "line": 28,
-            "text": "AddPet:1802"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa60/newbie/m_tiger",
-            "line": 17,
-            "text": "AddPet:2483"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa60/newbie/m_tiger",
-            "line": 26,
-            "text": "AddPet:2483"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa60/newbie/m_tiger",
-            "line": 35,
-            "text": "AddPet:2483"
-          }
-        ]
-      },
-      {
         "key": "TENSEI",
         "normalized": "tensei",
         "category": "unknown",
@@ -15939,6 +15889,48 @@
             "file": "external/sources/ref___data/npc/casino/petracepet3.arg",
             "line": 2,
             "text": "showstopx:13"
+          }
+        ]
+      },
+      {
+        "key": "showstopy",
+        "normalized": "showstopy",
+        "category": "unknown",
+        "occurrences": 3,
+        "files": 3,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/casino/petracepet1.arg",
+            "line": 3,
+            "text": "showstopy:30"
+          },
+          {
+            "file": "external/sources/ref___data/npc/casino/petracepet2.arg",
+            "line": 3,
+            "text": "showstopy:30"
+          },
+          {
+            "file": "external/sources/ref___data/npc/casino/petracepet3.arg",
+            "line": 3,
+            "text": "showstopy:30"
           }
         ]
       }
