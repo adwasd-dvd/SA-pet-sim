@@ -6958,11 +6958,23 @@ function renderQuestStarterCards(map) {
       ${questNpcs.length ? `
         <ul class="quest-guidance">
           ${questNpcs.map((npc) => `
-            <li>找 ${escapeHtml(npc.name)} (${Number(npc.x || 0)},${Number(npc.y || 0)})，距离 ${escapeHtml(formatCellDistance(npc.x, npc.y))}。${escapeHtml(npc.questLead?.summary || scriptLeadText(npc) || npcTags(npc).join("、") || "双击/hi 询问。")}</li>
+            <li class="quest-starter-line">
+              <span>找 ${escapeHtml(npc.name)}，距离 ${escapeHtml(formatCellDistance(npc.x, npc.y))}。${escapeHtml(npc.questLead?.summary || scriptLeadText(npc) || npcTags(npc).join("、") || "双击/hi 询问。")}</span>
+              ${renderAssistMapActions("npc", npc.id, pointDistance(npc.x, npc.y))}
+            </li>
           `).join("")}
         </ul>
       ` : ""}
-      ${exits.length ? `<p class="muted">附近出口：${escapeHtml(exits.map((exit) => `${exit.label}->${exit.toName || exit.to || ""} ${formatExitDistance(exit)}`).join("；"))}</p>` : ""}
+      ${exits.length ? `
+        <ul class="quest-guidance">
+          ${exits.map((exit) => `
+            <li class="quest-starter-line">
+              <span>出口 ${escapeHtml(exit.label)}，距离 ${escapeHtml(formatExitDistance(exit))}</span>
+              ${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit))}
+            </li>
+          `).join("")}
+        </ul>
+      ` : ""}
     </article>
   `;
 }
