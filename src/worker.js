@@ -11127,9 +11127,18 @@ function extractNpcReferenceIds(npc, text) {
   ].filter(Boolean);
   for (const line of hintLines) {
     let match;
+    const petConditionRe = /\b(?:EVPET|PET)\s*([!<>=]+)\s*(\d{1,3})\s*-\s*(\d{1,6})(?:\s*\*\s*(\d{1,3}))?/gi;
+    petConditionRe.lastIndex = 0;
+    while ((match = petConditionRe.exec(line))) {
+      const op = match[1] || "";
+      add(match[3], op.includes("!") ? "condition-missing-pet" : "condition-has-pet", line);
+    }
     const rules = [
       { re: /\b(?:GETITEM|GIVEITEM)\s*[:=]\s*(\d{1,6})/gi, use: "give-item" },
       { re: /\b(?:DELITEM|TAKEITEM)\s*[:=]\s*(\d{1,6})/gi, use: "take-item" },
+      { re: /\b(?:GETPET|GIVEPET)\s*[:=]\s*(\d{1,6})/gi, use: "give-pet" },
+      { re: /\b(?:DELPET|TAKEPET|NEWDELPET)\s*[:=]\s*(\d{1,6})/gi, use: "take-pet" },
+      { re: /\b(?:ENEMYPETNO|ENEMY_PETNO|PETNO|PETID)\s*[:=]\s*(\d{1,6})/gi, use: "pet-ref" },
       { re: /\bITEM\s*!=\s*(\d{1,6})/gi, use: "condition-missing-item" },
       { re: /\bITEM\s*=\s*(\d{1,6})/gi, use: "condition-has-item" },
       { re: /\bCHANGEITEM\s*[:=]\s*(\d{1,6})/gi, use: "change-item" },
@@ -11227,15 +11236,18 @@ function pickPreferredReference(matches, usage) {
   if (!matches.length) return null;
   const uses = usage.uses || new Set();
   const wantsItem = ["condition-has-item", "condition-missing-item", "give-item", "take-item", "change-item"].some((use) => uses.has(use));
+  const wantsPet = ["condition-has-pet", "condition-missing-pet", "give-pet", "take-pet", "pet-ref"].some((use) => uses.has(use));
   const wantsEnemy = uses.has("enemy-ref");
   const wantsMap = uses.has("map-ref");
   const order = wantsItem
     ? ["inventoryItem", "item", "shopItem", "enemy", "petTemplate", "map"]
-    : wantsEnemy
-      ? ["enemy", "petTemplate", "item", "inventoryItem", "shopItem", "map"]
-      : wantsMap
-        ? ["map", "item", "enemy", "petTemplate", "inventoryItem", "shopItem"]
-        : ["inventoryItem", "item", "shopItem", "enemy", "petTemplate", "map"];
+    : wantsPet
+      ? ["petTemplate", "enemy", "item", "inventoryItem", "shopItem", "map"]
+      : wantsEnemy
+        ? ["enemy", "petTemplate", "item", "inventoryItem", "shopItem", "map"]
+        : wantsMap
+          ? ["map", "item", "enemy", "petTemplate", "inventoryItem", "shopItem"]
+          : ["inventoryItem", "item", "shopItem", "enemy", "petTemplate", "map"];
   return [...matches].sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind))[0] || null;
 }
 
@@ -11280,6 +11292,11 @@ function npcReferenceRelationSentence(entry, context) {
   if (uses.has("take-item")) return "按这段任务，它是我会收下的道具。";
   if (uses.has("condition-has-item")) return "按这段任务，我会先看你身上有没有它。";
   if (uses.has("condition-missing-item")) return "按这段任务，我会看你身上是否缺少它来决定下一句。";
+  if (uses.has("give-pet")) return "按这段脚本，它是我会交给你的宠物。";
+  if (uses.has("take-pet")) return "按这段脚本，它是我会收走或交换的宠物。";
+  if (uses.has("condition-has-pet")) return "按这段脚本，我会检查你队伍里有没有这类宠物。";
+  if (uses.has("condition-missing-pet")) return "按这段脚本，我会看你队伍里是否还没有这类宠物。";
+  if (uses.has("pet-ref")) return "按这段脚本，这是一个宠物模板引用。";
   return referenceUseLabels(entry.uses || []).join("，");
 }
 
@@ -11338,6 +11355,11 @@ function referenceUseLabels(uses) {
     "give-item": "脚本给予",
     "take-item": "脚本收走",
     "change-item": "脚本交换",
+    "condition-has-pet": "脚本检查玩家是否带着宠物",
+    "condition-missing-pet": "脚本检查玩家是否未带宠物",
+    "give-pet": "脚本给予宠物",
+    "take-pet": "脚本收走宠物",
+    "pet-ref": "脚本宠物引用",
     "enemy-ref": "脚本敌人引用",
     "map-ref": "脚本地图/传送引用"
   };

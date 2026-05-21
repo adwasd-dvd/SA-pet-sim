@@ -3062,6 +3062,15 @@ yayoiGame = await api("/api/game/dialog", { game: yayoiGame, npcId: yayoi.id, me
 const yayoiReply = yayoiGame.dialog.messages.at(-1)?.text || "";
 assert(yayoiReply.includes("仙尼亚的花"), "NPC AI source item context resolves itemset id 2415 to its item name");
 assert(yayoiReply.includes("不可思议的贝壳"), "NPC AI source item context explains the exchange relation");
+const katan = WORLD.maps["100"].npcs.find((npc) => npc.name === "卡坦" && npc.script === "file:seimu/event/event02_1");
+if (!katan) throw new Error("missing Katan source pet-reference fixture");
+let petReferenceGame = await api("/api/game/new", { name: "npc-ai-source-pet-context-test" });
+petReferenceGame.location = { mapId: "100", x: katan.x, y: katan.y + 1 };
+petReferenceGame = await api("/api/game/dialog", { game: petReferenceGame, npcId: katan.id, message: "AI对话" });
+petReferenceGame = await api("/api/game/dialog", { game: petReferenceGame, npcId: katan.id, message: "什么是221呢？" });
+const petReferenceReply = petReferenceGame.dialog.messages.at(-1)?.text || "";
+assert(petReferenceReply.includes("宠物/敌人模板"), "NPC AI source pet context resolves PET=level-pet-id as pet template context");
+assert(petReferenceReply.includes("队伍里有没有这类宠物"), "NPC AI source pet context explains PET condition relation");
 let aiCacheGame = await api("/api/game/new", { name: "npc-ai-cache-test" });
 aiCacheGame.location = { mapId: "1100", x: villageGirl.x - 1, y: villageGirl.y };
 aiCacheGame = await api("/api/game/dialog", { game: aiCacheGame, npcId: villageGirl.id, message: "AI对话" });
