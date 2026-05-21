@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T18:56:15.643Z
+Generated: 2026-05-21T19:42:10.097Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -13,9 +13,9 @@ This report is generated from local NPC source files and generated world data. I
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
 | Parsed action kinds | 24 |
-| Unsupported/unknown raw keys | 25 |
+| Unsupported/unknown raw keys | 24 |
 | Candidate action keys | 7 |
-| Unknown raw keys | 18 |
+| Unknown raw keys | 17 |
 
 ## Profile Impact
 
@@ -55,6 +55,7 @@ This report is generated from local NPC source files and generated world data. I
 | NpcWarp | 57 | 14 | 15 | 15 | 15 |
 | NpcPoint | 15 | 4 | 4 | 4 | 4 |
 | Pet_Name | 2 | 0 | 0 | 0 | 0 |
+| SetLastTalkelder | 0 | 0 | 0 | 0 | 0 |
 | StopMsg | 46 | 27 | 28 | 28 | 28 |
 
 ## Top Unsupported Action Candidates
@@ -86,7 +87,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | ord | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/demale/core:707 |
 | run_time | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/roulette/roulette01.arg:4 |
 | seflg | candidate-action | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/giiru/banam.arg:13 |
-| SetLastTalkelder | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/sa60/newbie/warpman.arg:17 |
 | TimeXYPoint | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden3/karo/chara:6 |
 
 ## Recommended Next Slice

@@ -1801,6 +1801,10 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       event.npcWarps.push(...parseScriptNpcPointSpecs(value));
       continue;
     }
+    if (key === "setlasttalkelder") {
+      event.lastTalkElder = Number(value) || 0;
+      continue;
+    }
     if (key === "charm") {
       event.charms.push(...splitNumberList(value));
       continue;
@@ -1947,6 +1951,10 @@ function parseNpcFreeScriptEvents(text, file) {
       event.npcWarps.push(...parseScriptNpcPointSpecs(value));
       continue;
     }
+    if (key === "setlasttalkelder") {
+      event.lastTalkElder = Number(value) || 0;
+      continue;
+    }
     if (key === "addexps" || key === "addexp") {
       event.addExps = Number(value) || 0;
       continue;
@@ -2014,6 +2022,7 @@ function finalizeNpcScriptEvent(event, getPets = [], rawDelPetSpecs = []) {
     delItems: event.delItems.map(withScriptItemName),
     getRandItems: event.getRandItems.map(withScriptRandomItemNames),
     ...(event.npcWarps.length ? { npcWarps: event.npcWarps } : {}),
+    ...(Number(event.lastTalkElder || 0) > 0 ? { lastTalkElder: Number(event.lastTalkElder) } : {}),
     ...(event.charms.length ? { charms: event.charms } : {}),
     ...(event.notDelItems.length ? { notDelItems: [...new Set(event.notDelItems)].filter((value) => value > 0) } : {}),
     ...(Number(event.missionOver || 0) > 0 ? { missionOver: Number(event.missionOver) } : {}),
@@ -2282,6 +2291,7 @@ function readNpcWarp(argPath, createFile) {
   const kv = parseColonFile(text);
   const free = trimInlineValue(kv.free || "");
   const money = trimInlineValue(kv.money || "");
+  const lastTalkElder = Number(trimInlineValue(kv.setlasttalkelder || "")) || 0;
   return {
     kind: "warpman",
     target,
@@ -2295,6 +2305,7 @@ function readNpcWarp(argPath, createFile) {
     moneyMessage: cleanScriptText(kv.moneymsg || kv.money_msg || ""),
     partyMessage: cleanScriptText(kv.partymsg || kv.party_msg || ""),
     warpMessage: cleanScriptText(kv.warp_msg || ""),
+    ...(lastTalkElder > 0 ? { lastTalkElder } : {}),
     source: relativeRef(file)
   };
 }
@@ -2396,7 +2407,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
-    const match = line.match(/^(NEWEVENT\d*|EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM|ADDEGGID)\s*[:=]\s*(.*)$/i);
+    const match = line.match(/^(NEWEVENT\d*|EVENTRUN\d*|EVENT\d*|FREE|CHECKPARTY|TALKEVENT\d*|ENDEVENT\d*|CHANGEITEM|DELITEM|SETLASTTALKELDER|WARP|GIVEITEM|GOLD|MONEY|BORN|GETITEM|ADDEGGID)\s*[:=]\s*(.*)$/i);
     if (!match) continue;
     const value = cleanScriptText(`${match[1]}:${match[2]}`).replace(/\s+/g, " ");
     if (value && !hints.includes(value)) hints.push(value);

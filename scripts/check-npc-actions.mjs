@@ -2493,20 +2493,56 @@ if (!warpNpc) throw new Error("missing loaded warp NPC fixture");
 game.location = { mapId: warpNpc.map.id, x: warpNpc.npc.x + 1, y: warpNpc.npc.y };
 game.player.level = 1;
 game.player.stone = 100;
+warpNpc.npc.warp.lastTalkElder = 4;
 const warpCost = Number(warpNpc.npc.warp.cost.amount || 0);
 game = await api("/api/game/dialog", { game, npcId: warpNpc.npc.id, message: "传送" });
 assertEqual(game.location.mapId, warpNpc.npc.warp.target.mapId, "warp NPC moves player to target map");
 assertEqual(game.location.x, warpNpc.npc.warp.target.x, "warp NPC sets target x");
 assertEqual(game.location.y, warpNpc.npc.warp.target.y, "warp NPC sets target y");
 assertEqual(game.player.stone, 100 - warpCost, "warp NPC charges level-based stone cost");
+assertEqual(game.player.LastTalkElder, 4, "warp NPC applies source SetLastTalkelder to player state");
+assertEqual(game.player.CHAR_LASTTALKELDER, 4, "warp NPC keeps source CHAR_LASTTALKELDER alias");
+assertEqual(game.characterFields?.work?.CHAR_LASTTALKELDER, 4, "warp NPC syncs SetLastTalkelder into compact character fields");
+assert(game.save.info.includes("LASTTALKELDER=4"), "saac-like save info records source LASTTALKELDER");
 assert(game.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("启动传送")), "warp NPC replies with travel text");
 assert(game.dialog.debug.actions.includes("warp"), "dialog debug profiles warp action");
 assert(game.dialog.source.includes(warpNpc.npc.source), "dialog source line includes warp source path");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "ok"), "warp dialog debug includes warp VM trace");
+assert(game.dialog.debug.vmTrace.some((event) => event.action === "setLastTalkElder" && event.detail?.sourceId === 4), "warp dialog debug includes SetLastTalkelder VM trace");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "warp"), "warp dialog debug includes setFlag VM trace");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "warp"), "warp dialog debug includes stone take VM trace");
+assertEqual(game.lastWarp?.lastTalkElder, 4, "warp NPC transition records source elder id");
 assert(game.save.info.includes(`FLOOR=${warpNpc.npc.warp.target.mapId}`), "saac-like save info records warped floor");
 assert(game.flags.bits[`end:${stableFlag(`${warpNpc.npc.id}:warp`)}`], "warp action flag set");
+
+let mapWarpGame = await api("/api/game/new", { name: "mapwarp-lasttalkelder-test" });
+const mapWarpSource = WORLD.maps[mapWarpGame.location.mapId];
+const mapWarpExit = {
+  id: "test-lasttalkelder-exit",
+  label: "测试记录点出口",
+  to: mapWarpSource.id,
+  x: mapWarpSource.spawn[0],
+  y: mapWarpSource.spawn[1],
+  bounds: [mapWarpSource.spawn[0], mapWarpSource.spawn[1], mapWarpSource.spawn[0], mapWarpSource.spawn[1]],
+  target: [mapWarpSource.spawn[0], mapWarpSource.spawn[1]],
+  source: "test/source-warpman.arg",
+  warp: {
+    target: { mapId: mapWarpSource.id, x: mapWarpSource.spawn[0], y: mapWarpSource.spawn[1] },
+    lastTalkElder: 3,
+    source: "test/source-warpman.arg"
+  }
+};
+mapWarpSource.exits.push(mapWarpExit);
+try {
+  mapWarpGame = await api("/api/game/travel", { game: mapWarpGame, to: mapWarpExit.id });
+  assertEqual(mapWarpGame.player.LastTalkElder, 3, "map exit applies source SetLastTalkelder to player state");
+  assertEqual(mapWarpGame.characterFields?.work?.CHAR_LASTTALKELDER, 3, "map exit syncs SetLastTalkelder into character fields");
+  assert(mapWarpGame.save.info.includes("LASTTALKELDER=3"), "map exit save info records source LASTTALKELDER");
+  assert(mapWarpGame.npcVmEvents.some((event) => event.action === "setLastTalkElder" && event.type === "mapwarp" && event.detail?.sourceId === 3), "map exit records SetLastTalkelder VM trace");
+  assertEqual(mapWarpGame.lastWarp?.lastTalkElder, 3, "map exit transition records source elder id");
+} finally {
+  mapWarpSource.exits = mapWarpSource.exits.filter((exit) => exit.id !== mapWarpExit.id);
+}
 
 const itemGateWarp = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))

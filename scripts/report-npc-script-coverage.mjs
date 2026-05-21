@@ -43,6 +43,7 @@ const PARSED_EVENT_ACTIONS = [
   "NpcWarp",
   "NpcPoint",
   "Pet_Name",
+  "SetLastTalkelder",
   "StopMsg"
 ];
 
@@ -88,6 +89,7 @@ const ACTION_KEYS = new Set([
   "npcwarp",
   "pet_name",
   "petname",
+  "setlasttalkelder",
   "winitem",
   "winwarp"
 ]);
@@ -731,6 +733,9 @@ function createWorldSummary() {
 
 function addNpcToWorldSummary(summary, npc) {
   summary.npcs += 1;
+  if (Number(npc.warp?.lastTalkElder || 0) > 0) {
+    count(summary.parsedActions, "SetLastTalkelder");
+  }
   const hasJanken = Boolean(npc.janken);
   if (hasJanken) {
     summary.scriptNpcs += 1;
@@ -763,6 +768,7 @@ function scriptEventActions(event) {
   if (event.delStones?.length) actions.push("DelStone");
   if (event.npcWarps?.length) actions.push("NpcWarp");
   if (event.npcWarps?.some((point) => point?.sourceAction === "NPCPOINT")) actions.push("NpcPoint");
+  if (Number(event.lastTalkElder || 0) > 0) actions.push("SetLastTalkelder");
   if (event.charms?.length) actions.push("Charm");
   if (event.keyword) actions.push("KeyWord");
   if (event.petName) actions.push("Pet_Name");

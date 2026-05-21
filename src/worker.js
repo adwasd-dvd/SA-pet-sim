@@ -144,6 +144,7 @@ const NPC_VM_ACTIONS = new Set([
   "takePet",
   "setFlag",
   "clearFlag",
+  "setLastTalkElder",
   "heroBattleField",
   "missionOver",
   "missionClean",
@@ -157,6 +158,13 @@ const NPC_VM_ACTIONS = new Set([
   "quest",
   "debug"
 ]);
+const SOURCE_ELDER_POSITIONS = Object.freeze({
+  0: { mapId: "1006", floor: 1006, x: 15, y: 22 },
+  1: { mapId: "2006", floor: 2006, x: 20, y: 16 },
+  2: { mapId: "3006", floor: 3006, x: 21, y: 16 },
+  3: { mapId: "4006", floor: 4006, x: 14, y: 20 },
+  4: { mapId: "7770", floor: 7770, x: 9, y: 10 }
+});
 const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_None",
   "PETSKILL_NormalAttack",
@@ -776,7 +784,9 @@ async function createPlayerGame(env, request, body) {
       winCount: 0,
       loseCount: 0,
       startPoint,
-      savePointMask: 1 << startPoint
+      savePointMask: 1 << startPoint,
+      LastTalkElder: startPoint,
+      CHAR_LASTTALKELDER: startPoint
     },
     location: {
       mapId: WORLD.startMap,
@@ -1642,6 +1652,7 @@ function applyExit(game, exit) {
   }
   const consumed = permission?.free ? consumeWarpItems(game, exit.warp) : [];
   game.location = { ...to, dir };
+  const elderEvent = applyWarpLastTalkElder(game, mapWarpEventActor(exit), exit.warp, "source-mapwarp-setlasttalkelder");
   setCharacterDir(game, dir);
   game.encounter = null;
   game.battle = null;
@@ -1654,6 +1665,7 @@ function applyExit(game, exit) {
     sourceTile: exit.sourceTile || { x: exit.x, y: exit.y, target: exit.target },
     to,
     source: exit.source,
+    ...(elderEvent?.ok ? { lastTalkElder: elderEvent.detail?.sourceId } : {}),
     warpedAt: now
   };
   game.transition = warpTransition("mapwarp", exit.label, from, to, exit.source, now);
@@ -1661,7 +1673,8 @@ function applyExit(game, exit) {
   game.character.updatedAt = now;
   const ticket = consumed.length ? `消耗 ${consumed.join("、")}，` : "";
   const paid = permission?.cost > 0 ? `花费 ${permission.cost} 石币，` : "";
-  addLog(game, `${ticket}${paid}你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。`);
+  const elderLine = elderEvent?.ok ? `记录点标记 LASTTALKELDER=${elderEvent.detail?.sourceId}。` : "";
+  addLog(game, `${ticket}${paid}你通过「${exit.label}」来到 ${WORLD.maps[exit.to].name}。${elderLine}`);
   updateQuestProgress(game, "enterMap", { mapId: exit.to });
   return withMap(game);
 }
@@ -7787,6 +7800,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
   runNpcScriptCleanFlags(game, npc, event, detail, "request");
   runNpcScriptMissionActions(game, npc, event, detail, "request");
   runNpcScriptProgressActions(game, npc, event, detail, "request");
+  runNpcScriptLastTalkElderActions(game, npc, event, detail, "request");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "request",
@@ -7801,6 +7815,7 @@ function runNpcScriptRequest(game, npc, event, detail) {
     missionOver: event.missionOver,
     missionClean: event.missionClean,
     addExps: event.addExps,
+    lastTalkElder: event.lastTalkElder,
     getPets: event.getPets,
     delPets: event.delPets
   });
@@ -7833,6 +7848,7 @@ function runNpcScriptAccept(game, npc, event, detail) {
   runNpcScriptCleanFlags(game, npc, event, detail, "accept");
   runNpcScriptMissionActions(game, npc, event, detail, "accept");
   runNpcScriptProgressActions(game, npc, event, detail, "accept");
+  runNpcScriptLastTalkElderActions(game, npc, event, detail, "accept");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "accept",
@@ -7849,7 +7865,8 @@ function runNpcScriptAccept(game, npc, event, detail) {
     endSetFlags: event.endSetFlags,
     missionOver: event.missionOver,
     missionClean: event.missionClean,
-    addExps: event.addExps
+    addExps: event.addExps,
+    lastTalkElder: event.lastTalkElder
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["accept", "thanks", "normalMain"], game);
@@ -7890,6 +7907,7 @@ function runNpcScriptMessage(game, npc, event, detail) {
   runNpcScriptCleanFlags(game, npc, event, detail, "message");
   runNpcScriptMissionActions(game, npc, event, detail, "message");
   runNpcScriptProgressActions(game, npc, event, detail, "message");
+  runNpcScriptLastTalkElderActions(game, npc, event, detail, "message");
   const hasMutation = (event.getItems || []).length
     || (event.delItems || []).length
     || (event.getRandItems || []).length
@@ -7904,7 +7922,8 @@ function runNpcScriptMessage(game, npc, event, detail) {
     || (event.nowSetFlags || []).length
     || Number(event.missionOver || 0) > 0
     || Number(event.missionClean || 0) > 0
-    || Number(event.addExps || 0) > 0;
+    || Number(event.addExps || 0) > 0
+    || Number(event.lastTalkElder || 0) > 0;
   recordNpcVmEvent(game, npc, hasMutation ? "quest" : "say", "ok", {
     ...detail,
     phase: "message",
@@ -7924,7 +7943,8 @@ function runNpcScriptMessage(game, npc, event, detail) {
     nowSetFlags: event.nowSetFlags,
     missionOver: event.missionOver,
     missionClean: event.missionClean,
-    addExps: event.addExps
+    addExps: event.addExps,
+    lastTalkElder: event.lastTalkElder
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["normalMain", "normal", "thanks", "request", "accept"], game);
@@ -7945,6 +7965,7 @@ function runNpcScriptClean(game, npc, event, detail) {
   runNpcScriptCleanFlags(game, npc, event, detail, "clean");
   runNpcScriptMissionActions(game, npc, event, detail, "clean");
   runNpcScriptProgressActions(game, npc, event, detail, "clean");
+  runNpcScriptLastTalkElderActions(game, npc, event, detail, "clean");
   recordNpcVmEvent(game, npc, "quest", "ok", {
     ...detail,
     phase: "clean",
@@ -7962,7 +7983,8 @@ function runNpcScriptClean(game, npc, event, detail) {
     delPets: event.delPets,
     missionOver: event.missionOver,
     missionClean: event.missionClean,
-    addExps: event.addExps
+    addExps: event.addExps,
+    lastTalkElder: event.lastTalkElder
   });
   syncCharacterFields(game);
   const lines = scriptEventMessages(event, ["cleanMain", "cleanFlag", "normalMain", "normal", "thanks"], game);
@@ -8044,6 +8066,18 @@ function runNpcScriptProgressActions(game, npc, event, detail, phase) {
     ...detail,
     phase,
     reason: "source-eventaction-addexps"
+  });
+}
+
+function runNpcScriptLastTalkElderActions(game, npc, event, detail, phase) {
+  const sourceId = Number(event.lastTalkElder || 0);
+  if (sourceId <= 0) return;
+  runNpcVmAction(game, npc, {
+    type: "setLastTalkElder",
+    sourceId,
+    ...detail,
+    phase,
+    reason: "source-eventaction-setlasttalkelder"
   });
 }
 
@@ -10139,11 +10173,41 @@ function warpNpcReply(game, npc) {
     runNpcVmAction(game, npc, { type: "take", item: itemName, qty: 1, reason: "warp" });
   }
   const arrived = applyWarpTarget(game, target, npc.name);
+  const elderEvent = applyWarpLastTalkElder(game, npc, npc.warp, "source-warp-setlasttalkelder");
+  if (elderEvent?.ok && game.lastWarp) game.lastWarp.lastTalkElder = elderEvent.detail?.sourceId;
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "warp"), "end", "warp");
   const paid = permission.cost > 0 ? `花费 ${permission.cost} 石币，` : "";
   const ticket = consumed.length ? `消耗 ${consumed.join("、")}，` : "";
-  recordNpcVmEvent(game, npc, "warp", "ok", { target, cost: permission.cost, consumed });
-  return `${npc.name} 启动传送，${ticket}${paid}你来到 ${arrived.name} (${game.location.x},${game.location.y})。\n来源：gmsv npc_warpman WARP:${target.mapId},${target.x},${target.y}`;
+  recordNpcVmEvent(game, npc, "warp", "ok", {
+    target,
+    cost: permission.cost,
+    consumed,
+    ...(elderEvent?.detail?.sourceId > 0 ? { lastTalkElder: elderEvent.detail.sourceId, lastTalkElderOk: Boolean(elderEvent?.ok) } : {})
+  });
+  const elderLine = elderEvent?.ok ? `记录点标记：LASTTALKELDER=${elderEvent.detail?.sourceId}。` : "";
+  return `${npc.name} 启动传送，${ticket}${paid}你来到 ${arrived.name} (${game.location.x},${game.location.y})。\n${elderLine}\n来源：gmsv npc_warpman WARP:${target.mapId},${target.x},${target.y}`.replace(/\n\n+/g, "\n");
+}
+
+function applyWarpLastTalkElder(game, actor, warp, reason) {
+  const sourceId = clampInt(warp?.lastTalkElder, 0, 127, 0);
+  if (sourceId <= 0) return null;
+  return runNpcVmAction(game, actor, {
+    type: "setLastTalkElder",
+    sourceId,
+    reason,
+    source: warp?.source || actor?.source || ""
+  });
+}
+
+function mapWarpEventActor(exit) {
+  return {
+    id: `mapwarp:${exit?.id || exit?.to || "unknown"}`,
+    name: exit?.label || "地图传送点",
+    type: "mapwarp",
+    template: "npcgen_warp",
+    script: "map-exit",
+    source: exit?.source || ""
+  };
 }
 
 function routeServicePromptReply(game, npc) {
@@ -12572,6 +12636,7 @@ function npcActionProfile(npc) {
   if (npc.itemChange?.recipes?.length || /ItemchangeMan|ITEMCHANGE/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemChange");
   if (isNewNpcManNpc(npc)) actions.push("appearance", "window", "say");
   if (npc.warp?.target || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("warp");
+  if (Number(npc.warp?.lastTalkElder || 0) > 0) actions.push("setLastTalkElder");
   if (isHealerNpc(npc)) actions.push("heal");
   if (isSavePointNpc(npc)) actions.push("save");
   if (hasNpcScriptEvents(npc)) {
@@ -12584,6 +12649,7 @@ function npcActionProfile(npc) {
     if ((npc.scriptEvents || []).some((event) => event.delPets?.length)) actions.push("takePet");
     if ((npc.scriptEvents || []).some((event) => Number(event.missionOver || 0) > 0)) actions.push("missionOver");
     if ((npc.scriptEvents || []).some((event) => Number(event.missionClean || 0) > 0)) actions.push("missionClean");
+    if ((npc.scriptEvents || []).some((event) => Number(event.lastTalkElder || 0) > 0)) actions.push("setLastTalkElder");
   }
   if (npcQuestIds(npc).length || npc.questLead) actions.push("quest");
   if (npcDialogueLines(npc).length || /timeman|town|msg|sign/i.test(`${npc.type} ${npc.template}`)) actions.push("say");
@@ -12652,6 +12718,7 @@ function applyNpcVmMutation(game, type, action) {
   if (type === "takePet") return applyNpcVmTakePet(game, action);
   if (type === "givePet") return applyNpcVmGivePet(game, action);
   if (type === "save") return applyNpcVmSave(game, action);
+  if (type === "setLastTalkElder") return applyNpcVmSetLastTalkElder(game, action);
   if (type === "appearance") return applyNpcVmAppearance(game, action);
   if (type === "effect") return applyNpcVmEffect(game, action);
   if (type === "startBattle") return applyNpcVmStartBattle(game, action);
@@ -12736,6 +12803,35 @@ function applyNpcVmSave(game, action) {
   game.character ||= {};
   game.character.updatedAt = now;
   return { ok: true, mutated: true, sourceId, born, savedAt: now };
+}
+
+function applyNpcVmSetLastTalkElder(game, action) {
+  const sourceId = clampInt(action.sourceId ?? action.elderId ?? action.id, 0, 127, -1);
+  if (sourceId < 0) return { ok: false, mutated: false, error: "SetLastTalkelder 缺少有效 elder id" };
+  game.player ||= {};
+  const before = Number(game.player.CHAR_LASTTALKELDER ?? game.player.LastTalkElder ?? -1);
+  game.player.LastTalkElder = sourceId;
+  game.player.CHAR_LASTTALKELDER = sourceId;
+  game.characterFields ||= {};
+  game.characterFields.work ||= {};
+  game.characterFields.work.CHAR_LASTTALKELDER = sourceId;
+  const born = sourceElderPosition(sourceId);
+  const updatedAt = action.savedAt || new Date().toISOString();
+  game.lastTalkElder = {
+    sourceId,
+    ...(born ? { born } : {}),
+    source: action.source || "",
+    updatedAt
+  };
+  game.character ||= {};
+  game.character.updatedAt = updatedAt;
+  return { ok: true, mutated: before !== sourceId || Boolean(action.force), sourceId, born };
+}
+
+function sourceElderPosition(sourceId) {
+  const born = SOURCE_ELDER_POSITIONS[Number(sourceId)];
+  if (!born) return null;
+  return { ...born };
 }
 
 function applyNpcVmEffect(game, action) {
@@ -15616,6 +15712,8 @@ function normalizePlayerRuntime(player) {
   player.startPoint = clampInt(player.startPoint ?? player.StartPoint ?? player.birthPoint, 0, 3, 0);
   player.savePointMask = clampInt(player.savePointMask ?? player.SavePoint ?? player.CHAR_SAVEPOINT, 0, 0xffffffff, 1 << player.startPoint);
   player.SavePoint = player.savePointMask;
+  player.LastTalkElder = clampInt(player.LastTalkElder ?? player.CHAR_LASTTALKELDER, 0, 127, player.startPoint);
+  player.CHAR_LASTTALKELDER = player.LastTalkElder;
   compliancePlayerParameter(player, { preserveHp: true });
   const progress = progressionSummary(player.level, player.exp);
   player.currentLevelExp = progress.currentLevelExp;
@@ -15743,6 +15841,7 @@ function buildCharacterFields(game) {
       professionSkillPoint: Number(game.player?.professionSkillPoint || 0),
       startPoint: sourceStartPoint(game),
       savePointMask: Number(game.player?.savePointMask ?? game.player?.SavePoint ?? 0),
+      lastTalkElder: Number(game.player?.LastTalkElder ?? game.player?.CHAR_LASTTALKELDER ?? sourceStartPoint(game)),
       mapId: String(game.location?.mapId || ""),
       x: Number(game.location?.x || 0),
       y: Number(game.location?.y || 0),
@@ -15785,6 +15884,7 @@ function buildCharacterFields(game) {
       WorkAttackPower: Number(game.player?.WorkAttackPower || game.player?.WorkFixStr || 0),
       WorkDefencePower: Number(game.player?.WorkDefencePower || game.player?.WorkFixTough || 0),
       WorkQuick: Number(game.player?.WorkQuick || game.player?.WorkFixDex || 0),
+      CHAR_LASTTALKELDER: Number(game.player?.LastTalkElder ?? game.player?.CHAR_LASTTALKELDER ?? sourceStartPoint(game)),
       CHAR_WORKHEROFLOOR: Number(game.player?.CHAR_WORKHEROFLOOR ?? game.player?.heroWorkFloor ?? game.player?.WorkHeroFloor ?? 0)
     },
     elements: {
@@ -16538,6 +16638,7 @@ function buildCharInfo(game) {
     `ANGEL_MISSION=${safeJson(compactAngelMissionState(activeAngelMission(game)))}`,
     `STARTPOINT=${sourceStartPoint(game)}`,
     `SAVEPOINT=${game.player.savePointMask ?? game.player.SavePoint ?? 0}`,
+    `LASTTALKELDER=${game.player.LastTalkElder ?? game.player.CHAR_LASTTALKELDER ?? sourceStartPoint(game)}`,
     `FLOOR=${game.location.mapId}`,
     `X=${game.location.x}`,
     `Y=${game.location.y}`,
@@ -16695,6 +16796,7 @@ function compactScriptEventSummary(scriptEvents) {
     if (event.delStones?.length) pushUniqueCompact(actions, "DelStone", 8);
     if (event.npcWarps?.length) pushUniqueCompact(actions, "NpcWarp", 8);
     if (event.npcWarps?.some((point) => point?.sourceAction === "NPCPOINT")) pushUniqueCompact(actions, "NpcPoint", 8);
+    if (Number(event.lastTalkElder || 0) > 0) pushUniqueCompact(actions, "SetLastTalkelder", 8);
     if (event.charms?.length) pushUniqueCompact(actions, "Charm", 8);
     if (event.keyword) pushUniqueCompact(actions, "KeyWord", 8);
     if (event.petName) pushUniqueCompact(actions, "Pet_Name", 8);

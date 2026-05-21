@@ -136,8 +136,10 @@ Run `node scripts/check-resources.mjs` after moving machines.
   - `CleanFlg`, clearing both NOWEV and ENDEV for the source event id through the VM `clearFlag` action
   - `NpcWarp` / `NPCPOINT`, moving the NPC's runtime position through the VM `moveNpc` action without editing the original map data
   - `MISSIONOVER` / `MISSIONCLEAN`, using a compact source-style angel/hero mission table state; `HERO_*` / `ANGEL_*` / `HEROCNT` conditions now gate branches and `MISSIONOVER` marks the active hero mission complete while incrementing `CHAR_HEROCNT`
+  - `SetLastTalkelder`, storing the source elder marker as `LastTalkElder` / `CHAR_LASTTALKELDER` / `LASTTALKELDER` through the Worker NPC VM for NPC warps, map exits, and script events
 - Source NPC full/shortage messages are parsed into runtime messages, including `ItemFullMsg`, `PetFullMsg`, `StoneFullMsg`, and `StoneLessMsg`.
 - Source `TYPE:CLEAN`, `CleanMainMsg`, and `CleanFlgMsg` branches are parsed so reset/cancel style NPCs can show their original text and clear task flags.
+- 2026-05-21 record-point guardrail: source `SetLastTalkelder` is a compact original elder marker, not a web "recent position" savepoint. Do not use it to invent nearest-record behavior; return-record still follows original `Born`/savepoint NPC state, and missing elder floors such as source id `4 -> floor 7770` must remain unresolved until the original floor/profile is packaged.
 - Numbered source dialogue pages such as `RequestMsg1/2`, `AcceptMsg1/2`, `ThanksMsg1/2`, and `NormalWindowMsg1/2` are preserved as `messagePages` and joined at runtime, while client map payloads still get only compact `scriptEventSummary` metadata.
 - Stone changes still go through `runNpcVmAction`, sync the inventory stone row, and are checked against the original max carried-stone scale (`CHAR_MAXGOLDHAVE = 10000 * 10000`).
 - NPC task summaries and AI/debug context should prefer these compact parsed actions over dumping raw source lines, so token use stays low and numeric item IDs can be resolved before reaching the model.

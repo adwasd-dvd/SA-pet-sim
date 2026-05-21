@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T18:56:15.643Z",
+  "generatedAt": "2026-05-21T19:42:10.097Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -8,9 +8,9 @@
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
     "parsedActionKinds": 24,
-    "unsupportedCandidateKeys": 25,
+    "unsupportedCandidateKeys": 24,
     "candidateActionKeys": 7,
-    "unknownKeys": 18
+    "unknownKeys": 17
   },
   "profiles": {
     "classic-core": {
@@ -217,10 +217,10 @@
     "byCategory": {
       "supported-config": 9690,
       "supported-message": 15686,
-      "unknown": 38,
+      "unknown": 37,
       "candidate-action": 13,
       "condition-control": 12055,
-      "supported-action": 3930,
+      "supported-action": 3931,
       "blocked-or-later-system": 193
     },
     "keyRecords": [
@@ -11510,7 +11510,7 @@
       {
         "key": "SetLastTalkelder",
         "normalized": "setlasttalkelder",
-        "category": "unknown",
+        "category": "supported-action",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -13895,9 +13895,9 @@
         ]
       }
     ],
-    "unsupportedCandidateTotal": 25,
+    "unsupportedCandidateTotal": 24,
     "candidateActionKeyCount": 7,
-    "unknownKeyCount": 18,
+    "unknownKeyCount": 17,
     "unsupportedCandidates": [
       {
         "key": "TENSEI",
@@ -14732,38 +14732,6 @@
             "file": "external/sources/ref___data/npc/giiru/banam.arg",
             "line": 13,
             "text": "seflg:0"
-          }
-        ]
-      },
-      {
-        "key": "SetLastTalkelder",
-        "normalized": "setlasttalkelder",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/sa60/newbie/warpman.arg",
-            "line": 17,
-            "text": "SetLastTalkelder:4"
           }
         ]
       },
