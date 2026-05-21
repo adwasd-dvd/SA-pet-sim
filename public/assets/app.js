@@ -162,6 +162,7 @@ let walkInFlight = false;
 let routeInFlight = false;
 let dialogDefaultSubmitInFlight = false;
 let routeToken = 0;
+let activeAssistRoute = null;
 let rescueEpoch = 0;
 let tileAtlasPromise = null;
 let loadedTileAtlas = null;
@@ -1157,6 +1158,7 @@ function onGameKeyDown(event) {
   if (!direction) return;
   event.preventDefault();
   routeToken += 1;
+  clearAssistRouteState(true);
   walkPlayer(direction[0], direction[1]);
 }
 
@@ -1367,8 +1369,11 @@ function schedulePlayerAnimTick() {
   });
 }
 
-async function followRouteTo(target, routeData = null) {
+async function followRouteTo(target, routeData = null, options = {}) {
   if (!game) return;
+  if (!options.preserveAssistRoute) clearAssistRouteState(true);
+  const label = options.label || "目标";
+  const walkSlotTimeoutMs = Number(options.walkSlotTimeoutMs || 1400);
   if (isBattleOpen()) {
     if (automationState().autoEscape) {
       const escaped = await autoEscapeCurrentBattle({ routeToken });
@@ -1384,7 +1389,10 @@ async function followRouteTo(target, routeData = null) {
   const token = ++routeToken;
   routeInFlight = true;
   try {
-    if (!await waitForWalkSlot(token)) return false;
+    if (!await waitForWalkSlot(token, walkSlotTimeoutMs)) {
+      if (token === routeToken) addClientLog(`自动前往 ${label} 没有开始：上一格移动还没结束。`);
+      return false;
+    }
     let data = routeData || await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
     const initialFace = routeData?.face || null;
     for (let attempt = 0; attempt < ROUTE_RETRY_LIMIT; attempt += 1) {
@@ -1392,7 +1400,7 @@ async function followRouteTo(target, routeData = null) {
       const route = Array.isArray(data.route) ? data.route : [];
       const routeTarget = data.standTarget || data.target || target;
       if (!route.length) {
-        if (data.blocked) addClientLog("那里无法通行。");
+        if (data.blocked) addClientLog(`自动前往 ${label} 失败：那里无法通行。`);
         const face = data.face || initialFace;
         if (face && token === routeToken) return turnPlayer(face);
         return !data.blocked || isAtRouteTarget(routeTarget);
@@ -1400,7 +1408,10 @@ async function followRouteTo(target, routeData = null) {
       let shouldRetry = false;
       for (const step of route) {
         if (token !== routeToken) return false;
-        if (!await waitForWalkSlot(token)) return false;
+        if (!await waitForWalkSlot(token, walkSlotTimeoutMs)) {
+          if (token === routeToken) addClientLog(`自动前往 ${label} 暂停：上一格移动还没结束。`);
+          return false;
+        }
         const beforeMap = game.location.mapId;
         const moved = await walkPlayer(step.dx, step.dy);
         if (game.location.mapId !== beforeMap) return moved;
@@ -1416,7 +1427,7 @@ async function followRouteTo(target, routeData = null) {
       if (face && token === routeToken) return turnPlayer(face);
       if (isAtRouteTarget(routeTarget)) return true;
       if (attempt < ROUTE_RETRY_LIMIT - 1) continue;
-      if (shouldRetry) addClientLog("路线中途被挡住，已重新计算但仍无法到达。");
+      if (shouldRetry) addClientLog(`自动前往 ${label} 失败：路线中途被挡住，已重新计算但仍无法到达。`);
       return false;
     }
     return false;
@@ -1431,6 +1442,7 @@ async function followRouteTo(target, routeData = null) {
 function cancelActiveRoute({ clearKeys = false } = {}) {
   routeToken += 1;
   routeInFlight = false;
+  clearAssistRouteState(true);
   if (clearKeys) clearPressedMoveKeys();
 }
 
@@ -1455,6 +1467,36 @@ async function waitForWalkSlot(token, timeoutMs = 800) {
     await wait(16);
   }
   return token === routeToken && !walkInFlight;
+}
+
+function clearAssistRouteState(shouldRender = false) {
+  if (!activeAssistRoute) return;
+  activeAssistRoute = null;
+  if (shouldRender) renderAssistRouteSurfaces();
+}
+
+function beginAssistRoute(kind, id, label) {
+  activeAssistRoute = {
+    kind: kind === "exit" ? "exit" : "npc",
+    id: String(id),
+    label: label || "目标"
+  };
+  renderAssistRouteSurfaces();
+}
+
+function endAssistRoute(kind, id) {
+  const normalizedKind = kind === "exit" ? "exit" : "npc";
+  if (!activeAssistRoute || activeAssistRoute.kind !== normalizedKind || activeAssistRoute.id !== String(id)) return;
+  clearAssistRouteState(true);
+}
+
+function renderAssistRouteSurfaces() {
+  if (!game) return;
+  const map = game.world?.map;
+  if (map) renderAssistPanel(map);
+  renderQuests();
+  renderAiStatusPanel();
+  renderClientWindow();
 }
 
 function ensureAutomationState() {
@@ -1665,6 +1707,7 @@ async function returnToSavePoint() {
   rescueEpoch += 1;
   routeToken += 1;
   routeInFlight = false;
+  clearAssistRouteState(true);
   battlePendingAction = "";
   clearPressedMoveKeys();
   try {
@@ -1688,11 +1731,20 @@ async function goToNpc(npcId, options = {}) {
   const preferredTile = normalizeRoutePreference(options.preferredTile);
   const map = game?.world?.map;
   const npc = map?.npcs?.find((item) => item.id === npcId);
-  if (!npc) return;
+  if (!npc) {
+    addClientLog("自动前往目标不在当前地图。请先走到任务提示的地图或使用对应出口。");
+    return;
+  }
+  beginAssistRoute("npc", npc.id, npc.name);
+  addClientLog(`自动前往：正在去 ${npc.name}。`);
   if (cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2) {
-    await faceNpc(npc);
-    if (openWhenNear) await openDialog(npc.id);
-    else addClientLog(`已面对 ${npc.name}。双击 NPC 开始对话。`);
+    try {
+      await faceNpc(npc);
+      if (openWhenNear) await openDialog(npc.id);
+      else addClientLog(`已面对 ${npc.name}。双击 NPC 开始对话。`);
+    } finally {
+      endAssistRoute("npc", npc.id);
+    }
     return;
   }
   let approach;
@@ -1705,18 +1757,26 @@ async function goToNpc(npcId, options = {}) {
     approach = await api("/api/game/route-npc", payload);
     if (approach.blocked || !approach.target) {
       addClientLog(`无法靠近 ${npc.name}。`);
+      endAssistRoute("npc", npc.id);
       return;
     }
   } catch (error) {
     addClientLog(error.message || `无法靠近 ${npc.name}。`);
+    endAssistRoute("npc", npc.id);
     return;
   }
-  const reached = await followRouteTo(approach.target, approach);
-  const currentMap = game?.world?.map;
-  const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
-  if (reached && stillNear) {
-    if (openWhenNear) await openDialog(npc.id);
-    else addClientLog(`已靠近 ${npc.name}。双击 NPC 开始对话。`);
+  try {
+    const reached = await followRouteTo(approach.target, approach, { label: npc.name, preserveAssistRoute: true });
+    const currentMap = game?.world?.map;
+    const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
+    if (reached && stillNear) {
+      if (openWhenNear) await openDialog(npc.id);
+      else addClientLog(`已靠近 ${npc.name}。双击 NPC 开始对话。`);
+    } else if (!reached) {
+      addClientLog(`自动前往 ${npc.name} 未完成。`);
+    }
+  } finally {
+    endAssistRoute("npc", npc.id);
   }
 }
 
@@ -1744,7 +1804,12 @@ async function goToExit(exitId, options = {}) {
   const preferredTile = normalizeRoutePreference(options.preferredTile);
   const map = game?.world?.map;
   const exit = map?.exits?.find((item) => item.id === exitId);
-  if (!exit) return;
+  if (!exit) {
+    addClientLog("自动前往出口不在当前地图。请先走到任务提示的地图。");
+    return;
+  }
+  beginAssistRoute("exit", exit.id, exit.label);
+  addClientLog(`自动前往：正在去 ${exit.label}。`);
   try {
     const payload = { game, exitId: exit.id };
     if (preferredTile) {
@@ -1756,9 +1821,12 @@ async function goToExit(exitId, options = {}) {
       addClientLog(`无法到达 ${exit.label}。`);
       return;
     }
-    await followRouteTo(approach.target, approach);
+    const reached = await followRouteTo(approach.target, approach, { label: exit.label, preserveAssistRoute: true });
+    if (!reached) addClientLog(`自动前往 ${exit.label} 未完成。`);
   } catch (error) {
     addClientLog(error.message || `无法到达 ${exit.label}。`);
+  } finally {
+    endAssistRoute("exit", exit.id);
   }
 }
 
@@ -3544,15 +3612,29 @@ function renderAssistMapActions(kind, id, distance) {
   const normalizedKind = kind === "exit" ? "exit" : "npc";
   const escapedId = escapeHtml(id);
   const price = paidJumpCost(distance);
+  const autoGo = assistRouteButtonState(normalizedKind, id, "自动前往");
   return `
     <div class="assist-map-actions">
-      <button class="assist-go-btn" type="button" data-assist-go-${normalizedKind}="${escapedId}">自动前往</button>
+      <button class="assist-go-btn" type="button" data-assist-go-${normalizedKind}="${escapedId}" ${autoGo.attrs}>${autoGo.label}</button>
       <button class="assist-go-btn paid" type="button" data-assist-paid-jump-${normalizedKind}="${escapedId}" title="${escapeHtml(price > 0 ? `预计 ${price} 石币，Worker 会按实际距离校验扣费` : "已经在附近，不收跳转费")}">
         <span>付费跳转</span>
         <small>${price > 0 ? `${price} 石币` : "脚下"}</small>
       </button>
     </div>
   `;
+}
+
+function assistRouteButtonState(kind, id, readyLabel, busyLabel = "前往中") {
+  const normalizedKind = kind === "exit" ? "exit" : "npc";
+  const busy = Boolean(
+    activeAssistRoute
+      && activeAssistRoute.kind === normalizedKind
+      && activeAssistRoute.id === String(id)
+  );
+  return {
+    attrs: busy ? `disabled aria-busy="true"` : "",
+    label: busy ? busyLabel : readyLabel
+  };
 }
 
 function paidJumpCost(stepDistance) {
@@ -5579,9 +5661,10 @@ function renderLeadTargetActions(target) {
     const distance = Number.isFinite(Number(target.distance))
       ? Number(target.distance)
       : pointDistance(target.x, target.y);
+    const goState = assistRouteButtonState("npc", target.id, "去找他");
     return `
       <div class="assist-lead-actions">
-        <button class="assist-go-btn" type="button" data-assist-go-npc="${escapeHtml(target.id)}">去找他</button>
+        <button class="assist-go-btn" type="button" data-assist-go-npc="${escapeHtml(target.id)}" ${goState.attrs}>${goState.label}</button>
         <button class="assist-go-btn paid" type="button" data-assist-paid-jump-npc="${escapeHtml(target.id)}" title="${escapeHtml(distance > 0 ? `预计 ${paidJumpCost(distance)} 石币` : "已经在附近")}">
           <span>付费跳转</span>
           <small>${distance > 0 ? `${paidJumpCost(distance)} 石币` : "附近"}</small>
@@ -5592,9 +5675,10 @@ function renderLeadTargetActions(target) {
   const exit = target.exit || null;
   if (exit?.id) {
     const distance = Number.isFinite(Number(exit.distance)) ? Number(exit.distance) : 0;
+    const goState = assistRouteButtonState("exit", exit.id, "去出口");
     return `
       <div class="assist-lead-actions">
-        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(exit.id)}">去出口</button>
+        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(exit.id)}" ${goState.attrs}>${goState.label}</button>
         <button class="assist-go-btn paid" type="button" data-assist-paid-jump-exit="${escapeHtml(exit.id)}" title="${escapeHtml(distance > 0 ? `预计 ${paidJumpCost(distance)} 石币` : "已经在出口附近")}">
           <span>付费跳转</span>
           <small>${distance > 0 ? `${paidJumpCost(distance)} 石币` : "附近"}</small>

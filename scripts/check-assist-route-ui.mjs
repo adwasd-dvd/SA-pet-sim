@@ -24,6 +24,14 @@ const requiredAppSnippets = [
   ["lead action renderer function", "function renderLeadTargetActions(target)"],
   ["assist action handler", "function onAssistPanelClick(event)"],
   ["assist double-click handler", "function onAssistPanelDoubleClick(event)"],
+  ["assist route busy state", "let activeAssistRoute = null;"],
+  ["assist route busy button helper", "function assistRouteButtonState(kind, id, readyLabel, busyLabel = \"前往中\")"],
+  ["assist auto-go missing NPC feedback", "自动前往目标不在当前地图"],
+  ["assist auto-go missing exit feedback", "自动前往出口不在当前地图"],
+  ["assist auto-go start feedback", "自动前往：正在去"],
+  ["assist route busy failure feedback", "上一格移动还没结束"],
+  ["NPC auto-go preserves visible busy state", "followRouteTo(approach.target, approach, { label: npc.name, preserveAssistRoute: true })"],
+  ["exit auto-go preserves visible busy state", "followRouteTo(approach.target, approach, { label: exit.label, preserveAssistRoute: true })"],
   ["tiered paid jump cost display", "paidJumpCost(distance)"],
   ["dialog-open map NPC confirm helper", "function handleDialogOpenMapEvent(event, maxTileDistance = 2)"],
   ["dialog-open map uses NPCEnemy default submit", "defaultDialogSubmitText(game?.dialog)"],
@@ -43,7 +51,8 @@ for (const [label, snippet] of requiredAppSnippets) {
 const requiredCssSnippets = [
   [".assist-lead-actions", ".assist-lead-actions"],
   [".quest-starter-line", ".quest-starter-line"],
-  [".assist-go-btn", ".assist-go-btn"]
+  [".assist-go-btn", ".assist-go-btn"],
+  ["assist busy button visual state", '.assist-go-btn[aria-busy="true"]']
 ];
 
 for (const [label, snippet] of requiredCssSnippets) {
