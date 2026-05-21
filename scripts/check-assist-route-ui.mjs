@@ -4,6 +4,7 @@ import path from "node:path";
 const appRoot = path.resolve(import.meta.dirname, "..");
 const appJs = readFileSync(path.join(appRoot, "public/assets/app.js"), "utf8");
 const css = readFileSync(path.join(appRoot, "public/assets/app.css"), "utf8");
+const workerJs = readFileSync(path.join(appRoot, "src/worker.js"), "utf8");
 const pkg = JSON.parse(readFileSync(path.join(appRoot, "package.json"), "utf8"));
 
 const requiredAppSnippets = [
@@ -57,10 +58,71 @@ assert(
   "npm run check must include check:assist-ui"
 );
 
-console.log("Assist route UI OK: quest, task, starter, status, and map panels share deterministic route actions.");
+assertPaidJumpContract("public/assets/app.js", appJs, { requireWorkerMutation: false });
+assertPaidJumpContract("src/worker.js", workerJs, { requireWorkerMutation: true });
+
+console.log("Assist route UI OK: deterministic route actions and tiered paid-jump fares are guarded.");
 
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function assertPaidJumpContract(label, source, { requireWorkerMutation }) {
+  const constants = {
+    PAID_JUMP_BASE_COST: 2000,
+    PAID_JUMP_FIRST_TIER_STEPS: 300,
+    PAID_JUMP_SECOND_TIER_STEPS: 500,
+    PAID_JUMP_FIRST_TIER_COST: 30,
+    PAID_JUMP_SECOND_TIER_COST: 50,
+    PAID_JUMP_THIRD_TIER_COST: 80
+  };
+  for (const [name, expected] of Object.entries(constants)) {
+    const match = source.match(new RegExp(`const\\s+${name}\\s*=\\s*(\\d+)\\s*;`));
+    assert(match, `${label} missing paid-jump constant ${name}`);
+    assert(Number(match[1]) === expected, `${label} ${name} must stay ${expected}, got ${match[1]}`);
+  }
+  const costFunction = extractFunctionSource(source, "paidJumpCost");
+  assert(costFunction, `${label} missing paidJumpCost(stepDistance)`);
+  for (const snippet of [
+    "if (steps <= 0) return 0;",
+    "Math.min(steps, PAID_JUMP_FIRST_TIER_STEPS)",
+    "PAID_JUMP_SECOND_TIER_STEPS - PAID_JUMP_FIRST_TIER_STEPS",
+    "Math.max(steps - PAID_JUMP_SECOND_TIER_STEPS, 0)",
+    "PAID_JUMP_BASE_COST",
+    "first * PAID_JUMP_FIRST_TIER_COST",
+    "second * PAID_JUMP_SECOND_TIER_COST",
+    "third * PAID_JUMP_THIRD_TIER_COST"
+  ]) {
+    assert(costFunction.includes(snippet), `${label} paidJumpCost missing formula piece: ${snippet}`);
+  }
+  if (!requireWorkerMutation) return;
+  for (const snippet of [
+    'url.pathname === "/api/game/paid-jump"',
+    "async function paidJumpGame(",
+    "assertPaidJumpFunds(game, jumpCost",
+    "chargePaidJump(game, jumpCost)",
+    "syncStoneItem(game)",
+    "source: \"worker deterministic paid jump\""
+  ]) {
+    assert(source.includes(snippet), `${label} missing Worker paid-jump mutation guard: ${snippet}`);
+  }
+}
+
+function extractFunctionSource(source, name) {
+  const start = source.indexOf(`function ${name}(`);
+  if (start < 0) return "";
+  const firstBrace = source.indexOf("{", start);
+  if (firstBrace < 0) return "";
+  let depth = 0;
+  for (let index = firstBrace; index < source.length; index += 1) {
+    const char = source[index];
+    if (char === "{") depth += 1;
+    if (char === "}") {
+      depth -= 1;
+      if (depth === 0) return source.slice(start, index + 1);
+    }
+  }
+  return "";
 }
