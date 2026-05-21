@@ -1644,9 +1644,11 @@ assert(adultGame.progression.sourceTasks.some((task) => task.eventNo === 4 && ta
 const adultCollectTask = adultGame.progression.sourceTasks.find((task) => task.eventNo === 4);
 assertEqual(adultCollectTask?.sourceCluster, "jaruga/event", "adult ceremony source task stays scoped to jaruga/event scripts");
 assert(adultCollectTask?.nextNpcs.every((npc) => String(npc.source || "").includes("jaruga/event")), "adult ceremony collection target does not mix unrelated same-EventNo scripts");
+assert(adultCollectTask?.nextNpcs.some((npc) => npc.name === "仪式审判的差使" && npc.gives?.some((label) => label.includes("仪") && label.includes("x15"))), "adult ceremony collection target exposes source item handout summary");
+assert(adultCollectTask?.guidance?.some((line) => line.includes("领取/确认") && line.includes("仪") && line.includes("x15")), "adult ceremony guidance explains what to collect from target NPC");
 let adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
 assert(adultGuideRsp.text.includes("仪式审判的差使"), "AI guide prioritizes active source task collection target");
-assert(adultGuideRsp.text.includes("目标 NPC") && /做法|操作/.test(adultGuideRsp.text), "AI guide explains who to find and how to trigger the task");
+assert(adultGuideRsp.text.includes("目标 NPC") && /做法|操作|领取\/确认/.test(adultGuideRsp.text), "AI guide explains who to find and how to trigger the task");
 assert(/floor\s+10204/.test(adultGuideRsp.text) && adultGuideRsp.text.includes(`(${adultMessenger.x},${adultMessenger.y})`), "AI guide includes source target floor and coordinates");
 let adultWorkspaceRsp = await api("/api/ai/workspace", { game: adultGame, prompt: "任务下一步" });
 assert(adultWorkspaceRsp.workspace.current.sourceTasks.some((task) => task.eventNo === 4), "AI workspace exposes active source task state");
@@ -1659,6 +1661,8 @@ assert(adultGame.dialog.debug.vmTrace.some((event) => event.action === "give" &&
 assert(adultGame.progression.sourceTasks.some((task) => task.eventNo === 4 && task.phase === "turn-in" && task.requiredItems.some((item) => item.id === 2417 && item.have === 15)), "adult ceremony source task switches to turn-in after ritual jades are collected");
 const adultTurnInTask = adultGame.progression.sourceTasks.find((task) => task.eventNo === 4);
 assertEqual(adultTurnInTask?.sourceCluster, "jaruga/event", "adult ceremony turn-in source task stays scoped to jaruga/event scripts");
+assert(adultTurnInTask?.nextNpcs.some((npc) => npc.name === "仪式的审判" && npc.requires?.some((label) => label.includes("仪") && label.includes("x15"))), "adult ceremony turn-in target exposes source item requirement summary");
+assert(adultTurnInTask?.guidance?.some((line) => line.includes("交付内容") && line.includes("仪") && line.includes("x15")), "adult ceremony guidance explains what to turn in to target NPC");
 adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
 assert(adultGuideRsp.text.includes("仪式的审判"), "AI guide switches active source task to turn-in target");
 adultGame.location = { mapId: "10204", x: adultJudge.x + 1, y: adultJudge.y };

@@ -8498,6 +8498,8 @@ function sourceScriptTaskRank(task) {
 
 function sourceScriptTaskNpc(game, npc) {
   const sameMap = String(game.location?.mapId || "") === String(npc.mapId);
+  const gives = sourceScriptTaskNpcOutputLabels(game, npc);
+  const requires = sourceScriptTaskNpcRequirementLabels(game, npc);
   return {
     id: npc.id,
     name: npc.name,
@@ -8506,8 +8508,60 @@ function sourceScriptTaskNpc(game, npc) {
     x: npc.x,
     y: npc.y,
     distance: sameMap ? distance(npc.x, npc.y, Number(game.location.x || 0), Number(game.location.y || 0)) : 9999,
-    source: npc.source
+    source: npc.source,
+    ...(gives.length ? { gives } : {}),
+    ...(requires.length ? { requires } : {})
   };
+}
+
+function sourceScriptTaskNpcOutputLabels(game, npc = {}) {
+  return uniqueSourceTaskLabels([
+    ...(npc.getItems || []).map(sourceScriptTaskItemLabel),
+    ...(npc.getRandItems || []).map(sourceScriptTaskItemLabel),
+    ...(npc.getPets || []).map(sourceScriptTaskPetLabel),
+    ...(npc.getStones || []).map((stone) => sourceScriptTaskStoneLabel(game, stone))
+  ]);
+}
+
+function sourceScriptTaskNpcRequirementLabels(game, npc = {}) {
+  return uniqueSourceTaskLabels([
+    ...(npc.delItems || []).map(sourceScriptTaskItemLabel),
+    ...(npc.delPets || []).map(sourceScriptTaskPetLabel),
+    ...(npc.delStones || []).map((stone) => sourceScriptTaskStoneLabel(game, stone))
+  ]);
+}
+
+function uniqueSourceTaskLabels(labels = [], limit = 4) {
+  const out = [];
+  const seen = new Set();
+  for (const label of labels) {
+    const normalized = String(label || "").trim();
+    if (!normalized || seen.has(normalized)) continue;
+    seen.add(normalized);
+    out.push(normalized);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+function sourceScriptTaskItemLabel(item = {}) {
+  const name = item.name || (Number(item.id || 0) > 0 ? `道具 ${Number(item.id)}` : "");
+  if (!name) return "";
+  const qty = Math.max(1, Number(item.qty || 1));
+  return qty > 1 ? `${name} x${qty}` : name;
+}
+
+function sourceScriptTaskPetLabel(pet = {}) {
+  const name = pet.name || (Number(pet.enemyId || 0) > 0 ? `宠物 ${Number(pet.enemyId)}` : "");
+  if (!name) return "";
+  const qty = Math.max(1, Number(pet.qty || 1));
+  const level = Number(pet.level || 0) > 0 ? ` Lv${pet.op || ">="}${Number(pet.level)}` : "";
+  return qty > 1 ? `${name}${level} x${qty}` : `${name}${level}`;
+}
+
+function sourceScriptTaskStoneLabel(game, stone = {}) {
+  const amount = sourceScriptStoneAmount(game, stone);
+  return amount > 0 ? `${amount} 石币` : "";
 }
 
 function sourceScriptTaskNextText(phase, missingItems, missingPets, missingStones, nextNpcs, task) {
@@ -8534,6 +8588,8 @@ function sourceScriptTaskGuidance(game, phase, missingItems, missingPets, missin
     lines.push(`目标 NPC：去 ${target.mapName} floor ${target.mapId} (${target.x},${target.y}) 找 ${target.name}${target.distance < 9999 ? `，距离 ${target.distance} 格` : ""}。`);
     const route = routeHintToMap(game, target.mapId);
     if (route) lines.push(route);
+    if (phase === "turn-in" && target.requires?.length) lines.push(`交付内容：${target.requires.join("、")}。`);
+    else if (phase === "collect" && target.gives?.length) lines.push(`先找他领取/确认：${target.gives.join("、")}。`);
   }
   const needs = [
     ...missingItems.map((item) => `${item.name} ${item.have}/${item.needed}`),
