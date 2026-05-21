@@ -2963,6 +2963,29 @@ assert(
   gatedEncounterGame.world.map.encounterGateSummary.some((gate) => Number(gate.requiredItem?.id) === 1693 && gate.missingRequired),
   "blocked source encounter area still exposes the missing appear item gate"
 );
+const gatedSourceGroupId = gatedEncounterGame.world.map.encounterGateSummary.find((gate) => Number(gate.requiredItem?.id) === 1693)?.groupId;
+assert(gatedSourceGroupId, "blocked source encounter area exposes its source group1 group id");
+workspaceRsp = await api("/api/ai/workspace", { game: gatedEncounterGame, prompt: "这里野外条件是什么" });
+assert(
+  workspaceRsp.workspace.current.location.encounterGateText.includes(`group ${gatedSourceGroupId}`)
+    && workspaceRsp.workspace.current.location.encounterGateText.includes("需要"),
+  "AI workspace exposes source encounter group item gates as guide text"
+);
+const gatedGuideRsp = await api("/api/ai/guide", { game: gatedEncounterGame, prompt: "这里野外情况" });
+assert(
+  gatedGuideRsp.text.includes("源码条件")
+    && gatedGuideRsp.text.includes(`group ${gatedSourceGroupId}`)
+    && gatedGuideRsp.text.includes("需要"),
+  "local AI guide explains source encounter group item gates instead of guessing"
+);
+const gatedEncounterRefusedRsp = await api("/api/ai/guide", { game: gatedEncounterGame, prompt: "帮我找敌人" });
+assertEqual(gatedEncounterRefusedRsp.action.type, "encounter-refused", "AI encounter helper refuses blocked source encounter group");
+assert(
+  gatedEncounterRefusedRsp.text.includes("条件")
+    && gatedEncounterRefusedRsp.text.includes(`group ${gatedSourceGroupId}`)
+    && gatedEncounterRefusedRsp.text.includes("需要"),
+  "AI encounter refusal includes source item gate details"
+);
 gatedEncounterGame.inventory.push({ id: 1693, name: "测试用出现道具", qty: 1, source: "test group1 appear item" });
 gatedEncounterGame = await api("/api/game/sync", { game: gatedEncounterGame });
 assert(

@@ -3962,9 +3962,10 @@ function encounterGroupGateStatus(game, group) {
 
 function encounterGateItemSummary(game, id) {
   const sourceItem = cache?.itemSet?.get(Number(id)) || worldTradeItemIndex().get(Number(id)) || {};
+  const sourceName = usableReferenceName(sourceItem.name) ? sourceItem.name : "";
   return {
     id: Number(id),
-    name: sourceItem.name || conditionItemName(game, id) || `item ${id}`,
+    name: sourceName || conditionItemName(game, id) || `item ${id}`,
     have: inventoryQty(game, id),
     qty: 1
   };
@@ -3991,12 +3992,17 @@ function summarizeEncounterGroupGates(game, area) {
 function encounterGroupEnemySummary(group) {
   return (group?.enemies || [])
     .slice(0, 3)
-    .map((entry) => ({
-      enemyId: Number(entry.enemyId || 0),
-      lvMin: Number(entry.lvMin || 0),
-      lvMax: Number(entry.lvMax || 0),
-      weight: Number(entry.weight || 0)
-    }))
+    .map((entry) => {
+      const enemyId = Number(entry.enemyId || 0);
+      const name = sourceScriptEnemyPetName(enemyId);
+      return {
+        enemyId,
+        ...(name ? { name } : {}),
+        lvMin: Number(entry.lvMin || 0),
+        lvMax: Number(entry.lvMax || 0),
+        weight: Number(entry.weight || 0)
+      };
+    })
     .filter((entry) => entry.enemyId > 0);
 }
 
@@ -4004,6 +4010,43 @@ function currentEncounterGateSummary(game, map) {
   if (!encounterSourceDataAvailable(map) || isSafeWildEncounterMap(map)) return [];
   const area = chooseEncounterArea(map, game.location);
   return summarizeEncounterGroupGates(game, area);
+}
+
+function guideEncounterGateSummary(game, map, limit = 4) {
+  return currentEncounterGateSummary(game, map)
+    .slice(0, limit)
+    .map((gate) => ({
+      groupId: Number(gate.groupId || 0),
+      available: Boolean(gate.available),
+      ...(gate.requiredItem ? { requiredItem: gate.requiredItem, missingRequired: Boolean(gate.missingRequired) } : {}),
+      ...(gate.blockedItem ? { blockedItem: gate.blockedItem, forbiddenHeld: Boolean(gate.forbiddenHeld) } : {}),
+      enemies: (gate.enemies || []).slice(0, 3),
+      source: gate.source
+    }));
+}
+
+function guideEncounterGateText(gates = []) {
+  const lines = [];
+  for (const gate of gates || []) {
+    const parts = [];
+    if (gate.requiredItem) {
+      const item = gate.requiredItem;
+      parts.push(`需要 ${item.name || `item ${item.id}`} x${item.qty || 1}（当前 ${item.have || 0}${gate.missingRequired ? "，缺少" : "，已满足"}）`);
+    }
+    if (gate.blockedItem) {
+      const item = gate.blockedItem;
+      parts.push(`不能持有 ${item.name || `item ${item.id}`}（当前 ${item.have || 0}${gate.forbiddenHeld ? "，会阻止出现" : "，已满足"}）`);
+    }
+    if (!parts.length) continue;
+    const enemyHint = (gate.enemies || [])
+      .map((enemy) => {
+        const label = enemy.name || sourceScriptEnemyPetName(enemy.enemyId) || `enemy ${enemy.enemyId}`;
+        return `${label}${enemy.lvMin || enemy.lvMax ? ` Lv.${enemy.lvMin || "?"}-${enemy.lvMax || "?"}` : ""}`;
+      })
+      .join("、");
+    lines.push(`group ${gate.groupId || "?"}：${parts.join("；")}${enemyHint ? `；敌组 ${enemyHint}` : ""}`);
+  }
+  return lines.join(" | ");
 }
 
 function chooseEncounterArea(map, location) {
@@ -6768,6 +6811,7 @@ async function guideGame(env, request, game, prompt) {
           "如果玩家问任务、地图、NPC、交易、战斗或避敌，要优先引用当前地图、附近 NPC、出口、任务进度、sourceTasks 原 gmsv 事件目标和原脚本线索。",
           "quests/sourceTasks 里的 guidance 是 Worker 按当前状态算出的行动清单；回答任务时优先复述这些步骤。",
           "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
+          "context.location.encounterGateText/encounterGates 来自 gmsv-data/group1.txt 背包条件；遇敌/刷怪问题必须说明缺少或禁持的道具条件，不要猜。",
           "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的石器时代资料库条目；条目只是索引时要说明不能补编完整流程。",
           "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
@@ -6800,6 +6844,7 @@ async function callOpenAiGuide(env, context, prompt) {
     "如果 context.sourceTasks 有内容，那是当前已经触发的原 gmsv changeevent 事件目标，优先告诉玩家下一步，而不是只列可接任务。",
     "context.quests/sourceTasks 里的 guidance 是 Worker 按当前状态算出的行动清单；回答任务时优先复述这些步骤。",
     "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
+    "context.location.encounterGateText/encounterGates 来自 gmsv-data/group1.txt 背包条件；遇敌/刷怪问题必须说明缺少或禁持的道具条件，不要猜。",
     "context.knowledge 是从石器时代资料库压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
     "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
@@ -13731,6 +13776,8 @@ function buildGuideContext(game, map, prompt = "") {
     }))
     .sort((a, b) => a.distance - b.distance || String(a.label || "").localeCompare(String(b.label || ""), "zh-Hans"))
     .slice(0, 8);
+  const encounterGates = guideEncounterGateSummary(game, map);
+  const encounterGateText = guideEncounterGateText(encounterGates);
   const context = {
     player: {
       ...compactPlayerContext(game),
@@ -13745,7 +13792,9 @@ function buildGuideContext(game, map, prompt = "") {
       position: [x, y],
       summary: map.summary,
       canWildEncounter: map.canWildEncounter,
-      wildEncounterReason: map.wildEncounterReason
+      wildEncounterReason: map.wildEncounterReason,
+      encounterGateText,
+      encounterGates
     },
     knowledge: buildStoneAgeKnowledgeContext(game, map, prompt),
     workspace: compactAiWorkspaceMemory(game),
@@ -13774,7 +13823,8 @@ function buildGuideContext(game, map, prompt = "") {
       enemy: game.encounter.Name,
       level: game.encounter.Lv,
       hp: game.encounter.Hp,
-      source: game.battle?.source || game.encounter.source || ""
+      source: game.battle?.source || game.encounter.source || "",
+      encounterGates: game.battle?.encounterArea?.groupGates || []
     } : null,
     recentNpcVmEvents: (game.npcVmEvents || []).slice(-8),
     recentLog: game.log.slice(-8)
@@ -13842,6 +13892,7 @@ function buildStoneAgeKnowledgeContext(game, map, text = "", npc = null) {
   const exitNames = (map.exits || [])
     .map((exit) => `${exit.label || ""} ${WORLD.maps[exit.to]?.name || ""}`)
     .slice(0, 8);
+  const encounterGateText = guideEncounterGateText(guideEncounterGateSummary(game, map, 3));
   const npcParts = npc ? [
     npc.name,
     npc.type,
@@ -13856,6 +13907,7 @@ function buildStoneAgeKnowledgeContext(game, map, text = "", npc = null) {
     map.name,
     map.summary,
     guideMapKind(map),
+    encounterGateText,
     exitNames.join(" "),
     nearbyNames.join(" "),
     questTitles.join(" "),
@@ -14175,6 +14227,8 @@ function buildAiWorkspace(env, game, prompt = "") {
   const map = currentMap(game);
   const nearby = nearbyState(game, map);
   const characterFields = compactCharacterFields(game);
+  const encounterGates = guideEncounterGateSummary(game, map);
+  const encounterGateText = guideEncounterGateText(encounterGates);
   return {
     schema: AI_WORKSPACE_SCHEMA,
     scope: "per-save workspace; 可迁移到 D1/KV/R2，但当前先随存档走",
@@ -14198,7 +14252,9 @@ function buildAiWorkspace(env, game, prompt = "") {
         name: map.name,
         position: [game.location.x, game.location.y],
         canWildEncounter: map.canWildEncounter,
-        wildEncounterReason: map.wildEncounterReason
+        wildEncounterReason: map.wildEncounterReason,
+        encounterGateText,
+        encounterGates
       },
       nearby,
       activePet: getActivePet(game) ? petSummary(getActivePet(game)) : null,
@@ -14492,7 +14548,8 @@ function fallbackGuide(context, prompt = "", error = null) {
     return `${aiNote}当前地图 NPC 按距离看：${list || "无"}。距离 2 格内可以双击，AI 对话会参考 NPC 的职业、商品、传送和 gmsv 脚本线索。`;
   }
   if (hasAny(lower, ["遇敌", "野外", "刷怪", "敌人"])) {
-    return `${aiNote}${context.location.canWildEncounter ? "这里可以按 encount.txt 触发野外遇敌。" : context.location.wildEncounterReason} ${effects ? `当前状态：${effects}。` : ""}`;
+    const gate = context.location.encounterGateText ? ` 源码条件：${context.location.encounterGateText}。` : "";
+    return `${aiNote}${context.location.canWildEncounter ? "这里可以按 encount.txt 触发野外遇敌。" : context.location.wildEncounterReason}${gate} ${effects ? `当前状态：${effects}。` : ""}`;
   }
   if (reportable || sourceTask || active) return `${aiNote}${guideActionPlanText(context)}`;
   return `${aiNote}你现在在${context.location.name}。附近 NPC：${nearbyNpc || "无"}；出口：${exits}。${effects ? `当前状态：${effects}。` : ""}`;
@@ -15786,7 +15843,8 @@ function wildEncounterBlockedText(map, game = null) {
   if (game && !encounterDataAvailable(map, game)) {
     const area = chooseEncounterArea(map, game.location);
     if (!area) return `${map?.name || "当前地图"} 当前坐标没有可用的 encount.txt 遇敌区域。`;
-    return `${map?.name || "当前地图"} 当前遇敌组需要特定道具或受 group1.txt 背包条件限制，暂时不能在这里触发野外战斗。`;
+    const gateText = guideEncounterGateText(guideEncounterGateSummary(game, map));
+    return `${map?.name || "当前地图"} 当前遇敌组需要特定道具或受 group1.txt 背包条件限制，暂时不能在这里触发野外战斗。${gateText ? ` 条件：${gateText}。` : ""}`;
   }
   return `${map?.name || "当前地图"} 当前不能触发野外遇敌。`;
 }
