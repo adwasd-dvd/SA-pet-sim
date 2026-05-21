@@ -25,7 +25,10 @@ const requiredAppSnippets = [
   ["tiered paid jump cost display", "paidJumpCost(distance)"],
   ["dialog-open map NPC confirm helper", "function handleDialogOpenMapEvent(event, maxTileDistance = 2)"],
   ["dialog-open map uses NPCEnemy default submit", "defaultDialogSubmitText(game?.dialog)"],
-  ["dialog-open map confirms through dialog endpoint", "sendDialog(fallback)"]
+  ["dialog-open map confirms through dialog endpoint", "sendDialog(fallback)"],
+  ["source drop candidate summary helper", "function battlePotentialLootSummary(items = [])"],
+  ["right status shows no-drop candidates", "未掉落；候选"],
+  ["debug tab exposes source drop table", '["dropTable", battlePotentialLootSummary(recentBattleOutcome()?.potentialLootItems) || "--"]']
 ];
 
 for (const [label, snippet] of requiredAppSnippets) {

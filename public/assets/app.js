@@ -5898,6 +5898,7 @@ function renderAssistDebug() {
     ["talkFlow", debug.talkFlow || "--"],
     ["trade", dialog?.trade?.source || "--"],
     ["battle", game.battle?.source || game.encounter?.source || "--"],
+    ["dropTable", battlePotentialLootSummary(recentBattleOutcome()?.potentialLootItems) || "--"],
     ["AI", `${aiRuntimeLabel()} | action ${aiRuntime.actionAuthority || "worker-npc-vm"}`]
   ];
   return `
@@ -5976,10 +5977,39 @@ function battleOutcomeSummary(outcome = {}) {
   if (stone > 0) parts.push(`石币 +${stone}`);
   const lootItems = (outcome.lootItems || []).slice(0, 3);
   if (lootItems.length) parts.push(`掉落 ${lootItems.map((item) => `${item.name || `item ${item.id}`} x${Number(item.qty || 1)}`).join("、")}`);
+  const potentialLootText = battlePotentialLootSummary(outcome.potentialLootItems || []);
+  if (!lootItems.length && potentialLootText) parts.push(`未掉落；候选 ${potentialLootText}`);
   const skippedLootItems = (outcome.skippedLootItems || []).slice(0, 2);
   if (skippedLootItems.length) parts.push(`背包满 ${skippedLootItems.map((item) => item.name || `item ${item.id}`).join("、")}`);
   if (levelUps) parts.push(levelUps);
   return parts.join(" | ");
+}
+
+function battlePotentialLootSummary(items = []) {
+  const seen = new Set();
+  const entries = [];
+  let total = 0;
+  for (const item of items || []) {
+    const id = item.id ?? item.name ?? "";
+    if (!id) continue;
+    total += 1;
+    const key = `${id}:${item.name || ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    if (entries.length >= 3) continue;
+    const chance = dropChanceLabel(item.probability, item.rollBase);
+    entries.push(`${item.name || `item ${id}`}${chance ? ` ${chance}` : ""}`);
+  }
+  return `${entries.join("、")}${total > entries.length ? ` 等${total}项` : ""}`;
+}
+
+function dropChanceLabel(probability, rollBase) {
+  const prob = Number(probability || 0);
+  const base = Number(rollBase || 1000);
+  if (!prob || !base) return "";
+  const percent = (prob / base) * 100;
+  const digits = percent >= 10 ? 0 : percent >= 1 ? 1 : 2;
+  return `${percent.toFixed(digits).replace(/\.0+$/, "")}%`;
 }
 
 function battleCommandSummary(command) {
