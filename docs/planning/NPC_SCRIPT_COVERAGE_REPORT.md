@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T15:30:16.740Z
+Generated: 2026-05-21T16:17:53.732Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -73,10 +73,7 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | loop | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:2 |
 | manorid | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:3 |
 | peacewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:5 |
-| LoseWarp | candidate-action | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/genout/jan_802_29_19:5 |
-| NoItem | candidate-action | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/genout/jan_802_29_19:3 |
 | OTHER | unknown | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/pettalk/pettalk01.arg:5 |
-| WinWarp | candidate-action | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/genout/jan_802_29_19:4 |
 | angry | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:9 |
 | attack | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:3 |
 | damage | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:4 |
@@ -86,6 +83,9 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | msgcol | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:1 |
 | nod | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:12 |
 | pleasure | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:8 |
+| sad | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:10 |
+| sit | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:6 |
+| throw | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:13 |
 
 ## Recommended Next Slice
 

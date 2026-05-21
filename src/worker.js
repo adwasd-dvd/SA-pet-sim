@@ -131,6 +131,7 @@ const NPC_VM_ACTIONS = new Set([
   "petSkillShop",
   "professionShop",
   "itemChange",
+  "janken",
   "appearance",
   "warp",
   "heal",
@@ -7379,6 +7380,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isHealerNpc(npc) && hasAny(lower, ["治疗", "恢復", "恢复", "补血", "耐久", "heal", "hp"])) return healerReply(game, npc);
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
+  if (isJankenNpc(npc) && isJankenRequestText(lower)) return jankenReply(game, npc, text);
   if (isRaceManNpc(npc) && isRaceManRequestText(lower)) return raceManReply(game, npc, text);
   if (isNewNpcManNpc(npc) && isNewNpcManRequestText(lower)) return newNpcManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
@@ -7533,6 +7535,7 @@ function applyNpcHi(game, npc) {
   if (isHealerNpc(npc)) return healerReply(game, npc);
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isLuckyManNpc(npc)) return luckyManPromptReply(game, npc);
+  if (isJankenNpc(npc)) return jankenPromptReply(game, npc);
   if (isRaceManNpc(npc)) return raceManReply(game, npc, "hi");
   if (isNewNpcManNpc(npc)) return newNpcManPromptReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
@@ -7586,6 +7589,7 @@ function npcDefaultLine(npc) {
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
   if (isLuckyManNpc(npc)) return luckyManPromptText(null, npc);
+  if (isJankenNpc(npc)) return jankenPromptText(null, npc);
   if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
   if (isNewNpcManNpc(npc)) return newNpcManDefaultLine(npc);
   if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
@@ -9394,6 +9398,213 @@ function luckyManReply(game, npc, text = "") {
   setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, "luckyman"), "now", "source-luckyman");
   addLog(game, `${npc.name}：${message}`);
   return `${npc.name}：${message}\n来源：${event.detail?.source || npc.luckyMan?.source || npc.script || "gmsv npc_luckyman"}。`;
+}
+
+function isJankenNpc(npc) {
+  return Boolean(npc?.janken)
+    || /Janken|npcgen_janken/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""}`);
+}
+
+function isJankenRequestText(text = "") {
+  return /(^|\s)(rock|paper|scissors|janken)(\s|$)/i.test(text)
+    || hasAny(text, ["猜拳", "石头", "石頭", "剪刀", "布", "拳头", "拳頭", "参加", "參加", "开始", "開始", "出拳"]);
+}
+
+function jankenPromptText(game, npc) {
+  const entry = jankenEntryLine(npc);
+  const main = npc?.janken?.mainMessage || `${npc.name}：要猜拳吗？`;
+  const action = game ? "输入“石头 / 剪刀 / 布”出拳。" : "";
+  return [main, entry, action].filter(Boolean).join("\n");
+}
+
+function jankenEntryLine(npc) {
+  const items = npc?.janken?.entryItems || [];
+  if (!items.length) return "参加条件：免费。";
+  return `参加条件：${items.map(jankenItemLabel).join("、")}。`;
+}
+
+function jankenItemLabel(item) {
+  return `${item?.name || `item ${item?.id || "?"}`} x${Math.max(1, Number(item?.qty || 1))}`;
+}
+
+function jankenPromptReply(game, npc) {
+  ensureFlags(game);
+  game.flags.pendingJanken = {
+    npcId: npc.id,
+    paid: false,
+    round: 0,
+    source: npc.janken?.source || npc.script || npc.source || ""
+  };
+  runNpcVmAction(game, npc, {
+    type: "window",
+    reason: "source-janken-start",
+    entryItems: npc.janken?.entryItems || [],
+    source: npc.janken?.source || npc.script || npc.source || ""
+  });
+  return jankenPromptText(game, npc);
+}
+
+function jankenReply(game, npc, text = "") {
+  ensureFlags(game);
+  const choice = jankenPlayerChoice(text);
+  if (choice == null) return jankenPromptReply(game, npc);
+  const paid = ensureJankenEntryPaid(game, npc);
+  if (!paid.ok) {
+    clearPendingJanken(game, npc);
+    runNpcVmAction(game, npc, {
+      type: "janken",
+      status: "blocked",
+      reason: "source-janken-no-entry-item",
+      entryItems: npc.janken?.entryItems || [],
+      source: npc.janken?.source || npc.script || npc.source || ""
+    });
+    return npc.janken?.noItemMessage || `${npc.name}：你没有参加券。需要 ${paid.missing ? jankenItemLabel(paid.missing) : jankenEntryLine(npc)}。`;
+  }
+  const pending = game.flags.pendingJanken;
+  const round = Math.max(0, Number(pending?.round || 0));
+  const npcChoice = jankenNpcChoice(game, npc, choice, round);
+  if (pending) pending.round = round + 1;
+  const outcome = jankenOutcome(choice, npcChoice);
+  const source = npc.janken?.source || npc.script || npc.source || "";
+  const event = runNpcVmAction(game, npc, {
+    type: "janken",
+    reason: "source-janken-round",
+    choice: jankenChoiceName(choice),
+    npcChoice: jankenChoiceName(npcChoice),
+    outcome,
+    paidNow: paid.paidNow,
+    round: round + 1,
+    source
+  });
+  if (outcome === "tie") {
+    addLog(game, `${npc.name} 猜拳平手，重新出拳。`);
+    return `${npc.name} 出了${jankenChoiceName(npcChoice)}，你出了${jankenChoiceName(choice)}，平手。\n不用再交参加券，继续输入“石头 / 剪刀 / 布”。`;
+  }
+  clearPendingJanken(game, npc);
+  const won = outcome === "win";
+  const rewardLines = grantJankenItems(game, npc, won ? npc.janken?.winItems : npc.janken?.loseItems, outcome);
+  const target = won ? npc.janken?.winWarp : npc.janken?.loseWarp;
+  const warpLine = applyJankenWarp(game, npc, target, outcome);
+  setNpcVmFlag(game, npc, eventFlagForNpcAction(npc.id, `janken-${outcome}`), won ? "end" : "now", "source-janken");
+  const resultLine = won ? "你赢了" : "你输了";
+  const lines = [
+    `${npc.name} 出了${jankenChoiceName(npcChoice)}，你出了${jankenChoiceName(choice)}，${resultLine}。`,
+    ...rewardLines,
+    warpLine,
+    `来源：${event.detail?.source || source || "gmsv npc_janken.c"}。`
+  ].filter(Boolean);
+  addLog(game, `${npc.name} 猜拳：${resultLine}${warpLine ? `，${warpLine}` : ""}`);
+  return lines.join("\n");
+}
+
+function jankenPlayerChoice(text = "") {
+  const value = String(text || "").toLowerCase();
+  if (hasAny(value, ["石头", "石頭", "拳头", "拳頭", "rock"])) return 0;
+  if (hasAny(value, ["剪刀", "scissors"])) return 1;
+  if (hasAny(value, ["布", "paper"])) return 2;
+  return null;
+}
+
+function jankenNpcChoice(game, npc, playerChoice, round) {
+  const seed = [
+    game.character?.id || game.player?.name || "",
+    game.location?.mapId || "",
+    npc.id,
+    npc.janken?.source || npc.script || "",
+    playerChoice,
+    round
+  ].join("|");
+  return stableHashInt(seed) % 3;
+}
+
+function jankenChoiceName(choice) {
+  return ["石头", "剪刀", "布"][choice] || "未知";
+}
+
+function jankenOutcome(playerChoice, npcChoice) {
+  if (playerChoice === npcChoice) return "tie";
+  if ((playerChoice === 0 && npcChoice === 1)
+    || (playerChoice === 1 && npcChoice === 2)
+    || (playerChoice === 2 && npcChoice === 0)) {
+    return "win";
+  }
+  return "lose";
+}
+
+function ensureJankenEntryPaid(game, npc) {
+  ensureFlags(game);
+  const pending = game.flags.pendingJanken;
+  if (pending && String(pending.npcId || "") === String(npc.id) && pending.paid) {
+    return { ok: true, paidNow: false };
+  }
+  const items = npc?.janken?.entryItems || [];
+  const missing = items.find((item) => inventoryQty(game, item.id) < Math.max(1, Number(item.qty || 1)));
+  if (missing) return { ok: false, missing };
+  for (const item of items) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty: Math.max(1, Number(item.qty || 1)),
+      reason: "source-janken-entry",
+      source: npc.janken?.source || npc.script || npc.source || ""
+    });
+    if (!taken.ok) return { ok: false, missing: item, error: taken.error };
+  }
+  game.flags.pendingJanken = {
+    npcId: npc.id,
+    paid: true,
+    round: Number(pending?.round || 0),
+    source: npc.janken?.source || npc.script || npc.source || ""
+  };
+  return { ok: true, paidNow: Boolean(items.length) };
+}
+
+function clearPendingJanken(game, npc) {
+  if (String(game?.flags?.pendingJanken?.npcId || "") === String(npc?.id || "")) {
+    delete game.flags.pendingJanken;
+  }
+}
+
+function grantJankenItems(game, npc, items = [], outcome = "") {
+  const lines = [];
+  for (const item of items || []) {
+    const given = runNpcVmAction(game, npc, {
+      type: "give",
+      item,
+      itemId: item.id,
+      itemName: item.name,
+      qty: Math.max(1, Number(item.qty || 1)),
+      reason: `source-janken-${outcome}`,
+      source: npc.janken?.source || npc.script || npc.source || ""
+    });
+    if (given.ok) lines.push(`获得 ${jankenItemLabel(item)}。`);
+    else lines.push(`${jankenItemLabel(item)} 发放失败：${given.error || "背包空间不足"}。`);
+  }
+  return lines;
+}
+
+function applyJankenWarp(game, npc, target, outcome) {
+  if (!target) return "";
+  const targetMap = WORLD.maps[String(target.mapId || "")];
+  if (!targetMap) {
+    runNpcVmAction(game, npc, {
+      type: "warp",
+      status: "blocked",
+      reason: `source-janken-${outcome}-missing-map`,
+      target,
+      source: npc.janken?.source || npc.script || npc.source || ""
+    });
+    return `原脚本要传送到 floor ${target.mapId} (${target.x},${target.y})，但目标地图尚未打包。`;
+  }
+  const arrived = applyWarpTarget(game, { ...target, source: npc.janken?.source || npc.script || npc.source || "" }, `${npc.name} 猜拳${outcome === "win" ? "胜利" : "失败"}`);
+  runNpcVmAction(game, npc, {
+    type: "warp",
+    reason: `source-janken-${outcome}`,
+    target,
+    source: npc.janken?.source || npc.script || npc.source || ""
+  });
+  return `你被传送到 ${arrived.name} (${game.location.x},${game.location.y})。`;
 }
 
 function applySourceSavePointRecord(game, npc, reason = "source-savepoint") {
@@ -11910,6 +12121,7 @@ function openDialog(game, npc, messages, extra = {}) {
     newNpcMan: buildNewNpcManState(game, npc),
     itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),
     raceMan: buildRaceManState(game, npc),
+    janken: npc.janken || null,
     routeService: buildRouteServiceState(game, npc),
     petSkillShop: extra.petSkillShop || null,
     professionShop: extra.professionShop || buildProfessionShopState(game, npc),
@@ -11932,6 +12144,7 @@ function npcDebugInfo(npc, game = null) {
     type: npc.type || "",
     graphic: npc.graphic || "",
     raceMan: buildRaceManState(game, npc),
+    janken: npc.janken || null,
     newNpcMan: buildNewNpcManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     professionShop: buildProfessionShopState(game, npc),
@@ -11964,6 +12177,8 @@ function npcActionProfile(npc) {
   if (isPetFusionNpc(npc)) actions.push("petFusion", "window");
   if (npc.itemPoolShop || /PoolItemShop|poolitemshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemPoolShop");
   if (isRaceManNpc(npc)) actions.push("raceMan", "window", "say");
+  if (isJankenNpc(npc)) actions.push("janken", "window", "take", "warp", "say");
+  if (isJankenNpc(npc) && (npc.janken?.winItems?.length || npc.janken?.loseItems?.length)) actions.push("give");
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
   if (isLuckyManNpc(npc)) actions.push("window", "take", "fortune");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
@@ -13497,6 +13712,7 @@ function dialogSuggestions(npc, game = null) {
   else if (npc.trade || /shop/i.test(npc.type)) base = ["hi", "买东西", "地图"];
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
   else if (isLuckyManNpc(npc)) base = ["hi", "占卜", "是"];
+  else if (isJankenNpc(npc)) base = ["hi", "石头", "剪刀", "布"];
   else if (npc.warp || /warp/i.test(npc.type)) base = ["hi", "传送", "出口"];
   else if (npc.itemChange?.recipes?.length) base = ["hi", "加工", "地图"];
   else if (/save/i.test(npc.type)) base = ["hi", "记录", "地图"];

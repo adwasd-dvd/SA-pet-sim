@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T15:30:16.740Z",
+  "generatedAt": "2026-05-21T16:17:53.732Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -214,11 +214,11 @@
     "rawLines": 130591,
     "byCategory": {
       "supported-config": 9599,
-      "supported-message": 15677,
-      "candidate-action": 237,
+      "supported-message": 15686,
+      "candidate-action": 210,
       "unknown": 302,
       "condition-control": 12055,
-      "supported-action": 3729,
+      "supported-action": 3747,
       "blocked-or-later-system": 6
     },
     "keyRecords": [
@@ -6439,7 +6439,7 @@
       {
         "key": "LoseWarp",
         "normalized": "losewarp",
-        "category": "candidate-action",
+        "category": "supported-action",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -8077,7 +8077,7 @@
       {
         "key": "NoItem",
         "normalized": "noitem",
-        "category": "candidate-action",
+        "category": "supported-message",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -13759,7 +13759,7 @@
       {
         "key": "WinWarp",
         "normalized": "winwarp",
-        "category": "candidate-action",
+        "category": "supported-action",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -14519,110 +14519,6 @@
         ]
       },
       {
-        "key": "LoseWarp",
-        "normalized": "losewarp",
-        "category": "candidate-action",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_802_29_19",
-            "line": 5,
-            "text": "LoseWarp:801,27,21"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_804_29_19",
-            "line": 5,
-            "text": "LoseWarp:803,27,21"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_807_18_19",
-            "line": 5,
-            "text": "LoseWarp:806,20,22"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_822_29_19",
-            "line": 5,
-            "text": "LoseWarp:821,27,21"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_824_29_19",
-            "line": 5,
-            "text": "LoseWarp:823,27,21"
-          }
-        ]
-      },
-      {
-        "key": "NoItem",
-        "normalized": "noitem",
-        "category": "candidate-action",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_802_29_19",
-            "line": 3,
-            "text": "NoItem:\\n\\n你没有参加券呀\\n那么没有办法决胜负啰。\\n因为参加券在各层楼弟子们的手上\\n决斗之后就可以拿到了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_804_29_19",
-            "line": 3,
-            "text": "NoItem:\\n\\n你没有参加券呀\\n那么没有办法决胜负啰。\\n因为参加券在各层楼弟子们的手上\\n决斗之后就可以拿到了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_807_18_19",
-            "line": 3,
-            "text": "NoItem:\\n\\n你没有参加券呀\\n那么没有办法决胜负啰。\\n因为参加券在各层楼弟子们的手上\\n决斗之后就可以拿到了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_822_29_19",
-            "line": 3,
-            "text": "NoItem:\\n\\n你没有参加券呀\\n那么没有办法决胜负啰。\\n因为参加券在各层楼弟子们的手上\\n决斗之后就可以拿到了。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_824_29_19",
-            "line": 3,
-            "text": "NoItem:\\n\\n你没有参加券呀\\n那么没有办法决胜负啰。\\n因为参加券在各层楼弟子们的手上\\n决斗之后就可以拿到了。"
-          }
-        ]
-      },
-      {
         "key": "OTHER",
         "normalized": "other",
         "category": "unknown",
@@ -14671,58 +14567,6 @@
             "file": "external/sources/ref___data/npc/pettalk/ptalk04.arg",
             "line": 5,
             "text": "OTHER:"
-          }
-        ]
-      },
-      {
-        "key": "WinWarp",
-        "normalized": "winwarp",
-        "category": "candidate-action",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_802_29_19",
-            "line": 4,
-            "text": "WinWarp:802,29,15"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_804_29_19",
-            "line": 4,
-            "text": "WinWarp:804,29,15"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_807_18_19",
-            "line": 4,
-            "text": "WinWarp:807,18,15"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_822_29_19",
-            "line": 4,
-            "text": "WinWarp:822,29,15"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/jan_824_29_19",
-            "line": 4,
-            "text": "WinWarp:824,29,15"
           }
         ]
       },
@@ -15931,6 +15775,122 @@
             "file": "external/sources/ref___data/npc/casino/petracepet3.arg",
             "line": 3,
             "text": "showstopy:30"
+          }
+        ]
+      },
+      {
+        "key": "steal",
+        "normalized": "steal",
+        "category": "unknown",
+        "occurrences": 3,
+        "files": 3,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/300/sb_bac.arg",
+            "line": 7,
+            "text": "steal:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden1/zoo2/event83_18.arg",
+            "line": 15,
+            "text": "steal:1"
+          },
+          {
+            "file": "external/sources/ref___data/npc/sa70/true/true2.arg",
+            "line": 16,
+            "text": "steal:1"
+          }
+        ]
+      },
+      {
+        "key": "CHANGEBBI",
+        "normalized": "changebbi",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/etar",
+            "line": 14,
+            "text": "CHANGEBBI:100821"
+          },
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/etar",
+            "line": 27,
+            "text": "CHANGEBBI:MYBBI"
+          }
+        ]
+      },
+      {
+        "key": "jaja",
+        "normalized": "jaja",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 3,
+            "text": "jaja:Item=4,Pet=3,Present=1379.1378.1377.1380.1381,Warp=3006.21.16"
+          },
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
+            "line": 3,
+            "text": "jaja:Item=4,Pet=3,Present=1379.1378.1377.1380.1381,Warp=3006.21.16"
           }
         ]
       }

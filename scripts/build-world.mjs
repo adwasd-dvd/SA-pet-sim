@@ -466,11 +466,12 @@ function parseNpcs() {
       const itemChange = readNpcItemChange(argPath, file);
       const savePoint = readNpcSavePoint(argPath, file);
       const luckyMan = readNpcLuckyMan(argPath, file, functionset, enemy.template);
+      const janken = readNpcJanken(argPath, file, functionset, enemy.template);
       const warp = readNpcWarp(argPath, file);
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion, newNpcMan);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, raceMan, petFusion, newNpcMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -495,6 +496,7 @@ function parseNpcs() {
         ...(itemChange ? { itemChange } : {}),
         ...(savePoint ? { savePoint } : {}),
         ...(luckyMan ? { luckyMan } : {}),
+        ...(janken ? { janken } : {}),
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
         ...(scriptEvents?.length ? { scriptEvents } : {}),
@@ -1493,6 +1495,43 @@ function readNpcLuckyMan(argPath, createFile, functionset = "", template = "") {
   };
 }
 
+function readNpcJanken(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const identity = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  if (!/Janken|npcgen_janken|\/jan_/i.test(identity)
+    && !/^\s*(WinWarp|LoseWarp)\s*:/im.test(text)) {
+    return null;
+  }
+  const kv = parseColonFile(text);
+  const entryItems = parseScriptItemSpecs(kv.entryitem || "").map(withScriptItemName);
+  const winItems = parseScriptItemSpecs(kv.winitem || "").map(withScriptItemName);
+  const loseItems = parseScriptItemSpecs(kv.loseitem || "").map(withScriptItemName);
+  const winWarp = parseJankenWarp(kv.winwarp || "");
+  const loseWarp = parseJankenWarp(kv.losewarp || "");
+  if (!entryItems.length && !winWarp && !loseWarp && !winItems.length && !loseItems.length) return null;
+  return {
+    kind: "janken",
+    source: relativeRef(file),
+    mainMessage: cleanScriptText(kv.mainmsg || kv.main_msg || ""),
+    noItemMessage: cleanScriptText(kv.noitem || kv.nonitem_msg || ""),
+    entryItems,
+    winWarp,
+    loseWarp,
+    ...(winItems.length ? { winItems } : {}),
+    ...(loseItems.length ? { loseItems } : {})
+  };
+}
+
+function parseJankenWarp(value = "") {
+  const parts = String(value || "").split(",").map((part) => Number(part.trim()));
+  if (parts.length < 3 || parts.some((part) => !Number.isFinite(part))) return null;
+  const [floor, x, y] = parts;
+  if (floor <= 0) return null;
+  return { mapId: String(floor), floor, x, y };
+}
+
 function splitScriptMessageChoices(value = "") {
   return String(value || "")
     .split(",")
@@ -2161,7 +2200,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, raceMan, petFusion, newNpcMan) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, raceMan, petFusion, newNpcMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
@@ -2178,6 +2217,8 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (warp) actions.push("warp");
   if (npcEnemy) actions.push("battle");
   if (luckyMan) actions.push("fortune");
+  if (janken) actions.push("janken", "window", "take", "warp");
+  if (janken?.winItems?.length || janken?.loseItems?.length) actions.push("give");
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];
@@ -2201,6 +2242,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
   }
+  for (const item of jankenHints(janken)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
@@ -2218,6 +2263,16 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     hints,
     source: relativeRef(file)
   };
+}
+
+function jankenHints(janken) {
+  if (!janken) return [];
+  return [
+    ...(janken.entryItems || []).slice(0, 4).map((item) => `EntryItem:${item.name || item.id} x${item.qty || 1}`),
+    janken.winWarp ? `WinWarp:${janken.winWarp.mapId},${janken.winWarp.x},${janken.winWarp.y}` : "",
+    janken.loseWarp ? `LoseWarp:${janken.loseWarp.mapId},${janken.loseWarp.x},${janken.loseWarp.y}` : "",
+    janken.noItemMessage ? `NoItem:${janken.noItemMessage}` : ""
+  ].filter(Boolean);
 }
 
 function newNpcManHints(newNpcMan) {

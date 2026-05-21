@@ -67,7 +67,10 @@ const ACTION_KEYS = new Set([
   "getranditem",
   "getstone",
   "giveitem",
+  "janken",
   "keyword",
+  "loseitem",
+  "losewarp",
   "missionclean",
   "missionover",
   "notdel",
@@ -78,7 +81,9 @@ const ACTION_KEYS = new Set([
   "npc_point",
   "npcwarp",
   "pet_name",
-  "petname"
+  "petname",
+  "winitem",
+  "winwarp"
 ]);
 
 const MESSAGE_KEYS = new Set([
@@ -114,6 +119,7 @@ const MESSAGE_KEYS = new Set([
   "normalmsg",
   "normalwindowmsg",
   "nonitem_msg",
+  "noitem",
   "notend_msg",
   "notnew_msg",
   "nostopmsg",
@@ -496,6 +502,7 @@ function collectNpcSourceFiles(out, npc) {
   addSourceFile(out, npc?.warp?.source);
   addSourceFile(out, npc?.trade?.source);
   addSourceFile(out, npc?.petFusion?.source);
+  addSourceFile(out, npc?.janken?.source);
   addSourceFile(out, npc?.npcEnemy?.source);
   if (String(npc?.script || "").startsWith("file:")) {
     addSourceFile(out, `gmsv-data/npc/${npc.script.slice("file:".length)}`);
@@ -666,8 +673,18 @@ function createWorldSummary() {
 
 function addNpcToWorldSummary(summary, npc) {
   summary.npcs += 1;
+  const hasJanken = Boolean(npc.janken);
+  if (hasJanken) {
+    summary.scriptNpcs += 1;
+    summary.scriptEvents += 1;
+    count(summary.eventTypes, "Janken");
+    count(summary.parsedActions, "Janken");
+    if (npc.janken?.entryItems?.length) count(summary.parsedActions, "DelItem");
+    if (npc.janken?.winItems?.length || npc.janken?.loseItems?.length) count(summary.parsedActions, "GetItem");
+    if (npc.janken?.winWarp || npc.janken?.loseWarp) count(summary.parsedActions, "NpcWarp");
+  }
   if (!npc.scriptEvents?.length) return;
-  summary.scriptNpcs += 1;
+  if (!hasJanken) summary.scriptNpcs += 1;
   for (const event of npc.scriptEvents) {
     summary.scriptEvents += 1;
     count(summary.eventTypes, event.type || "EVENT");

@@ -240,6 +240,64 @@ assert(Number(fusedEgg.FusionIndex || fusedEgg.CHAR_FUSIONINDEX || fusedEgg.Fusi
 assert(Array.isArray(fusedEgg.FusionParents) && fusedEgg.FusionParents.length === 2, "pet fusion records both consumed source pets");
 assert(petFusionGame.dialog?.debug?.vmTrace?.some((event) => event.action === "petFusion" && event.detail?.mutated === true), "pet fusion execution records a mutated petFusion VM trace");
 
+const quizEntryNpcs = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .filter(({ npc }) => String(npc.script || "").includes("quz_"));
+assert(quizEntryNpcs.length >= 2, "world build keeps source quiz NPC fixtures with EntryItem-style keys");
+assert(quizEntryNpcs.every(({ npc }) => !npc.janken), "source quiz NPCs are not misclassified as Janken by EntryItem/NoItem metadata");
+const bundledJankenEntries = Object.values(WORLD.maps)
+  .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
+  .filter(({ npc }) => npc.janken);
+assert(
+  bundledJankenEntries.every(({ npc }) => /Janken|npcgen_janken|\/jan_/i.test(`${npc.type || ""} ${npc.template || ""} ${npc.script || ""} ${npc.janken?.source || ""}`)),
+  "bundled Janken NPCs must come from source Janken/jan scripts only"
+);
+const jankenTestMap = WORLD.maps["100"];
+const jankenTestNpc = {
+  id: "test-source-janken-100",
+  name: "源码猜拳测试员",
+  type: "Janken",
+  template: "npcgen_janken",
+  graphic: 100000,
+  x: jankenTestMap.spawn[0],
+  y: Math.max(0, jankenTestMap.spawn[1] - 1),
+  dir: 4,
+  script: "file:genout/jan_check_fixture",
+  source: "check:npc synthetic source-janken fixture",
+  janken: {
+    kind: "janken",
+    source: "gmsv-data/npc/genout/jan_check_fixture",
+    mainMessage: "用一块高级肉参加猜拳。",
+    noItemMessage: "没有高级肉不能参加。",
+    entryItems: [{ id: 2347, name: "高级肉", qty: 1 }],
+    winWarp: { mapId: "100", floor: 100, x: jankenTestMap.spawn[0] + 1, y: jankenTestMap.spawn[1] - 1 },
+    loseWarp: { mapId: "100", floor: 100, x: jankenTestMap.spawn[0] - 1, y: jankenTestMap.spawn[1] - 1 }
+  }
+};
+jankenTestMap.npcs.push(jankenTestNpc);
+let jankenGame = await api("/api/game/new", { name: "source-janken-test" });
+jankenGame.location = {
+  mapId: "100",
+  x: jankenTestMap.spawn[0],
+  y: jankenTestMap.spawn[1],
+  dir: 0
+};
+jankenGame.inventory.push({ id: 2347, name: "高级肉", qty: 1, source: "test source itemset6 2347" });
+jankenGame = await api("/api/game/talk", { game: jankenGame, npcId: jankenTestNpc.id });
+assert(jankenGame.dialog?.janken?.entryItems?.some((item) => Number(item.id) === 2347), "Janken dialog exposes source entry item metadata");
+assert(jankenGame.dialog?.debug?.actions?.includes("janken"), "Janken dialog debug exposes janken action");
+assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "window" && event.detail?.reason === "source-janken-start"), "Janken prompt records source window VM trace");
+const jankenChoices = ["石头", "剪刀", "布", "石头", "剪刀", "布"];
+for (const choice of jankenChoices) {
+  jankenGame = await api("/api/game/dialog", { game: jankenGame, npcId: jankenTestNpc.id, message: choice });
+  if (!jankenGame.flags?.pendingJanken) break;
+}
+assert(!jankenGame.flags?.pendingJanken, "Janken source runtime eventually resolves win/lose and clears pending state");
+assertEqual(inventoryQty(jankenGame, 2347), 0, "Janken entry item is charged exactly once even if the first round ties");
+assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "take" && event.detail?.reason === "source-janken-entry"), "Janken entry charge runs through NPC VM take");
+assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "janken" && event.detail?.reason === "source-janken-round"), "Janken round records deterministic VM telemetry");
+assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "warp" && /^source-janken-/.test(String(event.detail?.reason || ""))), "Janken win/lose warp runs through NPC VM warp");
+
 const itemPoolEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.itemPoolShop);
@@ -3241,7 +3299,7 @@ assert(replacementTargets.some((point) => (
 assert(npcEnemyReplacementGame.battleOutcome.log.some((line) => line.includes("REPLACEMENT")), "NPCEnemy REPLACEMENT victory logs source relocation");
 assert(npcEnemyReplacementGame.npcVmEvents.some((event) => event.action === "moveNpc" && event.detail?.reason === "npcenemy-replacement"), "NPCEnemy REPLACEMENT runs through deterministic moveNpc VM action");
 
-console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop/profession skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp/REPLACEMENT relocation, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
+console.log("NPC actions OK: source-debug dialogue, VM executor guardrails, allowed/unsupported actions, setFlag/clearFlag/give/take/effect/startBattle/battleAction/moveNpc/adjustCharm/missionOver/missionClean/fortune/janken traces, distance-gated talk/window actions, shop buy/sell, pet shop/pet fusion/pet skill shop/profession skill shop training, ITEMCHANGE crafting, healer, LuckyMan fortune, source Janken entry/tie/warp flow, pet/item pool deposit-withdraw, AI healer role-favor aid, source Born savepoint/return point, NPCEnemy prompt/battle/defeat/bribe/NEWEVENT warp/REPLACEMENT relocation, battle start/attack/item/capture/release/guard/wait/pet-switch, deterministic enemy/player escape AI, AI negotiated effects/warp/discount/off-menu items, role-fit shop refusals, bottom assist rest, right AI guide actions, source WARP/NpcWarp/Charm/KeyWord/Pet_Name/StopMsg/AddItem/AddGold/AddExps/MISSIONOVER NPC actions, and source FREE/EVENT item/event/pet gates mutate game/save state.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
