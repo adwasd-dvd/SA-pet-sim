@@ -66895,7 +66895,13 @@ export const WORLD = {
                 "seq": 2,
                 "condition": "LV>0&ENDEV=4&ITEM!=1814",
                 "warps": [],
-                "endMessage": "我的日记呢！好像掉了。"
+                "endMessage": "我的日记呢！好像掉了。",
+                "addItems": [
+                  {
+                    "id": 1814,
+                    "qty": 1
+                  }
+                ]
               }
             ]
           },
@@ -190123,7 +190129,13 @@ export const WORLD = {
                 "seq": 1,
                 "condition": "LV>0&ENDEV=4",
                 "warps": [],
-                "endMessage": "我说话算话，特效药你拿去吧！材料我收走了！我才能制作备份的特效药以防不时之需。"
+                "endMessage": "我说话算话，特效药你拿去吧！材料我收走了！我才能制作备份的特效药以防不时之需。",
+                "addItems": [
+                  {
+                    "id": 1818,
+                    "qty": 1
+                  }
+                ]
               }
             ]
           },
@@ -212874,7 +212886,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 25,
               "y": 87
-            }
+            },
+            "heroBattleField": 10
           },
           "scriptHints": {
             "actions": [
@@ -212943,7 +212956,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 71,
               "y": 74
-            }
+            },
+            "heroBattleField": 7
           },
           "scriptHints": {
             "actions": [
@@ -213021,7 +213035,10 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第二层楼还是会有人守护着。",
-                "heroBattleField": 1
+                "heroBattleField": 1,
+                "nowSetFlags": [
+                  151
+                ]
               }
             ]
           },
@@ -213104,7 +213121,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 128,
               "y": 90
-            }
+            },
+            "heroBattleField": 4
           },
           "scriptHints": {
             "actions": [
@@ -213173,7 +213191,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 197,
               "y": 29
-            }
+            },
+            "heroBattleField": 11
           },
           "scriptHints": {
             "actions": [
@@ -213242,7 +213261,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 132,
               "y": 152
-            }
+            },
+            "heroBattleField": 5
           },
           "scriptHints": {
             "actions": [
@@ -213311,7 +213331,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 193,
               "y": 145
-            }
+            },
+            "heroBattleField": 2
           },
           "scriptHints": {
             "actions": [
@@ -213380,7 +213401,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 72,
               "y": 153
-            }
+            },
+            "heroBattleField": 8
           },
           "scriptHints": {
             "actions": [
@@ -213449,7 +213471,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 71,
               "y": 28
-            }
+            },
+            "heroBattleField": 6
           },
           "scriptHints": {
             "actions": [
@@ -213518,7 +213541,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 24,
               "y": 30
-            }
+            },
+            "heroBattleField": 9
           },
           "scriptHints": {
             "actions": [
@@ -213587,7 +213611,8 @@ export const WORLD = {
               "floor": 8200,
               "x": 135,
               "y": 23
-            }
+            },
+            "heroBattleField": 3
           },
           "scriptHints": {
             "actions": [
@@ -214090,7 +214115,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 130,
               "y": 91
-            }
+            },
+            "heroBattleField": 16
           },
           "scriptHints": {
             "actions": [
@@ -214159,7 +214185,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 79,
               "y": 78
-            }
+            },
+            "heroBattleField": 19
           },
           "scriptHints": {
             "actions": [
@@ -214228,7 +214255,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 203,
               "y": 74
-            }
+            },
+            "heroBattleField": 13
           },
           "scriptHints": {
             "actions": [
@@ -214297,7 +214325,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 9,
               "y": 88
-            }
+            },
+            "heroBattleField": 22
           },
           "scriptHints": {
             "actions": [
@@ -214375,7 +214404,16 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第二十一层楼还是会有人守护着。",
-                "heroBattleField": 20
+                "heroBattleField": 20,
+                "addItems": [
+                  {
+                    "id": 2050,
+                    "qty": 1
+                  }
+                ],
+                "endSetFlags": [
+                  151
+                ]
               }
             ]
           },
@@ -214458,7 +214496,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 193,
               "y": 146
-            }
+            },
+            "heroBattleField": 14
           },
           "scriptHints": {
             "actions": [
@@ -214527,7 +214566,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 144,
               "y": 144
-            }
+            },
+            "heroBattleField": 17
           },
           "scriptHints": {
             "actions": [
@@ -214596,7 +214636,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 199,
               "y": 69
-            }
+            },
+            "heroBattleField": 23
           },
           "scriptHints": {
             "actions": [
@@ -214665,7 +214706,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 85,
               "y": 29
-            }
+            },
+            "heroBattleField": 18
           },
           "scriptHints": {
             "actions": [
@@ -214734,7 +214776,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 132,
               "y": 24
-            }
+            },
+            "heroBattleField": 15
           },
           "scriptHints": {
             "actions": [
@@ -214803,7 +214846,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 21,
               "y": 12
-            }
+            },
+            "heroBattleField": 21
           },
           "scriptHints": {
             "actions": [
@@ -215214,7 +215258,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 209,
               "y": 73
-            }
+            },
+            "heroBattleField": 25
           },
           "scriptHints": {
             "actions": [
@@ -215283,7 +215328,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 75,
               "y": 75
-            }
+            },
+            "heroBattleField": 31
           },
           "scriptHints": {
             "actions": [
@@ -215352,7 +215398,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 27,
               "y": 80
-            }
+            },
+            "heroBattleField": 34
           },
           "scriptHints": {
             "actions": [
@@ -215421,7 +215468,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 137,
               "y": 85
-            }
+            },
+            "heroBattleField": 28
           },
           "scriptHints": {
             "actions": [
@@ -215490,7 +215538,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 191,
               "y": 141
-            }
+            },
+            "heroBattleField": 35
           },
           "scriptHints": {
             "actions": [
@@ -215559,7 +215608,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 144,
               "y": 139
-            }
+            },
+            "heroBattleField": 29
           },
           "scriptHints": {
             "actions": [
@@ -215628,7 +215678,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 90,
               "y": 129
-            }
+            },
+            "heroBattleField": 32
           },
           "scriptHints": {
             "actions": [
@@ -215697,7 +215748,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 208,
               "y": 140
-            }
+            },
+            "heroBattleField": 26
           },
           "scriptHints": {
             "actions": [
@@ -215766,7 +215818,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 149,
               "y": 9
-            }
+            },
+            "heroBattleField": 27
           },
           "scriptHints": {
             "actions": [
@@ -215835,7 +215888,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 74,
               "y": 25
-            }
+            },
+            "heroBattleField": 30
           },
           "scriptHints": {
             "actions": [
@@ -215904,7 +215958,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 30,
               "y": 9
-            }
+            },
+            "heroBattleField": 33
           },
           "scriptHints": {
             "actions": [
@@ -216412,7 +216467,19 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第四十一层楼还是会有人守护着。",
-                "heroBattleField": 40
+                "heroBattleField": 40,
+                "addItems": [
+                  {
+                    "id": 2051,
+                    "qty": 1
+                  }
+                ],
+                "nowSetFlags": [
+                  152
+                ],
+                "clearFlags": [
+                  151
+                ]
               }
             ]
           },
@@ -216495,7 +216562,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 10,
               "y": 72
-            }
+            },
+            "heroBattleField": 46
           },
           "scriptHints": {
             "actions": [
@@ -216564,7 +216632,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 73,
               "y": 74
-            }
+            },
+            "heroBattleField": 43
           },
           "scriptHints": {
             "actions": [
@@ -216633,7 +216702,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 200,
               "y": 84
-            }
+            },
+            "heroBattleField": 37
           },
           "scriptHints": {
             "actions": [
@@ -216702,7 +216772,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 135,
               "y": 149
-            }
+            },
+            "heroBattleField": 41
           },
           "scriptHints": {
             "actions": [
@@ -216771,7 +216842,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 134,
               "y": 23
-            }
+            },
+            "heroBattleField": 47
           },
           "scriptHints": {
             "actions": [
@@ -216840,7 +216912,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 93,
               "y": 129
-            }
+            },
+            "heroBattleField": 44
           },
           "scriptHints": {
             "actions": [
@@ -216909,7 +216982,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 206,
               "y": 141
-            }
+            },
+            "heroBattleField": 38
           },
           "scriptHints": {
             "actions": [
@@ -216978,7 +217052,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 89,
               "y": 13
-            }
+            },
+            "heroBattleField": 42
           },
           "scriptHints": {
             "actions": [
@@ -217047,7 +217122,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 12,
               "y": 21
-            }
+            },
+            "heroBattleField": 45
           },
           "scriptHints": {
             "actions": [
@@ -217116,7 +217192,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 151,
               "y": 26
-            }
+            },
+            "heroBattleField": 39
           },
           "scriptHints": {
             "actions": [
@@ -217615,7 +217692,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 131,
               "y": 81
-            }
+            },
+            "heroBattleField": 52
           },
           "scriptHints": {
             "actions": [
@@ -217684,7 +217762,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 11,
               "y": 73
-            }
+            },
+            "heroBattleField": 58
           },
           "scriptHints": {
             "actions": [
@@ -217753,7 +217832,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 81,
               "y": 88
-            }
+            },
+            "heroBattleField": 55
           },
           "scriptHints": {
             "actions": [
@@ -217822,7 +217902,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 196,
               "y": 86
-            }
+            },
+            "heroBattleField": 49
           },
           "scriptHints": {
             "actions": [
@@ -217891,7 +217972,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 135,
               "y": 140
-            }
+            },
+            "heroBattleField": 53
           },
           "scriptHints": {
             "actions": [
@@ -217960,7 +218042,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 195,
               "y": 138
-            }
+            },
+            "heroBattleField": 50
           },
           "scriptHints": {
             "actions": [
@@ -218029,7 +218112,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 82,
               "y": 140
-            }
+            },
+            "heroBattleField": 56
           },
           "scriptHints": {
             "actions": [
@@ -218098,7 +218182,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 132,
               "y": 70
-            }
+            },
+            "heroBattleField": 59
           },
           "scriptHints": {
             "actions": [
@@ -218167,7 +218252,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 92,
               "y": 10
-            }
+            },
+            "heroBattleField": 54
           },
           "scriptHints": {
             "actions": [
@@ -218236,7 +218322,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 20,
               "y": 20
-            }
+            },
+            "heroBattleField": 57
           },
           "scriptHints": {
             "actions": [
@@ -218305,7 +218392,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 152,
               "y": 25
-            }
+            },
+            "heroBattleField": 51
           },
           "scriptHints": {
             "actions": [
@@ -218804,7 +218892,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 17,
               "y": 75
-            }
+            },
+            "heroBattleField": 70
           },
           "scriptHints": {
             "actions": [
@@ -218873,7 +218962,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 82,
               "y": 85
-            }
+            },
+            "heroBattleField": 67
           },
           "scriptHints": {
             "actions": [
@@ -218942,7 +219032,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 136,
               "y": 75
-            }
+            },
+            "heroBattleField": 64
           },
           "scriptHints": {
             "actions": [
@@ -219011,7 +219102,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 201,
               "y": 93
-            }
+            },
+            "heroBattleField": 61
           },
           "scriptHints": {
             "actions": [
@@ -219080,7 +219172,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 88,
               "y": 143
-            }
+            },
+            "heroBattleField": 68
           },
           "scriptHints": {
             "actions": [
@@ -219149,7 +219242,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 142,
               "y": 149
-            }
+            },
+            "heroBattleField": 65
           },
           "scriptHints": {
             "actions": [
@@ -219218,7 +219312,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 205,
               "y": 144
-            }
+            },
+            "heroBattleField": 62
           },
           "scriptHints": {
             "actions": [
@@ -219287,7 +219382,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 151,
               "y": 138
-            }
+            },
+            "heroBattleField": 71
           },
           "scriptHints": {
             "actions": [
@@ -219356,7 +219452,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 20,
               "y": 20
-            }
+            },
+            "heroBattleField": 69
           },
           "scriptHints": {
             "actions": [
@@ -219425,7 +219522,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 143,
               "y": 11
-            }
+            },
+            "heroBattleField": 63
           },
           "scriptHints": {
             "actions": [
@@ -219494,7 +219592,8 @@ export const WORLD = {
               "floor": 8205,
               "x": 86,
               "y": 28
-            }
+            },
+            "heroBattleField": 66
           },
           "scriptHints": {
             "actions": [
@@ -219934,7 +220033,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 207,
               "y": 75
-            }
+            },
+            "heroBattleField": 73
           },
           "scriptHints": {
             "actions": [
@@ -220003,7 +220103,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 25,
               "y": 78
-            }
+            },
+            "heroBattleField": 82
           },
           "scriptHints": {
             "actions": [
@@ -220072,7 +220173,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 141,
               "y": 71
-            }
+            },
+            "heroBattleField": 76
           },
           "scriptHints": {
             "actions": [
@@ -220141,7 +220243,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 72,
               "y": 85
-            }
+            },
+            "heroBattleField": 79
           },
           "scriptHints": {
             "actions": [
@@ -220210,7 +220313,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 140,
               "y": 145
-            }
+            },
+            "heroBattleField": 77
           },
           "scriptHints": {
             "actions": [
@@ -220288,7 +220392,19 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第八十一层楼还是会有人守护着。",
-                "heroBattleField": 80
+                "heroBattleField": 80,
+                "addItems": [
+                  {
+                    "id": 2053,
+                    "qty": 1
+                  }
+                ],
+                "nowSetFlags": [
+                  153
+                ],
+                "clearFlags": [
+                  152
+                ]
               }
             ]
           },
@@ -220371,7 +220487,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 30,
               "y": 140
-            }
+            },
+            "heroBattleField": 83
           },
           "scriptHints": {
             "actions": [
@@ -220440,7 +220557,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 208,
               "y": 141
-            }
+            },
+            "heroBattleField": 74
           },
           "scriptHints": {
             "actions": [
@@ -220509,7 +220627,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 76,
               "y": 15
-            }
+            },
+            "heroBattleField": 78
           },
           "scriptHints": {
             "actions": [
@@ -220578,7 +220697,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 24,
               "y": 9
-            }
+            },
+            "heroBattleField": 81
           },
           "scriptHints": {
             "actions": [
@@ -220647,7 +220767,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 195,
               "y": 27
-            }
+            },
+            "heroBattleField": 84
           },
           "scriptHints": {
             "actions": [
@@ -220716,7 +220837,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 143,
               "y": 15
-            }
+            },
+            "heroBattleField": 75
           },
           "scriptHints": {
             "actions": [
@@ -221156,7 +221278,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 201,
               "y": 68
-            }
+            },
+            "heroBattleField": 85
           },
           "scriptHints": {
             "actions": [
@@ -221225,7 +221348,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 19,
               "y": 87
-            }
+            },
+            "heroBattleField": 94
           },
           "scriptHints": {
             "actions": [
@@ -221294,7 +221418,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 81,
               "y": 73
-            }
+            },
+            "heroBattleField": 91
           },
           "scriptHints": {
             "actions": [
@@ -221363,7 +221488,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 148,
               "y": 69
-            }
+            },
+            "heroBattleField": 88
           },
           "scriptHints": {
             "actions": [
@@ -221432,7 +221558,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 76,
               "y": 12
-            }
+            },
+            "heroBattleField": 95
           },
           "scriptHints": {
             "actions": [
@@ -221501,7 +221628,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 79,
               "y": 149
-            }
+            },
+            "heroBattleField": 92
           },
           "scriptHints": {
             "actions": [
@@ -221570,7 +221698,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 152,
               "y": 131
-            }
+            },
+            "heroBattleField": 89
           },
           "scriptHints": {
             "actions": [
@@ -221639,7 +221768,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 193,
               "y": 142
-            }
+            },
+            "heroBattleField": 86
           },
           "scriptHints": {
             "actions": [
@@ -221708,7 +221838,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 77,
               "y": 16
-            }
+            },
+            "heroBattleField": 90
           },
           "scriptHints": {
             "actions": [
@@ -221777,7 +221908,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 13,
               "y": 29
-            }
+            },
+            "heroBattleField": 93
           },
           "scriptHints": {
             "actions": [
@@ -221846,7 +221978,8 @@ export const WORLD = {
               "floor": 8207,
               "x": 135,
               "y": 19
-            }
+            },
+            "heroBattleField": 87
           },
           "scriptHints": {
             "actions": [
@@ -222286,7 +222419,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 10,
               "y": 78
-            }
+            },
+            "heroBattleField": 106
           },
           "scriptHints": {
             "actions": [
@@ -222364,7 +222498,16 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第一百零一层楼还是会有人守护着。",
-                "heroBattleField": 100
+                "heroBattleField": 100,
+                "addItems": [
+                  {
+                    "id": 2054,
+                    "qty": 1
+                  }
+                ],
+                "endSetFlags": [
+                  153
+                ]
               }
             ]
           },
@@ -222447,7 +222590,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 198,
               "y": 69
-            }
+            },
+            "heroBattleField": 97
           },
           "scriptHints": {
             "actions": [
@@ -222516,7 +222660,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 73,
               "y": 78
-            }
+            },
+            "heroBattleField": 103
           },
           "scriptHints": {
             "actions": [
@@ -222585,7 +222730,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 151,
               "y": 132
-            }
+            },
+            "heroBattleField": 101
           },
           "scriptHints": {
             "actions": [
@@ -222647,7 +222793,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 195,
               "y": 140
-            }
+            },
+            "heroBattleField": 98
           },
           "scriptHints": {
             "actions": [
@@ -222716,7 +222863,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 92,
               "y": 129
-            }
+            },
+            "heroBattleField": 104
           },
           "scriptHints": {
             "actions": [
@@ -222785,7 +222933,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 84,
               "y": 68
-            }
+            },
+            "heroBattleField": 107
           },
           "scriptHints": {
             "actions": [
@@ -222854,7 +223003,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 88,
               "y": 30
-            }
+            },
+            "heroBattleField": 102
           },
           "scriptHints": {
             "actions": [
@@ -222923,7 +223073,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 145,
               "y": 7
-            }
+            },
+            "heroBattleField": 99
           },
           "scriptHints": {
             "actions": [
@@ -222992,7 +223143,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 25,
               "y": 28
-            }
+            },
+            "heroBattleField": 105
           },
           "scriptHints": {
             "actions": [
@@ -223403,7 +223555,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 13,
               "y": 85
-            }
+            },
+            "heroBattleField": 118
           },
           "scriptHints": {
             "actions": [
@@ -223472,7 +223625,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 93,
               "y": 78
-            }
+            },
+            "heroBattleField": 115
           },
           "scriptHints": {
             "actions": [
@@ -223541,7 +223695,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 203,
               "y": 68
-            }
+            },
+            "heroBattleField": 109
           },
           "scriptHints": {
             "actions": [
@@ -223610,7 +223765,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 131,
               "y": 80
-            }
+            },
+            "heroBattleField": 112
           },
           "scriptHints": {
             "actions": [
@@ -223679,7 +223835,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 150,
               "y": 132
-            }
+            },
+            "heroBattleField": 113
           },
           "scriptHints": {
             "actions": [
@@ -223748,7 +223905,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 83,
               "y": 150
-            }
+            },
+            "heroBattleField": 116
           },
           "scriptHints": {
             "actions": [
@@ -223817,7 +223975,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 212,
               "y": 139
-            }
+            },
+            "heroBattleField": 110
           },
           "scriptHints": {
             "actions": [
@@ -223886,7 +224045,8 @@ export const WORLD = {
               "floor": 8212,
               "x": 89,
               "y": 143
-            }
+            },
+            "heroBattleField": 119
           },
           "scriptHints": {
             "actions": [
@@ -223955,7 +224115,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 85,
               "y": 32
-            }
+            },
+            "heroBattleField": 114
           },
           "scriptHints": {
             "actions": [
@@ -224024,7 +224185,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 134,
               "y": 25
-            }
+            },
+            "heroBattleField": 111
           },
           "scriptHints": {
             "actions": [
@@ -224093,7 +224255,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 29,
               "y": 26
-            }
+            },
+            "heroBattleField": 117
           },
           "scriptHints": {
             "actions": [
@@ -224533,7 +224696,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 91,
               "y": 86
-            }
+            },
+            "heroBattleField": 127
           },
           "scriptHints": {
             "actions": [
@@ -224602,7 +224766,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 27,
               "y": 70
-            }
+            },
+            "heroBattleField": 130
           },
           "scriptHints": {
             "actions": [
@@ -224671,7 +224836,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 147,
               "y": 71
-            }
+            },
+            "heroBattleField": 124
           },
           "scriptHints": {
             "actions": [
@@ -224740,7 +224906,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 210,
               "y": 79
-            }
+            },
+            "heroBattleField": 121
           },
           "scriptHints": {
             "actions": [
@@ -224809,7 +224976,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 86,
               "y": 148
-            }
+            },
+            "heroBattleField": 128
           },
           "scriptHints": {
             "actions": [
@@ -224878,7 +225046,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 150,
               "y": 141
-            }
+            },
+            "heroBattleField": 125
           },
           "scriptHints": {
             "actions": [
@@ -224947,7 +225116,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 31,
               "y": 139
-            }
+            },
+            "heroBattleField": 131
           },
           "scriptHints": {
             "actions": [
@@ -225016,7 +225186,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 192,
               "y": 145
-            }
+            },
+            "heroBattleField": 122
           },
           "scriptHints": {
             "actions": [
@@ -225085,7 +225256,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 82,
               "y": 12
-            }
+            },
+            "heroBattleField": 126
           },
           "scriptHints": {
             "actions": [
@@ -225163,7 +225335,10 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "我以英雄战场之名向你致上最高无比敬意。",
-                "heroBattleField": 132
+                "heroBattleField": 132,
+                "endSetFlags": [
+                  154
+                ]
               }
             ]
           },
@@ -225246,7 +225421,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 146,
               "y": 26
-            }
+            },
+            "heroBattleField": 123
           },
           "scriptHints": {
             "actions": [
@@ -225315,7 +225491,8 @@ export const WORLD = {
               "floor": 8210,
               "x": 15,
               "y": 29
-            }
+            },
+            "heroBattleField": 129
           },
           "scriptHints": {
             "actions": [
@@ -225776,7 +225953,8 @@ export const WORLD = {
               "floor": 8208,
               "x": 211,
               "y": 16
-            }
+            },
+            "heroBattleField": 96
           },
           "scriptHints": {
             "actions": [
@@ -225845,7 +226023,8 @@ export const WORLD = {
               "floor": 8204,
               "x": 206,
               "y": 9
-            }
+            },
+            "heroBattleField": 48
           },
           "scriptHints": {
             "actions": [
@@ -225914,7 +226093,8 @@ export const WORLD = {
               "floor": 8201,
               "x": 190,
               "y": 10
-            }
+            },
+            "heroBattleField": 12
           },
           "scriptHints": {
             "actions": [
@@ -225983,7 +226163,8 @@ export const WORLD = {
               "floor": 8209,
               "x": 207,
               "y": 29
-            }
+            },
+            "heroBattleField": 108
           },
           "scriptHints": {
             "actions": [
@@ -226061,7 +226242,16 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第六十一层楼还是会有人守护着。",
-                "heroBattleField": 60
+                "heroBattleField": 60,
+                "addItems": [
+                  {
+                    "id": 2052,
+                    "qty": 1
+                  }
+                ],
+                "endSetFlags": [
+                  152
+                ]
               }
             ]
           },
@@ -226144,7 +226334,8 @@ export const WORLD = {
               "floor": 8202,
               "x": 205,
               "y": 27
-            }
+            },
+            "heroBattleField": 24
           },
           "scriptHints": {
             "actions": [
@@ -226213,7 +226404,8 @@ export const WORLD = {
               "floor": 8206,
               "x": 207,
               "y": 28
-            }
+            },
+            "heroBattleField": 72
           },
           "scriptHints": {
             "actions": [
@@ -226282,7 +226474,8 @@ export const WORLD = {
               "floor": 8203,
               "x": 199,
               "y": 9
-            }
+            },
+            "heroBattleField": 36
           },
           "scriptHints": {
             "actions": [
@@ -226360,7 +226553,19 @@ export const WORLD = {
                   }
                 ],
                 "endMessage": "就算你打败我了！在第一百二拾一层楼还是会有人守护着。",
-                "heroBattleField": 120
+                "heroBattleField": 120,
+                "addItems": [
+                  {
+                    "id": 2055,
+                    "qty": 1
+                  }
+                ],
+                "nowSetFlags": [
+                  154
+                ],
+                "clearFlags": [
+                  153
+                ]
               }
             ]
           },
@@ -232244,7 +232449,13 @@ export const WORLD = {
                     "y": 23
                   }
                 ],
-                "endMessage": "恭喜你通过最后的考验！！"
+                "endMessage": "恭喜你通过最后的考验！！",
+                "addItems": [
+                  {
+                    "id": 2103,
+                    "qty": 1
+                  }
+                ]
               },
               {
                 "source": "gmsv-data/npc/sa70/class/wquest6",
@@ -235500,7 +235711,13 @@ export const WORLD = {
                     "y": 23
                   }
                 ],
-                "endMessage": "嘶…嘶～～"
+                "endMessage": "嘶…嘶～～",
+                "addItems": [
+                  {
+                    "id": 2095,
+                    "qty": 1
+                  }
+                ]
               },
               {
                 "source": "gmsv-data/npc/sa70/class/mquest4",
@@ -236755,7 +236972,13 @@ export const WORLD = {
                     "y": 23
                   }
                 ],
-                "endMessage": ".........."
+                "endMessage": "..........",
+                "addItems": [
+                  {
+                    "id": 2021,
+                    "qty": 1
+                  }
+                ]
               }
             ]
           },

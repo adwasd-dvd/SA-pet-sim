@@ -144,6 +144,7 @@ const NPC_VM_ACTIONS = new Set([
   "takePet",
   "setFlag",
   "clearFlag",
+  "heroBattleField",
   "missionOver",
   "missionClean",
   "moveNpc",
@@ -6197,6 +6198,7 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
   if (postBattleEvent?.event) {
     const event = postBattleEvent.event;
     if (event.endMessage) battleLog.push(event.endMessage);
+    applyNpcEnemyPostBattleSourceEffects(game, npcEnemy, event, battleLog);
     if (!Array.isArray(event.warps) || !event.warps.length) {
       applyNpcEnemyReplacement(game, npcEnemy, battleLog);
       return;
@@ -6221,6 +6223,7 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
     applyNpcEnemyReplacement(game, npcEnemy, battleLog);
     return;
   }
+  applyNpcEnemyPostBattleSourceEffects(game, npcEnemy, null, battleLog);
   if (npcEnemy.endMessage) battleLog.push(npcEnemy.endMessage);
   if (Number(npcEnemy.dieAct || 0) === 1 && npcEnemy.warp?.mapId && WORLD.maps[npcEnemy.warp.mapId]) {
     game.location = {
@@ -6243,6 +6246,79 @@ function settleNpcEnemyVictory(game, npcEnemy, battleLog) {
   };
   battleLog.push(`${npcEnemy.npcName || "NPCEnemy"} 暂时退开，通路打开 ${respawnSeconds} 秒。`);
   applyNpcEnemyReplacement(game, npcEnemy, battleLog);
+}
+
+function applyNpcEnemyPostBattleSourceEffects(game, npcEnemy, event, battleLog) {
+  if (!npcEnemy?.npcId) return;
+  if (Array.isArray(event?.addItems) && event.addItems.length) {
+    grantNpcEnemyAddItems(game, {
+      ...npcEnemy,
+      addItems: event.addItems,
+      source: event.source || npcEnemy.source || ""
+    }, battleLog);
+  }
+  applyNpcEnemyHeroBattleField(game, npcEnemy, event, battleLog);
+  applyNpcEnemyEventFlags(game, npcEnemy, event);
+  syncCharacterFields(game);
+}
+
+function applyNpcEnemyHeroBattleField(game, npcEnemy, event, battleLog) {
+  const floor = Number(event?.heroBattleField || npcEnemy?.heroBattleField || 0);
+  if (!Number.isFinite(floor) || floor <= 0) return null;
+  const npc = npcEnemyVmNpc(npcEnemy);
+  const vmEvent = runNpcVmAction(game, npc, {
+    type: "heroBattleField",
+    floor,
+    reason: "npcenemy-herobattlefield",
+    source: event?.source || npcEnemy.source || ""
+  });
+  if (vmEvent.ok && vmEvent.detail?.mutated) {
+    battleLog?.push(`${npcEnemy.npcName || "NPCEnemy"} 记录英雄战场进度 ${floor}。`);
+  }
+  return vmEvent;
+}
+
+function applyNpcEnemyEventFlags(game, npcEnemy, event) {
+  if (!event) return;
+  const npc = npcEnemyVmNpc(npcEnemy);
+  const source = event.source || npcEnemy?.source || "";
+  for (const flag of event.endSetFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "setFlag",
+      shiftbit: Number(flag),
+      kind: "end",
+      reason: "npcenemy-event-end",
+      source
+    });
+  }
+  for (const flag of event.nowSetFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "setFlag",
+      shiftbit: Number(flag),
+      kind: "now",
+      reason: "npcenemy-event-now",
+      source
+    });
+  }
+  for (const flag of event.clearFlags || []) {
+    runNpcVmAction(game, npc, {
+      type: "clearFlag",
+      shiftbit: Number(flag),
+      kind: "both",
+      reason: "npcenemy-evclr",
+      source
+    });
+  }
+}
+
+function npcEnemyVmNpc(npcEnemy) {
+  const found = findWorldNpcWithMap(npcEnemy?.npcId);
+  return found?.npc || {
+    id: npcEnemy?.npcId || "npcenemy",
+    name: npcEnemy?.npcName || "NPCEnemy",
+    type: "NPCEnemy",
+    source: npcEnemy?.source || ""
+  };
 }
 
 function applyNpcEnemyReplacement(game, npcEnemy, battleLog) {
@@ -12473,7 +12549,10 @@ function npcActionProfile(npc) {
   const actions = [];
   if (isNpcEnemy(npc)) actions.push("window", "startBattle", "battleAction");
   if (isNpcEnemy(npc) && npc.npcEnemy?.stealItems) actions.push("take");
-  if (isNpcEnemy(npc) && npc.npcEnemy?.addItems?.length) actions.push("give");
+  if (isNpcEnemy(npc) && (npc.npcEnemy?.addItems?.length || npc.npcEnemy?.postBattleEvents?.some((event) => event.addItems?.length))) actions.push("give");
+  if (isNpcEnemy(npc) && (npc.npcEnemy?.heroBattleField || npc.npcEnemy?.postBattleEvents?.some((event) => event.heroBattleField))) actions.push("heroBattleField");
+  if (isNpcEnemy(npc) && npc.npcEnemy?.postBattleEvents?.some((event) => event.endSetFlags?.length || event.nowSetFlags?.length)) actions.push("setFlag");
+  if (isNpcEnemy(npc) && npc.npcEnemy?.postBattleEvents?.some((event) => event.clearFlags?.length)) actions.push("clearFlag");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
   if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0)) actions.push("adjustFame");
   if (npc.trade?.hasCostPoint || npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0)) actions.push("adjustAmPoint");
@@ -12561,6 +12640,7 @@ function applyNpcVmMutation(game, type, action) {
     clearEventFlag(game, action.shiftbit, action.kind || "now-end");
     return { ok: true, mutated: true };
   }
+  if (type === "heroBattleField") return applyNpcVmHeroBattleField(game, action);
   if (type === "missionOver") return applyNpcVmMissionOver(game, action);
   if (type === "missionClean") return applyNpcVmMissionClean(game, action);
   if (type === "moveNpc") return applyNpcVmMoveNpc(game, action);
@@ -12603,6 +12683,31 @@ function applyNpcVmAppearance(game, action) {
     imageNo: target,
     faceImageNo: Number(action.faceImageNo || 0),
     mode: action.mode || "source-npc-newnpcman"
+  };
+}
+
+function applyNpcVmHeroBattleField(game, action) {
+  const floor = Number(action.floor ?? action.heroBattleField ?? 0);
+  if (!Number.isFinite(floor) || floor <= 0) {
+    return { ok: false, mutated: false, error: "heroBattleField 缺少有效楼层" };
+  }
+  game.player ||= {};
+  const currentHeroFloor = Number(game.player.CHAR_HEROFLOOR ?? game.player.heroFloor ?? game.player.HeroFloor ?? 0) || 0;
+  const currentWorkFloor = Number(game.player.CHAR_WORKHEROFLOOR ?? game.player.heroWorkFloor ?? game.player.WorkHeroFloor ?? 0) || 0;
+  const nextHeroFloor = Math.max(currentHeroFloor, Math.trunc(floor));
+  game.player.CHAR_WORKHEROFLOOR = Math.trunc(floor);
+  game.player.heroWorkFloor = Math.trunc(floor);
+  game.player.WorkHeroFloor = Math.trunc(floor);
+  game.player.CHAR_HEROFLOOR = nextHeroFloor;
+  game.player.heroFloor = nextHeroFloor;
+  game.player.HeroFloor = nextHeroFloor;
+  syncCharacterFields(game);
+  return {
+    ok: true,
+    mutated: currentWorkFloor !== Math.trunc(floor) || currentHeroFloor !== nextHeroFloor,
+    floor: Math.trunc(floor),
+    previousHeroFloor: currentHeroFloor,
+    heroFloor: nextHeroFloor
   };
 }
 
@@ -15655,7 +15760,9 @@ function buildCharacterFields(game) {
     duelPoint: Number(game.player?.duelPoint || 0),
     skillUpPoint: Number(game.player?.skillUpPoint || 0),
     professionSkillPoint: Number(game.player?.professionSkillPoint || 0),
-    heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0)
+    heroCompleteCount: Number(game.player?.heroCompleteCount ?? game.player?.HeroCnt ?? game.player?.CHAR_HEROCNT ?? 0),
+    heroFloor: Number(game.player?.heroFloor ?? game.player?.HeroFloor ?? game.player?.CHAR_HEROFLOOR ?? 0),
+    heroWorkFloor: Number(game.player?.heroWorkFloor ?? game.player?.WorkHeroFloor ?? game.player?.CHAR_WORKHEROFLOOR ?? 0)
     },
     attributes: {
     Vital: Number(game.player?.Vital || 0),
@@ -15677,7 +15784,8 @@ function buildCharacterFields(game) {
       WorkFixCharm: Number(game.player?.WorkFixCharm || game.player?.charm || 0),
       WorkAttackPower: Number(game.player?.WorkAttackPower || game.player?.WorkFixStr || 0),
       WorkDefencePower: Number(game.player?.WorkDefencePower || game.player?.WorkFixTough || 0),
-      WorkQuick: Number(game.player?.WorkQuick || game.player?.WorkFixDex || 0)
+      WorkQuick: Number(game.player?.WorkQuick || game.player?.WorkFixDex || 0),
+      CHAR_WORKHEROFLOOR: Number(game.player?.CHAR_WORKHEROFLOOR ?? game.player?.heroWorkFloor ?? game.player?.WorkHeroFloor ?? 0)
     },
     elements: {
       EarthAT: Number(game.player?.EarthAT || 0),

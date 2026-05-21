@@ -2308,6 +2308,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
   const requiredItems = expandItemList(kv.item || "", 32).map((id) => ({ id, qty: 1 }));
   const forbiddenItems = expandItemList(kv.noitem || "", 32).map((id) => ({ id, qty: 1 }));
   const addItems = expandItemList(kv.additem || "", 1).map((id) => ({ id, qty: 1 }));
+  const heroBattleField = Number(kv.herobattlefield || 0) || 0;
   const replacementPoints = parseNpcEnemyReplacementPoints(kv.replacement || "");
   const askBattleMessages = [];
   for (let i = 1; i <= 6; i += 1) {
@@ -2333,6 +2334,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
     ...(forbiddenItems.length ? { forbiddenItems } : {}),
     ...(Number(kv.steal || 0) === 1 ? { stealItems: true } : {}),
     ...(addItems.length ? { addItems } : {}),
+    ...(heroBattleField > 0 ? { heroBattleField } : {}),
     ...(replacementPoints.length ? { replacementPoints } : {}),
     ...(postBattleEvents.length ? { postBattleEvents } : {})
   };
@@ -2517,9 +2519,16 @@ function parseNpcEnemyPostBattleEvents(text, file) {
       warps: event.warps.slice(0, 15),
       endMessage: cleanScriptText(event.endMessage || ""),
       ...(event.checkParty ? { checkParty: cleanName(event.checkParty) } : {}),
-      ...(Number(event.heroBattleField || 0) > 0 ? { heroBattleField: Number(event.heroBattleField) } : {})
+      ...(Number(event.heroBattleField || 0) > 0 ? { heroBattleField: Number(event.heroBattleField) } : {}),
+      ...(event.addItems.length ? { addItems: event.addItems.slice(0, 4) } : {}),
+      ...(event.endSetFlags.length ? { endSetFlags: event.endSetFlags.slice(0, 24) } : {}),
+      ...(event.nowSetFlags.length ? { nowSetFlags: event.nowSetFlags.slice(0, 24) } : {}),
+      ...(event.clearFlags.length ? { clearFlags: event.clearFlags.slice(0, 24) } : {})
     };
-    if (out.condition || out.warps.length || out.endMessage) events.push(out);
+    if (
+      out.condition || out.warps.length || out.endMessage || out.heroBattleField
+      || out.addItems?.length || out.endSetFlags?.length || out.nowSetFlags?.length || out.clearFlags?.length
+    ) events.push(out);
     event = null;
   };
 
@@ -2535,7 +2544,11 @@ function parseNpcEnemyPostBattleEvents(text, file) {
         warps: [],
         endMessage: "",
         checkParty: "",
-        heroBattleField: 0
+        heroBattleField: 0,
+        addItems: [],
+        endSetFlags: [],
+        nowSetFlags: [],
+        clearFlags: []
       };
       continue;
     }
@@ -2566,6 +2579,22 @@ function parseNpcEnemyPostBattleEvents(text, file) {
     }
     if (key === "herobattlefield") {
       event.heroBattleField = Number(value) || 0;
+      continue;
+    }
+    if (key === "additem") {
+      event.addItems.push(...expandItemList(value, 4).map((id) => ({ id, qty: 1 })));
+      continue;
+    }
+    if (key === "event_end" || key === "evend") {
+      event.endSetFlags.push(...splitNumberList(value));
+      continue;
+    }
+    if (key === "event_now" || key === "evnow") {
+      event.nowSetFlags.push(...splitNumberList(value));
+      continue;
+    }
+    if (key === "evclr") {
+      event.clearFlags.push(...splitNumberList(value));
     }
   }
   finishEvent();

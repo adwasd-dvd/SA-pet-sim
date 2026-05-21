@@ -3260,9 +3260,16 @@ const newEventPostBattleEvents = [
     seq: 2,
     condition: "LV>0",
     warps: [{ mapId: "100", floor: 100, x: 641, y: 492 }],
-    endMessage: "源码 LV 分支"
+    endMessage: "源码 LV 分支",
+    addItems: [{ id: 2054, qty: 1 }],
+    heroBattleField: 100,
+    endSetFlags: [153],
+    nowSetFlags: [154],
+    clearFlags: [44]
   }
 ];
+setTestEventFlag(npcEnemyNewEventGame, 44, "now");
+setTestEventFlag(npcEnemyNewEventGame, 44, "end");
 npcEnemyNewEventGame.encounter = { ...newEventEnemy };
 npcEnemyNewEventGame.battle = {
   mode: "command",
@@ -3282,6 +3289,14 @@ npcEnemyNewEventGame = await api("/api/game/battle", { game: npcEnemyNewEventGam
 assertEqual(npcEnemyNewEventGame.battleOutcome.result, "victory", "NPCEnemy NEWEVENT fixture wins through battle settlement");
 assertEqual(npcEnemyNewEventGame.location.x, 641, "NPCEnemy NEWEVENT falls through to the first matching source FREE branch");
 assert(npcEnemyNewEventGame.battleOutcome.log.some((line) => line.includes("源码 LV 分支")), "NPCEnemy NEWEVENT victory logs source branch endmsg");
+assert(npcEnemyNewEventGame.inventory.some((item) => Number(item.id) === 2054), "NPCEnemy NEWEVENT AddItem grants source reward through VM");
+assertEqual(npcEnemyNewEventGame.player.CHAR_WORKHEROFLOOR, 100, "NPCEnemy NEWEVENT herobattlefield updates source work floor");
+assertEqual(npcEnemyNewEventGame.player.CHAR_HEROFLOOR, 100, "NPCEnemy NEWEVENT herobattlefield advances best hero floor");
+assert(testEventFlagSet(npcEnemyNewEventGame, 153, "end"), "NPCEnemy NEWEVENT Event_End sets ENDEV flag");
+assert(testEventFlagSet(npcEnemyNewEventGame, 154, "now"), "NPCEnemy NEWEVENT Event_Now sets NOWEV flag");
+assert(!testEventFlagSet(npcEnemyNewEventGame, 44, "now"), "NPCEnemy NEWEVENT EvClr clears NOWEV flag");
+assert(!testEventFlagSet(npcEnemyNewEventGame, 44, "end"), "NPCEnemy NEWEVENT EvClr clears ENDEV flag");
+assert(npcEnemyNewEventGame.npcVmEvents.some((event) => event.action === "heroBattleField" && event.detail?.reason === "npcenemy-herobattlefield"), "NPCEnemy NEWEVENT herobattlefield runs through deterministic VM");
 
 let npcEnemyNewEventFlagGame = await api("/api/game/new", { name: "npcenemy-newevent-nowev-test" });
 npcEnemyNewEventFlagGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };

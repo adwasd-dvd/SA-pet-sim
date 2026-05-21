@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:12:36.619Z",
+  "generatedAt": "2026-05-21T17:47:45.113Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -213,12 +213,12 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 9691,
+      "supported-config": 9667,
       "supported-message": 15686,
-      "candidate-action": 187,
-      "unknown": 233,
+      "candidate-action": 33,
+      "unknown": 228,
       "condition-control": 12055,
-      "supported-action": 3747,
+      "supported-action": 3930,
       "blocked-or-later-system": 6
     },
     "keyRecords": [
@@ -3575,7 +3575,7 @@
       {
         "key": "EvClr",
         "normalized": "evclr",
-        "category": "unknown",
+        "category": "supported-action",
         "occurrences": 5,
         "files": 5,
         "profiles": {
@@ -3711,7 +3711,7 @@
       {
         "key": "Event_End",
         "normalized": "event_end",
-        "category": "candidate-action",
+        "category": "supported-action",
         "occurrences": 21,
         "files": 9,
         "profiles": {
@@ -3763,7 +3763,7 @@
       {
         "key": "Event_Now",
         "normalized": "event_now",
-        "category": "supported-config",
+        "category": "supported-action",
         "occurrences": 24,
         "files": 13,
         "profiles": {
@@ -5417,7 +5417,7 @@
       {
         "key": "herobattlefield",
         "normalized": "herobattlefield",
-        "category": "candidate-action",
+        "category": "supported-action",
         "occurrences": 133,
         "files": 133,
         "profiles": {
@@ -13895,110 +13895,6 @@
     ],
     "unsupportedCandidates": [
       {
-        "key": "herobattlefield",
-        "normalized": "herobattlefield",
-        "category": "candidate-action",
-        "occurrences": 133,
-        "files": 133,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/heroic/DEADJOE",
-            "line": 18,
-            "text": "herobattlefield:75"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic1.arg",
-            "line": 20,
-            "text": "herobattlefield:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic10.arg",
-            "line": 10,
-            "text": "herobattlefield:10"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic100.arg",
-            "line": 20,
-            "text": "herobattlefield:100"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic101.arg",
-            "line": 11,
-            "text": "herobattlefield:101"
-          }
-        ]
-      },
-      {
-        "key": "Event_End",
-        "normalized": "event_end",
-        "category": "candidate-action",
-        "occurrences": 21,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic100.arg",
-            "line": 21,
-            "text": "Event_End:153"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic132.arg",
-            "line": 19,
-            "text": "Event_End:154"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic20.arg",
-            "line": 21,
-            "text": "Event_End:151"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic60.arg",
-            "line": 21,
-            "text": "Event_End:152"
-          },
-          {
-            "file": "external/sources/ref___data/npc/my/ruieryasi/shameijia.arg",
-            "line": 24,
-            "text": "Event_End:190"
-          }
-        ]
-      },
-      {
         "key": "item",
         "normalized": "item",
         "category": "candidate-action",
@@ -15091,58 +14987,6 @@
         ]
       },
       {
-        "key": "EvClr",
-        "normalized": "evclr",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 5,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic120.arg",
-            "line": 20,
-            "text": "EvClr:153"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic40.arg",
-            "line": 21,
-            "text": "EvClr:151"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic80.arg",
-            "line": 21,
-            "text": "EvClr:152"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic_133.arg",
-            "line": 15,
-            "text": "EvClr:154"
-          },
-          {
-            "file": "external/sources/ref___data/npc/heroic/heroic_146.arg",
-            "line": 15,
-            "text": "EvClr:154"
-          }
-        ]
-      },
-      {
         "key": "fightinterval",
         "normalized": "fightinterval",
         "category": "unknown",
@@ -15831,6 +15675,107 @@
             "file": "external/sources/ref___data/npc/chatroom/airplane5.arg",
             "line": 6,
             "text": "pickupitem:0"
+          }
+        ]
+      },
+      {
+        "key": "samugiru",
+        "normalized": "samugiru",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 1,
+            "text": "samugiru:Item=4,Pet=3,Present=1377.1380.1379.1378.1381,Warp=1006.15.22"
+          },
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
+            "line": 1,
+            "text": "samugiru:Item=4,Pet=3,Present=1377.1380.1379.1378.1381,Warp=1006.15.22"
+          }
+        ]
+      },
+      {
+        "key": "AI",
+        "normalized": "ai",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/roulette/master01.arg",
+            "line": 7,
+            "text": "AI:0"
+          }
+        ]
+      },
+      {
+        "key": "B_evend",
+        "normalized": "b_evend",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden2/kraken/ev88_05.arg",
+            "line": 14,
+            "text": "B_evend:88"
           }
         ]
       }
