@@ -67,7 +67,7 @@ if (visualFallbackCoverage.length) {
 }
 if (sparseInteriorCoverage.length) {
   const summary = sparseInteriorCoverage
-    .map((item) => `${item.floor}:${item.missingGround} missing/${item.lowControlRefs} low-control`)
+    .map((item) => `${item.floor}:${item.missingGround} missing/${item.lowControlRefs} low-control/${item.frontendBlocked} blocked`)
     .join(", ");
   console.log(`Sparse original interior outside-black OK: ${summary}; low-id part refs stay non-drawable outside the real floor.`);
 }
@@ -110,13 +110,26 @@ function checkSparseInteriorGuard() {
 
     let missingGround = 0;
     let groundFill = 0;
+    let objectFill = 0;
     let lowControlRefs = 0;
+    let frontendLeaks = 0;
+    let frontendBlocked = 0;
     for (let index = 0; index < clientMap.cells; index += 1) {
       const clientGround = clientMap.ground(index);
+      const clientPart = clientMap.part(index);
       const logicGround = logicMap.ground(index);
+      const logicPart = logicMap.part(index);
       if (clientGround <= CG_INVISIBLE) missingGround += 1;
       if (clientGround <= CG_INVISIBLE && logicGround > CG_INVISIBLE) groundFill += 1;
-      if (clientGround <= CG_INVISIBLE && clientMap.part(index) > 0 && clientMap.part(index) <= CG_INVISIBLE) lowControlRefs += 1;
+      if (clientGround <= CG_INVISIBLE && logicPart > CG_INVISIBLE) objectFill += 1;
+      if (clientGround <= CG_INVISIBLE && clientPart > 0 && clientPart <= CG_INVISIBLE) lowControlRefs += 1;
+      if (clientGround <= CG_INVISIBLE) {
+        if (frontendWouldDrawGround(clientGround) || frontendWouldDrawObject(clientPart)) {
+          frontendLeaks += 1;
+        } else if (clientPart > 0) {
+          frontendBlocked += 1;
+        }
+      }
     }
 
     if (missingGround < Math.floor(clientMap.cells / 2)) {
@@ -125,12 +138,28 @@ function checkSparseInteriorGuard() {
     if (groundFill) {
       throw new Error(`Floor ${floor} has LS2 ground fallback cells; move it to VISUAL_FALLBACK_SAMPLE_FLOORS instead of sparse guard`);
     }
+    if (objectFill) {
+      throw new Error(`Floor ${floor} has LS2 object fallback cells outside client ground; keep sparse interiors outside-black instead`);
+    }
     if (!lowControlRefs) {
       throw new Error(`Expected low control part refs on sparse original interior floor ${floor}`);
     }
-    coverage.push({ floor, missingGround, lowControlRefs });
+    if (frontendLeaks) {
+      throw new Error(`Floor ${floor} would draw ${frontendLeaks} missing-ground cells in the frontend sparse-interior path`);
+    }
+    coverage.push({ floor, missingGround, lowControlRefs, frontendBlocked });
   }
   return coverage;
+}
+
+function frontendWouldDrawGround(tileId, lowGroundTiles = null) {
+  const id = Number(tileId || 0);
+  return id > CG_INVISIBLE || Boolean(lowGroundTiles?.has?.(id));
+}
+
+function frontendWouldDrawObject(tileId) {
+  const id = Number(tileId || 0);
+  return id > CG_INVISIBLE;
 }
 
 function checkEnemyBaseImages() {
