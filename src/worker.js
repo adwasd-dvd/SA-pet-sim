@@ -5428,6 +5428,14 @@ function recordBattleOutcome(game, outcome = null) {
       name: item.name || "",
       qty: Number(item.qty || 1)
     })),
+    potentialLootItems: (outcome.potentialLootItems || []).slice(0, 8).map((item) => ({
+      id: item.id,
+      name: item.name || "",
+      qty: Number(item.qty || 1),
+      probability: Number(item.probability || 0),
+      rollBase: Number(item.rollBase || ENEMY_DROP_ROLL_BASE),
+      source: item.source || ""
+    })),
     skippedLootItems: (outcome.skippedLootItems || []).slice(0, 8).map((item) => ({
       id: item.id,
       name: item.name || "",
@@ -5657,7 +5665,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
   let stone = 0;
   let defeatedEnemies = [];
   let escapedEnemies = [];
-  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [], sourceResults: [], lootItems: [], skippedLootItems: [] };
+  let rewardSummary = { playerExp: 0, petExp: 0, levelUps: [], sourceResults: [], lootItems: [], potentialLootItems: [], skippedLootItems: [] };
   if (options.enemyEscaped && enemy.Hp > 0 && battleActorHp(game, activeActor) > 0) {
     escapedEnemies = [...(game.battle?.escapedEnemies || [])];
     const nextEnemy = advanceBattleEscapedEnemy(game, enemy, battleLog);
@@ -5683,6 +5691,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
         escapedEnemies: game.battle?.escapedEnemies || escapedEnemies,
         sourceResults: [],
         lootItems: [],
+        potentialLootItems: [],
         turns: turnCount,
         log: battleLog
       };
@@ -5719,6 +5728,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
         escapedEnemies: game.battle?.escapedEnemies || [],
         sourceResults: [],
         lootItems: [],
+        potentialLootItems: [],
         turns: turnCount,
         log: battleLog
       };
@@ -5732,6 +5742,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
       levelUps: [...(reward.levelUps || [])],
       sourceResults: [...(reward.sourceResults || [])],
       lootItems: [],
+      potentialLootItems: battlePotentialLootItems(defeatedEnemies),
       skippedLootItems: []
     };
     exp = reward.playerExp;
@@ -5797,10 +5808,19 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
     escapedEnemies,
     sourceResults: rewardSummary.sourceResults,
     lootItems: rewardSummary.lootItems,
+    potentialLootItems: rewardSummary.potentialLootItems,
     skippedLootItems: rewardSummary.skippedLootItems,
     turns: turnCount,
     log: battleLog
   };
+}
+
+function battlePotentialLootItems(defeatedEnemies = []) {
+  const potential = [];
+  for (const enemy of defeatedEnemies || []) {
+    potential.push(...compactBattleLootItems(enemy.EnemyDropTable || enemy.dropTable || []));
+  }
+  return mergeBattleLootItems(potential);
 }
 
 function grantBattleLoot(game, defeatedEnemies = []) {

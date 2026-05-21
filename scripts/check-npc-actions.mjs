@@ -559,8 +559,25 @@ const originalRandomForLoot = Math.random;
 Math.random = () => 0;
 try {
   battleLootGame = await api("/api/game/encounter", { game: battleLootGame });
+  assert(battleLootGame.encounter?.EnemyDropTable?.length, "source enemy1 drop table is exposed on spawned enemies");
   assert(battleLootGame.encounter?.EnemyDropItems?.length, "source enemy1 drop probabilities roll item inventory onto spawned enemies");
   const expectedLootId = battleLootGame.encounter.EnemyDropItems[0].id;
+  const expectedDropEntry = battleLootGame.encounter.EnemyDropTable.find((item) => Number(item.id) === Number(expectedLootId));
+  assert(expectedDropEntry, "rolled source loot keeps a matching ITEM slot in EnemyDropTable");
+  assert(Number(expectedDropEntry.probability || 0) > 0, "source EnemyDropTable keeps ITEMPROB probability metadata");
+  assertEqual(Number(expectedDropEntry.rollBase || 0), 1000, "source EnemyDropTable keeps the enemy1 roll base");
+  assert(String(expectedDropEntry.source || "").includes("enemy1.txt"), "source EnemyDropTable keeps enemy1.txt provenance");
+  assert(
+    battleLootGame.encounter.EnemyDropItems.every((rolled) => (
+      battleLootGame.encounter.EnemyDropTable.some((entry) => (
+        Number(entry.id) === Number(rolled.id)
+        && Number(entry.slot) === Number(rolled.slot)
+        && Number(entry.probability) === Number(rolled.probability)
+        && Number(entry.rollBase) === Number(rolled.rollBase)
+      ))
+    )),
+    "rolled source loot stays tied to its enemy1 ITEM/ITEMPROB metadata"
+  );
   battleLootGame.encounter.Hp = 1;
   battleLootGame.encounter.WorkFixDex = 0;
   battleLootGame.encounter.WorkQuick = 0;
@@ -571,8 +588,10 @@ try {
   battleLootGame = await api("/api/game/battle", { game: battleLootGame, action: "攻击" });
   assertEqual(battleLootGame.battleOutcome.result, "victory", "source battle loot test wins the encounter");
   assert(battleLootGame.battleOutcome.lootItems.some((item) => Number(item.id) === expectedLootId), "victory outcome reports source enemy1 loot");
+  assert(battleLootGame.battleOutcome.potentialLootItems.some((item) => Number(item.id) === expectedLootId), "victory outcome preserves source enemy1 potential drop table for debug and task checks");
   assert(inventoryQty(battleLootGame, expectedLootId) > 0, "source enemy1 loot is added to inventory after victory");
   assert(battleLootGame.lastBattleOutcome.lootItems.some((item) => Number(item.id) === expectedLootId), "last battle telemetry persists source loot");
+  assert(battleLootGame.lastBattleOutcome.potentialLootItems.some((item) => Number(item.id) === expectedLootId && Number(item.probability || 0) > 0), "last battle telemetry persists source drop probability metadata");
   assert(battleLootGame.log.some((line) => line.includes("掉落")), "battle log announces dropped items");
 } finally {
   Math.random = originalRandomForLoot;
