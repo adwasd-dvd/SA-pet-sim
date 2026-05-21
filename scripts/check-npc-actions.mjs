@@ -242,9 +242,53 @@ assert(petFusionGame.dialog?.debug?.vmTrace?.some((event) => event.action === "p
 
 const quizEntryNpcs = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
-  .filter(({ npc }) => String(npc.script || "").includes("quz_"));
+  .filter(({ npc }) => npc.quiz || String(npc.script || "").includes("quz_"));
 assert(quizEntryNpcs.length >= 2, "world build keeps source quiz NPC fixtures with EntryItem-style keys");
 assert(quizEntryNpcs.every(({ npc }) => !npc.janken), "source quiz NPCs are not misclassified as Janken by EntryItem/NoItem metadata");
+const quizRuntimeEntry = quizEntryNpcs.find(({ npc }) => (
+  npc.quiz?.questions?.length
+  && npc.quiz?.entryItems?.length
+  && npc.quiz?.rewardItems?.length
+)) || quizEntryNpcs.find(({ npc }) => npc.quiz?.questions?.length);
+assert(quizRuntimeEntry, "world build parses source quiz runtime metadata and question fixtures");
+assert(quizRuntimeEntry.npc.scriptHints?.actions?.includes("quiz"), "source quiz NPCs expose quiz script action hints");
+let quizGame = await api("/api/game/new", { name: "source-quiz-runtime-test" });
+quizGame.location = {
+  mapId: quizRuntimeEntry.map.id,
+  x: quizRuntimeEntry.npc.x,
+  y: Math.max(0, quizRuntimeEntry.npc.y - 1),
+  dir: 4
+};
+quizGame = await api("/api/game/talk", { game: quizGame, npcId: quizRuntimeEntry.npc.id });
+assert(quizGame.dialog?.quiz?.quizCount >= 1, "source quiz dialog exposes question count metadata");
+assert(quizGame.dialog?.debug?.actions?.includes("quiz"), "source quiz dialog debug exposes quiz action");
+if (quizRuntimeEntry.npc.quiz?.entryItems?.length) {
+  quizGame = await api("/api/game/dialog", { game: quizGame, npcId: quizRuntimeEntry.npc.id, message: "开始" });
+  assert(!quizGame.flags?.pendingQuiz, "source quiz blocks start when required entry items are missing");
+  assert(quizGame.dialog?.debug?.vmTrace?.some((event) => event.action === "quiz" && event.status === "blocked"), "blocked source quiz records deterministic VM trace");
+}
+quizGame = await api("/api/game/dialog", { game: quizGame, npcId: quizRuntimeEntry.npc.id, message: "hi" });
+for (const item of quizRuntimeEntry.npc.quiz.entryItems || []) {
+  quizGame.inventory.push({ id: item.id, name: item.name, qty: Math.max(1, Number(item.qty || 1)), source: item.source || "source quiz test" });
+}
+quizGame.player.stone = Math.max(Number(quizGame.player.stone || 0), Number(quizRuntimeEntry.npc.quiz.entryStone || 0));
+const quizEntryBefore = new Map((quizRuntimeEntry.npc.quiz.entryItems || []).map((item) => [Number(item.id), inventoryQty(quizGame, item.id)]));
+quizGame = await api("/api/game/dialog", { game: quizGame, npcId: quizRuntimeEntry.npc.id, message: "开始" });
+assert(quizGame.flags?.pendingQuiz?.paid, "source quiz charges entry and starts a pending quiz session");
+for (const item of quizRuntimeEntry.npc.quiz.entryItems || []) {
+  assertEqual(inventoryQty(quizGame, item.id), quizEntryBefore.get(Number(item.id)) - Math.max(1, Number(item.qty || 1)), "source quiz entry item is charged through VM take");
+}
+const sourceQuestion = quizRuntimeEntry.npc.quiz.questions[0];
+const sourceAnswer = (sourceQuestion.options || [])[Number(sourceQuestion.correctIndex || 0)] || String(sourceQuestion.answerNo || 1);
+quizGame = await api("/api/game/dialog", { game: quizGame, npcId: quizRuntimeEntry.npc.id, message: sourceAnswer });
+assert(quizGame.dialog?.debug?.vmTrace?.some((event) => event.action === "quiz" && event.detail?.reason === "source-quiz-answer"), "source quiz answer records deterministic VM telemetry");
+if (!quizGame.flags?.pendingQuiz) {
+  assert(quizGame.dialog?.debug?.vmTrace?.some((event) => event.action === "quiz" && event.detail?.reason === "source-quiz-finish"), "source quiz finish records deterministic VM telemetry");
+  if (quizRuntimeEntry.npc.quiz.rewardItems?.length) {
+    const rewardIds = quizRuntimeEntry.npc.quiz.rewardItems.flatMap((entry) => entry.candidates || []).map((item) => Number(item.id));
+    assert(rewardIds.some((id) => inventoryQty(quizGame, id) > 0) || quizGame.dialog.messages.at(-1)?.text.includes("发放失败"), "source quiz reward runs through VM give or reports full inventory");
+  }
+}
 const bundledJankenEntries = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .filter(({ npc }) => npc.janken);

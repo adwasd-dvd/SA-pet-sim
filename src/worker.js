@@ -132,6 +132,7 @@ const NPC_VM_ACTIONS = new Set([
   "professionShop",
   "itemChange",
   "janken",
+  "quiz",
   "appearance",
   "warp",
   "heal",
@@ -7381,6 +7382,7 @@ async function npcReply(env, request, game, npc, text) {
   if (isSavePointNpc(npc) && (hasAny(lower, ["记录", "記錄", "纪录", "存档", "保存", "save"]) || (hasPendingSavePointConfirm(game, npc) && isSavePointConfirmText(lower)))) return savePointReply(game, npc, text);
   if (isLuckyManNpc(npc) && (isLuckyManRequestText(lower) || isLuckyManConfirmText(lower))) return luckyManReply(game, npc, text);
   if (isJankenNpc(npc) && isJankenRequestText(lower)) return jankenReply(game, npc, text);
+  if (isQuizNpc(npc) && isQuizRequestText(text, game, npc)) return quizReply(game, npc, text);
   if (isRaceManNpc(npc) && isRaceManRequestText(lower)) return raceManReply(game, npc, text);
   if (isNewNpcManNpc(npc) && isNewNpcManRequestText(lower)) return newNpcManReply(game, npc, text);
   if (npc.petShop && hasAny(lower, ["宠物店", "寵物店", "寄放", "寄存", "取回", "取出", "领取", "領取", "卖宠", "賣寵", "卖掉", "卖出", "出售", "整理宠物", "整理寵物", "pet"])) return petShopReply(game, npc);
@@ -7536,6 +7538,7 @@ function applyNpcHi(game, npc) {
   if (isSavePointNpc(npc)) return savePointReply(game, npc);
   if (isLuckyManNpc(npc)) return luckyManPromptReply(game, npc);
   if (isJankenNpc(npc)) return jankenPromptReply(game, npc);
+  if (isQuizNpc(npc)) return quizPromptReply(game, npc);
   if (isRaceManNpc(npc)) return raceManReply(game, npc, "hi");
   if (isNewNpcManNpc(npc)) return newNpcManPromptReply(game, npc);
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
@@ -7590,6 +7593,7 @@ function npcDefaultLine(npc) {
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
   if (isLuckyManNpc(npc)) return luckyManPromptText(null, npc);
   if (isJankenNpc(npc)) return jankenPromptText(null, npc);
+  if (isQuizNpc(npc)) return quizPromptText(null, npc);
   if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
   if (isNewNpcManNpc(npc)) return newNpcManDefaultLine(npc);
   if (isNpcEnemy(npc)) return npcEnemyAskMessage(npc);
@@ -9605,6 +9609,304 @@ function applyJankenWarp(game, npc, target, outcome) {
     source: npc.janken?.source || npc.script || npc.source || ""
   });
   return `你被传送到 ${arrived.name} (${game.location.x},${game.location.y})。`;
+}
+
+function isQuizNpc(npc) {
+  return Boolean(npc?.quiz)
+    || /Quiz|npcgen_quiz|\/quz_/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""}`);
+}
+
+function isQuizRequestText(text = "", game = null, npc = null) {
+  if (hasPendingQuiz(game, npc)) return true;
+  const value = String(text || "").trim();
+  return /^[1-9]$/.test(value)
+    || hasAny(value.toLowerCase(), ["quiz", "answer"])
+    || hasAny(value, ["答题", "答題", "问题", "問題", "回答", "答案", "开始", "開始", "参加", "參加"]);
+}
+
+function hasPendingQuiz(game, npc) {
+  return String(game?.flags?.pendingQuiz?.npcId || "") === String(npc?.id || "");
+}
+
+function buildQuizState(game, npc) {
+  if (!isQuizNpc(npc)) return null;
+  const quiz = npc.quiz || {};
+  const pending = hasPendingQuiz(game, npc) ? game.flags.pendingQuiz : null;
+  return {
+    kind: "quiz",
+    source: quiz.source || npc.script || npc.source || "",
+    quizCount: Number(quiz.quizCount || quiz.questions?.length || 0),
+    entryItems: quiz.entryItems || [],
+    entryStone: Number(quiz.entryStone || 0),
+    rewards: quiz.rewardItems || [],
+    warps: quiz.warpTargets || [],
+    pending: pending ? {
+      paid: Boolean(pending.paid),
+      index: Number(pending.index || 0),
+      correct: Number(pending.correct || 0),
+      total: Number(pending.total || 0)
+    } : null
+  };
+}
+
+function quizPromptText(game, npc) {
+  const quiz = npc.quiz || {};
+  const start = quiz.messages?.start || `${npc.name}：要参加答题吗？`;
+  const entry = quizEntryLine(npc);
+  const count = Number(quiz.quizCount || quiz.questions?.length || 0);
+  const action = game ? "输入“开始”扣除参加条件并开始答题；答题时可输入选项编号或答案文字。" : "";
+  return [start, count ? `题数：${count}。` : "", entry, action].filter(Boolean).join("\n");
+}
+
+function quizEntryLine(npc) {
+  const quiz = npc?.quiz || {};
+  const items = quiz.entryItems || [];
+  const stone = Number(quiz.entryStone || 0);
+  const parts = [
+    ...items.map(quizItemLabel),
+    stone > 0 ? `${stone} 石币` : ""
+  ].filter(Boolean);
+  return parts.length ? `参加条件：${parts.join("、")}。` : "参加条件：免费。";
+}
+
+function quizItemLabel(item) {
+  return `${item?.name || `item ${item?.id || "?"}`} x${Math.max(1, Number(item?.qty || 1))}`;
+}
+
+function quizPromptReply(game, npc) {
+  ensureFlags(game);
+  game.flags.pendingQuiz = {
+    npcId: npc.id,
+    paid: false,
+    index: 0,
+    correct: 0,
+    total: quizTotal(npc),
+    source: npc.quiz?.source || npc.script || npc.source || ""
+  };
+  runNpcVmAction(game, npc, {
+    type: "window",
+    reason: "source-quiz-start",
+    entryItems: npc.quiz?.entryItems || [],
+    entryStone: Number(npc.quiz?.entryStone || 0),
+    source: npc.quiz?.source || npc.script || npc.source || ""
+  });
+  return quizPromptText(game, npc);
+}
+
+function quizReply(game, npc, text = "") {
+  ensureFlags(game);
+  const value = String(text || "").trim();
+  const pending = hasPendingQuiz(game, npc) ? game.flags.pendingQuiz : null;
+  if (!pending || (!pending.paid && !isQuizStartText(value))) return quizPromptReply(game, npc);
+  if (!pending.paid) {
+    const paid = ensureQuizEntryPaid(game, npc);
+    if (!paid.ok) {
+      clearPendingQuiz(game, npc);
+      runNpcVmAction(game, npc, {
+        type: "quiz",
+        status: "blocked",
+        reason: "source-quiz-no-entry",
+        entryItems: npc.quiz?.entryItems || [],
+        entryStone: Number(npc.quiz?.entryStone || 0),
+        source: npc.quiz?.source || npc.script || npc.source || ""
+      });
+      return npc.quiz?.messages?.noEntry || `${npc.name}：参加条件不足。${paid.missing ? `需要 ${paid.missing}` : quizEntryLine(npc)}`;
+    }
+    runNpcVmAction(game, npc, {
+      type: "quiz",
+      reason: "source-quiz-entry-paid",
+      paidNow: paid.paidNow,
+      source: npc.quiz?.source || npc.script || npc.source || ""
+    });
+    return quizQuestionText(game, npc, currentQuizQuestion(game, npc), "");
+  }
+  const question = currentQuizQuestion(game, npc);
+  if (!question) return finishQuiz(game, npc);
+  if (!value) return quizQuestionText(game, npc, question, "");
+  const correct = quizAnswerIsCorrect(question, value);
+  game.flags.pendingQuiz.correct = Number(game.flags.pendingQuiz.correct || 0) + (correct ? 1 : 0);
+  game.flags.pendingQuiz.index = Number(game.flags.pendingQuiz.index || 0) + 1;
+  runNpcVmAction(game, npc, {
+    type: "quiz",
+    reason: "source-quiz-answer",
+    questionId: question.id,
+    correct,
+    index: Number(game.flags.pendingQuiz.index || 0),
+    score: Number(game.flags.pendingQuiz.correct || 0),
+    source: npc.quiz?.source || npc.script || npc.source || ""
+  });
+  const nextQuestion = currentQuizQuestion(game, npc);
+  if (!nextQuestion) return finishQuiz(game, npc, correct ? "答对。" : "答错。");
+  return quizQuestionText(game, npc, nextQuestion, correct ? "答对。" : "答错。");
+}
+
+function isQuizStartText(text = "") {
+  return hasAny(String(text || ""), ["开始", "開始", "参加", "參加", "答题", "答題", "是", "yes", "start"]);
+}
+
+function quizTotal(npc) {
+  const quiz = npc?.quiz || {};
+  const questionCount = (quiz.questions || []).length;
+  const configured = Number(quiz.quizCount || questionCount || 0);
+  return Math.max(0, Math.min(questionCount, configured || questionCount));
+}
+
+function ensureQuizEntryPaid(game, npc) {
+  ensureFlags(game);
+  const pending = game.flags.pendingQuiz;
+  if (pending && String(pending.npcId || "") === String(npc.id) && pending.paid) return { ok: true, paidNow: false };
+  const quiz = npc.quiz || {};
+  const items = quiz.entryItems || [];
+  const missingItem = items.find((item) => inventoryQty(game, item.id) < Math.max(1, Number(item.qty || 1)));
+  if (missingItem) return { ok: false, missing: quizItemLabel(missingItem) };
+  const entryStone = Number(quiz.entryStone || 0);
+  if (entryStone > 0 && Number(game.player?.stone || 0) < entryStone) return { ok: false, missing: `${entryStone} 石币` };
+  for (const item of items) {
+    const taken = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: item.id,
+      itemName: item.name,
+      qty: Math.max(1, Number(item.qty || 1)),
+      reason: "source-quiz-entry-item",
+      source: quiz.source || npc.script || npc.source || ""
+    });
+    if (!taken.ok) return { ok: false, missing: quizItemLabel(item), error: taken.error };
+  }
+  if (entryStone > 0) {
+    const takenStone = runNpcVmAction(game, npc, {
+      type: "take",
+      itemId: "stone",
+      qty: entryStone,
+      reason: "source-quiz-entry-stone",
+      source: quiz.source || npc.script || npc.source || ""
+    });
+    if (!takenStone.ok) return { ok: false, missing: `${entryStone} 石币`, error: takenStone.error };
+  }
+  game.flags.pendingQuiz = {
+    npcId: npc.id,
+    paid: true,
+    index: 0,
+    correct: 0,
+    total: quizTotal(npc),
+    source: quiz.source || npc.script || npc.source || ""
+  };
+  return { ok: true, paidNow: Boolean(items.length || entryStone > 0) };
+}
+
+function currentQuizQuestion(game, npc) {
+  if (!hasPendingQuiz(game, npc)) return null;
+  const index = Number(game.flags.pendingQuiz.index || 0);
+  const total = quizTotal(npc);
+  if (index >= total) return null;
+  return (npc.quiz?.questions || [])[index] || null;
+}
+
+function quizQuestionText(game, npc, question, prefix = "") {
+  if (!question) return `${npc.name}：题库没有匹配到可用题目，暂时不能开始。`;
+  const pending = game.flags.pendingQuiz || {};
+  const index = Number(pending.index || 0) + 1;
+  const total = Math.max(1, Number(pending.total || quizTotal(npc) || 1));
+  const options = (question.options || [])
+    .map((option, optionIndex) => `${optionIndex + 1}. ${option}`)
+    .join("\n");
+  const answerHint = options ? "输入 1/2/3 或答案文字。" : "输入答案文字。";
+  return [prefix, `问题 ${index}/${total}：${question.question}`, options, answerHint].filter(Boolean).join("\n");
+}
+
+function quizAnswerIsCorrect(question, text = "") {
+  const value = String(text || "").trim();
+  const numeric = Number(value);
+  if (Number.isInteger(numeric) && numeric > 0) return numeric === Number(question.answerNo || question.correctIndex + 1 || 1);
+  const normalized = normalizeQuizAnswer(value);
+  const correctText = normalizeQuizAnswer((question.options || [])[Number(question.correctIndex || 0)] || (question.options || [])[0] || "");
+  if (!correctText) return false;
+  if (Number(question.answerType || 0) === 4) return normalized.includes(correctText) || correctText.includes(normalized);
+  return normalized === correctText || normalized.includes(correctText) || correctText.includes(normalized);
+}
+
+function normalizeQuizAnswer(value = "") {
+  return String(value || "").toLowerCase().replace(/\s+/g, "").replace(/[。！？!?,，、]/g, "");
+}
+
+function finishQuiz(game, npc, prefix = "") {
+  const pending = hasPendingQuiz(game, npc) ? game.flags.pendingQuiz : {};
+  const score = Number(pending.correct || 0);
+  const total = Number(pending.total || quizTotal(npc) || 0);
+  const source = npc.quiz?.source || npc.script || npc.source || "";
+  const event = runNpcVmAction(game, npc, {
+    type: "quiz",
+    reason: "source-quiz-finish",
+    score,
+    total,
+    source
+  });
+  const lines = [
+    prefix,
+    quizResultMessage(npc, score) || `${npc.name}：答题结束，答对 ${score}/${total} 题。`,
+    ...grantQuizReward(game, npc, score),
+    applyQuizWarp(game, npc, score),
+    `来源：${event.detail?.source || source || "gmsv npc_quiz.c"}。`
+  ].filter(Boolean);
+  clearPendingQuiz(game, npc);
+  addLog(game, `${npc.name} 答题结束：${score}/${total}`);
+  return lines.join("\n");
+}
+
+function quizResultMessage(npc, score) {
+  const result = selectQuizThresholdEntry(npc.quiz?.borders || [], score);
+  return result?.text || npc.quiz?.messages?.failure || "";
+}
+
+function grantQuizReward(game, npc, score) {
+  const entry = selectQuizThresholdEntry(npc.quiz?.rewardItems || [], score);
+  if (!entry?.candidates?.length) return [];
+  const index = stableHashInt([game.character?.id || game.player?.name || "", npc.id, score, npc.quiz?.source || ""].join("|")) % entry.candidates.length;
+  const item = entry.candidates[index];
+  const given = runNpcVmAction(game, npc, {
+    type: "give",
+    item,
+    itemId: item.id,
+    itemName: item.name,
+    qty: 1,
+    reason: "source-quiz-reward",
+    source: npc.quiz?.source || npc.script || npc.source || ""
+  });
+  return [given.ok ? `获得 ${item.name || `item ${item.id}`} x1。` : `${item.name || `item ${item.id}`} 发放失败：${given.error || "背包空间不足"}。`];
+}
+
+function applyQuizWarp(game, npc, score) {
+  const entry = selectQuizThresholdEntry(npc.quiz?.warpTargets || [], score);
+  const target = entry?.target;
+  if (!target) return "";
+  const targetMap = WORLD.maps[String(target.mapId || "")];
+  if (!targetMap) {
+    runNpcVmAction(game, npc, {
+      type: "warp",
+      status: "blocked",
+      reason: "source-quiz-missing-map",
+      target,
+      source: npc.quiz?.source || npc.script || npc.source || ""
+    });
+    return `原脚本要传送到 floor ${target.mapId} (${target.x},${target.y})，但目标地图尚未打包。`;
+  }
+  const arrived = applyWarpTarget(game, { ...target, source: npc.quiz?.source || npc.script || npc.source || "" }, `${npc.name} 答题结算`);
+  runNpcVmAction(game, npc, {
+    type: "warp",
+    reason: "source-quiz-finish",
+    target,
+    source: npc.quiz?.source || npc.script || npc.source || ""
+  });
+  return `你被传送到 ${arrived.name} (${game.location.x},${game.location.y})。`;
+}
+
+function selectQuizThresholdEntry(entries = [], score = 0) {
+  return (entries || []).find((entry) => Number(score) >= Number(entry.threshold || 0)) || null;
+}
+
+function clearPendingQuiz(game, npc) {
+  if (String(game?.flags?.pendingQuiz?.npcId || "") === String(npc?.id || "")) {
+    delete game.flags.pendingQuiz;
+  }
 }
 
 function applySourceSavePointRecord(game, npc, reason = "source-savepoint") {
@@ -12122,6 +12424,7 @@ function openDialog(game, npc, messages, extra = {}) {
     itemPoolShop: extra.itemPoolShop || buildItemPoolShopState(game, npc),
     raceMan: buildRaceManState(game, npc),
     janken: npc.janken || null,
+    quiz: buildQuizState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     petSkillShop: extra.petSkillShop || null,
     professionShop: extra.professionShop || buildProfessionShopState(game, npc),
@@ -12145,6 +12448,7 @@ function npcDebugInfo(npc, game = null) {
     graphic: npc.graphic || "",
     raceMan: buildRaceManState(game, npc),
     janken: npc.janken || null,
+    quiz: buildQuizState(game, npc),
     newNpcMan: buildNewNpcManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     professionShop: buildProfessionShopState(game, npc),
@@ -12179,6 +12483,9 @@ function npcActionProfile(npc) {
   if (isRaceManNpc(npc)) actions.push("raceMan", "window", "say");
   if (isJankenNpc(npc)) actions.push("janken", "window", "take", "warp", "say");
   if (isJankenNpc(npc) && (npc.janken?.winItems?.length || npc.janken?.loseItems?.length)) actions.push("give");
+  if (isQuizNpc(npc)) actions.push("quiz", "window", "take", "say");
+  if (isQuizNpc(npc) && npc.quiz?.rewardItems?.length) actions.push("give");
+  if (isQuizNpc(npc) && npc.quiz?.warpTargets?.length) actions.push("warp");
   if (isRouteServiceNpc(npc)) actions.push("routeService", "warp");
   if (isLuckyManNpc(npc)) actions.push("window", "take", "fortune");
   if (npc.petSkillShop?.skillIds?.length || /PetSkill/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petSkillShop");
@@ -13713,6 +14020,7 @@ function dialogSuggestions(npc, game = null) {
   else if (/healer/i.test(npc.type)) base = ["hi", "治疗", "地图"];
   else if (isLuckyManNpc(npc)) base = ["hi", "占卜", "是"];
   else if (isJankenNpc(npc)) base = ["hi", "石头", "剪刀", "布"];
+  else if (isQuizNpc(npc)) base = ["hi", "开始", "1", "2"];
   else if (npc.warp || /warp/i.test(npc.type)) base = ["hi", "传送", "出口"];
   else if (npc.itemChange?.recipes?.length) base = ["hi", "加工", "地图"];
   else if (/save/i.test(npc.type)) base = ["hi", "记录", "地图"];

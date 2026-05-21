@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T16:17:53.732Z
+Generated: 2026-05-21T17:12:36.619Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -62,10 +62,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | herobattlefield | candidate-action | 0 | 0 | 0 | 133 | external/sources/ref___data/npc/heroic/DEADJOE:18 |
-| Border | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:5 |
-| Level | candidate-action | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:3 |
-| Party | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:9 |
-| Quiznum | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:4 |
 | Event_End | candidate-action | 0 | 0 | 0 | 21 | external/sources/ref___data/npc/heroic/heroic100.arg:21 |
 | item | candidate-action | 0 | 0 | 0 | 20 | external/sources/ref___data/npc/100/sb_mimi.arg:5 |
 | TENSEI | unknown | 0 | 0 | 0 | 11 | external/sources/ref___data/npc/777/ten.arg:17 |
@@ -86,6 +82,10 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | sad | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:10 |
 | sit | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:6 |
 | throw | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:13 |
+| GAMBLE_TYPE | unknown | 0 | 0 | 0 | 6 | external/sources/ref___data/npc/bank/bankman01.arg:3 |
+| challengetimeout | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:3 |
+| EvClr | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/heroic/heroic120.arg:20 |
+| fightinterval | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:5 |
 
 ## Recommended Next Slice
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T16:17:53.732Z",
+  "generatedAt": "2026-05-21T17:12:36.619Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -213,10 +213,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 9599,
+      "supported-config": 9691,
       "supported-message": 15686,
-      "candidate-action": 210,
-      "unknown": 302,
+      "candidate-action": 187,
+      "unknown": 233,
       "condition-control": 12055,
       "supported-action": 3747,
       "blocked-or-later-system": 6
@@ -972,7 +972,7 @@
       {
         "key": "Border",
         "normalized": "border",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 23,
         "files": 23,
         "profiles": {
@@ -6011,7 +6011,7 @@
       {
         "key": "Level",
         "normalized": "level",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 23,
         "files": 23,
         "profiles": {
@@ -9534,7 +9534,7 @@
       {
         "key": "Party",
         "normalized": "party",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 23,
         "files": 23,
         "profiles": {
@@ -10561,7 +10561,7 @@
       {
         "key": "Quiznum",
         "normalized": "quiznum",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 23,
         "files": 23,
         "profiles": {
@@ -13947,214 +13947,6 @@
         ]
       },
       {
-        "key": "Border",
-        "normalized": "border",
-        "category": "unknown",
-        "occurrences": 23,
-        "files": 23,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
-            "line": 5,
-            "text": "Border:1,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
-            "line": 5,
-            "text": "Border:1,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
-            "line": 5,
-            "text": "Border:2,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
-            "line": 5,
-            "text": "Border:2,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
-            "line": 5,
-            "text": "Border:3,喔！干的不错！依照约定让你继续前进吧！,0,非常遗憾呀、再次来挑战吧。"
-          }
-        ]
-      },
-      {
-        "key": "Level",
-        "normalized": "level",
-        "category": "candidate-action",
-        "occurrences": 23,
-        "files": 23,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
-            "line": 3,
-            "text": "Level:8"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
-            "line": 3,
-            "text": "Level:16"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
-            "line": 3,
-            "text": "Level:3"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
-            "line": 3,
-            "text": "Level:6"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
-            "line": 3,
-            "text": "Level:12"
-          }
-        ]
-      },
-      {
-        "key": "Party",
-        "normalized": "party",
-        "category": "unknown",
-        "occurrences": 23,
-        "files": 23,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
-            "line": 9,
-            "text": "Party:团队无法参加喔！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
-            "line": 12,
-            "text": "Party:团队无法参加喔！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
-            "line": 10,
-            "text": "Party:团队无法参加喔！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
-            "line": 10,
-            "text": "Party:团队无法参加喔！"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
-            "line": 10,
-            "text": "Party:团队无法参加喔！"
-          }
-        ]
-      },
-      {
-        "key": "Quiznum",
-        "normalized": "quiznum",
-        "category": "unknown",
-        "occurrences": 23,
-        "files": 23,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_7777_20_20",
-            "line": 4,
-            "text": "Quiznum:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_800_29_19",
-            "line": 4,
-            "text": "Quiznum:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_801_18_19",
-            "line": 4,
-            "text": "Quiznum:2"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_803_18_19",
-            "line": 4,
-            "text": "Quiznum:3"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/quz_805_18_19",
-            "line": 4,
-            "text": "Quiznum:5"
-          }
-        ]
-      },
-      {
         "key": "Event_End",
         "normalized": "event_end",
         "category": "candidate-action",
@@ -15891,6 +15683,154 @@
             "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
             "line": 3,
             "text": "jaja:Item=4,Pet=3,Present=1379.1378.1377.1380.1381,Warp=3006.21.16"
+          }
+        ]
+      },
+      {
+        "key": "karutarna",
+        "normalized": "karutarna",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 4,
+            "text": "karutarna:Item=6,Pet=2,Present=1378.1377.1380.1379.1381,Warp=4006.14.20"
+          },
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
+            "line": 4,
+            "text": "karutarna:Item=6,Pet=2,Present=1378.1377.1380.1379.1381,Warp=4006.14.20"
+          }
+        ]
+      },
+      {
+        "key": "marinasu",
+        "normalized": "marinasu",
+        "category": "unknown",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 2,
+            "text": "marinasu:Item=6,Pet=2,Present=1380.1379.1378.1377.1381,Warp=2006.20.16"
+          },
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
+            "line": 2,
+            "text": "marinasu:Item=6,Pet=2,Present=1380.1379.1378.1377.1381,Warp=2006.20.16"
+          }
+        ]
+      },
+      {
+        "key": "PETTRANS",
+        "normalized": "pettrans",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/777/ten.arg",
+            "line": 7,
+            "text": "PETTRANS:"
+          },
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/sikkoku/ten.arg",
+            "line": 7,
+            "text": "PETTRANS:"
+          }
+        ]
+      },
+      {
+        "key": "pickupitem",
+        "normalized": "pickupitem",
+        "category": "candidate-action",
+        "occurrences": 2,
+        "files": 2,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane4.arg",
+            "line": 6,
+            "text": "pickupitem:0"
+          },
+          {
+            "file": "external/sources/ref___data/npc/chatroom/airplane5.arg",
+            "line": 6,
+            "text": "pickupitem:0"
           }
         ]
       }

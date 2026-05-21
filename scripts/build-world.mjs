@@ -7,6 +7,7 @@ const clientRoot = path.resolve(process.env.SA_CLIENT_ASSET_ROOT || path.join(ap
 const mapRoot = path.join(refRoot, "map");
 const npcRoot = path.join(refRoot, "npc");
 const professionSkillPath = path.join(refRoot, "profession.txt");
+const quizQuestionPath = path.join(refRoot, "question.txt");
 const clientMapRoot = path.join(clientRoot, "map");
 const publicMapRoot = path.join(appRoot, "public", "data", "maps");
 const publicClientMapRoot = path.join(appRoot, "public", "data", "client-maps");
@@ -71,6 +72,7 @@ const enemyGroups = parseEnemyGroups(path.join(refRoot, "group1.txt"), enemySpec
 const encounterByFloor = parseEncounters(path.join(refRoot, "encount.txt"), enemyGroups);
 const itemDb = parseItems(path.join(refRoot, "itemset6.txt"));
 let professionSkillCatalogCache = null;
+let quizQuestionCatalogCache = null;
 const npcWarpPoints = parseNpcWarpPoints();
 const npcsByFloor = parseNpcs();
 const contentProfile = loadContentProfile();
@@ -467,11 +469,12 @@ function parseNpcs() {
       const savePoint = readNpcSavePoint(argPath, file);
       const luckyMan = readNpcLuckyMan(argPath, file, functionset, enemy.template);
       const janken = readNpcJanken(argPath, file, functionset, enemy.template);
+      const quiz = readNpcQuiz(argPath, file, functionset, enemy.template);
       const warp = readNpcWarp(argPath, file);
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, raceMan, petFusion, newNpcMan);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -497,6 +500,7 @@ function parseNpcs() {
         ...(savePoint ? { savePoint } : {}),
         ...(luckyMan ? { luckyMan } : {}),
         ...(janken ? { janken } : {}),
+        ...(quiz ? { quiz } : {}),
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
         ...(scriptEvents?.length ? { scriptEvents } : {}),
@@ -1524,6 +1528,140 @@ function readNpcJanken(argPath, createFile, functionset = "", template = "") {
   };
 }
 
+function readNpcQuiz(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const text = readText(file);
+  const identity = `${functionset} ${template} ${argPath} ${relativeRef(file)}`;
+  if (!/Quiz|npcgen_quiz|\/quz_/i.test(identity) && !/^\s*Quiznum\s*:/im.test(text)) return null;
+  const kv = parseColonFile(text);
+  const quizCount = Math.max(0, Number(kv.quiznum || 0) || 0);
+  if (!quizCount && !kv.startmsg) return null;
+  const typeMask = Math.max(0, Number(kv.type || 0) || 0);
+  const answerMask = Math.max(0, Number(kv.answer || 0) || 0);
+  const levelMask = Math.max(0, Number(kv.level || 0) || 0);
+  const questions = quizQuestionsFor(typeMask, answerMask, levelMask)
+    .slice(0, Math.max(quizCount || 1, 1));
+  const entryItems = parseScriptItemSpecs(kv.entryitem || "").map(withScriptItemName);
+  const entryStone = Math.max(0, Number(kv.entrystone || 0) || 0);
+  const borders = parseQuizThresholdText(kv.border || "");
+  const rewardItems = parseQuizRewardItems(kv.getitem || "");
+  const warpTargets = parseQuizWarpTargets(kv.warp || "");
+  return {
+    kind: "quiz",
+    source: relativeRef(file),
+    typeMask,
+    answerMask,
+    levelMask,
+    quizCount: quizCount || questions.length,
+    messages: {
+      start: cleanScriptText(kv.startmsg || ""),
+      failure: cleanScriptText(kv.failuremsg || ""),
+      noEntry: cleanScriptText(kv.noentrymsg || ""),
+      itemFull: cleanScriptText(kv.itemfullmsg || ""),
+      party: cleanScriptText(kv.party || kv.partymsg || "")
+    },
+    entryItems,
+    ...(entryStone ? { entryStone } : {}),
+    ...(borders.length ? { borders } : {}),
+    ...(rewardItems.length ? { rewardItems } : {}),
+    ...(warpTargets.length ? { warpTargets } : {}),
+    questions
+  };
+}
+
+function quizQuestionsFor(typeMask, answerMask, levelMask) {
+  return readQuizQuestionCatalog()
+    .filter((question) => quizQuestionMaskMatches(typeMask, question.type)
+      && quizQuestionMaskMatches(answerMask, question.answerType, true)
+      && quizQuestionMaskMatches(levelMask, question.level, true));
+}
+
+function quizQuestionMaskMatches(mask, value, directValue = false) {
+  const numericMask = Number(mask || 0);
+  if (numericMask <= 0) return true;
+  const numericValue = Number(value || 0);
+  if (numericValue <= 0) return false;
+  const bit = directValue ? numericValue : (1 << Math.max(0, numericValue - 1));
+  return (numericMask & bit) !== 0;
+}
+
+function readQuizQuestionCatalog() {
+  if (quizQuestionCatalogCache) return quizQuestionCatalogCache;
+  const questions = [];
+  if (!exists(quizQuestionPath)) {
+    quizQuestionCatalogCache = questions;
+    return questions;
+  }
+  for (const rawLine of readText(quizQuestionPath).split(/\r?\n/)) {
+    const raw = rawLine.trim();
+    if (!raw || raw.startsWith("#")) continue;
+    const cols = raw.split(",");
+    if (cols.length < 6) continue;
+    const id = Number(cols[0]);
+    const type = Number(cols[1]);
+    const level = Number(cols[2]);
+    const answerType = Number(cols[3]);
+    const answerNo = Number(cols[4]);
+    const options = cols.slice(6, 9).map((part) => cleanScriptText(part)).filter(Boolean);
+    questions.push({
+      id: Number.isFinite(id) ? id : questions.length + 1,
+      type: Number.isFinite(type) ? type : 0,
+      level: Number.isFinite(level) ? level : 0,
+      answerType: Number.isFinite(answerType) ? answerType : 0,
+      answerNo: Number.isFinite(answerNo) ? answerNo : 1,
+      correctIndex: Math.max(0, Math.min(options.length - 1, (Number.isFinite(answerNo) ? answerNo : 1) - 1)),
+      question: cleanScriptText(cols[5] || ""),
+      options
+    });
+  }
+  quizQuestionCatalogCache = questions;
+  return questions;
+}
+
+function parseQuizThresholdText(value = "") {
+  return parseQuizThresholdPairs(value)
+    .map(([threshold, text]) => ({
+      threshold,
+      text: cleanScriptText(text)
+    }))
+    .filter((entry) => entry.text);
+}
+
+function parseQuizRewardItems(value = "") {
+  return parseQuizThresholdPairs(value)
+    .map(([threshold, spec]) => {
+      const candidates = String(spec || "")
+        .split(".")
+        .map((part) => compactScriptItem(Number(part.trim())))
+        .filter(Boolean)
+        .slice(0, 16);
+      return candidates.length ? { threshold, candidates } : null;
+    })
+    .filter(Boolean);
+}
+
+function parseQuizWarpTargets(value = "") {
+  return parseQuizThresholdPairs(value)
+    .map(([threshold, spec]) => {
+      const [floor, x, y] = String(spec || "").split(".").map((part) => Number(part.trim()));
+      if (!Number.isFinite(floor) || !Number.isFinite(x) || !Number.isFinite(y) || floor <= 0) return null;
+      return { threshold, target: { mapId: String(floor), floor, x, y } };
+    })
+    .filter(Boolean);
+}
+
+function parseQuizThresholdPairs(value = "") {
+  const parts = String(value || "").split(",").map((part) => part.trim()).filter(Boolean);
+  const pairs = [];
+  for (let index = 0; index + 1 < parts.length; index += 2) {
+    const threshold = Number(parts[index]);
+    if (!Number.isFinite(threshold)) continue;
+    pairs.push([threshold, parts[index + 1]]);
+  }
+  return pairs;
+}
+
 function parseJankenWarp(value = "") {
   const parts = String(value || "").split(",").map((part) => Number(part.trim()));
   if (parts.length < 3 || parts.some((part) => !Number.isFinite(part))) return null;
@@ -2200,7 +2338,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, raceMan, petFusion, newNpcMan) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
@@ -2219,6 +2357,9 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (luckyMan) actions.push("fortune");
   if (janken) actions.push("janken", "window", "take", "warp");
   if (janken?.winItems?.length || janken?.loseItems?.length) actions.push("give");
+  if (quiz) actions.push("quiz", "window", "take", "say");
+  if (quiz?.rewardItems?.length) actions.push("give");
+  if (quiz?.warpTargets?.length) actions.push("warp");
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];
@@ -2243,6 +2384,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     if (hints.length >= 8) break;
   }
   for (const item of jankenHints(janken)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
+  for (const item of quizHints(quiz)) {
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
   }
@@ -2272,6 +2417,17 @@ function jankenHints(janken) {
     janken.winWarp ? `WinWarp:${janken.winWarp.mapId},${janken.winWarp.x},${janken.winWarp.y}` : "",
     janken.loseWarp ? `LoseWarp:${janken.loseWarp.mapId},${janken.loseWarp.x},${janken.loseWarp.y}` : "",
     janken.noItemMessage ? `NoItem:${janken.noItemMessage}` : ""
+  ].filter(Boolean);
+}
+
+function quizHints(quiz) {
+  if (!quiz) return [];
+  return [
+    quiz.quizCount ? `Quiznum:${quiz.quizCount}` : "",
+    ...(quiz.entryItems || []).slice(0, 3).map((item) => `EntryItem:${item.name || item.id} x${item.qty || 1}`),
+    quiz.entryStone ? `EntryStone:${quiz.entryStone}` : "",
+    quiz.questions?.[0]?.question ? `Question:${quiz.questions[0].question}` : "",
+    quiz.messages?.noEntry ? `NoEntry:${quiz.messages.noEntry}` : ""
   ].filter(Boolean);
 }
 

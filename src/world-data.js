@@ -55034,9 +55034,103 @@ export const WORLD = {
           "script": "file:genout/quz_800_29_19",
           "template": "npcgen_quiz",
           "graphic": "100060",
+          "quiz": {
+            "kind": "quiz",
+            "source": "gmsv-data/npc/genout/quz_800_29_19",
+            "typeMask": 1,
+            "answerMask": 7,
+            "levelMask": 16,
+            "quizCount": 1,
+            "messages": {
+              "start": "跟我比赛猜谜 如果你答对的话就让继续前进喔。 另外再给你道具的交换券吧。 那么、要比赛吗？",
+              "failure": "真是可惜呢、再次来挑战吧。",
+              "noEntry": "你没有参加券吗 那么就不能比赛胜负啰。 因为参加券在每层楼的弟子们的手上 跟他们战斗之后就可以拿到了。",
+              "itemFull": "道具都放满的话无法参加猜谜喔",
+              "party": "团队无法参加喔！"
+            },
+            "entryItems": [
+              {
+                "id": 2752,
+                "qty": 1,
+                "name": "猜谜的参加票",
+                "image": 24314,
+                "cost": 0,
+                "description": "拿着这个去 挑战猜谜吧！",
+                "source": "gmsv-data/itemset6.txt"
+              }
+            ],
+            "borders": [
+              {
+                "threshold": 1,
+                "text": "喔！干的不错！依照约定让你继续前进吧！"
+              },
+              {
+                "threshold": 0,
+                "text": "非常遗憾呀、再次来挑战吧。"
+              }
+            ],
+            "rewardItems": [
+              {
+                "threshold": 1,
+                "candidates": [
+                  {
+                    "id": 2754,
+                    "name": "道具交换卷",
+                    "image": 24222,
+                    "cost": 0,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "拿这个去的话．．．",
+                    "functionName": "",
+                    "option": ""
+                  }
+                ]
+              }
+            ],
+            "warpTargets": [
+              {
+                "threshold": 1,
+                "target": {
+                  "mapId": "800",
+                  "floor": 800,
+                  "x": 29,
+                  "y": 15
+                }
+              }
+            ],
+            "questions": [
+              {
+                "id": 11,
+                "type": 1,
+                "level": 16,
+                "answerType": 2,
+                "answerNo": 1,
+                "correctIndex": 0,
+                "question": "通过海底通道需要什么?",
+                "options": [
+                  "通行证",
+                  "通行手印",
+                  "通行书"
+                ]
+              }
+            ]
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "quiz",
+              "window",
+              "take",
+              "say",
+              "give",
+              "warp"
+            ],
             "hints": [
+              "Quiznum:1",
+              "EntryItem:猜谜的参加票 x1",
+              "Question:通过海底通道需要什么?",
+              "NoEntry:你没有参加券吗 那么就不能比赛胜负啰。 因为参加券在每层楼的弟子们的手上 跟他们战斗之后就可以拿到了。",
               "GetItem:1,2754",
               "Warp:1,800.29.15"
             ],
@@ -65701,9 +65795,103 @@ export const WORLD = {
           "script": "file:genout/quz_840_29_19",
           "template": "npcgen_quiz",
           "graphic": "100060",
+          "quiz": {
+            "kind": "quiz",
+            "source": "gmsv-data/npc/genout/quz_840_29_19",
+            "typeMask": 1,
+            "answerMask": 7,
+            "levelMask": 16,
+            "quizCount": 1,
+            "messages": {
+              "start": "跟我以猜谜比赛胜负 答对的话就让你继续前进喔。 另外再给你道具的交换券吧。 那么、要比赛吗？",
+              "failure": "真是可惜呢、再次来挑战吧。",
+              "noEntry": "你没有参加券吗 那么就不能比赛胜负啰。 因为参加券在每层楼的弟子们的手上 跟他们战斗之后就可以拿到了。",
+              "itemFull": "道具都放满的话无法参加猜谜喔",
+              "party": "团队无法参加喔！"
+            },
+            "entryItems": [
+              {
+                "id": 2752,
+                "qty": 1,
+                "name": "猜谜的参加票",
+                "image": 24314,
+                "cost": 0,
+                "description": "拿着这个去 挑战猜谜吧！",
+                "source": "gmsv-data/itemset6.txt"
+              }
+            ],
+            "borders": [
+              {
+                "threshold": 1,
+                "text": "喔！干的不错！依照约定让你继续前进吧！"
+              },
+              {
+                "threshold": 0,
+                "text": "非常遗憾呀、再次来挑战吧。"
+              }
+            ],
+            "rewardItems": [
+              {
+                "threshold": 1,
+                "candidates": [
+                  {
+                    "id": 2754,
+                    "name": "道具交换卷",
+                    "image": 24222,
+                    "cost": 0,
+                    "type": 16,
+                    "useField": 2,
+                    "target": 0,
+                    "level": 0,
+                    "description": "拿这个去的话．．．",
+                    "functionName": "",
+                    "option": ""
+                  }
+                ]
+              }
+            ],
+            "warpTargets": [
+              {
+                "threshold": 1,
+                "target": {
+                  "mapId": "840",
+                  "floor": 840,
+                  "x": 29,
+                  "y": 15
+                }
+              }
+            ],
+            "questions": [
+              {
+                "id": 11,
+                "type": 1,
+                "level": 16,
+                "answerType": 2,
+                "answerNo": 1,
+                "correctIndex": 0,
+                "question": "通过海底通道需要什么?",
+                "options": [
+                  "通行证",
+                  "通行手印",
+                  "通行书"
+                ]
+              }
+            ]
+          },
           "scriptHints": {
-            "actions": [],
+            "actions": [
+              "quiz",
+              "window",
+              "take",
+              "say",
+              "give",
+              "warp"
+            ],
             "hints": [
+              "Quiznum:1",
+              "EntryItem:猜谜的参加票 x1",
+              "Question:通过海底通道需要什么?",
+              "NoEntry:你没有参加券吗 那么就不能比赛胜负啰。 因为参加券在每层楼的弟子们的手上 跟他们战斗之后就可以拿到了。",
               "GetItem:1,2754",
               "Warp:1,840.29.15"
             ],
