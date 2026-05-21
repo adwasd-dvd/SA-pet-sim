@@ -5448,6 +5448,7 @@ function renderRightCurrentSummary() {
   const itemText = firstItem ? `${firstItem.name} x${Number(firstItem.qty || 0)}` : "背包还没有道具";
   const automation = automationState();
   const automationText = `${automationModeTitle()} | ${automationModeDetail()}`;
+  const encounterGateText = encounterGateSummaryText();
   const petText = pet
     ? `${pet.Name} Lv.${Number(pet.Lv || 1)} | HP ${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || 0)} | ${workStatsText(pet)} | ${elementText(pet)}`
     : "没有宠物";
@@ -5475,6 +5476,12 @@ function renderRightCurrentSummary() {
           <b>战斗</b>
           <span title="${escapeHtml(battle)}">${escapeHtml(battle)}</span>
         </article>
+        ${encounterGateText ? `
+          <article>
+            <b>遇敌条件</b>
+            <span title="${escapeHtml(encounterGateText)}">${escapeHtml(encounterGateText)}</span>
+          </article>
+        ` : ""}
         <article class="${automation.autoLevel || automation.autoEscape ? "strong" : ""}">
           <b>自动辅助</b>
           <span title="${escapeHtml(automationText)}">${escapeHtml(automationText)}</span>
@@ -5899,6 +5906,7 @@ function renderAssistDebug() {
     ["trade", dialog?.trade?.source || "--"],
     ["battle", game.battle?.source || game.encounter?.source || "--"],
     ["dropTable", battlePotentialLootSummary(recentBattleOutcome()?.potentialLootItems) || "--"],
+    ["encounterGate", encounterGateSummaryText(true) || "--"],
     ["AI", `${aiRuntimeLabel()} | action ${aiRuntime.actionAuthority || "worker-npc-vm"}`]
   ];
   return `
@@ -6001,6 +6009,28 @@ function battlePotentialLootSummary(items = []) {
     entries.push(`${item.name || `item ${id}`}${chance ? ` ${chance}` : ""}`);
   }
   return `${entries.join("、")}${total > entries.length ? ` 等${total}项` : ""}`;
+}
+
+function encounterGateSummaryText(full = false) {
+  const gates = game.world?.map?.encounterGateSummary || game.battle?.encounterArea?.groupGates || [];
+  const rows = [];
+  for (const gate of gates || []) {
+    const parts = [];
+    if (gate.requiredItem) {
+      parts.push(`需 ${gate.requiredItem.name || `item ${gate.requiredItem.id}`} ${Number(gate.requiredItem.have || 0)}/${Number(gate.requiredItem.qty || 1)}`);
+    }
+    if (gate.blockedItem) {
+      parts.push(`持有 ${gate.blockedItem.name || `item ${gate.blockedItem.id}`} 时关闭`);
+    }
+    if (!parts.length) continue;
+    const prefix = gate.available ? "可遇" : "未满足";
+    const enemyHint = full && gate.enemies?.length
+      ? ` | 敌 ${gate.enemies.map((enemy) => `${enemy.enemyId}${enemy.lvMin || enemy.lvMax ? ` Lv.${enemy.lvMin}-${enemy.lvMax}` : ""}`).join("、")}`
+      : "";
+    rows.push(`${prefix}: ${parts.join("；")}${enemyHint}`);
+    if (rows.length >= (full ? 6 : 2)) break;
+  }
+  return rows.join(" | ");
 }
 
 function dropChanceLabel(probability, rollBase) {

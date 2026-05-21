@@ -3877,7 +3877,8 @@ async function spawnEncounter(env, request, game, map, source) {
       id: encounter.area.id,
       bounds: encounter.area.bounds,
       zorder: encounter.area.zorder,
-      enemyMax: encounter.area.enemyMax
+      enemyMax: encounter.area.enemyMax,
+      groupGates: (encounter.groupGates || []).slice(0, 8)
     } : null;
   }
   const partyText = encounter.enemies.length > 1 ? `等 ${encounter.enemies.length} 个敌人` : "";
@@ -3900,9 +3901,10 @@ async function createEncounterParty(env, request, game, map) {
     return { enemies: [], area: null, source: `${GMSV_DATA_SOURCE}/encount.txt no active area at (${game.location?.x},${game.location?.y})` };
   }
   if (area?.groups?.length) {
-    const availableGroups = area.groups.filter((group) => encounterGroupCanAppear(game, group));
+    const groupGates = summarizeEncounterGroupGates(game, area);
+    const availableGroups = area.groups.filter((group) => encounterGroupGateStatus(game, group).ok);
     if (!availableGroups.length) {
-      return { enemies: [], area, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} gated by ${GMSV_DATA_SOURCE}/group1.txt item rules` };
+      return { enemies: [], area, groupGates, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} gated by ${GMSV_DATA_SOURCE}/group1.txt item rules` };
     }
     const enemies = [];
     const counts = new Map();
@@ -3923,6 +3925,7 @@ async function createEncounterParty(env, request, game, map) {
       return {
         enemies,
         area,
+        groupGates,
         source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} + ${GMSV_DATA_SOURCE}/group1.txt + ${GMSV_DATA_SOURCE}/enemy1.txt + ${GMSV_DATA_SOURCE}/enemybase2.txt`
       };
     }
@@ -3940,11 +3943,67 @@ async function createEncounterParty(env, request, game, map) {
 }
 
 function encounterGroupCanAppear(game, group) {
+  return encounterGroupGateStatus(game, group).ok;
+}
+
+function encounterGroupGateStatus(game, group) {
   const requiredItem = Number(group?.appearByItemId || 0);
-  if (requiredItem > 0 && !findInventoryItem(game, requiredItem)) return false;
+  const required = requiredItem > 0 ? encounterGateItemSummary(game, requiredItem) : null;
   const blockedItem = Number(group?.notAppearByItemId || 0);
-  if (blockedItem > 0 && findInventoryItem(game, blockedItem)) return false;
-  return true;
+  const blocked = blockedItem > 0 ? encounterGateItemSummary(game, blockedItem) : null;
+  const missingRequired = Boolean(required && required.have <= 0);
+  const forbiddenHeld = Boolean(blocked && blocked.have > 0);
+  return {
+    ok: !missingRequired && !forbiddenHeld,
+    ...(required ? { requiredItem: required, missingRequired } : {}),
+    ...(blocked ? { blockedItem: blocked, forbiddenHeld } : {})
+  };
+}
+
+function encounterGateItemSummary(game, id) {
+  const sourceItem = cache?.itemSet?.get(Number(id)) || worldTradeItemIndex().get(Number(id)) || {};
+  return {
+    id: Number(id),
+    name: sourceItem.name || conditionItemName(game, id) || `item ${id}`,
+    have: inventoryQty(game, id),
+    qty: 1
+  };
+}
+
+function summarizeEncounterGroupGates(game, area) {
+  const rows = [];
+  for (const group of area?.groups || []) {
+    if (!Number(group?.appearByItemId || 0) && !Number(group?.notAppearByItemId || 0)) continue;
+    const status = encounterGroupGateStatus(game, group);
+    rows.push({
+      groupId: Number(group.groupId || 0),
+      available: Boolean(status.ok),
+      ...(status.requiredItem ? { requiredItem: status.requiredItem, missingRequired: Boolean(status.missingRequired) } : {}),
+      ...(status.blockedItem ? { blockedItem: status.blockedItem, forbiddenHeld: Boolean(status.forbiddenHeld) } : {}),
+      enemies: encounterGroupEnemySummary(group),
+      source: `${GMSV_DATA_SOURCE}/group1.txt group ${group.groupId || "?"}`
+    });
+    if (rows.length >= 8) break;
+  }
+  return rows;
+}
+
+function encounterGroupEnemySummary(group) {
+  return (group?.enemies || [])
+    .slice(0, 3)
+    .map((entry) => ({
+      enemyId: Number(entry.enemyId || 0),
+      lvMin: Number(entry.lvMin || 0),
+      lvMax: Number(entry.lvMax || 0),
+      weight: Number(entry.weight || 0)
+    }))
+    .filter((entry) => entry.enemyId > 0);
+}
+
+function currentEncounterGateSummary(game, map) {
+  if (!encounterSourceDataAvailable(map) || isSafeWildEncounterMap(map)) return [];
+  const area = chooseEncounterArea(map, game.location);
+  return summarizeEncounterGroupGates(game, area);
 }
 
 function chooseEncounterArea(map, location) {
@@ -15512,7 +15571,10 @@ function withMap(game, extra = {}) {
   hydrateGameInventoryFromSource(game);
   hydrateGameInventoryRuntimeEffects(game);
   const map = currentMap(game);
-  const responseMap = clientMapForResponse(map);
+  const responseMap = {
+    ...clientMapForResponse(map),
+    encounterGateSummary: currentEncounterGateSummary(game, map)
+  };
   ensureSaveIdentity(game);
   ensureFlags(game);
   setCharacterDir(game, game.player?.dir ?? game.location?.dir);

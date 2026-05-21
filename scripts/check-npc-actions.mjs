@@ -2597,6 +2597,10 @@ const sainasuArea = WORLD.maps["100"].encounterAreas.find((area) => pointInBound
 if (!sainasuArea) throw new Error("missing Sainasu source encounter area fixture");
 const gatedGroup = sainasuArea.groups.find((group) => Number(group.appearByItemId) === 1961);
 assert(gatedGroup?.enemies.some((enemy) => Number(enemy.lvMin || 0) >= 80), "Sainasu area keeps source item-gated high-level event group");
+sourceEncounterGame = await api("/api/game/sync", { game: sourceEncounterGame });
+const sainasuGate = sourceEncounterGame.world.map.encounterGateSummary.find((gate) => Number(gate.requiredItem?.id) === 1961);
+assert(sainasuGate?.missingRequired, "sync exposes source group1 appear item gate before battle");
+assertEqual(sainasuGate.available, false, "source group1 appear item gate is marked unavailable without the item");
 const allowedEnemyIds = sainasuArea.groups
   .filter((group) => !group.appearByItemId && !group.notAppearByItemId)
   .flatMap((group) => group.enemies.map((enemy) => enemy.enemyId));
@@ -2608,6 +2612,10 @@ assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounte
 assert(sourceEncounterGame.encounter.WorkTacticsOption?.includes("at:"), "wild source encounter keeps enemy1 battle AI tactics");
 assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
 assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");
+assert(
+  sourceEncounterGame.battle?.encounterArea?.groupGates?.some((gate) => Number(gate.requiredItem?.id) === 1961 && gate.missingRequired),
+  "battle encounter area preserves source group1 item gate telemetry"
+);
 assert(sourceEncounterGame.battle?.enemyParty?.length <= sainasuArea.enemyMax, "wild encounter party respects encount enemymaxnum");
 assertEqual(sourceEncounterGame.characterFields?.battle?.active, true, "battle character fields mark active encounter");
 assert(sourceEncounterGame.characterFields.battle.activeEnemy?.elements, "battle character fields expose active enemy elements");
@@ -2951,7 +2959,16 @@ const gatedEnemyIds = gatedArea.groups.flatMap((group) => group.enemies.map((ene
 gatedEncounterGame = await api("/api/game/sync", { game: gatedEncounterGame });
 assertEqual(gatedEncounterGame.world.map.canWildEncounter, false, "item-gated source encounter area is blocked without required item");
 assert(gatedEncounterGame.world.map.wildEncounterReason.includes("group1.txt"), "item-gated source encounter explains group1 condition");
+assert(
+  gatedEncounterGame.world.map.encounterGateSummary.some((gate) => Number(gate.requiredItem?.id) === 1693 && gate.missingRequired),
+  "blocked source encounter area still exposes the missing appear item gate"
+);
 gatedEncounterGame.inventory.push({ id: 1693, name: "测试用出现道具", qty: 1, source: "test group1 appear item" });
+gatedEncounterGame = await api("/api/game/sync", { game: gatedEncounterGame });
+assert(
+  gatedEncounterGame.world.map.encounterGateSummary.some((gate) => Number(gate.requiredItem?.id) === 1693 && gate.available),
+  "held source appear item marks the gated encounter group available"
+);
 gatedEncounterGame = await api("/api/game/encounter", { game: gatedEncounterGame });
 assert(gatedEnemyIds.includes(gatedEncounterGame.encounter.EnemyId), "required item enables source item-gated encounter group");
 const villageGirl = WORLD.maps["1100"].npcs.find((npc) => npc.name === "村庄小姑娘" && npc.x === 68 && npc.y === 36);

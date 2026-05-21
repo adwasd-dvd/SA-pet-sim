@@ -28,7 +28,10 @@ const requiredAppSnippets = [
   ["dialog-open map confirms through dialog endpoint", "sendDialog(fallback)"],
   ["source drop candidate summary helper", "function battlePotentialLootSummary(items = [])"],
   ["right status shows no-drop candidates", "未掉落；候选"],
-  ["debug tab exposes source drop table", '["dropTable", battlePotentialLootSummary(recentBattleOutcome()?.potentialLootItems) || "--"]']
+  ["debug tab exposes source drop table", '["dropTable", battlePotentialLootSummary(recentBattleOutcome()?.potentialLootItems) || "--"]'],
+  ["encounter gate summary helper", "function encounterGateSummaryText(full = false)"],
+  ["right status exposes encounter gates", "<b>遇敌条件</b>"],
+  ["debug tab exposes encounter gates", '["encounterGate", encounterGateSummaryText(true) || "--"]']
 ];
 
 for (const [label, snippet] of requiredAppSnippets) {
