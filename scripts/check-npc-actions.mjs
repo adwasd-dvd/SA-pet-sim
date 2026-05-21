@@ -3062,6 +3062,38 @@ yayoiGame = await api("/api/game/dialog", { game: yayoiGame, npcId: yayoi.id, me
 const yayoiReply = yayoiGame.dialog.messages.at(-1)?.text || "";
 assert(yayoiReply.includes("仙尼亚的花"), "NPC AI source item context resolves itemset id 2415 to its item name");
 assert(yayoiReply.includes("不可思议的贝壳"), "NPC AI source item context explains the exchange relation");
+let aiCacheGame = await api("/api/game/new", { name: "npc-ai-cache-test" });
+aiCacheGame.location = { mapId: "1100", x: villageGirl.x - 1, y: villageGirl.y };
+aiCacheGame = await api("/api/game/dialog", { game: aiCacheGame, npcId: villageGirl.id, message: "AI对话" });
+const originalFetch = globalThis.fetch;
+let openAiNpcCalls = 0;
+globalThis.fetch = async (request, init) => {
+  const url = typeof request === "string" ? request : request?.url || "";
+  if (String(url).includes("/v1/responses")) {
+    openAiNpcCalls += 1;
+    return new Response(JSON.stringify({
+      output_text: JSON.stringify({
+        reply: "村子里有长者、商店和通往外面的路；想做任务就先问附近的人。",
+        intent: "chat",
+        action: { type: "none", text: "", seconds: 0, percent: 0, reason: "" },
+        confidence: 0.8
+      })
+    }), { status: 200, headers: { "content-type": "application/json" } });
+  }
+  return originalFetch(request, init);
+};
+try {
+  const openAiEnv = { ...env, OPENAI_API_KEY: "test-openai-key", OPENAI_MODEL: "gpt-cache-test" };
+  aiCacheGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiCacheGame, npcId: villageGirl.id, message: "随便聊两句" });
+  const firstCacheReply = aiCacheGame.dialog.messages.at(-1)?.text || "";
+  assert(firstCacheReply.includes("长者"), "NPC OpenAI fixture returns a grounded village reply");
+  aiCacheGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiCacheGame, npcId: villageGirl.id, message: "随便聊两句" });
+  assertEqual(openAiNpcCalls, 1, "repeat NPC AI pure chat reuses cache instead of calling OpenAI again");
+  assert(aiCacheGame.aiNpcCache?.entries?.length >= 1, "NPC AI cache persists a short-lived entry on the game state");
+  assert(aiCacheGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "ai-npc-cache"), "NPC AI cache hit records a VM trace reason");
+} finally {
+  globalThis.fetch = originalFetch;
+}
 assistGame.location = { mapId: "100", x: 637, y: 493 };
 guideRsp = await api("/api/ai/guide", { game: assistGame, prompt: "帮我找野外敌人开战" });
 assistGame = guideRsp.game;

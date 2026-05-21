@@ -95,6 +95,10 @@ const PAID_JUMP_THIRD_TIER_COST = 80;
 const DEFAULT_CHAR_DIR = 5;
 const AI_WORKSPACE_SCHEMA = "stoneage-ai-workspace-v1";
 const AI_WORKSPACE_MAX_MEMORIES = 60;
+const AI_NPC_CACHE_SCHEMA = "stoneage-ai-npc-cache-v1";
+const AI_NPC_CACHE_TTL_MS = 5 * 60 * 1000;
+const AI_NPC_CACHE_MAX_ENTRIES = 24;
+const AI_NPC_CACHE_REPLY_LIMIT = 900;
 const ANGEL_ITEM_ID = 2884;
 const HERO_ITEM_ID = 2885;
 const ANGEL_MISSION_FLAGS = Object.freeze({
@@ -783,6 +787,7 @@ async function createPlayerGame(env, request, body) {
     flags: createFlags(),
     effects: {},
     aiWorkspace: createAiWorkspace(now),
+    aiNpcCache: normalizeAiNpcCache(),
     dialogAi: {},
     encounter: null,
     dialog: null,
@@ -10869,12 +10874,30 @@ async function aiNpcReply(env, request, game, npc, text) {
   }
   const compactScriptReferences = compactNpcScriptReferences(scriptReferences);
   const knowledge = buildStoneAgeKnowledgeContext(game, map, text, npc);
+  const remoteRuntime = aiNpcRemoteRuntime(env);
+  const remoteCacheKey = remoteRuntime.cacheable
+    ? buildAiNpcCacheKey(game, npc, text, map, debug, compactScriptReferences, remoteRuntime)
+    : "";
+  const cachedReply = remoteCacheKey ? readAiNpcCache(game, remoteCacheKey) : null;
+  if (cachedReply) {
+    recordNpcVmEvent(game, npc, "say", "ok", {
+      reason: "ai-npc-cache",
+      provider: cachedReply.provider,
+      model: cachedReply.model,
+      intent: cachedReply.intent,
+      hits: cachedReply.hits
+    });
+    return cachedReply.reply;
+  }
   if (hasOpenAi(env)) {
     try {
       const rsp = await callOpenAiNpc(env, game, npc, text, map, debug, compactScriptReferences);
       const proposed = openAiNpcAction(game, npc, rsp.decision, text);
       if (proposed) return openAiNpcActionReply(game, npc, proposed, rsp.decision);
       if (rsp.decision?.reply) {
+        if (isPureOpenAiNpcReply(rsp.decision)) {
+          writeAiNpcCache(game, remoteCacheKey, rsp.decision.reply, remoteRuntime, rsp.decision.intent);
+        }
         recordNpcVmEvent(game, npc, "say", "ok", { reason: "openai-npc", model: rsp.model, intent: rsp.decision.intent });
         return rsp.decision.reply;
       }
@@ -10929,8 +10952,10 @@ async function aiNpcReply(env, request, game, npc, text) {
     const model = env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct";
     try {
       const rsp = await env.AI.run(model, { messages });
+      const reply = rsp.response || rsp.text || localNpcAiFallback(game, npc, text);
+      writeAiNpcCache(game, remoteCacheKey, reply, remoteRuntime, "chat");
       recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc", model });
-      return rsp.response || rsp.text || localNpcAiFallback(game, npc, text);
+      return reply;
     } catch (error) {
       recordNpcVmEvent(game, npc, "say", "blocked", { reason: "ai-npc-error", error: error?.message || "AI binding failed" });
       return localNpcAiFallback(game, npc, text, error);
@@ -14278,6 +14303,153 @@ function normalizeAiWorkspace(workspace = null) {
   return out;
 }
 
+function normalizeAiNpcCache(cache = null) {
+  const now = Date.now();
+  const entries = Array.isArray(cache?.entries)
+    ? cache.entries
+    : (Array.isArray(cache) ? cache : []);
+  return {
+    schema: AI_NPC_CACHE_SCHEMA,
+    entries: entries
+      .map(normalizeAiNpcCacheEntry)
+      .filter((entry) => entry && entry.expiresAt > now)
+      .slice(0, AI_NPC_CACHE_MAX_ENTRIES)
+  };
+}
+
+function normalizeAiNpcCacheEntry(entry) {
+  if (!entry || typeof entry !== "object") return null;
+  const key = String(entry.key || "").trim();
+  const reply = String(entry.reply || "").trim().slice(0, AI_NPC_CACHE_REPLY_LIMIT);
+  if (!key || !reply) return null;
+  const createdAt = Number(entry.createdAt || Date.now());
+  const expiresAt = Number(entry.expiresAt || createdAt + AI_NPC_CACHE_TTL_MS);
+  return {
+    key,
+    reply,
+    provider: String(entry.provider || "unknown").slice(0, 32),
+    model: String(entry.model || "unknown").slice(0, 80),
+    intent: String(entry.intent || "").slice(0, 32),
+    hits: clampInt(entry.hits, 0, 9999, 0),
+    createdAt,
+    expiresAt
+  };
+}
+
+function aiNpcRemoteRuntime(env) {
+  if (hasOpenAi(env)) {
+    return { provider: "openai", model: openAiModel(env), cacheable: true };
+  }
+  if (env?.AI && typeof env.AI.run === "function") {
+    return { provider: "workers-ai", model: env.AI_MODEL || "@cf/meta/llama-3.1-8b-instruct", cacheable: true };
+  }
+  return { provider: "local-rule", model: "local-rule", cacheable: false };
+}
+
+function isPureOpenAiNpcReply(decision) {
+  return String(decision?.action?.type || "none") === "none";
+}
+
+function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runtime) {
+  const state = {
+    schema: AI_NPC_CACHE_SCHEMA,
+    runtime: `${runtime.provider}:${runtime.model}`,
+    prompt: normalizeNpcCacheText(text),
+    npc: {
+      id: npc.id,
+      name: npc.name,
+      type: npc.type,
+      script: npc.script,
+      source: npc.source,
+      actions: debug.actions
+    },
+    location: {
+      mapId: map.id,
+      floorId: map.floorId,
+      x: Number(game.location?.x || 0),
+      y: Number(game.location?.y || 0)
+    },
+    player: {
+      level: Number(game.player?.level || game.player?.Lv || 1),
+      hp: Number(game.player?.hp || 0),
+      maxHp: Number(game.player?.maxHp || 0),
+      stone: Number(game.player?.stone || 0),
+      charm: Number(game.player?.charm || 0)
+    },
+    inventory: (game.inventory || [])
+      .map((item) => [String(item.id), Number(item.qty || 0)])
+      .sort((a, b) => String(a[0]).localeCompare(String(b[0])))
+      .slice(0, INVENTORY_CAPACITY + 4),
+    pets: (game.pets || [])
+      .map((pet, index) => [index, pet.id || pet.petId || pet.name || pet.petName || "", pet.name || pet.petName || "", Number(pet.level || pet.Lv || 1), Number(pet.Hp || 0)])
+      .slice(0, PET_CAPACITY),
+    effects: Object.entries(game.effects || {})
+      .map(([key, value]) => [key, stableHashInt(typeof value === "object" ? JSON.stringify(value) : String(value))])
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .slice(0, 16),
+    tasks: sourceScriptTaskState(game)
+      .map((task) => ({
+        id: task.id,
+        eventNo: task.eventNo,
+        phase: task.phase,
+        sourceCluster: task.sourceCluster,
+        requiredItems: (task.requiredItems || []).map((item) => [item.id, item.have, item.need]).slice(0, 6),
+        nextNpcs: (task.nextNpcs || []).map((target) => [target.name, target.mapId, target.x, target.y]).slice(0, 4)
+      }))
+      .slice(0, 6),
+    quests: Object.entries(game.quests || {})
+      .map(([questId, quest]) => [questId, quest?.status || "", quest?.step || ""])
+      .sort((a, b) => String(a[0]).localeCompare(String(b[0])))
+      .slice(0, 10),
+    refs: stableHashInt(JSON.stringify(scriptReferences || {}))
+  };
+  const raw = JSON.stringify(state);
+  const a = stableHashInt(raw).toString(36);
+  const b = stableHashInt([...raw].reverse().join("")).toString(36);
+  return `${AI_NPC_CACHE_SCHEMA}:${a}:${b}`;
+}
+
+function normalizeNpcCacheText(text) {
+  return String(text || "").trim().replace(/\s+/g, " ").slice(0, 220);
+}
+
+function readAiNpcCache(game, key) {
+  const cache = normalizeAiNpcCache(game.aiNpcCache);
+  const index = cache.entries.findIndex((entry) => entry.key === key);
+  if (index < 0) {
+    game.aiNpcCache = cache;
+    return null;
+  }
+  const entry = { ...cache.entries[index], hits: clampInt(cache.entries[index].hits + 1, 0, 9999, 1) };
+  cache.entries.splice(index, 1);
+  cache.entries.unshift(entry);
+  game.aiNpcCache = cache;
+  return entry;
+}
+
+function writeAiNpcCache(game, key, reply, runtime, intent = "") {
+  if (!key || !runtime?.cacheable) return;
+  const text = String(reply || "").trim();
+  if (!text) return;
+  const now = Date.now();
+  const cache = normalizeAiNpcCache(game.aiNpcCache);
+  const entry = normalizeAiNpcCacheEntry({
+    key,
+    reply: text.slice(0, AI_NPC_CACHE_REPLY_LIMIT),
+    provider: runtime.provider,
+    model: runtime.model,
+    intent,
+    hits: 0,
+    createdAt: now,
+    expiresAt: now + AI_NPC_CACHE_TTL_MS
+  });
+  cache.entries = [
+    entry,
+    ...cache.entries.filter((item) => item.key !== key)
+  ].filter(Boolean).slice(0, AI_NPC_CACHE_MAX_ENTRIES);
+  game.aiNpcCache = cache;
+}
+
 function normalizeAiWorkspaceMemory(entry) {
   if (!entry || typeof entry !== "object") return null;
   const text = String(entry.text || "").trim().slice(0, 360);
@@ -15451,6 +15623,7 @@ function normalizeGame(game) {
   normalizeMetamoEffect(game);
   game.automation = normalizeAutomationState(game.automation);
   game.aiWorkspace = normalizeAiWorkspace(game.aiWorkspace);
+  game.aiNpcCache = normalizeAiNpcCache(game.aiNpcCache);
   game.dialogAi ||= {};
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.savePoint ||= null;
@@ -15613,6 +15786,7 @@ function buildSaveJson(game) {
     effects: { ...(game.effects || {}) },
     automation: normalizeAutomationState(game.automation),
     aiWorkspace: normalizeAiWorkspace(game.aiWorkspace),
+    aiNpcCache: normalizeAiNpcCache(game.aiNpcCache),
     dialogAi: { ...(game.dialogAi || {}) },
     walk: {
       steps: Number(game.walk?.steps || 0),
