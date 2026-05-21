@@ -117,6 +117,7 @@ function checkSparseInteriorGuard() {
     let objectFill = 0;
     let lowControlRefs = 0;
     let frontendLeaks = 0;
+    let guardedLeaks = 0;
     let frontendBlocked = 0;
     for (let index = 0; index < clientMap.cells; index += 1) {
       const clientGround = clientMap.ground(index);
@@ -132,6 +133,11 @@ function checkSparseInteriorGuard() {
           frontendLeaks += 1;
         } else if (clientPart > 0) {
           frontendBlocked += 1;
+        }
+        const [guardedGround, guardedPart] = frontendSparseOutsideBlackTile(clientGround, clientPart, 0);
+        const accidentalLowGroundPromotion = clientPart > 0 ? new Set([clientPart]) : null;
+        if (frontendWouldDrawGround(guardedGround, accidentalLowGroundPromotion) || frontendWouldDrawObject(guardedPart)) {
+          guardedLeaks += 1;
         }
       }
     }
@@ -151,6 +157,9 @@ function checkSparseInteriorGuard() {
     if (frontendLeaks) {
       throw new Error(`Floor ${floor} would draw ${frontendLeaks} missing-ground cells in the frontend sparse-interior path`);
     }
+    if (guardedLeaks) {
+      throw new Error(`Floor ${floor} sparse outside-black guard would leak ${guardedLeaks} missing-ground cells`);
+    }
     coverage.push({ floor, missingGround, lowControlRefs, frontendBlocked });
   }
   return coverage;
@@ -167,6 +176,15 @@ function checkSparseRuntimeGuard() {
   }
   if (!appSource.includes("isSparseInteriorOutsideBlackFloor(map?.floorId)")) {
     throw new Error("Runtime sparse-interior outside-black guard is not applied before LS2 visual fallback");
+  }
+  if (!appSource.includes("sparseInteriorOutsideBlackTileAt(map, visualFallback?.tileAt || tileAt)")) {
+    throw new Error("Runtime sparse-interior outside-black guard is not applied to the client DAT draw path");
+  }
+  if (!appSource.includes("if (Number(ground || 0) <= CG_INVISIBLE) return [0, 0, 0];")) {
+    throw new Error("Runtime sparse-interior outside-black guard must erase missing-ground control/object refs");
+  }
+  if (!appSource.includes("isSparseInteriorOutsideBlackFloor(map?.floorId) ? []")) {
+    throw new Error("Runtime sparse-interior outside-black guard must disable low-ground promotion on guarded floors");
   }
 }
 
@@ -220,6 +238,11 @@ function frontendWouldDrawGround(tileId, lowGroundTiles = null) {
 function frontendWouldDrawObject(tileId) {
   const id = Number(tileId || 0);
   return id > CG_INVISIBLE;
+}
+
+function frontendSparseOutsideBlackTile(ground, part, overlay) {
+  if (Number(ground || 0) <= CG_INVISIBLE) return [0, 0, 0];
+  return [ground, frontendWouldDrawObject(part) ? part : 0, overlay];
 }
 
 function checkEnemyBaseImages() {

@@ -10,7 +10,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const MAP_RESOURCE_VERSION = "map-assets-v20260521-object-only-fallback-guard-v1";
+const MAP_RESOURCE_VERSION = "map-assets-v20260521-sparse-outside-black-v2";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
@@ -2009,14 +2009,15 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
     ];
   };
   const visualFallback = await loadClientMapVisualFallback(map, width, height, tileAt);
-  const visualTileAt = visualFallback?.tileAt || tileAt;
+  const visualTileAt = sparseInteriorOutsideBlackTileAt(map, visualFallback?.tileAt || tileAt);
   let atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
-    atlas = await ensureMapAtlasCoverage(width, height, visualTileAt, atlas, visualFallback?.lowGroundTiles || []);
+    const lowGroundTiles = isSparseInteriorOutsideBlackFloor(map?.floorId) ? [] : (visualFallback?.lowGroundTiles || []);
+    atlas = await ensureMapAtlasCoverage(width, height, visualTileAt, atlas, lowGroundTiles);
     if (renderVersion !== mapRenderVersion) return;
     drawViewportTileMap(canvas, width, height, visualTileAt, atlas, map, visualFallback?.label || "client DAT viewport", renderVersion, {
-      lowGroundTiles: visualFallback?.lowGroundTiles || []
+      lowGroundTiles
     });
     return;
   }
@@ -2072,6 +2073,15 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
 
 function isSparseInteriorOutsideBlackFloor(floorId) {
   return SPARSE_INTERIOR_OUTSIDE_BLACK_FLOORS.has(String(floorId || ""));
+}
+
+function sparseInteriorOutsideBlackTileAt(map, tileAt) {
+  if (!isSparseInteriorOutsideBlackFloor(map?.floorId)) return tileAt;
+  return (index) => {
+    const [ground, object, overlay] = tileAt(index);
+    if (Number(ground || 0) <= CG_INVISIBLE) return [0, 0, 0];
+    return [ground, isStaticMapObjectTile(object) ? object : 0, overlay];
+  };
 }
 
 function parseLs2MapReader(buf) {
