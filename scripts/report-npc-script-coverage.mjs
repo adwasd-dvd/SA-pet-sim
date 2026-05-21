@@ -301,6 +301,7 @@ const ACTION_HINTS = [
 ];
 
 function main() {
+  const checkMode = process.argv.includes("--check");
   const closure = loadJson(closurePath, { profiles: [] });
   const profiles = buildProfileSets(closure);
   const rawFiles = scanRawNpcFiles(refNpcRoot);
@@ -327,12 +328,64 @@ function main() {
     rawKeyCoverage: rawCoverage
   };
 
+  if (checkMode) {
+    assertCoverageGate(report);
+    return;
+  }
+
   mkdirSync(path.dirname(reportJsonPath), { recursive: true });
   writeFileSync(reportJsonPath, `${JSON.stringify(report, null, 2)}\n`);
   writeFileSync(reportMdPath, renderMarkdown(report));
 
   console.log(`NPC script coverage report written: ${path.relative(appRoot, reportMdPath)}`);
   console.log(`Unsupported action candidates: ${report.summary.unsupportedCandidateKeys}`);
+}
+
+function assertCoverageGate(report) {
+  const errors = [];
+  const coreProfile = report.profiles["classic-core"] || emptyProfileSummary("classic-core");
+  const minimums = {
+    floors: 90,
+    sourceFiles: 600,
+    worldNpcs: 650,
+    worldScriptNpcs: 100,
+    worldScriptEvents: 550
+  };
+
+  for (const [key, minimum] of Object.entries(minimums)) {
+    const actual = Number(coreProfile[key] || 0);
+    if (actual < minimum) {
+      errors.push(`classic-core ${key} dropped below ${minimum}: ${actual}`);
+    }
+  }
+
+  const parsedKinds = Object.keys(report.parsedWorldActions?.full?.parsedActions || {}).length;
+  if (parsedKinds < 20) {
+    errors.push(`parsed world action kinds dropped below 20: ${parsedKinds}`);
+  }
+
+  const unsupportedCoreRecords = (report.rawKeyCoverage?.keyRecords || [])
+    .filter((record) => (record.category === "candidate-action" || record.category === "unknown")
+      && Number(record.profiles?.["classic-core"]?.occurrences || 0) > 0)
+    .sort(comparePriorityRecord);
+  if (unsupportedCoreRecords.length) {
+    const details = unsupportedCoreRecords
+      .slice(0, 8)
+      .map((record) => {
+        const sample = record.samples?.[0] ? `${record.samples[0].file}:${record.samples[0].line}` : "no sample";
+        return `${record.key}(${record.category}) core=${record.profiles["classic-core"].occurrences} ${sample}`;
+      })
+      .join("; ");
+    errors.push(`unsupported classic-core NPC script keys found: ${details}`);
+  }
+
+  if (errors.length) {
+    console.error("NPC script coverage check failed:");
+    for (const error of errors) console.error(`- ${error}`);
+    process.exit(1);
+  }
+
+  console.log(`NPC script coverage check passed: classic-core ${coreProfile.worldScriptNpcs} script NPCs / ${coreProfile.worldScriptEvents} events, 0 unsupported core keys.`);
 }
 
 function loadJson(file, fallback) {
