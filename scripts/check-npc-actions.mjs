@@ -1650,6 +1650,7 @@ let adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任�
 assert(adultGuideRsp.text.includes("仪式审判的差使"), "AI guide prioritizes active source task collection target");
 assert(adultGuideRsp.text.includes("目标 NPC") && /做法|操作|领取\/确认/.test(adultGuideRsp.text), "AI guide explains who to find and how to trigger the task");
 assert(/floor\s+10204/.test(adultGuideRsp.text) && adultGuideRsp.text.includes(`(${adultMessenger.x},${adultMessenger.y})`), "AI guide includes source target floor and coordinates");
+assert(adultGuideRsp.text.includes("领取/确认：") && adultGuideRsp.text.includes("x15"), "AI guide target line carries source item handout summary");
 let adultWorkspaceRsp = await api("/api/ai/workspace", { game: adultGame, prompt: "任务下一步" });
 assert(adultWorkspaceRsp.workspace.current.sourceTasks.some((task) => task.eventNo === 4), "AI workspace exposes active source task state");
 assert(adultWorkspaceRsp.workspace.current.sourceTasks.some((task) => task.eventNo === 4 && task.guidance?.some((line) => line.includes("目标 NPC"))), "AI workspace keeps deterministic task guidance lines");
@@ -1665,6 +1666,7 @@ assert(adultTurnInTask?.nextNpcs.some((npc) => npc.name === "仪式的审判" &&
 assert(adultTurnInTask?.guidance?.some((line) => line.includes("交付内容") && line.includes("仪") && line.includes("x15")), "adult ceremony guidance explains what to turn in to target NPC");
 adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
 assert(adultGuideRsp.text.includes("仪式的审判"), "AI guide switches active source task to turn-in target");
+assert(adultGuideRsp.text.includes("交付：") && adultGuideRsp.text.includes("x15"), "AI guide target line carries source item turn-in summary");
 adultGame.location = { mapId: "10204", x: adultJudge.x + 1, y: adultJudge.y };
 adultGame = await api("/api/game/dialog", { game: adultGame, npcId: adultJudge.id });
 assertEqual(inventoryQty(adultGame, 2417), 0, "adult ceremony judge removes all ritual jades through source DelItem");

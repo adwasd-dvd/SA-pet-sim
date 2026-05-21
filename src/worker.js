@@ -8585,7 +8585,7 @@ function sourceScriptTaskGuidance(game, phase, missingItems, missingPets, missin
   const lines = [];
   const target = nextNpcs[0];
   if (target) {
-    lines.push(`目标 NPC：去 ${target.mapName} floor ${target.mapId} (${target.x},${target.y}) 找 ${target.name}${target.distance < 9999 ? `，距离 ${target.distance} 格` : ""}。`);
+    lines.push(`目标 NPC：去 ${target.mapName} floor ${target.mapId} (${target.x},${target.y}) 找 ${target.name}${target.distance < 9999 ? `，距离 ${target.distance} 格` : ""}${sourceTaskTargetHandoffText(target)}。`);
     const route = routeHintToMap(game, target.mapId);
     if (route) lines.push(route);
     if (phase === "turn-in" && target.requires?.length) lines.push(`交付内容：${target.requires.join("、")}。`);
@@ -8607,6 +8607,14 @@ function sourceScriptTaskGuidance(game, phase, missingItems, missingPets, missin
   ];
   if (rewards.length) lines.push(`可能奖励：${rewards.join("、")}。`);
   return compactGuidanceLines(lines);
+}
+
+function sourceTaskTargetHandoffText(target = {}) {
+  const handoffs = [
+    ...(Array.isArray(target.gives) && target.gives.length ? [`领取/确认：${target.gives.join("、")}`] : []),
+    ...(Array.isArray(target.requires) && target.requires.length ? [`交付：${target.requires.join("、")}`] : [])
+  ];
+  return handoffs.length ? `；${handoffs.join("；")}` : "";
 }
 
 function responseQuestState(game) {
@@ -14345,7 +14353,7 @@ function guideExitList(context, limit = 3) {
 function guideTargetLine(target = {}) {
   if (target.name && target.mapName) {
     const dist = Number(target.distance || 0) < 9999 ? `，距离 ${target.distance} 格` : "";
-    return `目标 NPC：去 ${target.mapName} floor ${target.mapId} (${target.x},${target.y}) 找 ${target.name}${dist}。`;
+    return `目标 NPC：去 ${target.mapName} floor ${target.mapId} (${target.x},${target.y}) 找 ${target.name}${dist}${sourceTaskTargetHandoffText(target)}。`;
   }
   if (target.mapName) {
     const exit = target.exit ? `，当前可走出口「${target.exit.label}」${target.exit.position || ""}，距离 ${target.exit.distance} 格` : "";
