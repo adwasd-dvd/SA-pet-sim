@@ -10,7 +10,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const MAP_RESOURCE_VERSION = "map-assets-v20260520-furuudo-outside-black-v2";
+const MAP_RESOURCE_VERSION = "map-assets-v20260521-sparse-outside-black-v3";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
@@ -21,6 +21,7 @@ const BATTLE_SIDE_OFFSET = 10;
 const MAP_GRID_SIZE = 64;
 const TILE_HALF_H = 24;
 const MAP_BACKDROP_COLOR = "#000000";
+const SPARSE_INTERIOR_OUTSIDE_BLACK_FLOORS = new Set(["5001", "5003", "5005"]);
 const CG_GRID_CURSOR = 25001;
 const MOVE_MODE_CHANGE_TIME = 1000;
 const MOVE_CLICK_WAIT_TIME = 250;
@@ -2027,6 +2028,7 @@ async function renderClientDatMap(canvas, buf, map, renderVersion) {
 
 async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
   if (!map?.mapFile) return null;
+  if (isSparseInteriorOutsideBlackFloor(map?.floorId)) return null;
   const cells = width * height;
   if (!cells) return null;
   let missingGround = 0;
@@ -2064,6 +2066,10 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
   } catch {
     return null;
   }
+}
+
+function isSparseInteriorOutsideBlackFloor(floorId) {
+  return SPARSE_INTERIOR_OUTSIDE_BLACK_FLOORS.has(String(floorId || ""));
 }
 
 function parseLs2MapReader(buf) {

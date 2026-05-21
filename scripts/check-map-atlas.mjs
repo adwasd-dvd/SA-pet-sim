@@ -6,6 +6,7 @@ const clientMapRoot = path.join(projectRoot, "public/data/client-maps");
 const logicMapRoot = path.join(projectRoot, "public/data/maps");
 const atlasPath = path.join(projectRoot, "public/data/client-tiles/tiles.json");
 const enemyBasePath = path.join(projectRoot, "public/data/enemybase2.txt");
+const appPath = path.join(projectRoot, "public/assets/app.js");
 const CG_INVISIBLE = 99;
 const VISUAL_FALLBACK_SAMPLE_FLOORS = ["300", "5000"];
 const SPARSE_INTERIOR_SAMPLE_FLOORS = ["5001", "5003", "5005"];
@@ -18,6 +19,7 @@ const missingMetadata = new Map();
 const missingEnemyImages = new Map();
 const enemyImageCoverage = checkEnemyBaseImages();
 const visualFallbackCoverage = checkVisualFallbackCoverage();
+checkSparseRuntimeGuard();
 const sparseInteriorCoverage = checkSparseInteriorGuard();
 
 for (const file of listFiles(clientMapRoot, ".dat")) {
@@ -150,6 +152,20 @@ function checkSparseInteriorGuard() {
     coverage.push({ floor, missingGround, lowControlRefs, frontendBlocked });
   }
   return coverage;
+}
+
+function checkSparseRuntimeGuard() {
+  const appSource = fs.readFileSync(appPath, "utf8");
+  const match = appSource.match(/SPARSE_INTERIOR_OUTSIDE_BLACK_FLOORS\s*=\s*new Set\(\[([^\]]+)\]\)/);
+  if (!match) throw new Error("Missing runtime sparse-interior outside-black floor guard in app.js");
+  for (const floor of SPARSE_INTERIOR_SAMPLE_FLOORS) {
+    if (!match[1].includes(`"${floor}"`)) {
+      throw new Error(`Runtime sparse-interior outside-black guard is missing floor ${floor}`);
+    }
+  }
+  if (!appSource.includes("isSparseInteriorOutsideBlackFloor(map?.floorId)")) {
+    throw new Error("Runtime sparse-interior outside-black guard is not applied before LS2 visual fallback");
+  }
 }
 
 function frontendWouldDrawGround(tileId, lowGroundTiles = null) {
