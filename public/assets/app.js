@@ -159,6 +159,7 @@ let game = null;
 let installPrompt = null;
 let walkInFlight = false;
 let routeInFlight = false;
+let dialogDefaultSubmitInFlight = false;
 let routeToken = 0;
 let rescueEpoch = 0;
 let tileAtlasPromise = null;
@@ -814,7 +815,11 @@ function clearWarpTransitionTimer() {
 }
 
 function onMapCanvasClick(event) {
-  if (isBattleOpen() || game?.dialog?.open) return;
+  if (isBattleOpen()) return;
+  if (game?.dialog?.open) {
+    handleDialogOpenMapEvent(event, 2);
+    return;
+  }
   if (mapView.suppressNextClick) {
     mapView.suppressNextClick = false;
     return;
@@ -854,7 +859,11 @@ function onMapCanvasClick(event) {
 }
 
 function onMapCanvasDoubleClick(event) {
-  if (isBattleOpen() || game?.dialog?.open) return;
+  if (isBattleOpen()) return;
+  if (game?.dialog?.open) {
+    handleDialogOpenMapEvent(event, 2);
+    return;
+  }
   const tile = mapTileFromPointer(event);
   const exitMarker = explicitExitFromMapEvent(event);
   if (exitMarker) {
@@ -876,6 +885,20 @@ function onMapCanvasDoubleClick(event) {
   event.preventDefault();
   lastNpcMapClick = { id: npc.id, at: performance.now() };
   goToNpc(npc.id, { openWhenNear: true, preferredTile: normalizeNpcPreferredTile(npc, tile) });
+}
+
+function handleDialogOpenMapEvent(event, maxTileDistance = 2) {
+  event.preventDefault();
+  event.stopPropagation();
+  const fallback = defaultDialogSubmitText(game?.dialog);
+  if (!fallback || dialogDefaultSubmitInFlight) return true;
+  const npc = npcFromMapEvent(event, maxTileDistance);
+  if (!npc || npc.id !== game.dialog.npcId) return true;
+  dialogDefaultSubmitInFlight = true;
+  Promise.resolve(sendDialog(fallback)).finally(() => {
+    dialogDefaultSubmitInFlight = false;
+  });
+  return true;
 }
 
 function npcFromMapEvent(event, maxTileDistance = 1) {

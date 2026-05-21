@@ -22,7 +22,10 @@ const requiredAppSnippets = [
   ["lead action renderer function", "function renderLeadTargetActions(target)"],
   ["assist action handler", "function onAssistPanelClick(event)"],
   ["assist double-click handler", "function onAssistPanelDoubleClick(event)"],
-  ["tiered paid jump cost display", "paidJumpCost(distance)"]
+  ["tiered paid jump cost display", "paidJumpCost(distance)"],
+  ["dialog-open map NPC confirm helper", "function handleDialogOpenMapEvent(event, maxTileDistance = 2)"],
+  ["dialog-open map uses NPCEnemy default submit", "defaultDialogSubmitText(game?.dialog)"],
+  ["dialog-open map confirms through dialog endpoint", "sendDialog(fallback)"]
 ];
 
 for (const [label, snippet] of requiredAppSnippets) {
