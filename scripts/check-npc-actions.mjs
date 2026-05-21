@@ -368,6 +368,52 @@ assertEqual(routeServiceGame.location.y, routeServiceTarget.y, "route service mo
 assertEqual(routeServiceGame.player.stone, 100, "route service charges source needstone cost");
 assert(routeServiceGame.dialog?.debug?.vmTrace?.some((event) => event.action === "routeService" && event.status === "ok"), "route service records a deterministic routeService VM trace");
 
+const assistNpcFixture = await reachableAssistNpcFixture();
+let assistRouteGame = await api("/api/game/new", { name: "assist-route-paid-jump-test" });
+assistRouteGame.player.stone = 999999;
+assistRouteGame.location = assistNpcFixture.from;
+const blockedTileRoute = await api("/api/game/route", {
+  game: assistRouteGame,
+  targetX: assistNpcFixture.npc.x,
+  targetY: assistNpcFixture.npc.y
+});
+assertEqual(blockedTileRoute.reason, "target-blocked-nearby", "map click route approaches blocked NPC tiles instead of failing outright");
+assert(blockedTileRoute.standTarget, "blocked map click route exposes standTarget for client completion checks");
+assert(blockedTileRoute.face, "blocked map click route exposes facing data for source-style NPC approach");
+const assistNpcRoute = await api("/api/game/route-npc", { game: assistRouteGame, npcId: assistNpcFixture.npc.id });
+assert(!assistNpcRoute.blocked && assistNpcRoute.route.length, "assist auto-go can compute a route to an NPC interaction range");
+const assistNpcJumpCost = paidJumpCostForTest(distance(
+  assistNpcFixture.from.x,
+  assistNpcFixture.from.y,
+  assistNpcRoute.target.x,
+  assistNpcRoute.target.y
+));
+const assistNpcStoneBefore = Number(assistRouteGame.player.stone || 0);
+assistRouteGame = await api("/api/game/paid-jump", { game: assistRouteGame, kind: "npc", id: assistNpcFixture.npc.id });
+assertEqual(assistRouteGame.location.mapId, assistNpcFixture.map.id, "paid jump to NPC stays on the current source map");
+assert(distance(assistRouteGame.location.x, assistRouteGame.location.y, assistNpcFixture.npc.x, assistNpcFixture.npc.y) <= 2, "paid jump to NPC lands within source interaction range");
+assertEqual(assistNpcStoneBefore - Number(assistRouteGame.player.stone || 0), assistNpcJumpCost, "paid jump to NPC charges deterministic tiered distance cost");
+assertEqual(assistRouteGame.paidJump?.cost, assistNpcJumpCost, "paid jump to NPC records deterministic cost telemetry");
+
+const assistExitFixture = await reachableAssistExitFixture();
+let assistExitGame = await api("/api/game/new", { name: "assist-exit-paid-jump-test" });
+assistExitGame.location = assistExitFixture.from;
+const assistExitRoute = await api("/api/game/route-exit", { game: assistExitGame, exitId: assistExitFixture.exit.id });
+assert(!assistExitRoute.blocked && assistExitRoute.route.length, "assist auto-go can compute a route to an exit tile");
+const assistExitJumpCost = paidJumpCostForTest(distance(
+  assistExitFixture.from.x,
+  assistExitFixture.from.y,
+  assistExitRoute.target.x,
+  assistExitRoute.target.y
+));
+assistExitGame.player.stone = assistExitJumpCost + 5000;
+const assistExitStoneBefore = Number(assistExitGame.player.stone || 0);
+assistExitGame = await api("/api/game/paid-jump", { game: assistExitGame, kind: "exit", id: assistExitFixture.exit.id });
+assertEqual(assistExitGame.location.mapId, String(assistExitFixture.exit.to), "paid jump to exit enters the target map through source mapwarp");
+assertEqual(assistExitStoneBefore - Number(assistExitGame.player.stone || 0), assistExitJumpCost, "paid jump to exit charges deterministic tiered distance cost");
+assertEqual(assistExitGame.paidJump?.cost, assistExitJumpCost, "paid jump to exit records deterministic cost telemetry");
+assertEqual(assistExitGame.lastWarp?.kind, "mapwarp", "paid jump to exit still uses the normal mapwarp transition");
+
 let petReleaseGame = await api("/api/game/new", { name: "pet-release-active-test" });
 petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "中间宠", PetId: 101, Lv: 2 });
 petReleaseGame.pets.push({ ...petReleaseGame.pets[0], Name: "后排宠", PetId: 102, Lv: 3 });
@@ -3035,6 +3081,79 @@ function assertEqual(actual, expected, label) {
   if (actual !== expected) {
     throw new Error(`${label}: expected ${expected}, got ${actual}`);
   }
+}
+
+async function reachableAssistNpcFixture() {
+  const baseGame = await api("/api/game/new", { name: "assist-npc-fixture-probe" });
+  for (const map of preferredProbeMaps()) {
+    const from = mapSpawnLocation(map);
+    for (const npc of map.npcs || []) {
+      try {
+        const route = await api("/api/game/route-npc", {
+          game: { ...baseGame, location: from, dialog: null, encounter: null, battle: null },
+          npcId: npc.id
+        });
+        if (!route.blocked && route.target && route.route?.length) {
+          return { map, npc, from, route };
+        }
+      } catch {
+        // Keep probing; some source NPCs are intentionally unreachable or gated.
+      }
+    }
+  }
+  throw new Error("missing reachable assist NPC route fixture");
+}
+
+async function reachableAssistExitFixture() {
+  const baseGame = await api("/api/game/new", { name: "assist-exit-fixture-probe" });
+  for (const map of preferredProbeMaps()) {
+    const from = mapSpawnLocation(map);
+    for (const exit of map.exits || []) {
+      if (!WORLD.maps[String(exit.to)]) continue;
+      try {
+        const route = await api("/api/game/route-exit", {
+          game: { ...baseGame, location: from, dialog: null, encounter: null, battle: null },
+          exitId: exit.id
+        });
+        if (!route.blocked && route.target && route.route?.length) {
+          return { map, exit, from, route };
+        }
+      } catch {
+        // Keep probing; some exits need source flags/items and should stay gated.
+      }
+    }
+  }
+  throw new Error("missing reachable assist exit route fixture");
+}
+
+function preferredProbeMaps() {
+  const ids = [WORLD.startMap, "100", "300", "1100", "2000", "5000", "5001", "10007"];
+  const seen = new Set();
+  return ids
+    .map((id) => WORLD.maps[String(id)])
+    .filter((map) => {
+      if (!map || seen.has(map.id)) return false;
+      seen.add(map.id);
+      return true;
+    });
+}
+
+function mapSpawnLocation(map) {
+  return {
+    mapId: map.id,
+    x: Number(map.spawn?.[0] ?? 0),
+    y: Number(map.spawn?.[1] ?? 0),
+    dir: 2
+  };
+}
+
+function paidJumpCostForTest(stepDistance) {
+  const steps = Math.max(0, Math.trunc(Number(stepDistance) || 0));
+  if (steps <= 0) return 0;
+  const first = Math.min(steps, 300);
+  const second = Math.min(Math.max(steps - 300, 0), 200);
+  const third = Math.max(steps - 500, 0);
+  return 2000 + first * 30 + second * 50 + third * 80;
 }
 
 async function expectApiError(pathName, body, text, label) {

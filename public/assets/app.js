@@ -1154,7 +1154,7 @@ async function followRouteTo(target, routeData = null) {
     for (let attempt = 0; attempt < ROUTE_RETRY_LIMIT; attempt += 1) {
       if (attempt > 0) data = await api("/api/game/route", { game, targetX: target.x, targetY: target.y });
       const route = Array.isArray(data.route) ? data.route : [];
-      const routeTarget = data.target || target;
+      const routeTarget = data.standTarget || data.target || target;
       if (!route.length) {
         if (data.blocked) addClientLog("那里无法通行。");
         const face = data.face || initialFace;
