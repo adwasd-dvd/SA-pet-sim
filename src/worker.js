@@ -284,6 +284,10 @@ let cache;
 let charId = 0;
 let tileMetaPromise = null;
 const collisionCache = new Map();
+const REALTIME_ROOM_PLAYER_LIMIT = 80;
+const REALTIME_PRESENCE_TTL_MS = 45_000;
+const REALTIME_NAME_LIMIT = 24;
+const REALTIME_CHAT_LIMIT = 180;
 
 class UserFacingError extends Error {
   constructor(message, status = 400) {
@@ -297,15 +301,201 @@ function userError(message, status = 400) {
   return new UserFacingError(message, status);
 }
 
+export class MapRoom {
+  constructor(state, env) {
+    this.state = state;
+    this.env = env;
+    this.sessions = new Map();
+    this.players = new Map();
+    this.nextSessionId = 1;
+  }
+
+  async fetch(request) {
+    if (request.headers.get("Upgrade") !== "websocket") {
+      return realtimeJson({ error: "websocket required" }, 426);
+    }
+    if (this.sessions.size >= REALTIME_ROOM_PLAYER_LIMIT) {
+      return realtimeJson({ error: "map room full" }, 503);
+    }
+    const url = new URL(request.url);
+    const roomId = sanitizeRealtimeMapId(url.pathname.split("/").filter(Boolean).pop() || url.searchParams.get("mapId"));
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+    const session = {
+      id: "",
+      key: `s${Date.now().toString(36)}${this.nextSessionId++}`,
+      roomId,
+      lastSeen: Date.now()
+    };
+    server.accept();
+    this.sessions.set(server, session);
+    server.addEventListener("message", (event) => this.onMessage(server, event.data));
+    server.addEventListener("close", () => this.close(server));
+    server.addEventListener("error", () => this.close(server));
+    this.send(server, { type: "hello", roomId, players: this.livePlayers(roomId) });
+    return new Response(null, { status: 101, webSocket: client });
+  }
+
+  onMessage(ws, raw) {
+    const session = this.sessions.get(ws);
+    if (!session) return;
+    const message = parseRealtimeMessage(raw);
+    if (!message) {
+      this.send(ws, { type: "error", message: "bad-json" });
+      return;
+    }
+    session.lastSeen = Date.now();
+    if (message.type === "ping") {
+      this.send(ws, { type: "pong", at: session.lastSeen });
+      return;
+    }
+    if (message.type === "chat") {
+      const text = sanitizeRealtimeText(message.text, REALTIME_CHAT_LIMIT);
+      if (!text) return;
+      this.broadcast(session.roomId, {
+        type: "chat",
+        playerId: session.id,
+        name: sanitizeRealtimeText(message.name, REALTIME_NAME_LIMIT),
+        text,
+        timestamp: session.lastSeen
+      });
+      return;
+    }
+    if (message.type !== "join" && message.type !== "move") {
+      this.send(ws, { type: "error", message: "unsupported-type" });
+      return;
+    }
+    const player = sanitizeRealtimePlayer(message.player || message, session.roomId, session.lastSeen);
+    if (!player.id) {
+      this.send(ws, { type: "error", message: "missing-player-id" });
+      return;
+    }
+    session.id = player.id;
+    session.roomId = player.mapId;
+    this.players.set(session.key, { ...player, sessionKey: session.key, updatedAt: session.lastSeen });
+    this.broadcast(session.roomId, { type: message.type === "join" ? "presence" : "move", player });
+    if (message.type === "join") {
+      this.send(ws, { type: "snapshot", roomId: session.roomId, players: this.livePlayers(session.roomId) });
+    }
+  }
+
+  close(ws) {
+    const session = this.sessions.get(ws);
+    if (!session) return;
+    this.sessions.delete(ws);
+    this.players.delete(session.key);
+    if (session.id) {
+      this.broadcast(session.roomId, {
+        type: "leave",
+        playerId: session.id,
+        sessionKey: session.key,
+        timestamp: Date.now()
+      });
+    }
+  }
+
+  livePlayers(roomId) {
+    const now = Date.now();
+    const players = [];
+    for (const [key, player] of this.players.entries()) {
+      if (now - Number(player.updatedAt || 0) > REALTIME_PRESENCE_TTL_MS) {
+        this.players.delete(key);
+        continue;
+      }
+      if (player.mapId === roomId) players.push(stripRealtimePrivateFields(player));
+    }
+    return players;
+  }
+
+  broadcast(roomId, payload) {
+    for (const [ws, session] of this.sessions.entries()) {
+      if (session.roomId !== roomId) continue;
+      this.send(ws, payload);
+    }
+  }
+
+  send(ws, payload) {
+    try {
+      ws.send(JSON.stringify(payload));
+    } catch {
+      this.close(ws);
+    }
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith("/api/realtime/map/")) {
+      return handleMapRoomSocket(request, env, url);
+    }
     if (url.pathname.startsWith("/api/")) {
       return handleApi(request, env, url);
     }
     return env.ASSETS.fetch(request);
   }
 };
+
+function handleMapRoomSocket(request, env, url) {
+  if (!env.MAP_ROOMS) return realtimeJson({ error: "map room binding missing" }, 503);
+  const mapId = sanitizeRealtimeMapId(url.pathname.split("/").filter(Boolean).pop() || url.searchParams.get("mapId"));
+  const id = env.MAP_ROOMS.idFromName(`map:${mapId}`);
+  return env.MAP_ROOMS.get(id).fetch(request);
+}
+
+function parseRealtimeMessage(raw) {
+  try {
+    if (typeof raw === "string") return JSON.parse(raw);
+    if (raw instanceof ArrayBuffer) return JSON.parse(new TextDecoder().decode(raw));
+    return JSON.parse(String(raw || "{}"));
+  } catch {
+    return null;
+  }
+}
+
+function sanitizeRealtimePlayer(raw, roomId, now = Date.now()) {
+  const id = sanitizeRealtimeText(raw?.id || raw?.playerId, 80).replace(/[^\w:.-]/g, "").slice(0, 80);
+  const mapId = sanitizeRealtimeMapId(roomId || raw?.mapId);
+  return {
+    id,
+    name: sanitizeRealtimeText(raw?.name, REALTIME_NAME_LIMIT) || "玩家",
+    mapId,
+    x: clampRealtimeInt(raw?.x, 0, 9999, 0),
+    y: clampRealtimeInt(raw?.y, 0, 9999, 0),
+    dir: clampRealtimeInt(raw?.dir, 0, 7, 5),
+    timestamp: clampRealtimeInt(raw?.timestamp, 0, now, now)
+  };
+}
+
+function stripRealtimePrivateFields(player) {
+  const { sessionKey, updatedAt, ...publicPlayer } = player;
+  return publicPlayer;
+}
+
+function sanitizeRealtimeMapId(value) {
+  const text = sanitizeRealtimeText(value, 48).replace(/[^\w:.-]/g, "");
+  return text || "unknown";
+}
+
+function sanitizeRealtimeText(value, max = 80) {
+  return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
+}
+
+function clampRealtimeInt(value, min, max, fallback) {
+  const number = Math.trunc(Number(value));
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(min, Math.min(max, number));
+}
+
+function realtimeJson(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "access-control-allow-origin": "*"
+    }
+  });
+}
 
 async function handleApi(request, env, url) {
   try {

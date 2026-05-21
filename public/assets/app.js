@@ -36,6 +36,10 @@ const PAID_JUMP_SECOND_TIER_STEPS = 500;
 const PAID_JUMP_FIRST_TIER_COST = 30;
 const PAID_JUMP_SECOND_TIER_COST = 50;
 const PAID_JUMP_THIRD_TIER_COST = 80;
+const REALTIME_RECONNECT_MS = 2500;
+const REALTIME_HEARTBEAT_MS = 20000;
+const REALTIME_PEER_STALE_MS = 45000;
+const REALTIME_LOCAL_ID_KEY = "stoneage-web-realtime-id";
 const BATTLE_KEY_ACTIONS = Object.freeze({
   "1": "attack",
   h: "attack",
@@ -230,6 +234,17 @@ const mapView = {
   suppressNextClick: false,
   npcHitboxes: []
 };
+const realtimeState = {
+  ws: null,
+  mapId: "",
+  playerId: "",
+  connected: false,
+  peers: new Map(),
+  reconnectTimer: 0,
+  heartbeatTimer: 0,
+  lastSentKey: "",
+  disabled: false
+};
 
 const els = {
   creator: byId("creator"),
@@ -331,6 +346,11 @@ function init() {
   updateNetState();
   window.addEventListener("online", updateNetState);
   window.addEventListener("offline", updateNetState);
+  window.addEventListener("pagehide", disconnectRealtime);
+  window.addEventListener("pageshow", () => {
+    realtimeState.disabled = false;
+    syncRealtimeRoom({ force: true });
+  });
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     installPrompt = event;
@@ -516,6 +536,7 @@ function render() {
   renderFieldMessage();
   renderAiStatusPanel();
   renderClientWindow();
+  syncRealtimeRoom();
   scheduleAutomationTick();
 }
 
@@ -572,6 +593,192 @@ function renderMap(map) {
   renderLs2Map(map, renderVersion).catch(() => {
     els.mapCanvas.classList.add("map-fallback");
   });
+}
+
+function syncRealtimeRoom(options = {}) {
+  if (!game?.location?.mapId || realtimeState.disabled) return;
+  const mapId = String(game.location.mapId);
+  const playerId = realtimePlayerId();
+  if (!playerId) return;
+  if (realtimeState.mapId !== mapId || realtimeState.playerId !== playerId) {
+    closeRealtimeSocket();
+    realtimeState.mapId = mapId;
+    realtimeState.playerId = playerId;
+    realtimeState.lastSentKey = "";
+    realtimeState.peers.clear();
+    openRealtimeSocket(mapId, playerId);
+  } else if (!realtimeState.ws) {
+    openRealtimeSocket(mapId, playerId);
+  }
+  if (options.force) sendRealtimePresence("move", { force: true });
+}
+
+function openRealtimeSocket(mapId, playerId) {
+  if (realtimeState.ws || realtimeState.disabled) return;
+  clearRealtimeTimers();
+  const url = new URL(`/api/realtime/map/${encodeURIComponent(mapId)}`, window.location.href);
+  url.protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  url.searchParams.set("playerId", playerId);
+  const ws = new WebSocket(url.toString());
+  realtimeState.ws = ws;
+  realtimeState.connected = false;
+  ws.addEventListener("open", () => {
+    if (realtimeState.ws !== ws) return;
+    realtimeState.connected = true;
+    sendRealtimePresence("join", { force: true });
+    realtimeState.heartbeatTimer = window.setInterval(() => {
+      try {
+        ws.send(JSON.stringify({ type: "ping", at: Date.now() }));
+      } catch {
+        closeRealtimeSocket();
+      }
+    }, REALTIME_HEARTBEAT_MS);
+  });
+  ws.addEventListener("message", (event) => handleRealtimeMessage(event.data));
+  ws.addEventListener("close", () => {
+    if (realtimeState.ws !== ws) return;
+    realtimeState.ws = null;
+    realtimeState.connected = false;
+    clearRealtimeTimers();
+    if (!ws.__stoneAgeClosing && !realtimeState.disabled && game?.location?.mapId) {
+      realtimeState.reconnectTimer = window.setTimeout(() => {
+        realtimeState.reconnectTimer = 0;
+        syncRealtimeRoom({ force: true });
+      }, REALTIME_RECONNECT_MS);
+    }
+  });
+  ws.addEventListener("error", () => {
+    try {
+      ws.close();
+    } catch {
+      closeRealtimeSocket();
+    }
+  });
+}
+
+function closeRealtimeSocket() {
+  clearRealtimeTimers();
+  if (realtimeState.ws) {
+    realtimeState.ws.__stoneAgeClosing = true;
+    try {
+      realtimeState.ws.close();
+    } catch {
+      // Ignore close failures; reconnect logic will rebuild the socket.
+    }
+  }
+  realtimeState.ws = null;
+  realtimeState.connected = false;
+  realtimeState.peers.clear();
+  redrawRealtimePeers();
+}
+
+function disconnectRealtime() {
+  realtimeState.disabled = true;
+  closeRealtimeSocket();
+}
+
+function clearRealtimeTimers() {
+  if (realtimeState.reconnectTimer) {
+    window.clearTimeout(realtimeState.reconnectTimer);
+    realtimeState.reconnectTimer = 0;
+  }
+  if (realtimeState.heartbeatTimer) {
+    window.clearInterval(realtimeState.heartbeatTimer);
+    realtimeState.heartbeatTimer = 0;
+  }
+}
+
+function sendRealtimePresence(type = "move", options = {}) {
+  if (!realtimeState.connected || realtimeState.ws?.readyState !== WebSocket.OPEN) return;
+  const player = currentRealtimePlayerPayload();
+  if (!player) return;
+  const key = `${player.mapId}:${player.x}:${player.y}:${player.dir}:${player.name}`;
+  if (!options.force && key === realtimeState.lastSentKey) return;
+  realtimeState.lastSentKey = key;
+  try {
+    realtimeState.ws.send(JSON.stringify({ type, player }));
+  } catch {
+    closeRealtimeSocket();
+  }
+}
+
+function currentRealtimePlayerPayload() {
+  if (!game?.location) return null;
+  return {
+    id: realtimePlayerId(),
+    name: String(game.player?.name || "玩家").slice(0, 24),
+    mapId: String(game.location.mapId || game.world?.map?.id || ""),
+    x: Number(game.location.x) || 0,
+    y: Number(game.location.y) || 0,
+    dir: currentServerDirection(),
+    timestamp: Date.now()
+  };
+}
+
+function realtimePlayerId() {
+  const fromGame = game?.character?.id || game?.save?.characterId || game?.player?.id;
+  if (fromGame) return String(fromGame).replace(/[^\w:.-]/g, "").slice(0, 80);
+  try {
+    let id = localStorage.getItem(REALTIME_LOCAL_ID_KEY);
+    if (!id) {
+      id = window.crypto?.randomUUID?.() || `local-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem(REALTIME_LOCAL_ID_KEY, id);
+    }
+    return id.replace(/[^\w:.-]/g, "").slice(0, 80);
+  } catch {
+    return `local-${Date.now().toString(36)}`;
+  }
+}
+
+function handleRealtimeMessage(raw) {
+  const message = parseRealtimePayload(raw);
+  if (!message) return;
+  if (message.type === "snapshot" || message.type === "hello") {
+    realtimeState.peers.clear();
+    (message.players || []).forEach((player) => upsertRealtimePeer(player));
+    redrawRealtimePeers();
+    return;
+  }
+  if (message.type === "presence" || message.type === "move") {
+    upsertRealtimePeer(message.player);
+    redrawRealtimePeers();
+    return;
+  }
+  if (message.type === "leave") {
+    if (message.playerId) realtimeState.peers.delete(String(message.playerId));
+    redrawRealtimePeers();
+    return;
+  }
+  if (message.type === "chat" && message.text) {
+    addClientLog(`${message.name || "玩家"}：${message.text}`);
+  }
+}
+
+function parseRealtimePayload(raw) {
+  try {
+    return JSON.parse(String(raw || "{}"));
+  } catch {
+    return null;
+  }
+}
+
+function upsertRealtimePeer(player) {
+  if (!player?.id || String(player.id) === realtimeState.playerId) return;
+  if (String(player.mapId || "") !== String(game?.location?.mapId || "")) return;
+  realtimeState.peers.set(String(player.id), {
+    id: String(player.id),
+    name: String(player.name || "玩家").slice(0, 24),
+    mapId: String(player.mapId || ""),
+    x: Number(player.x) || 0,
+    y: Number(player.y) || 0,
+    dir: normalizeDirection(player.dir),
+    timestamp: Number(player.timestamp || Date.now()),
+    receivedAt: Date.now()
+  });
+}
+
+function redrawRealtimePeers() {
+  if (largeMapRenderer) scheduleLargeMapSpriteRender();
 }
 
 function syncWarpTransition() {
@@ -1002,6 +1209,7 @@ async function walkPlayer(dx, dy) {
     }
     save();
     render();
+    syncRealtimeRoom({ force: true });
     return moved;
   } finally {
     walkInFlight = false;
@@ -1025,6 +1233,7 @@ async function turnPlayer(face) {
     facePlayerDirection(clientAnimDirectionFromServerDir(currentServerDirection()));
     save();
     render();
+    syncRealtimeRoom({ force: true });
     return true;
   } catch (error) {
     addClientLog(error.message || "无法转向。");
@@ -2389,6 +2598,22 @@ function drawRealTileMap(canvas, width, height, tileAt, atlas, map = null) {
       order + 10000
     );
   }));
+  sprites.push(...collectRemotePlayerSprites(map, atlas, (tileId, peer, index) => {
+    const [mapX, mapY] = mapRenderPoint(peer.x, peer.y, width, height);
+    const [screenX, screenY] = isoPoint(mapX, mapY, halfW, halfH);
+    return mapDepthSprite(
+      atlas,
+      tileId,
+      screenX - bounds.minX,
+      screenY - bounds.minY,
+      screenX,
+      screenY,
+      peer.x,
+      peer.y,
+      "char",
+      order + 20000 + index
+    );
+  }));
   drawDepthSprites(ctx, atlas, sprites);
   els.mapCanvas.dataset.mapSize = `${width} x ${height} | client drawMap + ${atlas.mode || "real atlas"}`;
   syncMapMarkers(game.world.map);
@@ -2421,6 +2646,37 @@ function collectPlayerSprites(map, atlas, locate) {
   const tileId = playerFrameTileId(atlas);
   if (tileId <= CG_INVISIBLE || !isUsablePlayerFrame(tileId, atlas.frames?.[tileId])) return [];
   return [locate(tileId)];
+}
+
+function collectRemotePlayerSprites(map, atlas, locate) {
+  if (!map || !atlas || !realtimeState.peers.size) return [];
+  const mapId = String(map.id ?? game?.location?.mapId ?? "");
+  const now = Date.now();
+  const sprites = [];
+  let index = 0;
+  for (const [id, peer] of realtimeState.peers.entries()) {
+    if (!peer || id === realtimeState.playerId || String(peer.mapId || "") !== mapId) continue;
+    if (now - Number(peer.receivedAt || peer.timestamp || 0) > REALTIME_PEER_STALE_MS) {
+      realtimeState.peers.delete(id);
+      continue;
+    }
+    const x = Number(peer.x);
+    const y = Number(peer.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+    const dir = clientAnimDirectionFromServerDir(normalizeDirection(peer.dir));
+    const tileId = playerFrameTileId(atlas, { dir, forceStand: true });
+    if (tileId <= CG_INVISIBLE || !isUsablePlayerFrame(tileId, atlas.frames?.[tileId])) continue;
+    const sprite = locate(tileId, peer, index++);
+    if (sprite) {
+      sprites.push({
+        ...sprite,
+        remotePlayerId: peer.id,
+        remotePlayerName: peer.name,
+        label: peer.name || "玩家"
+      });
+    }
+  }
+  return sprites;
 }
 
 function playerFrameTileId(atlas = loadedTileAtlas, options = {}) {
@@ -2495,7 +2751,27 @@ function spritesOverlap(a, b, margin = 0) {
 function drawDepthSprites(ctx, atlas, sprites) {
   sprites
     .sort(compareDepthSprites)
-    .forEach((entry) => drawAtlasTile(ctx, atlas, entry.tileId, entry.x, entry.y));
+    .forEach((entry) => {
+      drawAtlasTile(ctx, atlas, entry.tileId, entry.x, entry.y);
+      if (entry.label) drawSpriteLabel(ctx, entry);
+    });
+}
+
+function drawSpriteLabel(ctx, entry) {
+  const label = String(entry.label || "").trim().slice(0, 18);
+  if (!label) return;
+  const x = Math.round((entry.left + entry.right) / 2);
+  const y = Math.round(entry.top - 7);
+  ctx.save();
+  ctx.font = "bold 12px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "bottom";
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(0,0,0,0.85)";
+  ctx.fillStyle = "#fff8c8";
+  ctx.strokeText(label, x, y);
+  ctx.fillText(label, x, y);
+  ctx.restore();
 }
 
 function compareDepthSprites(a, b) {
@@ -2983,6 +3259,21 @@ function collectViewportCharSprites(renderer, order = 0) {
       playerPoint.y,
       "char",
       order + sprites.length + 10000
+    );
+  }));
+  sprites.push(...collectRemotePlayerSprites(renderer.map, renderer.atlas, (tileId, peer, index) => {
+    const [x, y] = mapTileContentPoint(renderer, peer.x, peer.y);
+    return mapDepthSprite(
+      renderer.atlas,
+      tileId,
+      x,
+      y,
+      x + renderer.minX,
+      y + renderer.minY,
+      peer.x,
+      peer.y,
+      "char",
+      order + sprites.length + 20000 + index
     );
   }));
   return sprites;
