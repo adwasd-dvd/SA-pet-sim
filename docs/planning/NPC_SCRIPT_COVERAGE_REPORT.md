@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T17:47:45.113Z
+Generated: 2026-05-21T18:42:32.272Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -13,7 +13,9 @@ This report is generated from local NPC source files and generated world data. I
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
 | Parsed action kinds | 24 |
-| Unsupported action candidates | 40 |
+| Unsupported/unknown raw keys | 57 |
+| Candidate action keys | 7 |
+| Unknown raw keys | 50 |
 
 ## Profile Impact
 
@@ -61,7 +63,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| item | candidate-action | 0 | 0 | 0 | 20 | external/sources/ref___data/npc/100/sb_mimi.arg:5 |
 | TENSEI | unknown | 0 | 0 | 0 | 11 | external/sources/ref___data/npc/777/ten.arg:17 |
 | challengewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:4 |
 | loop | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:2 |
@@ -86,6 +87,7 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | loopinterval | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:2 |
 | page_num11 | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/roulette/master01.arg:15 |
 | settingtimeout | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:4 |
+| change_no | candidate-action | 0 | 0 | 0 | 4 | external/sources/ref___data/npc/genout/tman_400_85_102:4 |
 
 ## Recommended Next Slice
 

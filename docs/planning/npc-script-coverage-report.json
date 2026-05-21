@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:47:45.113Z",
+  "generatedAt": "2026-05-21T18:42:32.272Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -8,7 +8,9 @@
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
     "parsedActionKinds": 24,
-    "unsupportedCandidateKeys": 40
+    "unsupportedCandidateKeys": 57,
+    "candidateActionKeys": 7,
+    "unknownKeys": 50
   },
   "profiles": {
     "classic-core": {
@@ -213,10 +215,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 9667,
+      "supported-config": 9687,
       "supported-message": 15686,
-      "candidate-action": 33,
       "unknown": 228,
+      "candidate-action": 13,
       "condition-control": 12055,
       "supported-action": 3930,
       "blocked-or-later-system": 6
@@ -5625,7 +5627,7 @@
       {
         "key": "item",
         "normalized": "item",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 20,
         "files": 20,
         "profiles": {
@@ -13893,59 +13895,10 @@
         ]
       }
     ],
+    "unsupportedCandidateTotal": 57,
+    "candidateActionKeyCount": 7,
+    "unknownKeyCount": 50,
     "unsupportedCandidates": [
-      {
-        "key": "item",
-        "normalized": "item",
-        "category": "candidate-action",
-        "occurrences": 20,
-        "files": 20,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/100/sb_mimi.arg",
-            "line": 5,
-            "text": "item:2697"
-          },
-          {
-            "file": "external/sources/ref___data/npc/100/sb_nusu1.arg",
-            "line": 7,
-            "text": "item:2431"
-          },
-          {
-            "file": "external/sources/ref___data/npc/100/sb_nusu2.arg",
-            "line": 6,
-            "text": "item:2431"
-          },
-          {
-            "file": "external/sources/ref___data/npc/100/sb_nusu3.arg",
-            "line": 7,
-            "text": "item:2431"
-          },
-          {
-            "file": "external/sources/ref___data/npc/300/sb_bac.arg",
-            "line": 6,
-            "text": "item:2535"
-          }
-        ]
-      },
       {
         "key": "TENSEI",
         "normalized": "tensei",
@@ -15776,6 +15729,38 @@
             "file": "external/sources/ref___data/npc/eden2/kraken/ev88_05.arg",
             "line": 14,
             "text": "B_evend:88"
+          }
+        ]
+      },
+      {
+        "key": "con",
+        "normalized": "con",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/roulette/master01.arg",
+            "line": 8,
+            "text": "con:TRUE"
           }
         ]
       }

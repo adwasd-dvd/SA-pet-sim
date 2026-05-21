@@ -234,6 +234,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "getitem",
   "hasgame",
   "history",
+  "item",
   "itemfullmsg",
   "itemfull_msg",
   "failuremsg",
@@ -362,7 +363,9 @@ function main() {
       worldScriptNpcs: worldCoverage.full.scriptNpcs,
       worldScriptEvents: worldCoverage.full.scriptEvents,
       parsedActionKinds: Object.keys(worldCoverage.full.parsedActions).length,
-      unsupportedCandidateKeys: rawCoverage.unsupportedCandidates.length
+      unsupportedCandidateKeys: rawCoverage.unsupportedCandidateTotal,
+      candidateActionKeys: rawCoverage.candidateActionKeyCount,
+      unknownKeys: rawCoverage.unknownKeyCount
     },
     profiles: Object.fromEntries(PROFILE_ORDER.map((id) => [id, profiles[id]?.summary || emptyProfileSummary(id)])),
     parsedWorldActions: worldCoverage,
@@ -380,7 +383,7 @@ function main() {
   writeFileSync(reportMdPath, renderMarkdown(report));
 
   console.log(`NPC script coverage report written: ${path.relative(appRoot, reportMdPath)}`);
-  console.log(`Unsupported action candidates: ${report.summary.unsupportedCandidateKeys}`);
+  console.log(`Unsupported/unknown raw keys: ${report.summary.unsupportedCandidateKeys}`);
 }
 
 function assertCoverageGate(report) {
@@ -610,15 +613,18 @@ function collectRawKeyCoverage(files, profiles) {
     }))
     .sort(compareKeyRecord);
 
-  const unsupportedCandidates = keyRecords
+  const unsupportedCandidateRecords = keyRecords
     .filter((record) => record.category === "candidate-action" || record.category === "unknown")
-    .sort(comparePriorityRecord)
-    .slice(0, 40);
+    .sort(comparePriorityRecord);
+  const unsupportedCandidates = unsupportedCandidateRecords.slice(0, 40);
 
   return {
     rawLines,
     byCategory,
     keyRecords,
+    unsupportedCandidateTotal: unsupportedCandidateRecords.length,
+    candidateActionKeyCount: keyRecords.filter((record) => record.category === "candidate-action").length,
+    unknownKeyCount: keyRecords.filter((record) => record.category === "unknown").length,
     unsupportedCandidates
   };
 }
@@ -774,7 +780,9 @@ function renderMarkdown(report) {
   lines.push(`| Generated script NPCs | ${report.summary.worldScriptNpcs} |`);
   lines.push(`| Generated script events | ${report.summary.worldScriptEvents} |`);
   lines.push(`| Parsed action kinds | ${report.summary.parsedActionKinds} |`);
-  lines.push(`| Unsupported action candidates | ${report.summary.unsupportedCandidateKeys} |`);
+  lines.push(`| Unsupported/unknown raw keys | ${report.summary.unsupportedCandidateKeys} |`);
+  lines.push(`| Candidate action keys | ${report.summary.candidateActionKeys} |`);
+  lines.push(`| Unknown raw keys | ${report.summary.unknownKeys} |`);
   lines.push("");
   lines.push("## Profile Impact");
   lines.push("");
