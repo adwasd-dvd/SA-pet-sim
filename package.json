@@ -14,6 +14,7 @@
     "check:npc": "node scripts/check-npc-actions.mjs",
     "check:npc-scripts": "node scripts/report-npc-script-coverage.mjs --check",
     "check:quest-index": "node scripts/check-quest-index.mjs",
+    "check:classic-core-spine": "node scripts/check-classic-core-spine.mjs",
     "check:assist-ui": "node scripts/check-assist-route-ui.mjs",
     "check:item-effects": "node scripts/check-item-effects.mjs",
     "check:battle-ui": "node scripts/check-battle-ui.mjs",
@@ -36,7 +37,7 @@
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:npc-scripts && npm run check:quest-index && npm run check:assist-ui && npm run check:item-effects && npm run check:battle-ui && npm run check:realtime && npm run check:protocol && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
+    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:npc-scripts && npm run check:quest-index && npm run check:classic-core-spine && npm run check:assist-ui && npm run check:item-effects && npm run check:battle-ui && npm run check:realtime && npm run check:protocol && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "wrangler": "^4.15.0"
