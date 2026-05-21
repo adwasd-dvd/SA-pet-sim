@@ -12,6 +12,7 @@ const requiredAppSnippets = [
   ["quest list routes click actions", 'els.questList?.addEventListener("click", onAssistPanelClick);'],
   ["quest list routes double-click actions", 'els.questList?.addEventListener("dblclick", onAssistPanelDoubleClick);'],
   ["right status panel routes click actions", 'els.aiStatusPanel?.addEventListener("click", onAssistPanelClick);'],
+  ["client window route click actions", 'els.clientWindowBody.addEventListener("click", onAssistPanelClick);'],
   ["active quest route action renderer", "${renderLeadTargetActions(quest.target)}"],
   ["source task route action renderer", "${renderLeadTargetActions(task.target)}"],
   ["starter NPC route action renderer", '${renderAssistMapActions("npc", npc.id, pointDistance(npc.x, npc.y))}'],
@@ -60,6 +61,7 @@ assert(
 
 assertPaidJumpContract("public/assets/app.js", appJs, { requireWorkerMutation: false });
 assertPaidJumpContract("src/worker.js", workerJs, { requireWorkerMutation: true });
+assertClientQuestWindowRouteActions(appJs);
 
 console.log("Assist route UI OK: deterministic route actions and tiered paid-jump fares are guarded.");
 
@@ -67,6 +69,19 @@ function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function assertClientQuestWindowRouteActions(source) {
+  const questWindow = extractFunctionSource(source, "clientQuestWindow");
+  assert(questWindow, "public/assets/app.js missing clientQuestWindow");
+  assert(
+    questWindow.includes("${renderLeadTargetActions(quest.target)}"),
+    "client QUEST window must expose deterministic route actions for active quest targets"
+  );
+  assert(
+    questWindow.includes("${renderLeadTargetActions(task.target)}"),
+    "client QUEST window must expose deterministic route actions for source task targets"
+  );
 }
 
 function assertPaidJumpContract(label, source, { requireWorkerMutation }) {

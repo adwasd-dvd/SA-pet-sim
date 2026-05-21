@@ -436,6 +436,7 @@ function bindEvents() {
   els.questList?.addEventListener("dblclick", onAssistPanelDoubleClick);
   els.aiStatusPanel?.addEventListener("click", onAssistPanelClick);
   els.aiStatusPanel?.addEventListener("dblclick", onAssistPanelDoubleClick);
+  els.clientWindowBody.addEventListener("click", onAssistPanelClick);
   window.addEventListener("resize", centerMapOnPlayer);
   window.addEventListener("keydown", onGameKeyDown);
   window.addEventListener("keyup", onGameKeyUp);
@@ -6596,6 +6597,7 @@ function clientQuestWindow() {
             <strong>${escapeHtml(quest.title)}</strong>
             <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
             ${renderGuidanceList(questGuidanceLines(quest), 3)}
+            ${renderLeadTargetActions(quest.target)}
           </article>
         `).join("")}
         ${sourceTasks.map((task) => `
@@ -6603,6 +6605,7 @@ function clientQuestWindow() {
             <strong>${escapeHtml(task.title)}</strong>
             <span>${escapeHtml(task.status)} | ${escapeHtml(task.next || "继续推进原脚本事件")}</span>
             ${renderGuidanceList(taskGuidanceLines(task), 3)}
+            ${renderLeadTargetActions(task.target)}
           </article>
         `).join("")}
       </div>
