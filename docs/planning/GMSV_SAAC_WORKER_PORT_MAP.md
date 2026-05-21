@@ -19,6 +19,7 @@ Primary source files:
 Current Worker entry:
 
 - `src/worker.js`: browser API, first-pass game runtime, local save model, NPC dialogue, shops, encounters, battle, item use, AI guide.
+- `docs/planning/WORKER_NATIVE_COMMAND_PROTOCOL.md`: frozen Worker-native command names, endpoint mapping, request/response envelope, WebSocket room boundary, and legacy TCP gateway boundary.
 
 ## Worker-Native Services
 
@@ -54,14 +55,14 @@ Current Worker entry:
 | Original protocol/function | Meaning | Worker command/API | Target service | Status |
 | --- | --- | --- | --- | --- |
 | `W_recv`, `W2_recv` | Move character on map | `move { mapId, x, y, dx, dy, dir }` / current `/api/game/walk` | `MapRoomDO` + movement validation | First-pass implemented |
-| `XYD_send`, `C_send`, `CA_send`, `CD_send` | Send position/character appearance updates | `room.playerMoved`, `room.playerJoined`, `room.playerLeft` events | `MapRoomDO` WebSocket | Next |
+| `XYD_send`, `C_send`, `CA_send`, `CD_send` | Send position/character appearance updates | `room.playerMoved`, `room.playerJoined`, `room.playerLeft` events | `MapRoomDO` WebSocket | Same-map MVP implemented through `/api/realtime/map/:mapId`; persistence and party/chat next |
 | `M_recv`, `M_send`, `MC_send` | Request map chunk/data | Static map asset fetch, optional chunk endpoint | `AssetService` | First-pass static/generated |
 | `TK_recv` -> `CHAR_Talk` -> NPC `talkedfunc` | Player chat and default `P|hi` NPC talk | `talkToNpc { npcId, message }` / current `/api/game/dialog` | `NpcActionVM` | First-pass implemented |
-| `WN_recv` | NPC window button/selection response | `npcWindow { npcId, seqNo, select, data }` | `NpcActionVM` | Next |
+| `WN_recv` | NPC window button/selection response | `npcWindow { npcId, seqNo, select, data }` | `NpcActionVM` | First-pass dialog/shop/window responses implemented; full old packet parity later |
 | `WN_send` | NPC opens a window/dialog/menu | `npc.windowOpened` response | `NpcActionVM` | Next |
 | `EV_recv` | Map event trigger | `triggerEvent { eventId, x, y, dir }` | Event/action VM | Later |
 | `EN_recv`, `DU_recv` | Encounter request / duel request | `startEncounter`, `requestDuel` | `EncounterService`, `BattleRoomDO` | First-pass encounter implemented; duel later |
-| `EO_recv` | Leave/escape battle encounter | `battleAction { action: "escape" }` | `BattleRoomDO` | Later |
+| `EO_recv` | Leave/escape battle encounter | `battleAction { action: "escape" }` | `BattleRoomDO` | First-pass escape implemented; room-backed battle later |
 | `B_recv` -> `BattleCommandDispach` | Battle command packet | `battleAction { action, target, skill, item }` / current `/api/game/battle` | `BattleRoomDO` | First-pass attack implemented |
 | `BU_recv` | Battle setup/update request | `battleSnapshot` | `BattleRoomDO` | Later |
 | `BATTLESKILL_recv` | Out-of-battle or special battle skill | `battleSkill` / `fieldSkill` | Skill service | Later |
@@ -89,25 +90,9 @@ These NPC source modules should drive the first `NpcActionVM` milestones:
 
 ## Current API Compatibility
 
-The current Worker already exposes a thin command facade:
+The current Worker command facade is documented and guarded in `docs/planning/WORKER_NATIVE_COMMAND_PROTOCOL.md`.
 
-| Current endpoint | Intended command | Notes |
-| --- | --- | --- |
-| `POST /api/game/new` | `createCharacter` | Local/browser save; cloud account slot next. |
-| `POST /api/game/sync` | `normalizeSave` | Keeps `saac-pwa-v1` save stable. |
-| `POST /api/game/travel` | `move/warp` | Direct exit selection. |
-| `POST /api/game/walk` | `move` | Movement, exit trigger, step encounter. |
-| `POST /api/game/talk` | `talkToNpc(hi)` | Default click-to-talk. |
-| `POST /api/game/dialog` | `talkToNpc(message)` | Source-grounded first pass, optional AI wording. |
-| `POST /api/game/buy` | `buyItem` | Real parsed shop item purchase. |
-| `POST /api/game/sell` | `sellItem` | Sell one inventory item back to an item shop using parsed `trade.sellRate`, with item removal and stone payment routed through the NPC VM. |
-| `POST /api/game/use-item` | `inventoryAction(use)` | HP recovery first pass. |
-| `POST /api/game/pool-item` | `poolItem` | Source `npc_poolitemshop.c` item deposit/withdraw through Worker VM. |
-| `POST /api/game/encounter` | `startEncounter` | Manual/debug encounter. |
-| `POST /api/game/capture` | `battleAction(capture)` | Capture first pass. |
-| `POST /api/game/battle` | `battleAction(H/T/G/N/I/E)` | Source-command battle surface; victory/capture now grants cumulative EXP/NEXT through Worker settlement. |
-| `POST /api/game/train` | retired debug endpoint | Refuses direct level mutation; player/pet growth must come from battle EXP or AI-operated battles. |
-| `POST /api/ai/guide` | `aiGuide` | Grounded guide; state changes are limited to deterministic Worker services such as battle, item use, warp, and effects. |
+Run `npm run check:protocol` after adding or renaming any `/api/*` endpoint. The check scans `src/worker.js` and fails if the command protocol doc does not mention the endpoint, which keeps the gmsv/saac compatibility map from drifting behind the runtime.
 
 ## Unsupported Or Later-Only
 
@@ -127,4 +112,4 @@ Keep these out of the first Worker-native pass unless a feature depends on them:
 2. `MapRoomDO`: WebSocket room for `W/W2`, chat, join/leave broadcast.
 3. `NpcActionVM`: `TK`/`WN` equivalent for text, shop, warp, heal, savepoint, flag set.
 4. `BattleRoomDO`: replace current local encounter with room-backed battle state.
-5. `Protocol doc`: freeze JSON command names and payloads before adding native-client or gateway compatibility.
+5. `Protocol doc`: implemented as `docs/planning/WORKER_NATIVE_COMMAND_PROTOCOL.md`, with `npm run check:protocol` guarding endpoint coverage. Next protocol work is moving the current compact JSON handlers behind shared command-envelope adapters.

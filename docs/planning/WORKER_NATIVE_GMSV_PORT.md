@@ -133,6 +133,8 @@ Worker-native 版本应该变成：
 
 每个命令必须对应 `gmsv` 源码或 ref-data 的来源说明。
 
+协议边界见 `docs/planning/WORKER_NATIVE_COMMAND_PROTOCOL.md`。该文档列出当前所有 `/api/game/*`、`/api/ai/*` 和同地图 WebSocket 命令，并由 `npm run check:protocol` 防止 Worker 新增接口时忘记同步 gmsv/saac 兼容说明。
+
 ### 3. NPC Action VM
 
 先不追完整 LuaJIT。先做小型确定性 action VM：

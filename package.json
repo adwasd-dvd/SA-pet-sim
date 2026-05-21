@@ -15,6 +15,7 @@
     "check:npc-scripts": "node scripts/report-npc-script-coverage.mjs --check",
     "check:assist-ui": "node scripts/check-assist-route-ui.mjs",
     "check:realtime": "node scripts/check-realtime-room.mjs",
+    "check:protocol": "node scripts/check-worker-protocol.mjs",
     "check:pet-assets": "node scripts/check-pet-asset-resolution.mjs",
     "check:profile-runtime-packs": "node scripts/check-profile-runtime-packs.mjs",
     "report:npc-scripts": "node scripts/report-npc-script-coverage.mjs",
@@ -32,7 +33,7 @@
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:npc-scripts && npm run check:assist-ui && npm run check:realtime && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
+    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:npc-scripts && npm run check:assist-ui && npm run check:realtime && npm run check:protocol && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "wrangler": "^4.15.0"
