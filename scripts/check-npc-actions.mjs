@@ -1087,6 +1087,7 @@ assertEqual(ganzoBattleGame.battle.enemyParty[1].PetId, 501, "Ganzo enemy1 id 25
 assert(ganzoBattleGame.battle.enemyParty[1].Lv >= 10 && ganzoBattleGame.battle.enemyParty[1].Lv <= 13, "Ganzo enemy1 id 254 uses source level range 10-13");
 assertEqual(ganzoBattleGame.characterFields.battle.formation.activeActorKind, "pet", "battle formation marks the active actor as the deployed pet");
 assertEqual(ganzoBattleGame.characterFields.battle.formation.activeActorNo, 5, "battle formation activeActorNo uses the source pet battle slot instead of the player slot");
+assert(ganzoBattleGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "player" && unit.battleNo === 0 && !unit.active), "battle formation does not mark player slot 0 active while the pet is acting");
 assert(ganzoBattleGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "pet" && unit.battleNo === 5 && unit.active), "battle formation exposes the active pet on source battleNo 5");
 assertEqual(ganzoBattleGame.encounter.CaptureRate, 0, "Ganzo NPCEnemy encounter is not catchable");
 assert(ganzoBattleGame.battle?.source?.includes("npc_npcenemy.c"), "Ganzo battle records NPCEnemy source");

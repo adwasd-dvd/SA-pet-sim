@@ -14814,13 +14814,14 @@ function battleFormationForFields(game) {
   const activeIndex = getActivePetIndex(game);
   const activePet = getActivePet(game);
   const activeActor = activeBattleActor(game);
+  const activeActorNo = battleActorBattleNo(game, activeActor);
   const playerUnit = battleFormationUnit(game.player, {
     side: 0,
     slot: 0,
     battleNo: 0,
     kind: "player",
     row: "back",
-    active: true,
+    active: activeActorNo === 0,
     commandable: true
   });
   const petUnit = activePet ? battleFormationUnit(activePet, {
@@ -14829,7 +14830,7 @@ function battleFormationForFields(game) {
     battleNo: BATTLE_PLAYER_MAX,
     kind: "pet",
     row: "front",
-    active: true,
+    active: activeActorNo === BATTLE_PLAYER_MAX,
     commandable: true,
     petIndex: activeIndex,
     ownerSlot: 0
@@ -14854,7 +14855,7 @@ function battleFormationForFields(game) {
     roundDeadlineAt: game.battle?.roundDeadlineAt || "",
     localPlayerNo: 0,
     localPetNo: activePet ? BATTLE_PLAYER_MAX : -1,
-    activeActorNo: battleActorBattleNo(game, activeActor),
+    activeActorNo,
     activeActorKind: battleActorKind(game, activeActor),
     mode: "source-formation-scaffold",
     allySide,
