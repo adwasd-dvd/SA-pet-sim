@@ -430,6 +430,8 @@ function bindEvents() {
   els.assistPanelBody.addEventListener("click", onAssistPanelClick);
   els.assistPanelBody.addEventListener("dblclick", onAssistPanelDoubleClick);
   els.assistPanelBody.addEventListener("keydown", onAssistPanelKeyDown);
+  els.questList?.addEventListener("click", onAssistPanelClick);
+  els.questList?.addEventListener("dblclick", onAssistPanelDoubleClick);
   els.aiStatusPanel?.addEventListener("click", onAssistPanelClick);
   els.aiStatusPanel?.addEventListener("dblclick", onAssistPanelDoubleClick);
   window.addEventListener("resize", centerMapOnPlayer);
@@ -6912,6 +6914,7 @@ function renderQuests() {
       </div>
       <p class="muted">下一步：${escapeHtml(nextQuestStep(quest))}</p>
       ${renderGuidanceList(questGuidanceLines(quest), 5)}
+      ${renderLeadTargetActions(quest.target)}
       <p class="muted">奖励：${escapeHtml(quest.reward)} | 来源：${escapeHtml(quest.source)}</p>
     </article>
   `).join("");
@@ -6920,6 +6923,7 @@ function renderQuests() {
         <div><strong>${escapeHtml(task.title)}</strong><span>${escapeHtml(task.status)}</span></div>
         <p>${escapeHtml(task.next || "继续推进原脚本事件。")}</p>
         ${renderGuidanceList(taskGuidanceLines(task), 5)}
+        ${renderLeadTargetActions(task.target)}
         ${task.requiredItems?.length ? `<p class="muted">道具：${escapeHtml(task.requiredItems.map((item) => `${item.name} ${Number(item.have || 0)}/${Number(item.qty || 1)}`).join("、"))}</p>` : ""}
         ${task.rewardItems?.length ? `<p class="muted">可能奖励：${escapeHtml(task.rewardItems.map((item) => `${item.name} x${Number(item.qty || 1)}`).join("、"))}</p>` : ""}
         <p class="muted">来源：${escapeHtml(task.source || "gmsv-data changeevent")} | EventNo ${Number(task.eventNo || 0)}</p>
