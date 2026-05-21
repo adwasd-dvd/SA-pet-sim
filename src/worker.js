@@ -5998,18 +5998,77 @@ function guidePotentialLootText(items = [], limit = 6) {
     .join("；");
 }
 
+function sourceTaskLootNeeds(game) {
+  const tasks = sourceScriptTaskState(game);
+  const needs = [];
+  for (const task of tasks || []) {
+    for (const item of task.requiredItems || []) {
+      const id = Number(item.id || 0);
+      if (!id) continue;
+      needs.push({
+        id,
+        name: item.name || `item ${id}`,
+        qty: Math.max(1, Number(item.qty || item.needed || 1)),
+        have: Number(item.have || 0),
+        taskTitle: task.title || `EventNo ${task.eventNo}`,
+        phase: task.phase || "进行中",
+        target: task.target ? {
+          name: task.target.name || "",
+          mapName: task.target.mapName || "",
+          mapId: task.target.mapId || "",
+          x: task.target.x,
+          y: task.target.y
+        } : null,
+        source: task.source || task.sourceCluster || ""
+      });
+    }
+  }
+  return needs;
+}
+
+function sourceTaskNeedLabel(need = {}) {
+  const have = Number(need.have || 0);
+  const qty = Math.max(1, Number(need.qty || 1));
+  const progress = qty > 1 || have > 0 ? ` ${have}/${qty}` : "";
+  return `${need.name || `item ${need.id}`}${progress}`;
+}
+
+function guideTaskLootText(game, candidateItems = [], scope = "当前/上一场敌人") {
+  const taskNeeds = sourceTaskLootNeeds(game);
+  if (!taskNeeds.length) return "";
+  const candidates = mergeBattleLootItems(candidateItems || []).filter((item) => Number(item.id || 0) > 0);
+  if (!candidates.length) {
+    const labels = taskNeeds.slice(0, 4).map(sourceTaskNeedLabel).join("、");
+    return `当前原脚本任务需要 ${labels}；现在没有可对照的 enemy1.txt 候选掉落。`;
+  }
+  const candidateIds = new Set(candidates.map((item) => Number(item.id || 0)));
+  const matched = taskNeeds.filter((need) => candidateIds.has(Number(need.id || 0)));
+  if (matched.length) {
+    const labels = matched.slice(0, 4).map((need) => `${sourceTaskNeedLabel(need)}（${need.taskTitle}）`).join("、");
+    return `当前任务相关掉落：${labels} 出现在${scope}的 enemy1.txt 候选掉落中；能不能拿到仍按 ITEMPROB 概率结算。`;
+  }
+  const labels = taskNeeds.slice(0, 4).map((need) => `${sourceTaskNeedLabel(need)}（${need.taskTitle}）`).join("、");
+  const target = taskNeeds.find((need) => need.target)?.target;
+  const targetText = target?.name
+    ? `；优先去目标 NPC：${target.mapName || `floor ${target.mapId}`} (${target.x},${target.y}) 的 ${target.name}，按脚本领取或交付`
+    : "；优先按任务目标 NPC、脚本条件和背包要求推进";
+  return `当前任务需求 ${labels} 没有出现在${scope}的 enemy1.txt 候选掉落中${targetText}，不要把所有任务道具都当成怪物掉落。`;
+}
+
 function guideLastBattleSummary(game) {
   const outcome = game?.lastBattleOutcome;
   if (!outcome) return null;
   const lootText = formatLootList(outcome.lootItems || []);
   const potentialLootText = guidePotentialLootText(outcome.potentialLootItems || [], 8);
   const skippedLootText = formatLootList(outcome.skippedLootItems || []);
+  const taskLootText = guideTaskLootText(game, outcome.potentialLootItems || [], "上一场敌人");
   return {
     result: outcome.result || "",
     defeatedEnemies: (outcome.defeatedEnemies || []).map((enemy) => `${enemy.Name || "敌人"} Lv.${Number(enemy.Lv || 0)}`).slice(0, 6),
     escapedEnemies: (outcome.escapedEnemies || []).map((enemy) => `${enemy.Name || "敌人"} Lv.${Number(enemy.Lv || 0)}`).slice(0, 6),
     lootText,
     potentialLootText,
+    taskLootText,
     skippedLootText,
     source: "gmsv-data/enemy/enemy1.txt ITEM/ITEMPROB -> battle settlement"
   };
@@ -6849,6 +6908,7 @@ async function guideGame(env, request, game, prompt) {
           "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
           "context.location.encounterGateText/encounterGates 来自 gmsv-data/group1.txt 背包条件；遇敌/刷怪问题必须说明缺少或禁持的道具条件，不要猜。",
           "context.battle.dropText 与 context.lastBattle.potentialLootText/lootText 来自 gmsv-data/enemy/enemy1.txt 的 ITEM/ITEMPROB；回答掉落/战利品问题要说明候选掉落、概率和本次实际获得。",
+          "context.battle.taskLootText/context.lastBattle.taskLootText 会对照当前 sourceTasks 说明任务道具是否在当前/上一场敌人的候选掉落中；任务道具不在候选掉落时，要引导去目标 NPC/脚本条件，不要让玩家无效刷怪。",
           "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的石器时代资料库条目；条目只是索引时要说明不能补编完整流程。",
           "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
@@ -6883,6 +6943,7 @@ async function callOpenAiGuide(env, context, prompt) {
     "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
     "context.location.encounterGateText/encounterGates 来自 gmsv-data/group1.txt 背包条件；遇敌/刷怪问题必须说明缺少或禁持的道具条件，不要猜。",
     "context.battle.dropText 与 context.lastBattle.potentialLootText/lootText 来自 gmsv-data/enemy/enemy1.txt 的 ITEM/ITEMPROB；回答掉落/战利品问题要说明候选掉落、概率和本次实际获得。",
+    "context.battle.taskLootText/context.lastBattle.taskLootText 会对照当前 sourceTasks 说明任务道具是否在当前/上一场敌人的候选掉落中；任务道具不在候选掉落时，要引导去目标 NPC/脚本条件，不要让玩家无效刷怪。",
     "context.knowledge 是从石器时代资料库压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
     "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
@@ -13864,6 +13925,7 @@ function buildGuideContext(game, map, prompt = "") {
       hp: game.encounter.Hp,
       source: game.battle?.source || game.encounter.source || "",
       dropText: guidePotentialLootText(game.encounter.EnemyDropTable || game.encounter.dropTable || [], 6),
+      taskLootText: guideTaskLootText(game, game.encounter.EnemyDropTable || game.encounter.dropTable || [], "当前敌人"),
       encounterGates: game.battle?.encounterArea?.groupGates || []
     } : null,
     lastBattle,
@@ -14311,6 +14373,7 @@ function buildAiWorkspace(env, game, prompt = "") {
         hp: game.encounter.Hp,
         source: game.battle?.source || game.encounter.source || "",
         dropText: guidePotentialLootText(game.encounter.EnemyDropTable || game.encounter.dropTable || [], 6),
+        taskLootText: guideTaskLootText(game, game.encounter.EnemyDropTable || game.encounter.dropTable || [], "当前敌人"),
         encounterGates: game.battle?.encounterArea?.groupGates || []
       } : null,
       lastBattle
@@ -14577,8 +14640,9 @@ function fallbackGuide(context, prompt = "", error = null) {
   }).join("；");
   const aiNote = error ? "远程 AI 暂时不可用，我先按本地规则判断。 " : "";
   const hasCurrentTask = Boolean(reportable || sourceTask || active);
+  const asksDrop = hasAny(lower, ["掉落", "掉东西", "战利品", "掉什么", "爆什么", "loot", "drop"]);
   const asksCurrentAction = hasAny(lower, ["下一步", "干嘛", "做什么", "现在应该", "任务指导"])
-    || (hasCurrentTask && hasAny(lower, ["任务", "quest", "怎么做", "攻略"]));
+    || (hasCurrentTask && !asksDrop && hasAny(lower, ["任务", "quest", "怎么做", "攻略"]));
   if (asksCurrentAction) {
     return `${aiNote}${guideActionPlanText(context)}`;
   }
@@ -14586,14 +14650,20 @@ function fallbackGuide(context, prompt = "", error = null) {
     const reply = localStoneAgeKnowledgeReply(context.knowledge, "AI向导");
     if (reply) return `${aiNote}${reply}`;
   }
-  if (hasAny(lower, ["掉落", "掉东西", "战利品", "掉什么", "爆什么", "loot", "drop"])) {
+  if (asksDrop) {
     const parts = [];
     if (context.battle?.dropText) {
       parts.push(`当前敌人 ${context.battle.enemy || "敌人"} 的源码候选掉落：${context.battle.dropText}。`);
     }
+    if (context.battle?.taskLootText) {
+      parts.push(context.battle.taskLootText);
+    }
     if (context.lastBattle?.potentialLootText) {
       const defeated = context.lastBattle.defeatedEnemies?.length ? `（${context.lastBattle.defeatedEnemies.join("、")}）` : "";
       parts.push(`上一场战斗${defeated}候选掉落：${context.lastBattle.potentialLootText}。`);
+    }
+    if (context.lastBattle?.taskLootText) {
+      parts.push(context.lastBattle.taskLootText);
     }
     if (context.lastBattle?.lootText) {
       parts.push(`本次实际获得：${context.lastBattle.lootText}。`);

@@ -1700,6 +1700,36 @@ const adultTurnInTask = adultGame.progression.sourceTasks.find((task) => task.ev
 assertEqual(adultTurnInTask?.sourceCluster, "jaruga/event", "adult ceremony turn-in source task stays scoped to jaruga/event scripts");
 assert(adultTurnInTask?.nextNpcs.some((npc) => npc.name === "仪式的审判" && npc.requires?.some((label) => label.includes("仪") && label.includes("x15"))), "adult ceremony turn-in target exposes source item requirement summary");
 assert(adultTurnInTask?.guidance?.some((line) => line.includes("交付内容") && line.includes("仪") && line.includes("x15")), "adult ceremony guidance explains what to turn in to target NPC");
+const adultTaskDropGame = JSON.parse(JSON.stringify(adultGame));
+adultTaskDropGame.lastBattleOutcome = {
+  result: "victory",
+  defeatedEnemies: [{ Name: "测试敌人", Lv: 1 }],
+  escapedEnemies: [],
+  lootItems: [],
+  skippedLootItems: [],
+  potentialLootItems: [{
+    id: 999999,
+    name: "测试掉落",
+    qty: 1,
+    probability: 1,
+    rollBase: 1000,
+    source: "gmsv-data/enemy/enemy1.txt test ITEM/ITEMPROB"
+  }]
+};
+const adultTaskDropWorkspace = await api("/api/ai/workspace", { game: adultTaskDropGame, prompt: "这个任务道具会掉落吗" });
+assert(
+  adultTaskDropWorkspace.workspace.current.lastBattle.taskLootText.includes("当前任务需求")
+    && adultTaskDropWorkspace.workspace.current.lastBattle.taskLootText.includes("没有出现在")
+    && adultTaskDropWorkspace.workspace.current.lastBattle.taskLootText.includes("enemy1.txt"),
+  "AI workspace distinguishes source task item requirements from unrelated enemy drop candidates"
+);
+const adultTaskDropGuide = await api("/api/ai/guide", { game: adultTaskDropGame, prompt: "这个任务道具会掉落吗，为什么没掉" });
+assert(
+  adultTaskDropGuide.text.includes("当前任务需求")
+    && adultTaskDropGuide.text.includes("没有出现在")
+    && adultTaskDropGuide.text.includes("目标 NPC"),
+  "local guide tells players when source task items are not in the current enemy drop candidates"
+);
 adultGuideRsp = await api("/api/ai/guide", { game: adultGame, prompt: "任务下一步" });
 assert(adultGuideRsp.text.includes("仪式的审判"), "AI guide switches active source task to turn-in target");
 assert(adultGuideRsp.text.includes("交付：") && adultGuideRsp.text.includes("x15"), "AI guide target line carries source item turn-in summary");
