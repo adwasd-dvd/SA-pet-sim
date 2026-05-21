@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T00:02:49.649Z
+Generated: 2026-05-21T14:53:01.450Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -59,31 +59,31 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| gym | unknown | 0 | 0 | 0 | 346 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:6 |
-| enemypetno | candidate-action | 0 | 0 | 0 | 325 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:9 |
-| PET | candidate-action | 0 | 0 | 0 | 246 | external/sources/ref___data/npc/pettalk/pettalk01.arg:10 |
-| EVENTRUN2 | candidate-action | 0 | 0 | 0 | 138 | external/sources/ref___data/npc/pettalk/pettalk01.arg:93 |
 | herobattlefield | candidate-action | 0 | 0 | 0 | 133 | external/sources/ref___data/npc/heroic/DEADJOE:18 |
-| Floor | candidate-action | 0 | 0 | 0 | 131 | external/sources/ref___data/npc/genout/wpm_1012_14_13:2 |
-| sktype | unknown | 0 | 0 | 0 | 125 | external/sources/ref___data/npc/heroic/DEADJOE:13 |
-| LimitLevel | candidate-action | 0 | 0 | 0 | 68 | external/sources/ref___data/npc/pettalk/pettalk01.arg:96 |
-| mainmsg | unknown | 0 | 0 | 0 | 48 | external/sources/ref___data/npc/777/ten.arg:8 |
-| BOTH1 | unknown | 0 | 0 | 0 | 32 | external/sources/ref___data/npc/pettalk/pettalk01.arg:282 |
-| EntryItem | candidate-action | 0 | 0 | 0 | 31 | external/sources/ref___data/npc/genout/jan_802_29_19:2 |
-| WAVE | unknown | 0 | 0 | 0 | 30 | external/sources/ref___data/npc/eden1/animal01.arg:2 |
-| MenuStr | unknown | 0 | 0 | 0 | 27 | external/sources/ref___data/npc/eden3/transfer.arg:6 |
-| WARPPOINT | candidate-action | 0 | 0 | 0 | 27 | external/sources/ref___data/npc/eden3/transfer.arg:9 |
-| LeavepkMsg | unknown | 0 | 0 | 0 | 26 | external/sources/ref___data/npc/family/fmpoint10/wpm_7530_51_51:6 |
-| gamble_msg01 | unknown | 0 | 0 | 0 | 25 | external/sources/ref___data/npc/bank/bankman01.arg:5 |
-| CHECKPARTY | unknown | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/eden1/saveking/saveking4:14 |
-| Event_Now | candidate-action | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/eden2/kraken/kraken88_06:26 |
-| PETTEMPNO | candidate-action | 0 | 0 | 0 | 24 | external/sources/ref___data/npc/pettalk/pettalk.mem:1 |
-| Answer | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:2 |
 | Border | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:5 |
-| FailureMsg | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:8 |
 | Level | candidate-action | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:3 |
-| NoEntryMsg | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:10 |
 | Party | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:9 |
+| Quiznum | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:4 |
+| Event_End | candidate-action | 0 | 0 | 0 | 21 | external/sources/ref___data/npc/heroic/heroic100.arg:21 |
+| item | candidate-action | 0 | 0 | 0 | 20 | external/sources/ref___data/npc/100/sb_mimi.arg:5 |
+| AddPet | candidate-action | 0 | 0 | 0 | 15 | external/sources/ref___data/npc/eden2/kraken/kraken88_06:27 |
+| TENSEI | unknown | 0 | 0 | 0 | 11 | external/sources/ref___data/npc/777/ten.arg:17 |
+| challengewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:4 |
+| loop | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:2 |
+| manorid | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:3 |
+| peacewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:5 |
+| LoseWarp | candidate-action | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/genout/jan_802_29_19:5 |
+| NoItem | candidate-action | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/genout/jan_802_29_19:3 |
+| OTHER | unknown | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/pettalk/pettalk01.arg:5 |
+| WinWarp | candidate-action | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/genout/jan_802_29_19:4 |
+| angry | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:9 |
+| attack | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:3 |
+| damage | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:4 |
+| down | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:5 |
+| guard | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:11 |
+| hand | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:7 |
+| msgcol | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:1 |
+| nod | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:12 |
 
 ## Recommended Next Slice
 

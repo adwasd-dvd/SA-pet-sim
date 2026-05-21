@@ -97,6 +97,7 @@ const MESSAGE_KEYS = new Set([
   "itemfull_msg",
   "itemfullmsg",
   "luck",
+  "mainmsg",
   "main_msg",
   "msg",
   "moneymessage",
@@ -154,10 +155,14 @@ const MESSAGE_KEYS = new Set([
 ]);
 
 const CONTROL_KEYS = new Set([
+  "checkparty",
+  "endevent",
   "event",
   "eventno",
+  "eventrun",
   "free",
   "id",
+  "newevent",
   "noevent",
   "nofree",
   "talkevent",
@@ -167,6 +172,7 @@ const CONTROL_KEYS = new Set([
 
 const SUPPORTED_CONFIG_KEYS = new Set([
   "alreadymsg",
+  "answer",
   "askbattlemsg",
   "askbattlemsg1",
   "askbattlemsg2",
@@ -192,28 +198,35 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "denieditem",
   "deniedmsg",
   "dieact",
+  "enemypetno",
   "endflag",
   "endmsg",
   "enemyno",
   "entype",
   "err_msg",
+  "entryitem",
+  "event_now",
   "first",
+  "floor",
   "free_msg",
   "fornewlv",
   "fornewtran",
   "gamecode",
   "gamemode",
+  "gym",
   "getitem",
   "hasgame",
   "history",
   "itemfull_msg",
   "itemlist",
   "level_msg",
+  "limitlevel",
   "limititemtype",
   "limititemno",
   "lowlevel",
   "main_msg",
   "menuhead",
+  "menustr",
   "message",
   "mode",
   "money",
@@ -232,6 +245,8 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "partymsg",
   "paymsg",
   "petlevel",
+  "pet",
+  "pettempno",
   "pet_skill",
   "pool_cost",
   "pool_flg",
@@ -250,6 +265,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "sellonly_msg",
   "selectmsg",
   "skill_rate",
+  "sktype",
   "special_item",
   "special_pet",
   "special_rate",
@@ -262,9 +278,11 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "trans_msg",
   "waittime",
   "warp",
+  "warppoint",
   "warpfl",
   "warpx",
   "warpy",
+  "wave",
   "what_msg"
 ]);
 
@@ -601,7 +619,9 @@ function classifyKey(key) {
   const raw = String(key || "").trim();
   const normalized = normalizeKey(raw);
   if (ACTION_KEYS.has(normalized)) return "supported-action";
+  if (/^both\d*$/i.test(raw)) return "supported-config";
   if (MESSAGE_KEYS.has(normalized)) return "supported-message";
+  if (/msg$/i.test(normalized) || /_msg$/i.test(normalized) || /^gamble_msg$/i.test(normalized)) return "supported-message";
   if (CONTROL_KEYS.has(normalized)) return "condition-control";
   if (SUPPORTED_CONFIG_KEYS.has(normalized)) return "supported-config";
   if (BLOCKED_OR_LATER_SYSTEM_KEYS.some((needle) => normalized.includes(needle))) return "blocked-or-later-system";
