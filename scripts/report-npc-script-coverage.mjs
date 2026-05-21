@@ -330,6 +330,7 @@ function main() {
 
   if (checkMode) {
     assertCoverageGate(report);
+    assertReportSnapshotFresh(report);
     return;
   }
 
@@ -386,6 +387,33 @@ function assertCoverageGate(report) {
   }
 
   console.log(`NPC script coverage check passed: classic-core ${coreProfile.worldScriptNpcs} script NPCs / ${coreProfile.worldScriptEvents} events, 0 unsupported core keys.`);
+}
+
+function assertReportSnapshotFresh(report) {
+  const savedReport = loadJson(reportJsonPath, null);
+  if (!savedReport) {
+    console.error(`NPC script coverage report is missing: ${path.relative(appRoot, reportJsonPath)}`);
+    console.error("Run npm run report:npc-scripts and commit the generated planning artifacts.");
+    process.exit(1);
+  }
+
+  const expected = JSON.stringify(normalizeReportSnapshot(report));
+  const actual = JSON.stringify(normalizeReportSnapshot(savedReport));
+  if (actual !== expected) {
+    console.error("NPC script coverage report is stale.");
+    console.error("Run npm run report:npc-scripts and commit the generated planning artifacts.");
+    console.error(`Saved unsupported candidates: ${savedReport.summary?.unsupportedCandidateKeys ?? "unknown"}`);
+    console.error(`Current unsupported candidates: ${report.summary?.unsupportedCandidateKeys ?? "unknown"}`);
+    process.exit(1);
+  }
+
+  console.log("NPC script coverage snapshot is current.");
+}
+
+function normalizeReportSnapshot(report) {
+  const clone = JSON.parse(JSON.stringify(report || {}));
+  delete clone.generatedAt;
+  return clone;
 }
 
 function loadJson(file, fallback) {
