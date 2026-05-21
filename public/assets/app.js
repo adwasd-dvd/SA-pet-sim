@@ -10,7 +10,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const MAP_RESOURCE_VERSION = "map-assets-v20260521-sparse-outside-black-v3";
+const MAP_RESOURCE_VERSION = "map-assets-v20260521-object-only-fallback-guard-v1";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
@@ -2043,23 +2043,24 @@ async function loadClientMapVisualFallback(map, width, height, clientTileAt) {
     const fallback = parseLs2MapReader(await rsp.arrayBuffer());
     if (!fallback || fallback.width !== width || fallback.height !== height) return null;
     let groundFill = 0;
-    let objectFill = 0;
     for (let index = 0; index < cells; index += 1) {
-      const [ground, object] = clientTileAt(index);
-      const [fallbackGround, fallbackObject] = fallback.tileAt(index);
+      const [ground] = clientTileAt(index);
+      const [fallbackGround] = fallback.tileAt(index);
       if (ground <= CG_INVISIBLE && fallbackGround > CG_INVISIBLE) groundFill += 1;
-      if (!isStaticMapObjectTile(object) && isStaticMapObjectTile(fallbackObject)) objectFill += 1;
     }
-    if (!groundFill && !objectFill) return null;
+    if (!groundFill) return null;
     return {
       label: `client DAT viewport + LS2 visual fallback`,
       lowGroundTiles: [],
       tileAt(index) {
         const [ground, object, overlay] = clientTileAt(index);
         const [fallbackGround, fallbackObject] = fallback.tileAt(index);
+        const visualGround = ground > CG_INVISIBLE ? ground : fallbackGround;
         return [
-          ground > CG_INVISIBLE ? ground : fallbackGround,
-          isStaticMapObjectTile(object) ? object : fallbackObject,
+          visualGround,
+          isStaticMapObjectTile(object)
+            ? object
+            : (visualGround > CG_INVISIBLE && isStaticMapObjectTile(fallbackObject) ? fallbackObject : 0),
           overlay
         ];
       }

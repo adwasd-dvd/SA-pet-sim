@@ -20,6 +20,7 @@ const missingEnemyImages = new Map();
 const enemyImageCoverage = checkEnemyBaseImages();
 const visualFallbackCoverage = checkVisualFallbackCoverage();
 checkSparseRuntimeGuard();
+const objectOnlyFallbackRisk = checkObjectOnlyFallbackGuard();
 const sparseInteriorCoverage = checkSparseInteriorGuard();
 
 for (const file of listFiles(clientMapRoot, ".dat")) {
@@ -73,6 +74,7 @@ if (sparseInteriorCoverage.length) {
     .join(", ");
   console.log(`Sparse original interior outside-black OK: ${summary}; low-id part refs stay non-drawable outside the real floor.`);
 }
+console.log(`LS2 object-only fallback guard OK: ${objectOnlyFallbackRisk.riskyFloors} floor(s) have potential object-only fallback cells but runtime keeps them black.`);
 for (const line of largest) console.log(`  ${line}`);
 
 function checkVisualFallbackCoverage() {
@@ -166,6 +168,48 @@ function checkSparseRuntimeGuard() {
   if (!appSource.includes("isSparseInteriorOutsideBlackFloor(map?.floorId)")) {
     throw new Error("Runtime sparse-interior outside-black guard is not applied before LS2 visual fallback");
   }
+}
+
+function checkObjectOnlyFallbackGuard() {
+  const appSource = fs.readFileSync(appPath, "utf8");
+  if (!appSource.includes("if (!groundFill) return null;")) {
+    throw new Error("Runtime must not apply LS2 visual fallback when it can only add object tiles and no real ground");
+  }
+  if (!appSource.includes("const visualGround = ground > CG_INVISIBLE ? ground : fallbackGround;")) {
+    throw new Error("Runtime LS2 visual fallback must compute visualGround before choosing fallback objects");
+  }
+  if (!appSource.includes("visualGround > CG_INVISIBLE && isStaticMapObjectTile(fallbackObject)")) {
+    throw new Error("Runtime LS2 visual fallback must block fallback object tiles when the visual ground is still outside-black");
+  }
+
+  let riskyFloors = 0;
+  for (const clientFile of listFiles(clientMapRoot, ".dat")) {
+    const floor = path.basename(clientFile, ".dat");
+    const logicFile = path.join(logicMapRoot, `${floor}.ls2map`);
+    if (!fs.existsSync(logicFile)) continue;
+    const clientMap = readClientDat(clientFile);
+    const logicMap = readLs2Map(logicFile);
+    if (clientMap.width !== logicMap.width || clientMap.height !== logicMap.height) continue;
+    let groundFill = 0;
+    let objectOnlyCells = 0;
+    for (let index = 0; index < clientMap.cells; index += 1) {
+      const clientGround = clientMap.ground(index);
+      const clientPart = clientMap.part(index);
+      const logicGround = logicMap.ground(index);
+      const logicPart = logicMap.part(index);
+      if (clientGround <= CG_INVISIBLE && logicGround > CG_INVISIBLE) groundFill += 1;
+      if (
+        clientGround <= CG_INVISIBLE
+        && logicGround <= CG_INVISIBLE
+        && !frontendWouldDrawObject(clientPart)
+        && frontendWouldDrawObject(logicPart)
+      ) {
+        objectOnlyCells += 1;
+      }
+    }
+    if (groundFill > 0 && objectOnlyCells > 0) riskyFloors += 1;
+  }
+  return { riskyFloors };
 }
 
 function frontendWouldDrawGround(tileId, lowGroundTiles = null) {
