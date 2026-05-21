@@ -853,6 +853,17 @@ assert(workspaceRsp.workspace.knowledge.entries.some((entry) => entry.id === "qu
 
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
+const islandCheckpointSign = WORLD.maps["100"].npcs.find((npc) => String(npc.script || "").includes("signb_100_728_501"));
+if (!islandCheckpointSign) throw new Error("missing island checkpoint signboard fixture");
+assert(!String(islandCheckpointSign.dialogue || "").startsWith("脚本入口"), "source signboard text is loaded instead of script-entry fallback");
+assert(islandCheckpointSign.dialogueLines?.some((line) => line.includes("第1检查点")), "source signboard keeps checkpoint title");
+assert(islandCheckpointSign.dialogueLines?.some((line) => line.includes("柯尔克宠物店")), "source signboard keeps checkpoint question text");
+let signboardGame = await api("/api/game/new", { name: "signboard-dialog-test" });
+signboardGame.location = { mapId: "100", x: islandCheckpointSign.x - 1, y: islandCheckpointSign.y, dir: 2 };
+signboardGame = await api("/api/game/talk", { game: signboardGame, npcId: islandCheckpointSign.id });
+const signboardReply = signboardGame.dialog?.messages?.find((message) => message.speaker === "npc")?.text || "";
+assert(signboardReply.includes("第1检查点") && signboardReply.includes("柯尔克宠物店") && signboardReply.includes("名字叫什么"), "source signboard talk displays the full checkpoint question");
+assert(!signboardReply.includes("脚本入口"), "source signboard talk no longer leaks script-entry fallback");
 assertEqual(WORLD.quests["samugiru-arena-tour"]?.playerFacing, false, "arena tour remains staged as full-dev content");
 assert(!teacher.questIds?.includes("samugiru-arena-tour"), "teacher default quest chain excludes non-core arena tour");
 await expectApiError(

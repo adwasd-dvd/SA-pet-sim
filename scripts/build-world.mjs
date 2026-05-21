@@ -455,7 +455,6 @@ function parseNpcs() {
       const template = templates.get(enemy.template) || {};
       const argPath = enemy.argPath || "";
       const functionset = template.functionset || enemy.template || "NPC";
-      const dialogue = readNpcDialogue(argPath, file);
       const trade = readNpcTrade(argPath, file);
       const petShop = readNpcPetShop(argPath, file, functionset, enemy.template);
       const petFusion = readNpcPetFusion(argPath, file, functionset, enemy.template);
@@ -474,6 +473,7 @@ function parseNpcs() {
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
       const name = cleanName(kv.name || template.name || functionset);
+      const dialogue = readNpcDialogue(argPath, file, functionset, enemy.template);
       const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
@@ -846,7 +846,7 @@ function formatExitBounds(bounds, count) {
   return `入口 ${count} 格 (${bounds.minX},${bounds.minY})-(${bounds.maxX},${bounds.maxY})`;
 }
 
-function readNpcDialogue(argPath, createFile) {
+function readNpcDialogue(argPath, createFile, functionset = "", template = "") {
   const file = resolveNpcArg(argPath, createFile);
   if (!file) return { text: `脚本入口：${argPath || "未配置脚本参数"}`, lines: [] };
   const text = readText(file);
@@ -864,7 +864,20 @@ function readNpcDialogue(argPath, createFile) {
     if (messages.length >= 8) break;
   }
   if (messages.length) return { text: messages[0], lines: messages };
+  const signboard = readSignboardDialogue(text, file, argPath, functionset, template);
+  if (signboard) return signboard;
   return { text: `脚本入口：${relativeRef(file)}`, lines: [] };
+}
+
+function readSignboardDialogue(text, file, argPath = "", functionset = "", template = "") {
+  const identity = `${functionset} ${template} ${argPath} ${path.basename(file)}`;
+  if (!/signboard/i.test(identity)) return null;
+  const lines = sourceTextLines(text).slice(0, 24);
+  if (!lines.length) return null;
+  return {
+    text: lines.join("\n"),
+    lines
+  };
 }
 
 function readNpcTrade(argPath, createFile) {
@@ -2681,6 +2694,16 @@ function cleanScriptText(value = "") {
   return cleanName(String(value).replace(/\\n/g, "\n").replace(/%[0-9]*[a-z]/gi, ""));
 }
 
+function sourceTextLines(value = "") {
+  return String(value || "")
+    .replace(/\0/g, "")
+    .replace(/\\r\\n|\\n|\\r/g, "\n")
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
+    .map((line) => cleanName(line.replace(/%[0-9]*[a-z]/gi, "").replace(/^<<(.+)>>$/, "$1")))
+    .filter(Boolean);
+}
+
 function parseColonFile(text) {
   const kv = {};
   for (const raw of text.split(/\r?\n/)) {
@@ -2840,7 +2863,9 @@ function parsePos(value = "") {
 
 function npcPriority(npc) {
   let score = 0;
-  if (npc.dialogue && !npc.dialogue.startsWith("脚本入口")) score += 8;
+  const identity = `${npc.type || ""} ${npc.template || ""} ${npc.script || ""}`;
+  const isSignboard = /signboard/i.test(identity);
+  if (!isSignboard && npc.dialogue && !npc.dialogue.startsWith("脚本入口")) score += 8;
   if (!/warp/i.test(npc.type)) score += 4;
   if (/shop|healer|save|pet|man|window|event/i.test(npc.type)) score += 2;
   if (npc.name && !/^NPC$/.test(npc.name)) score += 1;

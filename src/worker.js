@@ -7630,6 +7630,11 @@ function applyNpcHi(game, npc) {
   if (isQuizNpc(npc)) return quizPromptReply(game, npc);
   if (isRaceManNpc(npc)) return raceManReply(game, npc, "hi");
   if (isNewNpcManNpc(npc)) return newNpcManPromptReply(game, npc);
+  if (isSignBoardNpc(npc)) {
+    const reply = npcDialogueLines(npc).join("\n") || npcDefaultLine(npc);
+    recordNpcVmEvent(game, npc, "say", "ok", { line: reply, signboard: true });
+    return reply;
+  }
   if (isWarpNpc(npc)) return warpPromptReply(game, npc);
   if (npc.petShop) return petShopReply(game, npc);
   if (isPetFusionNpc(npc)) return petFusionReply(game, npc, "hi");
@@ -7677,6 +7682,7 @@ function npcDefaultLine(npc) {
   if (isRouteServiceNpc(npc)) return routeServiceDefaultLine(npc);
   if (isProfessionShopNpc(npc)) return professionShopDefaultLine(npc);
   if (npc.itemChange?.recipes?.length) return "要加工什么？";
+  if (isSignBoardNpc(npc)) return "这个看板没有写内容。";
   if (isWarpNpc(npc)) return "要出发的话，请告诉我目的地。";
   if (isHealerNpc(npc)) return "需要恢复耐久力吗？";
   if (isSavePointNpc(npc)) return "要记录冒险进度吗？";
@@ -10990,6 +10996,10 @@ function isSavePointNpc(npc) {
   return /savepoint|save/i.test(`${npc.type} ${npc.template} ${npc.script}`);
 }
 
+function isSignBoardNpc(npc) {
+  return /signboard/i.test(`${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""}`);
+}
+
 function isWarpNpc(npc) {
   return Boolean(npc.warp?.target) || /warp/i.test(`${npc.type} ${npc.template} ${npc.script}`);
 }
@@ -11072,6 +11082,7 @@ function eventFlagForNpcAction(npcId, action) {
 
 function fallbackNpcReply(npc) {
   if (npc.itemPoolShop) return npc.itemPoolShop.messages?.main || "这里可以寄放或取回道具。";
+  if (isSignBoardNpc(npc)) return npcDialogueLines(npc).join("\n") || npcDefaultLine(npc);
   if (isPetFusionNpc(npc)) return npc.petFusion?.messages?.start || "这里可以进行宠物融合。";
   if (isProfessionShopNpc(npc)) return professionShopDefaultLine(npc);
   if (isRaceManNpc(npc)) return raceManDefaultLine(npc);
