@@ -10279,6 +10279,7 @@ function tradeReply(game, npc) {
   };
   return [
     npc.trade.mainMessage || "欢迎光临！",
+    npc.trade.noteMessage || "",
     `可购买：${items.map((item) => `${item.name}(${priceText(item)})`).join("、")}`,
     sellItems.length ? `可卖出：${sellItems.map((item) => `${item.name}(${item.sellPrice}石币)`).join("、")}` : "背包里暂时没有可出售道具。",
     discount ? `这次 AI 协商优待：${discount.percent}% 折扣，临时有效。` : "",
@@ -12075,6 +12076,7 @@ function withTradeState(game, trade, npc = null) {
   const sellItems = npc ? sellableInventoryItems(game, npc) : [];
   return {
     ...trade,
+    noteMessage: trade.noteMessage || "",
     discount,
     inventory: state,
     sellRate: npc ? tradeSellRate(npc) : Number(trade.sellRate || 0),

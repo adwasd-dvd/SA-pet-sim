@@ -98,6 +98,7 @@ const MESSAGE_KEYS = new Set([
   "itemfullmsg",
   "luck",
   "main_msg",
+  "msg",
   "moneymessage",
   "moneymsg",
   "money_msg",

@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-20T23:34:20.395Z
+Generated: 2026-05-21T00:02:49.649Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -59,7 +59,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| msg | unknown | 1 | 1 | 1 | 1 | external/sources/ref___data/npc/genout/ss_1100_86_107:9 |
 | gym | unknown | 0 | 0 | 0 | 346 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:6 |
 | enemypetno | candidate-action | 0 | 0 | 0 | 325 | external/sources/ref___data/npc/doujyou/jyajyadou001.arg:9 |
 | PET | candidate-action | 0 | 0 | 0 | 246 | external/sources/ref___data/npc/pettalk/pettalk01.arg:10 |
@@ -84,10 +83,11 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | FailureMsg | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:8 |
 | Level | candidate-action | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:3 |
 | NoEntryMsg | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:10 |
+| Party | unknown | 0 | 0 | 0 | 23 | external/sources/ref___data/npc/genout/quz_7777_20_20:9 |
 
 ## Recommended Next Slice
 
-- Start with `msg`, because it appears in classic-core source references 1 times.
+- No unsupported action candidate currently hits classic-core source references; keep porting the highest rebirth or 2.5 candidates only after the core quest spine is playable.
 - Every newly ported action should go through the Worker deterministic NPC VM and add `check:npc` regression coverage.
 - Keep normal client payloads compact: expose summaries and debug-tab details, not raw script bodies.
 

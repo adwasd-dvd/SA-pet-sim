@@ -880,6 +880,7 @@ function readNpcTrade(argPath, createFile) {
   const specialRate = Number(kv.special_rate);
   const buyRate = Number(kv.buy_rate || 1) || 1;
   const sellRate = Number(kv.sell_rate || 0) || 0;
+  const noteMessage = cleanName(kv.msg || "");
   const items = [];
   const seen = new Set();
   for (const entry of entries) {
@@ -906,6 +907,7 @@ function readNpcTrade(argPath, createFile) {
     buyWords: splitWords(kv.buy_msg),
     sellWords: splitWords(kv.sell_msg),
     mainMessage: cleanName(kv.main_msg || kv.buy_main || ""),
+    ...(noteMessage ? { noteMessage } : {}),
     ...(limitItemRanges.length ? { limitItemRanges } : {}),
     ...(limitItemTypes.length ? { limitItemTypes: [...new Set(limitItemTypes)] } : {}),
     ...(specialItems.length ? { specialItems: specialItems.slice(0, 120) } : {}),
@@ -2167,6 +2169,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];
+  for (const item of tradeHints(trade)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
   for (const item of petFusionHints(petFusion)) {
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
@@ -2208,6 +2214,14 @@ function newNpcManHints(newNpcMan) {
     newNpcMan.messages?.start ? `StartMsg:${newNpcMan.messages.start}` : "",
     newNpcMan.messages?.check ? `CheckMsg:${newNpcMan.messages.check}` : "",
     newNpcMan.appearanceRestore ? "AppearanceRestore:CHAR_BASEBASEIMAGENUMBER" : ""
+  ].filter(Boolean);
+}
+
+function tradeHints(trade) {
+  if (!trade) return [];
+  return [
+    trade.noteMessage ? `Msg:${trade.noteMessage}` : "",
+    trade.mainMessage ? `MainMsg:${trade.mainMessage}` : ""
   ].filter(Boolean);
 }
 

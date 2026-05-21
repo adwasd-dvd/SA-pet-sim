@@ -182,6 +182,25 @@ assertEqual(petShopGame.pets.length, petShopPetCountBefore, "pet shop withdraw r
 assertEqual(petShopGame.petPoolState.used, 0, "pet shop withdraw clears the source-style pool slot");
 assert(petShopGame.save.info.includes("POOLPETCOUNT=0"), "saac-like save info records pool pet count");
 
+const passShopEntry = {
+  map: WORLD.maps["1100"],
+  npc: WORLD.maps["1100"].npcs.find((npc) => npc.trade?.source === "gmsv-data/npc/genout/ss_1100_86_107")
+};
+assert(passShopEntry.npc, "world build keeps source pass shop fixture");
+assertEqual(passShopEntry.npc.trade.noteMessage, "最近如何？", "npcgen_shop bare msg is preserved as shop note metadata");
+assert(passShopEntry.npc.scriptHints?.hints?.includes("Msg:最近如何？"), "shop note msg is exposed through compact script hints");
+let passShopGame = await api("/api/game/new", { name: "shop-msg-note-test" });
+passShopGame.location = {
+  mapId: passShopEntry.map.id,
+  x: passShopEntry.npc.x,
+  y: Math.max(0, passShopEntry.npc.y - 1),
+  dir: 4
+};
+passShopGame = await api("/api/game/talk", { game: passShopGame, npcId: passShopEntry.npc.id });
+assertEqual(passShopGame.dialog?.trade?.noteMessage, "最近如何？", "shop dialog exposes source msg note without invoking AI");
+passShopGame = await api("/api/game/dialog", { game: passShopGame, npcId: passShopEntry.npc.id, message: "买东西" });
+assert(passShopGame.dialog?.messages?.some((message) => String(message.text || "").includes("最近如何？")), "shop prompt includes the source msg note");
+
 const petFusionEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.petFusion?.eggEnemyIds?.length);

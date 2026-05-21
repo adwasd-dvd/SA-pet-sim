@@ -13589,7 +13589,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_100_412_337"
           }
         },
@@ -24020,7 +24022,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_3_3"
           }
         },
@@ -24277,7 +24281,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:有什么事吗？"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_9_3"
           }
         },
@@ -24534,7 +24540,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_16_3"
           }
         },
@@ -24956,7 +24964,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_23_3"
           }
         },
@@ -25173,7 +25183,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_28_3"
           }
         },
@@ -25445,7 +25457,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_43_3"
           }
         },
@@ -25794,7 +25808,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:有什么需要吗？"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_3_14"
           }
         },
@@ -26051,7 +26067,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_1_26"
           }
         },
@@ -26116,7 +26134,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_130_1_38"
           }
         },
@@ -66369,7 +66389,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1000_94_101"
           }
         },
@@ -66571,7 +66593,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1000_64_112"
           }
         },
@@ -71583,7 +71607,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1001_17_13"
           }
         },
@@ -71829,7 +71855,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1001_17_15"
           }
         },
@@ -72159,7 +72187,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1002_18_15"
           }
         }
@@ -72749,7 +72779,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1004_17_13"
           }
         }
@@ -73043,7 +73075,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:到了"
+            ],
             "source": "gmsv-data/npc/genout/ss_1005_14_14"
           }
         },
@@ -73805,7 +73839,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1008_28_18"
           }
         },
@@ -74071,7 +74107,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:接任务要先买委托书喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1009_20_12"
           }
         },
@@ -74218,7 +74256,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1009_27_15"
           }
         },
@@ -74752,7 +74792,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1009_27_17"
           }
         },
@@ -75286,7 +75328,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1009_27_24"
           }
         },
@@ -75820,7 +75864,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1009_27_28"
           }
         },
@@ -76381,7 +76427,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1009_27_37"
           }
         },
@@ -77402,7 +77450,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！今天是来打工的吗？\\n还是送东西来的呢？"
+            ],
             "source": "gmsv-data/npc/genout/ss_1011_13_13"
           }
         },
@@ -78729,7 +78779,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1014_13_13"
           }
         },
@@ -89077,7 +89129,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1022_3_3"
           }
         },
@@ -89216,7 +89270,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop1_5"
           }
         },
@@ -91010,7 +91066,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop1_4"
           }
         }
@@ -91296,7 +91354,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop1_1"
           }
         }
@@ -91511,7 +91571,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop1_3"
           }
         }
@@ -91662,7 +91724,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop1_2"
           }
         }
@@ -91886,7 +91950,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1100_59_49"
           }
         },
@@ -91926,6 +91992,7 @@ export const WORLD = {
               "uru"
             ],
             "mainMessage": "欢迎光临",
+            "noteMessage": "最近如何？",
             "limitItemRanges": [
               [
                 2422,
@@ -91955,7 +92022,10 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "Msg:最近如何？",
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1100_86_107"
           }
         },
@@ -94201,7 +94271,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1101_18_13"
           }
         },
@@ -94432,7 +94504,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1101_12_18"
           }
         }
@@ -94633,7 +94707,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1102_18_13"
           }
         },
@@ -94931,7 +95007,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1102_14_14"
           }
         },
@@ -94997,7 +95075,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1102_18_16"
           }
         }
@@ -95525,7 +95605,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1104_17_13"
           }
         }
@@ -95819,7 +95901,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1105_18_16"
           }
         },
@@ -97755,7 +97839,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1201_14_13"
           }
         },
@@ -97986,7 +98072,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1201_17_13"
           }
         }
@@ -98187,7 +98275,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎"
+            ],
             "source": "gmsv-data/npc/genout/ss_1202_15_13"
           }
         }
@@ -98730,7 +98820,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1204_18_15"
           }
         }
@@ -99024,7 +99116,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1205_14_14"
           }
         },
@@ -99406,7 +99500,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1210_18_15"
           }
         },
@@ -99581,7 +99677,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1212_17_13"
           }
         },
@@ -99678,7 +99776,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1212_17_17"
           }
         },
@@ -100490,7 +100590,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1300_56_55"
           }
         },
@@ -102652,7 +102754,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1301_18_13"
           }
         },
@@ -102943,7 +103047,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1301_19_17"
           }
         }
@@ -103150,7 +103256,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1302_18_13"
           }
         },
@@ -103448,7 +103556,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1302_12_15"
           }
         },
@@ -103746,7 +103856,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1302_12_15"
           }
         },
@@ -103812,7 +103924,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1302_14_15"
           }
         }
@@ -104409,7 +104523,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1304_18_16"
           }
         }
@@ -104703,7 +104819,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎"
+            ],
             "source": "gmsv-data/npc/genout/ss_1305_17_18"
           }
         },
@@ -105246,7 +105364,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_1310_18_15"
           }
         }
@@ -105372,7 +105492,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1400_75_102"
           }
         },
@@ -107904,7 +108026,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:嘿！欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1401_18_13"
           }
         },
@@ -108195,7 +108319,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1401_19_17"
           }
         }
@@ -108553,7 +108679,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1402_14_13"
           }
         },
@@ -108851,7 +108979,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1402_14_13"
           }
         },
@@ -108992,7 +109122,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_1402_19_15"
           }
         }
@@ -109518,7 +109650,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:ＨＥＹ！欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/lbis_1404_16_13"
           }
         }
@@ -109812,7 +109946,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_1405_18_14"
           }
         },
@@ -110407,7 +110543,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/my/ruieryasi/weapon2shop.arg"
           }
         },
@@ -110596,7 +110734,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/my/ruieryasi/weapon1shop.arg"
           }
         },
@@ -110768,7 +110908,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_2000_67_62"
           }
         },
@@ -111019,7 +111161,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:PK道具，恶魔宝石。"
+            ],
             "source": "gmsv-data/npc/scipt_plus/test2nd/c_can_mm"
           }
         },
@@ -111413,7 +111557,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:出售各种羽毛。"
+            ],
             "source": "gmsv-data/npc/scipt_plus/test2nd/item"
           }
         },
@@ -111532,7 +111678,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:好吧，我是走私的。"
+            ],
             "source": "gmsv-data/npc/scipt_plus/postman/sell_at_2000"
           }
         },
@@ -118117,7 +118265,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_2001_18_15"
           }
         },
@@ -118378,7 +118528,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_2001_18_18"
           }
         }
@@ -118655,7 +118807,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎"
+            ],
             "source": "gmsv-data/npc/genout/ss_2002_15_13"
           }
         },
@@ -119282,7 +119436,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_2004_17_13"
           }
         }
@@ -119600,7 +119756,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎"
+            ],
             "source": "gmsv-data/npc/genout/ss_2005_15_7"
           }
         },
@@ -120404,7 +120562,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:接任务要先买委托书喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_20_12"
           }
         },
@@ -120725,7 +120885,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_15"
           }
         },
@@ -121233,7 +121395,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_17"
           }
         },
@@ -121606,7 +121770,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:您好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_23"
           }
         },
@@ -122103,7 +122269,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_26"
           }
         },
@@ -122525,7 +122693,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_29"
           }
         },
@@ -123058,7 +123228,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_34"
           }
         },
@@ -123615,7 +123787,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_2009_27_37"
           }
         },
@@ -124670,7 +124844,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你今天要打工吗？还是\\n运东西来的呢？"
+            ],
             "source": "gmsv-data/npc/genout/ss_2011_18_18"
           }
         },
@@ -125596,7 +125772,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢"
+            ],
             "source": "gmsv-data/npc/genout/lbis_2014_18_18"
           }
         },
@@ -126590,7 +126768,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop2_5"
           }
         },
@@ -128199,7 +128379,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop2_2"
           }
         }
@@ -128322,7 +128504,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop2_4"
           }
         }
@@ -128608,7 +128792,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop2_1"
           }
         }
@@ -128823,7 +129009,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop2_3"
           }
         }
@@ -129033,7 +129221,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3000_94_94"
           }
         },
@@ -133502,7 +133692,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3001_18_14"
           }
         },
@@ -133748,7 +133940,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3001_18_19"
           }
         }
@@ -134054,7 +134248,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3002_18_16"
           }
         },
@@ -134636,7 +134832,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3004_18_16"
           }
         }
@@ -134938,7 +135136,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3005_18_20"
           }
         },
@@ -135745,7 +135945,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3008_28_17"
           }
         },
@@ -136206,7 +136408,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:接任务要先买委托书喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_20_12"
           }
         },
@@ -136527,7 +136731,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_15"
           }
         },
@@ -137005,7 +137211,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎～！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_17"
           }
         },
@@ -137408,7 +137616,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_23"
           }
         },
@@ -137920,7 +138130,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_26"
           }
         },
@@ -138342,7 +138554,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_29"
           }
         },
@@ -139517,7 +139731,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:决定要哪一个了吗？因为种类很多"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_36"
           }
         },
@@ -140042,7 +140258,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:决定要哪一个特产品了吗？也有很多好东西喔。"
+            ],
             "source": "gmsv-data/npc/genout/ss_3009_27_39"
           }
         }
@@ -140215,7 +140433,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:想打工吗？\\n还是你是运东西来的呢？"
+            ],
             "source": "gmsv-data/npc/genout/ss_3011_18_18"
           }
         },
@@ -141122,7 +141342,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_3014_18_18"
           }
         },
@@ -152348,7 +152570,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3022_11_10"
           }
         },
@@ -152514,7 +152738,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop3_5"
           }
         },
@@ -154274,7 +154500,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop3_1"
           }
         }
@@ -154523,7 +154751,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop3_3"
           }
         }
@@ -154646,7 +154876,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop3_4"
           }
         }
@@ -154797,7 +155029,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop3_2"
           }
         }
@@ -154963,7 +155197,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3100_83_72"
           }
         },
@@ -156638,7 +156874,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3104_18_15"
           }
         }
@@ -156932,7 +157170,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3105_17_17"
           }
         },
@@ -157440,7 +157680,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3109_19_13"
           }
         },
@@ -157581,7 +157823,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3109_27_14"
           }
         },
@@ -157879,7 +158123,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3109_27_15"
           }
         },
@@ -158170,7 +158416,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3109_27_26"
           }
         },
@@ -158401,7 +158649,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3109_27_35"
           }
         }
@@ -161075,7 +161325,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临多多的肉店！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_3204_18_16"
           }
         }
@@ -161369,7 +161621,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3205_19_13"
           }
         },
@@ -161793,7 +162047,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_3209_14_14"
           }
         },
@@ -161859,7 +162115,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3209_16_14"
           }
         },
@@ -162000,7 +162258,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3209_27_16"
           }
         },
@@ -162276,7 +162536,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3209_27_25"
           }
         },
@@ -162507,7 +162769,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3209_27_36"
           }
         }
@@ -162672,7 +162936,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3300_69_44"
           }
         },
@@ -165447,7 +165713,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3305_21_19"
           }
         },
@@ -166029,7 +166297,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3309_20_12"
           }
         },
@@ -166320,7 +166590,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3309_20_16"
           }
         },
@@ -166551,7 +166823,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3309_20_20"
           }
         }
@@ -166677,7 +166951,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3400_63_46"
           }
         },
@@ -169005,7 +169281,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3405_18_9"
           }
         },
@@ -169652,7 +169930,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3409_27_16"
           }
         },
@@ -169943,7 +170223,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3409_27_26"
           }
         },
@@ -170174,7 +170456,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_3409_27_36"
           }
         }
@@ -170888,7 +171172,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4000_68_57"
           }
         },
@@ -170995,7 +171281,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/ss_4000_36_70"
           }
         },
@@ -171064,7 +171352,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4000_99_85"
           }
         },
@@ -175245,7 +175535,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4001_18_15"
           }
         },
@@ -175491,7 +175783,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4001_18_17"
           }
         }
@@ -175767,7 +176061,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4002_16_13"
           }
         },
@@ -176350,7 +176646,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4004_16_13"
           }
         }
@@ -176644,7 +176942,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4005_18_13"
           }
         },
@@ -177283,7 +177583,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:接任务要先买委托书喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4009_20_12"
           }
         },
@@ -177430,7 +177732,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4009_27_15"
           }
         },
@@ -177964,7 +178268,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4009_27_17"
           }
         },
@@ -178498,7 +178804,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4009_27_24"
           }
         },
@@ -179032,7 +179340,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4009_27_28"
           }
         },
@@ -179593,7 +179903,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_4009_27_37"
           }
         },
@@ -180587,7 +180899,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你要来打工啊？还是\\n帮我送东西来的呢？"
+            ],
             "source": "gmsv-data/npc/genout/ss_4011_13_16"
           }
         },
@@ -181483,7 +181797,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_4014_13_16"
           }
         },
@@ -182313,7 +182629,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop4_5"
           }
         },
@@ -183993,7 +184311,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop4_3"
           }
         },
@@ -184184,7 +184504,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop4_2"
           }
         }
@@ -184307,7 +184629,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop4_4"
           }
         }
@@ -184593,7 +184917,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/family/npc/shop4_1"
           }
         }
@@ -185579,7 +185905,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_5001_25_12"
           }
         },
@@ -185825,7 +186153,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_5001_14_13"
           }
         },
@@ -186116,7 +186446,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎大驾光临。"
+            ],
             "source": "gmsv-data/npc/genout/ss_5001_28_14"
           }
         },
@@ -186392,7 +186724,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:您好"
+            ],
             "source": "gmsv-data/npc/genout/ss_5001_28_18"
           }
         }
@@ -186746,7 +187080,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_5003_13_13"
           }
         },
@@ -187164,7 +187500,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_5005_14_7"
           }
         },
@@ -188334,7 +188672,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:我有卖很神奇的东西喔！"
+            ],
             "source": "gmsv-data/npc/genout/ss_5106_16_12"
           }
         },
@@ -191192,7 +191532,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:有什么要帮忙的?"
+            ],
             "source": "gmsv-data/npc/genout/msg_7000_110_45"
           }
         },
@@ -206696,7 +207038,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！这里是彩卷兑换处"
+            ],
             "source": "gmsv-data/npc/genout/ss_7005_7_26"
           }
         },
@@ -208045,7 +208389,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:你好！"
+            ],
             "source": "gmsv-data/npc/genout/ss_7010_6_2"
           }
         },
@@ -208713,7 +209059,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_7011_5_3"
           }
         },
@@ -209049,7 +209397,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:您好！今天是来打工的吗？\\n还是送货来的呢？"
+            ],
             "source": "gmsv-data/npc/genout/ss_7012_2_4"
           }
         },
@@ -209301,7 +209651,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_7012_8_4"
           }
         },
@@ -237123,7 +237475,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_10005_35_9"
           }
         },
@@ -237691,7 +238045,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_10007_38_24"
           }
         },
@@ -237992,7 +238348,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/lbis_10007_21_35"
           }
         },
@@ -238260,7 +238618,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
             "source": "gmsv-data/npc/genout/ss_10007_39_35"
           }
         },
@@ -249533,7 +249893,9 @@ export const WORLD = {
             "actions": [
               "shop"
             ],
-            "hints": [],
+            "hints": [
+              "MainMsg:欢迎光临"
+            ],
             "source": "gmsv-data/npc/genout/lbis_20802_45_41"
           }
         },
