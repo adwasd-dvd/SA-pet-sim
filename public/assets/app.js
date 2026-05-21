@@ -5475,6 +5475,7 @@ function renderMapQuestLeadHtml(map) {
               <b>${escapeHtml(quest.title)}</b>
               <span>${escapeHtml(quest.status)} | ${escapeHtml(nextQuestStep(quest))}</span>
               ${renderGuidanceList(questGuidanceLines(quest), 3)}
+              ${renderLeadTargetActions(quest.target)}
             </article>
           `).join("")}
         </div>
@@ -5487,6 +5488,7 @@ function renderMapQuestLeadHtml(map) {
               <b>${escapeHtml(task.title)}</b>
               <span>${escapeHtml(task.next || task.status)}${task.nextNpcs?.[0]?.distance < 9999 ? ` | 距离 ${Number(task.nextNpcs[0].distance)} 格` : ""}</span>
               ${renderGuidanceList(taskGuidanceLines(task), 3)}
+              ${renderLeadTargetActions(task.target)}
             </article>
           `).join("")}
         </div>
@@ -5515,6 +5517,39 @@ function renderMapQuestLeadHtml(map) {
       ` : ""}
     </section>
   `;
+}
+
+function renderLeadTargetActions(target) {
+  if (!target) return "";
+  const currentMapId = String(game?.location?.mapId || "");
+  if (target.id && String(target.mapId || "") === currentMapId) {
+    const distance = Number.isFinite(Number(target.distance))
+      ? Number(target.distance)
+      : pointDistance(target.x, target.y);
+    return `
+      <div class="assist-lead-actions">
+        <button class="assist-go-btn" type="button" data-assist-go-npc="${escapeHtml(target.id)}">去找他</button>
+        <button class="assist-go-btn paid" type="button" data-assist-paid-jump-npc="${escapeHtml(target.id)}" title="${escapeHtml(distance > 0 ? `预计 ${paidJumpCost(distance)} 石币` : "已经在附近")}">
+          <span>付费跳转</span>
+          <small>${distance > 0 ? `${paidJumpCost(distance)} 石币` : "附近"}</small>
+        </button>
+      </div>
+    `;
+  }
+  const exit = target.exit || null;
+  if (exit?.id) {
+    const distance = Number.isFinite(Number(exit.distance)) ? Number(exit.distance) : 0;
+    return `
+      <div class="assist-lead-actions">
+        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(exit.id)}">去出口</button>
+        <button class="assist-go-btn paid" type="button" data-assist-paid-jump-exit="${escapeHtml(exit.id)}" title="${escapeHtml(distance > 0 ? `预计 ${paidJumpCost(distance)} 石币` : "已经在出口附近")}">
+          <span>付费跳转</span>
+          <small>${distance > 0 ? `${paidJumpCost(distance)} 石币` : "附近"}</small>
+        </button>
+      </div>
+    `;
+  }
+  return "";
 }
 
 function scriptLeadText(npc) {

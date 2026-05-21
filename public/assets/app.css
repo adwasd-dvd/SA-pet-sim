@@ -2260,6 +2260,23 @@ h3 {
   font-size: 12px;
 }
 
+.assist-lead-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.assist-lead-actions .assist-go-btn {
+  min-height: 28px;
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+.assist-lead-actions .assist-go-btn.paid small {
+  font-size: 10px;
+}
+
 .ai-status-panel .assist-lead-panel {
   max-height: 210px;
   overflow: auto;
