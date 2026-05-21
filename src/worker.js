@@ -5979,6 +5979,42 @@ function formatLootList(items = []) {
     .join("、");
 }
 
+function guideLootChanceText(item = {}) {
+  const probability = Number(item.probability || 0);
+  const rollBase = Math.max(1, Number(item.rollBase || ENEMY_DROP_ROLL_BASE));
+  if (probability <= 0) return "概率未标明";
+  const pct = (probability / rollBase) * 100;
+  const pctText = pct >= 1 ? pct.toFixed(pct >= 10 ? 0 : 1) : pct.toFixed(2);
+  return `${probability}/${rollBase}，约 ${pctText}%`;
+}
+
+function guidePotentialLootText(items = [], limit = 6) {
+  const list = mergeBattleLootItems(items || [])
+    .filter((item) => Number(item.id || 0) > 0)
+    .slice(0, limit);
+  if (!list.length) return "";
+  return list
+    .map((item) => `${item.name || `item ${item.id}`} x${Math.max(1, Number(item.qty || 1))}（${guideLootChanceText(item)}${item.source ? `，${item.source}` : ""}）`)
+    .join("；");
+}
+
+function guideLastBattleSummary(game) {
+  const outcome = game?.lastBattleOutcome;
+  if (!outcome) return null;
+  const lootText = formatLootList(outcome.lootItems || []);
+  const potentialLootText = guidePotentialLootText(outcome.potentialLootItems || [], 8);
+  const skippedLootText = formatLootList(outcome.skippedLootItems || []);
+  return {
+    result: outcome.result || "",
+    defeatedEnemies: (outcome.defeatedEnemies || []).map((enemy) => `${enemy.Name || "敌人"} Lv.${Number(enemy.Lv || 0)}`).slice(0, 6),
+    escapedEnemies: (outcome.escapedEnemies || []).map((enemy) => `${enemy.Name || "敌人"} Lv.${Number(enemy.Lv || 0)}`).slice(0, 6),
+    lootText,
+    potentialLootText,
+    skippedLootText,
+    source: "gmsv-data/enemy/enemy1.txt ITEM/ITEMPROB -> battle settlement"
+  };
+}
+
 function advanceBattleEnemy(game, defeatedEnemy, battleLog) {
   const battle = game.battle;
   if (!battle || !Array.isArray(battle.enemyParty) || battle.enemyParty.length <= 1) return null;
@@ -6812,6 +6848,7 @@ async function guideGame(env, request, game, prompt) {
           "quests/sourceTasks 里的 guidance 是 Worker 按当前状态算出的行动清单；回答任务时优先复述这些步骤。",
           "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
           "context.location.encounterGateText/encounterGates 来自 gmsv-data/group1.txt 背包条件；遇敌/刷怪问题必须说明缺少或禁持的道具条件，不要猜。",
+          "context.battle.dropText 与 context.lastBattle.potentialLootText/lootText 来自 gmsv-data/enemy/enemy1.txt 的 ITEM/ITEMPROB；回答掉落/战利品问题要说明候选掉落、概率和本次实际获得。",
           "如果 JSON 里有 knowledge，只引用其中和玩家问题相关的石器时代资料库条目；条目只是索引时要说明不能补编完整流程。",
           "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前状态为准。",
           "中文，最多三段；给出下一步可执行动作，不要编不存在的地点、NPC 或奖励。"
@@ -6845,6 +6882,7 @@ async function callOpenAiGuide(env, context, prompt) {
     "context.quests/sourceTasks 里的 guidance 是 Worker 按当前状态算出的行动清单；回答任务时优先复述这些步骤。",
     "context.actionPlan.lines 是 Worker 已经压缩好的“去哪、找谁、做什么、怎么触发”的玩家行动清单；任务问题必须先按它回答。",
     "context.location.encounterGateText/encounterGates 来自 gmsv-data/group1.txt 背包条件；遇敌/刷怪问题必须说明缺少或禁持的道具条件，不要猜。",
+    "context.battle.dropText 与 context.lastBattle.potentialLootText/lootText 来自 gmsv-data/enemy/enemy1.txt 的 ITEM/ITEMPROB；回答掉落/战利品问题要说明候选掉落、概率和本次实际获得。",
     "context.knowledge 是从石器时代资料库压缩检索出的相关知识；只用匹配条目补充专业背景，不要把索引条目扩写成不存在的完整攻略。",
     "context.workspace.memory 是 Worker 保存的受限记忆，只能作为线索；不要把记忆当成已完成的任务状态。",
     "中文，最多三段，口吻清楚但保持游戏沉浸感。"
@@ -13778,6 +13816,7 @@ function buildGuideContext(game, map, prompt = "") {
     .slice(0, 8);
   const encounterGates = guideEncounterGateSummary(game, map);
   const encounterGateText = guideEncounterGateText(encounterGates);
+  const lastBattle = guideLastBattleSummary(game);
   const context = {
     player: {
       ...compactPlayerContext(game),
@@ -13824,8 +13863,10 @@ function buildGuideContext(game, map, prompt = "") {
       level: game.encounter.Lv,
       hp: game.encounter.Hp,
       source: game.battle?.source || game.encounter.source || "",
+      dropText: guidePotentialLootText(game.encounter.EnemyDropTable || game.encounter.dropTable || [], 6),
       encounterGates: game.battle?.encounterArea?.groupGates || []
     } : null,
+    lastBattle,
     recentNpcVmEvents: (game.npcVmEvents || []).slice(-8),
     recentLog: game.log.slice(-8)
   };
@@ -14229,6 +14270,7 @@ function buildAiWorkspace(env, game, prompt = "") {
   const characterFields = compactCharacterFields(game);
   const encounterGates = guideEncounterGateSummary(game, map);
   const encounterGateText = guideEncounterGateText(encounterGates);
+  const lastBattle = guideLastBattleSummary(game);
   return {
     schema: AI_WORKSPACE_SCHEMA,
     scope: "per-save workspace; 可迁移到 D1/KV/R2，但当前先随存档走",
@@ -14262,7 +14304,16 @@ function buildAiWorkspace(env, game, prompt = "") {
       petState: petState(game),
       effects: guideEffectSummary(game),
       quests: responseQuestState(game),
-      sourceTasks: sourceScriptTaskState(game)
+      sourceTasks: sourceScriptTaskState(game),
+      battle: game.encounter ? {
+        enemy: game.encounter.Name,
+        level: game.encounter.Lv,
+        hp: game.encounter.Hp,
+        source: game.battle?.source || game.encounter.source || "",
+        dropText: guidePotentialLootText(game.encounter.EnemyDropTable || game.encounter.dropTable || [], 6),
+        encounterGates: game.battle?.encounterArea?.groupGates || []
+      } : null,
+      lastBattle
     },
     actionSurface: {
       guideCanMutate: ["heal", "item-use", "item-drop", "pet-switch", "pet-release", "auto-level", "encounter", "teleport", "noEncounter"],
@@ -14534,6 +14585,23 @@ function fallbackGuide(context, prompt = "", error = null) {
   if (isStoneAgeKnowledgeQuestion(lower)) {
     const reply = localStoneAgeKnowledgeReply(context.knowledge, "AI向导");
     if (reply) return `${aiNote}${reply}`;
+  }
+  if (hasAny(lower, ["掉落", "掉东西", "战利品", "掉什么", "爆什么", "loot", "drop"])) {
+    const parts = [];
+    if (context.battle?.dropText) {
+      parts.push(`当前敌人 ${context.battle.enemy || "敌人"} 的源码候选掉落：${context.battle.dropText}。`);
+    }
+    if (context.lastBattle?.potentialLootText) {
+      const defeated = context.lastBattle.defeatedEnemies?.length ? `（${context.lastBattle.defeatedEnemies.join("、")}）` : "";
+      parts.push(`上一场战斗${defeated}候选掉落：${context.lastBattle.potentialLootText}。`);
+    }
+    if (context.lastBattle?.lootText) {
+      parts.push(`本次实际获得：${context.lastBattle.lootText}。`);
+    } else if (context.lastBattle?.potentialLootText || context.battle?.dropText) {
+      parts.push("如果本次没掉，是 enemy1.txt 的 ITEMPROB 概率未 roll 中；不是没有掉落表。");
+    }
+    if (context.location.encounterGateText) parts.push(`遇敌条件：${context.location.encounterGateText}。`);
+    if (parts.length) return `${aiNote}${parts.join(" ")}`;
   }
   if (hasAny(lower, ["地图", "出口", "去哪", "去哪里", "传送", "瞬移"])) {
     const notable = (context.world?.notableMaps || [])

@@ -593,6 +593,19 @@ try {
   assert(battleLootGame.lastBattleOutcome.lootItems.some((item) => Number(item.id) === expectedLootId), "last battle telemetry persists source loot");
   assert(battleLootGame.lastBattleOutcome.potentialLootItems.some((item) => Number(item.id) === expectedLootId && Number(item.probability || 0) > 0), "last battle telemetry persists source drop probability metadata");
   assert(battleLootGame.log.some((line) => line.includes("掉落")), "battle log announces dropped items");
+  const lootWorkspaceRsp = await api("/api/ai/workspace", { game: battleLootGame, prompt: "刚才怪会掉什么" });
+  assert(
+    lootWorkspaceRsp.workspace.current.lastBattle.potentialLootText.includes(expectedDropEntry.name)
+      && lootWorkspaceRsp.workspace.current.lastBattle.potentialLootText.includes("enemy1.txt"),
+    "AI workspace exposes last battle source ITEM/ITEMPROB loot candidates"
+  );
+  const lootGuideRsp = await api("/api/ai/guide", { game: battleLootGame, prompt: "刚才怪会掉什么，为什么没掉" });
+  assert(
+    lootGuideRsp.text.includes(expectedDropEntry.name)
+      && lootGuideRsp.text.includes("候选掉落")
+      && lootGuideRsp.text.includes("实际获得"),
+    "local guide answers loot questions with source candidate and actual drop text"
+  );
 } finally {
   Math.random = originalRandomForLoot;
 }
