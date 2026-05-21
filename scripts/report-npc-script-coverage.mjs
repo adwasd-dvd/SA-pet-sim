@@ -296,6 +296,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "startmsg",
   "stone",
   "stone_msg",
+  "steal",
   "third",
   "time",
   "trans",
@@ -310,8 +311,44 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "what_msg"
 ]);
 
+const NON_CORE_METADATA_KEYS = new Set([
+  "ai",
+  "angry",
+  "attack",
+  "challengewait",
+  "challengetimeout",
+  "con",
+  "damage",
+  "down",
+  "fightinterval",
+  "gamble_code",
+  "gamble_start",
+  "gamble_type",
+  "game_time",
+  "gtog",
+  "guard",
+  "hand",
+  "loop",
+  "loopinterval",
+  "manorid",
+  "msgcol",
+  "nod",
+  "other",
+  "page_num",
+  "peacewait",
+  "pleasure",
+  "roulette",
+  "sad",
+  "settingtimeout",
+  "sit",
+  "standby_time",
+  "throw"
+]);
+
 const BLOCKED_OR_LATER_SYSTEM_KEYS = [
   "family",
+  "gamble",
+  "manor",
   "profession",
   "casino",
   "race",
@@ -654,6 +691,7 @@ function classifyKey(key) {
   if (/msg$/i.test(normalized) || /_msg$/i.test(normalized) || /^gamble_msg$/i.test(normalized)) return "supported-message";
   if (CONTROL_KEYS.has(normalized)) return "condition-control";
   if (SUPPORTED_CONFIG_KEYS.has(normalized)) return "supported-config";
+  if (NON_CORE_METADATA_KEYS.has(normalized)) return "blocked-or-later-system";
   if (BLOCKED_OR_LATER_SYSTEM_KEYS.some((needle) => normalized.includes(needle))) return "blocked-or-later-system";
   if (ACTION_HINTS.some((needle) => normalized.includes(needle))) return "candidate-action";
   return "unknown";

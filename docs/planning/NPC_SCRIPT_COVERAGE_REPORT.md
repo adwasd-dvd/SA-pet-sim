@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T18:42:32.272Z
+Generated: 2026-05-21T18:56:15.643Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -13,9 +13,9 @@ This report is generated from local NPC source files and generated world data. I
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
 | Parsed action kinds | 24 |
-| Unsupported/unknown raw keys | 57 |
+| Unsupported/unknown raw keys | 25 |
 | Candidate action keys | 7 |
-| Unknown raw keys | 50 |
+| Unknown raw keys | 18 |
 
 ## Profile Impact
 
@@ -64,30 +64,30 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | TENSEI | unknown | 0 | 0 | 0 | 11 | external/sources/ref___data/npc/777/ten.arg:17 |
-| challengewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:4 |
-| loop | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:2 |
-| manorid | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:3 |
-| peacewait | unknown | 0 | 0 | 0 | 10 | external/sources/ref___data/npc/family/manorsman.arg1:5 |
-| OTHER | unknown | 0 | 0 | 0 | 9 | external/sources/ref___data/npc/pettalk/pettalk01.arg:5 |
-| angry | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:9 |
-| attack | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:3 |
-| damage | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:4 |
-| down | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:5 |
-| guard | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:11 |
-| hand | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:7 |
-| msgcol | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:1 |
-| nod | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:12 |
-| pleasure | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:8 |
-| sad | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:10 |
-| sit | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:6 |
-| throw | unknown | 0 | 0 | 0 | 8 | external/sources/ref___data/npc/genout/act_31603_20_22:13 |
-| GAMBLE_TYPE | unknown | 0 | 0 | 0 | 6 | external/sources/ref___data/npc/bank/bankman01.arg:3 |
-| challengetimeout | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:3 |
-| fightinterval | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:5 |
-| loopinterval | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:2 |
-| page_num11 | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/roulette/master01.arg:15 |
-| settingtimeout | unknown | 0 | 0 | 0 | 5 | external/sources/ref___data/npc/family/scheduleman.arg1:4 |
 | change_no | candidate-action | 0 | 0 | 0 | 4 | external/sources/ref___data/npc/genout/tman_400_85_102:4 |
+| B_evnow | unknown | 0 | 0 | 0 | 3 | external/sources/ref___data/npc/eden2/kraken/ev88_07.arg:14 |
+| showstopx | unknown | 0 | 0 | 0 | 3 | external/sources/ref___data/npc/casino/petracepet1.arg:2 |
+| showstopy | unknown | 0 | 0 | 0 | 3 | external/sources/ref___data/npc/casino/petracepet1.arg:3 |
+| CHANGEBBI | candidate-action | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/eden3/karo/etar:14 |
+| jaja | unknown | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/777/ten.arg:3 |
+| karutarna | unknown | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/777/ten.arg:4 |
+| marinasu | unknown | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/777/ten.arg:2 |
+| PETTRANS | candidate-action | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/777/ten.arg:7 |
+| pickupitem | candidate-action | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/chatroom/airplane4.arg:6 |
+| samugiru | unknown | 0 | 0 | 0 | 2 | external/sources/ref___data/npc/777/ten.arg:1 |
+| B_evend | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden2/kraken/ev88_05.arg:14 |
+| elItem | candidate-action | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/giiru/event/ev28_23:19 |
+| EvebtNo | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/giiru/event/garunaev6:37 |
+| GraNo | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden3/karo/chara:5 |
+| loop_tme | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/roulette/roulette01.arg:5 |
+| NewDelPet | candidate-action | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/sa70/class/aquest2:14 |
+| NEWTIME | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden3/karo/chara:4 |
+| nowev | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/my/ruieryasi/goldpet0.arg:13 |
+| ord | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/demale/core:707 |
+| run_time | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/roulette/roulette01.arg:4 |
+| seflg | candidate-action | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/giiru/banam.arg:13 |
+| SetLastTalkelder | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/sa60/newbie/warpman.arg:17 |
+| TimeXYPoint | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden3/karo/chara:6 |
 
 ## Recommended Next Slice
 

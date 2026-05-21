@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T18:42:32.272Z",
+  "generatedAt": "2026-05-21T18:56:15.643Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -8,9 +8,9 @@
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
     "parsedActionKinds": 24,
-    "unsupportedCandidateKeys": 57,
+    "unsupportedCandidateKeys": 25,
     "candidateActionKeys": 7,
-    "unknownKeys": 50
+    "unknownKeys": 18
   },
   "profiles": {
     "classic-core": {
@@ -215,13 +215,13 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 9687,
+      "supported-config": 9690,
       "supported-message": 15686,
-      "unknown": 228,
+      "unknown": 38,
       "candidate-action": 13,
       "condition-control": 12055,
       "supported-action": 3930,
-      "blocked-or-later-system": 6
+      "blocked-or-later-system": 193
     },
     "keyRecords": [
       {
@@ -524,7 +524,7 @@
       {
         "key": "AI",
         "normalized": "ai",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -608,7 +608,7 @@
       {
         "key": "angry",
         "normalized": "angry",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -848,7 +848,7 @@
       {
         "key": "attack",
         "normalized": "attack",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -1501,7 +1501,7 @@
       {
         "key": "challengetimeout",
         "normalized": "challengetimeout",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 5,
         "files": 5,
         "profiles": {
@@ -1553,7 +1553,7 @@
       {
         "key": "challengewait",
         "normalized": "challengewait",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -2206,7 +2206,7 @@
       {
         "key": "con",
         "normalized": "con",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -2436,7 +2436,7 @@
       {
         "key": "damage",
         "normalized": "damage",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -2889,7 +2889,7 @@
       {
         "key": "down",
         "normalized": "down",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -4062,7 +4062,7 @@
       {
         "key": "fightinterval",
         "normalized": "fightinterval",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 5,
         "files": 5,
         "profiles": {
@@ -4492,7 +4492,7 @@
       {
         "key": "gamble_code",
         "normalized": "gamble_code",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -4576,7 +4576,7 @@
       {
         "key": "gamble_start",
         "normalized": "gamble_start",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 4,
         "files": 4,
         "profiles": {
@@ -4623,7 +4623,7 @@
       {
         "key": "GAMBLE_TYPE",
         "normalized": "gamble_type",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 6,
         "files": 6,
         "profiles": {
@@ -4675,7 +4675,7 @@
       {
         "key": "game_time",
         "normalized": "game_time",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -5162,7 +5162,7 @@
       {
         "key": "GtoG",
         "normalized": "gtog",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -5194,7 +5194,7 @@
       {
         "key": "guard",
         "normalized": "guard",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -5335,7 +5335,7 @@
       {
         "key": "hand",
         "normalized": "hand",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -6305,7 +6305,7 @@
       {
         "key": "loop",
         "normalized": "loop",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -6389,7 +6389,7 @@
       {
         "key": "loopinterval",
         "normalized": "loopinterval",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 5,
         "files": 5,
         "profiles": {
@@ -6723,7 +6723,7 @@
       {
         "key": "manorid",
         "normalized": "manorid",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -7599,7 +7599,7 @@
       {
         "key": "msgcol",
         "normalized": "msgcol",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -7975,7 +7975,7 @@
       {
         "key": "nod",
         "normalized": "nod",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -9296,7 +9296,7 @@
       {
         "key": "OTHER",
         "normalized": "other",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 9,
         "files": 9,
         "profiles": {
@@ -9484,7 +9484,7 @@
       {
         "key": "page_num11",
         "normalized": "page_num",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 5,
         "files": 1,
         "profiles": {
@@ -9692,7 +9692,7 @@
       {
         "key": "peacewait",
         "normalized": "peacewait",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 10,
         "files": 10,
         "profiles": {
@@ -10100,7 +10100,7 @@
       {
         "key": "pleasure",
         "normalized": "pleasure",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -10882,7 +10882,7 @@
       {
         "key": "roulette",
         "normalized": "roulette",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -11102,7 +11102,7 @@
       {
         "key": "sad",
         "normalized": "sad",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -11579,7 +11579,7 @@
       {
         "key": "settingtimeout",
         "normalized": "settingtimeout",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 5,
         "files": 5,
         "profiles": {
@@ -11715,7 +11715,7 @@
       {
         "key": "sit",
         "normalized": "sit",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -12059,7 +12059,7 @@
       {
         "key": "standby_time",
         "normalized": "standby_time",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -12195,7 +12195,7 @@
       {
         "key": "steal",
         "normalized": "steal",
-        "category": "unknown",
+        "category": "supported-config",
         "occurrences": 3,
         "files": 3,
         "profiles": {
@@ -12922,7 +12922,7 @@
       {
         "key": "throw",
         "normalized": "throw",
-        "category": "unknown",
+        "category": "blocked-or-later-system",
         "occurrences": 8,
         "files": 8,
         "profiles": {
@@ -13895,9 +13895,9 @@
         ]
       }
     ],
-    "unsupportedCandidateTotal": 57,
+    "unsupportedCandidateTotal": 25,
     "candidateActionKeyCount": 7,
-    "unknownKeyCount": 50,
+    "unknownKeyCount": 18,
     "unsupportedCandidates": [
       {
         "key": "TENSEI",
@@ -13952,1202 +13952,6 @@
         ]
       },
       {
-        "key": "challengewait",
-        "normalized": "challengewait",
-        "category": "unknown",
-        "occurrences": 10,
-        "files": 10,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg1",
-            "line": 4,
-            "text": "challengewait:86400"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg10",
-            "line": 4,
-            "text": "challengewait:86400"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg2",
-            "line": 4,
-            "text": "challengewait:86400"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg3",
-            "line": 4,
-            "text": "challengewait:86400"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg4",
-            "line": 4,
-            "text": "challengewait:86400"
-          }
-        ]
-      },
-      {
-        "key": "loop",
-        "normalized": "loop",
-        "category": "unknown",
-        "occurrences": 10,
-        "files": 10,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg1",
-            "line": 2,
-            "text": "loop:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg10",
-            "line": 2,
-            "text": "loop:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg2",
-            "line": 2,
-            "text": "loop:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg3",
-            "line": 2,
-            "text": "loop:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg4",
-            "line": 2,
-            "text": "loop:1000"
-          }
-        ]
-      },
-      {
-        "key": "manorid",
-        "normalized": "manorid",
-        "category": "unknown",
-        "occurrences": 10,
-        "files": 10,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg1",
-            "line": 3,
-            "text": "manorid:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg10",
-            "line": 3,
-            "text": "manorid:10"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg2",
-            "line": 3,
-            "text": "manorid:2"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg3",
-            "line": 3,
-            "text": "manorid:3"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg4",
-            "line": 3,
-            "text": "manorid:4"
-          }
-        ]
-      },
-      {
-        "key": "peacewait",
-        "normalized": "peacewait",
-        "category": "unknown",
-        "occurrences": 10,
-        "files": 10,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg1",
-            "line": 5,
-            "text": "peacewait:172800"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg10",
-            "line": 5,
-            "text": "peacewait:172800"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg2",
-            "line": 5,
-            "text": "peacewait:172800"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg3",
-            "line": 5,
-            "text": "peacewait:172800"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/manorsman.arg4",
-            "line": 5,
-            "text": "peacewait:172800"
-          }
-        ]
-      },
-      {
-        "key": "OTHER",
-        "normalized": "other",
-        "category": "unknown",
-        "occurrences": 9,
-        "files": 9,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/pettalk/pettalk01.arg",
-            "line": 5,
-            "text": "OTHER:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/pettalk/ptalk01.arg",
-            "line": 5,
-            "text": "OTHER:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/pettalk/ptalk02.arg",
-            "line": 5,
-            "text": "OTHER:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/pettalk/ptalk03.arg",
-            "line": 5,
-            "text": "OTHER:"
-          },
-          {
-            "file": "external/sources/ref___data/npc/pettalk/ptalk04.arg",
-            "line": 5,
-            "text": "OTHER:"
-          }
-        ]
-      },
-      {
-        "key": "angry",
-        "normalized": "angry",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 9,
-            "text": "angry:到北方享受幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 9,
-            "text": "angry:面朝向西方祈祷"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 9,
-            "text": "angry:东方正迎着曙光"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 9,
-            "text": "angry:风从南方吹过来"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 9,
-            "text": "angry:由北方在发怒"
-          }
-        ]
-      },
-      {
-        "key": "attack",
-        "normalized": "attack",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 3,
-            "text": "attack:享受北方的幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 3,
-            "text": "attack:向西方诚心祈求"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 3,
-            "text": "attack:迎着东方的曙光"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 3,
-            "text": "attack:由南方吹来的风"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 3,
-            "text": "attack:由北方在攻击"
-          }
-        ]
-      },
-      {
-        "key": "damage",
-        "normalized": "damage",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 4,
-            "text": "damage:北方感受到幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 4,
-            "text": "damage:献上西方的祈祷"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 4,
-            "text": "damage:东方出现了曙光"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 4,
-            "text": "damage:南方吹过来的风"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 4,
-            "text": "damage:由北方在伤害"
-          }
-        ]
-      },
-      {
-        "key": "down",
-        "normalized": "down",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 5,
-            "text": "down:北方得来的幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 5,
-            "text": "down:西方献上的祈祷"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 5,
-            "text": "down:由东方出现曙光"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 5,
-            "text": "down:南方吹来的微风"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 5,
-            "text": "down:由北方在守护"
-          }
-        ]
-      },
-      {
-        "key": "guard",
-        "normalized": "guard",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 11,
-            "text": "guard:北方的幸福享受"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 11,
-            "text": "guard:祈求西方已诚心"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 11,
-            "text": "guard:迎着曙光向东方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 11,
-            "text": "guard:风从南方吹过来"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 11,
-            "text": "guard:由北方在防卫"
-          }
-        ]
-      },
-      {
-        "key": "hand",
-        "normalized": "hand",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 7,
-            "text": "hand:北方已感受幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 7,
-            "text": "hand:祈求诚心向西方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 7,
-            "text": "hand:迎向东方的曙光"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 7,
-            "text": "hand:藉南方的风而行"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 7,
-            "text": "hand:由北方在呼叫"
-          }
-        ]
-      },
-      {
-        "key": "msgcol",
-        "normalized": "msgcol",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 1,
-            "text": "msgcol:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 1,
-            "text": "msgcol:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 1,
-            "text": "msgcol:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 1,
-            "text": "msgcol:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 1,
-            "text": "msgcol:1"
-          }
-        ]
-      },
-      {
-        "key": "nod",
-        "normalized": "nod",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 12,
-            "text": "nod:感受到北方幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 12,
-            "text": "nod:西方献上了祈祷"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 12,
-            "text": "nod:出现东方一曙光"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 12,
-            "text": "nod:藉由风从南方来"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 12,
-            "text": "nod:由北方在认同"
-          }
-        ]
-      },
-      {
-        "key": "pleasure",
-        "normalized": "pleasure",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 8,
-            "text": "pleasure:享受幸福的北方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 8,
-            "text": "pleasure:祈求西方诚心意"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 8,
-            "text": "pleasure:出现曙光的东方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 8,
-            "text": "pleasure:藉由南方吹的风"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 8,
-            "text": "pleasure:由北方在欢呼"
-          }
-        ]
-      },
-      {
-        "key": "sad",
-        "normalized": "sad",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 10,
-            "text": "sad:感受幸福的北方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 10,
-            "text": "sad:诚心向西方祈求"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 10,
-            "text": "sad:出现曙光的东方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 10,
-            "text": "sad:南方吹凉风过来"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 10,
-            "text": "sad:由北方在感伤"
-          }
-        ]
-      },
-      {
-        "key": "sit",
-        "normalized": "sit",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 6,
-            "text": "sit:享北方来的幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 6,
-            "text": "sit:向西方献上祈祷"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 6,
-            "text": "sit:曙光出现在东方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 6,
-            "text": "sit:从南方吹来的风"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 6,
-            "text": "sit:由北方在看管"
-          }
-        ]
-      },
-      {
-        "key": "throw",
-        "normalized": "throw",
-        "category": "unknown",
-        "occurrences": 8,
-        "files": 8,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_22",
-            "line": 13,
-            "text": "throw:感到北方的幸福"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_20_78",
-            "line": 13,
-            "text": "throw:向西方献上祈祷"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_22",
-            "line": 13,
-            "text": "throw:就是这光在东方"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31603_79_79",
-            "line": 13,
-            "text": "throw:吹南方的东过来"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/act_31606_20_22",
-            "line": 13,
-            "text": "throw:由北方在启动"
-          }
-        ]
-      },
-      {
-        "key": "GAMBLE_TYPE",
-        "normalized": "gamble_type",
-        "category": "unknown",
-        "occurrences": 6,
-        "files": 6,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
-            "line": 3,
-            "text": "GAMBLE_TYPE:4"
-          },
-          {
-            "file": "external/sources/ref___data/npc/bank/bankman02.arg",
-            "line": 3,
-            "text": "GAMBLE_TYPE:4"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/bankman01.arg",
-            "line": 3,
-            "text": "GAMBLE_TYPE:4"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/bankman02.arg",
-            "line": 3,
-            "text": "GAMBLE_TYPE:4"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 2,
-            "text": "GAMBLE_TYPE:master_npc"
-          }
-        ]
-      },
-      {
-        "key": "challengetimeout",
-        "normalized": "challengetimeout",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 5,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg1",
-            "line": 3,
-            "text": "challengetimeout:1200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg2",
-            "line": 3,
-            "text": "challengetimeout:1200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg3",
-            "line": 3,
-            "text": "challengetimeout:1200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg4",
-            "line": 3,
-            "text": "challengetimeout:1200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg5",
-            "line": 3,
-            "text": "challengetimeout:1200"
-          }
-        ]
-      },
-      {
-        "key": "fightinterval",
-        "normalized": "fightinterval",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 5,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg1",
-            "line": 5,
-            "text": "fightinterval:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg2",
-            "line": 5,
-            "text": "fightinterval:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg3",
-            "line": 5,
-            "text": "fightinterval:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg4",
-            "line": 5,
-            "text": "fightinterval:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg5",
-            "line": 5,
-            "text": "fightinterval:60"
-          }
-        ]
-      },
-      {
-        "key": "loopinterval",
-        "normalized": "loopinterval",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 5,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg1",
-            "line": 2,
-            "text": "loopinterval:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg2",
-            "line": 2,
-            "text": "loopinterval:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg3",
-            "line": 2,
-            "text": "loopinterval:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg4",
-            "line": 2,
-            "text": "loopinterval:1000"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg5",
-            "line": 2,
-            "text": "loopinterval:1000"
-          }
-        ]
-      },
-      {
-        "key": "page_num11",
-        "normalized": "page_num",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 15,
-            "text": "page_num11:\\n本游戏为２４小时营业，全年无休。\\n每场次间隔约有１到２分钟时间。\\n请玩家将彩券丢在圆形格上，\\n等候游戏开始。\\n一旦主持人喊买好离手，\\n便不能再丢彩券及拿走彩券。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 16,
-            "text": "page_num12:\\n红绿单双中奖积分加１点，没中奖扣积分１点。\\n号码中奖积分加２０点，没中奖扣积分１点。\\n横列中奖积分加２点，没中奖扣积分１点。\\n双号中奖积分加１０点，没中奖扣积分１点。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 17,
-            "text": "page_num13:\\n号码００中奖积分加４０点，没中奖扣积分１点。\\n范围中奖积分加１点，没中奖扣积分１点。\\n符号Ｘ为主持人通杀。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 18,
-            "text": "page_num14:\\n请玩家游戏中不要下线或离开\\n轮盘游戏场。\\n否则视同弃权论，彩卷及积分不予归还。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 20,
-            "text": "page_num21:\\n游戏积分可以向游乐场银行\\n换取奖品。"
-          }
-        ]
-      },
-      {
-        "key": "settingtimeout",
-        "normalized": "settingtimeout",
-        "category": "unknown",
-        "occurrences": 5,
-        "files": 5,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg1",
-            "line": 4,
-            "text": "settingtimeout:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg2",
-            "line": 4,
-            "text": "settingtimeout:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg3",
-            "line": 4,
-            "text": "settingtimeout:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg4",
-            "line": 4,
-            "text": "settingtimeout:60"
-          },
-          {
-            "file": "external/sources/ref___data/npc/family/scheduleman.arg5",
-            "line": 4,
-            "text": "settingtimeout:60"
-          }
-        ]
-      },
-      {
         "key": "change_no",
         "normalized": "change_no",
         "category": "candidate-action",
@@ -15191,53 +13995,6 @@
             "file": "external/sources/ref___data/npc/genout/tman_400_98_120",
             "line": 4,
             "text": "change_no:16200"
-          }
-        ]
-      },
-      {
-        "key": "gamble_start",
-        "normalized": "gamble_start",
-        "category": "unknown",
-        "occurrences": 4,
-        "files": 4,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/bank/bankman01.arg",
-            "line": 4,
-            "text": "gamble_start:欢迎光临！\\n本银行为游乐场个人银行。\\n每次提款不得低於100石币，\\n最高提领金额为100万石币，\\n每次提领时需从存款中扣除300石币手续费用。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/bank/bankman02.arg",
-            "line": 4,
-            "text": "gamble_start:欢迎光临！\\n本银行为游乐场个人银行。\\n每次提款不得低於100石币，\\n最高提领金额为100万石币，\\n每次提领时需从存款中扣除300石币手续费用。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/bankman01.arg",
-            "line": 4,
-            "text": "gamble_start:欢迎光临！\\n本银行为游乐场个人银行。\\n每次提款不得低于100石币，\\n最高提领金额为100万石币，\\n每次提领时需从存款中扣除300石币手续费用。"
-          },
-          {
-            "file": "external/sources/ref___data/npc/roulette/bankman02.arg",
-            "line": 4,
-            "text": "gamble_start:欢迎光临！\\n本银行为游乐场个人银行。\\n每次提款不得低于100石币，\\n最高提领金额为100万石币，\\n每次提领时需从存款中扣除300石币手续费用。"
           }
         ]
       },
@@ -15364,48 +14121,6 @@
             "file": "external/sources/ref___data/npc/casino/petracepet3.arg",
             "line": 3,
             "text": "showstopy:30"
-          }
-        ]
-      },
-      {
-        "key": "steal",
-        "normalized": "steal",
-        "category": "unknown",
-        "occurrences": 3,
-        "files": 3,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/300/sb_bac.arg",
-            "line": 7,
-            "text": "steal:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/eden1/zoo2/event83_18.arg",
-            "line": 15,
-            "text": "steal:1"
-          },
-          {
-            "file": "external/sources/ref___data/npc/sa70/true/true2.arg",
-            "line": 16,
-            "text": "steal:1"
           }
         ]
       },
@@ -15669,38 +14384,6 @@
         ]
       },
       {
-        "key": "AI",
-        "normalized": "ai",
-        "category": "unknown",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 7,
-            "text": "AI:0"
-          }
-        ]
-      },
-      {
         "key": "B_evend",
         "normalized": "b_evend",
         "category": "unknown",
@@ -15733,8 +14416,40 @@
         ]
       },
       {
-        "key": "con",
-        "normalized": "con",
+        "key": "elItem",
+        "normalized": "elitem",
+        "category": "candidate-action",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/giiru/event/ev28_23",
+            "line": 19,
+            "text": "elItem:2515*1"
+          }
+        ]
+      },
+      {
+        "key": "EvebtNo",
+        "normalized": "evebtno",
         "category": "unknown",
         "occurrences": 1,
         "files": 1,
@@ -15758,9 +14473,329 @@
         },
         "samples": [
           {
-            "file": "external/sources/ref___data/npc/roulette/master01.arg",
-            "line": 8,
-            "text": "con:TRUE"
+            "file": "external/sources/ref___data/npc/giiru/event/garunaev6",
+            "line": 37,
+            "text": "EvebtNo:-1"
+          }
+        ]
+      },
+      {
+        "key": "GraNo",
+        "normalized": "grano",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/chara",
+            "line": 5,
+            "text": "GraNo:100873&0"
+          }
+        ]
+      },
+      {
+        "key": "loop_tme",
+        "normalized": "loop_tme",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/roulette/roulette01.arg",
+            "line": 5,
+            "text": "loop_tme:1000"
+          }
+        ]
+      },
+      {
+        "key": "NewDelPet",
+        "normalized": "newdelpet",
+        "category": "candidate-action",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/sa70/class/aquest2",
+            "line": 14,
+            "text": "NewDelPet:PET>0-97*1"
+          }
+        ]
+      },
+      {
+        "key": "NEWTIME",
+        "normalized": "newtime",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/chara",
+            "line": 4,
+            "text": "NEWTIME:ALLNOON"
+          }
+        ]
+      },
+      {
+        "key": "nowev",
+        "normalized": "nowev",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/my/ruieryasi/goldpet0.arg",
+            "line": 13,
+            "text": "nowev:187"
+          }
+        ]
+      },
+      {
+        "key": "ord",
+        "normalized": "ord",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/demale/core",
+            "line": 707,
+            "text": "ord:\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000e�\u0011@改�挎�\u0000@贞\u0011@贞\u0011@h8\u0001@埇"
+          }
+        ]
+      },
+      {
+        "key": "run_time",
+        "normalized": "run_time",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/roulette/roulette01.arg",
+            "line": 4,
+            "text": "run_time:200"
+          }
+        ]
+      },
+      {
+        "key": "seflg",
+        "normalized": "seflg",
+        "category": "candidate-action",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/giiru/banam.arg",
+            "line": 13,
+            "text": "seflg:0"
+          }
+        ]
+      },
+      {
+        "key": "SetLastTalkelder",
+        "normalized": "setlasttalkelder",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/sa60/newbie/warpman.arg",
+            "line": 17,
+            "text": "SetLastTalkelder:4"
+          }
+        ]
+      },
+      {
+        "key": "TimeXYPoint",
+        "normalized": "timexypoint",
+        "category": "unknown",
+        "occurrences": 1,
+        "files": 1,
+        "profiles": {
+          "classic-core": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-rebirth": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.0": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "classic-advanced-2.5": {
+            "occurrences": 0,
+            "files": 0
+          }
+        },
+        "samples": [
+          {
+            "file": "external/sources/ref___data/npc/eden3/karo/chara",
+            "line": 6,
+            "text": "TimeXYPoint:60303,6,24&60303,1,20"
           }
         ]
       }
