@@ -180,6 +180,12 @@ function checkSparseRuntimeGuard() {
   if (!appSource.includes("sparseInteriorOutsideBlackTileAt(map, visualFallback?.tileAt || tileAt)")) {
     throw new Error("Runtime sparse-interior outside-black guard is not applied to the client DAT draw path");
   }
+  if (!appSource.includes("const sourceTileAt = sparseInteriorOutsideBlackTileAt(map, tileAt)")) {
+    throw new Error("Runtime sparse-interior outside-black guard is not applied to the LS2 draw path");
+  }
+  if (!appSource.includes("drawViewportTileMap(canvas, width, height, sourceTileAt, atlas, map, \"LS2MAP viewport\"")) {
+    throw new Error("Runtime sparse-interior outside-black LS2 draw path must use the guarded tile reader");
+  }
   if (!appSource.includes("if (Number(ground || 0) <= CG_INVISIBLE) return [0, 0, 0];")) {
     throw new Error("Runtime sparse-interior outside-black guard must erase missing-ground control/object refs");
   }

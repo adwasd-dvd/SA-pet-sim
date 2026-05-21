@@ -10,7 +10,7 @@ const LARGE_MAP_CANVAS_MAX_SIDE = 4096;
 const LARGE_MAP_VIEW_PADDING = 192;
 const LARGE_MAP_TILE_PADDING = 8;
 const TILE_ATLAS_MANIFEST = "/data/client-tiles/tiles.json?v=pet-sprites-v2";
-const MAP_RESOURCE_VERSION = "map-assets-v20260521-sparse-outside-black-v2";
+const MAP_RESOURCE_VERSION = "map-assets-v20260521-sparse-outside-black-v3";
 const PROFILE_PACK_PLAN_PATH = "/data/profiles/classic-core/profile-texture-pack-plan.json?v=furuudo-interior-map-packs-v2";
 const PET_FIELD_ANIMATION_MANIFEST = "/data/profiles/classic-core/pet-field-animations.json";
 const GMSV_DATA_SOURCE = "gmsv-data";
@@ -3011,19 +3011,20 @@ async function renderLs2MapBuffer(canvas, buf, map = null, renderVersion = mapRe
   const reader = parseLs2MapReader(buf);
   if (!reader) throw new Error("invalid LS2MAP");
   const { width, height, tileAt } = reader;
+  const sourceTileAt = sparseInteriorOutsideBlackTileAt(map, tileAt);
   let atlas = await loadTileAtlas(map);
   if (renderVersion !== mapRenderVersion) return;
   if (atlas) {
-    atlas = await ensureMapAtlasCoverage(width, height, tileAt, atlas);
+    atlas = await ensureMapAtlasCoverage(width, height, sourceTileAt, atlas);
     if (renderVersion !== mapRenderVersion) return;
-    drawViewportTileMap(canvas, width, height, tileAt, atlas, map, "LS2MAP viewport", renderVersion);
+    drawViewportTileMap(canvas, width, height, sourceTileAt, atlas, map, "LS2MAP viewport", renderVersion);
     return;
   }
   if (width * height > REAL_TILE_CELL_LIMIT) {
-    drawLargeIsoPreview(canvas, width, height, tileAt, map, "LS2MAP overview");
+    drawLargeIsoPreview(canvas, width, height, sourceTileAt, map, "LS2MAP overview");
     return;
   }
-  drawTilePreview(canvas, width, height, tileAt);
+  drawTilePreview(canvas, width, height, sourceTileAt);
 }
 
 function drawViewportTileMap(canvas, width, height, tileAt, atlas, map, sourceLabel, renderVersion, options = {}) {
