@@ -5,6 +5,9 @@ import { WORLD } from "../src/world-data.js";
 
 const appRoot = path.resolve(import.meta.dirname, "..");
 const publicRoot = path.join(appRoot, "public");
+const appJsSource = readFileSync(path.join(publicRoot, "assets/app.js"), "utf8");
+const indexHtmlSource = readFileSync(path.join(publicRoot, "index.html"), "utf8");
+const serviceWorkerSource = readFileSync(path.join(publicRoot, "sw.js"), "utf8");
 
 const env = {
   ASSETS: {
@@ -33,6 +36,8 @@ const api = async (pathName, body) => {
   }
   return data;
 };
+
+assertFrontendMovementContract(appJsSource, indexHtmlSource, serviceWorkerSource);
 
 let game = await api("/api/game/new", { name: "collision-test" });
 const start = { ...game.location };
@@ -226,7 +231,7 @@ assertEqual(paidExit.location.y, 491, "paid-jump mapwarp target y follows source
 assertEqual(paidExit.paidJump.cost, paidJumpCostForTest(1), "paid-jump exit cost uses tiered distance pricing");
 assertEqual(paidExit.player.stone, 10000 - paidJumpCostForTest(1), "paid-jump exit deducts jump cost");
 
-console.log("Movement collision OK: routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
+console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -242,6 +247,49 @@ function assertLog(state, text) {
   if (!state.log.some((line) => line.includes(text))) {
     throw new Error(`missing log text: ${text}`);
   }
+}
+
+function assertFrontendMovementContract(appJs, indexHtml, serviceWorker) {
+  for (const snippet of [
+    "q: [-1, -1]",
+    "e: [1, -1]",
+    "z: [-1, 1]",
+    "c: [1, 1]",
+    "home: [-1, -1]",
+    "pageup: [1, -1]",
+    "end: [-1, 1]",
+    "pagedown: [1, 1]",
+    "numpad7: [-1, -1]",
+    "numpad9: [1, -1]",
+    "numpad1: [-1, 1]",
+    "numpad3: [1, 1]"
+  ]) {
+    assert(appJs.includes(snippet), `frontend missing direct diagonal movement key: ${snippet}`);
+  }
+  for (const snippet of [
+    "\"1,-1\": 2",
+    "\"1,1\": 4",
+    "\"-1,1\": 6",
+    "\"-1,-1\": 0",
+    "pressedMoveKeys.add(keyId)",
+    "pressedMoveKeys.delete(keyId)",
+    "pressedScreenDirection()",
+    "if (face && token === routeToken) return turnPlayer(face);"
+  ]) {
+    assert(appJs.includes(snippet), `frontend movement contract missing: ${snippet}`);
+  }
+
+  const indexVersion = versionFromSource(indexHtml, /\/assets\/app\.js\?v=(\d+)/, "index app.js version");
+  const swAppVersion = versionFromSource(serviceWorker, /\/assets\/app\.js\?v=(\d+)/, "service worker app.js version");
+  const swCacheVersion = versionFromSource(serviceWorker, /stoneage-web-v(\d+)/, "service worker cache version");
+  assertEqual(indexVersion, swAppVersion, "index.html and service worker app.js cache-bust versions match");
+  assertEqual(indexVersion, swCacheVersion, "service worker cache version tracks app.js cache-bust version");
+}
+
+function versionFromSource(source, pattern, label) {
+  const match = source.match(pattern);
+  if (!match) throw new Error(`missing ${label}`);
+  return Number(match[1]);
 }
 
 async function assertRejects(fn, messagePart, expectedStatus, label) {
