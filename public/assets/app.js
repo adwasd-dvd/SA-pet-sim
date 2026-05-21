@@ -192,7 +192,7 @@ let battleSkillMenuOpen = false;
 let battlePetMenuOpen = false;
 let battleSelectedAction = "attack";
 let battlePendingAction = "";
-let battleFxTimer = 0;
+let battleFxTimers = [];
 let automationTimer = 0;
 let automationInFlight = false;
 const pressedMoveKeys = new Set();
@@ -4457,10 +4457,12 @@ function battleActionHasStrikeMotion(action) {
 }
 
 function playBattleFxActions(actions) {
-  window.clearTimeout(battleFxTimer);
+  for (const timer of battleFxTimers) window.clearTimeout(timer);
+  battleFxTimers = [];
   if (!actions?.length || !els.battleFormationLayer || !isBattleOpen()) return;
   actions.slice(0, 3).forEach((action, index) => {
-    battleFxTimer = window.setTimeout(() => playBattleLunge(action), 90 + index * 360);
+    const timer = window.setTimeout(() => playBattleLunge(action), 90 + index * 360);
+    battleFxTimers.push(timer);
   });
 }
 

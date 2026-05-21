@@ -5535,6 +5535,11 @@ function battleActorSlot(game, actor) {
   return isPlayerBattleActor(game, actor) ? 0 : battlePetSlot(game, actor);
 }
 
+function battleActorBattleNo(game, actor) {
+  if (isPlayerBattleActor(game, actor)) return 0;
+  return BATTLE_PLAYER_MAX + battlePetSlot(game, actor);
+}
+
 function battleActorName(game, actor) {
   if (isPlayerBattleActor(game, actor)) return game.player?.name || "player";
   return actor?.Name || actor?.name || "pet";
@@ -14849,7 +14854,7 @@ function battleFormationForFields(game) {
     roundDeadlineAt: game.battle?.roundDeadlineAt || "",
     localPlayerNo: 0,
     localPetNo: activePet ? BATTLE_PLAYER_MAX : -1,
-    activeActorNo: battleActorSlot(game, activeActor),
+    activeActorNo: battleActorBattleNo(game, activeActor),
     activeActorKind: battleActorKind(game, activeActor),
     mode: "source-formation-scaffold",
     allySide,
