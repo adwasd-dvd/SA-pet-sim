@@ -2664,6 +2664,20 @@ assert(!dinoGame.pets.some((pet) => Number(pet.PetId) === 191), "dinosaur doctor
 assertEqual(dinoGame.pets.length, dinoPetCountBeforeReward, "dinosaur doctor removes one pet and gives one source reward pet");
 assert(dinoGame.dialog.debug.vmTrace.some((event) => event.action === "givePet" && event.detail?.reason === "source-changeevent-getpet" && event.detail?.givenPets?.some((pet) => pet.enemyId === 95)), "source GetPet reward runs through NPC VM");
 
+const hunterTrialNpc = WORLD.maps["8220"]?.npcs.find((npc) => npc.script === "file:sa70/class/aquest2");
+if (!hunterTrialNpc) throw new Error("missing hunter trial NewDelPet fixture");
+assert(hunterTrialNpc.scriptEvents?.some((event) => event.delPets?.some((pet) => pet.petId === 97 && pet.op === ">" && pet.level === 0 && pet.sourceAction === "NewDelPet")), "hunter trial parses source NewDelPet PET>level-pet-id condition");
+let hunterTrialGame = await api("/api/game/new", { name: "source-newdelpet-hunter-trial-test" });
+hunterTrialGame.location = { mapId: "8220", x: hunterTrialNpc.x + 1, y: hunterTrialNpc.y };
+hunterTrialGame.inventory.push({ id: 2096, name: "猎人信物一", qty: 1, source: "test" });
+hunterTrialGame.pets.push({ ...hunterTrialGame.pets[0], PetId: 97, Name: "测试乌力", Lv: 1, Hp: 10, WorkMaxHp: 10 });
+setTestEventFlag(hunterTrialGame, 4, "end");
+setTestEventFlag(hunterTrialGame, 147, "now");
+hunterTrialGame = await api("/api/game/dialog", { game: hunterTrialGame, npcId: hunterTrialNpc.id });
+assertEqual(inventoryQty(hunterTrialGame, 2097), 1, "hunter trial gives next source token after NewDelPet requirement");
+assert(!hunterTrialGame.pets.some((pet) => Number(pet.PetId) === 97), "hunter trial removes the submitted NewDelPet source pet");
+assert(hunterTrialGame.dialog.debug.vmTrace.some((event) => event.action === "takePet" && event.detail?.reason === "source-eventaction-newdelpet" && event.detail?.sourceAction === "NewDelPet" && event.detail?.petId === 97), "source NewDelPet runs through NPC VM with source action trace");
+
 const tigerTrainer = WORLD.maps["1040"]?.npcs.find((npc) => npc.script === "file:sa60/newbie/m_tiger");
 if (!tigerTrainer) throw new Error("missing source AddPet tiger trainer fixture");
 assert(tigerTrainer.scriptEvents?.some((event) => event.getPets?.some((pet) => pet.source === "AddPet" && pet.enemyIds?.includes(2483))), "tiger trainer parses source AddPet reward");

@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-21T19:42:10.097Z
+Generated: 2026-05-22T00:21:12.097Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -12,9 +12,9 @@ This report is generated from local NPC source files and generated world data. I
 | Generated world NPCs | 1749 |
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
-| Parsed action kinds | 24 |
-| Unsupported/unknown raw keys | 24 |
-| Candidate action keys | 7 |
+| Parsed action kinds | 25 |
+| Unsupported/unknown raw keys | 23 |
+| Candidate action keys | 6 |
 | Unknown raw keys | 17 |
 
 ## Profile Impact
@@ -38,7 +38,8 @@ This report is generated from local NPC source files and generated world data. I
 | condition | 1724 | 589 | 656 | 656 | 656 |
 | DelItem | 426 | 225 | 236 | 236 | 236 |
 | DelItemEVDEL | 6 | 0 | 0 | 0 | 0 |
-| DelPet | 63 | 22 | 22 | 22 | 22 |
+| DelPet | 64 | 22 | 22 | 22 | 22 |
+| NewDelPet | 1 | 0 | 0 | 0 | 0 |
 | DelStone | 15 | 7 | 8 | 8 | 8 |
 | EndSetFlg | 56 | 33 | 34 | 34 | 34 |
 | GetItem | 345 | 167 | 186 | 186 | 186 |
@@ -81,7 +82,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | EvebtNo | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/giiru/event/garunaev6:37 |
 | GraNo | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden3/karo/chara:5 |
 | loop_tme | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/roulette/roulette01.arg:5 |
-| NewDelPet | candidate-action | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/sa70/class/aquest2:14 |
 | NEWTIME | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/eden3/karo/chara:4 |
 | nowev | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/my/ruieryasi/goldpet0.arg:13 |
 | ord | unknown | 0 | 0 | 0 | 1 | external/sources/ref___data/npc/demale/core:707 |

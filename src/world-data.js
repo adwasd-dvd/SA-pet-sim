@@ -14182,14 +14182,16 @@ export const WORLD = {
                   "level": 25,
                   "petId": 221,
                   "qty": 1,
-                  "source": "PET=25-221*1"
+                  "source": "PET=25-221*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": "=",
                   "level": 25,
                   "petId": 222,
                   "qty": 1,
-                  "source": "PET=25-222*1"
+                  "source": "PET=25-222*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -14244,14 +14246,16 @@ export const WORLD = {
                   "level": 25,
                   "petId": 223,
                   "qty": 1,
-                  "source": "PET=25-223*1"
+                  "source": "PET=25-223*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": "=",
                   "level": 25,
                   "petId": 224,
                   "qty": 1,
-                  "source": "PET=25-224*1"
+                  "source": "PET=25-224*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -14321,7 +14325,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -14376,14 +14381,16 @@ export const WORLD = {
                   "level": 25,
                   "petId": 291,
                   "qty": 1,
-                  "source": "PET=25-291*1"
+                  "source": "PET=25-291*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": "=",
                   "level": 25,
                   "petId": 294,
                   "qty": 1,
-                  "source": "PET=25-294*1"
+                  "source": "PET=25-294*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -46640,7 +46647,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -46683,7 +46691,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -46721,7 +46730,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 560,
                   "qty": 4,
-                  "source": "PET>0-560*4"
+                  "source": "PET>0-560*4",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -46759,7 +46769,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 560,
                   "qty": 3,
-                  "source": "PET>0-560*3"
+                  "source": "PET>0-560*3",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -46797,7 +46808,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 560,
                   "qty": 2,
-                  "source": "PET>0-560*2"
+                  "source": "PET>0-560*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -46834,7 +46846,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 560,
                   "qty": 1,
-                  "source": "PET>0-560*1"
+                  "source": "PET>0-560*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47058,7 +47071,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47101,7 +47115,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47139,7 +47154,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 559,
                   "qty": 4,
-                  "source": "PET>0-559*4"
+                  "source": "PET>0-559*4",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47177,7 +47193,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 559,
                   "qty": 3,
-                  "source": "PET>0-559*3"
+                  "source": "PET>0-559*3",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47215,7 +47232,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 559,
                   "qty": 2,
-                  "source": "PET>0-559*2"
+                  "source": "PET>0-559*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47253,7 +47271,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 559,
                   "qty": 1,
-                  "source": "PET>0-559*1"
+                  "source": "PET>0-559*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47475,7 +47494,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47517,7 +47537,8 @@ export const WORLD = {
               "delPets": [
                 {
                   "evdel": true,
-                  "source": "EVDEL"
+                  "source": "EVDEL",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47554,7 +47575,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 558,
                   "qty": 4,
-                  "source": "PET>0-558*4"
+                  "source": "PET>0-558*4",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47591,7 +47613,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 558,
                   "qty": 3,
-                  "source": "PET>0-558*3"
+                  "source": "PET>0-558*3",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47628,7 +47651,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 558,
                   "qty": 2,
-                  "source": "PET>0-558*2"
+                  "source": "PET>0-558*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -47665,7 +47689,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 558,
                   "qty": 1,
-                  "source": "PET>0-558*1"
+                  "source": "PET>0-558*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -76914,14 +76939,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 113,
                   "qty": 2,
-                  "source": "PET>0-113*2"
+                  "source": "PET>0-113*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 114,
                   "qty": 2,
-                  "source": "PET>0-114*2"
+                  "source": "PET>0-114*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -76964,14 +76991,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 1,
                   "qty": 2,
-                  "source": "PET>0-1*2"
+                  "source": "PET>0-1*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 3,
                   "qty": 2,
-                  "source": "PET>0-3*2"
+                  "source": "PET>0-3*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -77014,14 +77043,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 72,
                   "qty": 1,
-                  "source": "PET>0-72*1"
+                  "source": "PET>0-72*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 74,
                   "qty": 1,
-                  "source": "PET>0-74*1"
+                  "source": "PET>0-74*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -77064,14 +77095,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 63,
                   "qty": 2,
-                  "source": "PET>0-63*2"
+                  "source": "PET>0-63*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 64,
                   "qty": 2,
-                  "source": "PET>0-64*2"
+                  "source": "PET>0-64*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -77229,28 +77262,32 @@ export const WORLD = {
                   "level": 0,
                   "petId": 51,
                   "qty": 1,
-                  "source": "PET>0-51*1"
+                  "source": "PET>0-51*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 52,
                   "qty": 1,
-                  "source": "PET>0-52*1"
+                  "source": "PET>0-52*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 53,
                   "qty": 1,
-                  "source": "PET>0-53*1"
+                  "source": "PET>0-53*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 54,
                   "qty": 1,
-                  "source": "PET>0-54*1"
+                  "source": "PET>0-54*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -77293,35 +77330,40 @@ export const WORLD = {
                   "level": 0,
                   "petId": 82,
                   "qty": 1,
-                  "source": "PET>0-82*1"
+                  "source": "PET>0-82*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 83,
                   "qty": 1,
-                  "source": "PET>0-83*1"
+                  "source": "PET>0-83*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 174,
                   "qty": 1,
-                  "source": "PET>0-174*1"
+                  "source": "PET>0-174*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 222,
                   "qty": 1,
-                  "source": "PET>0-222*1"
+                  "source": "PET>0-222*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 243,
                   "qty": 1,
-                  "source": "PET>0-243*1"
+                  "source": "PET>0-243*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -114292,7 +114334,8 @@ export const WORLD = {
                   "level": 2,
                   "petId": 331,
                   "qty": 1,
-                  "source": "PET<2-331*1"
+                  "source": "PET<2-331*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -124492,28 +124535,32 @@ export const WORLD = {
                   "level": 0,
                   "petId": 1,
                   "qty": 1,
-                  "source": "PET>0-1*1"
+                  "source": "PET>0-1*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 3,
                   "qty": 1,
-                  "source": "PET>0-3*1"
+                  "source": "PET>0-3*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 212,
                   "qty": 1,
-                  "source": "PET>0-212*1"
+                  "source": "PET>0-212*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 213,
                   "qty": 1,
-                  "source": "PET>0-213*1"
+                  "source": "PET>0-213*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -124556,14 +124603,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 113,
                   "qty": 2,
-                  "source": "PET>0-113*2"
+                  "source": "PET>0-113*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 114,
                   "qty": 2,
-                  "source": "PET>0-114*2"
+                  "source": "PET>0-114*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -124606,14 +124655,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 41,
                   "qty": 1,
-                  "source": "PET>0-41*1"
+                  "source": "PET>0-41*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 42,
                   "qty": 1,
-                  "source": "PET>0-42*1"
+                  "source": "PET>0-42*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -124656,28 +124707,32 @@ export const WORLD = {
                   "level": 0,
                   "petId": 11,
                   "qty": 1,
-                  "source": "PET>0-11*1"
+                  "source": "PET>0-11*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 13,
                   "qty": 1,
-                  "source": "PET>0-13*1"
+                  "source": "PET>0-13*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 291,
                   "qty": 1,
-                  "source": "PET>0-291*1"
+                  "source": "PET>0-291*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 294,
                   "qty": 1,
-                  "source": "PET>0-294*1"
+                  "source": "PET>0-294*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -124720,28 +124775,32 @@ export const WORLD = {
                   "level": 0,
                   "petId": 111,
                   "qty": 1,
-                  "source": "PET>0-111*1"
+                  "source": "PET>0-111*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 112,
                   "qty": 1,
-                  "source": "PET>0-112*1"
+                  "source": "PET>0-112*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 113,
                   "qty": 1,
-                  "source": "PET>0-113*1"
+                  "source": "PET>0-113*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 114,
                   "qty": 1,
-                  "source": "PET>0-114*1"
+                  "source": "PET>0-114*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -124784,35 +124843,40 @@ export const WORLD = {
                   "level": 0,
                   "petId": 81,
                   "qty": 1,
-                  "source": "PET>0-81*1"
+                  "source": "PET>0-81*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 332,
                   "qty": 1,
-                  "source": "PET>0-332*1"
+                  "source": "PET>0-332*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 44,
                   "qty": 1,
-                  "source": "PET>0-44*1"
+                  "source": "PET>0-44*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 223,
                   "qty": 1,
-                  "source": "PET>0-223*1"
+                  "source": "PET>0-223*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 242,
                   "qty": 1,
-                  "source": "PET>0-242*1"
+                  "source": "PET>0-242*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -136885,7 +136949,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 913,
                   "qty": 1,
-                  "source": "PET>0-913*1"
+                  "source": "PET>0-913*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             }
@@ -139448,14 +139513,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 31,
                   "qty": 2,
-                  "source": "PET>0-31*2"
+                  "source": "PET>0-31*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 32,
                   "qty": 2,
-                  "source": "PET>0-32*2"
+                  "source": "PET>0-32*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -139498,14 +139565,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 62,
                   "qty": 2,
-                  "source": "PET>0-62*2"
+                  "source": "PET>0-62*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 33,
                   "qty": 2,
-                  "source": "PET>0-33*2"
+                  "source": "PET>0-33*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -139548,14 +139617,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 292,
                   "qty": 2,
-                  "source": "PET>0-292*2"
+                  "source": "PET>0-292*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 293,
                   "qty": 2,
-                  "source": "PET>0-293*2"
+                  "source": "PET>0-293*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -139598,28 +139669,32 @@ export const WORLD = {
                   "level": 0,
                   "petId": 21,
                   "qty": 1,
-                  "source": "PET>0-21*1"
+                  "source": "PET>0-21*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 22,
                   "qty": 1,
-                  "source": "PET>0-22*1"
+                  "source": "PET>0-22*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 23,
                   "qty": 1,
-                  "source": "PET>0-23*1"
+                  "source": "PET>0-23*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 24,
                   "qty": 1,
-                  "source": "PET>0-24*1"
+                  "source": "PET>0-24*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -139662,35 +139737,40 @@ export const WORLD = {
                   "level": 0,
                   "petId": 331,
                   "qty": 1,
-                  "source": "PET>0-331*1"
+                  "source": "PET>0-331*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 184,
                   "qty": 1,
-                  "source": "PET>0-184*1"
+                  "source": "PET>0-184*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 172,
                   "qty": 1,
-                  "source": "PET>0-172*1"
+                  "source": "PET>0-172*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 243,
                   "qty": 1,
-                  "source": "PET>0-243*1"
+                  "source": "PET>0-243*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 22,
                   "qty": 1,
-                  "source": "PET>0-22*1"
+                  "source": "PET>0-22*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -142912,7 +142992,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 953,
                   "qty": 1,
-                  "source": "PET>0-953*1"
+                  "source": "PET>0-953*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -142962,7 +143043,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 953,
                   "qty": 1,
-                  "source": "PET>0-953"
+                  "source": "PET>0-953",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -143050,7 +143132,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 961,
                   "qty": 1,
-                  "source": "PET>0-961*1"
+                  "source": "PET>0-961*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -143097,7 +143180,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 961,
                   "qty": 1,
-                  "source": "PET>0-961*1"
+                  "source": "PET>0-961*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -143249,7 +143333,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 962,
                   "qty": 1,
-                  "source": "PET>0-962*1"
+                  "source": "PET>0-962*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -143373,7 +143458,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 962,
                   "qty": 1,
-                  "source": "PET>0-962*1"
+                  "source": "PET>0-962*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             }
@@ -171563,7 +171649,8 @@ export const WORLD = {
                   "level": 14,
                   "petId": 524,
                   "qty": 1,
-                  "source": "PET>14-524"
+                  "source": "PET>14-524",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -171615,7 +171702,8 @@ export const WORLD = {
                   "level": 14,
                   "petId": 524,
                   "qty": 1,
-                  "source": "PET>14-524"
+                  "source": "PET>14-524",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -180905,14 +180993,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 101,
                   "qty": 2,
-                  "source": "PET>0-101*2"
+                  "source": "PET>0-101*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 104,
                   "qty": 2,
-                  "source": "PET>0-104*2"
+                  "source": "PET>0-104*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -180955,14 +181045,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 31,
                   "qty": 2,
-                  "source": "PET>0-31*2"
+                  "source": "PET>0-31*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 32,
                   "qty": 2,
-                  "source": "PET>0-32*2"
+                  "source": "PET>0-32*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -181005,14 +181097,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 14,
                   "qty": 2,
-                  "source": "PET>0-14*2"
+                  "source": "PET>0-14*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 211,
                   "qty": 2,
-                  "source": "PET>0-211*2"
+                  "source": "PET>0-211*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -181055,14 +181149,16 @@ export const WORLD = {
                   "level": 0,
                   "petId": 21,
                   "qty": 2,
-                  "source": "PET>0-21*2"
+                  "source": "PET>0-21*2",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 22,
                   "qty": 2,
-                  "source": "PET>0-22*2"
+                  "source": "PET>0-22*2",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -181220,28 +181316,32 @@ export const WORLD = {
                   "level": 0,
                   "petId": 181,
                   "qty": 1,
-                  "source": "PET>0-181*1"
+                  "source": "PET>0-181*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 182,
                   "qty": 1,
-                  "source": "PET>0-182*1"
+                  "source": "PET>0-182*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 183,
                   "qty": 1,
-                  "source": "PET>0-183*1"
+                  "source": "PET>0-183*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 184,
                   "qty": 1,
-                  "source": "PET>0-184*1"
+                  "source": "PET>0-184*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -181284,35 +181384,40 @@ export const WORLD = {
                   "level": 0,
                   "petId": 332,
                   "qty": 1,
-                  "source": "PET>0-332*1"
+                  "source": "PET>0-332*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 43,
                   "qty": 1,
-                  "source": "PET>0-43*1"
+                  "source": "PET>0-43*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 172,
                   "qty": 1,
-                  "source": "PET>0-172*1"
+                  "source": "PET>0-172*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 242,
                   "qty": 1,
-                  "source": "PET>0-242*1"
+                  "source": "PET>0-242*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 183,
                   "qty": 1,
-                  "source": "PET>0-183*1"
+                  "source": "PET>0-183*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -191151,7 +191256,8 @@ export const WORLD = {
                   "level": 1,
                   "petId": 8,
                   "qty": 1,
-                  "source": "PET>1-8*1"
+                  "source": "PET>1-8*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -194878,7 +194984,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 758,
                   "qty": 1,
-                  "source": "PET>0-758"
+                  "source": "PET>0-758",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -195203,7 +195310,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 854,
                   "qty": 1,
-                  "source": "PET>0-854"
+                  "source": "PET>0-854",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -201727,7 +201835,8 @@ export const WORLD = {
                   "level": 0,
                   "petId": 810,
                   "qty": 1,
-                  "source": "PET>0-810*1"
+                  "source": "PET>0-810*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -203912,21 +204021,24 @@ export const WORLD = {
                   "level": 1,
                   "petId": 905,
                   "qty": 1,
-                  "source": "PET=1-905*1"
+                  "source": "PET=1-905*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": "=",
                   "level": 1,
                   "petId": 786,
                   "qty": 1,
-                  "source": "PET=1-786*1"
+                  "source": "PET=1-786*1",
+                  "sourceAction": "DelPet"
                 },
                 {
                   "op": ">",
                   "level": 0,
                   "petId": 854,
                   "qty": 1,
-                  "source": "PET>0-854*1"
+                  "source": "PET>0-854*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -228803,7 +228915,8 @@ export const WORLD = {
                   "level": 19,
                   "petId": 99,
                   "qty": 1,
-                  "source": "PET>19-99*1"
+                  "source": "PET>19-99*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -235200,7 +235313,17 @@ export const WORLD = {
               "delStones": [],
               "cleanFlags": [],
               "nowSetFlags": [],
-              "endSetFlags": []
+              "endSetFlags": [],
+              "delPets": [
+                {
+                  "op": ">",
+                  "level": 0,
+                  "petId": 97,
+                  "qty": 1,
+                  "source": "PET>0-97*1",
+                  "sourceAction": "NewDelPet"
+                }
+              ]
             },
             {
               "source": "gmsv-data/npc/sa70/class/aquest2",
@@ -246344,7 +246467,8 @@ export const WORLD = {
                   "level": 14,
                   "petId": 74,
                   "qty": 1,
-                  "source": "PET>14-74*1"
+                  "source": "PET>14-74*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },
@@ -246383,7 +246507,8 @@ export const WORLD = {
                   "level": 29,
                   "petId": 191,
                   "qty": 1,
-                  "source": "PET>29-191*1"
+                  "source": "PET>29-191*1",
+                  "sourceAction": "DelPet"
                 }
               ]
             },

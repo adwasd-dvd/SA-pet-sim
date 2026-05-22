@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T19:42:10.097Z",
+  "generatedAt": "2026-05-22T00:21:12.097Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -7,9 +7,9 @@
     "worldNpcs": 1749,
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
-    "parsedActionKinds": 24,
-    "unsupportedCandidateKeys": 24,
-    "candidateActionKeys": 7,
+    "parsedActionKinds": 25,
+    "unsupportedCandidateKeys": 23,
+    "candidateActionKeys": 6,
     "unknownKeys": 17
   },
   "profiles": {
@@ -59,7 +59,7 @@
         "MessagePages": 217,
         "GetStone": 119,
         "GetPet": 65,
-        "DelPet": 63,
+        "DelPet": 64,
         "KeyWord": 60,
         "NpcWarp": 57,
         "EndSetFlg": 56,
@@ -76,7 +76,8 @@
         "DelItemEVDEL": 6,
         "NotDel": 6,
         "Charm": 2,
-        "Pet_Name": 2
+        "Pet_Name": 2,
+        "NewDelPet": 1
       },
       "eventTypes": {
         "MESSAGE": 1188,
@@ -218,9 +219,9 @@
       "supported-config": 9690,
       "supported-message": 15686,
       "unknown": 37,
-      "candidate-action": 13,
+      "candidate-action": 12,
       "condition-control": 12055,
-      "supported-action": 3931,
+      "supported-action": 3932,
       "blocked-or-later-system": 193
     },
     "keyRecords": [
@@ -7807,7 +7808,7 @@
       {
         "key": "NewDelPet",
         "normalized": "newdelpet",
-        "category": "candidate-action",
+        "category": "supported-action",
         "occurrences": 1,
         "files": 1,
         "profiles": {
@@ -13895,8 +13896,8 @@
         ]
       }
     ],
-    "unsupportedCandidateTotal": 24,
-    "candidateActionKeyCount": 7,
+    "unsupportedCandidateTotal": 23,
+    "candidateActionKeyCount": 6,
     "unknownKeyCount": 17,
     "unsupportedCandidates": [
       {
@@ -14540,38 +14541,6 @@
             "file": "external/sources/ref___data/npc/roulette/roulette01.arg",
             "line": 5,
             "text": "loop_tme:1000"
-          }
-        ]
-      },
-      {
-        "key": "NewDelPet",
-        "normalized": "newdelpet",
-        "category": "candidate-action",
-        "occurrences": 1,
-        "files": 1,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/sa70/class/aquest2",
-            "line": 14,
-            "text": "NewDelPet:PET>0-97*1"
           }
         ]
       },

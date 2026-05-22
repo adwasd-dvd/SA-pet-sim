@@ -27,6 +27,7 @@ const PARSED_EVENT_ACTIONS = [
   "DelItem",
   "DelItemEVDEL",
   "DelPet",
+  "NewDelPet",
   "DelStone",
   "EndSetFlg",
   "GetItem",
@@ -58,6 +59,7 @@ const ACTION_KEYS = new Set([
   "delgold",
   "delitem",
   "delpet",
+  "newdelpet",
   "delstone",
   "endsetflag",
   "endsetflg",
@@ -775,6 +777,7 @@ function scriptEventActions(event) {
   if (event.getPets?.length) actions.push("GetPet");
   if (event.getPets?.some((pet) => pet?.source === "AddPet")) actions.push("AddPet");
   if (event.delPets?.length) actions.push("DelPet");
+  if (event.delPets?.some((pet) => pet?.sourceAction === "NewDelPet")) actions.push("NewDelPet");
   if (event.nowSetFlags?.length) actions.push("NowSetFlg");
   if (event.endSetFlags?.length) actions.push("EndSetFlg");
   if (event.cleanFlags?.length) actions.push("CleanFlg");

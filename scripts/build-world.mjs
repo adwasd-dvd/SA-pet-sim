@@ -1831,7 +1831,11 @@ function parseNpcScriptEventBlock(rawBlock, file) {
       continue;
     }
     if (key === "delpet") {
-      rawDelPetSpecs.push(value);
+      rawDelPetSpecs.push({ value, sourceAction: "DelPet" });
+      continue;
+    }
+    if (key === "newdelpet") {
+      rawDelPetSpecs.push({ value, sourceAction: "NewDelPet" });
       continue;
     }
     if (key === "endsetflg" || key === "endsetflag") {
@@ -1977,7 +1981,11 @@ function parseNpcFreeScriptEvents(text, file) {
       continue;
     }
     if (key === "delpet") {
-      rawDelPetSpecs.push(value);
+      rawDelPetSpecs.push({ value, sourceAction: "DelPet" });
+      continue;
+    }
+    if (key === "newdelpet") {
+      rawDelPetSpecs.push({ value, sourceAction: "NewDelPet" });
       continue;
     }
     if (key === "endsetflg" || key === "endsetflag") {
@@ -2012,7 +2020,11 @@ function parseNpcFreeScriptEvents(text, file) {
 }
 
 function finalizeNpcScriptEvent(event, getPets = [], rawDelPetSpecs = []) {
-  const delPets = rawDelPetSpecs.flatMap((value) => parseScriptDelPetSpecs(value, event.condition));
+  const delPets = rawDelPetSpecs.flatMap((spec) => {
+    const value = typeof spec === "string" ? spec : spec?.value;
+    const sourceAction = typeof spec === "string" ? "DelPet" : spec?.sourceAction || "DelPet";
+    return parseScriptDelPetSpecs(value, event.condition).map((pet) => ({ ...pet, sourceAction }));
+  });
   const messagePages = Object.fromEntries(
     Object.entries(event.messagePages)
       .map(([key, pages]) => [key, pages.filter(Boolean)])

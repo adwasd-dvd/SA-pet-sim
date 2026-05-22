@@ -8131,6 +8131,7 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
     }
   }
   for (const pet of runtimeEvent.delPets || []) {
+    const sourceAction = pet.sourceAction || "DelPet";
     const taken = runNpcVmAction(game, npc, {
       type: "takePet",
       petId: pet.petId,
@@ -8138,9 +8139,10 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       level: pet.level,
       op: pet.op,
       qty: pet.qty,
+      sourceAction,
       sourceCondition: pet.source,
       ...detail,
-      reason: options.takePetReason || "source-changeevent-delpet"
+      reason: options.takePetReason || (sourceAction === "NewDelPet" ? "source-eventaction-newdelpet" : "source-changeevent-delpet")
     });
     if (!taken.ok) {
       recordNpcVmEvent(game, npc, "quest", "blocked", { ...detail, phase, reason: taken.error || "take-pet-failed", petId: pet.petId, petName: pet.petName || conditionPetName(game, pet.petId) });
@@ -8287,7 +8289,8 @@ function sourceScriptRuntimeDelPets(game, event) {
       continue;
     }
     const condition = sourceScriptEventConditionStatus(game, event);
-    out.push(...parseSourceScriptPetConditionSpecs(condition.matched || "", event.petName));
+    out.push(...parseSourceScriptPetConditionSpecs(condition.matched || "", event.petName)
+      .map((resolved) => ({ ...resolved, sourceAction: pet.sourceAction || "DelPet" })));
   }
   return out;
 }
