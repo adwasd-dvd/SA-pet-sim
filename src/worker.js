@@ -12606,6 +12606,7 @@ function npcDebugInfo(npc, game = null) {
     newNpcMan: buildNewNpcManState(game, npc),
     routeService: buildRouteServiceState(game, npc),
     professionShop: buildProfessionShopState(game, npc),
+    timeMan: npc.timeMan || null,
     actions,
     allowedActions: actions.filter((action) => NPC_VM_ACTIONS.has(action)),
     supportedActions: [...NPC_VM_ACTIONS],
@@ -14662,6 +14663,7 @@ function buildGuideContext(game, map, prompt = "") {
         status: npc.warpStatus || compactNpcWarpStatus(game, npc)
       } : null,
       scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc),
+      timeMan: npc.timeMan || null,
       source: npc.source,
       script: npc.script,
       scriptHints: npc.scriptHints || null

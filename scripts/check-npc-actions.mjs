@@ -864,6 +864,11 @@ signboardGame = await api("/api/game/talk", { game: signboardGame, npcId: island
 const signboardReply = signboardGame.dialog?.messages?.find((message) => message.speaker === "npc")?.text || "";
 assert(signboardReply.includes("第1检查点") && signboardReply.includes("柯尔克宠物店") && signboardReply.includes("名字叫什么"), "source signboard talk displays the full checkpoint question");
 assert(!signboardReply.includes("脚本入口"), "source signboard talk no longer leaks script-entry fallback");
+const timeManNpc = WORLD.maps["400"]?.npcs.find((npc) => npc.type === "TimeMan" && String(npc.script || "").includes("tman_400_85_102"));
+if (!timeManNpc) throw new Error("missing TimeMan fixture");
+assertEqual(timeManNpc.timeMan?.time, "AFTER", "source TimeMan parses time window");
+assertEqual(timeManNpc.timeMan?.changeGraphic, 16204, "source TimeMan parses change_no as alternate graphic metadata");
+assert(timeManNpc.scriptHints?.actions?.includes("timeMan"), "source TimeMan script hints expose timeMan metadata");
 assertEqual(WORLD.quests["samugiru-arena-tour"]?.playerFacing, false, "arena tour remains staged as full-dev content");
 assert(!teacher.questIds?.includes("samugiru-arena-tour"), "teacher default quest chain excludes non-core arena tour");
 await expectApiError(

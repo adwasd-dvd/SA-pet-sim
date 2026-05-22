@@ -53387,9 +53387,26 @@ export const WORLD = {
           "script": "file:genout/tman_400_85_102",
           "template": "npcgen_timeman",
           "graphic": "16202",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_400_85_102",
+            "time": "AFTER",
+            "changeNo": "16204",
+            "changeGraphic": 16204,
+            "hiddenOnChange": false,
+            "mainMessage": "有太阳的时候，不可以从这里进入梦幻洞窟",
+            "changeMessage": "太阳下山后，就可以从这里进入梦幻洞窟了。"
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER",
+              "ChangeNo:16204",
+              "ChangeMsg:太阳下山后，就可以从这里进入梦幻洞窟了。"
+            ],
             "source": "gmsv-data/npc/genout/tman_400_85_102"
           }
         },
@@ -53407,9 +53424,26 @@ export const WORLD = {
           "script": "file:genout/tman_400_88_102",
           "template": "npcgen_timeman",
           "graphic": "16201",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_400_88_102",
+            "time": "AFTER",
+            "changeNo": "16204",
+            "changeGraphic": 16204,
+            "hiddenOnChange": false,
+            "mainMessage": "有太阳的时候，不可以从这里进入梦幻洞窟",
+            "changeMessage": "太阳下山后，就可以从这里进入梦幻洞窟了。"
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER",
+              "ChangeNo:16204",
+              "ChangeMsg:太阳下山后，就可以从这里进入梦幻洞窟了。"
+            ],
             "source": "gmsv-data/npc/genout/tman_400_88_102"
           }
         },
@@ -53427,9 +53461,26 @@ export const WORLD = {
           "script": "file:genout/tman_400_95_120",
           "template": "npcgen_timeman",
           "graphic": "16203",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_400_95_120",
+            "time": "AFTER",
+            "changeNo": "16200",
+            "changeGraphic": 16200,
+            "hiddenOnChange": false,
+            "mainMessage": "有太阳的时候，可以从这里进入梦幻洞窟",
+            "changeMessage": "晚上没办法从这里进入，请到另一边的入口。"
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER",
+              "ChangeNo:16200",
+              "ChangeMsg:晚上没办法从这里进入，请到另一边的入口。"
+            ],
             "source": "gmsv-data/npc/genout/tman_400_95_120"
           }
         },
@@ -53447,9 +53498,26 @@ export const WORLD = {
           "script": "file:genout/tman_400_98_120",
           "template": "npcgen_timeman",
           "graphic": "16202",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_400_98_120",
+            "time": "AFTER",
+            "changeNo": "16200",
+            "changeGraphic": 16200,
+            "hiddenOnChange": false,
+            "mainMessage": "有太阳的时候，可以从这里进入梦幻洞窟",
+            "changeMessage": "晚上没办法从这里进入，请到另一边的入口。"
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER",
+              "ChangeNo:16200",
+              "ChangeMsg:晚上没办法从这里进入，请到另一边的入口。"
+            ],
             "source": "gmsv-data/npc/genout/tman_400_98_120"
           }
         },
@@ -66512,9 +66580,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_109_63",
           "template": "npcgen_timeman",
           "graphic": "16013",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_109_63",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "欢迎光临，我是新来的美露露，请多指教。,我笨手笨脚的常惹老板生气。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_109_63"
           }
         },
@@ -66535,9 +66617,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_119_65",
           "template": "npcgen_timeman",
           "graphic": "16025",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_119_65",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "欢迎光临，想喝点什么吗？,请慢慢享受。,这间店“ＢＡＲ Ｓｉｌｋｙ ＣＬＵＢ”是连锁店，在其它村庄也有。这间就是萨姆吉尔店。,不可对店里的女生动手动脚，因为有小孩子会进来。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_119_65"
           }
         },
@@ -66556,9 +66652,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_116_66",
           "template": "npcgen_timeman",
           "graphic": "16016",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_116_66",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "辛苦工作一整天后，喝个一杯很舒服呢！但也不可喝过多免得跑出啤酒肚。,想去吉鲁岛是有办法的…这我也知道啊。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_116_66"
           }
         },
@@ -66577,9 +66687,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_116_69",
           "template": "npcgen_timeman",
           "graphic": "16015",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_116_69",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "欢迎光临，那里有空位！,喔～是这样吗？常常都有人说我长得很可爱呢！",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_116_69"
           }
         },
@@ -66604,9 +66728,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_42_72",
           "template": "npcgen_timeman",
           "graphic": "16002",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_42_72",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "我是萨姆吉尔的老师，想知道任何事情我都可以为你解答。,这个村庄之所以名为萨姆吉尔，就是取自于开创英雄萨姆吉尔的名号。,说起萨姆吉尔，在村子中央有一座他的石像。我年轻时可以抱得动它唷。什么！你不相信啊？,在这个世界，成人之后会被视为已经可以独当一面。经过成人礼之后，许多地方就无法成行了。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_42_72"
           },
           "questIds": [
@@ -66630,9 +66768,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_39_75",
           "template": "npcgen_timeman",
           "graphic": "16004",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_39_75",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "所谓的恋爱方程式…",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_39_75"
           }
         },
@@ -66650,9 +66802,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_42_75",
           "template": "npcgen_timeman",
           "graphic": "16006",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_42_75",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "１加１等于２，２加２等于４，３加３等于６…",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_42_75"
           }
         },
@@ -66670,9 +66836,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_36_78",
           "template": "npcgen_timeman",
           "graphic": "16005",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_36_78",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "哈哈老师不知道！",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_36_78"
           }
         },
@@ -66690,9 +66870,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_42_79",
           "template": "npcgen_timeman",
           "graphic": "16011",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_42_79",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "老师上课好无聊喔！来玩游戏嘛！",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_42_79"
           }
         },
@@ -66710,9 +66904,23 @@ export const WORLD = {
           "script": "file:genout/tman_1000_42_81",
           "template": "npcgen_timeman",
           "graphic": "16003",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1000_42_81",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "那个乌力斯坦是头牛还是山猪啊？",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1000_42_81"
           }
         },
@@ -96974,9 +97182,23 @@ export const WORLD = {
           "script": "file:genout/tman_1200_72_63",
           "template": "npcgen_timeman",
           "graphic": "16008",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1200_72_63",
+            "time": "AFTER",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "肚子好饿唷。这块肉不知道可不可以吃呢？",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER"
+            ],
             "source": "gmsv-data/npc/genout/tman_1200_72_63"
           }
         },
@@ -101064,9 +101286,23 @@ export const WORLD = {
           "script": "file:genout/tman_1300_37_26",
           "template": "npcgen_timeman",
           "graphic": "16033",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1300_37_26",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "阳光太强对肌肤不好。所以我才躲在树下。,这的岛的南边好像有迷宫哦。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1300_37_26"
           }
         },
@@ -101085,9 +101321,23 @@ export const WORLD = {
           "script": "file:genout/tman_1300_37_26",
           "template": "npcgen_timeman",
           "graphic": "16033",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_1300_37_26",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "阳光太强对肌肤不好。所以我才躲在树下。,这的岛的南边好像有迷宫哦。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_1300_37_26"
           }
         },
@@ -112227,9 +112477,23 @@ export const WORLD = {
           "script": "file:genout/tman_2000_81_85",
           "template": "npcgen_timeman",
           "graphic": "16016",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_2000_81_85",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "一到晚上就回家的也大有人在。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_2000_81_85"
           }
         },
@@ -112248,9 +112512,23 @@ export const WORLD = {
           "script": "file:genout/tman_2000_79_89",
           "template": "npcgen_timeman",
           "graphic": "16033",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_2000_79_89",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "一到黑夜就变得跟白天判若两人的人也是不少，真可怕！当然一到晚上就回家的也大有人在。,最近一位叫里奥的，喜欢玩躲迷藏的小男孩很有名哦。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_2000_79_89"
           }
         },
@@ -112269,9 +112547,23 @@ export const WORLD = {
           "script": "file:genout/tman_2000_80_97",
           "template": "npcgen_timeman",
           "graphic": "16021",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_2000_80_97",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "啊～真是太忙碌了…那些小鬼头不知跑到那儿去玩了。,天气很晴朗衣服一定很快就晒干了。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_2000_80_97"
           }
         },
@@ -156107,9 +156399,23 @@ export const WORLD = {
           "script": "file:genout/tman_3100_64_40",
           "template": "npcgen_timeman",
           "graphic": "16009",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3100_64_40",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "我要在花园里制作花冠～。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_3100_64_40"
           }
         },
@@ -156127,9 +156433,23 @@ export const WORLD = {
           "script": "file:genout/tman_3100_55_43",
           "template": "npcgen_timeman",
           "graphic": "16027",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3100_55_43",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "我曾听人家过在这个大陆的某处有小矮人的村庄喔。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_3100_55_43"
           }
         },
@@ -159927,9 +160247,23 @@ export const WORLD = {
           "script": "file:genout/tman_3200_74_48",
           "template": "npcgen_timeman",
           "graphic": "16024",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3200_74_48",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "呃、呼～，喝酒时最好的下酒菜果然还是辣妹。只有这个是怎么戒也戒不掉的，呃、呼～。,这个村子里最有价值的东西！？···到底是什么啊？呃、呼～,不死鸟就是像火焰燃烧一样红色的鸟啊，呃、呼～",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_3200_74_48"
           }
         },
@@ -159949,9 +160283,23 @@ export const WORLD = {
           "script": "file:genout/tman_3200_76_48",
           "template": "npcgen_timeman",
           "graphic": "16014",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3200_76_48",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "刚才旁边那位老爷爷偷摸我的屁股，如果他敢再摸第二次的话，以后就不准他来了。,有价值的东西？那种事你去问老板吧。,不死鸟？是那个只红色的鸟吗···。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_3200_76_48"
           }
         },
@@ -159971,9 +160319,23 @@ export const WORLD = {
           "script": "file:genout/tman_3200_76_49",
           "template": "npcgen_timeman",
           "graphic": "16007",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3200_76_49",
+            "time": "AFTER",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "“呃、呼～”这个是在学那个医生。,我也好想玩捉迷藏哦～。,如果乌鸦叫了的话我就要回家了。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER"
+            ],
             "source": "gmsv-data/npc/genout/tman_3200_76_49"
           }
         },
@@ -159993,9 +160355,23 @@ export const WORLD = {
           "script": "file:genout/tman_3200_73_50",
           "template": "npcgen_timeman",
           "graphic": "16010",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3200_73_50",
+            "time": "AFTER",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "在这里玩老板和客人的游戏很好玩喔。,到了晚上的话店里的叔叔会生气只好回家。,价值，那是什么啊？",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:AFTER"
+            ],
             "source": "gmsv-data/npc/genout/tman_3200_73_50"
           }
         },
@@ -160016,9 +160392,23 @@ export const WORLD = {
           "script": "file:genout/tman_3200_79_50",
           "template": "npcgen_timeman",
           "graphic": "16025",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3200_79_50",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "欢迎光临。欢迎来到“ＢＡＲ Ｓｉｌｋｙ ＣＬＵＢ”多多分店。,您想喝点什么吗？来一杯这里的特选鸡尾酒怎么样呢？是用本村的果实做的哦。,希望您在这里能很愉快。,请不要对店里的女孩子伸出禄山之爪哦，最近有很多女孩子向我抱怨有客人···。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_3200_79_50"
           }
         },
@@ -160037,9 +160427,23 @@ export const WORLD = {
           "script": "file:genout/tman_3200_75_53",
           "template": "npcgen_timeman",
           "graphic": "16013",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_3200_75_53",
+            "time": "ALLNIGHT",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "欢迎光临，本店的招牌调酒的特调鸡尾酒怎么样呢？,如果说到有价值的东西，那当然是我们店里的鸡尾酒了。你说是不是呢，老板？",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNIGHT"
+            ],
             "source": "gmsv-data/npc/genout/tman_3200_75_53"
           }
         },
@@ -172390,9 +172794,23 @@ export const WORLD = {
           "script": "file:genout/tman_4000_57_103",
           "template": "npcgen_timeman",
           "graphic": "16002",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_4000_57_103",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "我是卡鲁它那的老师，如果你想知道什么事我可以教你。,这个村子叫做卡鲁它那，是在海中用土填海所盖出来的村子。,我在年轻的时候也是很有女人缘的…干什么用那种眼光看我。你在怀疑我所说的话吗？你这臭小子。,在这世界上的某处，有种被称之为成人式的仪式，可以让别人认同你已经是个成人。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_4000_57_103"
           }
         },
@@ -172411,9 +172829,23 @@ export const WORLD = {
           "script": "file:genout/tman_4000_52_109",
           "template": "npcgen_timeman",
           "graphic": "16004",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_4000_52_109",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "嗯～，恋爱的方程式是…。,啊，肚子饿了～。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_4000_52_109"
           }
         },
@@ -172432,9 +172864,23 @@ export const WORLD = {
           "script": "file:genout/tman_4000_55_109",
           "template": "npcgen_timeman",
           "graphic": "16011",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_4000_55_109",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "真是有够无聊。,真想早点出去玩。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_4000_55_109"
           }
         },
@@ -172452,9 +172898,23 @@ export const WORLD = {
           "script": "file:genout/tman_4000_58_109",
           "template": "npcgen_timeman",
           "graphic": "16003",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_4000_58_109",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "不晓得世界上有没有全部都是石头的村子？",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_4000_58_109"
           }
         },
@@ -172472,9 +172932,23 @@ export const WORLD = {
           "script": "file:genout/tman_4000_52_112",
           "template": "npcgen_timeman",
           "graphic": "16006",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_4000_52_112",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "总之先举手就对了…。我回答的出来吗？",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_4000_52_112"
           }
         },
@@ -172493,9 +172967,23 @@ export const WORLD = {
           "script": "file:genout/tman_4000_55_112",
           "template": "npcgen_timeman",
           "graphic": "16005",
+          "timeMan": {
+            "kind": "time-man",
+            "source": "gmsv-data/npc/genout/tman_4000_55_112",
+            "time": "ALLNOON",
+            "changeGraphic": 0,
+            "hiddenOnChange": false,
+            "mainMessage": "老师、老师、我这里不太懂。,老师是不是没听到啊？﹋T_T﹌我从刚刚就一直举着手说…。",
+            "changeMessage": ""
+          },
           "scriptHints": {
-            "actions": [],
-            "hints": [],
+            "actions": [
+              "timeMan",
+              "say"
+            ],
+            "hints": [
+              "Time:ALLNOON"
+            ],
             "source": "gmsv-data/npc/genout/tman_4000_55_112"
           }
         },

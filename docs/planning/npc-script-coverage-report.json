@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T00:21:12.097Z",
+  "generatedAt": "2026-05-22T02:18:12.648Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -8,8 +8,8 @@
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
     "parsedActionKinds": 25,
-    "unsupportedCandidateKeys": 23,
-    "candidateActionKeys": 6,
+    "unsupportedCandidateKeys": 22,
+    "candidateActionKeys": 5,
     "unknownKeys": 17
   },
   "profiles": {
@@ -216,10 +216,10 @@
   "rawKeyCoverage": {
     "rawLines": 130591,
     "byCategory": {
-      "supported-config": 9690,
+      "supported-config": 9694,
       "supported-message": 15686,
       "unknown": 37,
-      "candidate-action": 12,
+      "candidate-action": 8,
       "condition-control": 12055,
       "supported-action": 3932,
       "blocked-or-later-system": 193
@@ -1653,7 +1653,7 @@
       {
         "key": "change_no",
         "normalized": "change_no",
-        "category": "candidate-action",
+        "category": "supported-config",
         "occurrences": 4,
         "files": 4,
         "profiles": {
@@ -13896,8 +13896,8 @@
         ]
       }
     ],
-    "unsupportedCandidateTotal": 23,
-    "candidateActionKeyCount": 6,
+    "unsupportedCandidateTotal": 22,
+    "candidateActionKeyCount": 5,
     "unknownKeyCount": 17,
     "unsupportedCandidates": [
       {
@@ -13949,53 +13949,6 @@
             "file": "external/sources/ref___data/npc/777/ten.arg",
             "line": 50,
             "text": "TENSEI:5"
-          }
-        ]
-      },
-      {
-        "key": "change_no",
-        "normalized": "change_no",
-        "category": "candidate-action",
-        "occurrences": 4,
-        "files": 4,
-        "profiles": {
-          "classic-core": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-rebirth": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.0": {
-            "occurrences": 0,
-            "files": 0
-          },
-          "classic-advanced-2.5": {
-            "occurrences": 0,
-            "files": 0
-          }
-        },
-        "samples": [
-          {
-            "file": "external/sources/ref___data/npc/genout/tman_400_85_102",
-            "line": 4,
-            "text": "change_no:16204"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/tman_400_88_102",
-            "line": 4,
-            "text": "change_no:16204"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/tman_400_95_120",
-            "line": 4,
-            "text": "change_no:16200"
-          },
-          {
-            "file": "external/sources/ref___data/npc/genout/tman_400_98_120",
-            "line": 4,
-            "text": "change_no:16200"
           }
         ]
       },

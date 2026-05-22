@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-22T00:21:12.097Z
+Generated: 2026-05-22T02:18:12.648Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -13,8 +13,8 @@ This report is generated from local NPC source files and generated world data. I
 | Generated script NPCs | 394 |
 | Generated script events | 1725 |
 | Parsed action kinds | 25 |
-| Unsupported/unknown raw keys | 23 |
-| Candidate action keys | 6 |
+| Unsupported/unknown raw keys | 22 |
+| Candidate action keys | 5 |
 | Unknown raw keys | 17 |
 
 ## Profile Impact
@@ -66,7 +66,6 @@ These are not automatically bugs. Some belong to later systems or config files. 
 | Key | Category | classic-core refs | rebirth refs | advanced-2.5 refs | Total refs | Sample |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | TENSEI | unknown | 0 | 0 | 0 | 11 | external/sources/ref___data/npc/777/ten.arg:17 |
-| change_no | candidate-action | 0 | 0 | 0 | 4 | external/sources/ref___data/npc/genout/tman_400_85_102:4 |
 | B_evnow | unknown | 0 | 0 | 0 | 3 | external/sources/ref___data/npc/eden2/kraken/ev88_07.arg:14 |
 | showstopx | unknown | 0 | 0 | 0 | 3 | external/sources/ref___data/npc/casino/petracepet1.arg:2 |
 | showstopy | unknown | 0 | 0 | 0 | 3 | external/sources/ref___data/npc/casino/petracepet1.arg:3 |

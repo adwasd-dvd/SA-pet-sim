@@ -208,6 +208,7 @@ const SUPPORTED_CONFIG_KEYS = new Set([
   "cost",
   "costfame",
   "costpoint",
+  "change_no",
   "changeitem",
   "changeitemcost",
   "changemsg",

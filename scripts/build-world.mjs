@@ -472,9 +472,10 @@ function parseNpcs() {
       const warp = readNpcWarp(argPath, file);
       const npcEnemy = readNpcEnemy(argPath, file, functionset);
       const scriptEvents = readNpcScriptEvents(argPath, file, functionset);
+      const timeMan = readNpcTimeMan(argPath, file, functionset, enemy.template);
       const name = cleanName(kv.name || template.name || functionset);
       const dialogue = readNpcDialogue(argPath, file, functionset, enemy.template);
-      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan);
+      const scriptHints = npcScriptHints(argPath, file, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan, timeMan);
       const npc = {
         id: `${floor}-${pos[0]}-${pos[1]}-${idCounter + 1}`,
         name: name || functionset,
@@ -504,6 +505,7 @@ function parseNpcs() {
         ...(warp ? { warp } : {}),
         ...(npcEnemy ? { npcEnemy } : {}),
         ...(scriptEvents?.length ? { scriptEvents } : {}),
+        ...(timeMan ? { timeMan } : {}),
         ...(scriptHints ? { scriptHints } : {})
       };
       const questLead = questLeadForNpc(npc, scriptHints);
@@ -867,6 +869,28 @@ function readNpcDialogue(argPath, createFile, functionset = "", template = "") {
   const signboard = readSignboardDialogue(text, file, argPath, functionset, template);
   if (signboard) return signboard;
   return { text: `脚本入口：${relativeRef(file)}`, lines: [] };
+}
+
+function readNpcTimeMan(argPath, createFile, functionset = "", template = "") {
+  const file = resolveNpcArg(argPath, createFile);
+  if (!file) return null;
+  const identity = `${functionset} ${template} ${argPath} ${path.basename(file)}`;
+  if (!/timeman/i.test(identity)) return null;
+  const kv = parseColonFile(readText(file));
+  const time = cleanName(kv.time || "");
+  const changeNo = cleanName(kv.change_no || "");
+  const changeGraphic = /CLS/i.test(changeNo) ? 9999 : Number(changeNo);
+  if (!time && !changeNo && !kv.change_msg) return null;
+  return {
+    kind: "time-man",
+    source: relativeRef(file),
+    time,
+    ...(changeNo ? { changeNo } : {}),
+    ...(Number.isFinite(changeGraphic) ? { changeGraphic } : {}),
+    hiddenOnChange: /CLS/i.test(changeNo) || changeGraphic === 9999,
+    mainMessage: cleanScriptText(kv.main_msg || ""),
+    changeMessage: cleanScriptText(kv.change_msg || "")
+  };
 }
 
 function readSignboardDialogue(text, file, argPath = "", functionset = "", template = "") {
@@ -2376,7 +2400,7 @@ function readNpcEnemy(argPath, createFile, functionset) {
   };
 }
 
-function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan) {
+function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop, professionShop, itemChange, savePoint, petShop, itemPoolShop, routeService, luckyMan, janken, quiz, raceMan, petFusion, newNpcMan, timeMan) {
   const file = resolveNpcArg(argPath, createFile);
   const actions = [];
   if (trade) actions.push("shop");
@@ -2398,6 +2422,7 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
   if (quiz) actions.push("quiz", "window", "take", "say");
   if (quiz?.rewardItems?.length) actions.push("give");
   if (quiz?.warpTargets?.length) actions.push("warp");
+  if (timeMan) actions.push("timeMan", "say");
   if (!file) return actions.length ? { actions } : null;
   const text = readText(file);
   const hints = [];
@@ -2426,6 +2451,10 @@ function npcScriptHints(argPath, createFile, npcEnemy, trade, warp, petSkillShop
     if (hints.length >= 8) break;
   }
   for (const item of quizHints(quiz)) {
+    if (!hints.includes(item)) hints.push(item);
+    if (hints.length >= 8) break;
+  }
+  for (const item of timeManHints(timeMan)) {
     if (!hints.includes(item)) hints.push(item);
     if (hints.length >= 8) break;
   }
@@ -2466,6 +2495,15 @@ function quizHints(quiz) {
     quiz.entryStone ? `EntryStone:${quiz.entryStone}` : "",
     quiz.questions?.[0]?.question ? `Question:${quiz.questions[0].question}` : "",
     quiz.messages?.noEntry ? `NoEntry:${quiz.messages.noEntry}` : ""
+  ].filter(Boolean);
+}
+
+function timeManHints(timeMan) {
+  if (!timeMan) return [];
+  return [
+    timeMan.time ? `Time:${timeMan.time}` : "",
+    timeMan.changeNo ? `ChangeNo:${timeMan.changeNo}` : "",
+    timeMan.changeMessage ? `ChangeMsg:${timeMan.changeMessage}` : ""
   ].filter(Boolean);
 }
 
