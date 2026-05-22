@@ -145,10 +145,10 @@ This mirrors SAAC `makeSaveCharString` enough for inspection while keeping the a
 - Each entry stores small tone-only scores such as affinity, trust, suspicion, helped, threatened, challenged, declined, failed, and cooldownUntil.
 - Each entry stores at most five short memories; prompts expose at most three relevant memories.
 - Persona/debug context may include role, duty, source meaning, topics, role-fit capabilities, and high-confidence gender or age clues, but these clues are tone-only and never grant rewards, discounts, warps, or task success.
+- `flags.pendingNpcProposal`: one short-lived current NPC proposal waiting for accept or decline. Save/export exposes only the public proposal summary, costs, grants, risk, expiry, NPC id, and proposal id; the executable internal action is Worker-owned and must be revalidated by `/api/game/dialog-proposal`.
 
 Planned later social fields:
 
-- `flags.pendingNpcProposal`: one short-lived current NPC proposal waiting for accept or decline.
 - `effects.npcConditionOverrides`: scoped, once-only or short-TTL condition relief keyed by NPC, source event, and condition hash.
 
 These fields must stay compact because future multiplayer persistence may store them per character. They must not contain raw dialogue transcripts, raw source scripts, or unrelated NPC histories.

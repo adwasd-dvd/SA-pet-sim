@@ -103,6 +103,8 @@ const NPC_SOCIAL_SCHEMA = "stoneage-npc-social-v1";
 const NPC_SOCIAL_MAX_NPCS = 32;
 const NPC_SOCIAL_MAX_MEMORIES = 5;
 const NPC_SOCIAL_PROMPT_MEMORY_LIMIT = 3;
+const NPC_PROPOSAL_SCHEMA = "stoneage-npc-proposal-v1";
+const NPC_PROPOSAL_TTL_MS = 2 * 60 * 1000;
 const ANGEL_ITEM_ID = 2884;
 const HERO_ITEM_ID = 2885;
 const ANGEL_MISSION_FLAGS = Object.freeze({
@@ -571,6 +573,18 @@ async function handleApi(request, env, url) {
     if (url.pathname === "/api/game/dialog" && request.method === "POST") {
       const body = await readJson(request);
       return json(await dialogGame(env, request, body.game, String(body.npcId || ""), String(body.message || "")));
+    }
+    if (url.pathname === "/api/game/dialog-proposal" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(await dialogProposalGame(
+        env,
+        request,
+        body.game,
+        String(body.npcId || ""),
+        String(body.proposalId || ""),
+        String(body.decision || ""),
+        Number(body.selectedPetIndex)
+      ));
     }
     if (url.pathname === "/api/game/dialog-ai" && request.method === "POST") {
       const body = await readJson(request);
@@ -3846,6 +3860,77 @@ async function dialogGame(env, request, game, npcId, message) {
   addLog(game, `${game.player.name} 对 ${npc.name} 说：${text}`);
   addLog(game, `${npc.name}：${reply}`);
   return withMap(game, { npc });
+}
+
+async function dialogProposalGame(env, request, game, npcId, proposalId, decision, selectedPetIndex = NaN) {
+  await loadGameData(env, request);
+  game = normalizeGame(game);
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === npcId);
+  if (!npc) throw new Error("这个 NPC 不在当前地图");
+  assertNpcInteractionRange(game, npc, NPC_INTERACTION_RANGE, "确认提案");
+  const proposal = readPendingNpcProposal(game);
+  if (!proposal || proposal.npcId !== npc.id || proposal.id !== proposalId) {
+    throw userError("这个 NPC 没有等待确认的提案，或提案已经失效。");
+  }
+  if (proposal.expiresAt <= Date.now()) {
+    clearPendingNpcProposal(game);
+    openDialog(game, npc, [
+      ...(game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc)),
+      npcMessage("system", "这个提案已经过期，请重新和 NPC 交涉。")
+    ]);
+    return withMap(game, { npc });
+  }
+
+  const normalizedDecision = proposalDecision(decision);
+  const existing = game.dialog?.npcId === npc.id ? game.dialog.messages || [] : npcInitialDialogMessages(game, npc);
+  if (normalizedDecision === "decline") {
+    writeNpcSocialMemory(game, npc, {
+      kind: "proposal-declined",
+      text: `玩家拒绝「${proposal.title || npcProposalKindLabel(proposal.kind)}」`,
+      weight: 1
+    }, { declined: 1, affinity: -1 });
+    recordNpcVmEvent(game, npc, "window", "blocked", { reason: "npc-proposal-declined", proposalId: proposal.id, kind: proposal.kind });
+    clearPendingNpcProposal(game);
+    const reply = `${npc.name} 点点头：那就按原来的规矩办。`;
+    openDialog(game, npc, [...existing, npcMessage("player", "拒绝"), npcMessage("npc", reply)]);
+    addLog(game, `${game.player.name} 拒绝了 ${npc.name} 的提案：${proposal.title || proposal.kind}`);
+    return withMap(game, { npc });
+  }
+  if (normalizedDecision !== "accept") throw userError("decision 必须是 accept 或 decline。");
+
+  const executed = executeNpcProposalOnClone(game, npc, proposal, selectedPetIndex);
+  if (!executed.ok) {
+    recordNpcVmEvent(game, npc, "window", "blocked", { reason: "npc-proposal-confirm-failed", proposalId: proposal.id, kind: proposal.kind, error: executed.error });
+    writeNpcSocialMemory(game, npc, {
+      kind: "proposal-failed",
+      text: `确认「${proposal.title || npcProposalKindLabel(proposal.kind)}」失败：${executed.error || "VM 拒绝"}`,
+      weight: 2
+    }, { failed: 1, suspicion: 1 });
+    openDialog(game, npc, [...existing, npcMessage("player", "同意"), npcMessage("npc", executed.reply || `${npc.name} 没能办成：${executed.error || "条件不满足"}。`)]);
+    return withMap(game, { npc });
+  }
+
+  const nextGame = executed.game;
+  const nextMap = currentMap(nextGame);
+  const nextNpc = nextMap.npcs.find((item) => item.id === npc.id) || npc;
+  clearPendingNpcProposal(nextGame);
+  writeNpcSocialMemory(nextGame, nextNpc, {
+    kind: "proposal-accepted",
+    text: `玩家接受「${proposal.title || npcProposalKindLabel(proposal.kind)}」`,
+    weight: 2
+  }, proposal.kind === "negotiatePass" && /threat/i.test(String(proposal.action?.text || ""))
+    ? { helped: 1, threatened: 1, suspicion: 1 }
+    : { helped: 1, trust: 1 });
+  recordNpcVmEvent(nextGame, nextNpc, "window", "ok", { reason: "npc-proposal-confirmed", proposalId: proposal.id, kind: proposal.kind });
+  const resultMessages = nextGame.dialog?.npcId === nextNpc.id ? nextGame.dialog.messages || [] : existing;
+  openDialog(nextGame, nextNpc, [
+    ...resultMessages,
+    npcMessage("player", "同意"),
+    npcMessage("npc", executed.reply)
+  ]);
+  addLog(nextGame, `${game.player.name} 接受了 ${nextNpc.name} 的提案：${proposal.title || proposal.kind}`);
+  return withMap(nextGame, { npc: nextNpc });
 }
 
 function dialogAiModeGame(game, npcId, enabled) {
@@ -11561,7 +11646,8 @@ function sourceReply(game, npc) {
 async function aiNpcReply(env, request, game, npc, text) {
   const socialChanged = recordNpcSocialFromMessage(game, npc, text);
   const action = inferNpcAiAction(game, npc, text);
-  if (action) return applyNpcAiAction(game, npc, action);
+  if (action?.type === "teleportInfo") return applyNpcAiAction(game, npc, action);
+  if (action) return npcAiActionProposalReply(game, npc, action);
 
   const map = currentMap(game);
   const debug = npcDebugInfo(npc, game);
@@ -12118,6 +12204,293 @@ function npcOpenAiHistory(game, npc) {
     }));
 }
 
+function proposalDecision(value = "") {
+  const text = guideSearchText(value);
+  if (["accept", "yes", "ok", "confirm"].includes(text) || hasAny(text, ["同意", "接受", "确认", "確定", "确定", "好"])) return "accept";
+  if (["decline", "reject", "no", "cancel"].includes(text) || hasAny(text, ["拒绝", "拒絕", "取消", "不要", "算了"])) return "decline";
+  return "";
+}
+
+function normalizeNpcProposalAction(action) {
+  if (!action || typeof action !== "object") return null;
+  const type = String(action.type || "");
+  if (!["warp", "roleFavor", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass"].includes(type)) return null;
+  return {
+    type,
+    text: String(action.text || "").slice(0, 180),
+    seconds: clampInt(action.seconds, 0, 1200, 0),
+    percent: clampInt(action.percent, 0, 30, 0)
+  };
+}
+
+function normalizePendingNpcProposal(value) {
+  if (!value || typeof value !== "object") return null;
+  const action = normalizeNpcProposalAction(value.action);
+  const id = String(value.id || "").trim().slice(0, 80);
+  const npcId = String(value.npcId || "").trim().slice(0, 120);
+  if (!id || !npcId || !action) return null;
+  const createdAt = clampInt(value.createdAt, 0, Number.MAX_SAFE_INTEGER, Date.now());
+  const expiresAt = clampInt(value.expiresAt, 0, Number.MAX_SAFE_INTEGER, createdAt + NPC_PROPOSAL_TTL_MS);
+  return {
+    schema: NPC_PROPOSAL_SCHEMA,
+    id,
+    npcId,
+    npcName: String(value.npcName || "").slice(0, 40),
+    kind: String(value.kind || action.type).slice(0, 32),
+    title: String(value.title || npcProposalKindLabel(action.type)).slice(0, 60),
+    summary: String(value.summary || "").slice(0, 220),
+    costs: normalizeNpcProposalCosts(value.costs),
+    grants: normalizeNpcProposalGrants(value.grants),
+    risk: String(value.risk || "需要玩家确认后由 Worker 重新校验").slice(0, 120),
+    createdAt,
+    expiresAt,
+    source: String(value.source || "").slice(0, 120),
+    action
+  };
+}
+
+function normalizeNpcProposalCosts(costs = {}) {
+  const items = Array.isArray(costs.items) ? costs.items.map(normalizeProposalItem).filter(Boolean).slice(0, 6) : [];
+  const pets = Array.isArray(costs.pets) ? costs.pets.map((item) => String(item || "").slice(0, 40)).filter(Boolean).slice(0, 3) : [];
+  return {
+    stone: clampInt(costs.stone, 0, CHAR_MAXGOLDHAVE, 0),
+    items,
+    pets,
+    requiresPetChoice: Boolean(costs.requiresPetChoice)
+  };
+}
+
+function normalizeNpcProposalGrants(grants = {}) {
+  const items = Array.isArray(grants.items) ? grants.items.map(normalizeProposalItem).filter(Boolean).slice(0, 6) : [];
+  const pets = Array.isArray(grants.pets) ? grants.pets.map((item) => String(item || "").slice(0, 40)).filter(Boolean).slice(0, 3) : [];
+  const effects = Array.isArray(grants.effects) ? grants.effects.map((item) => String(item || "").slice(0, 80)).filter(Boolean).slice(0, 6) : [];
+  return {
+    stone: clampInt(grants.stone, 0, CHAR_MAXGOLDHAVE, 0),
+    items,
+    pets,
+    effects,
+    warp: grants.warp && typeof grants.warp === "object"
+      ? {
+        mapId: String(grants.warp.mapId || "").slice(0, 24),
+        mapName: String(grants.warp.mapName || "").slice(0, 60),
+        x: clampInt(grants.warp.x, 0, 9999, 0),
+        y: clampInt(grants.warp.y, 0, 9999, 0)
+      }
+      : null,
+    conditionOverrides: Array.isArray(grants.conditionOverrides)
+      ? grants.conditionOverrides.map((item) => String(item || "").slice(0, 80)).filter(Boolean).slice(0, 4)
+      : []
+  };
+}
+
+function normalizeProposalItem(item) {
+  if (!item || typeof item !== "object") return null;
+  const id = Number(item.id || item.itemId || 0);
+  const name = String(item.name || item.itemName || "").slice(0, 40);
+  if (!id && !name) return null;
+  return { id, name, qty: clampInt(item.qty, 1, 999, 1) };
+}
+
+function readPendingNpcProposal(game) {
+  ensureFlags(game);
+  const proposal = normalizePendingNpcProposal(game.flags.pendingNpcProposal);
+  game.flags.pendingNpcProposal = proposal;
+  return proposal;
+}
+
+function clearPendingNpcProposal(game) {
+  ensureFlags(game);
+  delete game.flags.pendingNpcProposal;
+}
+
+function publicNpcProposal(game, npc = null) {
+  const proposal = readPendingNpcProposal(game);
+  if (!proposal) return null;
+  if (npc && proposal.npcId !== npc.id) return null;
+  const secondsLeft = Math.max(0, Math.ceil((proposal.expiresAt - Date.now()) / 1000));
+  return {
+    schema: proposal.schema,
+    id: proposal.id,
+    npcId: proposal.npcId,
+    npcName: proposal.npcName,
+    kind: proposal.kind,
+    title: proposal.title,
+    summary: proposal.summary,
+    costs: proposal.costs,
+    grants: proposal.grants,
+    risk: proposal.risk,
+    expiresAt: proposal.expiresAt,
+    secondsLeft,
+    source: proposal.source
+  };
+}
+
+function npcAiActionProposalReply(game, npc, action, reply = "") {
+  const proposal = createNpcProposal(game, npc, action);
+  if (!proposal) {
+    recordNpcVmEvent(game, npc, "window", "blocked", {
+      reason: "npc-proposal-unsupported",
+      proposedAction: action?.type || "unknown"
+    });
+    return String(reply || "").trim() || `${npc.name} 不能执行这个请求。`;
+  }
+  game.flags.pendingNpcProposal = proposal;
+  recordNpcVmEvent(game, npc, "window", "ok", {
+    reason: "npc-proposal-pending",
+    proposalId: proposal.id,
+    kind: proposal.kind,
+    source: proposal.source
+  });
+  const lead = String(reply || "").trim();
+  const confirm = `需要你确认：${proposal.summary}\n同意后 Worker 会重新检查距离、条件、背包/石币和 NPC 身份，再执行；拒绝不会改状态。`;
+  return lead ? `${lead}\n${confirm}` : `${npc.name} 提出一个需要确认的方案。\n${confirm}`;
+}
+
+function createNpcProposal(game, npc, action) {
+  ensureFlags(game);
+  const normalizedAction = normalizeNpcProposalAction(action);
+  if (!normalizedAction || !npcProposalActionAllowedForNpc(npc, normalizedAction)) {
+    return null;
+  }
+  const now = Date.now();
+  return normalizePendingNpcProposal({
+    id: `proposal-${crypto.randomUUID()}`,
+    npcId: npc.id,
+    npcName: npc.name,
+    kind: normalizedAction.type,
+    title: npcProposalKindLabel(normalizedAction.type),
+    summary: npcProposalSummary(game, npc, normalizedAction),
+    costs: npcProposalCosts(game, npc, normalizedAction),
+    grants: npcProposalGrants(game, npc, normalizedAction),
+    risk: npcProposalRisk(normalizedAction),
+    source: npc.script || npc.source || npc.trade?.source || npc.warp?.source || "",
+    action: normalizedAction,
+    createdAt: now,
+    expiresAt: now + NPC_PROPOSAL_TTL_MS
+  });
+}
+
+function npcProposalActionAllowedForNpc(npc, action) {
+  if (!action) return false;
+  if (action.type === "warp") return isWarpNpc(npc) || isRouteServiceNpc(npc) || isTransportNpc(npc);
+  if (action.type === "roleFavor") return npcCanOfferAiFavor(npc);
+  if (action.type === "shopDiscount") return Boolean(npc.trade?.items?.length);
+  if (action.type === "offMenuItem") return Boolean(npc.trade?.items?.length && chooseRoleFitOffMenuItem(null, npc, action.text || "").item);
+  if (action.type === "negotiatePass") return isNpcEnemy(npc);
+  if (action.type === "noEncounter") return !isNpcEnemy(npc);
+  return false;
+}
+
+function npcProposalKindLabel(kind) {
+  const labels = {
+    warp: "传送/路线服务",
+    roleFavor: "角色内帮助",
+    noEncounter: "临时避敌",
+    shopDiscount: "临时折扣",
+    offMenuItem: "临时商品/赠品",
+    negotiatePass: "守路交涉"
+  };
+  return labels[kind] || "NPC 提案";
+}
+
+function npcProposalSummary(game, npc, action) {
+  if (action.type === "warp") {
+    const target = npc.warp?.target || null;
+    const map = target ? WORLD.maps[target.mapId] : null;
+    return target
+      ? `${npc.name} 准备按原脚本送你去 ${map?.name || `floor ${target.mapId}`}。`
+      : `${npc.name} 准备按原路线/传送脚本帮你移动。`;
+  }
+  if (action.type === "roleFavor") {
+    if (isSavePointNpc(npc)) return `${npc.name} 可以尝试通融记录点，但需要确认后按 Born/CHAR_SAVEPOINT 规则写入。`;
+    if (isHealerNpc(npc)) return `${npc.name} 可以尝试给急救恢复品或治疗帮助，确认后按背包和石币重新校验。`;
+    return `${npc.name} 可以尝试提供一次角色内帮助，确认后由 NPC VM 判定。`;
+  }
+  if (action.type === "noEncounter") return `${npc.name} 可以给你临时避敌效果，持续 ${clampInt(action.seconds, 30, 600, 180)} 秒。`;
+  if (action.type === "shopDiscount") return `${npc.name} 可以给本店临时 ${clampInt(action.percent, 5, 30, 10)}% 折扣，结账时由 Worker 重算价格。`;
+  if (action.type === "offMenuItem") return `${npc.name} 可以找一件符合本店身份的临时商品或小赠品，确认后再加入商品栏/背包。`;
+  if (action.type === "negotiatePass") return `${npc.name} 可以接受贿赂/威慑交涉，确认后可能收石币并临时让路。`;
+  return `${npc.name} 提出了一个需要确认的动作。`;
+}
+
+function npcProposalCosts(game, npc, action) {
+  if (action.type === "negotiatePass" && !hasAny(action.text, ["威胁", "恐吓", "吓", "打服", "揍"])) {
+    return { stone: Math.max(80, Number(game.player.level || 1) * 40) };
+  }
+  if (action.type === "roleFavor" && isSavePointNpc(npc)) {
+    const requirement = sourceSavePointRequirement(game, npc);
+    if (requirement?.required && !requirement.ok && !isSourceSavePointRegistered(game, sourceSavePointId(npc))) {
+      return { stone: savePointFavorCost(game, npc, requirement, action.text || "") };
+    }
+  }
+  if (action.type === "roleFavor" && isHealerNpc(npc)) {
+    const item = chooseHealerAidItem(action.text || "");
+    return item ? { stone: healerAidCost(game, item, action.text || "") } : {};
+  }
+  return {};
+}
+
+function npcProposalGrants(game, npc, action) {
+  if (action.type === "warp") {
+    const target = npc.warp?.target || null;
+    const map = target ? WORLD.maps[target.mapId] : null;
+    return target ? { warp: { mapId: target.mapId, mapName: map?.name || "", x: target.x, y: target.y } } : {};
+  }
+  if (action.type === "noEncounter") return { effects: [`避敌 ${clampInt(action.seconds, 30, 600, 180)} 秒`] };
+  if (action.type === "shopDiscount") return { effects: [`本店 ${clampInt(action.percent, 5, 30, 10)}% 临时折扣`] };
+  if (action.type === "offMenuItem") return { effects: ["临时商品栏或角色内赠品"] };
+  if (action.type === "negotiatePass") return { effects: ["守路 NPC 临时让路 5 分钟"] };
+  if (action.type === "roleFavor" && isSavePointNpc(npc)) return { effects: ["写入记录点/出生点"] };
+  if (action.type === "roleFavor" && isHealerNpc(npc)) {
+    const item = chooseHealerAidItem(action.text || "");
+    return item ? { items: [{ id: item.id, name: item.name, qty: 1 }] } : {};
+  }
+  return {};
+}
+
+function npcProposalRisk(action) {
+  if (action.type === "roleFavor") return "角色内帮助可能因为石币、背包、原脚本条件或概率被拒绝。";
+  if (action.type === "negotiatePass") return "守路交涉可能扣除石币或只产生临时让路，不改原版战斗脚本。";
+  if (action.type === "warp") return "传送会移动角色位置；确认前不会改变地图。";
+  return "确认前不会扣钱、给物品、改效果或移动角色。";
+}
+
+function cloneGameState(game) {
+  return normalizeGame(JSON.parse(JSON.stringify(game)));
+}
+
+function executeNpcProposalOnClone(game, npc, proposal, selectedPetIndex = NaN) {
+  const clone = cloneGameState(game);
+  const cloneMap = currentMap(clone);
+  const cloneNpc = cloneMap.npcs.find((item) => item.id === npc.id);
+  if (!cloneNpc) return { ok: false, error: "确认时 NPC 已不在当前地图" };
+  if (!npcProposalActionAllowedForNpc(cloneNpc, proposal.action)) return { ok: false, error: "NPC 身份或脚本能力不允许执行这个提案" };
+  if (Number.isFinite(selectedPetIndex)) clone.selectedPetIndex = clampInt(selectedPetIndex, 0, PET_CAPACITY - 1, 0);
+  const beforeEventCount = clone.npcVmEvents?.length || 0;
+  const beforeLocation = { ...clone.location };
+  const reply = applyNpcAiAction(clone, cloneNpc, proposal.action);
+  const newEvents = (clone.npcVmEvents || []).slice(beforeEventCount);
+  const changedLocation = String(beforeLocation.mapId) !== String(clone.location?.mapId)
+    || Number(beforeLocation.x) !== Number(clone.location?.x)
+    || Number(beforeLocation.y) !== Number(clone.location?.y);
+  const blocked = newEvents.some((event) => event.status === "blocked");
+  const okMutation = changedLocation || newEvents.some((event) => event.status === "ok" && (
+    event.detail?.mutated === true ||
+    ["take", "give", "takePet", "givePet", "save", "effect", "warp"].includes(event.action)
+  ));
+  if (blocked && !okMutation) {
+    return {
+      ok: false,
+      error: newEvents.find((event) => event.status === "blocked")?.error || newEvents.find((event) => event.status === "blocked")?.detail?.error || "NPC VM 拒绝执行",
+      reply
+    };
+  }
+  if (!okMutation && proposal.kind !== "roleFavor") {
+    return { ok: false, error: "确认后没有产生可提交的状态变化", reply };
+  }
+  return { ok: true, game: clone, reply };
+}
+
 function openAiNpcAction(game, npc, decision, fallbackText) {
   const action = decision?.action;
   const type = String(action?.type || "none");
@@ -12158,10 +12531,13 @@ function openAiNpcAction(game, npc, decision, fallbackText) {
 
 function openAiNpcActionReply(game, npc, action, decision) {
   const reply = String(decision?.reply || "").trim();
-  const applied = applyNpcAiAction(game, npc, action);
+  if (action?.type === "teleportInfo") {
+    const applied = applyNpcAiAction(game, npc, action);
+    if (!reply || applied.includes(reply)) return applied;
+    return `${reply}\n${applied}`;
+  }
   recordNpcVmEvent(game, npc, "say", "ok", { reason: "openai-npc-action", intent: decision?.intent || "", proposedAction: action.type });
-  if (!reply || applied.includes(reply)) return applied;
-  return `${reply}\n${applied}`;
+  return npcAiActionProposalReply(game, npc, action, reply);
 }
 
 function npcCanOfferAiFavor(npc) {
@@ -12185,6 +12561,13 @@ function localNpcAiFallback(game, npc, text, error = null) {
   }
   if (isNpcEnemy(npc)) {
     return `${intro}我是守路的 NPCEnemy。你可以按原版方式选“是”开战；也可以试着贿赂或威胁，但是否让路会看你的等级、石币和临时状态。`;
+  }
+  if (npc.trade?.items?.length && hasAny(String(text || "").toLowerCase(), ["平时不卖", "平常不卖", "隐藏", "有没有", "有沒有", "能不能给", "能不能給", "给我", "給我", "卖我", "賣我", "要一个", "要一個", "要把", "必须", "必須", "一定要", "指定", "只要", "就要", "特殊", "稀有"])) {
+    const offer = chooseRoleFitOffMenuItem(game, npc, text || "");
+    if (!offer.item) {
+      recordNpcVmEvent(game, npc, "shop", "blocked", { action: "offMenu", reason: offer.reason, role: offer.role, text: String(text || "").slice(0, 80) });
+      return roleMismatchReply(npc, offer);
+    }
   }
   if (npc.trade?.items?.length) {
     const samples = npc.trade.items.slice(0, 5).map((item) => item.name).join("、");
@@ -12228,7 +12611,9 @@ function inferNpcAiAction(game, npc, text) {
     return { type: "shopDiscount", percent: aiShopDiscountPercent(game, npc, lower), seconds: 600 };
   }
   if (npc.trade?.items?.length && hasAny(lower, ["平时不卖", "平常不卖", "隐藏", "有没有", "有沒有", "能不能给", "能不能給", "给我", "給我", "卖我", "賣我", "要一个", "要一個", "要把", "必须", "必須", "一定要", "指定", "只要", "就要", "特殊", "稀有"])) {
-    return { type: "offMenuItem", text: lower };
+    const offer = chooseRoleFitOffMenuItem(game, npc, lower);
+    if (offer.item) return { type: "offMenuItem", text: lower };
+    return null;
   }
   if (isNpcEnemy(npc) && hasAny(lower, ["贿赂", "收钱", "买路", "给你石币", "给钱", "威胁", "恐吓", "让我过去", "放我过去", "让开"])) {
     return { type: "negotiatePass", text: lower };
@@ -12598,6 +12983,7 @@ function openDialog(game, npc, messages, extra = {}) {
     itemChange: extra.itemChange || buildItemChangeState(game, npc),
     warp: npc.warp || null,
     aiMode: isNpcAiMode(game, npc),
+    proposal: extra.proposal || publicNpcProposal(game, npc),
     messages: messages.slice(-12),
     suggestions: dialogSuggestions(npc, game),
     source: dialogSourceLine(debug),
@@ -12616,6 +13002,7 @@ function npcDebugInfo(npc, game = null) {
     graphic: npc.graphic || "",
     persona: buildNpcPersona(game, npc, map),
     social: game ? summarizeNpcSocialForDebug(game, npc) : null,
+    pendingProposal: game ? publicNpcProposal(game, npc) : null,
     raceMan: buildRaceManState(game, npc),
     janken: npc.janken || null,
     quiz: buildQuizState(game, npc),
@@ -15410,13 +15797,14 @@ function recordNpcSocialFromMessage(game, npc, text) {
 
 function compactNpcSocialForPrompt(game, npc, limit = NPC_SOCIAL_PROMPT_MEMORY_LIMIT) {
   const entry = readNpcSocialEntry(game, npc);
+  const pendingProposal = publicNpcProposal(game, npc);
   if (!entry) {
     return {
       schema: NPC_SOCIAL_SCHEMA,
       npcId: npcSocialId(npc),
       scores: { affinity: 0, trust: 0, suspicion: 0, helped: 0, threatened: 0, challenged: 0, declined: 0, failed: 0, cooldownUntil: 0 },
       memories: [],
-      pendingProposal: null
+      pendingProposal
     };
   }
   return {
@@ -15431,7 +15819,7 @@ function compactNpcSocialForPrompt(game, npc, limit = NPC_SOCIAL_PROMPT_MEMORY_L
         text: memory.text,
         weight: memory.weight
       })),
-    pendingProposal: null
+    pendingProposal
   };
 }
 
@@ -16916,6 +17304,7 @@ function buildSaveJson(game) {
       npcTalkCounts: { ...(game.flags?.npcTalkCounts || {}) },
       npcEnemyDefeats: { ...(game.flags?.npcEnemyDefeats || {}) },
       savePointIds: [...(game.flags?.savePointIds || [])],
+      pendingNpcProposal: publicNpcProposal(game),
       angelMission: game.flags?.angelMission ? { ...game.flags.angelMission } : null
     },
     effects: { ...(game.effects || {}) },
@@ -17444,6 +17833,9 @@ function ensureFlags(game) {
   game.flags.savePointIds = Array.isArray(game.flags.savePointIds)
     ? game.flags.savePointIds.map(Number).filter((id) => Number.isFinite(id) && id >= 0).slice(0, 64)
     : [];
+  const pendingProposal = normalizePendingNpcProposal(game.flags.pendingNpcProposal);
+  if (pendingProposal) game.flags.pendingNpcProposal = pendingProposal;
+  else delete game.flags.pendingNpcProposal;
 }
 
 function normalizeFlagArray(value) {

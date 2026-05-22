@@ -32,6 +32,29 @@ const apiWithEnv = async (customEnv, pathName, body) => {
 
 const api = (pathName, body) => apiWithEnv(env, pathName, body);
 
+function pendingNpcProposal(game) {
+  return game.dialog?.proposal || game.flags?.pendingNpcProposal || game.save?.json?.flags?.pendingNpcProposal || null;
+}
+
+function assertNpcProposal(game, kind, label) {
+  const proposal = pendingNpcProposal(game);
+  assert(proposal?.id, `${label} creates pending proposal`);
+  if (kind) assertEqual(proposal.kind, kind, `${label} proposal kind`);
+  assert(game.dialog?.messages?.some((message) => message.speaker === "npc" && /需要你确认|提案/.test(message.text || "")), `${label} explains confirmation`);
+  return proposal;
+}
+
+async function acceptNpcProposal(game, npcId, label, selectedPetIndex = undefined) {
+  const proposal = assertNpcProposal(game, null, label);
+  return api("/api/game/dialog-proposal", {
+    game,
+    npcId,
+    proposalId: proposal.id,
+    decision: "accept",
+    ...(Number.isFinite(Number(selectedPetIndex)) ? { selectedPetIndex: Number(selectedPetIndex) } : {})
+  });
+}
+
 let game = await api("/api/game/new", { name: "npc-action-test" });
 assertEqual(game.player.EarthAT, 50, "new player keeps source-style Earth attribute default");
 assertEqual(game.player.WaterAT, 50, "new player keeps source-style Water attribute default");
@@ -921,7 +944,11 @@ teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.
 assertEqual(teacherGame.dialog.aiMode, true, "AI dialog toggle is reflected in dialog state");
 assert(teacherGame.dialog.suggestions.includes("请求避敌"), "AI mode exposes negotiated no-encounter suggestion");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "能不能帮我一段时间不会遇到野外敌人" });
-assert(Number(teacherGame.effects?.noEncounterUntil || 0) > Date.now(), "AI negotiated no-encounter effect sets a future expiry");
+assertNpcProposal(teacherGame, "noEncounter", "AI negotiated no-encounter");
+assert(!teacherGame.effects?.noEncounterUntil || Number(teacherGame.effects.noEncounterUntil) <= noAiEffectCutoff, "AI no-encounter proposal does not mutate before confirmation");
+assert(teacherGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "npc-proposal-pending" && event.detail?.kind === "noEncounter"), "AI no-encounter proposal records pending VM trace");
+teacherGame = await acceptNpcProposal(teacherGame, teacher.id, "AI negotiated no-encounter");
+assert(Number(teacherGame.effects?.noEncounterUntil || 0) > Date.now(), "AI negotiated no-encounter effect sets a future expiry after confirmation");
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "effect" && event.status === "ok" && event.detail?.effect === "noEncounter"), "AI no-encounter effect runs through NPC VM");
 assert(teacherGame.save.json.effects?.noEncounterUntil, "save json carries AI negotiated effects");
 teacherGame = await api("/api/game/dialog", { game: teacherGame, npcId: teacher.id, message: "普通对话" });
@@ -1044,6 +1071,10 @@ nurseAidGame = await api("/api/game/dialog", { game: nurseAidGame, npcId: caveNu
 assert(nurseAidGame.dialog.suggestions.includes("请求急救药"), "AI healer mode exposes role-fit aid suggestion");
 const nurseStoneBefore = nurseAidGame.player.stone;
 nurseAidGame = await api("/api/game/dialog", { game: nurseAidGame, npcId: caveNurse.id, message: "真的很需要，可以卖给我一些回复药么？" });
+assertNpcProposal(nurseAidGame, "roleFavor", "AI healer aid");
+assertEqual(nurseAidGame.player.stone, nurseStoneBefore, "AI healer aid does not charge before confirmation");
+assert(!nurseAidGame.inventory.some((item) => /回复药|回復藥|恢复药|恢復藥/.test(item.name || "")), "AI healer aid does not give item before confirmation");
+nurseAidGame = await acceptNpcProposal(nurseAidGame, caveNurse.id, "AI healer aid");
 const nurseAidItem = nurseAidGame.inventory.find((item) => /回复药|回復藥|恢复药|恢復藥/.test(item.name || ""));
 assert(nurseAidItem, "AI healer aid gives a role-fit recovery item");
 assert(nurseAidGame.player.stone < nurseStoneBefore, "AI healer aid asks for compensation");
@@ -1117,6 +1148,10 @@ const savePointFavorStoneBefore = savePointFavorGame.player.stone;
 savePointFavorGame = await api("/api/game/dialog", { game: savePointFavorGame, npcId: saveNpc.npc.id, message: "AI对话" });
 assertEqual(savePointFavorGame.dialogAi?.[saveNpc.npc.id], true, "savepoint AI mode toggles on");
 savePointFavorGame = await api("/api/game/dialog", { game: savePointFavorGame, npcId: saveNpc.npc.id, message: "给你钱，帮我记录吧" });
+assertNpcProposal(savePointFavorGame, "roleFavor", "AI savepoint favor");
+assert(savePointFavorGame.savePoint?.npcId !== saveNpc.npc.id, "AI savepoint favor does not record before confirmation");
+assertEqual(savePointFavorGame.player.stone, savePointFavorStoneBefore, "AI savepoint favor does not charge before confirmation");
+savePointFavorGame = await acceptNpcProposal(savePointFavorGame, saveNpc.npc.id, "AI savepoint favor");
 assertEqual(savePointFavorGame.savePoint.npcId, saveNpc.npc.id, "AI savepoint favor records npc id");
 assert(savePointFavorGame.player.stone < savePointFavorStoneBefore, "AI savepoint favor charges stone compensation");
 assert(!savePointFavorGame.flags.pendingSavePoint, "AI savepoint favor does not leave source item confirmation pending");
@@ -2142,6 +2177,9 @@ aiShopGame.player.stone = 10000;
 aiShopGame = await api("/api/game/dialog", { game: aiShopGame, npcId: shopNpc.npc.id, message: "AI对话" });
 assert(aiShopGame.dialog.suggestions.includes("看看柜台后面"), "AI mode nudges shop exploration without naming exact reward");
 aiShopGame = await api("/api/game/dialog", { game: aiShopGame, npcId: shopNpc.npc.id, message: "能不能打折便宜一点" });
+assertNpcProposal(aiShopGame, "shopDiscount", "AI shop discount");
+assert(!aiShopGame.effects?.shopDiscounts?.[shopNpc.npc.id], "AI shop discount does not apply before confirmation");
+aiShopGame = await acceptNpcProposal(aiShopGame, shopNpc.npc.id, "AI shop discount");
 assert(aiShopGame.effects?.shopDiscounts?.[shopNpc.npc.id]?.percent > 0, "AI negotiated shop discount stores a NPC-scoped effect");
 assert(aiShopGame.dialog.debug.vmTrace.some((event) => event.action === "effect" && event.status === "ok" && event.detail?.effect === "shopDiscount"), "AI shop discount runs through NPC VM effect guard");
 const discountedDialogItem = aiShopGame.dialog.trade.items.find((item) => Number(item.id) === Number(discountItem.id));
@@ -2180,6 +2218,9 @@ aiOffMenuGame.location = { mapId: weaponShop.map.id, x: weaponShop.npc.x + 1, y:
 aiOffMenuGame.player.stone = 10000;
 aiOffMenuGame = await api("/api/game/dialog", { game: aiOffMenuGame, npcId: weaponShop.npc.id, message: "AI对话" });
 aiOffMenuGame = await api("/api/game/dialog", { game: aiOffMenuGame, npcId: weaponShop.npc.id, message: "有没有平时不卖的斧头" });
+assertNpcProposal(aiOffMenuGame, "offMenuItem", "AI off-menu weapon");
+assert(!aiOffMenuGame.effects?.offMenuShop?.[weaponShop.npc.id], "AI off-menu request does not add item before confirmation");
+aiOffMenuGame = await acceptNpcProposal(aiOffMenuGame, weaponShop.npc.id, "AI off-menu weapon");
 assert(aiOffMenuGame.effects?.offMenuShop?.[weaponShop.npc.id]?.items?.length, "AI off-menu request adds a role-fit temporary shop item");
 const hiddenWeapon = aiOffMenuGame.effects.offMenuShop[weaponShop.npc.id].items[0];
 assert(/斧头|枪|棍棒|爪|投掷/.test(hiddenWeapon.name), "AI off-menu item matches weapon shop role");
@@ -2211,6 +2252,9 @@ aiMeatSpecialGame.location = { mapId: meatShop.map.id, x: meatShop.npc.x + 1, y:
 aiMeatSpecialGame.player.stone = 10000;
 aiMeatSpecialGame = await api("/api/game/dialog", { game: aiMeatSpecialGame, npcId: meatShop.npc.id, message: "AI对话" });
 aiMeatSpecialGame = await api("/api/game/dialog", { game: aiMeatSpecialGame, npcId: meatShop.npc.id, message: "有没有乌力的肉，必须是乌力斯坦的肉" });
+assertNpcProposal(aiMeatSpecialGame, "offMenuItem", "AI source meat");
+assert(!aiMeatSpecialGame.effects?.offMenuShop?.[meatShop.npc.id], "AI source meat does not add item before confirmation");
+aiMeatSpecialGame = await acceptNpcProposal(aiMeatSpecialGame, meatShop.npc.id, "AI source meat");
 const sourceMeatOffer = aiMeatSpecialGame.effects?.offMenuShop?.[meatShop.npc.id]?.items?.find((item) => /乌力斯坦的肉/.test(item.name || ""));
 assert(sourceMeatOffer, "AI meat shop resolves pet-specific meat from source requirement items");
 assert(aiMeatSpecialGame.dialog.trade.items.some((item) => Number(item.id) === Number(sourceMeatOffer.id) && /乌力斯坦的肉/.test(item.name || "") && item.offMenu), "AI meat shop exposes source meat in temporary shop list");
@@ -2232,6 +2276,10 @@ ganzoBribeGame.player.stone = 1000;
 ganzoBribeGame = await api("/api/game/dialog", { game: ganzoBribeGame, npcId: ganzo.id, message: "AI对话" });
 assert(ganzoBribeGame.dialog.suggestions.includes("试着交涉"), "NPCEnemy AI mode exposes negotiation without naming bribe/threat outcomes");
 ganzoBribeGame = await api("/api/game/dialog", { game: ganzoBribeGame, npcId: ganzo.id, message: "给你石币让我过去" });
+assertNpcProposal(ganzoBribeGame, "negotiatePass", "NPCEnemy bribe");
+assertEqual(ganzoBribeGame.player.stone, 1000, "NPCEnemy bribe does not take stone before confirmation");
+assert(!ganzoBribeGame.flags.npcEnemyDefeats[ganzo.id]?.until, "NPCEnemy bribe does not open bypass before confirmation");
+ganzoBribeGame = await acceptNpcProposal(ganzoBribeGame, ganzo.id, "NPCEnemy bribe");
 assert(ganzoBribeGame.player.stone < 1000, "NPCEnemy bribe takes stone through VM");
 assert(ganzoBribeGame.flags.npcEnemyDefeats[ganzo.id]?.until, "NPCEnemy bribe opens temporary bypass");
 assert(!ganzoBribeGame.world.map.npcs.some((npc) => npc.id === ganzo.id), "NPCEnemy bribe hides blocker while bypass is active");
@@ -2242,6 +2290,9 @@ ganzoThreatGame.player.level = 12;
 ganzoThreatGame.player.stone = 1000;
 ganzoThreatGame = await api("/api/game/dialog", { game: ganzoThreatGame, npcId: ganzo.id, message: "AI对话" });
 ganzoThreatGame = await api("/api/game/dialog", { game: ganzoThreatGame, npcId: ganzo.id, message: "威胁他让我过去" });
+assertNpcProposal(ganzoThreatGame, "negotiatePass", "NPCEnemy threat");
+assert(!ganzoThreatGame.flags.npcEnemyDefeats[ganzo.id]?.until, "NPCEnemy threat does not open bypass before confirmation");
+ganzoThreatGame = await acceptNpcProposal(ganzoThreatGame, ganzo.id, "NPCEnemy threat");
 assertEqual(ganzoThreatGame.player.stone, 1000, "strong NPCEnemy threat does not take bribe money");
 assert(ganzoThreatGame.flags.npcEnemyDefeats[ganzo.id]?.mode === "threat", "strong NPCEnemy threat opens bypass as threat mode");
 
@@ -2755,8 +2806,11 @@ aiWarpGame.player.level = 1;
 aiWarpGame.player.stone = 100;
 aiWarpGame = await api("/api/game/dialog", { game: aiWarpGame, npcId: warpNpc.npc.id, message: "AI对话" });
 aiWarpGame = await api("/api/game/dialog", { game: aiWarpGame, npcId: warpNpc.npc.id, message: "商量坐车去别的地图" });
+assertNpcProposal(aiWarpGame, "warp", "AI negotiated bus/warp");
+assertEqual(aiWarpGame.location.mapId, warpNpc.map.id, "AI negotiated bus/warp does not move before confirmation");
+aiWarpGame = await acceptNpcProposal(aiWarpGame, warpNpc.npc.id, "AI negotiated bus/warp");
 assertEqual(aiWarpGame.location.mapId, warpNpc.npc.warp.target.mapId, "AI negotiated bus/warp still uses source warp target");
-assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "debug" && event.detail?.reason === "ai-action-proposal"), "AI warp negotiation records a guarded proposal");
+assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.reason === "npc-proposal-confirmed"), "AI warp negotiation records a confirmed guarded proposal");
 assert(aiWarpGame.dialog.debug.vmTrace.some((event) => event.action === "warp" && event.status === "ok"), "AI warp negotiation executes through source warp VM");
 
 let assistGame = await api("/api/game/new", { name: "guide-assist-test" });

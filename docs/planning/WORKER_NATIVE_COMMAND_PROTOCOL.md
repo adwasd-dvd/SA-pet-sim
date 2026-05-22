@@ -73,6 +73,7 @@ Worker responses should keep the current `game` snapshot shape, but command hand
 | `POST /api/game/return-savepoint` | `map.returnSavePoint` | Return to player-selected source savepoint. |
 | `POST /api/game/talk` | `npc.talkDefault` | Default `hi` click/double-click NPC talk. |
 | `POST /api/game/dialog` | `npc.dialog` | Source NPC dialogue, shop, warp, quest, battle, and script actions. |
+| `POST /api/game/dialog-proposal` | `npc.dialogProposalDecision` | Accept or decline a short-lived AI/social NPC proposal. Accept revalidates range, NPC, proposal id, expiry, and current game state before executing through Worker/NPC VM effects. |
 | `POST /api/game/dialog-ai` | `npc.dialogAi` | AI wording/proposal path, deterministic VM executes mutations. |
 | `POST /api/game/buy` | `shop.buyItem` | Source shop purchase and temporary AI discount validation. |
 | `POST /api/game/sell` | `shop.sellItem` | Source item shop buyback. |
@@ -98,14 +99,6 @@ Worker responses should keep the current `game` snapshot shape, but command hand
 | `POST /api/ai/workspace` | `ai.workspaceQuery` | Development/debug knowledge workspace query. |
 | `POST /api/ai/workspace-note` | `ai.workspaceNote` | Development/debug knowledge note capture. |
 | `GET /api/ai/status` | `ai.status` | AI model and availability status. |
-
-## Planned Command Additions
-
-These commands are not implemented yet. They are reserved for planned backlog work and must follow the same Worker-owned mutation rules.
-
-| Endpoint | Canonical command | Source role |
-| --- | --- | --- |
-| `POST /api/game/dialog-proposal` | `npc.dialogProposalDecision` | Accept or decline a short-lived AI/social NPC proposal. On accept, Worker revalidates range, NPC, proposal id, expiry, inventory, pets, stone, flags, task state, and executes all approved mutations through the NPC VM or scoped Worker effects. |
 
 ## Current WebSocket Commands
 
