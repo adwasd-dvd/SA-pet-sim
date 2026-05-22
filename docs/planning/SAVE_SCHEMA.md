@@ -146,10 +146,12 @@ This mirrors SAAC `makeSaveCharString` enough for inspection while keeping the a
 - Each entry stores at most five short memories; prompts expose at most three relevant memories.
 - Persona/debug context may include role, duty, source meaning, topics, role-fit capabilities, and high-confidence gender or age clues, but these clues are tone-only and never grant rewards, discounts, warps, or task success.
 - `flags.pendingNpcProposal`: one short-lived current NPC proposal waiting for accept or decline. Save/export exposes only the public proposal summary, costs, grants, risk, expiry, NPC id, and proposal id; the executable internal action is Worker-owned and must be revalidated by `/api/game/dialog-proposal`.
+- `effects.npcConditionOverrides`: scoped, short-TTL task-condition relief keyed by `npcId:eventNo:conditionHash`. Each entry stores `npcId`, optional `npcName`, `eventNo`, `conditionHash`, the normalized source `condition`/`conditionToken`/`conditionKind`, a compact failed-check summary, optional `substituteCost.stone`, `createdAt`, `expiresAt`, and `usesLeft`. The Worker consumes or expires entries deterministically before original source rewards, warps, flags, pet grants, or savepoint changes run.
+- `effects.npcConditionOverrideDebug`: bounded recent debug events for override creation, matching, consumption, expiry, and refusal diagnosis. This is debug-only and may be truncated during normalization.
 
 Planned later social fields:
 
-- `effects.npcConditionOverrides`: scoped, once-only or short-TTL condition relief keyed by NPC, source event, and condition hash.
+- Additional social scoring fields may be added after the proposal/regression gate if they stay compact and tone-only.
 
 These fields must stay compact because future multiplayer persistence may store them per character. They must not contain raw dialogue transcripts, raw source scripts, or unrelated NPC histories.
 

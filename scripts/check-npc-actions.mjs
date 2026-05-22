@@ -958,6 +958,140 @@ assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "unsupp
 assert(teacherGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.detail?.reason === "training-query"), "teacher training query connects to active quest context");
 assert(teacherGame.dialog.messages.some((message) => message.speaker === "npc" && /战斗经验|下一步/.test(message.text)), "teacher training reply explains battle-based progression and next quest step");
 
+const conditionOverrideMap = WORLD.maps["100"];
+const conditionOverrideRewardBase = 910001;
+function installConditionOverrideNpc(kind, condition, eventNo, offset = 0, type = "MESSAGE") {
+  const npc = {
+    id: `npc-condition-override-${kind}-${eventNo}`,
+    name: `条件通融${kind}`,
+    type: "Event",
+    template: "check-npc-condition-override",
+    source: `test/npc-condition-override/${kind}`,
+    script: `test/npc-condition-override/${kind}`,
+    x: 700 + offset,
+    y: 500 + offset,
+    dialogue: "按原脚本条件办理。",
+    scriptEvents: [{
+      eventNo,
+      type,
+      condition,
+      messages: {
+        normalMain: `${kind} 条件通融完成。`,
+        request: `${kind} 条件通融完成。`
+      },
+      getItems: [{ id: conditionOverrideRewardBase + offset, qty: 1, source: "check-npc-condition-override" }],
+      source: `test/npc-condition-override/${kind}`
+    }]
+  };
+  conditionOverrideMap.npcs.push(npc);
+  return npc;
+}
+
+function baseConditionOverrideGame(name, npc) {
+  return {
+    ...structuredClone(game),
+    name,
+    location: { mapId: "100", x: npc.x + 1, y: npc.y, dir: 6 },
+    player: { ...structuredClone(game.player), stone: 120000, level: 11 },
+    inventory: [],
+    effects: {},
+    dialog: null,
+    dialogAi: {},
+    flags: { ...structuredClone(game.flags || {}), bits: {}, endEvents: Array(8).fill(0), nowEvents: Array(8).fill(0) },
+    pets: structuredClone(game.pets || []).slice(0, 1),
+    save: structuredClone(game.save || {})
+  };
+}
+
+async function createConditionOverride(gameState, npc, label, text = "请通融这个任务条件，我愿意给报酬") {
+  gameState = await api("/api/game/dialog", { game: gameState, npcId: npc.id, message: "AI对话" });
+  assertEqual(gameState.dialog.aiMode, true, `${label} enables AI mode`);
+  const stoneBefore = Number(gameState.player.stone || 0);
+  gameState = await api("/api/game/dialog", { game: gameState, npcId: npc.id, message: text });
+  const proposal = assertNpcProposal(gameState, "conditionOverride", `${label} condition override proposal`);
+  assert(proposal.grants?.conditionOverrides?.length, `${label} proposal advertises condition override grant`);
+  assertEqual(Number(gameState.player.stone || 0), stoneBefore, `${label} proposal does not charge before confirmation`);
+  gameState = await acceptNpcProposal(gameState, npc.id, `${label} condition override proposal`);
+  assert(Object.keys(gameState.effects?.npcConditionOverrides || {}).length === 1, `${label} stores one pending condition override`);
+  assert(gameState.dialog.debug.conditionOverrides.active.length === 1, `${label} dialog debug exposes active condition override`);
+  assert(gameState.dialog.debug.conditionOverrides.recent.some((entry) => entry.reason === "created"), `${label} dialog debug records override creation`);
+  return gameState;
+}
+
+async function assertConditionOverrideSuccess(kind, condition, eventNo, offset, setup = null) {
+  const npc = installConditionOverrideNpc(kind, condition, eventNo, offset);
+  let testGame = baseConditionOverrideGame(`condition-override-${kind}`, npc);
+  if (setup) setup(testGame);
+  const rewardId = conditionOverrideRewardBase + offset;
+  testGame = await createConditionOverride(testGame, npc, `${kind}`);
+  const stoneBeforeRun = Number(testGame.player.stone || 0);
+  testGame = await api("/api/game/dialog", { game: testGame, npcId: npc.id, message: "任务" });
+  assertEqual(inventoryQty(testGame, rewardId), 1, `${kind} override lets the original NPC VM grant reward`);
+  assert(Number(testGame.player.stone || 0) < stoneBeforeRun, `${kind} override charges substitute stone at script execution`);
+  assert(testGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "npc-condition-override-match"), `${kind} override records match in dialog debug`);
+  assert(testGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "npc-condition-override-consumed"), `${kind} override records one-shot consumption`);
+  assert(!Object.keys(testGame.effects?.npcConditionOverrides || {}).length, `${kind} override is consumed after one use`);
+  testGame = await api("/api/game/dialog", { game: testGame, npcId: npc.id, message: "任务" });
+  assertEqual(inventoryQty(testGame, rewardId), 1, `${kind} override cannot be reused after consumption`);
+}
+
+await assertConditionOverrideSuccess("item", "ITEM=990001*1", 901, 1);
+await assertConditionOverrideSuccess("level", "LV>=99", 902, 2, (testGame) => {
+  testGame.player.level = 11;
+});
+await assertConditionOverrideSuccess("pet", "PET=60-990002*1", 903, 3);
+await assertConditionOverrideSuccess("stone", "STONE>=999999", 904, 4, (testGame) => {
+  testGame.player.stone = 120000;
+});
+await assertConditionOverrideSuccess("event", "ENDEV=999", 905, 5);
+
+const wrongNpcA = installConditionOverrideNpc("wrong-npc-a", "ITEM=990101*1", 911, 11);
+const wrongNpcB = installConditionOverrideNpc("wrong-npc-b", "ITEM=990101*1", 911, 12);
+let wrongNpcGame = baseConditionOverrideGame("condition-override-wrong-npc", wrongNpcA);
+wrongNpcGame = await createConditionOverride(wrongNpcGame, wrongNpcA, "wrong npc");
+wrongNpcGame.location = { mapId: "100", x: wrongNpcB.x + 1, y: wrongNpcB.y, dir: 6 };
+wrongNpcGame = await api("/api/game/dialog", { game: wrongNpcGame, npcId: wrongNpcB.id, message: "任务" });
+assertEqual(inventoryQty(wrongNpcGame, conditionOverrideRewardBase + 12), 0, "condition override does not apply to another NPC");
+assert(wrongNpcGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "npc-condition-override-no-matching-override"), "wrong NPC condition override refusal is recorded");
+
+const wrongEventNpc = {
+  ...installConditionOverrideNpc("wrong-event", "ITEM=990201*1", 921, 21, "REQUEST"),
+  scriptEvents: [
+    {
+      eventNo: 921,
+      type: "REQUEST",
+      condition: "ITEM=990201*1",
+      messages: { request: "first event should stay skipped" },
+      getItems: [{ id: conditionOverrideRewardBase + 21, qty: 1, source: "check-npc-condition-override" }],
+      source: "test/npc-condition-override/wrong-event-a"
+    },
+    {
+      eventNo: 922,
+      type: "MESSAGE",
+      condition: "LV>=99",
+      messages: { normalMain: "second event should stay blocked" },
+      getItems: [{ id: conditionOverrideRewardBase + 22, qty: 1, source: "check-npc-condition-override" }],
+      source: "test/npc-condition-override/wrong-event-b"
+    }
+  ]
+};
+conditionOverrideMap.npcs[conditionOverrideMap.npcs.findIndex((npc) => npc.id === wrongEventNpc.id)] = wrongEventNpc;
+let wrongEventGame = baseConditionOverrideGame("condition-override-wrong-event", wrongEventNpc);
+wrongEventGame = await createConditionOverride(wrongEventGame, wrongEventNpc, "wrong event");
+setTestEventFlag(wrongEventGame, 921, "now");
+wrongEventGame = await api("/api/game/dialog", { game: wrongEventGame, npcId: wrongEventNpc.id, message: "任务" });
+assertEqual(inventoryQty(wrongEventGame, conditionOverrideRewardBase + 22), 0, "condition override does not apply to a different script event");
+assert(wrongEventGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "npc-condition-override-no-matching-override"), "wrong event condition override refusal is recorded");
+
+const expiredNpc = installConditionOverrideNpc("expired", "ITEM=990301*1", 931, 31);
+let expiredGame = baseConditionOverrideGame("condition-override-expired", expiredNpc);
+expiredGame = await createConditionOverride(expiredGame, expiredNpc, "expired");
+const expiredEntry = Object.values(expiredGame.effects.npcConditionOverrides)[0];
+expiredEntry.expiresAt = Date.now() - 1000;
+expiredGame = await api("/api/game/dialog", { game: expiredGame, npcId: expiredNpc.id, message: "任务" });
+assertEqual(inventoryQty(expiredGame, conditionOverrideRewardBase + 31), 0, "expired condition override cannot run source event");
+assert(expiredGame.dialog.debug.conditionOverrides.recent.some((entry) => entry.reason === "expired"), "expired condition override is recorded in dialog debug");
+
 let questLoopGame = await api("/api/game/new", { name: "source-quest-loop-test" });
 questLoopGame.location = { mapId: "1000", x: teacher.x + 1, y: teacher.y, dir: 2 };
 questLoopGame = await api("/api/game/dialog", { game: questLoopGame, npcId: teacher.id });

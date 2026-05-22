@@ -105,6 +105,8 @@ const NPC_SOCIAL_MAX_MEMORIES = 5;
 const NPC_SOCIAL_PROMPT_MEMORY_LIMIT = 3;
 const NPC_PROPOSAL_SCHEMA = "stoneage-npc-proposal-v1";
 const NPC_PROPOSAL_TTL_MS = 2 * 60 * 1000;
+const NPC_CONDITION_OVERRIDE_TTL_MS = 10 * 60 * 1000;
+const NPC_CONDITION_OVERRIDE_MAX_USES = 3;
 const ANGEL_ITEM_ID = 2884;
 const HERO_ITEM_ID = 2885;
 const ANGEL_MISSION_FLAGS = Object.freeze({
@@ -7803,6 +7805,7 @@ function sourceScriptEventReply(game, npc, text = "") {
     petName: event.petName || "",
     keywordRequired: Boolean(keyword.required),
     keywordOk: Boolean(keyword.ok),
+    conditionOverride: publicNpcConditionOverrideMatch(condition?.override),
     source: event.source || npc.script || npc.source || ""
   };
   runNpcVmAction(game, npc, {
@@ -7825,15 +7828,220 @@ function chooseNpcScriptEvent(game, npc, text = "") {
     if (eventNo > 0 && event.type === "REQUEST" && eventFlagSet(game, eventNo, "now")) continue;
     const keyword = sourceScriptKeywordStatus(event, text);
     if (keyword.required && !keyword.ok) continue;
-    const condition = sourceScriptEventConditionStatus(game, event);
+    const condition = sourceScriptEventConditionStatus(game, event, npc);
     if (!condition.ok) continue;
     return { event, condition };
   }
   return null;
 }
 
-function sourceScriptEventConditionStatus(game, event) {
-  return characterConditionStatus(game, event?.condition || "", { petName: event?.petName || "" });
+function sourceScriptEventConditionStatus(game, event, npc = null) {
+  const condition = characterConditionStatus(game, event?.condition || "", { petName: event?.petName || "" });
+  if (condition.ok || !npc) return condition;
+  const override = matchingNpcConditionOverride(game, npc, event, condition);
+  if (!override) return condition;
+  const group = condition.groups?.[override.groupIndex] || condition.groups?.find((item) => item.checks?.some((check) => check.token === override.check.token)) || condition.groups?.[0] || null;
+  recordNpcVmEvent(game, npc, "debug", "ok", {
+    reason: "npc-condition-override-match",
+    key: override.entry.key,
+    eventNo: event?.eventNo,
+    conditionHash: override.entry.conditionHash,
+    conditionKind: override.entry.conditionKind,
+    token: override.entry.conditionToken
+  });
+  return {
+    ...condition,
+    ok: true,
+    matched: group?.source || condition.matched || "",
+    override: {
+      key: override.entry.key,
+      npcId: override.entry.npcId,
+      eventNo: override.entry.eventNo,
+      conditionHash: override.entry.conditionHash,
+      conditionToken: override.entry.conditionToken,
+      conditionKind: override.entry.conditionKind,
+      substituteCost: override.entry.substituteCost,
+      check: override.entry.check,
+      groupSource: group?.source || "",
+      matched: condition.matched || "",
+      source: override.entry.source || ""
+    }
+  };
+}
+
+function isSourceConditionReliefRequest(text = "") {
+  const raw = String(text || "").toLowerCase();
+  const compact = guideSearchText(raw);
+  return hasAny(raw, ["conditionoverride"])
+    || hasAny(compact, [
+      "通融", "帮我过", "幫我過", "帮我做", "幫我做", "条件", "條件",
+      "缺材料", "没材料", "沒材料", "材料不够", "材料不夠", "道具不够", "道具不夠",
+      "等级不够", "等級不夠", "宠物不够", "寵物不夠", "石币不够", "石幣不夠",
+      "让我完成", "讓我完成", "过任务", "過任務", "任务条件", "任務條件", "报酬", "報酬"
+    ]);
+}
+
+function sourceConditionReliefCandidate(game, npc, text = "", expected = null) {
+  if (!hasNpcScriptEvents(npc)) return null;
+  if (!expected && !isSourceConditionReliefRequest(text)) return null;
+  const expectedEventNo = Number(expected?.eventNo || 0);
+  const expectedHash = String(expected?.conditionHash || "");
+  for (const event of npc.scriptEvents || []) {
+    const eventNo = Number(event.eventNo || 0);
+    if (expectedEventNo > 0 && eventNo !== expectedEventNo) continue;
+    if (eventNo > 0 && eventFlagSet(game, eventNo, "end") && event.type !== "MESSAGE") continue;
+    if (eventNo > 0 && event.type === "REQUEST" && eventFlagSet(game, eventNo, "now")) continue;
+    const keyword = sourceScriptKeywordStatus(event, text);
+    if (keyword.required && !keyword.ok && !expected) continue;
+    const condition = characterConditionStatus(game, event?.condition || "", { petName: event?.petName || "" });
+    if (condition.ok) continue;
+    const relief = firstRelievableConditionCheck(condition);
+    if (!relief) continue;
+    const hash = npcConditionHash(npc, event, relief.check);
+    if (expectedHash && expectedHash !== hash) continue;
+    return { event, condition, check: relief.check, group: relief.group, groupIndex: relief.groupIndex, conditionHash: hash };
+  }
+  return null;
+}
+
+function firstRelievableConditionCheck(condition) {
+  const allowed = new Set(["item", "level", "pet", "stone", "event"]);
+  for (let groupIndex = 0; groupIndex < (condition.groups || []).length; groupIndex += 1) {
+    const group = condition.groups[groupIndex];
+    for (const check of group.checks || []) {
+      if (check.ok || !allowed.has(check.type)) continue;
+      return { check, group, groupIndex };
+    }
+  }
+  return null;
+}
+
+function conditionOverrideActionFromCandidate(game, npc, candidate, text = "") {
+  const check = candidate.check || {};
+  return {
+    type: "conditionOverride",
+    text: String(text || "").slice(0, 180),
+    eventNo: Number(candidate.event?.eventNo || 0),
+    conditionHash: candidate.conditionHash || npcConditionHash(npc, candidate.event, check),
+    condition: candidate.event?.condition || "",
+    conditionToken: check.token || "",
+    conditionKind: check.type || "",
+    substituteStone: npcConditionOverrideCost(game, npc, candidate, text),
+    seconds: Math.ceil(NPC_CONDITION_OVERRIDE_TTL_MS / 1000)
+  };
+}
+
+function npcConditionOverrideCost(game, npc, candidate, text = "") {
+  const check = candidate?.check || {};
+  const urgentDiscount = hasAny(String(text || ""), ["拜托", "拜託", "真的需要", "很需要", "急用"]) ? 80 : 0;
+  const levelPremium = Math.min(400, Math.max(0, Number(game.player?.level || 1) - 1) * 12);
+  let base = 220 + levelPremium;
+  if (check.type === "item") {
+    const missing = Math.max(1, Number(check.needed || 1) - Number(check.qty || 0));
+    base += missing * 140;
+  } else if (check.type === "level") {
+    const gap = Math.max(1, Number(check.expected || 1) - Number(check.actual || 1));
+    base += Math.min(2400, gap * 80);
+  } else if (check.type === "pet") {
+    const missing = Math.max(1, Number(check.needed || 1) - Number(check.qty || 0));
+    base += 260 + missing * 180;
+  } else if (check.type === "stone") {
+    const missing = Math.max(1, Number(check.expected || 0) - Number(check.actual || 0));
+    base += Math.min(5000, Math.ceil(missing * 0.35));
+  } else if (check.type === "event") {
+    base += 360;
+  }
+  if (isSavePointNpc(npc)) base += 120;
+  return clampInt(Math.round(base - urgentDiscount), 80, 20000, 300);
+}
+
+function npcConditionHash(npc, event, check = null) {
+  return stableHashString([
+    npc?.id || "",
+    Number(event?.eventNo || 0),
+    normalizeConditionToken(event?.condition || ""),
+    normalizeConditionToken(check?.token || "")
+  ].join("|"));
+}
+
+function npcConditionOverrideKey(npcId, eventNo, conditionHash) {
+  return `${npcId}:${Number(eventNo || 0)}:${conditionHash}`;
+}
+
+function normalizeConditionToken(value = "") {
+  return String(value || "").replace(/\s+/g, "").toUpperCase();
+}
+
+function stableHashString(value) {
+  let hash = 2166136261;
+  for (const char of String(value || "")) {
+    hash ^= char.charCodeAt(0);
+    hash = Math.imul(hash, 16777619) >>> 0;
+  }
+  return hash.toString(36);
+}
+
+function matchingNpcConditionOverride(game, npc, event, condition) {
+  normalizeNpcConditionOverrides(game);
+  const entries = Object.values(game.effects?.npcConditionOverrides || {});
+  if (!entries.length) return null;
+  for (let groupIndex = 0; groupIndex < (condition.groups || []).length; groupIndex += 1) {
+    const group = condition.groups[groupIndex];
+    for (const check of group.checks || []) {
+      if (check.ok) continue;
+      const hash = npcConditionHash(npc, event, check);
+      const entry = entries.find((item) => npcConditionOverrideApplies(item, npc, event, hash));
+      if (!entry) continue;
+      const token = normalizeConditionToken(entry.conditionToken || check.token || "");
+      const groupPassesWithOverride = (group.checks || []).every((item) => item.ok || normalizeConditionToken(item.token) === token);
+      if (groupPassesWithOverride) return { entry, check, group, groupIndex };
+    }
+  }
+  recordNpcConditionOverrideRefusal(game, npc, event, "no-matching-override");
+  return null;
+}
+
+function npcConditionOverrideApplies(entry, npc, event, conditionHash) {
+  return String(entry?.npcId || "") === String(npc?.id || "")
+    && Number(entry?.eventNo || 0) === Number(event?.eventNo || 0)
+    && String(entry?.conditionHash || "") === String(conditionHash || "")
+    && Number(entry?.expiresAt || 0) > Date.now()
+    && Number(entry?.usesLeft || 0) > 0;
+}
+
+function recordNpcConditionOverrideRefusal(game, npc, event, reason) {
+  if (!event?.condition) return;
+  recordNpcVmEvent(game, npc, "debug", "blocked", {
+    reason: `npc-condition-override-${reason}`,
+    eventNo: event?.eventNo,
+    conditionHash: stableHashString(`${npc?.id || ""}|${event?.eventNo || 0}|${normalizeConditionToken(event?.condition || "")}`)
+  });
+}
+
+function publicNpcConditionOverrideMatch(entry) {
+  if (!entry) return null;
+  return {
+    key: entry.key,
+    npcId: entry.npcId,
+    eventNo: entry.eventNo,
+    conditionHash: entry.conditionHash,
+    conditionKind: entry.conditionKind,
+    conditionToken: entry.conditionToken,
+    substituteStone: Number(entry.substituteCost?.stone || 0),
+    usesLeft: entry.usesLeft,
+    expiresAt: entry.expiresAt
+  };
+}
+
+function npcConditionKindLabel(kind = "") {
+  const labels = {
+    item: "道具条件",
+    level: "等级条件",
+    pet: "宠物条件",
+    stone: "石币条件",
+    event: "事件条件"
+  };
+  return labels[String(kind || "")] || "";
 }
 
 function hasPendingSourceStop(game, npc, event = null) {
@@ -8179,7 +8387,8 @@ function runNpcScriptLastTalkElderActions(game, npc, event, detail, phase) {
 
 function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
   const phase = options.phase || "script";
-  const runtimeEvent = sourceScriptRuntimeEvent(game, event);
+  const conditionOverride = detail?.conditionOverride || null;
+  const runtimeEvent = sourceScriptRuntimeEvent(game, event, conditionOverride);
   const preflight = npcScriptEventPreflight(game, runtimeEvent);
   if (!preflight.ok) {
     recordNpcVmEvent(game, npc, "quest", "blocked", {
@@ -8206,6 +8415,8 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
       reply: blockedMessage || `${npc.name}：${preflight.message || "条件还没有准备好。"}。`
     };
   }
+  const overridePayment = consumeNpcConditionOverrideForEvent(game, npc, event, conditionOverride, detail);
+  if (!overridePayment.ok) return overridePayment;
   for (const item of runtimeEvent.delItems || []) {
     const taken = runNpcVmAction(game, npc, {
       type: "take",
@@ -8296,15 +8507,15 @@ function applyNpcScriptItemDelta(game, npc, event, detail, options = {}) {
   return { ok: true };
 }
 
-function sourceScriptRuntimeEvent(game, event) {
+function sourceScriptRuntimeEvent(game, event, conditionOverride = null) {
   const randomItems = sourceScriptRuntimeRandItems(event);
   return {
     ...event,
     getItems: [...(event.getItems || []), ...randomItems],
-    delItems: sourceScriptRuntimeDelItems(game, event),
+    delItems: sourceScriptRuntimeDelItems(game, event, conditionOverride),
     getStones: sourceScriptRuntimeStones(game, event.getStones),
     delStones: sourceScriptRuntimeStones(game, event.delStones),
-    delPets: sourceScriptRuntimeDelPets(game, event)
+    delPets: sourceScriptRuntimeDelPets(game, event, conditionOverride)
   };
 }
 
@@ -8340,7 +8551,7 @@ function sourceScriptStoneAmount(game, spec = {}) {
   return Math.max(0, Number(spec.amount || 0));
 }
 
-function sourceScriptRuntimeDelItems(game, event) {
+function sourceScriptRuntimeDelItems(game, event, conditionOverride = null) {
   const out = [];
   for (const item of event.delItems || []) {
     if (!item?.evdel) {
@@ -8348,12 +8559,12 @@ function sourceScriptRuntimeDelItems(game, event) {
       continue;
     }
     const condition = sourceScriptEventConditionStatus(game, event);
-    out.push(...parseSourceScriptItemConditionSpecs(condition.matched || "", event.notDelItems));
+    out.push(...parseSourceScriptItemConditionSpecs(condition.matched || "", event.notDelItems, conditionOverride));
   }
   return out;
 }
 
-function parseSourceScriptItemConditionSpecs(source = "", notDelItems = []) {
+function parseSourceScriptItemConditionSpecs(source = "", notDelItems = [], conditionOverride = null) {
   const keep = new Set((notDelItems || []).map((id) => Number(id)).filter((id) => id > 0));
   return String(source || "")
     .split(/[,&|]/)
@@ -8362,6 +8573,7 @@ function parseSourceScriptItemConditionSpecs(source = "", notDelItems = []) {
       if (!match) return null;
       const id = Number(match[1]);
       if (keep.has(id)) return null;
+      if (conditionOverrideSkipsItem(conditionOverride, match[0], id)) return null;
       return sourceScriptItem({
         id,
         qty: Math.max(1, Number(match[2] || 1)),
@@ -8371,7 +8583,7 @@ function parseSourceScriptItemConditionSpecs(source = "", notDelItems = []) {
     .filter(Boolean);
 }
 
-function sourceScriptRuntimeDelPets(game, event) {
+function sourceScriptRuntimeDelPets(game, event, conditionOverride = null) {
   const out = [];
   for (const pet of event.delPets || []) {
     if (!pet?.evdel) {
@@ -8379,18 +8591,19 @@ function sourceScriptRuntimeDelPets(game, event) {
       continue;
     }
     const condition = sourceScriptEventConditionStatus(game, event);
-    out.push(...parseSourceScriptPetConditionSpecs(condition.matched || "", event.petName)
+    out.push(...parseSourceScriptPetConditionSpecs(condition.matched || "", event.petName, conditionOverride)
       .map((resolved) => ({ ...resolved, sourceAction: pet.sourceAction || "DelPet" })));
   }
   return out;
 }
 
-function parseSourceScriptPetConditionSpecs(source = "", petName = "") {
+function parseSourceScriptPetConditionSpecs(source = "", petName = "", conditionOverride = null) {
   return String(source || "")
     .split(/[,&|]/)
     .map((part) => {
       const match = part.trim().match(/^PET\s*(!=|>=|<=|>|<|=)\s*(\d+)-(\d+)(?:\*(\d+))?$/i);
       if (!match) return null;
+      if (conditionOverrideSkipsPet(conditionOverride, match[0], Number(match[3]))) return null;
       return {
         op: match[1],
         level: Number(match[2]),
@@ -8401,6 +8614,86 @@ function parseSourceScriptPetConditionSpecs(source = "", petName = "") {
       };
     })
     .filter(Boolean);
+}
+
+function conditionOverrideSkipsItem(conditionOverride, token, itemId) {
+  if (!conditionOverride || conditionOverride.conditionKind !== "item") return false;
+  const check = conditionOverride.check || {};
+  return normalizeConditionToken(token) === normalizeConditionToken(conditionOverride.conditionToken)
+    || Number(check.itemId || 0) === Number(itemId || 0);
+}
+
+function conditionOverrideSkipsPet(conditionOverride, token, petId) {
+  if (!conditionOverride || conditionOverride.conditionKind !== "pet") return false;
+  const check = conditionOverride.check || {};
+  return normalizeConditionToken(token) === normalizeConditionToken(conditionOverride.conditionToken)
+    || Number(check.petId || 0) === Number(petId || 0);
+}
+
+function consumeNpcConditionOverrideForEvent(game, npc, event, conditionOverride, detail = {}) {
+  if (!conditionOverride?.key) return { ok: true };
+  normalizeNpcConditionOverrides(game);
+  const entry = game.effects?.npcConditionOverrides?.[conditionOverride.key];
+  const now = Date.now();
+  if (!entry) {
+    recordNpcVmEvent(game, npc, "quest", "blocked", {
+      ...detail,
+      reason: "npc-condition-override-missing",
+      eventNo: event?.eventNo,
+      conditionOverride
+    });
+    return { ok: false, reply: `${npc.name}：刚才的通融条件已经失效，请重新确认。` };
+  }
+  if (!npcConditionOverrideApplies(entry, npc, event, conditionOverride.conditionHash)) {
+    recordNpcVmEvent(game, npc, "quest", "blocked", {
+      ...detail,
+      reason: "npc-condition-override-scope-mismatch",
+      eventNo: event?.eventNo,
+      conditionOverride: publicNpcConditionOverrideMatch(entry)
+    });
+    return { ok: false, reply: `${npc.name}：这个通融不属于当前脚本事件。` };
+  }
+  if (entry.expiresAt <= now || entry.usesLeft <= 0) {
+    delete game.effects.npcConditionOverrides[entry.key];
+    recordNpcConditionOverrideDebug(game, entry, entry.expiresAt <= now ? "expired" : "consumed");
+    recordNpcVmEvent(game, npc, "quest", "blocked", {
+      ...detail,
+      reason: entry.expiresAt <= now ? "npc-condition-override-expired" : "npc-condition-override-consumed",
+      eventNo: event?.eventNo,
+      conditionOverride: publicNpcConditionOverrideMatch(entry)
+    });
+    return { ok: false, reply: `${npc.name}：通融条件已经失效，请重新确认。` };
+  }
+  const fee = Number(entry.substituteCost?.stone || 0);
+  if (fee > 0) {
+    const paid = runNpcVmAction(game, npc, {
+      type: "take",
+      item: "stone",
+      qty: fee,
+      ...detail,
+      reason: "npc-condition-override-cost",
+      conditionOverride: publicNpcConditionOverrideMatch(entry)
+    });
+    if (!paid.ok) {
+      recordNpcVmEvent(game, npc, "quest", "blocked", {
+        ...detail,
+        reason: "npc-condition-override-cost-failed",
+        requiredStone: fee,
+        currentStone: Number(game.player?.stone || 0),
+        conditionOverride: publicNpcConditionOverrideMatch(entry)
+      });
+      return { ok: false, reply: `${npc.name}：通融费需要 ${fee} 石币，你现在不够。` };
+    }
+  }
+  entry.usesLeft -= 1;
+  recordNpcConditionOverrideDebug(game, entry, "consumed");
+  recordNpcVmEvent(game, npc, "debug", "ok", {
+    ...detail,
+    reason: "npc-condition-override-consumed",
+    conditionOverride: publicNpcConditionOverrideMatch(entry)
+  });
+  if (entry.usesLeft <= 0) delete game.effects.npcConditionOverrides[entry.key];
+  return { ok: true };
 }
 
 function npcScriptEventPreflight(game, event) {
@@ -12214,12 +12507,22 @@ function proposalDecision(value = "") {
 function normalizeNpcProposalAction(action) {
   if (!action || typeof action !== "object") return null;
   const type = String(action.type || "");
-  if (!["warp", "roleFavor", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass"].includes(type)) return null;
-  return {
+  if (!["warp", "roleFavor", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass", "conditionOverride"].includes(type)) return null;
+  const base = {
     type,
     text: String(action.text || "").slice(0, 180),
     seconds: clampInt(action.seconds, 0, 1200, 0),
     percent: clampInt(action.percent, 0, 30, 0)
+  };
+  if (type !== "conditionOverride") return base;
+  return {
+    ...base,
+    eventNo: clampInt(action.eventNo, 0, 999999, 0),
+    conditionHash: String(action.conditionHash || "").slice(0, 40),
+    condition: String(action.condition || "").slice(0, 240),
+    conditionToken: String(action.conditionToken || "").slice(0, 120),
+    conditionKind: String(action.conditionKind || "").slice(0, 32),
+    substituteStone: clampInt(action.substituteStone ?? action.substituteCost?.stone, 0, CHAR_MAXGOLDHAVE, 0)
   };
 }
 
@@ -12377,6 +12680,7 @@ function npcProposalActionAllowedForNpc(npc, action) {
   if (action.type === "shopDiscount") return Boolean(npc.trade?.items?.length);
   if (action.type === "offMenuItem") return Boolean(npc.trade?.items?.length && chooseRoleFitOffMenuItem(null, npc, action.text || "").item);
   if (action.type === "negotiatePass") return isNpcEnemy(npc);
+  if (action.type === "conditionOverride") return hasNpcScriptEvents(npc) && Number(action.eventNo || 0) > 0 && Boolean(action.conditionHash);
   if (action.type === "noEncounter") return !isNpcEnemy(npc);
   return false;
 }
@@ -12388,7 +12692,8 @@ function npcProposalKindLabel(kind) {
     noEncounter: "临时避敌",
     shopDiscount: "临时折扣",
     offMenuItem: "临时商品/赠品",
-    negotiatePass: "守路交涉"
+    negotiatePass: "守路交涉",
+    conditionOverride: "脚本条件通融"
   };
   return labels[kind] || "NPC 提案";
 }
@@ -12410,6 +12715,10 @@ function npcProposalSummary(game, npc, action) {
   if (action.type === "shopDiscount") return `${npc.name} 可以给本店临时 ${clampInt(action.percent, 5, 30, 10)}% 折扣，结账时由 Worker 重算价格。`;
   if (action.type === "offMenuItem") return `${npc.name} 可以找一件符合本店身份的临时商品或小赠品，确认后再加入商品栏/背包。`;
   if (action.type === "negotiatePass") return `${npc.name} 可以接受贿赂/威慑交涉，确认后可能收石币并临时让路。`;
+  if (action.type === "conditionOverride") {
+    const kind = npcConditionKindLabel(action.conditionKind);
+    return `${npc.name} 可以为原脚本事件 ${action.eventNo} 通融一次${kind ? `（${kind}）` : ""}，确认后仍由 NPC VM 执行原事件奖励、传送和 flag。`;
+  }
   return `${npc.name} 提出了一个需要确认的动作。`;
 }
 
@@ -12427,6 +12736,9 @@ function npcProposalCosts(game, npc, action) {
     const item = chooseHealerAidItem(action.text || "");
     return item ? { stone: healerAidCost(game, item, action.text || "") } : {};
   }
+  if (action.type === "conditionOverride") {
+    return { stone: clampInt(action.substituteStone, 0, CHAR_MAXGOLDHAVE, 0) };
+  }
   return {};
 }
 
@@ -12440,6 +12752,13 @@ function npcProposalGrants(game, npc, action) {
   if (action.type === "shopDiscount") return { effects: [`本店 ${clampInt(action.percent, 5, 30, 10)}% 临时折扣`] };
   if (action.type === "offMenuItem") return { effects: ["临时商品栏或角色内赠品"] };
   if (action.type === "negotiatePass") return { effects: ["守路 NPC 临时让路 5 分钟"] };
+  if (action.type === "conditionOverride") {
+    const kind = npcConditionKindLabel(action.conditionKind);
+    return {
+      effects: [`${kind || "脚本条件"}一次性通融`],
+      conditionOverrides: [`NPC ${npc.name} event ${action.eventNo} ${action.conditionHash}`]
+    };
+  }
   if (action.type === "roleFavor" && isSavePointNpc(npc)) return { effects: ["写入记录点/出生点"] };
   if (action.type === "roleFavor" && isHealerNpc(npc)) {
     const item = chooseHealerAidItem(action.text || "");
@@ -12452,6 +12771,7 @@ function npcProposalRisk(action) {
   if (action.type === "roleFavor") return "角色内帮助可能因为石币、背包、原脚本条件或概率被拒绝。";
   if (action.type === "negotiatePass") return "守路交涉可能扣除石币或只产生临时让路，不改原版战斗脚本。";
   if (action.type === "warp") return "传送会移动角色位置；确认前不会改变地图。";
+  if (action.type === "conditionOverride") return "只放行指定 NPC 的指定脚本事件一次；奖励、传送、flag、扣物仍由原 NPC VM 重新校验。";
   return "确认前不会扣钱、给物品、改效果或移动角色。";
 }
 
@@ -12525,6 +12845,11 @@ function openAiNpcAction(game, npc, decision, fallbackText) {
   if (type === "roleFavor") {
     if (!npcCanOfferAiFavor(npc)) return null;
     return { type: "roleFavor", text };
+  }
+  if (type === "conditionOverride") {
+    const candidate = sourceConditionReliefCandidate(game, npc, text || fallbackText || "");
+    if (!candidate) return null;
+    return conditionOverrideActionFromCandidate(game, npc, candidate, text);
   }
   return null;
 }
@@ -12600,6 +12925,8 @@ function localNpcAiFallback(game, npc, text, error = null) {
 
 function inferNpcAiAction(game, npc, text) {
   const lower = String(text || "").toLowerCase();
+  const relief = sourceConditionReliefCandidate(game, npc, lower);
+  if (relief) return conditionOverrideActionFromCandidate(game, npc, relief, lower);
   if (isTeleportRequest(lower)) {
     if (isWarpNpc(npc) || isTransportNpc(npc)) return { type: "warp", text: lower };
     return { type: "teleportInfo", text: lower };
@@ -12956,6 +13283,41 @@ function applyNpcAiAction(game, npc, action) {
     if (!event.ok) return `${npc.name} 找到了 ${offer.item.name}，但 ${event.error || "不能摆上临时商品栏"}。`;
     return `${npc.name} 翻了翻柜台后面：可以临时卖你 ${offer.item.name}，价格 ${offer.price} 石币。${offer.explain}输入“买东西”或点商品栏就能购买。`;
   }
+  if (action.type === "conditionOverride") {
+    const candidate = sourceConditionReliefCandidate(game, npc, action.text || "", action);
+    if (!candidate) {
+      recordNpcVmEvent(game, npc, "effect", "blocked", {
+        effect: "npcConditionOverride",
+        reason: "npc-condition-override-no-match",
+        eventNo: action.eventNo,
+        conditionHash: action.conditionHash,
+        conditionKind: action.conditionKind
+      });
+      return `${npc.name} 摇摇头：现在没有能通融的原脚本条件，还是按规矩来。`;
+    }
+    const overrideAction = conditionOverrideActionFromCandidate(game, npc, candidate, action.text || "");
+    const event = runNpcVmAction(game, npc, {
+      type: "effect",
+      effect: "npcConditionOverride",
+      npcId: npc.id,
+      npcName: npc.name,
+      eventNo: overrideAction.eventNo,
+      conditionHash: overrideAction.conditionHash,
+      condition: overrideAction.condition,
+      conditionToken: overrideAction.conditionToken,
+      conditionKind: overrideAction.conditionKind,
+      check: candidate.check,
+      substituteStone: overrideAction.substituteStone,
+      seconds: clampInt(overrideAction.seconds, 60, 1200, Math.ceil(NPC_CONDITION_OVERRIDE_TTL_MS / 1000)),
+      usesLeft: 1,
+      reason: "ai-condition-override",
+      source: candidate.event.source || npc.script || npc.source || ""
+    });
+    if (!event.ok) return `${npc.name} 没能通融这个条件：${event.error || "effect 被 VM 拒绝"}。`;
+    const cost = Number(overrideAction.substituteStone || 0);
+    const fee = cost > 0 ? `，执行原事件前会先收 ${cost} 石币补偿` : "";
+    return `${npc.name} 点点头：这次可以通融 ${npcConditionKindLabel(overrideAction.conditionKind) || "脚本条件"}一次${fee}。你再按原脚本和我对话，奖励、传送和 flag 仍由 Worker 按事件 ${overrideAction.eventNo} 校验。`;
+  }
   if (action.type === "negotiatePass") {
     return npcEnemyNegotiationReply(game, npc, action.text || "");
   }
@@ -13003,6 +13365,7 @@ function npcDebugInfo(npc, game = null) {
     persona: buildNpcPersona(game, npc, map),
     social: game ? summarizeNpcSocialForDebug(game, npc) : null,
     pendingProposal: game ? publicNpcProposal(game, npc) : null,
+    conditionOverrides: game ? compactNpcConditionOverrideDebug(game, npc) : null,
     raceMan: buildRaceManState(game, npc),
     janken: npc.janken || null,
     quiz: buildQuizState(game, npc),
@@ -13016,6 +13379,26 @@ function npcDebugInfo(npc, game = null) {
     vmTrace: game ? recentNpcVmEvents(game, npc) : [],
     talkFlow: "gmsv CHAR_Talk -> NPC talkedfunc; browser click sends P|hi"
   };
+}
+
+function compactNpcConditionOverrideDebug(game, npc) {
+  normalizeNpcConditionOverrides(game);
+  const active = Object.values(game.effects?.npcConditionOverrides || {})
+    .filter((entry) => String(entry.npcId || "") === String(npc?.id || ""))
+    .map((entry) => ({
+      key: entry.key,
+      eventNo: entry.eventNo,
+      conditionHash: entry.conditionHash,
+      conditionKind: entry.conditionKind,
+      conditionToken: entry.conditionToken,
+      substituteStone: Number(entry.substituteCost?.stone || 0),
+      usesLeft: entry.usesLeft,
+      expiresAt: entry.expiresAt
+    }));
+  const recent = (game.effects?.npcConditionOverrideDebug || [])
+    .filter((entry) => !npc || String(entry.npcId || "") === String(npc.id || ""))
+    .slice(-8);
+  return { active, recent };
 }
 
 function dialogSourceLine(debug) {
@@ -13296,6 +13679,46 @@ function applyNpcVmEffect(game, action) {
       reason: action.reason || "npc-effect"
     };
     return { ok: true, mutated: true, effect: action.effect, npcId: action.npcId, seconds, mode: action.mode || "negotiation" };
+  }
+  if (action.effect === "npcConditionOverride") {
+    const npcId = String(action.npcId || "");
+    const eventNo = Number(action.eventNo || 0);
+    const conditionHash = String(action.conditionHash || "");
+    if (!npcId || eventNo <= 0 || !conditionHash) return { ok: false, mutated: false, error: "npcConditionOverride 缺少 npcId/eventNo/conditionHash" };
+    const seconds = clampInt(action.seconds ?? action.durationSeconds, 60, 1200, Math.ceil(NPC_CONDITION_OVERRIDE_TTL_MS / 1000));
+    const usesLeft = clampInt(action.usesLeft, 1, NPC_CONDITION_OVERRIDE_MAX_USES, 1);
+    const entry = normalizeNpcConditionOverride({
+      npcId,
+      npcName: action.npcName || "",
+      eventNo,
+      conditionHash,
+      condition: action.condition || "",
+      conditionToken: action.conditionToken || "",
+      conditionKind: action.conditionKind || "",
+      check: action.check || null,
+      substituteCost: { stone: action.substituteStone ?? action.substituteCost?.stone ?? 0 },
+      usesLeft,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + seconds * 1000,
+      reason: action.reason || "npc-effect",
+      source: action.source || ""
+    });
+    if (!entry) return { ok: false, mutated: false, error: "npcConditionOverride 无法规范化" };
+    game.effects.npcConditionOverrides ||= {};
+    game.effects.npcConditionOverrides[entry.key] = entry;
+    recordNpcConditionOverrideDebug(game, entry, "created");
+    return {
+      ok: true,
+      mutated: true,
+      effect: action.effect,
+      npcId,
+      eventNo,
+      conditionHash,
+      conditionKind: entry.conditionKind,
+      substituteStone: entry.substituteCost.stone,
+      usesLeft,
+      seconds
+    };
   }
   if (action.effect !== "noEncounter") return { ok: false, mutated: false, error: `unsupported effect: ${action.effect || "empty"}` };
   const seconds = clampInt(action.seconds ?? action.durationSeconds, 30, 600, 180);
@@ -17142,6 +17565,7 @@ function normalizeGame(game) {
   game.quests = normalizeQuestRuntime(game.quests);
   ensureFlags(game);
   game.effects ||= {};
+  normalizeNpcConditionOverrides(game);
   normalizeMetamoEffect(game);
   game.automation = normalizeAutomationState(game.automation);
   game.aiWorkspace = normalizeAiWorkspace(game.aiWorkspace);
@@ -17196,6 +17620,92 @@ function normalizeMetamoEffect(game) {
   game.player.CHAR_WORKNPCMETAMO = 0;
   delete game.effects.metamo;
   delete game.effects.metamoUntil;
+}
+
+function normalizeNpcConditionOverrides(game) {
+  game.effects ||= {};
+  const source = game.effects.npcConditionOverrides || {};
+  const now = Date.now();
+  const normalized = {};
+  for (const [key, value] of Object.entries(source)) {
+    const entry = normalizeNpcConditionOverride(value, key);
+    if (!entry) continue;
+    if (entry.expiresAt <= now || entry.usesLeft <= 0) {
+      recordNpcConditionOverrideDebug(game, entry, entry.expiresAt <= now ? "expired" : "consumed");
+      continue;
+    }
+    normalized[entry.key] = entry;
+  }
+  if (Object.keys(normalized).length) game.effects.npcConditionOverrides = normalized;
+  else delete game.effects.npcConditionOverrides;
+}
+
+function normalizeNpcConditionOverride(value, fallbackKey = "") {
+  if (!value || typeof value !== "object") return null;
+  const npcId = String(value.npcId || "").slice(0, 120);
+  const eventNo = Number(value.eventNo || 0);
+  const conditionHash = String(value.conditionHash || "").slice(0, 40);
+  if (!npcId || eventNo <= 0 || !conditionHash) return null;
+  const key = String(value.key || fallbackKey || npcConditionOverrideKey(npcId, eventNo, conditionHash)).slice(0, 180);
+  const createdAt = clampInt(value.createdAt, 0, Number.MAX_SAFE_INTEGER, Date.now());
+  const expiresAt = clampInt(value.expiresAt, 0, Number.MAX_SAFE_INTEGER, createdAt + NPC_CONDITION_OVERRIDE_TTL_MS);
+  const usesLeft = clampInt(value.usesLeft, 0, NPC_CONDITION_OVERRIDE_MAX_USES, 1);
+  const check = value.check && typeof value.check === "object"
+    ? {
+      type: String(value.check.type || value.conditionKind || "").slice(0, 32),
+      token: String(value.check.token || value.conditionToken || "").slice(0, 120),
+      itemId: Number(value.check.itemId || 0),
+      itemName: String(value.check.itemName || "").slice(0, 60),
+      petId: Number(value.check.petId || 0),
+      petName: String(value.check.petName || "").slice(0, 60),
+      shiftbit: Number(value.check.shiftbit || 0),
+      expected: Number(value.check.expected || 0),
+      actual: value.check.actual,
+      needed: Number(value.check.needed || 0),
+      qty: Number(value.check.qty || 0),
+      op: String(value.check.op || "").slice(0, 4),
+      kind: String(value.check.kind || "").slice(0, 12)
+    }
+    : {
+      type: String(value.conditionKind || "").slice(0, 32),
+      token: String(value.conditionToken || "").slice(0, 120)
+    };
+  return {
+    key,
+    npcId,
+    npcName: String(value.npcName || "").slice(0, 60),
+    eventNo,
+    conditionHash,
+    condition: String(value.condition || "").slice(0, 240),
+    conditionToken: String(value.conditionToken || check.token || "").slice(0, 120),
+    conditionKind: String(value.conditionKind || check.type || "").slice(0, 32),
+    check,
+    substituteCost: {
+      stone: clampInt(value.substituteCost?.stone ?? value.substituteStone, 0, CHAR_MAXGOLDHAVE, 0)
+    },
+    usesLeft,
+    createdAt,
+    expiresAt,
+    source: String(value.source || "").slice(0, 160),
+    reason: String(value.reason || "").slice(0, 80)
+  };
+}
+
+function recordNpcConditionOverrideDebug(game, entry, reason) {
+  if (!game || !entry) return;
+  game.effects ||= {};
+  game.effects.npcConditionOverrideDebug ||= [];
+  game.effects.npcConditionOverrideDebug.push({
+    at: Date.now(),
+    reason,
+    key: entry.key,
+    npcId: entry.npcId,
+    eventNo: entry.eventNo,
+    conditionHash: entry.conditionHash,
+    usesLeft: entry.usesLeft,
+    expiresAt: entry.expiresAt
+  });
+  game.effects.npcConditionOverrideDebug = game.effects.npcConditionOverrideDebug.slice(-16);
 }
 
 function normalizeQuestRuntime(quests = {}) {

@@ -205,8 +205,9 @@ Use:
         "npcId": "npc-id",
         "eventNo": 4,
         "conditionHash": "hash",
-        "kind": "missingItem|level|pet|stone|event",
-        "substituteCost": {},
+        "conditionKind": "item|level|pet|stone|event",
+        "conditionToken": "ITEM=1234*1",
+        "substituteCost": { "stone": 300 },
         "expiresAt": 0,
         "usesLeft": 1
       }
@@ -221,6 +222,7 @@ Rules:
 - Default to once-only or short TTL.
 - The override may let a source condition pass or transform it into a substitute cost.
 - Final rewards, pet grants, stone grants, warp, flags, and source task completion still execute through existing Worker NPC VM actions.
+- `dialog.debug.conditionOverrides` and VM trace must expose creation, match, consumption, expiry, and refusal reasons without exposing raw source scripts.
 - AI never writes flags or completes quests by itself.
 
 ## UI Requirements
@@ -305,4 +307,3 @@ Extend save JSON with:
 - High-confidence gender affects flirting/address tone; unknown gender is not forced.
 - `npm run check:npc` and `npm run check:protocol` must pass before marking v1 done.
 - After save shape stabilizes, run full `npm run check`.
-
