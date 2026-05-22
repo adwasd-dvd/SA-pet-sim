@@ -49,10 +49,10 @@ for (const snippet of [
 
 assert(pkg.scripts?.["check:dialog-proposal-ui"] === "node scripts/check-dialog-proposal-ui.mjs", "package.json must expose check:dialog-proposal-ui");
 assert(String(pkg.scripts?.check || "").includes("npm run check:dialog-proposal-ui"), "npm run check must include check:dialog-proposal-ui");
-assert(index.includes("/assets/app.js?v=109"), "index.html must bump app.js cache query to v109");
+assert(index.includes("/assets/app.js?v=110"), "index.html must bump app.js cache query to v110");
 assert(index.includes("/assets/app.css?v=67"), "index.html must bump app.css cache query to v67");
-assert(sw.includes('const CACHE = "stoneage-web-v109"'), "service worker cache must bump to v109");
-assert(sw.includes("/assets/app.js?v=109"), "service worker shell must cache app.js v109");
+assert(sw.includes('const CACHE = "stoneage-web-v110"'), "service worker cache must bump to v110");
+assert(sw.includes("/assets/app.js?v=110"), "service worker shell must cache app.js v110");
 assert(sw.includes("/assets/app.css?v=67"), "service worker shell must cache app.css v67");
 
 console.log("Dialog proposal UI OK: confirmation panel and endpoint contract are guarded.");

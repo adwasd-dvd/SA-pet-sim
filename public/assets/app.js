@@ -32,6 +32,7 @@ const AUTOMATION_BATTLE_STEP_MS = 520;
 const AUTOMATION_ROUTE_ESCAPE_LIMIT = 10;
 const ROUTE_RETRY_LIMIT = 3;
 const ASSIST_ROUTE_START_TIMEOUT_MS = 6000;
+const ASSIST_ROUTE_REFRESH_LIMIT = 8;
 const PAID_JUMP_BASE_COST = 2000;
 const PAID_JUMP_FIRST_TIER_STEPS = 300;
 const PAID_JUMP_SECOND_TIER_STEPS = 500;
@@ -1481,6 +1482,161 @@ async function waitForAssistRouteStart(label, token) {
   return ready;
 }
 
+function assistRouteRequestStillCurrent(token) {
+  return Boolean(game) && token === routeToken;
+}
+
+async function clearBlockingBattleForAssistRoute(token, label) {
+  if (!isBattleOpen()) return true;
+  if (automationState().autoEscape) {
+    const escaped = await autoEscapeCurrentBattle({ routeToken: token });
+    return Boolean(escaped) && assistRouteRequestStillCurrent(token);
+  }
+  if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${label || "目标"} 暂停：战斗中无法移动。`);
+  return false;
+}
+
+async function walkAssistRouteSteps(route, token, label) {
+  for (const step of route) {
+    if (!assistRouteRequestStillCurrent(token)) return { aborted: true };
+    if (!await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) {
+      if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${label || "目标"} 暂停：上一格移动还没结束。`);
+      return { aborted: true };
+    }
+    const before = {
+      mapId: game.location.mapId,
+      x: Number(game.location.x || 0),
+      y: Number(game.location.y || 0)
+    };
+    const stepDx = Math.sign(Number(step.dx) || 0);
+    const stepDy = Math.sign(Number(step.dy) || 0);
+    const expectedX = before.x + stepDx;
+    const expectedY = before.y + stepDy;
+    const moved = await walkPlayer(step.dx, step.dy);
+    if (!assistRouteRequestStillCurrent(token)) return { aborted: true };
+    const mapChanged = game.location.mapId !== before.mapId;
+    const warped = moved && !mapChanged && (
+      Number(game.location.x) !== expectedX || Number(game.location.y) !== expectedY
+    );
+    if (mapChanged || warped) return { mapChanged, warped, moved };
+    if (!moved) return { blocked: true };
+    if (game.encounter && !await resolveRouteEncounter(token)) return { aborted: true };
+    await wait(85);
+  }
+  return { completed: true };
+}
+
+async function followNpcAssistRoute(npc, options = {}) {
+  if (!game || !npc) return false;
+  const label = npc.name || "NPC";
+  const openWhenNear = Boolean(options.openWhenNear);
+  const preferredTile = normalizeRoutePreference(options.preferredTile);
+  if (routeInFlight) routeToken += 1;
+  const token = ++routeToken;
+  routeInFlight = true;
+  try {
+    for (let attempt = 0; attempt < ASSIST_ROUTE_REFRESH_LIMIT; attempt += 1) {
+      if (!assistRouteRequestStillCurrent(token)) return false;
+      if (!await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) {
+        if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${label} 没有开始：上一格移动还没结束。`);
+        return false;
+      }
+      if (!await clearBlockingBattleForAssistRoute(token, label)) return false;
+      const map = game?.world?.map;
+      const currentNpc = map?.npcs?.find((item) => String(item.id) === String(npc.id));
+      if (!currentNpc) {
+        addClientLog("自动前往目标不在当前地图。请先走到任务提示的地图或使用对应出口。");
+        return false;
+      }
+      if (cellDistance(game.location.x, game.location.y, currentNpc.x, currentNpc.y) <= 2) {
+        await faceNpc(currentNpc);
+        if (openWhenNear) await openDialog(currentNpc.id);
+        else addClientLog(`已靠近 ${currentNpc.name}。双击 NPC 开始对话。`);
+        return true;
+      }
+      const payload = { game, npcId: currentNpc.id };
+      if (attempt === 0 && preferredTile) {
+        payload.targetX = preferredTile.x;
+        payload.targetY = preferredTile.y;
+      }
+      const data = await api("/api/game/route-npc", payload);
+      if (!assistRouteRequestStillCurrent(token)) return false;
+      if (data.blocked || !data.target) {
+        addClientLog(`无法靠近 ${currentNpc.name}。`);
+        return false;
+      }
+      const route = Array.isArray(data.route) ? data.route : [];
+      if (!route.length && data.reason === "already-near") continue;
+      const result = await walkAssistRouteSteps(route, token, currentNpc.name);
+      if (result.aborted) return false;
+      if (result.mapChanged || result.warped) {
+        addClientLog(`自动前往 ${currentNpc.name} 中断：路线经过了出口，请重新选择目标。`);
+        return false;
+      }
+    }
+    addClientLog(`自动前往 ${label} 未完成：路线多次被阻挡，已停止。`);
+    return false;
+  } catch (error) {
+    addClientLog(error.message || `无法靠近 ${label}。`);
+    return false;
+  } finally {
+    if (token === routeToken) routeInFlight = false;
+  }
+}
+
+async function followExitAssistRoute(exitId, options = {}) {
+  if (!game) return false;
+  const preferredTile = normalizeRoutePreference(options.preferredTile);
+  if (routeInFlight) routeToken += 1;
+  const token = ++routeToken;
+  routeInFlight = true;
+  try {
+    for (let attempt = 0; attempt < ASSIST_ROUTE_REFRESH_LIMIT; attempt += 1) {
+      if (!assistRouteRequestStillCurrent(token)) return false;
+      if (!await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) {
+        if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${options.targetName || "出口"} 没有开始：上一格移动还没结束。`);
+        return false;
+      }
+      if (!await clearBlockingBattleForAssistRoute(token, options.targetName || "出口")) return false;
+      const { exit, redirected, targetMapId, targetName } = resolveCurrentAssistExit(exitId, options);
+      if (!exit) {
+        const target = targetName || targetMapId || "目标地图";
+        addClientLog(targetMapId
+          ? `自动前往：当前地图没有直达 ${target} 的出口。请先按路线提示换图，或使用付费跳转。`
+          : "自动前往出口不在当前地图。请先走到任务提示的地图。");
+        return false;
+      }
+      if (redirected && attempt === 0) {
+        const target = targetName || targetMapId || "目标地图";
+        addClientLog(`自动前往：当前地图改走「${exit.label}」前往 ${target}。`);
+      }
+      const beforeMap = game.location.mapId;
+      const payload = { game, exitId: exit.id };
+      if (attempt === 0 && preferredTile) {
+        payload.targetX = preferredTile.x;
+        payload.targetY = preferredTile.y;
+      }
+      const data = await api("/api/game/route-exit", payload);
+      if (!assistRouteRequestStillCurrent(token)) return false;
+      if (data.blocked || !data.target) {
+        addClientLog(`无法到达 ${exit.label}。`);
+        return false;
+      }
+      const route = Array.isArray(data.route) ? data.route : [];
+      const result = await walkAssistRouteSteps(route, token, exit.label);
+      if (result.aborted) return false;
+      if (result.mapChanged || result.warped || game.location.mapId !== beforeMap) return true;
+    }
+    addClientLog(`自动前往 ${options.targetName || "出口"} 未完成：路线多次被阻挡，已停止。`);
+    return false;
+  } catch (error) {
+    addClientLog(error.message || `无法到达 ${options.targetName || "出口"}。`);
+    return false;
+  } finally {
+    if (token === routeToken) routeInFlight = false;
+  }
+}
+
 function clearAssistRouteState(shouldRender = false) {
   if (!activeAssistRoute) return;
   activeAssistRoute = null;
@@ -1767,38 +1923,8 @@ async function goToNpc(npcId, options = {}) {
     }
     return;
   }
-  let approach;
   try {
-    const payload = { game, npcId: npc.id };
-    if (preferredTile) {
-      payload.targetX = preferredTile.x;
-      payload.targetY = preferredTile.y;
-    }
-    approach = await api("/api/game/route-npc", payload);
-    if (startToken !== routeToken) {
-      endAssistRoute("npc", npc.id);
-      return;
-    }
-    if (approach.blocked || !approach.target) {
-      addClientLog(`无法靠近 ${npc.name}。`);
-      endAssistRoute("npc", npc.id);
-      return;
-    }
-  } catch (error) {
-    addClientLog(error.message || `无法靠近 ${npc.name}。`);
-    endAssistRoute("npc", npc.id);
-    return;
-  }
-  try {
-    const reached = await followRouteTo(approach.target, approach, { label: npc.name, preserveAssistRoute: true, walkSlotTimeoutMs: ASSIST_ROUTE_START_TIMEOUT_MS });
-    const currentMap = game?.world?.map;
-    const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
-    if (reached && stillNear) {
-      if (openWhenNear) await openDialog(npc.id);
-      else addClientLog(`已靠近 ${npc.name}。双击 NPC 开始对话。`);
-    } else if (!reached) {
-      addClientLog(`自动前往 ${npc.name} 未完成。`);
-    }
+    await followNpcAssistRoute(npc, { openWhenNear, preferredTile });
   } finally {
     endAssistRoute("npc", npc.id);
   }
@@ -1849,19 +1975,7 @@ async function goToExit(exitId, options = {}) {
   beginAssistRoute("exit", exit.id, exit.label);
   addClientLog(`自动前往：正在去 ${exit.label}。`);
   try {
-    const payload = { game, exitId: exit.id };
-    if (preferredTile) {
-      payload.targetX = preferredTile.x;
-      payload.targetY = preferredTile.y;
-    }
-    const approach = await api("/api/game/route-exit", payload);
-    if (startToken !== routeToken) return;
-    if (approach.blocked || !approach.target) {
-      addClientLog(`无法到达 ${exit.label}。`);
-      return;
-    }
-    const reached = await followRouteTo(approach.target, approach, { label: exit.label, preserveAssistRoute: true, walkSlotTimeoutMs: ASSIST_ROUTE_START_TIMEOUT_MS });
-    if (!reached) addClientLog(`自动前往 ${exit.label} 未完成。`);
+    await followExitAssistRoute(exit.id, { ...options, preferredTile, targetMapId, targetName });
   } catch (error) {
     addClientLog(error.message || `无法到达 ${exit.label}。`);
   } finally {
@@ -3950,7 +4064,7 @@ function onAssistPanelDoubleClick(event) {
     goToNpc(btn.dataset.npc, { openWhenNear: true });
     return;
   }
-  if (btn.dataset.exit) goToExit(btn.dataset.exit);
+  if (btn.dataset.exit) goToExit(btn.dataset.exit, assistRouteOptionsFromButton(btn));
 }
 
 function onAssistPanelKeyDown(event) {
@@ -3963,7 +4077,7 @@ function onAssistPanelKeyDown(event) {
     goToNpc(card.dataset.npc, { openWhenNear: false });
     return;
   }
-  if (card.dataset.exit) goToExit(card.dataset.exit);
+  if (card.dataset.exit) goToExit(card.dataset.exit, assistRouteOptionsFromButton(card));
 }
 
 function currentClientMap() {
@@ -5686,7 +5800,7 @@ function renderExitListHtml(map) {
   const exits = sortMapPoints(map.exits || [], exitSortMode, (exit) => distanceToExitClient(exit));
   const closedExits = sortMapPoints(map.profileClosedExits || [], exitSortMode, (exit) => distanceToExitClient(exit));
   const activeHtml = exits.map((exit) => `
-    <article class="list-btn assist-map-card" role="button" tabindex="0" data-exit="${escapeHtml(exit.id)}" title="${escapeHtml(`${exit.detail || exit.source || ""} | 入口 (${exit.x}, ${exit.y})`)}">
+    <article class="list-btn assist-map-card" role="button" tabindex="0" data-exit="${escapeHtml(exit.id)}"${assistTargetDataAttrs(exitAssistTargetOptions(exit))} title="${escapeHtml(`${exit.detail || exit.source || ""} | 入口 (${exit.x}, ${exit.y})`)}">
       <div class="assist-map-card-main">
         <div class="assist-map-copy">
           <strong>${escapeHtml(exit.label)}</strong>
