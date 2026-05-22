@@ -1,6 +1,19 @@
 # AI NPC Social Sandbox And Proposal Plan
 
-Status: planned for the main development thread. Do not implement this as scattered ad hoc patches. The source of truth for scheduling is `docs/planning/tasks.jsonl`.
+Status: v1 implemented through `npc-social-001` to `npc-social-005` on 2026-05-22. Keep using this document as the guardrail for follow-up work, and do not extend the system with scattered ad hoc patches. The source of truth for scheduling remains `docs/planning/tasks.jsonl`.
+
+## Implementation Checkpoint
+
+The v1 slice is complete and regression-covered:
+
+- Worker builds compact source-grounded NPC persona context and bounded `game.npcSocial` relationship memory.
+- Critical AI/social actions create `flags.pendingNpcProposal` plus a UI-safe `game.dialog.proposal`; they do not mutate state before player confirmation.
+- `POST /api/game/dialog-proposal` revalidates NPC identity, range, proposal id, expiry, resources, inventory, pet roster, selected pet, and source constraints before VM-backed commit.
+- `effects.npcConditionOverrides` supports scoped, short-lived, one-shot condition relief for source script checks while leaving final rewards, warps, flags, and task completion inside the deterministic NPC VM.
+- The browser dialogue window renders compact `同意` / `拒绝` proposal controls, including pet selection when needed.
+- Prompt/cache guardrails keep token use bounded and prevent proposal or memory-changing replies from entering the pure-chat cache.
+
+Future work should treat this as the stable contract. New NPC favors, discounts, hidden goods, warps, savepoint favors, pass/避敌 effects, or task-condition relief must add proposal regression coverage rather than bypassing this path.
 
 ## Goal
 
