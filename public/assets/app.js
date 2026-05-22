@@ -31,6 +31,7 @@ const AUTOMATION_TICK_MS = 760;
 const AUTOMATION_BATTLE_STEP_MS = 520;
 const AUTOMATION_ROUTE_ESCAPE_LIMIT = 10;
 const ROUTE_RETRY_LIMIT = 3;
+const ASSIST_ROUTE_START_TIMEOUT_MS = 6000;
 const PAID_JUMP_BASE_COST = 2000;
 const PAID_JUMP_FIRST_TIER_STEPS = 300;
 const PAID_JUMP_SECOND_TIER_STEPS = 500;
@@ -1373,7 +1374,7 @@ async function followRouteTo(target, routeData = null, options = {}) {
   if (!game) return;
   if (!options.preserveAssistRoute) clearAssistRouteState(true);
   const label = options.label || "目标";
-  const walkSlotTimeoutMs = Number(options.walkSlotTimeoutMs || 1400);
+  const walkSlotTimeoutMs = Number(options.walkSlotTimeoutMs || ASSIST_ROUTE_START_TIMEOUT_MS);
   if (isBattleOpen()) {
     if (automationState().autoEscape) {
       const escaped = await autoEscapeCurrentBattle({ routeToken });
@@ -1467,6 +1468,16 @@ async function waitForWalkSlot(token, timeoutMs = 800) {
     await wait(16);
   }
   return token === routeToken && !walkInFlight;
+}
+
+async function waitForAssistRouteStart(label, token) {
+  if (!walkInFlight) return true;
+  addClientLog(`自动前往：正在等当前移动结束，再去 ${label || "目标"}。`);
+  const ready = await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS);
+  if (!ready && token === routeToken) {
+    addClientLog(`自动前往 ${label || "目标"} 没有开始：当前移动太久未结束，请再点一次。`);
+  }
+  return ready;
 }
 
 function clearAssistRouteState(shouldRender = false) {
@@ -1722,13 +1733,21 @@ async function returnToSavePoint() {
 }
 
 async function goToNpc(npcId, options = {}) {
+  if (!game) return;
   if (isBattleOpen()) {
     addClientLog("战斗中无法和 NPC 对话。");
     return;
   }
   cancelActiveRoute({ clearKeys: true });
+  const startToken = routeToken;
   const openWhenNear = Boolean(options.openWhenNear);
   const preferredTile = normalizeRoutePreference(options.preferredTile);
+  if (!await waitForAssistRouteStart("目标", startToken)) return;
+  if (startToken !== routeToken) return;
+  if (isBattleOpen()) {
+    addClientLog("战斗中无法和 NPC 对话。");
+    return;
+  }
   const map = game?.world?.map;
   const npc = map?.npcs?.find((item) => item.id === npcId);
   if (!npc) {
@@ -1755,6 +1774,10 @@ async function goToNpc(npcId, options = {}) {
       payload.targetY = preferredTile.y;
     }
     approach = await api("/api/game/route-npc", payload);
+    if (startToken !== routeToken) {
+      endAssistRoute("npc", npc.id);
+      return;
+    }
     if (approach.blocked || !approach.target) {
       addClientLog(`无法靠近 ${npc.name}。`);
       endAssistRoute("npc", npc.id);
@@ -1766,7 +1789,7 @@ async function goToNpc(npcId, options = {}) {
     return;
   }
   try {
-    const reached = await followRouteTo(approach.target, approach, { label: npc.name, preserveAssistRoute: true });
+    const reached = await followRouteTo(approach.target, approach, { label: npc.name, preserveAssistRoute: true, walkSlotTimeoutMs: ASSIST_ROUTE_START_TIMEOUT_MS });
     const currentMap = game?.world?.map;
     const stillNear = currentMap?.id === map.id && cellDistance(game.location.x, game.location.y, npc.x, npc.y) <= 2;
     if (reached && stillNear) {
@@ -1796,11 +1819,19 @@ async function faceNpc(npc) {
 }
 
 async function goToExit(exitId, options = {}) {
+  if (!game) return;
   if (isBattleOpen()) {
     addClientLog("战斗中无法移动到出口。");
     return;
   }
   cancelActiveRoute({ clearKeys: true });
+  const startToken = routeToken;
+  if (!await waitForAssistRouteStart(options.targetName || "出口", startToken)) return;
+  if (startToken !== routeToken) return;
+  if (isBattleOpen()) {
+    addClientLog("战斗中无法移动到出口。");
+    return;
+  }
   const preferredTile = normalizeRoutePreference(options.preferredTile);
   const { exit, redirected, targetMapId, targetName } = resolveCurrentAssistExit(exitId, options);
   if (!exit) {
@@ -1823,11 +1854,12 @@ async function goToExit(exitId, options = {}) {
       payload.targetY = preferredTile.y;
     }
     const approach = await api("/api/game/route-exit", payload);
+    if (startToken !== routeToken) return;
     if (approach.blocked || !approach.target) {
       addClientLog(`无法到达 ${exit.label}。`);
       return;
     }
-    const reached = await followRouteTo(approach.target, approach, { label: exit.label, preserveAssistRoute: true });
+    const reached = await followRouteTo(approach.target, approach, { label: exit.label, preserveAssistRoute: true, walkSlotTimeoutMs: ASSIST_ROUTE_START_TIMEOUT_MS });
     if (!reached) addClientLog(`自动前往 ${exit.label} 未完成。`);
   } catch (error) {
     addClientLog(error.message || `无法到达 ${exit.label}。`);
