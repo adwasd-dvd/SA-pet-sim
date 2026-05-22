@@ -162,6 +162,7 @@ let installPrompt = null;
 let walkInFlight = false;
 let routeInFlight = false;
 let dialogDefaultSubmitInFlight = false;
+let dialogProposalInFlight = false;
 let routeToken = 0;
 let activeAssistRoute = null;
 let rescueEpoch = 0;
@@ -4063,6 +4064,7 @@ function renderDialog() {
     return `<p class="dialog-bubble ${kind}"><span>${escapeHtml(dialogSpeaker(message.speaker, dialog))}</span>${escapeHtml(message.text)}</p>`;
   }).join("");
   const auxiliary = [
+    renderDialogProposal(dialog),
     renderDialogCommandButtons(dialog),
     renderDialogShop(dialog),
     renderDialogPetShop(dialog),
@@ -4109,6 +4111,24 @@ function renderDialog() {
       petFusion(mainIndex, subIndex1, sub2Value === "" ? NaN : Number(sub2Value));
     });
   });
+  els.dialogSuggestions.querySelectorAll("[data-dialog-proposal]").forEach((panel) => {
+    const acceptBtn = panel.querySelector('[data-dialog-proposal-decision="accept"]');
+    const petSelect = panel.querySelector("[data-dialog-proposal-pet]");
+    const syncAccept = () => {
+      if (!acceptBtn || !petSelect) return;
+      acceptBtn.disabled = dialogProposalInFlight || panel.dataset.dialogProposalExpired === "1" || petSelect.value === "";
+    };
+    petSelect?.addEventListener("change", syncAccept);
+    syncAccept();
+  });
+  els.dialogSuggestions.querySelectorAll("[data-dialog-proposal-decision]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const panel = btn.closest("[data-dialog-proposal]");
+      const petSelect = panel?.querySelector("[data-dialog-proposal-pet]");
+      const selectedPetIndex = petSelect && petSelect.value !== "" ? Number(petSelect.value) : NaN;
+      submitDialogProposal(btn.dataset.dialogProposalDecision || "", selectedPetIndex);
+    });
+  });
   els.dialogSuggestions.querySelectorAll("[data-dialog-command]").forEach((btn) => {
     btn.addEventListener("click", () => sendDialog(btn.dataset.dialogCommand || ""));
   });
@@ -4121,6 +4141,82 @@ function defaultDialogSubmitText(dialog) {
   if (dialog?.npcType === "NPCEnemy" && suggestions.includes("开战")) return "开战";
   if (dialog?.npcType === "NPCEnemy" && suggestions.includes("是")) return "是";
   return "";
+}
+
+function renderDialogProposal(dialog) {
+  const proposal = dialog?.proposal;
+  if (!proposal?.id) return "";
+  const needsPetChoice = Boolean(proposal.costs?.requiresPetChoice);
+  const secondsLeft = proposalSecondsLeft(proposal);
+  const expired = secondsLeft <= 0;
+  const petSelector = needsPetChoice ? renderDialogProposalPetSelector() : "";
+  const acceptDisabled = dialogProposalInFlight || expired || needsPetChoice;
+  return `
+    <section class="dialog-proposal" data-dialog-proposal="${escapeHtml(proposal.id)}" data-dialog-proposal-expired="${expired ? "1" : "0"}">
+      <header>
+        <strong>${escapeHtml(proposal.title || "NPC 提案")}</strong>
+        <span>${expired ? "已过期" : `剩余 ${secondsLeft} 秒`}</span>
+      </header>
+      <p>${escapeHtml(proposal.summary || "这个提案需要你确认。")}</p>
+      <dl>
+        <div><dt>NPC 要求</dt><dd>${proposalLineList(proposalCostLines(proposal.costs))}</dd></div>
+        <div><dt>玩家获得</dt><dd>${proposalLineList(proposalGrantLines(proposal.grants))}</dd></div>
+        <div><dt>风险</dt><dd>${escapeHtml(proposal.risk || "确认后仍会由 Worker 重新校验。")}</dd></div>
+      </dl>
+      ${petSelector}
+      <footer>
+        <button type="button" data-dialog-proposal-decision="accept" ${acceptDisabled ? "disabled" : ""}>同意</button>
+        <button type="button" data-dialog-proposal-decision="decline" ${dialogProposalInFlight ? "disabled" : ""}>拒绝</button>
+      </footer>
+    </section>
+  `;
+}
+
+function proposalSecondsLeft(proposal) {
+  const expiresAt = Number(proposal?.expiresAt || 0);
+  if (Number.isFinite(expiresAt) && expiresAt > 0) return Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
+  return Math.max(0, Number(proposal?.secondsLeft || 0));
+}
+
+function proposalCostLines(costs = {}) {
+  const lines = [];
+  if (Number(costs.stone || 0) > 0) lines.push(`${Number(costs.stone)} 石币`);
+  for (const item of costs.items || []) lines.push(`${item.name || `item ${item.id}`} x${Number(item.qty || 1)}`);
+  for (const pet of costs.pets || []) lines.push(String(pet));
+  if (costs.requiresPetChoice) lines.push("选择一只宠物");
+  return lines.length ? lines : ["无"];
+}
+
+function proposalGrantLines(grants = {}) {
+  const lines = [];
+  if (Number(grants.stone || 0) > 0) lines.push(`${Number(grants.stone)} 石币`);
+  for (const item of grants.items || []) lines.push(`${item.name || `item ${item.id}`} x${Number(item.qty || 1)}`);
+  for (const pet of grants.pets || []) lines.push(String(pet));
+  if (grants.warp) lines.push(`传送到 ${grants.warp.mapName || `floor ${grants.warp.mapId}`} (${Number(grants.warp.x || 0)},${Number(grants.warp.y || 0)})`);
+  for (const effect of grants.effects || []) lines.push(String(effect));
+  for (const override of grants.conditionOverrides || []) lines.push(String(override));
+  return lines.length ? lines : ["无"];
+}
+
+function proposalLineList(lines = []) {
+  return lines.map((line) => `<span>${escapeHtml(line)}</span>`).join("");
+}
+
+function renderDialogProposalPetSelector() {
+  const pets = (game?.pets || []).slice(0, 5);
+  const options = pets.map((pet, index) => {
+    const hp = `${Number(pet.Hp || 0)}/${Number(pet.WorkMaxHp || pet.Hp || 0)}`;
+    return `<option value="${index}">${escapeHtml(`${index + 1}. ${pet.Name || "宠物"} Lv.${Number(pet.Lv || 1)} HP ${hp}`)}</option>`;
+  }).join("");
+  return `
+    <label class="dialog-proposal-pet">
+      <span>交出宠物</span>
+      <select data-dialog-proposal-pet ${options ? "" : "disabled"}>
+        <option value="">选择宠物</option>
+        ${options}
+      </select>
+    </label>
+  `;
 }
 
 function renderDialogCommandButtons(dialog) {
@@ -5463,6 +5559,35 @@ async function changeItem(recipeIndex) {
     render();
   } catch (error) {
     appendDialogSystem(error.message || "加工失败");
+  }
+}
+
+async function submitDialogProposal(decision, selectedPetIndex = NaN) {
+  const proposal = game?.dialog?.proposal;
+  if (!game?.dialog?.npcId || !proposal?.id || dialogProposalInFlight) return;
+  if (decision === "accept" && proposal.costs?.requiresPetChoice && !Number.isInteger(selectedPetIndex)) {
+    appendDialogSystem("需要先选择一只宠物。");
+    return;
+  }
+  dialogProposalInFlight = true;
+  renderDialog();
+  try {
+    game = await api("/api/game/dialog-proposal", {
+      game,
+      npcId: game.dialog.npcId,
+      proposalId: proposal.id,
+      decision,
+      selectedPetIndex
+    });
+    save();
+    render();
+    els.dialogInput.focus();
+  } catch (error) {
+    appendDialogSystem(error.message || "提案确认失败。");
+    els.dialogInput.focus();
+  } finally {
+    dialogProposalInFlight = false;
+    if (game?.dialog?.open) renderDialog();
   }
 }
 
