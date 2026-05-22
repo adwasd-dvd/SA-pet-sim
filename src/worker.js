@@ -280,14 +280,14 @@ const OPENAI_NPC_SCHEMA = {
     reply: { type: "string" },
     intent: {
       type: "string",
-      enum: ["chat", "quest", "trade", "heal", "save", "warp", "battle", "discount", "gift", "noEncounter", "negotiatePass", "mapInfo", "refuse"]
+      enum: ["chat", "quest", "trade", "heal", "save", "warp", "battle", "discount", "gift", "noEncounter", "negotiatePass", "conditionOverride", "mapInfo", "refuse"]
     },
     action: {
       type: "object",
       properties: {
         type: {
           type: "string",
-          enum: ["none", "warp", "teleportInfo", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass", "roleFavor"]
+          enum: ["none", "warp", "teleportInfo", "noEncounter", "shopDiscount", "offMenuItem", "negotiatePass", "roleFavor", "conditionOverride"]
         },
         text: { type: "string" },
         seconds: { type: "integer" },
@@ -3901,6 +3901,18 @@ async function dialogProposalGame(env, request, game, npcId, proposalId, decisio
   }
   if (normalizedDecision !== "accept") throw userError("decision 必须是 accept 或 decline。");
 
+  const preflight = validateNpcProposalPublicRequirements(game, proposal, selectedPetIndex);
+  if (!preflight.ok) {
+    recordNpcVmEvent(game, npc, "window", "blocked", { reason: "npc-proposal-preflight-failed", proposalId: proposal.id, kind: proposal.kind, error: preflight.error });
+    writeNpcSocialMemory(game, npc, {
+      kind: "proposal-failed",
+      text: `确认「${proposal.title || npcProposalKindLabel(proposal.kind)}」失败：${preflight.error}`,
+      weight: 2
+    }, { failed: 1, suspicion: 1 });
+    openDialog(game, npc, [...existing, npcMessage("player", "同意"), npcMessage("npc", `${npc.name} 摇摇头：${preflight.error}。`)]);
+    return withMap(game, { npc });
+  }
+
   const executed = executeNpcProposalOnClone(game, npc, proposal, selectedPetIndex);
   if (!executed.ok) {
     recordNpcVmEvent(game, npc, "window", "blocked", { reason: "npc-proposal-confirm-failed", proposalId: proposal.id, kind: proposal.kind, error: executed.error });
@@ -3921,7 +3933,7 @@ async function dialogProposalGame(env, request, game, npcId, proposalId, decisio
     kind: "proposal-accepted",
     text: `玩家接受「${proposal.title || npcProposalKindLabel(proposal.kind)}」`,
     weight: 2
-  }, proposal.kind === "negotiatePass" && /threat/i.test(String(proposal.action?.text || ""))
+  }, proposal.kind === "negotiatePass" && isThreateningNpcProposal(proposal)
     ? { helped: 1, threatened: 1, suspicion: 1 }
     : { helped: 1, trust: 1 });
   recordNpcVmEvent(nextGame, nextNpc, "window", "ok", { reason: "npc-proposal-confirmed", proposalId: proposal.id, kind: proposal.kind });
@@ -12010,6 +12022,7 @@ async function aiNpcReply(env, request, game, npc, text) {
         warpStatus: npc.warpStatus || compactNpcWarpStatus(game, npc),
         scriptStatus: npc.scriptStatus || compactNpcScriptStatus(game, npc)
       },
+      proposal: compactPendingNpcProposalForPrompt(game, npc),
       vm: { allowedActions: debug.allowedActions, recentTrace: compactNpcVmTrace(debug) },
       player: compactPlayerContext(game),
       characterFields: compactCharacterFields(game),
@@ -12111,6 +12124,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences,
     pets: game.pets.map(petSummary),
     inventory: inventoryState(game),
     effects: guideEffectSummary(game),
+    pendingProposal: compactPendingNpcProposalForPrompt(game, npc),
     knowledge: buildStoneAgeKnowledgeContext(game, map, text, npc),
     workspace: compactAiWorkspaceMemory(game),
     recentConversation: npcOpenAiHistory(game, npc),
@@ -12490,7 +12504,7 @@ function usableReferenceName(value) {
 function npcOpenAiHistory(game, npc) {
   if (game.dialog?.npcId !== npc.id) return [];
   return (game.dialog.messages || [])
-    .slice(-6)
+    .slice(-4)
     .map((message) => ({
       speaker: message.speaker,
       text: String(message.text || "").slice(0, 160)
@@ -12626,6 +12640,74 @@ function publicNpcProposal(game, npc = null) {
     secondsLeft,
     source: proposal.source
   };
+}
+
+function compactPendingNpcProposalForPrompt(game, npc = null) {
+  const proposal = publicNpcProposal(game, npc);
+  if (!proposal) return null;
+  return {
+    npcId: proposal.npcId,
+    kind: proposal.kind,
+    title: proposal.title,
+    summary: proposal.summary,
+    costs: proposal.costs,
+    grants: proposal.grants,
+    risk: proposal.risk,
+    source: proposal.source
+  };
+}
+
+function validateNpcProposalPublicRequirements(game, proposal, selectedPetIndex = NaN) {
+  const costs = proposal?.costs || {};
+  const grants = proposal?.grants || {};
+  const immediateStoneCost = proposal?.kind === "conditionOverride" ? 0 : Number(costs.stone || 0);
+  if (immediateStoneCost > 0 && Number(game.player?.stone || 0) < immediateStoneCost) {
+    return { ok: false, error: `石币不足，需要 ${immediateStoneCost} 石币` };
+  }
+  if (costs.requiresPetChoice) {
+    const index = Number(selectedPetIndex);
+    if (!Number.isInteger(index) || index < 0 || index >= (game.pets || []).length) {
+      return { ok: false, error: "需要选择一只符合条件的宠物" };
+    }
+    const selectedPet = (game.pets || [])[index];
+    if (!proposalPetMatchesCost(selectedPet, costs.pets || [])) {
+      return { ok: false, error: "选择的宠物不符合这个提案的要求" };
+    }
+  }
+  for (const item of grants.items || []) {
+    if (!canCarryItem(game, item)) {
+      return { ok: false, error: `背包已满，无法接收 ${item.name || item.id || "道具"}` };
+    }
+  }
+  const petGrantCount = (grants.pets || []).length;
+  if (petGrantCount > 0 && (game.pets || []).length + petGrantCount > PET_CAPACITY) {
+    return { ok: false, error: `宠物栏已满，最多携带 ${PET_CAPACITY} 只宠物` };
+  }
+  return { ok: true };
+}
+
+function proposalPetMatchesCost(pet, requiredPets = []) {
+  if (!requiredPets.length) return Boolean(pet);
+  const names = [
+    pet?.Name,
+    pet?.name,
+    pet?.PetName,
+    pet?.petName,
+    pet?.BaseName,
+    pet?.baseName
+  ].map((value) => String(value || "").trim()).filter(Boolean);
+  const petIds = [pet?.PetId, pet?.petId, pet?.id].map(Number).filter((value) => Number.isFinite(value) && value > 0);
+  return requiredPets.some((required) => {
+    const text = String(required || "").trim();
+    if (!text) return false;
+    const requiredId = Number(text);
+    if (Number.isFinite(requiredId) && petIds.includes(requiredId)) return true;
+    return names.some((name) => name === text || name.includes(text) || text.includes(name));
+  });
+}
+
+function isThreateningNpcProposal(proposal) {
+  return hasAny(String(proposal?.action?.text || proposal?.summary || ""), ["威胁", "恐吓", "吓", "打服", "揍", "threat", "intimidate", "challenge"]);
 }
 
 function npcAiActionProposalReply(game, npc, action, reply = "") {
@@ -16030,6 +16112,7 @@ function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runti
       scores: promptSocial.scores,
       memories: (promptSocial.memories || []).map((memory) => [memory.kind, stableHashInt(memory.text), memory.weight])
     },
+    proposal: compactPendingNpcProposalForPrompt(game, npc),
     refs: stableHashInt(JSON.stringify(scriptReferences || {}))
   };
   const raw = JSON.stringify(state);
