@@ -99,6 +99,10 @@ const AI_NPC_CACHE_SCHEMA = "stoneage-ai-npc-cache-v1";
 const AI_NPC_CACHE_TTL_MS = 5 * 60 * 1000;
 const AI_NPC_CACHE_MAX_ENTRIES = 24;
 const AI_NPC_CACHE_REPLY_LIMIT = 900;
+const NPC_SOCIAL_SCHEMA = "stoneage-npc-social-v1";
+const NPC_SOCIAL_MAX_NPCS = 32;
+const NPC_SOCIAL_MAX_MEMORIES = 5;
+const NPC_SOCIAL_PROMPT_MEMORY_LIMIT = 3;
 const ANGEL_ITEM_ID = 2884;
 const HERO_ITEM_ID = 2885;
 const ANGEL_MISSION_FLAGS = Object.freeze({
@@ -801,6 +805,7 @@ async function createPlayerGame(env, request, body) {
     effects: {},
     aiWorkspace: createAiWorkspace(now),
     aiNpcCache: normalizeAiNpcCache(),
+    npcSocial: normalizeNpcSocial(),
     dialogAi: {},
     encounter: null,
     dialog: null,
@@ -11554,11 +11559,13 @@ function sourceReply(game, npc) {
 }
 
 async function aiNpcReply(env, request, game, npc, text) {
+  const socialChanged = recordNpcSocialFromMessage(game, npc, text);
   const action = inferNpcAiAction(game, npc, text);
   if (action) return applyNpcAiAction(game, npc, action);
 
   const map = currentMap(game);
   const debug = npcDebugInfo(npc, game);
+  const persona = buildNpcPersona(game, npc, map);
   const scriptReferences = await npcScriptReferenceContext(env, request, game, npc, text);
   const referenceReply = npcReferenceQuestionReply(game, npc, text, scriptReferences);
   if (referenceReply) {
@@ -11566,10 +11573,11 @@ async function aiNpcReply(env, request, game, npc, text) {
     return referenceReply;
   }
   const compactScriptReferences = compactNpcScriptReferences(scriptReferences);
+  const social = compactNpcSocialForPrompt(game, npc);
   const knowledge = buildStoneAgeKnowledgeContext(game, map, text, npc);
   const remoteRuntime = aiNpcRemoteRuntime(env);
-  const remoteCacheKey = remoteRuntime.cacheable
-    ? buildAiNpcCacheKey(game, npc, text, map, debug, compactScriptReferences, remoteRuntime)
+  const remoteCacheKey = remoteRuntime.cacheable && !socialChanged
+    ? buildAiNpcCacheKey(game, npc, text, map, debug, compactScriptReferences, remoteRuntime, persona, social)
     : "";
   const cachedReply = remoteCacheKey ? readAiNpcCache(game, remoteCacheKey) : null;
   if (cachedReply) {
@@ -11584,7 +11592,7 @@ async function aiNpcReply(env, request, game, npc, text) {
   }
   if (hasOpenAi(env)) {
     try {
-      const rsp = await callOpenAiNpc(env, game, npc, text, map, debug, compactScriptReferences);
+      const rsp = await callOpenAiNpc(env, game, npc, text, map, debug, compactScriptReferences, persona, social);
       const proposed = openAiNpcAction(game, npc, rsp.decision, text);
       if (proposed) return openAiNpcActionReply(game, npc, proposed, rsp.decision);
       if (rsp.decision?.reply) {
@@ -11599,8 +11607,10 @@ async function aiNpcReply(env, request, game, npc, text) {
     }
   }
   const messages = [
-    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持当前 NPC 的身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。knowledge 是从石器时代资料库压缩出的相关条目，只能用来补充专业背景，不能把索引编成完整流程。workspace.memory 是 Worker 保存的受限记忆，只能当线索。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
+    { role: "system", content: "你是石器时代单人 PWA 里的 NPC。必须保持 persona 里的当前身份、职业和原 gmsv 脚本线索，只根据 JSON 回答。social 是这个 NPC 对玩家的轻量关系记忆，只能影响称呼和语气，不能绕过规则。knowledge 是从石器时代资料库压缩出的相关条目，只能用来补充专业背景，不能把索引编成完整流程。workspace.memory 是 Worker 保存的受限记忆，只能当线索。中文，1-2 句。你可以商量信息、优惠或帮助，但不能直接执行状态变化；所有交易、传送、奖励、flag、避敌效果和战斗都必须由 Worker 的确定性 NPC VM 校验执行。不要编造与你身份不符的物品、地点或任务。" },
     { role: "user", content: JSON.stringify({
+      persona,
+      social,
       npc: {
         id: npc.id,
         name: npc.name,
@@ -11658,9 +11668,11 @@ async function aiNpcReply(env, request, game, npc, text) {
   return localNpcAiFallback(game, npc, text);
 }
 
-async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences) {
+async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences, persona = null, social = null) {
   const role = npcActionProfile(npc);
   const context = {
+    persona: persona || buildNpcPersona(game, npc, map),
+    social: social || compactNpcSocialForPrompt(game, npc),
     npc: {
       id: npc.id,
       name: npc.name,
@@ -11729,6 +11741,7 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences)
   const system = [
     "你正在扮演石器时代单人网页版里的当前 NPC，不是旁白，也不是万能 GM。",
     "必须保持 NPC 的姓名、职业、地图、脚本来源和行为范围；只能根据 JSON 上下文说话。",
+    "persona 是 Worker 从原版脚本、模板、图号、台词、地图和动作推断的人设；social 是这个 NPC 对玩家的轻量关系记忆，最多只带 3 条。可用它调整称呼、语气和是否谨慎，但不能让性别或好感绕过 VM 规则。",
     "NPC 可以解释任务、地图、交易、传送和战斗线索；如果 context.quests/sourceTasks 里有 guidance，要优先按这些行动清单回答下一步；也可以在自己力所能及的角色范围内提出帮助、优待或交涉意图，但不能直接改状态。",
     "knowledge 是从石器时代资料库压缩检索出的相关条目；只引用和玩家问题、当前地图或当前 NPC 相关的条目，不要把索引扩写成不存在的完整攻略。",
     "workspace.memory 是 Worker 保存的受限记忆，只能当线索；和当前状态冲突时以当前地图、背包、任务、flag 为准。",
@@ -12594,12 +12607,15 @@ function openDialog(game, npc, messages, extra = {}) {
 
 function npcDebugInfo(npc, game = null) {
   const actions = npcActionProfile(npc);
+  const map = game ? currentMap(game) : null;
   return {
     source: npc.source || "",
     script: npc.script || "",
     template: npc.template || "",
     type: npc.type || "",
     graphic: npc.graphic || "",
+    persona: buildNpcPersona(game, npc, map),
+    social: game ? summarizeNpcSocialForDebug(game, npc) : null,
     raceMan: buildRaceManState(game, npc),
     janken: npc.janken || null,
     quiz: buildQuizState(game, npc),
@@ -15139,7 +15155,9 @@ function isPureOpenAiNpcReply(decision) {
   return String(decision?.action?.type || "none") === "none";
 }
 
-function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runtime) {
+function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runtime, persona = null, social = null) {
+  const promptPersona = persona || buildNpcPersona(game, npc, map);
+  const promptSocial = social || compactNpcSocialForPrompt(game, npc);
   const state = {
     schema: AI_NPC_CACHE_SCHEMA,
     runtime: `${runtime.provider}:${runtime.model}`,
@@ -15150,7 +15168,15 @@ function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runti
       type: npc.type,
       script: npc.script,
       source: npc.source,
-      actions: debug.actions
+      actions: debug.actions,
+      persona: {
+        role: promptPersona.role,
+        profession: promptPersona.profession,
+        duty: promptPersona.duty,
+        gender: promptPersona.gender?.value || "unknown",
+        genderConfidence: promptPersona.gender?.confidence || 0,
+        capabilities: promptPersona.roleFitCapabilities || []
+      }
     },
     location: {
       mapId: map.id,
@@ -15190,6 +15216,10 @@ function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runti
       .map(([questId, quest]) => [questId, quest?.status || "", quest?.step || ""])
       .sort((a, b) => String(a[0]).localeCompare(String(b[0])))
       .slice(0, 10),
+    social: {
+      scores: promptSocial.scores,
+      memories: (promptSocial.memories || []).map((memory) => [memory.kind, stableHashInt(memory.text), memory.weight])
+    },
     refs: stableHashInt(JSON.stringify(scriptReferences || {}))
   };
   const raw = JSON.stringify(state);
@@ -15237,6 +15267,314 @@ function writeAiNpcCache(game, key, reply, runtime, intent = "") {
     ...cache.entries.filter((item) => item.key !== key)
   ].filter(Boolean).slice(0, AI_NPC_CACHE_MAX_ENTRIES);
   game.aiNpcCache = cache;
+}
+
+function normalizeNpcSocial(social = null) {
+  const raw = social?.npcs && typeof social.npcs === "object"
+    ? Object.entries(social.npcs)
+    : [];
+  const entries = raw
+    .map(([id, entry]) => normalizeNpcSocialEntry(id, entry))
+    .filter(Boolean)
+    .sort((a, b) => String(b[1].updatedAt || "").localeCompare(String(a[1].updatedAt || "")))
+    .slice(0, NPC_SOCIAL_MAX_NPCS);
+  return {
+    schema: NPC_SOCIAL_SCHEMA,
+    npcs: Object.fromEntries(entries)
+  };
+}
+
+function normalizeNpcSocialEntry(id, entry) {
+  if (!entry || typeof entry !== "object") return null;
+  const npcId = String(entry.npcId || id || "").trim().slice(0, 120);
+  if (!npcId) return null;
+  const scores = entry.scores && typeof entry.scores === "object" ? entry.scores : {};
+  const memories = Array.isArray(entry.memories)
+    ? entry.memories.map(normalizeNpcSocialMemory).filter(Boolean).slice(0, NPC_SOCIAL_MAX_MEMORIES)
+    : [];
+  return [npcId, {
+    npcId,
+    npcName: String(entry.npcName || "").trim().slice(0, 40),
+    scores: {
+      affinity: clampInt(scores.affinity, -100, 100, 0),
+      trust: clampInt(scores.trust, -100, 100, 0),
+      suspicion: clampInt(scores.suspicion, -100, 100, 0),
+      helped: clampInt(scores.helped, 0, 999, 0),
+      threatened: clampInt(scores.threatened, 0, 999, 0),
+      challenged: clampInt(scores.challenged, 0, 999, 0),
+      declined: clampInt(scores.declined, 0, 999, 0),
+      failed: clampInt(scores.failed, 0, 999, 0),
+      cooldownUntil: clampInt(scores.cooldownUntil, 0, Number.MAX_SAFE_INTEGER, 0)
+    },
+    memories,
+    updatedAt: String(entry.updatedAt || entry.at || new Date().toISOString()).slice(0, 32)
+  }];
+}
+
+function normalizeNpcSocialMemory(memory) {
+  if (!memory || typeof memory !== "object") return null;
+  const text = String(memory.text || "").replace(/\s+/g, " ").trim().slice(0, 96);
+  if (!text) return null;
+  return {
+    kind: String(memory.kind || "note").trim().slice(0, 24),
+    text,
+    at: String(memory.at || new Date().toISOString()).slice(0, 32),
+    weight: clampInt(memory.weight, 1, 5, 1)
+  };
+}
+
+function npcSocialId(npc) {
+  return String(npc?.id || `${npc?.source || ""}:${npc?.script || ""}:${npc?.name || ""}`)
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 120);
+}
+
+function readNpcSocialEntry(game, npc) {
+  const social = normalizeNpcSocial(game?.npcSocial);
+  return social.npcs[npcSocialId(npc)] || null;
+}
+
+function ensureNpcSocialEntry(game, npc) {
+  game.npcSocial = normalizeNpcSocial(game.npcSocial);
+  const id = npcSocialId(npc);
+  if (!game.npcSocial.npcs[id]) {
+    game.npcSocial.npcs[id] = {
+      npcId: id,
+      npcName: String(npc?.name || "").slice(0, 40),
+      scores: { affinity: 0, trust: 0, suspicion: 0, helped: 0, threatened: 0, challenged: 0, declined: 0, failed: 0, cooldownUntil: 0 },
+      memories: [],
+      updatedAt: new Date().toISOString()
+    };
+  }
+  return game.npcSocial.npcs[id];
+}
+
+function pruneNpcSocial(game) {
+  game.npcSocial = normalizeNpcSocial(game.npcSocial);
+}
+
+function writeNpcSocialMemory(game, npc, memory, scoreDelta = {}) {
+  const entry = ensureNpcSocialEntry(game, npc);
+  entry.npcName = String(npc?.name || entry.npcName || "").slice(0, 40);
+  entry.scores ||= {};
+  for (const [key, value] of Object.entries(scoreDelta || {})) {
+    if (!["affinity", "trust", "suspicion", "helped", "threatened", "challenged", "declined", "failed", "cooldownUntil"].includes(key)) continue;
+    const min = ["helped", "threatened", "challenged", "declined", "failed", "cooldownUntil"].includes(key) ? 0 : -100;
+    const max = key === "cooldownUntil" ? Number.MAX_SAFE_INTEGER : (min === 0 ? 999 : 100);
+    entry.scores[key] = clampInt(Number(entry.scores[key] || 0) + Number(value || 0), min, max, Number(entry.scores[key] || 0));
+  }
+  const normalized = normalizeNpcSocialMemory(memory);
+  if (normalized) {
+    const key = `${normalized.kind}:${normalized.text}`;
+    entry.memories = [
+      normalized,
+      ...(entry.memories || []).filter((item) => `${item.kind}:${item.text}` !== key)
+    ].slice(0, NPC_SOCIAL_MAX_MEMORIES);
+  }
+  entry.updatedAt = new Date().toISOString();
+  pruneNpcSocial(game);
+  return entry;
+}
+
+function recordNpcSocialFromMessage(game, npc, text) {
+  const body = String(text || "").trim();
+  if (!body || !game || !npc) return false;
+  const signals = [];
+  if (/(谢谢|多谢|拜托|麻烦|请你|请帮|帮我|帮帮|劳驾)/i.test(body)) {
+    signals.push({ kind: "request", label: "求助", score: { affinity: 1, trust: 1 }, weight: 1 });
+  }
+  if (/(威胁|让开|滚开|不然|打你|揍你|砍你|杀了|干掉|抢走)/i.test(body)) {
+    signals.push({ kind: "threat", label: "威胁", score: { suspicion: 3, threatened: 1, affinity: -2 }, weight: 3 });
+  }
+  if (/(挑战|决斗|开战|打一架|来战|比试|切磋)/i.test(body)) {
+    signals.push({ kind: "challenge", label: "挑战", score: { challenged: 1, suspicion: 1 }, weight: 2 });
+  }
+  if (/(贿赂|买通|收钱|给你钱|石币|报酬|小费)/i.test(body)) {
+    signals.push({ kind: "bargain", label: "交涉", score: { suspicion: 1 }, weight: 2 });
+  }
+  if (!signals.length) return false;
+  const signal = signals.sort((a, b) => b.weight - a.weight)[0];
+  writeNpcSocialMemory(game, npc, {
+    kind: signal.kind,
+    text: `玩家${signal.label}：「${body.slice(0, 48)}」`,
+    weight: signal.weight
+  }, signal.score);
+  recordNpcVmEvent(game, npc, "say", "ok", {
+    reason: "npc-social-memory",
+    kind: signal.kind,
+    cacheable: false
+  });
+  return true;
+}
+
+function compactNpcSocialForPrompt(game, npc, limit = NPC_SOCIAL_PROMPT_MEMORY_LIMIT) {
+  const entry = readNpcSocialEntry(game, npc);
+  if (!entry) {
+    return {
+      schema: NPC_SOCIAL_SCHEMA,
+      npcId: npcSocialId(npc),
+      scores: { affinity: 0, trust: 0, suspicion: 0, helped: 0, threatened: 0, challenged: 0, declined: 0, failed: 0, cooldownUntil: 0 },
+      memories: [],
+      pendingProposal: null
+    };
+  }
+  return {
+    schema: NPC_SOCIAL_SCHEMA,
+    npcId: entry.npcId,
+    npcName: entry.npcName,
+    scores: { ...entry.scores },
+    memories: (entry.memories || [])
+      .slice(0, clampInt(limit, 0, NPC_SOCIAL_MAX_MEMORIES, NPC_SOCIAL_PROMPT_MEMORY_LIMIT))
+      .map((memory) => ({
+        kind: memory.kind,
+        text: memory.text,
+        weight: memory.weight
+      })),
+    pendingProposal: null
+  };
+}
+
+function summarizeNpcSocialForDebug(game, npc) {
+  const social = compactNpcSocialForPrompt(game, npc);
+  return {
+    schema: NPC_SOCIAL_SCHEMA,
+    npcId: social.npcId,
+    scores: social.scores,
+    memoryCount: readNpcSocialEntry(game, npc)?.memories?.length || 0,
+    memoriesUsed: social.memories,
+    pendingProposal: social.pendingProposal
+  };
+}
+
+function buildNpcPersona(game, npc, map = null) {
+  const actions = npcActionProfile(npc);
+  const dialogueLines = npcDialogueLines(npc).slice(0, 4);
+  const role = inferNpcPersonaRole(npc, actions);
+  const gender = inferNpcPersonaGender(npc, dialogueLines);
+  const ageRole = inferNpcAgeRole(npc, dialogueLines);
+  const topics = npcPersonaTopics(npc, actions, map);
+  return {
+    schema: "stoneage-npc-persona-v1",
+    npcId: npcSocialId(npc),
+    name: String(npc?.name || "").slice(0, 40),
+    identity: npcPersonaIdentity(npc, role, map),
+    role: role.role,
+    profession: role.profession,
+    duty: role.duty,
+    ageRole,
+    gender,
+    sourceMeaning: npcPersonaSourceMeaning(npc, dialogueLines),
+    topics,
+    roleFitCapabilities: role.capabilities,
+    map: map ? { id: map.id, name: map.name, floorId: map.floorId } : null
+  };
+}
+
+function inferNpcPersonaRole(npc, actions = npcActionProfile(npc)) {
+  const text = `${npc?.name || ""} ${npc?.type || ""} ${npc?.template || ""} ${npc?.script || ""}`;
+  const capabilities = [];
+  const add = (value) => {
+    if (value && !capabilities.includes(value)) capabilities.push(value);
+  };
+  if (isNpcEnemy(npc)) {
+    add("startBattle");
+    add("negotiatePass");
+    return { role: "battle_npc", profession: "守路/战斗 NPC", duty: "拦路、开战或按脚本判断是否放行", capabilities };
+  }
+  if (npc.trade?.items?.length) {
+    add("trade");
+    add("discussStock");
+    return { role: "shopkeeper", profession: "店员/商人", duty: "出售原版店铺货物，并解释商品用途", capabilities };
+  }
+  if (isHealerNpc(npc)) {
+    add("heal");
+    return { role: "healer", profession: "治疗师", duty: "治疗、说明伤势与恢复相关线索", capabilities };
+  }
+  if (isSavePointNpc(npc)) {
+    add("savePoint");
+    return { role: "savepoint_keeper", profession: "记录点", duty: "按原脚本处理记录点与出生点", capabilities };
+  }
+  if (isRouteServiceNpc(npc)) {
+    add("routeService");
+    add("warp");
+    return { role: "route_service", profession: "交通/路线服务", duty: "提供原版交通、路线或移动服务", capabilities };
+  }
+  if (npc.petShop || actions.includes("petShop")) {
+    add("petShop");
+    return { role: "pet_keeper", profession: "宠物店员", duty: "处理宠物寄放、取回或宠物相关说明", capabilities };
+  }
+  if (npc.warp?.target || actions.includes("warp")) {
+    add("warp");
+    return { role: "transport", profession: "传送/通路 NPC", duty: "按原版条件传送或说明目的地", capabilities };
+  }
+  if (npc.questLead || npcQuestIds(npc).length || hasNpcScriptEvents(npc)) {
+    add("questGuidance");
+    if (actions.includes("give")) add("giveByScript");
+    if (actions.includes("take")) add("takeByScript");
+    return { role: "quest_npc", profession: "任务 NPC", duty: "按原脚本给出任务条件、线索和奖励说明", capabilities };
+  }
+  if (/sign|board|看板|告示|牌/i.test(text)) {
+    add("readSign");
+    return { role: "signboard", profession: "看板", duty: "展示原脚本文字和地点说明", capabilities };
+  }
+  add("talk");
+  return { role: "villager", profession: "居民", duty: "按照所在地图和脚本台词提供本地信息", capabilities };
+}
+
+function inferNpcPersonaGender(npc, dialogueLines = []) {
+  const text = `${npc?.name || ""} ${npc?.type || ""} ${npc?.template || ""} ${dialogueLines.join(" ")}`;
+  const femaleSignals = text.match(/(女性|女人|女孩|少女|姑娘|小姐|姐姐|妹妹|妈妈|母亲|妻子|老婆|女儿|护士|老奶奶)/g) || [];
+  const maleSignals = text.match(/(男性|男人|男孩|少年|先生|哥哥|弟弟|爸爸|父亲|丈夫|儿子|老爷爷|爷爷|叔叔|伯伯)/g) || [];
+  if (femaleSignals.length && !maleSignals.length) {
+    return { value: "female", confidence: 0.85, signals: [...new Set(femaleSignals)].slice(0, 4), gameplayEffect: "tone-only" };
+  }
+  if (maleSignals.length && !femaleSignals.length) {
+    return { value: "male", confidence: 0.85, signals: [...new Set(maleSignals)].slice(0, 4), gameplayEffect: "tone-only" };
+  }
+  return { value: "unknown", confidence: 0, signals: [], gameplayEffect: "tone-only" };
+}
+
+function inferNpcAgeRole(npc, dialogueLines = []) {
+  const text = `${npc?.name || ""} ${npc?.type || ""} ${npc?.template || ""} ${dialogueLines.join(" ")}`;
+  if (/(老人|长者|長者|长老|長老|爷爷|老爷爷|老奶奶|婆婆|伯伯)/.test(text)) return "elder";
+  if (/(小孩|孩子|男孩|女孩|少年|少女|小姑娘|小男孩)/.test(text)) return "young";
+  return "unknown";
+}
+
+function npcPersonaIdentity(npc, role, map) {
+  const mapName = map?.name ? `，在 ${map.name}` : "";
+  return `${npc?.name || "NPC"} 是${role.profession || "NPC"}${mapName}`;
+}
+
+function npcPersonaSourceMeaning(npc, dialogueLines = []) {
+  const hints = [
+    npc?.questLead?.summary,
+    npc?.scriptHints?.hints?.[0],
+    dialogueLines[0],
+    npc?.trade?.source,
+    npc?.warp?.source,
+    npc?.source,
+    npc?.script
+  ].filter(Boolean).map((item) => String(item).replace(/\s+/g, " ").trim());
+  return hints[0]?.slice(0, 120) || "本地 world-data/gmsv 脚本只提供基础身份。";
+}
+
+function npcPersonaTopics(npc, actions = npcActionProfile(npc), map = null) {
+  const topics = [];
+  const add = (value) => {
+    const text = String(value || "").replace(/\s+/g, " ").trim();
+    if (text && !topics.includes(text)) topics.push(text.slice(0, 36));
+  };
+  add(map?.name);
+  add(npc?.questLead?.title);
+  for (const item of npc?.trade?.items?.slice(0, 5) || []) add(item.name);
+  for (const line of npcDialogueLines(npc).slice(0, 3)) add(line);
+  if (actions.includes("warp")) add(npc?.warpStatus?.targetName || npc?.warp?.targetName || "传送");
+  if (actions.includes("routeService")) add("路线/交通");
+  if (actions.includes("save")) add("记录点");
+  if (actions.includes("startBattle")) add("战斗");
+  return topics.slice(0, 8);
 }
 
 function normalizeAiWorkspaceMemory(entry) {
@@ -16420,6 +16758,7 @@ function normalizeGame(game) {
   game.automation = normalizeAutomationState(game.automation);
   game.aiWorkspace = normalizeAiWorkspace(game.aiWorkspace);
   game.aiNpcCache = normalizeAiNpcCache(game.aiNpcCache);
+  game.npcSocial = normalizeNpcSocial(game.npcSocial);
   game.dialogAi ||= {};
   game.walk ||= { steps: 0, encounterSteps: 0 };
   game.savePoint ||= null;
@@ -16583,6 +16922,7 @@ function buildSaveJson(game) {
     automation: normalizeAutomationState(game.automation),
     aiWorkspace: normalizeAiWorkspace(game.aiWorkspace),
     aiNpcCache: normalizeAiNpcCache(game.aiNpcCache),
+    npcSocial: normalizeNpcSocial(game.npcSocial),
     dialogAi: { ...(game.dialogAi || {}) },
     walk: {
       steps: Number(game.walk?.steps || 0),

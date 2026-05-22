@@ -99,6 +99,14 @@ Worker responses should keep the current `game` snapshot shape, but command hand
 | `POST /api/ai/workspace-note` | `ai.workspaceNote` | Development/debug knowledge note capture. |
 | `GET /api/ai/status` | `ai.status` | AI model and availability status. |
 
+## Planned Command Additions
+
+These commands are not implemented yet. They are reserved for planned backlog work and must follow the same Worker-owned mutation rules.
+
+| Endpoint | Canonical command | Source role |
+| --- | --- | --- |
+| `POST /api/game/dialog-proposal` | `npc.dialogProposalDecision` | Accept or decline a short-lived AI/social NPC proposal. On accept, Worker revalidates range, NPC, proposal id, expiry, inventory, pets, stone, flags, task state, and executes all approved mutations through the NPC VM or scoped Worker effects. |
+
 ## Current WebSocket Commands
 
 | Endpoint | Canonical command | Source role |

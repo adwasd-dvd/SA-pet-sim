@@ -136,6 +136,23 @@ This mirrors SAAC `makeSaveCharString` enough for inspection while keeping the a
 - `flags.npcTalkCounts`: per-NPC talk count used by first-pass dialogue and quest triggers.
 - `characterFields`: compact SAAC/gmsv-facing field summary for deterministic NPC checks and AI context. It mirrors stable gameplay state: base stats, `CHAR_SKILLUPPOINT`, Earth/Water/Fire/Wind, source WorkFix and battle aliases such as `WORKATTACKPOWER`/`WORKDEFENCEPOWER`/`WORKQUICK`, event bits, inventory capacity, pet summaries, and active battle summary. This avoids sending full raw saves to AI and gives NPC logic one field API to read from.
 
+## AI NPC Social State
+
+`npc-social-001` adds compact, source-grounded NPC identity and relationship state:
+
+- `npcSocial.schema`: currently `stoneage-npc-social-v1`.
+- `npcSocial.npcs`: up to 32 NPC entries keyed by source NPC id/floor/coordinate.
+- Each entry stores small tone-only scores such as affinity, trust, suspicion, helped, threatened, challenged, declined, failed, and cooldownUntil.
+- Each entry stores at most five short memories; prompts expose at most three relevant memories.
+- Persona/debug context may include role, duty, source meaning, topics, role-fit capabilities, and high-confidence gender or age clues, but these clues are tone-only and never grant rewards, discounts, warps, or task success.
+
+Planned later social fields:
+
+- `flags.pendingNpcProposal`: one short-lived current NPC proposal waiting for accept or decline.
+- `effects.npcConditionOverrides`: scoped, once-only or short-TTL condition relief keyed by NPC, source event, and condition hash.
+
+These fields must stay compact because future multiplayer persistence may store them per character. They must not contain raw dialogue transcripts, raw source scripts, or unrelated NPC histories.
+
 ## Import/Export
 
 - Export uses `game.save.json`.

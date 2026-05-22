@@ -8,6 +8,7 @@ This is the documentation entrypoint for the StoneAge Web Rebuild.
 - `docs/planning/PROJECT_MEMORY.md`: current project memory, decisions, and next work.
 - `docs/planning/DEVELOPMENT_PLAN.md`: long-term rebuild plan.
 - `docs/planning/CLOUD_RUNTIME_STRATEGY.md`: cloud/web/multiplayer/AI NPC architecture strategy.
+- `docs/planning/AI_NPC_SOCIAL_PROPOSAL_PLAN.md`: planned AI NPC persona, social memory, and confirmation proposal system.
 - `docs/planning/WORKER_NATIVE_GMSV_PORT.md`: plan for replacing `gmsv/saac` process dependencies with Worker-native services.
 - `docs/planning/GMSV_SAAC_WORKER_PORT_MAP.md`: concrete mapping from original server protocol/functions to Worker-native services.
 - `docs/planning/tasks.jsonl`: machine-readable task backlog and progress.

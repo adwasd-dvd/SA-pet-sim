@@ -3238,6 +3238,17 @@ villageGirlGame = await api("/api/game/dialog", { game: villageGirlGame, npcId: 
 villageGirlGame = await api("/api/game/dialog", { game: villageGirlGame, npcId: villageGirl.id, message: "帮我瞬移到渔村" });
 assertEqual(villageGirlGame.location.mapId, "1100", "non-transport NPC AI does not teleport out of character");
 assert(villageGirlGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("不能直接瞬移")), "non-transport NPC AI explains teleport refusal instead of falling back to map reply");
+assertEqual(villageGirlGame.npcSocial?.schema, "stoneage-npc-social-v1", "NPC social memory schema is attached to game saves");
+assert(Object.keys(villageGirlGame.npcSocial?.npcs || {}).length <= 32, "NPC social state is capped to 32 NPCs");
+assert(villageGirlGame.dialog.debug.persona?.identity?.includes("村庄小姑娘"), "NPC debug exposes inferred persona identity");
+assert(villageGirlGame.dialog.debug.persona?.roleFitCapabilities?.length > 0, "NPC persona exposes role-fit capabilities");
+assertEqual(villageGirlGame.dialog.debug.persona?.gender?.gameplayEffect, "tone-only", "NPC gender inference is marked tone-only");
+assert(villageGirlGame.dialog.debug.social?.memoriesUsed?.length <= 3, "NPC prompt/debug social memory is capped to three memories");
+assert(Object.prototype.hasOwnProperty.call(villageGirlGame.dialog.debug.social?.scores || {}, "cooldownUntil"), "NPC social state exposes compact cooldown state");
+assert(
+  Object.values(villageGirlGame.npcSocial?.npcs || {}).some((entry) => (entry.memories || []).some((memory) => memory.kind === "request")),
+  "helpful AI NPC request stores a compact social memory"
+);
 const yayoi = WORLD.maps["2000"].npcs.find((npc) => npc.name === "弥生" && npc.script === "file:sainasu/event/event02_1");
 if (!yayoi) throw new Error("missing Yayoi fixture");
 let yayoiGame = await api("/api/game/new", { name: "npc-ai-source-item-context-test" });

@@ -155,12 +155,14 @@ Goal: Add useful AI without losing original game truth.
 - AI guide reads current game context and suggests next actions.
 - AI can rephrase NPC hints, but must preserve canonical facts.
 - AI can answer “what should I do now?” from map, flags, quests, items, pets.
+- Planned v1 NPC social layer: persona sandbox, compact relationship memory, social negotiation, and player-confirmed proposals. Track the full design in `docs/planning/AI_NPC_SOCIAL_PROPOSAL_PLAN.md`.
 - Later: AI companion, dynamic NPC flavor, quest recap, translation/explanation.
 
 Acceptance:
 
 - AI answer includes source-grounded current context.
 - AI does not invent NPC/shop/warp data when ref-data has the answer.
+- NPC AI cannot directly mutate critical game state; stone, item, pet, warp, discount, pass, savepoint, and condition-relief actions must be Worker-validated proposals confirmed by the player.
 
 ### M8: Cloud Multiplayer Runtime
 
@@ -184,7 +186,7 @@ Acceptance:
 - `world-data`: extraction from ref-data/client assets/server source.
 - `game-runtime`: player, NPC scripts, flags, encounters, battle.
 - `persistence`: local save, Worker KV/D1/Durable Object later.
-- `ai`: grounded assistant APIs and prompts.
+- `ai`: grounded assistant APIs, NPC persona, compact social memory, and prompt/proposal boundaries.
 - `ops`: Cloudflare deploy, cache versioning, smoke tests.
 
 ## JSONL Workflow
