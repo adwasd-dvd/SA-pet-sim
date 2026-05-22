@@ -1802,11 +1802,17 @@ async function goToExit(exitId, options = {}) {
   }
   cancelActiveRoute({ clearKeys: true });
   const preferredTile = normalizeRoutePreference(options.preferredTile);
-  const map = game?.world?.map;
-  const exit = map?.exits?.find((item) => item.id === exitId);
+  const { exit, redirected, targetMapId, targetName } = resolveCurrentAssistExit(exitId, options);
   if (!exit) {
-    addClientLog("自动前往出口不在当前地图。请先走到任务提示的地图。");
+    const target = targetName || targetMapId || "目标地图";
+    addClientLog(targetMapId
+      ? `自动前往：当前地图没有直达 ${target} 的出口。请先按路线提示换图，或使用付费跳转。`
+      : "自动前往出口不在当前地图。请先走到任务提示的地图。");
     return;
+  }
+  if (redirected) {
+    const target = targetName || targetMapId || "目标地图";
+    addClientLog(`自动前往：当前地图改走「${exit.label}」前往 ${target}。`);
   }
   beginAssistRoute("exit", exit.id, exit.label);
   addClientLog(`自动前往：正在去 ${exit.label}。`);
@@ -1838,7 +1844,23 @@ async function paidJumpTo(kind, id, options = {}) {
   }
   cancelActiveRoute({ clearKeys: true });
   try {
-    const payload = { game, kind, id };
+    let resolvedId = id;
+    if (kind === "exit") {
+      const { exit, redirected, targetMapId, targetName } = resolveCurrentAssistExit(id, options);
+      if (!exit) {
+        const target = targetName || targetMapId || "目标地图";
+        addClientLog(targetMapId
+          ? `付费跳转：当前地图没有直达 ${target} 的出口。请先按路线提示换图。`
+          : "付费跳转出口不在当前地图。");
+        return;
+      }
+      if (redirected) {
+        const target = targetName || targetMapId || "目标地图";
+        addClientLog(`付费跳转：当前地图改用「${exit.label}」前往 ${target}。`);
+      }
+      resolvedId = exit.id;
+    }
+    const payload = { game, kind, id: resolvedId };
     const preferredTile = normalizeRoutePreference(options.preferredTile);
     if (preferredTile) {
       payload.targetX = preferredTile.x;
@@ -1862,6 +1884,32 @@ function handleMapExitClick(exit, options = {}) {
     return;
   }
   goToExit(exit.id, options);
+}
+
+function resolveCurrentAssistExit(exitId, options = {}) {
+  const map = game?.world?.map;
+  const exits = map?.exits || [];
+  const wantedId = String(exitId || "");
+  const targetMapId = String(options.targetMapId || options.assistTargetMap || "");
+  const targetName = options.targetName || options.assistTargetName || "";
+  const exact = exits.find((item) => String(item.id) === wantedId);
+  if (exact) {
+    return { exit: exact, redirected: false, targetMapId, targetName };
+  }
+  const fallback = targetMapId ? nearestCurrentExitToMap(targetMapId) : null;
+  if (fallback) {
+    return { exit: fallback, redirected: true, targetMapId, targetName };
+  }
+  return { exit: null, redirected: false, targetMapId, targetName };
+}
+
+function nearestCurrentExitToMap(targetMapId) {
+  const map = game?.world?.map;
+  const target = String(targetMapId || "");
+  if (!target) return null;
+  return (map?.exits || [])
+    .filter((exit) => String(exit.to) === target)
+    .sort((a, b) => distanceToExitClient(a) - distanceToExitClient(b) || String(a.label || "").localeCompare(String(b.label || ""), "zh-Hans"))[0] || null;
 }
 
 function normalizeRoutePreference(tile) {
@@ -3608,20 +3656,41 @@ function renderNpcListHtml(map) {
   `).join("") || `<p class="empty">当前地图没有 NPC。</p>`;
 }
 
-function renderAssistMapActions(kind, id, distance) {
+function renderAssistMapActions(kind, id, distance, options = {}) {
   const normalizedKind = kind === "exit" ? "exit" : "npc";
   const escapedId = escapeHtml(id);
   const price = paidJumpCost(distance);
   const autoGo = assistRouteButtonState(normalizedKind, id, "自动前往");
+  const targetAttrs = normalizedKind === "exit" ? assistTargetDataAttrs(options) : "";
   return `
     <div class="assist-map-actions">
-      <button class="assist-go-btn" type="button" data-assist-go-${normalizedKind}="${escapedId}" ${autoGo.attrs}>${autoGo.label}</button>
-      <button class="assist-go-btn paid" type="button" data-assist-paid-jump-${normalizedKind}="${escapedId}" title="${escapeHtml(price > 0 ? `预计 ${price} 石币，Worker 会按实际距离校验扣费` : "已经在附近，不收跳转费")}">
+      <button class="assist-go-btn" type="button" data-assist-go-${normalizedKind}="${escapedId}"${targetAttrs} ${autoGo.attrs}>${autoGo.label}</button>
+      <button class="assist-go-btn paid" type="button" data-assist-paid-jump-${normalizedKind}="${escapedId}"${targetAttrs} title="${escapeHtml(price > 0 ? `预计 ${price} 石币，Worker 会按实际距离校验扣费` : "已经在附近，不收跳转费")}">
         <span>付费跳转</span>
         <small>${price > 0 ? `${price} 石币` : "脚下"}</small>
       </button>
     </div>
   `;
+}
+
+function assistTargetDataAttrs(options = {}) {
+  const targetMapId = options.targetMapId || options.assistTargetMap || "";
+  const targetName = options.targetName || options.assistTargetName || "";
+  return `${targetMapId ? ` data-assist-target-map="${escapeHtml(targetMapId)}"` : ""}${targetName ? ` data-assist-target-name="${escapeHtml(targetName)}"` : ""}`;
+}
+
+function exitAssistTargetOptions(exit) {
+  return {
+    targetMapId: exit?.to || "",
+    targetName: exit?.toName || ""
+  };
+}
+
+function assistRouteOptionsFromButton(button) {
+  return {
+    targetMapId: button?.dataset?.assistTargetMap || "",
+    targetName: button?.dataset?.assistTargetName || ""
+  };
 }
 
 function assistRouteButtonState(kind, id, readyLabel, busyLabel = "前往中") {
@@ -3751,7 +3820,7 @@ function onAssistPanelClick(event) {
   if (goExitBtn) {
     event.preventDefault();
     event.stopPropagation();
-    goToExit(goExitBtn.dataset.assistGoExit);
+    goToExit(goExitBtn.dataset.assistGoExit, assistRouteOptionsFromButton(goExitBtn));
     return;
   }
   const paidNpcBtn = event.target.closest("[data-assist-paid-jump-npc]");
@@ -3765,7 +3834,7 @@ function onAssistPanelClick(event) {
   if (paidExitBtn) {
     event.preventDefault();
     event.stopPropagation();
-    paidJumpTo("exit", paidExitBtn.dataset.assistPaidJumpExit);
+    paidJumpTo("exit", paidExitBtn.dataset.assistPaidJumpExit, assistRouteOptionsFromButton(paidExitBtn));
     return;
   }
   const npcBtn = event.target.closest("[data-npc]");
@@ -5466,7 +5535,7 @@ function renderExitListHtml(map) {
           <strong>${escapeHtml(exit.label)}</strong>
           <span>距离 ${formatExitDistance(exit)}</span>
         </div>
-        ${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit))}
+        ${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit), exitAssistTargetOptions(exit))}
       </div>
     </article>
   `).join("");
@@ -5674,12 +5743,20 @@ function renderLeadTargetActions(target) {
   }
   const exit = target.exit || null;
   if (exit?.id) {
-    const distance = Number.isFinite(Number(exit.distance)) ? Number(exit.distance) : 0;
-    const goState = assistRouteButtonState("exit", exit.id, "去出口");
+    const targetMapId = String(target.mapId || exit.to || "");
+    const targetName = target.mapName || exit.toName || "";
+    const currentExit = (game?.world?.map?.exits || []).find((item) => String(item.id) === String(exit.id))
+      || nearestCurrentExitToMap(targetMapId);
+    const actionExit = currentExit || exit;
+    const distance = currentExit
+      ? distanceToExitClient(currentExit)
+      : Number.isFinite(Number(exit.distance)) ? Number(exit.distance) : 0;
+    const goState = assistRouteButtonState("exit", actionExit.id, "去出口");
+    const targetAttrs = `${targetMapId ? ` data-assist-target-map="${escapeHtml(targetMapId)}"` : ""}${targetName ? ` data-assist-target-name="${escapeHtml(targetName)}"` : ""}`;
     return `
       <div class="assist-lead-actions">
-        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(exit.id)}" ${goState.attrs}>${goState.label}</button>
-        <button class="assist-go-btn paid" type="button" data-assist-paid-jump-exit="${escapeHtml(exit.id)}" title="${escapeHtml(distance > 0 ? `预计 ${paidJumpCost(distance)} 石币` : "已经在出口附近")}">
+        <button class="assist-go-btn" type="button" data-assist-go-exit="${escapeHtml(actionExit.id)}"${targetAttrs} ${goState.attrs}>${goState.label}</button>
+        <button class="assist-go-btn paid" type="button" data-assist-paid-jump-exit="${escapeHtml(actionExit.id)}"${targetAttrs} title="${escapeHtml(distance > 0 ? `预计 ${paidJumpCost(distance)} 石币` : "已经在出口附近")}">
           <span>付费跳转</span>
           <small>${distance > 0 ? `${paidJumpCost(distance)} 石币` : "附近"}</small>
         </button>
@@ -7160,7 +7237,7 @@ function renderQuestStarterCards(map) {
           ${exits.map((exit) => `
             <li class="quest-starter-line">
               <span>出口 ${escapeHtml(exit.label)}，距离 ${escapeHtml(formatExitDistance(exit))}</span>
-              ${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit))}
+              ${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit), exitAssistTargetOptions(exit))}
             </li>
           `).join("")}
         </ul>

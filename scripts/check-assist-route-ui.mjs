@@ -16,7 +16,7 @@ const requiredAppSnippets = [
   ["active quest route action renderer", "${renderLeadTargetActions(quest.target)}"],
   ["source task route action renderer", "${renderLeadTargetActions(task.target)}"],
   ["starter NPC route action renderer", '${renderAssistMapActions("npc", npc.id, pointDistance(npc.x, npc.y))}'],
-  ["starter exit route action renderer", '${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit))}'],
+  ["starter exit route action renderer", '${renderAssistMapActions("exit", exit.id, distanceToExitClient(exit), exitAssistTargetOptions(exit))}'],
   ["NPC auto-go button contract", "data-assist-go-npc"],
   ["NPC paid-jump button contract", "data-assist-paid-jump-npc"],
   ["exit auto-go button contract", "data-assist-go-exit"],
@@ -41,7 +41,16 @@ const requiredAppSnippets = [
   ["debug tab exposes source drop table", '["dropTable", battlePotentialLootSummary(recentBattleOutcome()?.potentialLootItems) || "--"]'],
   ["encounter gate summary helper", "function encounterGateSummaryText(full = false)"],
   ["right status exposes encounter gates", "<b>遇敌条件</b>"],
-  ["debug tab exposes encounter gates", '["encounterGate", encounterGateSummaryText(true) || "--"]']
+  ["debug tab exposes encounter gates", '["encounterGate", encounterGateSummaryText(true) || "--"]'],
+  ["route action button carries target map context", "data-assist-target-map"],
+  ["route click passes button context", "goToExit(goExitBtn.dataset.assistGoExit, assistRouteOptionsFromButton(goExitBtn))"],
+  ["paid exit click passes button context", 'paidJumpTo("exit", paidExitBtn.dataset.assistPaidJumpExit, assistRouteOptionsFromButton(paidExitBtn))'],
+  ["exit map actions pass target context", 'renderAssistMapActions("exit", exit.id, distanceToExitClient(exit), exitAssistTargetOptions(exit))'],
+  ["assist target data attrs helper", "function assistTargetDataAttrs(options = {})"],
+  ["exit target options helper", "function exitAssistTargetOptions(exit)"],
+  ["assist route option extractor", "function assistRouteOptionsFromButton(button)"],
+  ["current-map exit resolver", "function resolveCurrentAssistExit(exitId, options = {})"],
+  ["target-map direct exit fallback", "function nearestCurrentExitToMap(targetMapId)"]
 ];
 
 for (const [label, snippet] of requiredAppSnippets) {
