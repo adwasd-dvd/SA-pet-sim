@@ -1755,8 +1755,8 @@ function buyGame(game, npcId, itemId) {
   const sourcePrice = Number(item.price || item.cost || 0);
   const discount = shopDiscountForNpc(game, npc);
   const price = discountedShopPrice(game, npc, item);
-  const costFame = Math.max(0, Number(item.costFame || 0));
-  const costPoint = Math.max(0, Number(item.costPoint || 0));
+  const costFame = tradeItemCostFame(item, npc);
+  const costPoint = tradeItemCostPoint(item, npc);
   if (Number(game.player.stone || 0) < price) throw new Error("石币不够");
   if (costFame > 0 && Number(game.player.fame || 0) < costFame) {
     throw new Error(`声望不足：需要 ${sourceFameDisplay(costFame)}，当前 ${sourceFameDisplay(game.player.fame || 0)}`);
@@ -1800,6 +1800,37 @@ function sourceFameDisplay(value) {
 function sourcePointDisplay(value) {
   const raw = Math.max(0, Math.floor(Number(value) || 0));
   return `${raw} 点`;
+}
+
+const STONE_ONLY_TRADE_POINT_SOURCES = new Set([
+  "gmsv-data/npc/scipt_plus/test2nd/c_can_mm"
+]);
+
+function normalizedTradeSource(source) {
+  return String(source || "").replace(/^gmsv-data\//, "").replace(/^file:/, "");
+}
+
+function isStoneOnlyTradePointSource(npc) {
+  const sources = [
+    npc?.trade?.source,
+    npc?.script,
+    npc?.source
+  ].map(normalizedTradeSource);
+  return sources.some((source) => (
+    source === "npc/scipt_plus/test2nd/c_can_mm"
+    || source === "scipt_plus/test2nd/c_can_mm"
+    || STONE_ONLY_TRADE_POINT_SOURCES.has(`gmsv-data/${source}`)
+  ));
+}
+
+function tradeItemCostFame(item, npc = null) {
+  return Math.max(0, Number(item?.costFame || 0));
+}
+
+function tradeItemCostPoint(item, npc = null) {
+  const raw = Math.max(0, Number(item?.costPoint || 0));
+  if (raw > 0 && npc && isStoneOnlyTradePointSource(npc)) return 0;
+  return raw;
 }
 
 function sellGame(game, npcId, itemId, qty = 1) {
@@ -11848,8 +11879,10 @@ function tradeReply(game, npc) {
     const price = discountedShopPrice(game, npc, item);
     const sourcePrice = Number(item.price || item.cost || 0);
     const base = discount && price < sourcePrice ? `${sourcePrice}->${price}石币` : `${price}石币`;
-    const point = Number(item.costPoint || 0) > 0 ? `+${sourcePointDisplay(item.costPoint)}` : "";
-    const fame = Number(item.costFame || 0) > 0 ? `+${sourceFameDisplay(item.costFame)}` : "";
+    const costPoint = tradeItemCostPoint(item, npc);
+    const costFame = tradeItemCostFame(item, npc);
+    const point = costPoint > 0 ? `+${sourcePointDisplay(costPoint)}` : "";
+    const fame = costFame > 0 ? `+${sourceFameDisplay(costFame)}` : "";
     return `${base}${point}${fame}`;
   };
   return [
@@ -12085,8 +12118,8 @@ async function callOpenAiNpc(env, game, npc, text, map, debug, scriptReferences,
           name: item.name,
           type: item.type,
           price: item.price || item.cost || 0,
-          costFame: Number(item.costFame || 0),
-          costPoint: Number(item.costPoint || 0),
+          costFame: tradeItemCostFame(item, npc),
+          costPoint: tradeItemCostPoint(item, npc),
           source: item.source
         })) || [],
         source: npc.trade.source
@@ -13501,8 +13534,8 @@ function npcActionProfile(npc) {
   if (isNpcEnemy(npc) && npc.npcEnemy?.postBattleEvents?.some((event) => event.endSetFlags?.length || event.nowSetFlags?.length)) actions.push("setFlag");
   if (isNpcEnemy(npc) && npc.npcEnemy?.postBattleEvents?.some((event) => event.clearFlags?.length)) actions.push("clearFlag");
   if (npc.trade?.items?.length || /shop/i.test(`${npc.type} ${npc.template}`)) actions.push("shop");
-  if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => Number(item.costFame || 0) > 0)) actions.push("adjustFame");
-  if (npc.trade?.hasCostPoint || npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0)) actions.push("adjustAmPoint");
+  if (npc.trade?.hasCostFame || npc.trade?.items?.some((item) => tradeItemCostFame(item, npc) > 0)) actions.push("adjustFame");
+  if (npc.trade?.hasCostPoint && npc.trade?.items?.some((item) => tradeItemCostPoint(item, npc) > 0)) actions.push("adjustAmPoint");
   if (npc.petShop || /PetShop|petshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("petShop");
   if (isPetFusionNpc(npc)) actions.push("petFusion", "window");
   if (npc.itemPoolShop || /PoolItemShop|poolitemshop/i.test(`${npc.type} ${npc.template} ${npc.script}`)) actions.push("itemPoolShop");
@@ -14287,9 +14320,9 @@ function withTradeState(game, trade, npc = null) {
     items: items.map((item) => {
       const sourcePrice = Number(item.price || item.cost || 0);
       const price = npc ? discountedShopPrice(game, npc, item) : sourcePrice;
-      const costFame = Math.max(0, Number(item.costFame || 0));
+      const costFame = tradeItemCostFame(item, npc);
       const fameAffordable = Number(game.player?.fame || 0) >= costFame;
-      const costPoint = Math.max(0, Number(item.costPoint || 0));
+      const costPoint = tradeItemCostPoint(item, npc);
       const pointAffordable = Number(game.player?.amPoint || 0) >= costPoint;
       return {
         ...item,

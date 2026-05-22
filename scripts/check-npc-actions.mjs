@@ -65,6 +65,10 @@ async function declineNpcProposal(game, npcId, label) {
   });
 }
 
+function isStoneOnlyTradePointFixture(npc) {
+  return npc?.trade?.source === "gmsv-data/npc/scipt_plus/test2nd/c_can_mm";
+}
+
 function fillInventoryForCapacity(game, length = 20) {
   game.inventory = Array.from({ length }, (_, index) => ({
     id: 970000 + index,
@@ -2189,6 +2193,30 @@ assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && even
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "sell" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs item take through NPC VM executor");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "sell" && event.detail?.stone === sellPrice && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs stone give through NPC VM executor");
 
+const pkStoneOnlyShop = Object.values(WORLD.maps)
+  .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
+  .find(({ npc }) => isStoneOnlyTradePointFixture(npc));
+if (!pkStoneOnlyShop) throw new Error("missing stone-only PK shop fixture");
+const pkStoneOnlyItem = pkStoneOnlyShop.npc.trade.items.find((item) => Number(item.price || item.cost || 0) > 0);
+if (!pkStoneOnlyItem) throw new Error("missing stone-priced PK shop item fixture");
+let pkStoneOnlyGame = await api("/api/game/new", { name: "shop-pk-stone-only-test" });
+pkStoneOnlyGame.location = { mapId: pkStoneOnlyShop.map.id, x: pkStoneOnlyShop.npc.x + 1, y: pkStoneOnlyShop.npc.y };
+pkStoneOnlyGame.player.stone = Number(pkStoneOnlyItem.price || pkStoneOnlyItem.cost || 0) + 456;
+pkStoneOnlyGame.player.fame = 0;
+pkStoneOnlyGame.player.amPoint = 0;
+pkStoneOnlyGame = await api("/api/game/talk", { game: pkStoneOnlyGame, npcId: pkStoneOnlyShop.npc.id });
+assert(
+  pkStoneOnlyGame.dialog.trade.items.every((item) => Number(item.costPoint || 0) === 0 && item.pointAffordable !== false),
+  "Marinas PK merchant hides internal CostPoint and remains stone-priced"
+);
+assert(!pkStoneOnlyGame.dialog.debug.actions.includes("adjustAmPoint"), "stone-only PK merchant debug omits point deduction action");
+const pkStoneBefore = pkStoneOnlyGame.player.stone;
+pkStoneOnlyGame = await api("/api/game/buy", { game: pkStoneOnlyGame, npcId: pkStoneOnlyShop.npc.id, itemId: pkStoneOnlyItem.id });
+assertEqual(pkStoneOnlyGame.player.stone, pkStoneBefore - Number(pkStoneOnlyItem.price || pkStoneOnlyItem.cost || 0), "stone-only PK merchant buy charges only source stone price");
+assertEqual(pkStoneOnlyGame.player.amPoint, 0, "stone-only PK merchant buy does not require or deduct points");
+assertEqual(inventoryQty(pkStoneOnlyGame, pkStoneOnlyItem.id), 1, "stone-only PK merchant buy gives source item");
+assert(pkStoneOnlyGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.costPoint === 0), "stone-only PK merchant VM trace records normalized zero point cost");
+
 const fixedCostShop = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.trade?.items?.some((item) => (
@@ -2239,7 +2267,7 @@ assert(costFameGame.dialog.debug.vmTrace.some((event) => event.action === "adjus
 
 const costPointShop = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
-  .find(({ npc }) => npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0));
+  .find(({ npc }) => !isStoneOnlyTradePointFixture(npc) && npc.trade?.items?.some((item) => Number(item.costPoint || 0) > 0));
 if (!costPointShop) throw new Error("missing CostPoint shop fixture");
 const costPointItem = costPointShop.npc.trade.items.find((item) => Number(item.costPoint || 0) > 0);
 let costPointGame = await api("/api/game/new", { name: "shop-costpoint-test" });
