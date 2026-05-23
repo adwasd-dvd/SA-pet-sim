@@ -128,6 +128,8 @@ charname|option|charinfo
 
 This mirrors SAAC `makeSaveCharString` enough for inspection while keeping the actual PWA import/export path JSON-first.
 
+Cloud persistence note: `docs/planning/CLOUD_PERSISTENCE_SCHEMA.md` defines how this JSON save maps onto D1 tables, `AccountSessionDO` / `CharacterLockDO` leases, `saveVersion` compare-and-set writes, and localStorage import. The JSON object remains canonical; `charname|option|charinfo` stays a debug/export companion for SAAC compatibility work.
+
 ## Flag Model
 
 - `flags.endEvents`: persistent completed-event bit arrays.

@@ -20,6 +20,7 @@
     "check:item-effects": "node scripts/check-item-effects.mjs",
     "check:battle-ui": "node scripts/check-battle-ui.mjs",
     "check:realtime": "node scripts/check-realtime-room.mjs",
+    "check:persistence-schema": "node scripts/check-cloud-persistence-schema.mjs",
     "check:protocol": "node scripts/check-worker-protocol.mjs",
     "check:pet-assets": "node scripts/check-pet-asset-resolution.mjs",
     "check:profile-runtime-packs": "node scripts/check-profile-runtime-packs.mjs",
@@ -38,7 +39,7 @@
     "package:transfer": "node scripts/package-transfer.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:npc-scripts && npm run check:quest-index && npm run check:classic-core-spine && npm run check:assist-ui && npm run check:dialog-proposal-ui && npm run check:item-effects && npm run check:battle-ui && npm run check:realtime && npm run check:protocol && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
+    "check": "npm run check:maps && npm run check:movement && npm run check:npc && npm run check:npc-scripts && npm run check:quest-index && npm run check:classic-core-spine && npm run check:assist-ui && npm run check:dialog-proposal-ui && npm run check:item-effects && npm run check:battle-ui && npm run check:realtime && npm run check:persistence-schema && npm run check:protocol && npm run check:pet-assets && npm run check:profile-runtime-packs && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "wrangler": "^4.15.0"
