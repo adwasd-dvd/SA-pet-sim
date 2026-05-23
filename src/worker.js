@@ -4598,7 +4598,14 @@ function performBattleAction(game, action) {
   game.battle.mode = "resolving";
   const actorTurn = (actor) => {
     const turnActorName = battleActorName(game, actor);
-    let hit = combatDamageDetail(actor, enemy);
+    let hit = combatNormalAttackDetail(actor, enemy, {
+      attackerKind: battleActorKind(game, actor),
+      defenderKind: "enemy"
+    });
+    if (hit.dodgeCheck?.dodged) {
+      battleLog.push(`${enemy.Name} 闪开了 ${turnActorName} 的攻击。`);
+      return;
+    }
     if (enemyAi.type === "guard") {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
@@ -4697,9 +4704,16 @@ function performPlayerEscapeAction(game) {
   }
   const battleLog = [`你试图从 ${enemyName} 面前逃跑，但是失败了。`];
   if (enemy.Hp > 0) {
-    const hit = combatDamageDetail(enemy, activeActor);
-    setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-    battleLog.push(`${enemy.Name} 趁机攻击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    const hit = combatNormalAttackDetail(enemy, activeActor, {
+      attackerKind: "enemy",
+      defenderKind: battleActorKind(game, activeActor)
+    });
+    if (hit.dodgeCheck?.dodged) {
+      battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${enemy.Name} 的攻击。`);
+    } else {
+      setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
+      battleLog.push(`${enemy.Name} 趁机攻击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    }
   }
   return settleBattleRound(game, activeActor, enemy, {
     battleLog,
@@ -5256,7 +5270,15 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
   }
   const targetActor = enemyBattleTargetActor(game, enemyAi, activeActor);
   const targetGuarded = guarded && targetActor === activeActor;
-  let hit = combatDamageDetail(enemy, targetActor);
+  let hit = combatNormalAttackDetail(enemy, targetActor, {
+    attackerKind: "enemy",
+    defenderKind: battleActorKind(game, targetActor),
+    defenderGuarding: targetGuarded
+  });
+  if (hit.dodgeCheck?.dodged) {
+    battleLog.push(`${battleActorName(game, targetActor)} 闪开了 ${enemy.Name} 的攻击。`);
+    return false;
+  }
   if (targetGuarded) {
     hit = applySourceGuardAdjust(hit, [
       "player-guard",
@@ -6079,9 +6101,16 @@ function performBattleItemAction(game, itemId = null) {
     const statusResult = consumeBattleStatusBeforeTurn(enemy, battleLog);
     syncActiveEnemyPartyEntry(game, enemy);
     if (!statusResult.stopped && Number(enemy.Hp || 0) > 0) {
-      const hit = combatDamageDetail(enemy, activeActor);
-      setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-      battleLog.push(`${enemy.Name} 趁机反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+      const hit = combatNormalAttackDetail(enemy, activeActor, {
+        attackerKind: "enemy",
+        defenderKind: battleActorKind(game, activeActor)
+      });
+      if (hit.dodgeCheck?.dodged) {
+        battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${enemy.Name} 的攻击。`);
+      } else {
+        setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
+        battleLog.push(`${enemy.Name} 趁机反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+      }
     }
   }
 
@@ -6815,9 +6844,16 @@ function performCaptureAction(game) {
     };
   }
   const battleLog = [`${enemyName} 挣脱了绳索。`];
-  const hit = combatDamageDetail(target, activeActor);
-  setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-  battleLog.push(`${target.Name} 反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  const hit = combatNormalAttackDetail(target, activeActor, {
+    attackerKind: "enemy",
+    defenderKind: battleActorKind(game, activeActor)
+  });
+  if (hit.dodgeCheck?.dodged) {
+    battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${target.Name} 的攻击。`);
+  } else {
+    setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
+    battleLog.push(`${target.Name} 反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  }
   return settleBattleRound(game, activeActor, target, {
     battleLog,
     result: "capture-missed",
@@ -6858,8 +6894,87 @@ function advanceBattleCommandWindow(game) {
   game.battle.turnSeconds = BATTLE_TURN_SECONDS;
 }
 
+const SOURCE_BATTLE_MAX_DUCK_RATE = 75;
+
 function combatDamage(attacker, defender, multiplier = 1) {
   return combatDamageDetail(attacker, defender, multiplier).damage;
+}
+
+function combatNormalAttackDetail(attacker, defender, options = {}) {
+  const duck = sourceBattleDuckCheck(attacker, defender, options);
+  if (duck.dodged) {
+    return {
+      damage: 0,
+      critical: false,
+      elementMultiplier: 1,
+      sourceRoll: 0,
+      sourceBranch: "ducked",
+      dodgeCheck: duck
+    };
+  }
+  return {
+    ...combatDamageDetail(attacker, defender, options.multiplier ?? 1),
+    dodgeCheck: duck
+  };
+}
+
+function sourceBattleDuckCheck(attacker, defender, options = {}) {
+  const source = "gmsv battle_event.c BATTLE_DuckCheck";
+  if (!attacker || !defender) {
+    return { dodged: false, chance: 0, roll: 0, source, reason: "missing-actor" };
+  }
+  if (options.defenderGuarding) {
+    return { dodged: false, chance: 0, roll: 0, source, reason: "guarding" };
+  }
+  if (Number(defender.NoDuck || defender.noDuck || 0) > 0) {
+    return { dodged: false, chance: 0, roll: 0, source, reason: "no-duck" };
+  }
+  if (Number(defender.Abio || defender.abio || 0) > 0) {
+    return { dodged: false, chance: 0, roll: 0, source, reason: "abio" };
+  }
+
+  const attackerKind = String(options.attackerKind || "enemy");
+  const defenderKind = String(options.defenderKind || "enemy");
+
+  let attackerDex = Math.max(0, firstFiniteNumber(0, attacker.WorkFixDex, attacker.WorkQuick, Number(attacker.Dex || 0) / 100));
+  let defenderDex = Math.max(0, firstFiniteNumber(0, defender.WorkFixDex, defender.WorkQuick, Number(defender.Dex || 0) / 100));
+  const defenderLuck = defenderKind === "player"
+    ? Math.max(0, firstFiniteNumber(0, defender.WorkFixLuck, defender.Luck, defender.luck))
+    : 0;
+
+  if (attackerKind === "enemy" && defenderKind === "pet") {
+    attackerDex *= 0.8;
+  } else if (attackerKind !== "enemy" && defenderKind === "pet") {
+    defenderDex *= 0.8;
+  } else if (attackerKind !== "player" && defenderKind === "player") {
+    attackerDex *= 0.6;
+  } else if (attackerKind === "player" && defenderKind !== "player") {
+    defenderDex *= 0.6;
+  }
+
+  let big = attackerDex;
+  let small = defenderDex;
+  let wari = 0;
+  if (defenderDex >= attackerDex) {
+    big = defenderDex;
+    small = attackerDex;
+    wari = 1;
+  } else if (big > 0) {
+    wari = small / big;
+  }
+
+  const work = Math.max(0, (big - small) / 0.02);
+  let chancePct = Math.sqrt(work) * wari + defenderLuck;
+  chancePct = Math.max(0, Math.min(SOURCE_BATTLE_MAX_DUCK_RATE, chancePct));
+  const chance = clampInt(Math.trunc(chancePct * 100), 0, SOURCE_BATTLE_MAX_DUCK_RATE * 100, 0);
+  const roll = Math.trunc(Math.random() * 10000) + 1;
+  return {
+    dodged: chance > 0 && roll <= chance,
+    chance,
+    chancePct: chance / 100,
+    roll,
+    source
+  };
 }
 
 function combatDamageDetail(attacker, defender, multiplier = 1) {

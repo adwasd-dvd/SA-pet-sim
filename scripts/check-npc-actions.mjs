@@ -3536,7 +3536,7 @@ Object.assign(workAliasBattleGame.encounter, {
   WorkDefencePower: 0,
   WorkFixTough: 999,
   WorkQuick: 1,
-  WorkFixDex: 999,
+  WorkFixDex: 0,
   SourceExp: 1,
   Exp: 1
 });
