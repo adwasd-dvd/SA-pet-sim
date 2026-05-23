@@ -250,6 +250,89 @@ assert(
   "battle log includes player support attack"
 );
 
+let enemyTargetPlayerGame = await api("/api/game/new", { name: "enemy-target-player-test" });
+enemyTargetPlayerGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyTargetPlayerGame = await api("/api/game/encounter", { game: enemyTargetPlayerGame });
+Object.assign(enemyTargetPlayerGame.player, {
+  hp: 98,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  Tough: 0,
+  Dex: 1,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetPlayerGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  Tough: 0,
+  Dex: 1,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetPlayerGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  Str: 800,
+  Tough: 0,
+  Dex: 5000,
+  WorkAttackPower: 80,
+  WorkFixStr: 80,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+enemyTargetPlayerGame.battle.enemyParty = [enemyTargetPlayerGame.encounter];
+enemyTargetPlayerGame.battle.activeEnemyIndex = 0;
+enemyTargetPlayerGame = await api("/api/game/battle", { game: enemyTargetPlayerGame, action: "防御" });
+assertEqual(enemyTargetPlayerGame.battleOutcome.enemyAi?.targetKind, "player", "enemy ai honors source target player rule");
+assert(Number(enemyTargetPlayerGame.player.hp || 0) < 98, "source target player rule damages the player even when a pet is active");
+assertEqual(Number(enemyTargetPlayerGame.pets[0].Hp || 0), 999, "source target player rule does not redirect damage to the active pet");
+assert(enemyTargetPlayerGame.battleOutcome.log.some((line) => line.includes(enemyTargetPlayerGame.player.name) && line.includes("攻击")), "enemy target log names the selected player target");
+
+let enemyTargetPlayerDefeatGame = await api("/api/game/new", { name: "enemy-target-player-defeat-test" });
+enemyTargetPlayerDefeatGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyTargetPlayerDefeatGame = await api("/api/game/encounter", { game: enemyTargetPlayerDefeatGame });
+Object.assign(enemyTargetPlayerDefeatGame.player, {
+  hp: 1,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  Tough: 0,
+  Dex: 1,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetPlayerDefeatGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetPlayerDefeatGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  Str: 800,
+  Dex: 5000,
+  WorkAttackPower: 80,
+  WorkFixStr: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+enemyTargetPlayerDefeatGame.battle.enemyParty = [enemyTargetPlayerDefeatGame.encounter];
+enemyTargetPlayerDefeatGame.battle.activeEnemyIndex = 0;
+enemyTargetPlayerDefeatGame = await api("/api/game/battle", { game: enemyTargetPlayerDefeatGame, action: "防御" });
+assertEqual(enemyTargetPlayerDefeatGame.battleOutcome.result, "defeat", "player knockout by enemy target rule ends battle even if active pet survives");
+assertEqual(enemyTargetPlayerDefeatGame.encounter, null, "player knockout clears battle encounter");
+
 let petKoBattleGame = await api("/api/game/new", { name: "pet-ko-continues-test" });
 petKoBattleGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 petKoBattleGame = await api("/api/game/encounter", { game: petKoBattleGame });

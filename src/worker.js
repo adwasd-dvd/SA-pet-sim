@@ -5254,20 +5254,22 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     battleLog.push(`${enemy.Name} 试图逃跑，但是失败了。`);
     return false;
   }
-  let hit = combatDamageDetail(enemy, activeActor);
-  if (guarded) {
+  const targetActor = enemyBattleTargetActor(game, enemyAi, activeActor);
+  const targetGuarded = guarded && targetActor === activeActor;
+  let hit = combatDamageDetail(enemy, targetActor);
+  if (targetGuarded) {
     hit = applySourceGuardAdjust(hit, [
       "player-guard",
-      battleActorIdentity(game, activeActor),
+      battleActorIdentity(game, targetActor),
       enemy.EnemyId || enemy.PetId || enemy.Name,
       game.battle?.turn || 0,
-      battleActorHp(game, activeActor),
+      battleActorHp(game, targetActor),
       enemy.Hp
     ]);
     playerAction.guardAdjust = hit.guardAdjust;
   }
-  setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-  battleLog.push(`${enemy.Name} ${guarded ? "攻击防御中的" : "攻击"} ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  setBattleActorHp(game, targetActor, battleActorHp(game, targetActor) - hit.damage);
+  battleLog.push(`${enemy.Name} ${targetGuarded ? "攻击防御中的" : "攻击"} ${battleActorName(game, targetActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   return false;
 }
 
@@ -5511,13 +5513,88 @@ function chooseEnemyBattleMove(game, enemy, activeActor) {
   if (selected.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD", command: "G" };
   if (selected.type === "escape") return { ...base, sourceCommand: "BATTLE_COM_ESCAPE", command: "E" };
   if (selected.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT", command: "N" };
+  const target = selectSourceEnemyAttackTarget(game, enemy, tactics.attack, activeActor);
   return {
     ...base,
     sourceCommand: "BATTLE_COM_ATTACK",
-    command: "H|0",
-    targetKind: battleActorKind(game, activeActor),
-    targetSlot: battleActorSlot(game, activeActor),
-    targetName: battleActorName(game, activeActor)
+    command: `H|${target.battleNo}`,
+    targetKind: target.kind,
+    targetSlot: target.slot,
+    targetNo: target.battleNo,
+    targetName: target.name,
+    targetHp: target.hp,
+    targetCandidates: target.candidateKinds,
+    targetSource: target.source
+  };
+}
+
+function enemyBattleTargetActor(game, enemyAi, fallbackActor) {
+  const candidates = sourceEnemyTargetCandidates(game);
+  const match = candidates.find((candidate) => (
+    candidate.kind === enemyAi?.targetKind
+    && Number(candidate.slot) === Number(enemyAi?.targetSlot)
+  )) || candidates.find((candidate) => Number(candidate.battleNo) === Number(enemyAi?.targetNo));
+  return match?.actor || fallbackActor || game.player;
+}
+
+function sourceEnemyTargetCandidates(game) {
+  const candidates = [];
+  if (game.player && battleActorHp(game, game.player) > 0) {
+    candidates.push(sourceEnemyTargetCandidate(game, game.player));
+  }
+  const activePet = getActivePet(game);
+  if (activePet && battleActorHp(game, activePet) > 0) {
+    candidates.push(sourceEnemyTargetCandidate(game, activePet));
+  }
+  return candidates;
+}
+
+function sourceEnemyTargetCandidate(game, actor) {
+  return {
+    actor,
+    kind: battleActorKind(game, actor),
+    slot: battleActorSlot(game, actor),
+    battleNo: battleActorBattleNo(game, actor),
+    name: battleActorName(game, actor),
+    hp: battleActorHp(game, actor),
+    maxHp: battleActorMaxHp(game, actor)
+  };
+}
+
+function selectSourceEnemyAttackTarget(game, enemy, attack, activeActor) {
+  const source = "gmsv battle_ai.c B_AI_NORMAL_TARGET_* / B_AI_NORMAL_SELECT_*";
+  const all = sourceEnemyTargetCandidates(game);
+  const targetRule = Number(attack?.target || 1);
+  const selectRule = Number(attack?.select || 1);
+  let candidates = all.filter((candidate) => {
+    if (targetRule === 2) return candidate.kind === "player";
+    if (targetRule === 3) return candidate.kind === "pet";
+    return true;
+  });
+  if (!candidates.length && targetRule !== 1) candidates = all;
+  if (!candidates.length) candidates = [sourceEnemyTargetCandidate(game, activeActor || game.player)].filter((candidate) => candidate.actor);
+  let selected = candidates[0];
+  if (selectRule === 2 || selectRule === 3) {
+    selected = candidates.reduce((best, candidate) => {
+      if (!best) return candidate;
+      if (selectRule === 2) return candidate.hp > best.hp ? candidate : best;
+      return candidate.hp < best.hp ? candidate : best;
+    }, null) || selected;
+  } else {
+    const roll = stableHashInt([
+      enemy?.EnemyId || enemy?.PetId || enemy?.Name || "",
+      enemy?.Hp || 0,
+      game.battle?.turn || 0,
+      targetRule,
+      selectRule,
+      candidates.map((candidate) => `${candidate.kind}:${candidate.slot}:${candidate.hp}`).join(",")
+    ].join("|")) % candidates.length;
+    selected = candidates[roll] || selected;
+  }
+  return {
+    ...selected,
+    candidateKinds: candidates.map((candidate) => `${candidate.kind}:${candidate.slot}`),
+    source
   };
 }
 
@@ -6063,6 +6140,14 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
     clearPetBattleRuntimeEffects(game, activeActor);
     game.encounter = null;
     game.battle = null;
+  } else if (battleActorHp(game, game.player) <= 0) {
+    result = "defeat";
+    recordBattleDefeat(game, null);
+    game.player.hp = Math.max(1, Math.floor(Number(game.player.maxHp || 1) * 0.5));
+    clearPetBattleRuntimeEffects(game, activeActor);
+    game.encounter = null;
+    game.battle = null;
+    battleLog.push(`${game.player?.name || "player"} 被击倒，你带着队伍撤退并恢复了少量体力。`);
   } else if (actorIsPet && battleActorHp(game, activeActor) <= 0 && battleActorHp(game, game.player) > 0) {
     result = "pet-defeated";
     recordPetBattleKnockout(game, activeActor);
