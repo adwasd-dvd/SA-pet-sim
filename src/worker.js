@@ -4586,30 +4586,32 @@ function performBattleAction(game, action) {
   const enemy = game.encounter;
   const enemyName = enemy.Name;
   const actorName = battleActorName(game, activeActor);
+  const supportActor = move.type === "attack" ? sourceBattleSupportActor(game, activeActor) : null;
   const battleLog = [];
-  const actorFirst = workQuick(activeActor) >= workQuick(enemy);
   const enemyAi = chooseEnemyBattleMove(game, enemy, activeActor);
   const playerAction = sourcePlayerBattleAction(move, game, activeActor, enemy);
+  if (supportActor) playerAction.supportAction = sourceAllySupportBattleAction(game, supportActor, enemy);
   let enemyEscaped = false;
   game.battle.sourceCommand = move.command;
   game.battle.playerAction = playerAction;
   game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
-  const actorTurn = () => {
-    let hit = combatDamageDetail(activeActor, enemy);
+  const actorTurn = (actor) => {
+    const turnActorName = battleActorName(game, actor);
+    let hit = combatDamageDetail(actor, enemy);
     if (enemyAi.type === "guard") {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
         enemy.EnemyId || enemy.PetId || enemy.Name,
-        battleActorIdentity(game, activeActor),
+        battleActorIdentity(game, actor),
         game.battle?.turn || 0,
         enemy.Hp,
-        battleActorHp(game, activeActor)
+        battleActorHp(game, actor)
       ]);
       enemyAi.guardAdjust = hit.guardAdjust;
     }
     enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
-    battleLog.push(`${actorName} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+    battleLog.push(`${turnActorName} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
   const enemyTurn = (guarded = false) => {
     const ended = resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, battleLog, guarded);
@@ -4623,12 +4625,20 @@ function performBattleAction(game, action) {
   } else if (move.type === "wait") {
     battleLog.push(`${actorName} 等待时机。`);
     enemyTurn(false);
-  } else if (actorFirst) {
-    actorTurn();
-    if (enemy.Hp > 0) enemyTurn();
   } else {
-    const endedEnemyTurn = enemyTurn();
-    if (!endedEnemyTurn && battleActorHp(game, activeActor) > 0) actorTurn();
+    const turnOrder = [
+      { type: "ally", actor: activeActor, quick: workQuick(activeActor) },
+      ...(supportActor ? [{ type: "ally", actor: supportActor, quick: workQuick(supportActor) }] : []),
+      { type: "enemy", quick: workQuick(enemy) }
+    ].sort((a, b) => Number(b.quick || 0) - Number(a.quick || 0) || (a.type === "ally" ? -1 : 1));
+    for (const turn of turnOrder) {
+      if (enemy.Hp <= 0 || enemyEscaped) break;
+      if (turn.type === "enemy") {
+        enemyTurn(false);
+      } else if (battleActorHp(game, turn.actor) > 0) {
+        actorTurn(turn.actor);
+      }
+    }
   }
 
   return settleBattleRound(game, activeActor, enemy, {
@@ -4887,6 +4897,30 @@ function sourcePlayerBattleAction(move, game, activeActor, enemy) {
     targetKind: "enemy",
     targetSlot: targetIndex,
     targetNo: Number(move.targetNo ?? BATTLE_SIDE_OFFSET + targetIndex),
+    targetName: enemy?.Name || "enemy"
+  };
+}
+
+function sourceBattleSupportActor(game, activeActor) {
+  const activePet = getActivePet(game);
+  if (activePet && activePet !== activeActor && battleActorHp(game, activePet) > 0) return activePet;
+  if (game.player && activeActor !== game.player && battleActorHp(game, game.player) > 0) return game.player;
+  return null;
+}
+
+function sourceAllySupportBattleAction(game, supportActor, enemy) {
+  const activeEnemyIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  return {
+    type: "attack",
+    sourceCommand: "BATTLE_COM_ATTACK",
+    command: `AUTO|${BATTLE_SIDE_OFFSET + activeEnemyIndex}`,
+    source: "gmsv battle.c PETAI_MODE_ENEMYATTACK / side entry command queue",
+    actorKind: battleActorKind(game, supportActor),
+    actorSlot: battleActorSlot(game, supportActor),
+    actorName: battleActorName(game, supportActor),
+    targetKind: "enemy",
+    targetSlot: activeEnemyIndex,
+    targetNo: BATTLE_SIDE_OFFSET + activeEnemyIndex,
     targetName: enemy?.Name || "enemy"
   };
 }
@@ -5722,6 +5756,7 @@ function compactBattleActionTelemetry(action) {
     targetName: action.targetName || "",
     oldPetSlot: Number(action.oldPetSlot ?? -1),
     oldPetName: action.oldPetName || "",
+    supportAction: action.supportAction ? compactBattleActionTelemetry(action.supportAction) : null,
     petSkill: compactPetSkillTelemetry(action.petSkill),
     guardAdjust: compactGuardAdjust(action.guardAdjust),
     source: action.source || ""
@@ -5993,7 +6028,8 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
     }
     result = "victory";
     defeatedEnemies = completedBattleEnemies(game, enemy);
-    const reward = grantBattleExperience(game, actorIsPet ? activeActor : null, defeatedEnemies, { reason: "victory" });
+    const rewardPet = battleRewardPet(game, activeActor);
+    const reward = grantBattleExperience(game, rewardPet, defeatedEnemies, { reason: "victory" });
     rewardSummary = {
       playerExp: Number(reward.playerExp || 0),
       petExp: Number(reward.petExp || 0),
@@ -6027,6 +6063,15 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
     clearPetBattleRuntimeEffects(game, activeActor);
     game.encounter = null;
     game.battle = null;
+  } else if (actorIsPet && battleActorHp(game, activeActor) <= 0 && battleActorHp(game, game.player) > 0) {
+    result = "pet-defeated";
+    recordPetBattleKnockout(game, activeActor);
+    clearPetBattleRuntimeEffects(game, activeActor);
+    ensurePetFormation(game).activeIndex = -1;
+    game.battle.mode = "command";
+    advanceBattleCommandWindow(game);
+    battleLog.push(`${actorName} 被击倒，退到后方，${game.player?.name || "player"} 继续战斗。`);
+    game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
   } else if (battleActorHp(game, activeActor) <= 0) {
     result = "defeat";
     recordBattleDefeat(game, actorIsPet ? activeActor : null);
@@ -6662,16 +6707,28 @@ function combatDamage(attacker, defender, multiplier = 1) {
 
 function combatDamageDetail(attacker, defender, multiplier = 1) {
   const attack = workAttackPower(attacker);
-  const defense = workDefencePower(defender);
-  const variance = 0.85 + Math.random() * 0.3;
+  const defense = sourceBattleDefensePower(defender);
   const elementMultiplier = elementalDamageMultiplier(attacker, defender);
-  const raw = attack * variance - defense * 0.42;
+  let raw = 0;
+  if (defense <= attack && attack < defense * (8 / 7)) {
+    raw = Math.random() * (attack / 16);
+  } else if (defense > attack) {
+    raw = Math.random();
+  } else {
+    raw = ((attack - defense) * 2) + (Math.random() * (attack / 8) - attack / 16);
+  }
   const critical = Math.random() * 100 < Math.max(2, Number(attacker.Critical || 0) * 0.35);
   return {
-    damage: Math.max(1, Math.floor(raw * (critical ? 1.6 : 1) * multiplier * elementMultiplier)),
+    damage: Math.max(0, Math.floor(raw * (critical ? 1.6 : 1) * multiplier * elementMultiplier)),
     critical,
     elementMultiplier
   };
+}
+
+function sourceBattleDefensePower(char = {}) {
+  let defense = workDefencePower(char) * 0.70;
+  if (Number(char.WorkStone || char.BattleStatuses?.stone?.turns || 0) > 0) defense *= 2;
+  return Math.max(0, defense);
 }
 
 function applySourceGuardAdjust(detail, seedParts = []) {
@@ -6917,6 +6974,12 @@ function grantBattleExperience(game, activePet, defeatedEnemies, options = {}) {
   };
 }
 
+function battleRewardPet(game, activeActor) {
+  if (battleActorKind(game, activeActor) === "pet" && battleActorHp(game, activeActor) > 0) return activeActor;
+  const activePet = getActivePet(game);
+  return activePet && battleActorHp(game, activePet) > 0 ? activePet : null;
+}
+
 function activeExpBonus(game) {
   const entry = game.effects?.expBonus;
   if (!entry) return null;
@@ -6952,6 +7015,14 @@ function recordBattleVictory(game, activePet, enemies, reason) {
     activePet.WinCount = Number(activePet.WinCount || 0) + 1;
     activePet.LastBattleReason = reason;
   }
+}
+
+function recordPetBattleKnockout(game, activePet) {
+  if (!activePet) return;
+  activePet.DeadCount = Number(activePet.DeadCount || 0) + 1;
+  activePet.BattleCount = Number(activePet.BattleCount || 0) + 1;
+  activePet.LastBattleReason = "pet-defeated";
+  syncCharacterFields(game);
 }
 
 function recordBattleDefeat(game, activePet) {

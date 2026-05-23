@@ -200,6 +200,105 @@ await expectApiError(
   "pet release refuses to remove the last pet"
 );
 
+let allyQueueBattleGame = await api("/api/game/new", { name: "ally-command-queue-battle-test" });
+allyQueueBattleGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+allyQueueBattleGame = await api("/api/game/encounter", { game: allyQueueBattleGame });
+Object.assign(allyQueueBattleGame.player, {
+  hp: 98,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  Str: 12000,
+  Dex: 5000,
+  WorkAttackPower: 120,
+  WorkFixStr: 120,
+  WorkQuick: 50,
+  WorkFixDex: 50
+});
+Object.assign(allyQueueBattleGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  Str: 100,
+  Dex: 10000,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 100,
+  WorkFixDex: 100
+});
+Object.assign(allyQueueBattleGame.encounter, {
+  Hp: 80,
+  WorkMaxHp: 80,
+  Str: 100,
+  Tough: 0,
+  Dex: 100,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  SourceExp: 1,
+  Exp: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+allyQueueBattleGame.battle.enemyParty = [allyQueueBattleGame.encounter];
+allyQueueBattleGame.battle.activeEnemyIndex = 0;
+allyQueueBattleGame = await api("/api/game/battle", { game: allyQueueBattleGame, action: "攻击" });
+assertEqual(allyQueueBattleGame.battleOutcome.result, "victory", "source-like ally queue lets player attack with active pet");
+assertEqual(allyQueueBattleGame.battleOutcome.playerAction?.supportAction?.actorKind, "player", "normal attack records player support action when pet is active");
+assert(
+  allyQueueBattleGame.battleOutcome.log.some((line) => line.includes(allyQueueBattleGame.player.name) && line.includes("攻击")),
+  "battle log includes player support attack"
+);
+
+let petKoBattleGame = await api("/api/game/new", { name: "pet-ko-continues-test" });
+petKoBattleGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+petKoBattleGame = await api("/api/game/encounter", { game: petKoBattleGame });
+Object.assign(petKoBattleGame.player, {
+  hp: 98,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  Str: 0,
+  Dex: 100,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(petKoBattleGame.pets[0], {
+  Hp: 1,
+  WorkMaxHp: 1,
+  Str: 0,
+  Dex: 100,
+  Tough: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(petKoBattleGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  Str: 5000,
+  Tough: 0,
+  Dex: 99900,
+  WorkAttackPower: 50,
+  WorkFixStr: 50,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+petKoBattleGame.battle.enemyParty = [petKoBattleGame.encounter];
+petKoBattleGame.battle.activeEnemyIndex = 0;
+petKoBattleGame = await api("/api/game/battle", { game: petKoBattleGame, action: "攻击" });
+assertEqual(petKoBattleGame.battleOutcome.result, "pet-defeated", "active pet knockout no longer counts as full party defeat");
+assert(petKoBattleGame.encounter && petKoBattleGame.battle, "pet knockout keeps battle active while player is alive");
+assertEqual(petKoBattleGame.petFormation.activeIndex, -1, "pet knockout withdraws active pet so player can continue");
+assert(petKoBattleGame.battleOutcome.log.some((line) => line.includes("继续战斗")), "pet knockout log explains player continues");
+
 const petShopEntry = Object.values(WORLD.maps)
   .flatMap((map) => (map.npcs || []).map((npc) => ({ map, npc })))
   .find(({ npc }) => npc.petShop?.poolEnabled);
@@ -2704,8 +2803,9 @@ petStatusSkillGame.pets[0].PetSkills = [{
 petStatusSkillGame.pets[0].Lv = 80;
 petStatusSkillGame.pets[0].WorkFixLuck = 80;
 petStatusSkillGame.pets[0].Luck = 80;
-petStatusSkillGame.pets[0].WorkFixStr = 1;
-petStatusSkillGame.pets[0].WorkAttackPower = 1;
+petStatusSkillGame.pets[0].Str = 50000;
+petStatusSkillGame.pets[0].WorkFixStr = 500;
+petStatusSkillGame.pets[0].WorkAttackPower = 500;
 petStatusSkillGame.pets[0].WorkQuick = 999;
 petStatusSkillGame.pets[0].WorkFixDex = 999;
 petStatusSkillGame.pets[0].Critical = 0;
