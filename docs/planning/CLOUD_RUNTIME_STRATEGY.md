@@ -31,10 +31,14 @@
 还没有完成的关键能力：
 
 - 云端账号和多角色持久化。
-- 多人实时会话、同地图玩家同步和聊天。
+- 多人玩法深化：队伍、交易、战斗房间、同地图聊天 UI、以及和云端存档/账号锁的衔接。
 - 完整 NPC 脚本解释器。
 - 完整战斗、物品、宠物、交易、任务链。
 - 原客户端 TCP 协议兼容层。
+
+已落地但还要继续加固的云端化切片：
+
+- 第一版同地图房间 MVP 已完成：Worker `/api/realtime/map/:mapId` 通过 `MAP_ROOMS` Durable Object WebSocket 同步入场、离场、移动、朝向、快照和轻量聊天 payload；浏览器渲染同地图玩家名称/坐标/方向；房间只保留热状态，不写入角色存档。`npm run check:realtime` 和 full `npm run check` 负责回归。
 
 ## Cloudflare Fit
 
@@ -182,10 +186,11 @@ AI NPC 的边界必须写死：
 
 目标：恢复“这是网游”的核心感觉。
 
-- Durable Object map room：同一地图玩家位置、入场、离场、聊天、附近广播。
-- Worker WebSocket gateway：浏览器客户端连接房间。
-- 客户端渲染其他玩家、聊天泡泡和基础互动。
-- 地图房间只保存热状态，定期/关键动作写入持久化。
+- 已完成第一版 Durable Object map room：同一地图玩家位置、入场、离场、移动、朝向、快照和轻量 chat payload。
+- 已完成 Worker WebSocket gateway：浏览器客户端可连接 `/api/realtime/map/:mapId`。
+- 已完成客户端同地图玩家渲染：其他玩家进入原深度排序角色层，并显示轻量名称标签。
+- 下一步：补聊天 UI、队伍/交易/战斗房间、live multi-tab smoke，以及和 D1/DO 账号/角色持久化的边界桥接。
+- 地图房间继续只保存热状态；持久存档仍由 SAAC-like save/account 层处理，避免多人广播直接写角色快照。
 
 ### Phase 4: Battle, Trade, Party
 
@@ -224,6 +229,6 @@ AI NPC 的边界必须写死：
 4. `shop-001`: 商店窗口从雏形变成真实库存和背包容量。
 5. `ops-001`: 增加 deploy/smoke checklist。
 6. `persistence-002`: 设计 D1/DO 云端存档 schema。
-7. `realtime-001`: 设计并实现第一版 map room WebSocket。
+7. `realtime-001`: 已完成第一版 map room WebSocket；后续转向云端存档桥接、队伍/交易/战斗房间、聊天 UI 和 live smoke。
 8. `ai-002`: 给 NPC AI 增加 action proposal 和 deterministic guardrails。
 9. `battle-formation-001`: 把当前临时战斗面板迁移到原版 5 玩家 + 5 宠 + 敌方 side/slot 阵型。
