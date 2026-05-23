@@ -370,6 +370,43 @@ enemyTargetRandomRuleGame = await api("/api/game/battle", { game: enemyTargetRan
 assertEqual(enemyTargetRandomRuleGame.battleOutcome.enemyAi?.targetSelectMetric, "HP_MIN", "enemy ai records source HP_MIN selection metric");
 assertEqual(enemyTargetRandomRuleGame.battleOutcome.enemyAi?.targetRandomized, true, "enemy ai honors source rn:0 random target override");
 
+let enemyWazaFallbackGame = await api("/api/game/new", { name: "enemy-wa-fallback-test" });
+enemyWazaFallbackGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyWazaFallbackGame = await api("/api/game/encounter", { game: enemyWazaFallbackGame });
+Object.assign(enemyWazaFallbackGame.player, {
+  hp: 98,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyWazaFallbackGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyWazaFallbackGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 80,
+  WorkFixStr: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:3;0;0;0;0;0;0"
+});
+enemyWazaFallbackGame.battle.enemyParty = [enemyWazaFallbackGame.encounter];
+enemyWazaFallbackGame.battle.activeEnemyIndex = 0;
+enemyWazaFallbackGame = await api("/api/game/battle", { game: enemyWazaFallbackGame, action: "防御" });
+assertEqual(enemyWazaFallbackGame.battleOutcome.enemyAi?.type, "wait", "wa-only source tactics fallback to non-attack action when skill runtime is unavailable");
+assertEqual(enemyWazaFallbackGame.battleOutcome.enemyAi?.sourceCommand, "BATTLE_COM_WAIT", "wa-only source fallback records BATTLE_COM_WAIT command telemetry");
+assertEqual(Number(enemyWazaFallbackGame.player.hp || 0), 98, "wa-only source fallback does not force an unintended enemy normal attack");
+assert(enemyWazaFallbackGame.battleOutcome.log.some((line) => line.includes("暂不行动")), "wa-only source fallback logs enemy wait behavior");
+
 let enemyTargetPlayerDefeatGame = await api("/api/game/new", { name: "enemy-target-player-defeat-test" });
 enemyTargetPlayerDefeatGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 enemyTargetPlayerDefeatGame = await api("/api/game/encounter", { game: enemyTargetPlayerDefeatGame });

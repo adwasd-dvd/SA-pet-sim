@@ -5675,6 +5675,12 @@ function parseSourceBattleAiTactics(value) {
   const guard = parseSourceBattleAiInts(sections.gu, [0]);
   const escape = parseSourceBattleAiInts(sections.es, [0]);
   const random = parseSourceBattleAiInts(sections.rn, [1]);
+  const legacyWait = parseSourceBattleAiInts(sections.n, [0]);
+  const waza = parseSourceBattleAiInts(sections.wa, [0, 0, 0, 0, 0, 0, 0]);
+  // gmsv battle_ai.c uses wa:* as skill-mode weights. Until runtime skill execution
+  // is complete, treat wa weight as wait weight so enemies do not degrade into
+  // forced normal attacks when source tactics rely on wa entries.
+  const wazaWeight = waza.reduce((sum, item) => sum + Math.max(0, Number(item || 0)), 0);
   return {
     attack: {
       weight: Math.max(0, attack[0] || 0),
@@ -5689,7 +5695,7 @@ function parseSourceBattleAiTactics(value) {
       weight: Math.max(0, escape[0] || 0)
     },
     wait: {
-      weight: Math.max(0, parseSourceBattleAiInts(sections.n, [0])[0] || 0)
+      weight: Math.max(0, legacyWait[0] || 0) + wazaWeight
     }
   };
 }
