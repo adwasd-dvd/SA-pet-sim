@@ -6861,19 +6861,36 @@ function combatDamageDetail(attacker, defender, multiplier = 1) {
   const defense = sourceBattleDefensePower(defender);
   const elementMultiplier = elementalDamageMultiplier(attacker, defender);
   let raw = 0;
+  let sourceRoll = 0;
+  let sourceBranch = "overpower";
   if (defense <= attack && attack < defense * (8 / 7)) {
-    raw = Math.random() * (attack / 16);
+    sourceBranch = "near-defense";
+    sourceRoll = sourceBattleRand(0, attack / 16);
+    raw = sourceRoll;
   } else if (defense > attack) {
-    raw = Math.random();
+    sourceBranch = "blocked";
+    sourceRoll = sourceBattleRand(0, 1);
+    raw = sourceRoll;
   } else {
-    raw = ((attack - defense) * 2) + (Math.random() * (attack / 8) - attack / 16);
+    sourceRoll = sourceBattleRand(0, attack / 8);
+    raw = ((attack - defense) * 2) + (sourceRoll - attack / 16);
   }
   const critical = Math.random() * 100 < Math.max(2, Number(attacker.Critical || 0) * 0.35);
   return {
     damage: Math.max(0, Math.floor(raw * (critical ? 1.6 : 1) * multiplier * elementMultiplier)),
     critical,
-    elementMultiplier
+    elementMultiplier,
+    sourceRoll,
+    sourceBranch
   };
+}
+
+function sourceBattleRand(min, max) {
+  const lower = Number(min || 0);
+  const upper = Number(max || 0);
+  if (!Number.isFinite(lower) || !Number.isFinite(upper)) return 0;
+  if (upper < lower) return Math.trunc(lower);
+  return Math.trunc(lower + ((upper - (lower - 1)) * Math.random()));
 }
 
 function sourceBattleDefensePower(char = {}) {

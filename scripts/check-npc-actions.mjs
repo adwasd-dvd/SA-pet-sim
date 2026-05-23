@@ -3509,6 +3509,63 @@ workAliasBattleGame = await api("/api/game/battle", { game: workAliasBattleGame,
 assertEqual(workAliasBattleGame.battleOutcome.result, "victory", "battle damage reads source WorkAttackPower/WorkDefencePower aliases");
 assert(!workAliasBattleGame.battleOutcome.log.some((line) => line.includes("反击")), "battle turn order reads source WorkQuick alias");
 
+let sourceRandDamageGame = await api("/api/game/new", { name: "source-rand-damage-battle-test" });
+sourceRandDamageGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceRandDamageGame = await api("/api/game/encounter", { game: sourceRandDamageGame });
+Object.assign(sourceRandDamageGame.player, {
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 900,
+  WorkFixDex: 900,
+  EarthAT: 0,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0
+});
+Object.assign(sourceRandDamageGame.pets[0], {
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 901,
+  WorkFixDex: 901,
+  Hp: 999,
+  WorkMaxHp: 999,
+  EarthAT: 0,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0
+});
+Object.assign(sourceRandDamageGame.encounter, {
+  Hp: 2,
+  WorkMaxHp: 2,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  WorkDefencePower: 999,
+  WorkFixTough: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  EarthAT: 0,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0,
+  SourceExp: 1,
+  Exp: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+sourceRandDamageGame.battle.enemyParty = [sourceRandDamageGame.encounter];
+sourceRandDamageGame.battle.activeEnemyIndex = 0;
+const originalRandomForSourceDamage = Math.random;
+try {
+  Math.random = () => 0.75;
+  sourceRandDamageGame = await api("/api/game/battle", { game: sourceRandDamageGame, action: "攻击" });
+} finally {
+  Math.random = originalRandomForSourceDamage;
+}
+assertEqual(sourceRandDamageGame.battleOutcome.result, "victory", "source RAND(0,1) lets low attack chip high-defence enemies");
+assert(
+  sourceRandDamageGame.battleOutcome.log.filter((line) => line.includes("造成 1 伤害")).length >= 2,
+  "player and active pet both preserve source low-attack 0/1 chip damage"
+);
+
 let enemyGuardAiGame = await api("/api/game/new", { name: "enemy-ai-guard-test" });
 enemyGuardAiGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 enemyGuardAiGame = await api("/api/game/encounter", { game: enemyGuardAiGame });
