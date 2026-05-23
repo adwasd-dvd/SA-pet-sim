@@ -5508,7 +5508,8 @@ function chooseEnemyBattleMove(game, enemy, activeActor) {
     source: "gmsv battle_ai.c BATTLE_ai_normal",
     tacticsOption,
     targetRule: tactics.attack.target,
-    selectRule: tactics.attack.select
+    selectRule: tactics.attack.select,
+    randomRule: tactics.attack.random
   };
   if (selected.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD", command: "G" };
   if (selected.type === "escape") return { ...base, sourceCommand: "BATTLE_COM_ESCAPE", command: "E" };
@@ -5524,6 +5525,8 @@ function chooseEnemyBattleMove(game, enemy, activeActor) {
     targetName: target.name,
     targetHp: target.hp,
     targetCandidates: target.candidateKinds,
+    targetRandomized: target.randomized,
+    targetSelectMetric: target.selectMetric,
     targetSource: target.source
   };
 }
@@ -5557,7 +5560,11 @@ function sourceEnemyTargetCandidate(game, actor) {
     battleNo: battleActorBattleNo(game, actor),
     name: battleActorName(game, actor),
     hp: battleActorHp(game, actor),
-    maxHp: battleActorMaxHp(game, actor)
+    maxHp: battleActorMaxHp(game, actor),
+    str: firstFiniteNumber(0, actor?.Str, actor?.WorkAttackPower, actor?.WorkFixStr),
+    dex: firstFiniteNumber(0, actor?.Dex, actor?.WorkQuick, actor?.WorkFixDex),
+    elements: elementVector(actor || {}),
+    isLeader: isPlayerBattleActor(game, actor)
   };
 }
 
@@ -5569,33 +5576,90 @@ function selectSourceEnemyAttackTarget(game, enemy, attack, activeActor) {
   let candidates = all.filter((candidate) => {
     if (targetRule === 2) return candidate.kind === "player";
     if (targetRule === 3) return candidate.kind === "pet";
+    if (targetRule === 4) {
+      if (candidate.isLeader) return true;
+      return (stableHashInt([
+        enemy?.EnemyId || enemy?.PetId || enemy?.Name || "",
+        game.battle?.turn || 0,
+        candidate.kind,
+        candidate.slot,
+        "leader-random"
+      ].join("|")) % 3) === 0;
+    }
     return true;
   });
   if (!candidates.length && targetRule !== 1) candidates = all;
   if (!candidates.length) candidates = [sourceEnemyTargetCandidate(game, activeActor || game.player)].filter((candidate) => candidate.actor);
-  let selected = candidates[0];
-  if (selectRule === 2 || selectRule === 3) {
-    selected = candidates.reduce((best, candidate) => {
+  const seed = [
+    enemy?.EnemyId || enemy?.PetId || enemy?.Name || "",
+    enemy?.Hp || 0,
+    game.battle?.turn || 0,
+    targetRule,
+    selectRule,
+    Number(attack?.random ?? 1),
+    candidates.map((candidate) => `${candidate.kind}:${candidate.slot}:${candidate.hp}:${candidate.str}:${candidate.dex}`).join(",")
+  ].join("|");
+  const randomIndex = stableHashInt(`${seed}|random`) % candidates.length;
+  let selected = candidates[randomIndex] || candidates[0];
+  let randomized = selectRule === 1;
+  let selectMetric = "RANDOM";
+  if (selectRule !== 1) {
+    selectMetric = sourceEnemySelectMetric(enemy, selectRule);
+    const top = candidates.reduce((best, candidate) => {
       if (!best) return candidate;
-      if (selectRule === 2) return candidate.hp > best.hp ? candidate : best;
-      return candidate.hp < best.hp ? candidate : best;
+      const candidateValue = sourceEnemyCandidateMetric(candidate, selectMetric);
+      const bestValue = sourceEnemyCandidateMetric(best, selectMetric);
+      if (selectMetric === "HP_MIN" || selectMetric === "DEX_MIN") {
+        return candidateValue < bestValue ? candidate : best;
+      }
+      return candidateValue > bestValue ? candidate : best;
     }, null) || selected;
-  } else {
-    const roll = stableHashInt([
-      enemy?.EnemyId || enemy?.PetId || enemy?.Name || "",
-      enemy?.Hp || 0,
-      game.battle?.turn || 0,
-      targetRule,
-      selectRule,
-      candidates.map((candidate) => `${candidate.kind}:${candidate.slot}:${candidate.hp}`).join(",")
-    ].join("|")) % candidates.length;
-    selected = candidates[roll] || selected;
+    const randomRule = Math.max(0, Number(attack?.random ?? 1));
+    randomized = (stableHashInt(`${seed}|rn`) % (randomRule + 1)) === 0;
+    selected = randomized ? selected : top;
   }
   return {
     ...selected,
     candidateKinds: candidates.map((candidate) => `${candidate.kind}:${candidate.slot}`),
+    randomized,
+    selectMetric,
     source
   };
+}
+
+function sourceEnemySelectMetric(enemy, selectRule) {
+  if (selectRule === 2) return "HP_MAX";
+  if (selectRule === 3) return "HP_MIN";
+  if (selectRule === 4) return "STR_MAX";
+  if (selectRule === 5) return "DEX_MAX";
+  if (selectRule === 6) return "DEX_MIN";
+  if (selectRule === 7) return `ATT_SUBDUE_${sourceEnemySubdueElement(enemy).toUpperCase()}`;
+  return "RANDOM";
+}
+
+function sourceEnemyCandidateMetric(candidate, metric) {
+  if (metric === "HP_MAX" || metric === "HP_MIN") return Number(candidate.hp || 0);
+  if (metric === "STR_MAX") return Number(candidate.str || 0);
+  if (metric === "DEX_MAX" || metric === "DEX_MIN") return Number(candidate.dex || 0);
+  if (metric.startsWith("ATT_SUBDUE_")) {
+    const key = metric.slice("ATT_SUBDUE_".length).toLowerCase();
+    return Number(candidate.elements?.[key] || 0);
+  }
+  return 0;
+}
+
+function sourceEnemySubdueElement(enemy = {}) {
+  const attr = elementVector(enemy);
+  const earth = attr.earth;
+  const water = attr.water;
+  const fire = attr.fire;
+  const wind = attr.wind;
+  if (earth > fire) {
+    if (water > wind) return earth > water ? "water" : "fire";
+    return earth > wind ? "water" : "earth";
+  }
+  if (water > wind) return fire > water ? "wind" : "fire";
+  return fire > wind ? "wind" : "earth";
 }
 
 function parseSourceBattleAiTactics(value) {
@@ -5610,11 +5674,13 @@ function parseSourceBattleAiTactics(value) {
   const attack = parseSourceBattleAiInts(sections.at, [1, 3, 1]);
   const guard = parseSourceBattleAiInts(sections.gu, [0]);
   const escape = parseSourceBattleAiInts(sections.es, [0]);
+  const random = parseSourceBattleAiInts(sections.rn, [1]);
   return {
     attack: {
       weight: Math.max(0, attack[0] || 0),
       target: attack[1] || 3,
-      select: attack[2] || 1
+      select: attack[2] || 1,
+      random: Math.max(0, random[0] ?? 1)
     },
     guard: {
       weight: Math.max(0, guard[0] || 0)

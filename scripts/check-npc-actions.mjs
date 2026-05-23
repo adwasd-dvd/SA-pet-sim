@@ -296,6 +296,80 @@ assert(Number(enemyTargetPlayerGame.player.hp || 0) < 98, "source target player 
 assertEqual(Number(enemyTargetPlayerGame.pets[0].Hp || 0), 999, "source target player rule does not redirect damage to the active pet");
 assert(enemyTargetPlayerGame.battleOutcome.log.some((line) => line.includes(enemyTargetPlayerGame.player.name) && line.includes("攻击")), "enemy target log names the selected player target");
 
+let enemyTargetStrGame = await api("/api/game/new", { name: "enemy-target-str-select-test" });
+enemyTargetStrGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyTargetStrGame = await api("/api/game/encounter", { game: enemyTargetStrGame });
+Object.assign(enemyTargetStrGame.player, {
+  hp: 98,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  Str: 5000,
+  Dex: 1,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetStrGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  Str: 1,
+  Dex: 5000,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetStrGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 10,
+  WorkFixStr: 10,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;1;4|rn:999999|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+enemyTargetStrGame.battle.enemyParty = [enemyTargetStrGame.encounter];
+enemyTargetStrGame.battle.activeEnemyIndex = 0;
+enemyTargetStrGame = await api("/api/game/battle", { game: enemyTargetStrGame, action: "防御" });
+assertEqual(enemyTargetStrGame.battleOutcome.enemyAi?.targetSelectMetric, "STR_MAX", "enemy ai honors source STR_MAX target selection");
+assertEqual(enemyTargetStrGame.battleOutcome.enemyAi?.targetKind, "player", "source STR_MAX selection chooses the stronger player over the active pet");
+
+let enemyTargetRandomRuleGame = await api("/api/game/new", { name: "enemy-target-rn-random-test" });
+enemyTargetRandomRuleGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+enemyTargetRandomRuleGame = await api("/api/game/encounter", { game: enemyTargetRandomRuleGame });
+Object.assign(enemyTargetRandomRuleGame.player, {
+  hp: 98,
+  maxHp: 98,
+  WorkMaxHp: 98,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetRandomRuleGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(enemyTargetRandomRuleGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 10,
+  WorkFixStr: 10,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;1;3|rn:0|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+enemyTargetRandomRuleGame.battle.enemyParty = [enemyTargetRandomRuleGame.encounter];
+enemyTargetRandomRuleGame.battle.activeEnemyIndex = 0;
+enemyTargetRandomRuleGame = await api("/api/game/battle", { game: enemyTargetRandomRuleGame, action: "防御" });
+assertEqual(enemyTargetRandomRuleGame.battleOutcome.enemyAi?.targetSelectMetric, "HP_MIN", "enemy ai records source HP_MIN selection metric");
+assertEqual(enemyTargetRandomRuleGame.battleOutcome.enemyAi?.targetRandomized, true, "enemy ai honors source rn:0 random target override");
+
 let enemyTargetPlayerDefeatGame = await api("/api/game/new", { name: "enemy-target-player-defeat-test" });
 enemyTargetPlayerDefeatGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 enemyTargetPlayerDefeatGame = await api("/api/game/encounter", { game: enemyTargetPlayerDefeatGame });
