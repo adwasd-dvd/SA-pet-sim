@@ -228,7 +228,7 @@ AI NPC 的边界必须写死：
 3. `script-001`: 做 NPC 脚本解释器的最小可扩展框架。
 4. `shop-001`: 商店窗口从雏形变成真实库存和背包容量。
 5. `ops-001`: 增加 deploy/smoke checklist。
-6. `persistence-002`: 已完成 D1/DO 云端存档 schema；下一步实现迁移和账号/角色 API。
+6. `persistence-002`: 已完成 D1/DO 云端存档 schema 和首个 D1 migration；下一步 provision `SAAC_DB` 并实现账号/角色 API。
 7. `realtime-001`: 已完成第一版 map room WebSocket；后续转向云端存档桥接、队伍/交易/战斗房间、聊天 UI 和 live smoke。
 8. `ai-002`: 给 NPC AI 增加 action proposal 和 deterministic guardrails。
 9. `battle-formation-001`: 把当前临时战斗面板迁移到原版 5 玩家 + 5 宠 + 敌方 side/slot 阵型。

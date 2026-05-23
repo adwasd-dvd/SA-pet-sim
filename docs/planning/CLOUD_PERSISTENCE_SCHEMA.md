@@ -49,8 +49,12 @@ Local source facts that shape the design:
 
 ## D1 Tables
 
-The first D1 migration should create these tables. Column names are deliberately
-plain and stable so future native clients can use the same API envelope.
+The first D1 migration is committed as
+`migrations/0001_cloud_persistence.sql`. Column names are deliberately plain
+and stable so future native clients can use the same API envelope. Do not
+activate the binding in `wrangler.jsonc` until the Cloudflare D1 database exists;
+the migration can be applied to the local or remote database once the
+`SAAC_DB`/account persistence binding is provisioned.
 
 ```sql
 CREATE TABLE accounts (
