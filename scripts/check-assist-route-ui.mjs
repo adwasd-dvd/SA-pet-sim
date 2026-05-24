@@ -66,7 +66,11 @@ const requiredAppSnippets = [
   ["exit target options helper", "function exitAssistTargetOptions(exit)"],
   ["assist route option extractor", "function assistRouteOptionsFromButton(button)"],
   ["current-map exit resolver", "function resolveCurrentAssistExit(exitId, options = {})"],
-  ["target-map direct exit fallback", "function nearestCurrentExitToMap(targetMapId)"]
+  ["target-map direct exit fallback", "function nearestCurrentExitToMap(targetMapId)"],
+  ["npc id lookup normalizes dataset string ids", "String(item.id) === String(npcId)"],
+  ["exit id lookup normalizes dataset string ids", "String(item.id) === String(exitId)"],
+  ["goToNpc uses normalized npcById lookup", "const npc = npcById(npcId);"],
+  ["dialog-open map compares npc id safely", "String(npc.id) !== String(game.dialog.npcId)"]
 ];
 
 for (const [label, snippet] of requiredAppSnippets) {

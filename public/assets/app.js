@@ -899,7 +899,7 @@ function handleDialogOpenMapEvent(event, maxTileDistance = 2) {
   const fallback = defaultDialogSubmitText(game?.dialog);
   if (!fallback || dialogDefaultSubmitInFlight) return true;
   const npc = npcFromMapEvent(event, maxTileDistance);
-  if (!npc || npc.id !== game.dialog.npcId) return true;
+  if (!npc || String(npc.id) !== String(game.dialog.npcId)) return true;
   dialogDefaultSubmitInFlight = true;
   Promise.resolve(sendDialog(fallback)).finally(() => {
     dialogDefaultSubmitInFlight = false;
@@ -935,7 +935,7 @@ function npcFromSpriteHitbox(event) {
 }
 
 function npcById(npcId) {
-  return game?.world?.map?.npcs?.find((item) => item.id === npcId) || null;
+  return game?.world?.map?.npcs?.find((item) => String(item.id) === String(npcId)) || null;
 }
 
 function nearestNpcToTile(tile, maxDistance) {
@@ -957,7 +957,7 @@ function explicitExitFromMapEvent(event) {
 
 function exitById(exitId) {
   const map = game?.world?.map;
-  return (map?.exits || []).find((item) => item.id === exitId) || null;
+  return (map?.exits || []).find((item) => String(item.id) === String(exitId)) || null;
 }
 
 function exitFromTile(tile) {
@@ -1569,6 +1569,14 @@ async function followNpcAssistRoute(npc, options = {}) {
       if (!route.length && data.reason === "already-near") continue;
       const result = await walkAssistRouteSteps(route, token, currentNpc.name);
       if (result.aborted) return false;
+      if (result.blocked) {
+        if (attempt < ASSIST_ROUTE_REFRESH_LIMIT - 1) {
+          addClientLog(`自动前往 ${currentNpc.name}：前路被挡，正在重新计算。`);
+          continue;
+        }
+        addClientLog(`自动前往 ${currentNpc.name} 失败：目标附近被阻挡。`);
+        return false;
+      }
       if (result.mapChanged || result.warped) {
         addClientLog(`自动前往 ${currentNpc.name} 中断：路线经过了出口，请重新选择目标。`);
         return false;
@@ -1625,6 +1633,14 @@ async function followExitAssistRoute(exitId, options = {}) {
       const route = Array.isArray(data.route) ? data.route : [];
       const result = await walkAssistRouteSteps(route, token, exit.label);
       if (result.aborted) return false;
+      if (result.blocked) {
+        if (attempt < ASSIST_ROUTE_REFRESH_LIMIT - 1) {
+          addClientLog(`自动前往 ${exit.label}：前路被挡，正在重新计算。`);
+          continue;
+        }
+        addClientLog(`自动前往 ${exit.label} 失败：入口附近被阻挡。`);
+        return false;
+      }
       if (result.mapChanged || result.warped || game.location.mapId !== beforeMap) return true;
     }
     addClientLog(`自动前往 ${options.targetName || "出口"} 未完成：路线多次被阻挡，已停止。`);
@@ -1905,8 +1921,7 @@ async function goToNpc(npcId, options = {}) {
     addClientLog("战斗中无法和 NPC 对话。");
     return;
   }
-  const map = game?.world?.map;
-  const npc = map?.npcs?.find((item) => item.id === npcId);
+  const npc = npcById(npcId);
   if (!npc) {
     addClientLog("自动前往目标不在当前地图。请先走到任务提示的地图或使用对应出口。");
     return;
@@ -7726,14 +7741,50 @@ function nearbyText() {
 }
 
 async function api(path, body) {
-  const rsp = await fetch(path, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body)
-  });
-  const data = await rsp.json();
+  const timeoutMs = apiTimeoutMs(path);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let rsp;
+  try {
+    rsp = await fetch(path, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error?.name === "AbortError") throw new Error(`请求超时：${apiTimeoutLabel(path)}`);
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+  let data = {};
+  try {
+    data = await rsp.json();
+  } catch {
+    data = {};
+  }
   if (!rsp.ok) throw new Error(data.error || "request failed");
   return data;
+}
+
+function apiTimeoutMs(path = "") {
+  const endpoint = String(path || "");
+  if (endpoint.startsWith("/api/ai/guide")) return 60000;
+  if (endpoint.startsWith("/api/game/dialog")) return 45000;
+  if (endpoint.startsWith("/api/game/route")) return 15000;
+  if (endpoint.startsWith("/api/game/walk")) return 12000;
+  if (endpoint.startsWith("/api/game/battle")) return 20000;
+  return 25000;
+}
+
+function apiTimeoutLabel(path = "") {
+  const endpoint = String(path || "");
+  if (endpoint.startsWith("/api/game/route")) return "路线请求超时，请重试自动前往";
+  if (endpoint.startsWith("/api/game/walk")) return "移动请求超时，请再点一次自动前往";
+  if (endpoint.startsWith("/api/game/dialog")) return "对话请求超时，请稍后再试";
+  if (endpoint.startsWith("/api/ai/guide")) return "AI 指导请求超时，请稍后再试";
+  return "请求超时，请稍后再试";
 }
 
 function save() {
