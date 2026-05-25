@@ -1006,6 +1006,12 @@ battleLootGame.location = {
   y: Math.trunc((Number(battleLootFixture.area.bounds[1]) + Number(battleLootFixture.area.bounds[3])) / 2),
   dir: 0
 };
+const lootFixtureLevel = Math.max(
+  1,
+  Math.trunc((Number(battleLootFixture.enemy.lvMin || 1) + Number(battleLootFixture.enemy.lvMax || battleLootFixture.enemy.lvMin || 1)) / 2)
+);
+battleLootGame.player.level = lootFixtureLevel;
+battleLootGame.pets[0].Lv = lootFixtureLevel;
 const originalRandomForLoot = Math.random;
 Math.random = () => 0;
 try {
@@ -3515,6 +3521,26 @@ assert(
 assert(
   sourceEncounterGame.characterFields.battle.formation.allySide.some((unit) => unit.kind === "pet" && Number(unit.imgNo || 0) === Number(sourceEncounterGame.pets[0]?.ImgNo || 0)),
   "battle formation pet unit exposes active pet ImgNo for browser sprite rendering"
+);
+
+let mixedRangeLowLevelGame = await api("/api/game/new", { name: "mixed-range-low-level-encounter-test" });
+mixedRangeLowLevelGame.location = { mapId: "100", x: 440, y: 120, dir: 2 };
+mixedRangeLowLevelGame.player.level = 1;
+mixedRangeLowLevelGame.pets[0].Lv = 1;
+mixedRangeLowLevelGame = await api("/api/game/encounter", { game: mixedRangeLowLevelGame });
+assert(
+  mixedRangeLowLevelGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) <= 1),
+  "mixed source area keeps low-level actors on near-level wild groups"
+);
+
+let mixedRangeHighLevelGame = await api("/api/game/new", { name: "mixed-range-high-level-encounter-test" });
+mixedRangeHighLevelGame.location = { mapId: "100", x: 440, y: 120, dir: 2 };
+mixedRangeHighLevelGame.player.level = 20;
+mixedRangeHighLevelGame.pets[0].Lv = 20;
+mixedRangeHighLevelGame = await api("/api/game/encounter", { game: mixedRangeHighLevelGame });
+assert(
+  mixedRangeHighLevelGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) >= 14),
+  "mixed source area lets higher-level actors draw the higher nearby wild groups"
 );
 
 let workAliasBattleGame = await api("/api/game/new", { name: "source-work-alias-battle-test" });

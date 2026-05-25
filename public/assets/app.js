@@ -33,6 +33,7 @@ const AUTOMATION_ROUTE_ESCAPE_LIMIT = 10;
 const ROUTE_RETRY_LIMIT = 3;
 const ASSIST_ROUTE_START_TIMEOUT_MS = 6000;
 const ASSIST_ROUTE_REFRESH_LIMIT = 8;
+const ASSIST_ROUTE_WAIT_RETRY_LIMIT = 3;
 const PAID_JUMP_BASE_COST = 2000;
 const PAID_JUMP_FIRST_TIER_STEPS = 300;
 const PAID_JUMP_SECOND_TIER_STEPS = 500;
@@ -1392,7 +1393,7 @@ async function followRouteTo(target, routeData = null, options = {}) {
   const token = ++routeToken;
   routeInFlight = true;
   try {
-    if (!await waitForWalkSlot(token, walkSlotTimeoutMs)) {
+    if (!await waitForWalkSlot(token, walkSlotTimeoutMs) && !await waitForAssistRouteStart(label, token)) {
       if (token === routeToken) addClientLog(`自动前往 ${label} 没有开始：上一格移动还没结束。`);
       return false;
     }
@@ -1411,7 +1412,7 @@ async function followRouteTo(target, routeData = null, options = {}) {
       let shouldRetry = false;
       for (const step of route) {
         if (token !== routeToken) return false;
-        if (!await waitForWalkSlot(token, walkSlotTimeoutMs)) {
+        if (!await waitForWalkSlot(token, walkSlotTimeoutMs) && !await waitForAssistRouteStart(label, token)) {
           if (token === routeToken) addClientLog(`自动前往 ${label} 暂停：上一格移动还没结束。`);
           return false;
         }
@@ -1474,12 +1475,24 @@ async function waitForWalkSlot(token, timeoutMs = 800) {
 
 async function waitForAssistRouteStart(label, token) {
   if (!walkInFlight) return true;
-  addClientLog(`自动前往：正在等当前移动结束，再去 ${label || "目标"}。`);
-  const ready = await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS);
-  if (!ready && token === routeToken) {
-    addClientLog(`自动前往 ${label || "目标"} 没有开始：当前移动太久未结束，请再点一次。`);
+  const targetLabel = label || "目标";
+  addClientLog(`自动前往：正在等当前移动结束，再去 ${targetLabel}。`);
+  for (let attempt = 0; attempt < ASSIST_ROUTE_WAIT_RETRY_LIMIT; attempt += 1) {
+    const ready = await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS);
+    if (ready || token !== routeToken) return ready;
+    if (attempt < ASSIST_ROUTE_WAIT_RETRY_LIMIT - 1) {
+      addClientLog(`自动前往 ${targetLabel}：移动仍在处理中，继续等待。`);
+    }
   }
-  return ready;
+  if (token === routeToken) {
+    addClientLog(`自动前往 ${targetLabel} 没有开始：当前移动太久未结束，请稍后重试。`);
+  }
+  return false;
+}
+
+async function waitForAssistRouteReady(token, label) {
+  if (await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) return true;
+  return waitForAssistRouteStart(label, token);
 }
 
 function assistRouteRequestStillCurrent(token) {
@@ -1499,7 +1512,7 @@ async function clearBlockingBattleForAssistRoute(token, label) {
 async function walkAssistRouteSteps(route, token, label) {
   for (const step of route) {
     if (!assistRouteRequestStillCurrent(token)) return { aborted: true };
-    if (!await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) {
+    if (!await waitForAssistRouteReady(token, label || "目标")) {
       if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${label || "目标"} 暂停：上一格移动还没结束。`);
       return { aborted: true };
     }
@@ -1537,7 +1550,7 @@ async function followNpcAssistRoute(npc, options = {}) {
   try {
     for (let attempt = 0; attempt < ASSIST_ROUTE_REFRESH_LIMIT; attempt += 1) {
       if (!assistRouteRequestStillCurrent(token)) return false;
-      if (!await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) {
+      if (!await waitForAssistRouteReady(token, label)) {
         if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${label} 没有开始：上一格移动还没结束。`);
         return false;
       }
@@ -1601,7 +1614,7 @@ async function followExitAssistRoute(exitId, options = {}) {
   try {
     for (let attempt = 0; attempt < ASSIST_ROUTE_REFRESH_LIMIT; attempt += 1) {
       if (!assistRouteRequestStillCurrent(token)) return false;
-      if (!await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS)) {
+      if (!await waitForAssistRouteReady(token, options.targetName || "出口")) {
         if (assistRouteRequestStillCurrent(token)) addClientLog(`自动前往 ${options.targetName || "出口"} 没有开始：上一格移动还没结束。`);
         return false;
       }
