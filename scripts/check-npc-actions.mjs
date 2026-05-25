@@ -2509,6 +2509,17 @@ assert(
   "Marinas PK merchant hides internal CostPoint and remains stone-priced"
 );
 assert(!pkStoneOnlyGame.dialog.debug.actions.includes("adjustAmPoint"), "stone-only PK merchant debug omits point deduction action");
+pkStoneOnlyGame.dialog.trade.items = pkStoneOnlyGame.dialog.trade.items.map((item) => ({
+  ...item,
+  costPoint: 10000,
+  pointAffordable: false,
+  affordable: false
+}));
+pkStoneOnlyGame = await api("/api/game/sync", { game: pkStoneOnlyGame });
+assert(
+  pkStoneOnlyGame.dialog.trade.items.every((item) => Number(item.costPoint || 0) === 0 && item.pointAffordable !== false),
+  "normalization refreshes open dialog trade state and clears stale CostPoint cache"
+);
 const pkStoneBefore = pkStoneOnlyGame.player.stone;
 pkStoneOnlyGame = await api("/api/game/buy", { game: pkStoneOnlyGame, npcId: pkStoneOnlyShop.npc.id, itemId: pkStoneOnlyItem.id });
 assertEqual(pkStoneOnlyGame.player.stone, pkStoneBefore - Number(pkStoneOnlyItem.price || pkStoneOnlyItem.cost || 0), "stone-only PK merchant buy charges only source stone price");
@@ -3059,6 +3070,9 @@ petMagicStatusGame.pets[0].WorkFixDex = 999;
 petMagicStatusGame.pets[0].WorkQuick = 999;
 petMagicStatusGame.pets[0].WorkFixTough = 10;
 petMagicStatusGame.pets[0].WorkDefencePower = 10;
+petMagicStatusGame.player.hp = Math.max(999, Number(petMagicStatusGame.player.hp || 0));
+petMagicStatusGame.player.maxHp = Math.max(999, Number(petMagicStatusGame.player.maxHp || 0));
+petMagicStatusGame.player.WorkMaxHp = Math.max(999, Number(petMagicStatusGame.player.WorkMaxHp || 0));
 petMagicStatusGame.encounter.WorkQuick = 0;
 petMagicStatusGame.encounter.WorkFixDex = 0;
 petMagicStatusGame.encounter.WorkAttackPower = 40;

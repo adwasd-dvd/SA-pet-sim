@@ -136,6 +136,7 @@ const BATTLE_ALLY_FACE_DIRECTION = 6;
 const PLAYER_WALK_FRAME_MS = 95;
 const PLAYER_WALK_ANIM_MS = 720;
 const PLAYER_WALK_MOVE_MS = 190;
+const WALK_REQUEST_STALE_MS = 15000;
 const PLAYER_STAND_FRAMES = Object.freeze({
   0: [10201, 10202, 10203, 10202],
   1: [10244, 10245, 10246, 10245],
@@ -162,6 +163,9 @@ const DEFAULT_PLAYER_FRAME = PLAYER_STAND_FRAMES[DEFAULT_PLAYER_DIRECTION][0];
 let game = null;
 let installPrompt = null;
 let walkInFlight = false;
+let walkRequestSeq = 0;
+let activeWalkRequestSeq = 0;
+let walkRequestStartedAt = 0;
 let routeInFlight = false;
 let dialogDefaultSubmitInFlight = false;
 let dialogProposalInFlight = false;
@@ -1220,6 +1224,9 @@ function normalizeDirection(dir) {
 async function walkPlayer(dx, dy) {
   if (walkInFlight) return false;
   walkInFlight = true;
+  const requestSeq = ++walkRequestSeq;
+  activeWalkRequestSeq = requestSeq;
+  walkRequestStartedAt = performance.now();
   const epoch = rescueEpoch;
   const requestedServerDir = serverDirectionForDelta(dx, dy);
   const before = {
@@ -1229,7 +1236,7 @@ async function walkPlayer(dx, dy) {
   };
   try {
     const nextGame = await api("/api/game/walk", { game, dx, dy });
-    if (epoch !== rescueEpoch) return false;
+    if (epoch !== rescueEpoch || requestSeq !== activeWalkRequestSeq) return false;
     game = nextGame;
     const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
     const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
@@ -1245,7 +1252,10 @@ async function walkPlayer(dx, dy) {
     syncRealtimeRoom({ force: true });
     return moved;
   } finally {
-    walkInFlight = false;
+    if (requestSeq === activeWalkRequestSeq) {
+      walkInFlight = false;
+      walkRequestStartedAt = 0;
+    }
   }
 }
 
@@ -1468,9 +1478,21 @@ async function resolveRouteEncounter(token) {
 async function waitForWalkSlot(token, timeoutMs = 800) {
   const startedAt = performance.now();
   while (walkInFlight && token === routeToken && performance.now() - startedAt < timeoutMs) {
+    releaseStuckWalkRequest();
     await wait(16);
   }
+  releaseStuckWalkRequest();
   return token === routeToken && !walkInFlight;
+}
+
+function releaseStuckWalkRequest() {
+  if (!walkInFlight || !walkRequestStartedAt) return false;
+  if (performance.now() - walkRequestStartedAt < WALK_REQUEST_STALE_MS) return false;
+  walkInFlight = false;
+  walkRequestStartedAt = 0;
+  activeWalkRequestSeq += 1;
+  addClientLog("自动前往：检测到上一次移动请求超时，已自动重置移动状态。");
+  return true;
 }
 
 async function waitForAssistRouteStart(label, token) {

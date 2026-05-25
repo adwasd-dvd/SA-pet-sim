@@ -1805,7 +1805,8 @@ function sourcePointDisplay(value) {
 }
 
 const STONE_ONLY_TRADE_POINT_SOURCES = new Set([
-  "gmsv-data/npc/scipt_plus/test2nd/c_can_mm"
+  "gmsv-data/npc/scipt_plus/test2nd/c_can_mm",
+  "gmsv-data/npc/script_plus/test2nd/c_can_mm"
 ]);
 
 function normalizedTradeSource(source) {
@@ -1818,9 +1819,13 @@ function isStoneOnlyTradePointSource(npc) {
     npc?.script,
     npc?.source
   ].map(normalizedTradeSource);
+  const looseMatch = sources.some((source) => /(^|\/)c_can_mm(?:$|[?#])/.test(source));
+  if (looseMatch) return true;
   return sources.some((source) => (
     source === "npc/scipt_plus/test2nd/c_can_mm"
+    || source === "npc/script_plus/test2nd/c_can_mm"
     || source === "scipt_plus/test2nd/c_can_mm"
+    || source === "script_plus/test2nd/c_can_mm"
     || STONE_ONLY_TRADE_POINT_SOURCES.has(`gmsv-data/${source}`)
   ));
 }
@@ -4102,10 +4107,8 @@ async function createEncounterParty(env, request, game, map) {
 }
 
 function encounterActorLevel(game) {
-  const actor = activeBattleActor(game);
-  const actorLevel = Number(actor?.Lv ?? actor?.level ?? 0);
   const playerLevel = Number(game?.player?.level ?? game?.player?.Lv ?? 0);
-  return Math.max(1, Math.round(Math.max(actorLevel, playerLevel, 1)));
+  return Math.max(1, Math.round(playerLevel || 1));
 }
 
 function encounterGroupLevelRange(group) {
@@ -4146,10 +4149,9 @@ function selectEncounterGroupsForActorLevel(game, groups = []) {
     .filter((row) => row.distance <= softDelta)
     .map((row) => row.group);
   if (nearby.length) return nearby;
-  const minDistance = Math.min(...ranked.map((row) => row.distance));
-  return ranked
-    .filter((row) => row.distance <= minDistance + ENCOUNTER_LEVEL_NEAREST_BUFFER)
-    .map((row) => row.group);
+  // Keep source encounter table breadth when no nearby group exists,
+  // instead of forcing the nearest (often much higher) level bucket.
+  return groups.slice();
 }
 
 function encounterGroupCanAppear(game, group) {
@@ -18111,6 +18113,7 @@ function normalizeGame(game) {
       ? { ...message, text: "有什么事吗？" }
       : message
   ));
+  syncOpenDialogRuntime(game);
   game.battle ||= null;
   game.npcVmEvents ||= [];
   game.log ||= [];
@@ -18119,6 +18122,20 @@ function normalizeGame(game) {
   game.character.updatedAt = new Date().toISOString();
   game.save = buildSaacSave(game);
   return game;
+}
+
+function syncOpenDialogRuntime(game) {
+  if (!game?.dialog?.open || !game.dialog.npcId) return;
+  const map = currentMap(game);
+  const npc = map.npcs.find((item) => item.id === game.dialog.npcId);
+  if (!npc) {
+    game.dialog = null;
+    return;
+  }
+  const existing = Array.isArray(game.dialog.messages)
+    ? game.dialog.messages.slice(-12).map((message) => ({ ...message }))
+    : npcInitialDialogMessages(game, npc);
+  openDialog(game, npc, existing);
 }
 
 function normalizeMetamoEffect(game) {
