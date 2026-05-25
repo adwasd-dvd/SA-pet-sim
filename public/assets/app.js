@@ -1457,6 +1457,7 @@ function cancelActiveRoute({ clearKeys = false } = {}) {
   routeToken += 1;
   routeInFlight = false;
   clearAssistRouteState(true);
+  cancelPendingWalkRequest("自动前往：已取消上一条未完成移动，重新计算路线。");
   if (clearKeys) clearPressedMoveKeys();
 }
 
@@ -1492,6 +1493,15 @@ function releaseStuckWalkRequest() {
   walkRequestStartedAt = 0;
   activeWalkRequestSeq += 1;
   addClientLog("自动前往：检测到上一次移动请求超时，已自动重置移动状态。");
+  return true;
+}
+
+function cancelPendingWalkRequest(logMessage = "") {
+  if (!walkInFlight) return false;
+  walkInFlight = false;
+  walkRequestStartedAt = 0;
+  activeWalkRequestSeq += 1;
+  if (logMessage) addClientLog(logMessage);
   return true;
 }
 
