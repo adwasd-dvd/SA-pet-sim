@@ -4149,9 +4149,16 @@ function selectEncounterGroupsForActorLevel(game, groups = []) {
     .filter((row) => row.distance <= softDelta)
     .map((row) => row.group);
   if (nearby.length) return nearby;
-  // Keep source encounter table breadth when no nearby group exists,
-  // instead of forcing the nearest (often much higher) level bucket.
-  return groups.slice();
+  // When no group falls inside the soft window, stay close to the nearest
+  // level buckets instead of reopening the full table (which can pull in
+  // extreme outliers like Lv.80 while the actor is around Lv.10-20).
+  const nearestDistance = ranked.reduce((best, row) => Math.min(best, row.distance), Number.POSITIVE_INFINITY);
+  if (!Number.isFinite(nearestDistance)) return groups.slice();
+  const fallbackWindow = Math.max(2, Math.floor(softDelta / 2));
+  const fallback = ranked
+    .filter((row) => row.distance <= nearestDistance + fallbackWindow)
+    .map((row) => row.group);
+  return fallback.length ? fallback : groups.slice();
 }
 
 function encounterGroupCanAppear(game, group) {

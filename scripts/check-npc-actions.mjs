@@ -3537,6 +3537,16 @@ assert(
   "battle formation pet unit exposes active pet ImgNo for browser sprite rendering"
 );
 
+let sourceEncounterMidLevelGame = await api("/api/game/new", { name: "source-encount-mid-level-window-test" });
+sourceEncounterMidLevelGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceEncounterMidLevelGame.player.level = 11;
+sourceEncounterMidLevelGame.pets[0].Lv = 11;
+sourceEncounterMidLevelGame = await api("/api/game/encounter", { game: sourceEncounterMidLevelGame });
+assert(
+  sourceEncounterMidLevelGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) <= 3),
+  "when no near-level group exists, source encounter fallback avoids extreme outlier buckets"
+);
+
 let mixedRangeLowLevelGame = await api("/api/game/new", { name: "mixed-range-low-level-encounter-test" });
 mixedRangeLowLevelGame.location = { mapId: "100", x: 440, y: 120, dir: 2 };
 mixedRangeLowLevelGame.player.level = 1;
