@@ -26,6 +26,7 @@ const requiredAppSnippets = [
   ["assist double-click handler", "function onAssistPanelDoubleClick(event)"],
   ["assist route busy state", "let activeAssistRoute = null;"],
   ["assist route busy button helper", "function assistRouteButtonState(kind, id, readyLabel, busyLabel = \"前往中\")"],
+  ["assist busy button can replan without disabled lock", 'aria-busy="true" data-assist-route-busy="true"'],
   ["assist auto-go missing NPC feedback", "自动前往目标不在当前地图"],
   ["assist auto-go missing exit feedback", "自动前往出口不在当前地图"],
   ["assist auto-go start feedback", "自动前往：正在去"],
@@ -76,6 +77,10 @@ const requiredAppSnippets = [
 for (const [label, snippet] of requiredAppSnippets) {
   assert(appJs.includes(snippet), `public/assets/app.js missing ${label}: ${snippet}`);
 }
+assert(
+  !appJs.includes('disabled aria-busy="true"'),
+  "public/assets/app.js should not disable busy auto-go buttons; busy clicks must be able to replan routes"
+);
 
 const requiredCssSnippets = [
   [".assist-lead-actions", ".assist-lead-actions"],

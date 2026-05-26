@@ -2509,6 +2509,21 @@ assert(
   "Marinas PK merchant hides internal CostPoint and remains stone-priced"
 );
 assert(!pkStoneOnlyGame.dialog.debug.actions.includes("adjustAmPoint"), "stone-only PK merchant debug omits point deduction action");
+const pkStoneOnlySourceBefore = pkStoneOnlyShop.npc.trade.source;
+pkStoneOnlyShop.npc.trade.source = `${pkStoneOnlySourceBefore}.arg`;
+try {
+  let pkStoneOnlyArgSourceGame = await api("/api/game/new", { name: "shop-pk-stone-only-source-suffix-test" });
+  pkStoneOnlyArgSourceGame.location = { mapId: pkStoneOnlyShop.map.id, x: pkStoneOnlyShop.npc.x + 1, y: pkStoneOnlyShop.npc.y };
+  pkStoneOnlyArgSourceGame.player.stone = Number(pkStoneOnlyItem.price || pkStoneOnlyItem.cost || 0) + 456;
+  pkStoneOnlyArgSourceGame.player.amPoint = 0;
+  pkStoneOnlyArgSourceGame = await api("/api/game/talk", { game: pkStoneOnlyArgSourceGame, npcId: pkStoneOnlyShop.npc.id });
+  assert(
+    pkStoneOnlyArgSourceGame.dialog.trade.items.every((item) => Number(item.costPoint || 0) === 0 && item.pointAffordable !== false),
+    "stone-only PK merchant stays stone-priced when source path has suffix"
+  );
+} finally {
+  pkStoneOnlyShop.npc.trade.source = pkStoneOnlySourceBefore;
+}
 pkStoneOnlyGame.dialog.trade.items = pkStoneOnlyGame.dialog.trade.items.map((item) => ({
   ...item,
   costPoint: 10000,
@@ -3075,13 +3090,18 @@ petMagicStatusGame.player.maxHp = Math.max(999, Number(petMagicStatusGame.player
 petMagicStatusGame.player.WorkMaxHp = Math.max(999, Number(petMagicStatusGame.player.WorkMaxHp || 0));
 petMagicStatusGame.encounter.WorkQuick = 0;
 petMagicStatusGame.encounter.WorkFixDex = 0;
+petMagicStatusGame.encounter.Hp = Math.max(999, Number(petMagicStatusGame.encounter.Hp || 0));
+petMagicStatusGame.encounter.WorkMaxHp = Math.max(999, Number(petMagicStatusGame.encounter.WorkMaxHp || 0));
 petMagicStatusGame.encounter.WorkAttackPower = 40;
+petMagicStatusGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
 petMagicStatusGame = await api("/api/game/battle", { game: petMagicStatusGame, action: "skill:0" });
 const magicStatusTelemetry = petMagicStatusGame.battleOutcome.playerAction?.petSkill?.magicStatus;
+const activeMagicPetIndex = Math.max(0, Number(petMagicStatusGame.petState?.activeIndex || 0));
+const activeMagicPet = petMagicStatusGame.pets?.[activeMagicPetIndex] || petMagicStatusGame.pets?.[0];
 assertEqual(petMagicStatusGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SUPERWALL", "magic status pet skill maps to source superwall command");
 assertEqual(magicStatusTelemetry?.status?.key, "superWall", "magic status pet skill parses petskill2 option");
 assert(magicStatusTelemetry?.success, "magic status pet skill applies to active pet");
-assert(Number(petMagicStatusGame.pets[0].BattleMagicStatuses?.superWall?.turns || 0) > 0, "magic status pet skill persists active pet battle magic status");
+assert(Number(activeMagicPet?.BattleMagicStatuses?.superWall?.turns || 0) > 0, "magic status pet skill persists active pet battle magic status");
 assert(petMagicStatusGame.battleOutcome.log.some((line) => line.includes("铁壁") && line.includes("防御")), "magic status battle log explains defense buff");
 let battlePetSwitchGame = await api("/api/game/new", { name: "battle-pet-switch-test" });
 battlePetSwitchGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };

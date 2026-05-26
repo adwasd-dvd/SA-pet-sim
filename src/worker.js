@@ -1819,9 +1819,15 @@ function isStoneOnlyTradePointSource(npc) {
     npc?.script,
     npc?.source
   ].map(normalizedTradeSource);
-  const looseMatch = sources.some((source) => /(^|\/)c_can_mm(?:$|[?#])/.test(source));
+  const normalized = sources.map((source) => String(source || "").toLowerCase());
+  const looseMatch = normalized.some((source) => {
+    const bare = source.split(/[?#]/, 1)[0];
+    const leaf = bare.split("/").pop() || "";
+    const leafNoExt = leaf.replace(/\.[a-z0-9_+-]+$/i, "");
+    return leafNoExt === "c_can_mm";
+  });
   if (looseMatch) return true;
-  return sources.some((source) => (
+  return normalized.some((source) => (
     source === "npc/scipt_plus/test2nd/c_can_mm"
     || source === "npc/script_plus/test2nd/c_can_mm"
     || source === "scipt_plus/test2nd/c_can_mm"
@@ -4154,7 +4160,13 @@ function selectEncounterGroupsForActorLevel(game, groups = []) {
   // extreme outliers like Lv.80 while the actor is around Lv.10-20).
   const nearestDistance = ranked.reduce((best, row) => Math.min(best, row.distance), Number.POSITIVE_INFINITY);
   if (!Number.isFinite(nearestDistance)) return groups.slice();
-  const fallbackWindow = Math.max(2, Math.floor(softDelta / 2));
+  const fallbackWindow = Math.max(
+    1,
+    Math.min(
+      ENCOUNTER_LEVEL_NEAREST_BUFFER,
+      Math.floor(level / 18) + 1
+    )
+  );
   const fallback = ranked
     .filter((row) => row.distance <= nearestDistance + fallbackWindow)
     .map((row) => row.group);

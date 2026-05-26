@@ -3908,7 +3908,7 @@ function assistRouteButtonState(kind, id, readyLabel, busyLabel = "前往中") {
       && activeAssistRoute.id === String(id)
   );
   return {
-    attrs: busy ? `disabled aria-busy="true"` : "",
+    attrs: busy ? `aria-busy="true" data-assist-route-busy="true"` : "",
     label: busy ? busyLabel : readyLabel
   };
 }
@@ -4020,6 +4020,7 @@ function onAssistPanelClick(event) {
   if (goNpcBtn) {
     event.preventDefault();
     event.stopPropagation();
+    if (goNpcBtn.getAttribute("aria-busy") === "true") addClientLog("自动前往：正在重算当前 NPC 路线。");
     goToNpc(goNpcBtn.dataset.assistGoNpc, { openWhenNear: false });
     return;
   }
@@ -4027,6 +4028,7 @@ function onAssistPanelClick(event) {
   if (goExitBtn) {
     event.preventDefault();
     event.stopPropagation();
+    if (goExitBtn.getAttribute("aria-busy") === "true") addClientLog("自动前往：正在重算当前出口路线。");
     goToExit(goExitBtn.dataset.assistGoExit, assistRouteOptionsFromButton(goExitBtn));
     return;
   }
