@@ -1173,11 +1173,18 @@ equipGame = await api("/api/game/unequip-item", { game: equipGame, slot: "武器
 assertEqual(equipGame.character.equipment["武器"], undefined, "unequip clears the equipment slot");
 assertEqual(inventoryQty(equipGame, 5021), 1, "unequip returns the item to inventory");
 let rawEquipGame = await api("/api/game/new", { name: "item-raw-source-equip-test" });
+const rawAttackBefore = Number(rawEquipGame.player?.WorkAttackPower || rawEquipGame.player?.WorkFixStr || 0);
 rawEquipGame.inventory.push({ id: 1338, qty: 1 });
 rawEquipGame = await api("/api/game/equip-item", { game: rawEquipGame, itemId: 1338 });
 assert(rawEquipGame.itemAction?.type === "equip", "equip API hydrates raw source equipment before checking equipability");
 assert(rawEquipGame.character.equipment["武器"] || Object.values(rawEquipGame.character.equipment || {}).length, "raw source equipment occupies a character equipment slot");
 assertEqual(inventoryQty(rawEquipGame, 1338), 0, "raw source equipment is removed from inventory after equip");
+const rawAttackAfter = Number(rawEquipGame.player?.WorkAttackPower || rawEquipGame.player?.WorkFixStr || 0);
+assert(rawAttackAfter >= rawAttackBefore + 40, "source equipment bonus is applied to player battle attack runtime");
+rawEquipGame = await api("/api/game/unequip-item", { game: rawEquipGame, slot: "武器" });
+const rawAttackUnequipped = Number(rawEquipGame.player?.WorkAttackPower || rawEquipGame.player?.WorkFixStr || 0);
+assert(rawAttackUnequipped <= rawAttackBefore + 1, "unequip removes source equipment battle attack bonus");
+assertEqual(inventoryQty(rawEquipGame, 1338), 1, "unequip puts raw source equipment back into inventory");
 
 const redRaptorGuideRsp = await api("/api/ai/guide", { game, prompt: "红暴任务怎么做" });
 assert(redRaptorGuideRsp.text.includes("英雄岛前传：红暴"), "local guide retrieves red raptor quest knowledge");

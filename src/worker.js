@@ -2607,6 +2607,7 @@ async function equipItemGame(env, request, game, itemId, data = null) {
   equipment[slot] = equipped;
   game.character.equipment = equipment;
   game.player.equipment = { ...equipment };
+  compliancePlayerParameter(game.player, { preserveHp: true });
   syncCharacterFields(game);
   addLog(game, `装备了 ${equipped.name || `item ${equipped.id}`}（${slot}）。`);
   return withMap(game, {
@@ -2634,6 +2635,7 @@ function unequipItemGame(game, slot) {
   addInventoryItem(game, item, 1);
   game.character.equipment = equipment;
   game.player.equipment = { ...equipment };
+  compliancePlayerParameter(game.player, { preserveHp: true });
   syncCharacterFields(game);
   addLog(game, `卸下了 ${item.name || `item ${item.id}`}（${normalizedSlot}）。`);
   return withMap(game, {
@@ -2698,6 +2700,7 @@ function equipmentState(game) {
     .filter(([, item]) => item && typeof item === "object")
     .map(([slot, item]) => {
       const normalizedSlot = equipmentSlotLabel(slot || item.equippedSlot || equipmentSlotForItem(item));
+      hydrateInventoryItemFromSource(item);
       return [normalizedSlot, {
         ...item,
         qty: 1,
@@ -4626,6 +4629,36 @@ function battleDropItemFromSource(data, itemId, meta = {}) {
     damageBreak: item.damageBreak,
     maxUses: item.maxUses,
     usesRemaining: item.usesRemaining,
+    equipAttackMin: item.equipAttackMin,
+    equipAttackMax: item.equipAttackMax,
+    equipAttack: item.equipAttack,
+    equipDefenceMin: item.equipDefenceMin,
+    equipDefenceMax: item.equipDefenceMax,
+    equipDefence: item.equipDefence,
+    equipQuickMin: item.equipQuickMin,
+    equipQuickMax: item.equipQuickMax,
+    equipQuick: item.equipQuick,
+    equipHpMin: item.equipHpMin,
+    equipHpMax: item.equipHpMax,
+    equipHp: item.equipHp,
+    equipMpMin: item.equipMpMin,
+    equipMpMax: item.equipMpMax,
+    equipMp: item.equipMp,
+    equipLuckMin: item.equipLuckMin,
+    equipLuckMax: item.equipLuckMax,
+    equipLuck: item.equipLuck,
+    equipCharmMin: item.equipCharmMin,
+    equipCharmMax: item.equipCharmMax,
+    equipCharm: item.equipCharm,
+    equipAvoidMin: item.equipAvoidMin,
+    equipAvoidMax: item.equipAvoidMax,
+    equipAvoid: item.equipAvoid,
+    equipAttribMin: item.equipAttribMin,
+    equipAttribMax: item.equipAttribMax,
+    equipAttrib: item.equipAttrib,
+    equipAttribValueMin: item.equipAttribValueMin,
+    equipAttribValueMax: item.equipAttribValueMax,
+    equipAttribValue: item.equipAttribValue,
     slot: Number(meta.slot || 0),
     probability: Number(meta.probability || 0),
     rollBase: Number(meta.rollBase || ENEMY_DROP_ROLL_BASE),
@@ -15637,6 +15670,19 @@ function dialogSuggestions(npc, game = null) {
   return [...new Set([...base, ...aiHints])];
 }
 
+const ITEM_EQUIP_RANGE_FIELDS = Object.freeze([
+  { min: "equipAttackMin", max: "equipAttackMax", value: "equipAttack" },
+  { min: "equipDefenceMin", max: "equipDefenceMax", value: "equipDefence" },
+  { min: "equipQuickMin", max: "equipQuickMax", value: "equipQuick" },
+  { min: "equipHpMin", max: "equipHpMax", value: "equipHp" },
+  { min: "equipMpMin", max: "equipMpMax", value: "equipMp" },
+  { min: "equipLuckMin", max: "equipLuckMax", value: "equipLuck" },
+  { min: "equipCharmMin", max: "equipCharmMax", value: "equipCharm" },
+  { min: "equipAvoidMin", max: "equipAvoidMax", value: "equipAvoid" },
+  { min: "equipAttribMin", max: "equipAttribMax", value: "equipAttrib" },
+  { min: "equipAttribValueMin", max: "equipAttribValueMax", value: "equipAttribValue" }
+]);
+
 function addInventoryItem(game, item, qty = 1) {
   game.inventory ||= [];
   const existing = game.inventory.find((entry) => Number(entry.id) === Number(item.id));
@@ -15666,6 +15712,36 @@ function addInventoryItem(game, item, qty = 1) {
     maxUses: item.maxUses,
     usesRemaining: item.usesRemaining,
     equippedSlot: item.equippedSlot,
+    equipAttackMin: item.equipAttackMin,
+    equipAttackMax: item.equipAttackMax,
+    equipAttack: item.equipAttack,
+    equipDefenceMin: item.equipDefenceMin,
+    equipDefenceMax: item.equipDefenceMax,
+    equipDefence: item.equipDefence,
+    equipQuickMin: item.equipQuickMin,
+    equipQuickMax: item.equipQuickMax,
+    equipQuick: item.equipQuick,
+    equipHpMin: item.equipHpMin,
+    equipHpMax: item.equipHpMax,
+    equipHp: item.equipHp,
+    equipMpMin: item.equipMpMin,
+    equipMpMax: item.equipMpMax,
+    equipMp: item.equipMp,
+    equipLuckMin: item.equipLuckMin,
+    equipLuckMax: item.equipLuckMax,
+    equipLuck: item.equipLuck,
+    equipCharmMin: item.equipCharmMin,
+    equipCharmMax: item.equipCharmMax,
+    equipCharm: item.equipCharm,
+    equipAvoidMin: item.equipAvoidMin,
+    equipAvoidMax: item.equipAvoidMax,
+    equipAvoid: item.equipAvoid,
+    equipAttribMin: item.equipAttribMin,
+    equipAttribMax: item.equipAttribMax,
+    equipAttrib: item.equipAttrib,
+    equipAttribValueMin: item.equipAttribValueMin,
+    equipAttribValueMax: item.equipAttribValueMax,
+    equipAttribValue: item.equipAttribValue,
     source: `${GMSV_DATA_SOURCE}/itemset6.txt`
   });
 }
@@ -15708,6 +15784,11 @@ function hydrateInventoryItemFromSource(item, itemSet = cache?.itemSet) {
   ]) {
     if (isMissingItemField(item[key]) && !isMissingItemField(sourceItem[key])) item[key] = sourceItem[key];
   }
+  for (const field of ITEM_EQUIP_RANGE_FIELDS) {
+    if (isMissingItemField(item[field.min]) && !isMissingItemField(sourceItem[field.min])) item[field.min] = sourceItem[field.min];
+    if (isMissingItemField(item[field.max]) && !isMissingItemField(sourceItem[field.max])) item[field.max] = sourceItem[field.max];
+    if (isMissingItemField(item[field.value]) && !isMissingItemField(sourceItem[field.value])) item[field.value] = sourceItem[field.value];
+  }
 
   const sourceDamageBreak = Number(sourceItem.damageBreak ?? sourceItem.maxUses);
   const currentDamageBreak = Number(item.damageBreak ?? item.maxUses ?? item.usesRemaining);
@@ -15719,8 +15800,41 @@ function hydrateInventoryItemFromSource(item, itemSet = cache?.itemSet) {
     if (isMissingItemField(item.damageBreak) && !isMissingItemField(sourceItem.damageBreak)) item.damageBreak = sourceItem.damageBreak;
     if (isMissingItemField(item.maxUses) && !isMissingItemField(sourceItem.maxUses)) item.maxUses = sourceItem.maxUses;
   }
+  if (itemLooksEquipment(item) || itemHasEquipRanges(item)) hydrateEquipmentItemBonuses(item);
   item.source ||= `${GMSV_DATA_SOURCE}/itemset6.txt`;
   return item;
+}
+
+function itemHasEquipRanges(item = {}) {
+  return ITEM_EQUIP_RANGE_FIELDS.some((field) => {
+    const min = Number(item[field.min]);
+    const max = Number(item[field.max]);
+    return Number.isFinite(min) || Number.isFinite(max);
+  });
+}
+
+function hydrateEquipmentItemBonuses(item = {}) {
+  for (const field of ITEM_EQUIP_RANGE_FIELDS) {
+    resolveItemRangeValue(item, field.min, field.max, field.value);
+  }
+  return item;
+}
+
+function resolveItemRangeValue(item, minKey, maxKey, valueKey) {
+  const fixed = Number(item[valueKey]);
+  if (Number.isFinite(fixed)) {
+    item[valueKey] = Math.trunc(fixed);
+    return item[valueKey];
+  }
+  let min = Number(item[minKey]);
+  let max = Number(item[maxKey]);
+  if (!Number.isFinite(min) && !Number.isFinite(max)) return 0;
+  if (!Number.isFinite(min)) min = max;
+  if (!Number.isFinite(max)) max = min;
+  const low = Math.min(Math.trunc(min), Math.trunc(max));
+  const high = Math.max(Math.trunc(min), Math.trunc(max));
+  item[valueKey] = low === high ? low : randRange(low, high);
+  return item[valueKey];
 }
 
 function isMissingItemField(value) {
@@ -17478,14 +17592,43 @@ function compliancePlayerParameter(player, options = {}) {
   player.WorkFixLuck = clampInt(player.WorkFixLuck ?? player.Luck ?? player.luck, 1, 5, 1);
   player.Luck = player.WorkFixLuck;
   player.WorkFixCharm = clampInt(player.charm ?? player.Charm ?? player.CHARM, 0, 100, PLAYER_INITIAL_CHARM);
-  player.WorkMaxHp = Math.max(1, Math.trunc((Number(player.Vital || 0) * 4 + Number(player.Str || 0) + Number(player.Tough || 0) + Number(player.Dex || 0)) / 100));
-  player.WorkAttackPower = player.WorkFixStr;
-  player.WorkDefencePower = player.WorkFixTough;
-  player.WorkQuick = player.WorkFixDex;
+  const equipmentBonus = playerEquipmentBonus(player);
+  player.WorkMaxHp = Math.max(1, Math.trunc((Number(player.Vital || 0) * 4 + Number(player.Str || 0) + Number(player.Tough || 0) + Number(player.Dex || 0)) / 100) + equipmentBonus.hp);
+  player.WorkAttackPower = Math.max(1, player.WorkFixStr + equipmentBonus.attack);
+  player.WorkDefencePower = Math.max(0, player.WorkFixTough + equipmentBonus.defence);
+  player.WorkQuick = Math.max(0, player.WorkFixDex + equipmentBonus.quick);
+  player.WorkFixLuck = clampInt(player.WorkFixLuck + equipmentBonus.luck, 1, 255, player.WorkFixLuck);
+  player.Luck = player.WorkFixLuck;
+  player.WorkFixCharm = clampInt(player.WorkFixCharm + equipmentBonus.charm, 0, 999, player.WorkFixCharm);
   player.maxHp = player.WorkMaxHp;
   player.hp = options.preserveHp
     ? clampInt(previousHp, 0, player.maxHp, player.maxHp)
     : player.maxHp;
+}
+
+function playerEquipmentBonus(player = {}) {
+  const bonus = {
+    attack: 0,
+    defence: 0,
+    quick: 0,
+    hp: 0,
+    luck: 0,
+    charm: 0
+  };
+  const equipment = player?.equipment && typeof player.equipment === "object" ? player.equipment : {};
+  for (const item of Object.values(equipment)) {
+    if (!item || typeof item !== "object") continue;
+    hydrateInventoryItemFromSource(item);
+    if (!(itemLooksEquipment(item) || itemHasEquipRanges(item))) continue;
+    hydrateEquipmentItemBonuses(item);
+    bonus.attack += Math.trunc(Number(item.equipAttack || 0) || 0);
+    bonus.defence += Math.trunc(Number(item.equipDefence || 0) || 0);
+    bonus.quick += Math.trunc(Number(item.equipQuick || 0) || 0);
+    bonus.hp += Math.trunc(Number(item.equipHp || 0) || 0);
+    bonus.luck += Math.trunc(Number(item.equipLuck || 0) || 0);
+    bonus.charm += Math.trunc(Number(item.equipCharm || 0) || 0);
+  }
+  return bonus;
 }
 
 function normalizePetRuntime(pet) {
@@ -19068,13 +19211,19 @@ function parseItemSet(text) {
     const id = toInt(rows[16]);
     if (!id) continue;
     const name = cleanReferenceText(rows[0]) || `道具 ${id}`;
+    const functionName = cleanReferenceText(rows[10]);
+    const useFunction = cleanReferenceText(rows[11]);
+    const resuitFunction = cleanReferenceText(rows[12]);
     items.set(id, {
       id,
       name,
       secretName: cleanReferenceText(rows[1]),
       description: cleanReferenceText(rows[2]),
       option: cleanReferenceText(rows[3]),
-      functionName: cleanReferenceText(rows[10]),
+      effectOption: cleanReferenceText(rows[4]),
+      functionName: functionName || useFunction || "",
+      useFunction: useFunction || functionName || "",
+      resuitFunction,
       image: toInt(rows[17]),
       cost: toInt(rows[18]),
       type: toInt(rows[19]),
@@ -19083,6 +19232,27 @@ function parseItemSet(text) {
       level: toInt(rows[22]),
       damageBreak: toInt(rows[23]),
       maxUses: toInt(rows[23]),
+      equipAttackMin: toInt(rows[37]),
+      equipAttackMax: toInt(rows[38]),
+      equipDefenceMin: toInt(rows[39]),
+      equipDefenceMax: toInt(rows[40]),
+      equipQuickMin: toInt(rows[41]),
+      equipQuickMax: toInt(rows[42]),
+      equipHpMin: toInt(rows[43]),
+      equipHpMax: toInt(rows[44]),
+      equipMpMin: toInt(rows[45]),
+      equipMpMax: toInt(rows[46]),
+      equipLuckMin: toInt(rows[47]),
+      equipLuckMax: toInt(rows[48]),
+      equipCharmMin: toInt(rows[49]),
+      equipCharmMax: toInt(rows[50]),
+      equipAvoidMin: toInt(rows[51]),
+      equipAvoidMax: toInt(rows[52]),
+      // itemset6 keeps equip attribute id/value as fixed columns.
+      equipAttribMin: toInt(rows[53]),
+      equipAttribMax: toInt(rows[53]),
+      equipAttribValueMin: toInt(rows[54]),
+      equipAttribValueMax: toInt(rows[54]),
       category: cleanReferenceText(rows[68])
     });
   }
