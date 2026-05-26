@@ -3534,6 +3534,16 @@ assert(sourceEncounterGame.encounter.EnemyTempNo && sourceEncounterGame.encounte
 assert(sourceEncounterGame.encounter.WorkTacticsOption?.includes("at:"), "wild source encounter keeps enemy1 battle AI tactics");
 assert(sourceEncounterGame.encounter.CaptureRate > 0, "wild source encounters remain catchable");
 assert(sourceEncounterGame.battle?.source?.includes("group1.txt"), "wild encounter battle source records group1 resolution");
+const selectedGroupId = Number((sourceEncounterGame.battle?.source || "").match(/group\s+(\d+)/)?.[1] || 0);
+if (selectedGroupId > 0) {
+  const selectedGroup = sainasuArea.groups.find((group) => Number(group.groupId || 0) === selectedGroupId);
+  if (!selectedGroup) throw new Error(`missing source encounter group fixture ${selectedGroupId}`);
+  const selectedEnemyIds = new Set((selectedGroup.enemies || []).map((enemy) => Number(enemy.enemyId || 0)));
+  assert(
+    sourceEncounterGame.battle.enemyParty.every((enemy) => selectedEnemyIds.has(Number(enemy.EnemyId || 0))),
+    "wild encounter party keeps a single source group roll instead of mixing groups"
+  );
+}
 assert(
   sourceEncounterGame.battle?.encounterArea?.groupGates?.some((gate) => Number(gate.requiredItem?.id) === 1961 && gate.missingRequired),
   "battle encounter area preserves source group1 item gate telemetry"

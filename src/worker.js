@@ -4076,18 +4076,36 @@ async function createEncounterParty(env, request, game, map) {
       return { enemies: [], area, groupGates, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} gated by ${GMSV_DATA_SOURCE}/group1.txt item rules` };
     }
     const availableGroups = selectEncounterGroupsForActorLevel(game, gatePassedGroups);
+    const selectedGroup = pickWeighted(availableGroups, (item) => item.weight) || availableGroups[0] || null;
+    if (!selectedGroup) {
+      return { enemies: [], area, groupGates, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} no weighted group` };
+    }
+    const weightedEntries = (selectedGroup.enemies || []).filter((item) => Math.max(0, Number(item?.weight || 0)) > 0);
+    if (!weightedEntries.length) {
+      return { enemies: [], area, groupGates, source: `${GMSV_DATA_SOURCE}/group1.txt group ${selectedGroup.groupId} has no weighted enemy entries` };
+    }
     const enemies = [];
     const counts = new Map();
     const enemyMax = Math.max(1, Number(area.enemyMax || 1));
-    const count = randRange(1, enemyMax);
-    const attempts = Math.max(10, count * 8);
+    const sourceCreateMax = weightedEntries.reduce(
+      (sum, entry) => sum + Math.max(1, Number(entry.createMax || 1)),
+      0
+    );
+    const count = randRange(1, Math.max(1, Math.min(enemyMax, sourceCreateMax || enemyMax)));
+    const attempts = Math.max(100, count * 12);
     for (let i = 0; enemies.length < count && i < attempts; i += 1) {
-      const group = pickWeighted(availableGroups, (item) => item.weight);
-      const entry = group ? pickWeighted(group.enemies || [], (item) => item.weight) : null;
-      if (entry && Number(counts.get(entry.enemyId) || 0) >= Math.max(1, Number(entry.createMax || 1))) continue;
-      const enemy = entry ? createWildEnemyFromSpec(data, entry, game, area, group) : null;
+      const entry = pickWeighted(weightedEntries, (item) => item.weight);
+      if (!entry) continue;
+      const enemyId = Number(entry.enemyId || 0);
+      const sameCount = Math.max(
+        1,
+        weightedEntries.reduce((sum, item) => sum + (Number(item.enemyId || 0) === enemyId ? 1 : 0), 0)
+      );
+      const createLimit = Math.max(1, Number(entry.createMax || 1)) * sameCount;
+      if (Number(counts.get(enemyId) || 0) >= createLimit) continue;
+      const enemy = createWildEnemyFromSpec(data, entry, game, area, selectedGroup);
       if (enemy) {
-        counts.set(entry.enemyId, Number(counts.get(entry.enemyId) || 0) + 1);
+        counts.set(enemyId, Number(counts.get(enemyId) || 0) + 1);
         enemies.push(enemy);
       }
     }
@@ -4096,7 +4114,7 @@ async function createEncounterParty(env, request, game, map) {
         enemies,
         area,
         groupGates,
-        source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} + ${GMSV_DATA_SOURCE}/group1.txt + ${GMSV_DATA_SOURCE}/enemy1.txt + ${GMSV_DATA_SOURCE}/enemybase2.txt`
+        source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} + ${GMSV_DATA_SOURCE}/group1.txt group ${selectedGroup.groupId} + ${GMSV_DATA_SOURCE}/enemy1.txt + ${GMSV_DATA_SOURCE}/enemybase2.txt`
       };
     }
   }
