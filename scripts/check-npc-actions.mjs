@@ -1219,6 +1219,16 @@ signboardGame = await api("/api/game/talk", { game: signboardGame, npcId: island
 const signboardReply = signboardGame.dialog?.messages?.find((message) => message.speaker === "npc")?.text || "";
 assert(signboardReply.includes("第1检查点") && signboardReply.includes("柯尔克宠物店") && signboardReply.includes("名字叫什么"), "source signboard talk displays the full checkpoint question");
 assert(!signboardReply.includes("脚本入口"), "source signboard talk no longer leaks script-entry fallback");
+const arenaBoardSign = WORLD.maps["2000"]?.npcs.find((npc) => String(npc.script || "").includes("signb_2000_87_78"));
+if (!arenaBoardSign) throw new Error("missing arena board signboard fixture");
+assert(!String(arenaBoardSign.dialogue || "").startsWith("脚本入口"), "empty signboard script falls back to create-name board copy");
+assert(arenaBoardSign.dialogueLines?.some((line) => line.includes("玛丽娜丝的竞技场")), "arena board keeps the create-name headline");
+let arenaBoardGame = await api("/api/game/new", { name: "arena-board-signboard-dialog-test" });
+arenaBoardGame.location = { mapId: "2000", x: arenaBoardSign.x - 1, y: arenaBoardSign.y, dir: 2 };
+arenaBoardGame = await api("/api/game/talk", { game: arenaBoardGame, npcId: arenaBoardSign.id });
+const arenaBoardReply = arenaBoardGame.dialog?.messages?.find((message) => message.speaker === "npc")?.text || "";
+assert(arenaBoardReply.includes("玛丽娜丝的竞技场") && arenaBoardReply.includes("公开挑战对战"), "arena board talk keeps the scripted board guidance");
+assert(!arenaBoardReply.includes("脚本入口"), "arena board talk no longer falls back to script-entry text");
 const timeManNpc = WORLD.maps["400"]?.npcs.find((npc) => npc.type === "TimeMan" && String(npc.script || "").includes("tman_400_85_102"));
 if (!timeManNpc) throw new Error("missing TimeMan fixture");
 assertEqual(timeManNpc.timeMan?.time, "AFTER", "source TimeMan parses time window");

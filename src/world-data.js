@@ -117511,8 +117511,14 @@ export const WORLD = {
           "x": 87,
           "y": 78,
           "type": "SignBoard",
-          "dialogue": "脚本入口：gmsv-data/npc/genout/signb_2000_87_78",
-          "dialogueLines": [],
+          "dialogue": "竞技场前看板 ＝＝＝＝＝玛丽娜丝的竞技场＝＝＝＝＝\n公开挑战对战的场所\n会场战斗的排行榜前１０名和\n等级２０的人可以免费入场\n此外，排名第７７和７７７位也免费。",
+          "dialogueLines": [
+            "竞技场前看板 ＝＝＝＝＝玛丽娜丝的竞技场＝＝＝＝＝",
+            "公开挑战对战的场所",
+            "会场战斗的排行榜前１０名和",
+            "等级２０的人可以免费入场",
+            "此外，排名第７７和７７７位也免费。"
+          ],
           "source": "gmsv-data/npc/genout/shop_m.create",
           "script": "file:genout/signb_2000_87_78",
           "template": "npcgen_signboard",
