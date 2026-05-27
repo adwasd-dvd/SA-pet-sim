@@ -7144,8 +7144,12 @@ function sourceBattleCriticalCheck(attacker, defender, options = {}) {
     big = attackerDex;
     small = defenderDex;
     wari = 1;
-  } else if (big > 0) {
-    wari = small / big;
+  } else {
+    big = defenderDex;
+    small = attackerDex;
+    if (big > 0) {
+      wari = small / big;
+    }
   }
   const work = Math.max(0, (big - small) / divpara);
   let per = (root ? Math.sqrt(work) : work) + attackerCriticalEquip * 0.5;

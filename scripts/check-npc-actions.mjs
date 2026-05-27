@@ -3780,6 +3780,51 @@ assert(
   "enemy low critical chance no longer applies a forced 2% critical floor"
 );
 
+let sourceCriticalRatioGame = await api("/api/game/new", { name: "source-critical-ratio-battle-test" });
+sourceCriticalRatioGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceCriticalRatioGame = await api("/api/game/encounter", { game: sourceCriticalRatioGame });
+sourceCriticalRatioGame.petFormation = { activeIndex: -1 };
+Object.assign(sourceCriticalRatioGame.player, {
+  WorkFixDex: 10,
+  WorkQuick: 100,
+  WorkFixLuck: 0,
+  Luck: 0,
+  Critical: 20,
+  WorkAttackPower: 180,
+  WorkFixStr: 180
+});
+Object.assign(sourceCriticalRatioGame.encounter, {
+  Hp: 600,
+  WorkMaxHp: 600,
+  WorkFixDex: 100,
+  WorkQuick: 1,
+  WorkDefencePower: 120,
+  WorkFixTough: 120,
+  Abio: 1,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceCriticalRatioGame.battle.enemyParty = [sourceCriticalRatioGame.encounter];
+sourceCriticalRatioGame.battle.activeEnemyIndex = 0;
+const originalRandomForCriticalRatio = Math.random;
+let sourceCriticalRatioRandomCalls = 0;
+try {
+  Math.random = () => {
+    sourceCriticalRatioRandomCalls += 1;
+    if (sourceCriticalRatioRandomCalls === 1) return 0.2;
+    if (sourceCriticalRatioRandomCalls === 2) return 0.0099;
+    return 0.9;
+  };
+  sourceCriticalRatioGame = await api("/api/game/battle", { game: sourceCriticalRatioGame, action: "攻击" });
+} finally {
+  Math.random = originalRandomForCriticalRatio;
+}
+assert(
+  sourceCriticalRatioGame.battleOutcome.log.some((line) => line.includes("会心")),
+  "source critical ratio branch keeps sub-dex attacker critical chance when source roll is in-range"
+);
+
 let sourceDuckBlockedStatusGame = await api("/api/game/new", { name: "source-duck-blocked-status-battle-test" });
 sourceDuckBlockedStatusGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 sourceDuckBlockedStatusGame = await api("/api/game/encounter", { game: sourceDuckBlockedStatusGame });
