@@ -1253,7 +1253,7 @@ async function paidJumpGame(env, request, game, kind, id, preferredX = NaN, pref
   game.location = { ...game.location, x: target.x, y: target.y };
   game.dialog = null;
   setCharacterDir(game, dirFromDelta(Number(npc.x) - target.x, Number(npc.y) - target.y, game.player?.dir ?? game.location?.dir));
-  game.walk = { steps: 0, encounterSteps: 0 };
+  game.walk = { steps: 0, encounterSteps: 0, encounterCep: 0 };
   game.paidJump = paidJumpSummary(type, npc.name, from, { mapId: map.id, x: target.x, y: target.y }, jumpCost);
   addLog(game, jumpCost > 0
     ? `付费跳转花费 ${jumpCost} 石币，来到 ${npc.name} 附近。`
@@ -1371,7 +1371,7 @@ function exitAt(map, x, y) {
 }
 
 function noteBlockedMove(game, map, x, y) {
-  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk ||= { steps: 0, encounterSteps: 0, encounterCep: 0 };
   const key = `${map.id}:${x}:${y}`;
   if (game.walk.blockedKey === key) return;
   game.walk.blockedKey = key;
@@ -1679,7 +1679,7 @@ function applyExit(game, exit) {
   setCharacterDir(game, dir);
   game.encounter = null;
   game.battle = null;
-  game.walk = { steps: 0, encounterSteps: 0 };
+  game.walk = { steps: 0, encounterSteps: 0, encounterCep: 0 };
   game.lastWarp = {
     kind: "mapwarp",
     exitId: exit.id,
@@ -1716,7 +1716,7 @@ function applyWarpTarget(game, target, label) {
   setCharacterDir(game, dir);
   game.encounter = null;
   game.battle = null;
-  game.walk = { steps: 0, encounterSteps: 0 };
+  game.walk = { steps: 0, encounterSteps: 0, encounterCep: 0 };
   game.lastWarp = {
     kind: "npc-warp",
     label,
@@ -3600,8 +3600,9 @@ function applyItemUseAction(game, action, applied, item) {
     game.effects.noEncounterUntil = until;
     game.effects.noEncounterReason = action.sourceFunction || "ITEM_useNoenemy";
     game.effects.noEncounterSource = item.source || `${GMSV_DATA_SOURCE}/itemset6.txt`;
-    game.walk ||= { steps: 0, encounterSteps: 0 };
+    game.walk ||= { steps: 0, encounterSteps: 0, encounterCep: 0 };
     game.walk.encounterSteps = 0;
+    game.walk.encounterCep = 0;
     applied.push({
       kind: "noEncounter",
       targetName: "自己",
@@ -4016,21 +4017,40 @@ async function encounterGame(env, request, game) {
 }
 
 async function maybeStepEncounter(env, request, game, map) {
-  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk ||= { steps: 0, encounterSteps: 0, encounterCep: 0 };
   game.walk.steps = Number(game.walk.steps || 0) + 1;
   if (!wildEncounterAllowed(map, game) || game.encounter) return false;
   if (hasActiveNoEncounterEffect(game)) {
     game.walk.encounterSteps = 0;
+    game.walk.encounterCep = 0;
     return false;
   }
+  const encounterRange = activeEncounterCepRange(map, game.location);
+  if (!encounterRange) return false;
+  const { min, max } = encounterRange;
   game.walk.encounterSteps = Number(game.walk.encounterSteps || 0) + 1;
-  const steps = game.walk.encounterSteps;
-  if (steps < 5) return false;
-  const chance = Math.min(0.38, 0.12 + (steps - 5) * 0.035);
-  if (steps < 14 && Math.random() >= chance) return false;
+  const currentCep = clampInt(
+    Number(game.walk.encounterCep || 0) > 0 ? Number(game.walk.encounterCep || 0) : min,
+    min,
+    max,
+    min
+  );
+  if (randInt(120) >= currentCep) {
+    game.walk.encounterCep = Math.min(max, currentCep + 1);
+    return false;
+  }
   await spawnEncounter(env, request, game, map, "行走");
   game.walk.encounterSteps = 0;
+  game.walk.encounterCep = min;
   return true;
+}
+
+function activeEncounterCepRange(map, location) {
+  const area = chooseEncounterArea(map, location);
+  const min = clampInt(Math.trunc(Number(area?.encounterProbMin || 1)), 0, 120, 1);
+  const max = clampInt(Math.trunc(Number(area?.encounterProbMax || Math.max(min, 5))), min, 120, Math.max(min, 5));
+  if (max <= 0) return null;
+  return { min, max };
 }
 
 async function spawnEncounter(env, request, game, map, source) {
@@ -14327,8 +14347,9 @@ function applyNpcVmEffect(game, action) {
   game.effects.noEncounterUntil = until;
   game.effects.noEncounterReason = action.reason || "npc-effect";
   game.effects.noEncounterSource = action.source || "";
-  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk ||= { steps: 0, encounterSteps: 0, encounterCep: 0 };
   game.walk.encounterSteps = 0;
+  game.walk.encounterCep = 0;
   return { ok: true, mutated: true, effect: action.effect, seconds, until };
 }
 
@@ -14468,8 +14489,9 @@ function applyNpcVmStartBattle(game, action) {
     : [{ ...action.enemy }];
   game.encounter = enemyParty[0];
   game.battle = null;
-  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk ||= { steps: 0, encounterSteps: 0, encounterCep: 0 };
   game.walk.encounterSteps = 0;
+  game.walk.encounterCep = 0;
   const activePet = getActivePet(game);
   if (activePet) {
     ensureBattleState(game, activePet, game.encounter);
@@ -18213,7 +18235,7 @@ function returnSavePointGame(game) {
   };
   game.transition = warpTransition("return-savepoint", label, from, to, target.source, now);
   game.dialog = null;
-  game.walk = { steps: 0, encounterSteps: 0 };
+  game.walk = { steps: 0, encounterSteps: 0, encounterCep: 0 };
   addLog(game, `${label}：你回到了 ${WORLD.maps[to.mapId]?.name || to.mapId} (${to.x},${to.y})。`);
   return withMap(game, {
     returnPoint: {
@@ -18284,7 +18306,10 @@ function normalizeGame(game) {
   game.aiNpcCache = normalizeAiNpcCache(game.aiNpcCache);
   game.npcSocial = normalizeNpcSocial(game.npcSocial);
   game.dialogAi ||= {};
-  game.walk ||= { steps: 0, encounterSteps: 0 };
+  game.walk ||= { steps: 0, encounterSteps: 0, encounterCep: 0 };
+  game.walk.steps = Math.max(0, Number(game.walk.steps || 0));
+  game.walk.encounterSteps = Math.max(0, Number(game.walk.encounterSteps || 0));
+  game.walk.encounterCep = Math.max(0, Number(game.walk.encounterCep || 0));
   game.savePoint ||= null;
   game.lastWarp ||= null;
   game.dialog ||= null;
@@ -18552,7 +18577,8 @@ function buildSaveJson(game) {
     dialogAi: { ...(game.dialogAi || {}) },
     walk: {
       steps: Number(game.walk?.steps || 0),
-      encounterSteps: Number(game.walk?.encounterSteps || 0)
+      encounterSteps: Number(game.walk?.encounterSteps || 0),
+      encounterCep: Number(game.walk?.encounterCep || 0)
     },
     npcVmEvents: (game.npcVmEvents || []).slice(-20),
     log: (game.log || []).slice(-40)
@@ -18633,6 +18659,7 @@ function buildCharInfo(game) {
     `LAST_SAVEPOINT=${game.savePoint ? safeJson(game.savePoint) : ""}`,
     `WALK_STEPS=${game.walk?.steps || 0}`,
     `ENCOUNTER_STEPS=${game.walk?.encounterSteps || 0}`,
+    `ENCOUNTER_CEP=${game.walk?.encounterCep || 0}`,
     `QUESTS=${safeJson(activeQuests)}`,
     `EFFECTS=${safeJson(game.effects || {})}`,
     `FLAGS_END=${(game.flags?.endEvents || []).join(",")}`,

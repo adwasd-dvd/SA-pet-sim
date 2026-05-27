@@ -986,6 +986,33 @@ const encounterMap = Object.values(WORLD.maps).find((map) => (
 ));
 if (!encounterMap) throw new Error("missing source encounter map fixture");
 const encounterArea = encounterMap.encounterAreas.find((area) => (area.groups || []).some((group) => group.enemies?.length && !group.appearByItemId && !group.notAppearByItemId));
+const encounterAreaMin = Math.max(0, Math.trunc(Number(encounterArea?.encounterProbMin || 1)));
+const encounterAreaMax = Math.max(encounterAreaMin, Math.trunc(Number(encounterArea?.encounterProbMax || encounterAreaMin)));
+let walkEncounterCepGame = await api("/api/game/new", { name: "walk-encounter-cep-test" });
+walkEncounterCepGame.location = {
+  mapId: encounterMap.id,
+  x: Math.trunc((Number(encounterArea.bounds[0]) + Number(encounterArea.bounds[2])) / 2),
+  y: Math.trunc((Number(encounterArea.bounds[1]) + Number(encounterArea.bounds[3])) / 2),
+  dir: 2
+};
+walkEncounterCepGame.player.dir = 2;
+walkEncounterCepGame.walk = { steps: 0, encounterSteps: 0, encounterCep: 0 };
+const originalRandomForWalkEncounter = Math.random;
+Math.random = () => 0.99;
+try {
+  walkEncounterCepGame = await walkOneReachableStep(walkEncounterCepGame);
+  assertEqual(Number(walkEncounterCepGame.walk?.encounterSteps || 0), 1, "walk encounter miss increments encounter step counter");
+  assertEqual(Number(walkEncounterCepGame.walk?.encounterCep || 0), Math.min(120, encounterAreaMin + 1), "walk encounter miss increments source CEP by one");
+  assertEqual(walkEncounterCepGame.encounter, null, "walk encounter miss does not start battle");
+  walkEncounterCepGame.walk.encounterCep = encounterAreaMax;
+  Math.random = () => 0;
+  walkEncounterCepGame = await walkOneReachableStep(walkEncounterCepGame);
+  assert(walkEncounterCepGame.encounter, "walk encounter hit starts battle");
+  assertEqual(Number(walkEncounterCepGame.walk?.encounterSteps || 0), 0, "walk encounter hit resets step counter");
+  assertEqual(Number(walkEncounterCepGame.walk?.encounterCep || 0), encounterAreaMin, "walk encounter hit resets CEP to source min");
+} finally {
+  Math.random = originalRandomForWalkEncounter;
+}
 let deathCounterGame = await api("/api/game/new", { name: "item-effect-deathcounter-test" });
 deathCounterGame.location = {
   mapId: encounterMap.id,
@@ -4435,6 +4462,26 @@ async function walkSourceWarp(game, fromMapId, toMapId) {
     dx: 0,
     dy: 0
   });
+}
+
+async function walkOneReachableStep(game) {
+  const start = {
+    mapId: String(game.location?.mapId || ""),
+    x: Number(game.location?.x || 0),
+    y: Number(game.location?.y || 0)
+  };
+  const dirs = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1]
+  ];
+  for (const [dx, dy] of dirs) {
+    const next = await api("/api/game/walk", { game, dx, dy });
+    if (String(next.location?.mapId || "") !== start.mapId) continue;
+    if (Number(next.location?.x || 0) !== start.x || Number(next.location?.y || 0) !== start.y) return next;
+  }
+  throw new Error(`walk encounter fixture cannot move from (${start.x},${start.y}) on map ${start.mapId}`);
 }
 
 function distance(ax, ay, bx, by) {
