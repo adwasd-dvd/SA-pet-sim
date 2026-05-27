@@ -7078,6 +7078,9 @@ function sourceBattleDuckCheck(attacker, defender, options = {}) {
   if (Number(defender.Abio || defender.abio || 0) > 0) {
     return { dodged: false, chance: 0, roll: 0, source, reason: "abio" };
   }
+  if (sourceBattleStatusBlocksTurn(defender)) {
+    return { dodged: false, chance: 0, roll: 0, source, reason: "cannot-move" };
+  }
 
   const attackerKind = String(options.attackerKind || "enemy");
   const defenderKind = String(options.defenderKind || "enemy");
@@ -7112,8 +7115,8 @@ function sourceBattleDuckCheck(attacker, defender, options = {}) {
   const work = Math.max(0, (big - small) / 0.02);
   let chancePct = Math.sqrt(work) * wari + defenderLuck;
   chancePct = Math.max(0, Math.min(SOURCE_BATTLE_MAX_DUCK_RATE, chancePct));
-  const chance = clampInt(Math.trunc(chancePct * 100), 0, SOURCE_BATTLE_MAX_DUCK_RATE * 100, 0);
-  const roll = Math.trunc(Math.random() * 10000) + 1;
+  const chance = clampInt(Math.trunc(chancePct * 100), 1, SOURCE_BATTLE_MAX_DUCK_RATE * 100, 1);
+  const roll = sourceBattleRand(1, 10000);
   return {
     dodged: chance > 0 && roll <= chance,
     chance,
@@ -7121,6 +7124,15 @@ function sourceBattleDuckCheck(attacker, defender, options = {}) {
     roll,
     source
   };
+}
+
+function sourceBattleStatusBlocksTurn(actor = {}) {
+  const statuses = actor.BattleStatuses || {};
+  for (const key of Object.keys(statuses)) {
+    if (!BATTLE_STATUS_BLOCKS_TURN.has(key)) continue;
+    if (Number(statuses[key]?.turns || 0) > 0) return true;
+  }
+  return false;
 }
 
 function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
@@ -7207,7 +7219,7 @@ function sourceBattleCriticalCheck(attacker, defender, options = {}) {
   const chance = clampInt(Math.trunc(per), 1, 10000, 1);
   const roll = sourceBattleRand(1, 10000);
   return {
-    critical: roll < chance,
+    critical: roll <= chance,
     chance,
     roll,
     source

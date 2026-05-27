@@ -236,6 +236,7 @@ Object.assign(allyQueueBattleGame.encounter, {
   WorkFixTough: 0,
   WorkQuick: 1,
   WorkFixDex: 1,
+  NoDuck: 1,
   SourceExp: 1,
   Exp: 1,
   WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
@@ -1071,6 +1072,7 @@ try {
   battleLootGame.encounter.Hp = 1;
   battleLootGame.encounter.WorkFixDex = 0;
   battleLootGame.encounter.WorkQuick = 0;
+  battleLootGame.encounter.NoDuck = 1;
   battleLootGame.pets[0].WorkFixStr = 999;
   battleLootGame.pets[0].WorkAttackPower = 999;
   battleLootGame.pets[0].WorkFixDex = 999;
@@ -3764,7 +3766,7 @@ try {
   Math.random = () => {
     sourceCriticalChanceRandomCalls += 1;
     if (sourceCriticalChanceRandomCalls === 1) return 0.4;
-    return 0.0149;
+    return 0.0151;
   };
   sourceCriticalChanceGame = await api("/api/game/battle", { game: sourceCriticalChanceGame, action: "防御" });
 } finally {
@@ -3774,6 +3776,39 @@ assertEqual(sourceCriticalChanceGame.battleOutcome.result, "turn", "source criti
 assert(
   !sourceCriticalChanceGame.battleOutcome.log.some((line) => line.includes("会心")),
   "enemy low critical chance no longer applies a forced 2% critical floor"
+);
+
+let sourceDuckBlockedStatusGame = await api("/api/game/new", { name: "source-duck-blocked-status-battle-test" });
+sourceDuckBlockedStatusGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceDuckBlockedStatusGame = await api("/api/game/encounter", { game: sourceDuckBlockedStatusGame });
+Object.assign(sourceDuckBlockedStatusGame.player, {
+  WorkFixDex: 1,
+  WorkQuick: 900
+});
+Object.assign(sourceDuckBlockedStatusGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkFixDex: 999,
+  WorkQuick: 1,
+  BattleStatuses: {
+    stone: { key: "stone", label: "石化", turns: 2 }
+  },
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceDuckBlockedStatusGame.battle.enemyParty = [sourceDuckBlockedStatusGame.encounter];
+sourceDuckBlockedStatusGame.battle.activeEnemyIndex = 0;
+const originalRandomForDuckBlockedStatus = Math.random;
+try {
+  Math.random = () => 0;
+  sourceDuckBlockedStatusGame = await api("/api/game/battle", { game: sourceDuckBlockedStatusGame, action: "攻击" });
+} finally {
+  Math.random = originalRandomForDuckBlockedStatus;
+}
+assert(
+  !sourceDuckBlockedStatusGame.battleOutcome.log.some((line) => line.includes("闪开了")),
+  "source duck check disables dodge when defender is under turn-blocking status"
 );
 
 let enemyGuardAiGame = await api("/api/game/new", { name: "enemy-ai-guard-test" });
