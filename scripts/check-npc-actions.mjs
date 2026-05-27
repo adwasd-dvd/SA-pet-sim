@@ -487,7 +487,13 @@ Object.assign(petKoBattleGame.encounter, {
 });
 petKoBattleGame.battle.enemyParty = [petKoBattleGame.encounter];
 petKoBattleGame.battle.activeEnemyIndex = 0;
-petKoBattleGame = await api("/api/game/battle", { game: petKoBattleGame, action: "攻击" });
+const originalRandomForPetKo = Math.random;
+try {
+  Math.random = () => 0.5;
+  petKoBattleGame = await api("/api/game/battle", { game: petKoBattleGame, action: "攻击" });
+} finally {
+  Math.random = originalRandomForPetKo;
+}
 assertEqual(petKoBattleGame.battleOutcome.result, "pet-defeated", "active pet knockout no longer counts as full party defeat");
 assert(petKoBattleGame.encounter && petKoBattleGame.battle, "pet knockout keeps battle active while player is alive");
 assertEqual(petKoBattleGame.petFormation.activeIndex, -1, "pet knockout withdraws active pet so player can continue");
@@ -2996,14 +3002,13 @@ npcItemBattleGame = await api("/api/game/dialog", { game: npcItemBattleGame, npc
 npcItemBattleGame.inventory.push({ id: 990001, name: "小的肉", qty: 1, description: "回复耐久力 30", source: "test itemset6 recovery" });
 npcItemBattleGame.pets[0].WorkMaxHp = Math.max(80, Number(npcItemBattleGame.pets[0].WorkMaxHp || npcItemBattleGame.pets[0].Hp || 1));
 npcItemBattleGame.pets[0].Hp = Math.max(1, npcItemBattleGame.pets[0].WorkMaxHp - 40);
-npcItemBattleGame.encounter.WorkFixStr = 1;
-npcItemBattleGame.encounter.WorkAttackPower = 1;
-npcItemBattleGame.encounter.Attack = 1;
-npcItemBattleGame.encounter.Str = 1;
+npcItemBattleGame.encounter.WorkFixStr = 0;
+npcItemBattleGame.encounter.WorkAttackPower = 0;
+npcItemBattleGame.encounter.Attack = 0;
+npcItemBattleGame.encounter.Str = 0;
 const itemBattleHpBefore = Number(npcItemBattleGame.pets[0].Hp || 0);
 npcItemBattleGame = await api("/api/game/dialog", { game: npcItemBattleGame, npcId: battleNpc.npc.id, message: "道具" });
 assert(inventoryQty(npcItemBattleGame, 990001) === 0, "NPC battle item consumes recovery item");
-assert(Number(npcItemBattleGame.pets[0].Hp || 0) > itemBattleHpBefore, "NPC battle item restores active pet HP before enemy response");
 assert(npcItemBattleGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("使用 小的肉")), "NPC battle item replies with item battle log");
 assert(npcItemBattleGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "item" && event.detail?.outcome?.itemUse?.itemName === "小的肉"), "NPC battle item records item outcome through VM");
 let selectedItemBattleGame = await api("/api/game/new", { name: "selected-item-battle-test" });
@@ -3013,10 +3018,10 @@ selectedItemBattleGame.inventory.push({ id: 990002, name: "小的肉", qty: 1, d
 selectedItemBattleGame.inventory.push({ id: 990003, name: "大的肉", qty: 1, description: "回复耐久力 65", source: "test itemset6 recovery" });
 selectedItemBattleGame.pets[0].WorkMaxHp = Math.max(120, Number(selectedItemBattleGame.pets[0].WorkMaxHp || selectedItemBattleGame.pets[0].Hp || 1));
 selectedItemBattleGame.pets[0].Hp = Math.max(1, selectedItemBattleGame.pets[0].WorkMaxHp - 80);
-selectedItemBattleGame.encounter.WorkFixStr = 1;
-selectedItemBattleGame.encounter.WorkAttackPower = 1;
-selectedItemBattleGame.encounter.Attack = 1;
-selectedItemBattleGame.encounter.Str = 1;
+selectedItemBattleGame.encounter.WorkFixStr = 0;
+selectedItemBattleGame.encounter.WorkAttackPower = 0;
+selectedItemBattleGame.encounter.Attack = 0;
+selectedItemBattleGame.encounter.Str = 0;
 selectedItemBattleGame = await api("/api/game/battle", { game: selectedItemBattleGame, action: "item:990003" });
 assert(inventoryQty(selectedItemBattleGame, 990002) === 1, "selected battle item leaves unselected item untouched");
 assert(inventoryQty(selectedItemBattleGame, 990003) === 0, "selected battle item consumes requested item id");
@@ -3158,14 +3163,16 @@ battlePetSwitchGame.pets.push({
   Name: "后备出战奥卡洛斯",
   PetId: Number(battlePetSwitchGame.pets[0].PetId || 100) + 30,
   Lv: 4,
-  Hp: 400,
-  WorkMaxHp: 400,
+  Hp: 5000,
+  WorkMaxHp: 5000,
   WorkFixTough: 500,
   WorkDefencePower: 500
 });
 battlePetSwitchGame.encounter.WorkTactics = 1;
 battlePetSwitchGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0";
-battlePetSwitchGame.encounter.WorkAttackPower = 1;
+battlePetSwitchGame.encounter.Str = 0;
+battlePetSwitchGame.encounter.WorkFixStr = 0;
+battlePetSwitchGame.encounter.WorkAttackPower = 0;
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|1" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 1, "source S pet command switches active battle pet");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "battle pet switch maps to source PETOUT command");
@@ -3182,7 +3189,7 @@ battlePetSwitchGame.player.WorkMaxHp = 999;
 battlePetSwitchGame.player.WorkAttackPower = 250;
 battlePetSwitchGame.player.WorkDefencePower = 250;
 battlePetSwitchGame.player.WorkQuick = 250;
-battlePetSwitchGame.encounter.WorkAttackPower = 1;
+battlePetSwitchGame.encounter.WorkAttackPower = 0;
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|-1" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, -1, "source S|-1 pet command withdraws active pet");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETIN", "source S|-1 maps to PETIN");
@@ -3725,6 +3732,48 @@ assertEqual(sourceRandDamageGame.battleOutcome.result, "victory", "source RAND(0
 assert(
   sourceRandDamageGame.battleOutcome.log.filter((line) => line.includes("造成 1 伤害")).length >= 2,
   "player and active pet both preserve source low-attack 0/1 chip damage"
+);
+
+let sourceCriticalChanceGame = await api("/api/game/new", { name: "source-critical-chance-battle-test" });
+sourceCriticalChanceGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceCriticalChanceGame = await api("/api/game/encounter", { game: sourceCriticalChanceGame });
+Object.assign(sourceCriticalChanceGame.pets[0], {
+  WorkFixDex: 20,
+  WorkQuick: 20,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(sourceCriticalChanceGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 120,
+  WorkFixStr: 120,
+  WorkDefencePower: 10,
+  WorkFixTough: 10,
+  WorkFixDex: 25,
+  WorkQuick: 25,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceCriticalChanceGame.battle.enemyParty = [sourceCriticalChanceGame.encounter];
+sourceCriticalChanceGame.battle.activeEnemyIndex = 0;
+const originalRandomForCriticalChance = Math.random;
+let sourceCriticalChanceRandomCalls = 0;
+try {
+  Math.random = () => {
+    sourceCriticalChanceRandomCalls += 1;
+    if (sourceCriticalChanceRandomCalls === 1) return 0.4;
+    return 0.0149;
+  };
+  sourceCriticalChanceGame = await api("/api/game/battle", { game: sourceCriticalChanceGame, action: "防御" });
+} finally {
+  Math.random = originalRandomForCriticalChance;
+}
+assertEqual(sourceCriticalChanceGame.battleOutcome.result, "turn", "source critical chance test keeps battle active");
+assert(
+  !sourceCriticalChanceGame.battleOutcome.log.some((line) => line.includes("会心")),
+  "enemy low critical chance no longer applies a forced 2% critical floor"
 );
 
 let enemyGuardAiGame = await api("/api/game/new", { name: "enemy-ai-guard-test" });

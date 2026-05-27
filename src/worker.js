@@ -7059,7 +7059,7 @@ function combatNormalAttackDetail(attacker, defender, options = {}) {
     };
   }
   return {
-    ...combatDamageDetail(attacker, defender, options.multiplier ?? 1),
+    ...combatDamageDetail(attacker, defender, options.multiplier ?? 1, options),
     dodgeCheck: duck
   };
 }
@@ -7123,7 +7123,7 @@ function sourceBattleDuckCheck(attacker, defender, options = {}) {
   };
 }
 
-function combatDamageDetail(attacker, defender, multiplier = 1) {
+function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
   const attack = workAttackPower(attacker);
   const defense = sourceBattleDefensePower(defender);
   const elementMultiplier = elementalDamageMultiplier(attacker, defender);
@@ -7142,14 +7142,84 @@ function combatDamageDetail(attacker, defender, multiplier = 1) {
     sourceRoll = sourceBattleRand(0, attack / 8);
     raw = ((attack - defense) * 2) + (sourceRoll - attack / 16);
   }
-  const critical = Math.random() * 100 < Math.max(2, Number(attacker.Critical || 0) * 0.35);
+  const criticalCheck = sourceBattleCriticalCheck(attacker, defender, options);
+  let finalRaw = raw;
+  if (criticalCheck.critical) {
+    const attackerLv = Math.max(1, firstFiniteNumber(1, attacker?.Lv, attacker?.level));
+    const defenderLv = Math.max(1, firstFiniteNumber(1, defender?.Lv, defender?.level));
+    const criticalBonus = workDefencePower(defender) * (attackerLv / defenderLv) * 0.5;
+    finalRaw += criticalBonus;
+  }
   return {
-    damage: Math.max(0, Math.floor(raw * (critical ? 1.6 : 1) * multiplier * elementMultiplier)),
-    critical,
+    damage: Math.max(0, Math.floor(finalRaw * multiplier * elementMultiplier)),
+    critical: criticalCheck.critical,
+    criticalChance: criticalCheck.chance,
+    criticalRoll: criticalCheck.roll,
+    criticalSource: criticalCheck.source,
     elementMultiplier,
     sourceRoll,
     sourceBranch
   };
+}
+
+function sourceBattleCriticalCheck(attacker, defender, options = {}) {
+  const source = "gmsv battle_event.c BATTLE_CriticalCheck/BATTLE_CriticalCheckPlayer";
+  if (!attacker || !defender) return { critical: false, chance: 0, roll: 0, source, reason: "missing-actor" };
+
+  const attackerKind = options.attackerKind || sourceBattleActorKind(attacker, "enemy");
+  const defenderKind = options.defenderKind || sourceBattleActorKind(defender, "enemy");
+  let attackerDex = Math.max(0, firstFiniteNumber(0, attacker.WorkFixDex, attacker.WorkQuick, Number(attacker.Dex || 0) / 100));
+  let defenderDex = Math.max(0, firstFiniteNumber(0, defender.WorkFixDex, defender.WorkQuick, Number(defender.Dex || 0) / 100));
+  const attackerLuck = attackerKind === "player"
+    ? Math.max(0, firstFiniteNumber(0, attacker.WorkFixLuck, attacker.Luck, attacker.luck))
+    : 0;
+  const attackerCriticalEquip = Math.max(0, Number(attacker.Critical || attacker.critical || 0));
+
+  let divpara = 2;
+  let root = true;
+  if (attackerKind === "pet" && defenderKind === "enemy") {
+    defenderDex *= 0.8;
+  } else if (attackerKind === "enemy" && defenderKind === "pet") {
+    divpara = 10;
+    root = false;
+  } else if (attackerKind !== "player" && defenderKind === "player") {
+    divpara = 10;
+    root = false;
+  } else if (attackerKind === "player" && defenderKind !== "player") {
+    defenderDex *= 0.6;
+  }
+
+  let big = attackerDex;
+  let small = defenderDex;
+  let wari = 0;
+  if (attackerDex >= defenderDex) {
+    big = attackerDex;
+    small = defenderDex;
+    wari = 1;
+  } else if (big > 0) {
+    wari = small / big;
+  }
+  const work = Math.max(0, (big - small) / divpara);
+  let per = (root ? Math.sqrt(work) : work) + attackerCriticalEquip * 0.5;
+  per *= wari;
+  per += attackerLuck;
+  per *= 100;
+  const chance = clampInt(Math.trunc(per), 1, 10000, 1);
+  const roll = sourceBattleRand(1, 10000);
+  return {
+    critical: roll < chance,
+    chance,
+    roll,
+    source
+  };
+}
+
+function sourceBattleActorKind(actor = {}, fallback = "enemy") {
+  const type = Number(actor.WhichType || actor.whichType || 0);
+  if (type === 0) return "player";
+  if (type === 1) return "pet";
+  if (type === 2) return "enemy";
+  return fallback;
 }
 
 function sourceBattleRand(min, max) {
