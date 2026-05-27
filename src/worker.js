@@ -92,8 +92,6 @@ const PAID_JUMP_SECOND_TIER_STEPS = 500;
 const PAID_JUMP_FIRST_TIER_COST = 30;
 const PAID_JUMP_SECOND_TIER_COST = 50;
 const PAID_JUMP_THIRD_TIER_COST = 80;
-const ENCOUNTER_LEVEL_SOFT_DELTA = 12;
-const ENCOUNTER_LEVEL_NEAREST_BUFFER = 3;
 const DEFAULT_CHAR_DIR = 5;
 const AI_WORKSPACE_SCHEMA = "stoneage-ai-workspace-v1";
 const AI_WORKSPACE_MAX_MEMORIES = 60;
@@ -4098,8 +4096,7 @@ async function createEncounterParty(env, request, game, map) {
     if (!gatePassedGroups.length) {
       return { enemies: [], area, groupGates, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} gated by ${GMSV_DATA_SOURCE}/group1.txt item rules` };
     }
-    const availableGroups = selectEncounterGroupsForActorLevel(game, gatePassedGroups);
-    const selectedGroup = pickWeighted(availableGroups, (item) => item.weight) || availableGroups[0] || null;
+    const selectedGroup = pickWeighted(gatePassedGroups, (item) => item.weight) || gatePassedGroups[0] || null;
     if (!selectedGroup) {
       return { enemies: [], area, groupGates, source: `${GMSV_DATA_SOURCE}/encount.txt area ${area.id} no weighted group` };
     }
@@ -4151,67 +4148,6 @@ async function createEncounterParty(env, request, game, map) {
     area: null,
     source: `${GMSV_DATA_SOURCE}/encount.txt fallback tempNo + ${GMSV_DATA_SOURCE}/enemybase2.txt`
   };
-}
-
-function encounterActorLevel(game) {
-  const playerLevel = Number(game?.player?.level ?? game?.player?.Lv ?? 0);
-  return Math.max(1, Math.round(playerLevel || 1));
-}
-
-function encounterGroupLevelRange(group) {
-  let min = Infinity;
-  let max = 0;
-  for (const enemy of group?.enemies || []) {
-    const lvMin = Number(enemy?.lvMin || 0);
-    const lvMax = Number(enemy?.lvMax || 0);
-    const low = Math.max(0, lvMin || lvMax);
-    const high = Math.max(low, lvMax || lvMin);
-    if (low > 0) min = Math.min(min, low);
-    if (high > 0) max = Math.max(max, high);
-  }
-  if (!Number.isFinite(min) || min <= 0) min = max > 0 ? max : 0;
-  if (max <= 0) max = min;
-  return { min: Number(min || 0), max: Number(max || 0) };
-}
-
-function encounterGroupLevelDistance(level, range) {
-  const min = Number(range?.min || 0);
-  const max = Math.max(min, Number(range?.max || 0));
-  if (!min && !max) return 0;
-  if (level < min) return min - level;
-  if (level > max) return level - max;
-  return 0;
-}
-
-function selectEncounterGroupsForActorLevel(game, groups = []) {
-  if (!Array.isArray(groups) || groups.length <= 1) return Array.isArray(groups) ? groups : [];
-  const level = encounterActorLevel(game);
-  const ranked = groups.map((group) => {
-    const range = encounterGroupLevelRange(group);
-    const distance = encounterGroupLevelDistance(level, range);
-    return { group, range, distance };
-  });
-  const softDelta = Math.max(6, Math.min(ENCOUNTER_LEVEL_SOFT_DELTA, Math.floor(level / 6) + 6));
-  const nearby = ranked
-    .filter((row) => row.distance <= softDelta)
-    .map((row) => row.group);
-  if (nearby.length) return nearby;
-  // When no group falls inside the soft window, stay close to the nearest
-  // level buckets instead of reopening the full table (which can pull in
-  // extreme outliers like Lv.80 while the actor is around Lv.10-20).
-  const nearestDistance = ranked.reduce((best, row) => Math.min(best, row.distance), Number.POSITIVE_INFINITY);
-  if (!Number.isFinite(nearestDistance)) return groups.slice();
-  const fallbackWindow = Math.max(
-    1,
-    Math.min(
-      ENCOUNTER_LEVEL_NEAREST_BUFFER,
-      Math.floor(level / 18) + 1
-    )
-  );
-  const fallback = ranked
-    .filter((row) => row.distance <= nearestDistance + fallbackWindow)
-    .map((row) => row.group);
-  return fallback.length ? fallback : groups.slice();
 }
 
 function encounterGroupCanAppear(game, group) {

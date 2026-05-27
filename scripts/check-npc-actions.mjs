@@ -3620,34 +3620,36 @@ assert(
   "battle formation pet unit exposes active pet ImgNo for browser sprite rendering"
 );
 
-let sourceEncounterMidLevelGame = await api("/api/game/new", { name: "source-encount-mid-level-window-test" });
-sourceEncounterMidLevelGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
-sourceEncounterMidLevelGame.player.level = 11;
-sourceEncounterMidLevelGame.pets[0].Lv = 11;
-sourceEncounterMidLevelGame = await api("/api/game/encounter", { game: sourceEncounterMidLevelGame });
-assert(
-  sourceEncounterMidLevelGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) <= 3),
-  "when no near-level group exists, source encounter fallback avoids extreme outlier buckets"
-);
-
 let mixedRangeLowLevelGame = await api("/api/game/new", { name: "mixed-range-low-level-encounter-test" });
 mixedRangeLowLevelGame.location = { mapId: "100", x: 440, y: 120, dir: 2 };
 mixedRangeLowLevelGame.player.level = 1;
 mixedRangeLowLevelGame.pets[0].Lv = 1;
-mixedRangeLowLevelGame = await api("/api/game/encounter", { game: mixedRangeLowLevelGame });
-assert(
-  mixedRangeLowLevelGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) <= 1),
-  "mixed source area keeps low-level actors on near-level wild groups"
-);
 
 let mixedRangeHighLevelGame = await api("/api/game/new", { name: "mixed-range-high-level-encounter-test" });
 mixedRangeHighLevelGame.location = { mapId: "100", x: 440, y: 120, dir: 2 };
 mixedRangeHighLevelGame.player.level = 20;
 mixedRangeHighLevelGame.pets[0].Lv = 20;
-mixedRangeHighLevelGame = await api("/api/game/encounter", { game: mixedRangeHighLevelGame });
-assert(
-  mixedRangeHighLevelGame.battle.enemyParty.every((enemy) => Number(enemy.Lv || 0) >= 14),
-  "mixed source area lets higher-level actors draw the higher nearby wild groups"
+const originalRandomForEncounterGroupLevelParity = Math.random;
+try {
+  Math.random = () => 0;
+  mixedRangeLowLevelGame = await api("/api/game/encounter", { game: mixedRangeLowLevelGame });
+  Math.random = () => 0;
+  mixedRangeHighLevelGame = await api("/api/game/encounter", { game: mixedRangeHighLevelGame });
+} finally {
+  Math.random = originalRandomForEncounterGroupLevelParity;
+}
+const lowLevelGroupId = Number((mixedRangeLowLevelGame.battle?.source || "").match(/group\s+(\d+)/)?.[1] || 0);
+const highLevelGroupId = Number((mixedRangeHighLevelGame.battle?.source || "").match(/group\s+(\d+)/)?.[1] || 0);
+assert(lowLevelGroupId > 0 && highLevelGroupId > 0, "mixed source area encounters expose selected source group ids");
+assertEqual(
+  lowLevelGroupId,
+  highLevelGroupId,
+  "source encounter group selection remains level-independent under identical rolls"
+);
+assertEqual(
+  Number(mixedRangeLowLevelGame.encounter?.EnemyId || 0),
+  Number(mixedRangeHighLevelGame.encounter?.EnemyId || 0),
+  "source encounter enemy selection remains level-independent under identical rolls"
 );
 
 let workAliasBattleGame = await api("/api/game/new", { name: "source-work-alias-battle-test" });
