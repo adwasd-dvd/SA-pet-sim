@@ -415,6 +415,8 @@ Object.assign(enemyTargetPlayerDefeatGame.player, {
   hp: 1,
   maxHp: 98,
   WorkMaxHp: 98,
+  Luck: 0,
+  WorkFixLuck: 0,
   Tough: 0,
   Dex: 1,
   WorkDefencePower: 0,
@@ -441,7 +443,15 @@ Object.assign(enemyTargetPlayerDefeatGame.encounter, {
 });
 enemyTargetPlayerDefeatGame.battle.enemyParty = [enemyTargetPlayerDefeatGame.encounter];
 enemyTargetPlayerDefeatGame.battle.activeEnemyIndex = 0;
-enemyTargetPlayerDefeatGame = await api("/api/game/battle", { game: enemyTargetPlayerDefeatGame, action: "防御" });
+const originalRandomForEnemyTargetPlayerDefeat = Math.random;
+try {
+  // Keep this regression deterministic: force a high roll so enemy hit does not
+  // get skipped by a lucky dodge branch.
+  Math.random = () => 0.9;
+  enemyTargetPlayerDefeatGame = await api("/api/game/battle", { game: enemyTargetPlayerDefeatGame, action: "防御" });
+} finally {
+  Math.random = originalRandomForEnemyTargetPlayerDefeat;
+}
 assertEqual(enemyTargetPlayerDefeatGame.battleOutcome.result, "defeat", "player knockout by enemy target rule ends battle even if active pet survives");
 assertEqual(enemyTargetPlayerDefeatGame.encounter, null, "player knockout clears battle encounter");
 
@@ -3096,6 +3106,7 @@ petStatusSkillGame.pets[0].PetSkills = [{
   Source: "gmsv-data/petskill2.txt"
 }];
 petStatusSkillGame.pets[0].Lv = 80;
+petStatusSkillGame.pets[0].PetId = 100;
 petStatusSkillGame.pets[0].WorkFixLuck = 80;
 petStatusSkillGame.pets[0].Luck = 80;
 petStatusSkillGame.pets[0].Str = 50000;
@@ -3115,6 +3126,7 @@ const statusSkillEnemyFixture = {
   Str: 100,
   Tough: 100,
   Dex: 100,
+  NoDuck: 1,
   WorkFixTough: 1,
   WorkDefencePower: 1,
   WorkQuick: 0,
@@ -3123,7 +3135,14 @@ const statusSkillEnemyFixture = {
 };
 Object.assign(petStatusSkillGame.encounter, statusSkillEnemyFixture);
 Object.assign(petStatusSkillGame.battle?.enemyParty?.[0] || {}, statusSkillEnemyFixture);
-petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "skill:0" });
+const originalRandomForPetStatusSkill = Math.random;
+try {
+  // Keep this regression deterministic: skip dodge and force a low status roll.
+  Math.random = () => 0;
+  petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForPetStatusSkill;
+}
 const statusSkillTelemetry = petStatusSkillGame.battleOutcome.playerAction?.petSkill?.status;
 assertEqual(petStatusSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STATUSCHANGE", "status pet skill maps to source battle command");
 assertEqual(statusSkillTelemetry?.status?.key, "poison", "status pet skill parses petskill2 status token");
@@ -3137,6 +3156,7 @@ let petMagicStatusGame = await api("/api/game/new", { name: "pet-magic-status-te
 petMagicStatusGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 petMagicStatusGame = await api("/api/game/dialog", { game: petMagicStatusGame, npcId: battleNpc.npc.id, message: "宠物" });
 petMagicStatusGame.pets[0].PetSkillIds = [552];
+petMagicStatusGame.pets[0].PetId = 100;
 petMagicStatusGame.pets[0].PetSkills = [{
   Id: 552,
   Name: "铁壁",

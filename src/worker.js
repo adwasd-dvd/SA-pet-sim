@@ -7093,19 +7093,24 @@ function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
     raw = ((attack - defense) * 2) + (sourceRoll - attack / 16);
   }
   const criticalCheck = sourceBattleCriticalCheck(attacker, defender, options);
-  let finalRaw = raw;
+  let criticalBonus = 0;
   if (criticalCheck.critical) {
     const attackerLv = Math.max(1, firstFiniteNumber(1, attacker?.Lv, attacker?.level));
     const defenderLv = Math.max(1, firstFiniteNumber(1, defender?.Lv, defender?.level));
-    const criticalBonus = workDefencePower(defender) * (attackerLv / defenderLv) * 0.5;
-    finalRaw += criticalBonus;
+    criticalBonus = workDefencePower(defender) * (attackerLv / defenderLv) * 0.5;
   }
+  // gmsv battle_event.c BATTLE_CriDamageCalc:
+  // damage = BATTLE_DamageCalc(...) + criticalBonus
+  // BATTLE_DamageCalc already applied attribute adjustment, so crit bonus
+  // should be added after element scaling instead of being scaled again.
+  const totalDamage = Math.max(0, Math.floor(raw * multiplier * elementMultiplier + criticalBonus));
   return {
-    damage: Math.max(0, Math.floor(finalRaw * multiplier * elementMultiplier)),
+    damage: totalDamage,
     critical: criticalCheck.critical,
     criticalChance: criticalCheck.chance,
     criticalRoll: criticalCheck.roll,
     criticalSource: criticalCheck.source,
+    criticalBonus,
     elementMultiplier,
     sourceRoll,
     sourceBranch
