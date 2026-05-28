@@ -1516,6 +1516,11 @@ async function waitForAssistRouteStart(label, token) {
       addClientLog(`自动前往 ${targetLabel}：移动仍在处理中，继续等待。`);
     }
   }
+  if (token === routeToken && walkInFlight) {
+    cancelPendingWalkRequest(`自动前往 ${targetLabel}：检测到移动状态卡住，已重置后重试。`);
+    const forcedReady = await waitForWalkSlot(token, ASSIST_ROUTE_START_TIMEOUT_MS);
+    if (forcedReady) return true;
+  }
   if (token === routeToken) {
     addClientLog(`自动前往 ${targetLabel} 没有开始：当前移动太久未结束，请稍后重试。`);
   }
