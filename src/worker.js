@@ -6978,6 +6978,7 @@ function advanceBattleCommandWindow(game) {
 }
 
 const SOURCE_BATTLE_MAX_DUCK_RATE = 75;
+const SOURCE_BATTLE_CRITICAL_PARA = 0.09;
 
 function combatDamage(attacker, defender, multiplier = 1) {
   return combatDamageDetail(attacker, defender, multiplier).damage;
@@ -7124,7 +7125,7 @@ function sourceBattleCriticalCheck(attacker, defender, options = {}) {
     : 0;
   const attackerCriticalEquip = Math.max(0, Number(attacker.Critical || attacker.critical || 0));
 
-  let divpara = 2;
+  let divpara = SOURCE_BATTLE_CRITICAL_PARA;
   let root = true;
   if (attackerKind === "pet" && defenderKind === "enemy") {
     defenderDex *= 0.8;

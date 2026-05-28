@@ -3221,6 +3221,12 @@ assertEqual(battlePetSwitchGame.characterFields.battle.formation.allySlots.lengt
 assertEqual(battlePetSwitchGame.characterFields.battle.formation.enemySlots[0].battleNo, 10, "enemy slot 0 maps to source battle no 10");
 assertEqual(battlePetSwitchGame.characterFields.battle.formation.targetGroups.side0, 20, "source target group 20 maps to ally side");
 assert(battlePetSwitchGame.battleOutcome.log.some((line) => line.includes("独自应战")), "S|-1 log explains player-alone battle state");
+// This regression only validates PETOUT availability from player-alone state.
+// Keep the fallback pet durable so prior turn residue cannot make this flaky.
+battlePetSwitchGame.pets[0].WorkMaxHp = Math.max(5000, Number(battlePetSwitchGame.pets[0].WorkMaxHp || 0));
+battlePetSwitchGame.pets[0].Hp = battlePetSwitchGame.pets[0].WorkMaxHp;
+battlePetSwitchGame.pets[0].WorkFixTough = Math.max(500, Number(battlePetSwitchGame.pets[0].WorkFixTough || 0));
+battlePetSwitchGame.pets[0].WorkDefencePower = Math.max(500, Number(battlePetSwitchGame.pets[0].WorkDefencePower || 0));
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "pet:0" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "PETOUT can send a pet back out from player-alone state");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "player-alone pet out maps back to PETOUT");
@@ -3705,8 +3711,8 @@ sourceRandDamageGame = await api("/api/game/encounter", { game: sourceRandDamage
 Object.assign(sourceRandDamageGame.player, {
   WorkAttackPower: 1,
   WorkFixStr: 1,
-  WorkQuick: 900,
-  WorkFixDex: 900,
+  WorkQuick: 0,
+  WorkFixDex: 0,
   EarthAT: 0,
   WaterAT: 0,
   FireAT: 0,
@@ -3715,8 +3721,8 @@ Object.assign(sourceRandDamageGame.player, {
 Object.assign(sourceRandDamageGame.pets[0], {
   WorkAttackPower: 1,
   WorkFixStr: 1,
-  WorkQuick: 901,
-  WorkFixDex: 901,
+  WorkQuick: 0,
+  WorkFixDex: 0,
   Hp: 999,
   WorkMaxHp: 999,
   EarthAT: 0,
@@ -3841,6 +3847,51 @@ try {
 assert(
   sourceCriticalRatioGame.battleOutcome.log.some((line) => line.includes("会心")),
   "source critical ratio branch keeps sub-dex attacker critical chance when source roll is in-range"
+);
+
+let sourceCriticalParaGame = await api("/api/game/new", { name: "source-critical-para-battle-test" });
+sourceCriticalParaGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceCriticalParaGame = await api("/api/game/encounter", { game: sourceCriticalParaGame });
+sourceCriticalParaGame.petFormation = { activeIndex: -1 };
+Object.assign(sourceCriticalParaGame.player, {
+  WorkFixDex: 10,
+  WorkQuick: 100,
+  WorkFixLuck: 0,
+  Luck: 0,
+  Critical: 20,
+  WorkAttackPower: 180,
+  WorkFixStr: 180
+});
+Object.assign(sourceCriticalParaGame.encounter, {
+  Hp: 600,
+  WorkMaxHp: 600,
+  WorkFixDex: 100,
+  WorkQuick: 1,
+  WorkDefencePower: 120,
+  WorkFixTough: 120,
+  Abio: 1,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceCriticalParaGame.battle.enemyParty = [sourceCriticalParaGame.encounter];
+sourceCriticalParaGame.battle.activeEnemyIndex = 0;
+const originalRandomForCriticalPara = Math.random;
+let sourceCriticalParaRandomCalls = 0;
+try {
+  Math.random = () => {
+    sourceCriticalParaRandomCalls += 1;
+    if (sourceCriticalParaRandomCalls === 1) return 0.2;
+    if (sourceCriticalParaRandomCalls === 2) return 0.0399;
+    return 0.9;
+  };
+  sourceCriticalParaGame = await api("/api/game/battle", { game: sourceCriticalParaGame, action: "攻击" });
+} finally {
+  Math.random = originalRandomForCriticalPara;
+}
+assert(
+  sourceCriticalParaGame.battleOutcome.log.some((line) => line.includes("会心")),
+  "source critical para keeps 0.09 branch so mid-roll player crit is preserved"
 );
 
 let sourceDuckBlockedStatusGame = await api("/api/game/new", { name: "source-duck-blocked-status-battle-test" });
