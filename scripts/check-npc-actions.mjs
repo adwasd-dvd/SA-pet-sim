@@ -2576,6 +2576,24 @@ try {
 } finally {
   pkStoneOnlyShop.npc.trade.source = pkStoneOnlySourceBefore;
 }
+const pkStoneOnlyMarkerBefore = pkStoneOnlyShop.npc.trade.stoneOnlyPointCost;
+const pkStoneOnlyUnknownSourceBefore = pkStoneOnlyShop.npc.trade.source;
+pkStoneOnlyShop.npc.trade.source = "gmsv-data/npc/custom/unknown_shop_source";
+pkStoneOnlyShop.npc.trade.stoneOnlyPointCost = true;
+try {
+  let pkStoneOnlyMarkerGame = await api("/api/game/new", { name: "shop-pk-stone-only-marker-test" });
+  pkStoneOnlyMarkerGame.location = { mapId: pkStoneOnlyShop.map.id, x: pkStoneOnlyShop.npc.x + 1, y: pkStoneOnlyShop.npc.y };
+  pkStoneOnlyMarkerGame.player.stone = Number(pkStoneOnlyItem.price || pkStoneOnlyItem.cost || 0) + 456;
+  pkStoneOnlyMarkerGame.player.amPoint = 0;
+  pkStoneOnlyMarkerGame = await api("/api/game/talk", { game: pkStoneOnlyMarkerGame, npcId: pkStoneOnlyShop.npc.id });
+  assert(
+    pkStoneOnlyMarkerGame.dialog.trade.items.every((item) => Number(item.costPoint || 0) === 0 && item.pointAffordable !== false),
+    "stone-only compatibility marker keeps PK merchant stone-priced even when source path is unrecognized"
+  );
+} finally {
+  pkStoneOnlyShop.npc.trade.source = pkStoneOnlyUnknownSourceBefore;
+  pkStoneOnlyShop.npc.trade.stoneOnlyPointCost = pkStoneOnlyMarkerBefore;
+}
 pkStoneOnlyGame.dialog.trade.items = pkStoneOnlyGame.dialog.trade.items.map((item) => ({
   ...item,
   costPoint: 10000,

@@ -921,6 +921,12 @@ function readSignboardNameDialogue(displayNameRaw = "", file, argPath = "", func
 function readNpcTrade(argPath, createFile) {
   const file = resolveNpcArg(argPath, createFile);
   if (!file) return null;
+  const sourcePath = relativeRef(file);
+  const normalizedSource = String(sourcePath || "")
+    .replace(/^gmsv-data\//, "")
+    .replace(/^file:/, "")
+    .toLowerCase();
+  const stoneOnlyPointCost = /(?:^|\/)c_can_mm(?:\.[^./]+)?$/.test(normalizedSource);
   const kv = parseColonFile(readText(file));
   const itemSpec = kv.itemlist || kv.limititemno || "";
   if (!itemSpec) return null;
@@ -958,7 +964,7 @@ function readNpcTrade(argPath, createFile) {
   if (!items.length) return null;
   return {
     kind: "shop",
-    source: relativeRef(file),
+    source: sourcePath,
     buyRate,
     sellRate,
     buyWords: splitWords(kv.buy_msg),
@@ -972,6 +978,7 @@ function readNpcTrade(argPath, createFile) {
     ...(items.some((item) => item.changeItemCost != null) ? { hasChangeItemCost: true } : {}),
     ...(items.some((item) => Number(item.costFame || 0) > 0) ? { hasCostFame: true } : {}),
     ...(items.some((item) => Number(item.costPoint || 0) > 0) ? { hasCostPoint: true } : {}),
+    ...(stoneOnlyPointCost ? { stoneOnlyPointCost: true } : {}),
     items: items.slice(0, 40)
   };
 }

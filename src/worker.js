@@ -1812,6 +1812,7 @@ function normalizedTradeSource(source) {
 }
 
 function isStoneOnlyTradePointSource(npc) {
+  if (npc?.trade?.stoneOnlyPointCost) return true;
   const sources = [
     npc?.trade?.source,
     npc?.script,
