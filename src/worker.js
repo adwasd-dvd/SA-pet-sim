@@ -99,6 +99,8 @@ const AI_NPC_CACHE_SCHEMA = "stoneage-ai-npc-cache-v1";
 const AI_NPC_CACHE_TTL_MS = 5 * 60 * 1000;
 const AI_NPC_CACHE_MAX_ENTRIES = 24;
 const AI_NPC_CACHE_REPLY_LIMIT = 900;
+const AI_NPC_REMOTE_COOLDOWN_MS = 4 * 1000;
+const AI_NPC_REMOTE_ERROR_COOLDOWN_MS = 1500;
 const NPC_SOCIAL_SCHEMA = "stoneage-npc-social-v1";
 const NPC_SOCIAL_MAX_NPCS = 32;
 const NPC_SOCIAL_MAX_MEMORIES = 5;
@@ -12550,9 +12552,23 @@ async function aiNpcReply(env, request, game, npc, text) {
     });
     return cachedReply.reply;
   }
+  const now = Date.now();
+  const cooldownUntil = npcSocialCooldownUntil(game, npc);
+  if (cooldownUntil > now) {
+    const waitSeconds = Math.max(1, Math.ceil((cooldownUntil - now) / 1000));
+    const pendingProposal = publicNpcProposal(game, npc);
+    recordNpcVmEvent(game, npc, "say", "blocked", {
+      reason: "ai-npc-cooldown",
+      waitSeconds,
+      pendingProposal: Boolean(pendingProposal)
+    });
+    if (pendingProposal) return `${npc.name}：刚才那件事还在确认，先在下面点同意或拒绝。`;
+    return `${npc.name}：让我缓口气，再聊（约 ${waitSeconds} 秒）。`;
+  }
   if (hasOpenAi(env)) {
     try {
       const rsp = await callOpenAiNpc(env, game, npc, text, map, debug, compactScriptReferences, persona, social);
+      applyNpcAiRemoteCooldown(game, npc, AI_NPC_REMOTE_COOLDOWN_MS);
       const proposed = openAiNpcAction(game, npc, rsp.decision, text);
       if (proposed) return openAiNpcActionReply(game, npc, proposed, rsp.decision);
       if (rsp.decision?.reply) {
@@ -12563,6 +12579,7 @@ async function aiNpcReply(env, request, game, npc, text) {
         return rsp.decision.reply;
       }
     } catch (error) {
+      applyNpcAiRemoteCooldown(game, npc, AI_NPC_REMOTE_ERROR_COOLDOWN_MS);
       recordNpcVmEvent(game, npc, "say", "blocked", { reason: "openai-npc-error", error: error?.message || "OpenAI failed" });
     }
   }
@@ -12617,10 +12634,12 @@ async function aiNpcReply(env, request, game, npc, text) {
     try {
       const rsp = await env.AI.run(model, { messages });
       const reply = rsp.response || rsp.text || localNpcAiFallback(game, npc, text);
+      applyNpcAiRemoteCooldown(game, npc, AI_NPC_REMOTE_COOLDOWN_MS);
       writeAiNpcCache(game, remoteCacheKey, reply, remoteRuntime, "chat");
       recordNpcVmEvent(game, npc, "say", "ok", { reason: "ai-npc", model });
       return reply;
     } catch (error) {
+      applyNpcAiRemoteCooldown(game, npc, AI_NPC_REMOTE_ERROR_COOLDOWN_MS);
       recordNpcVmEvent(game, npc, "say", "blocked", { reason: "ai-npc-error", error: error?.message || "AI binding failed" });
       return localNpcAiFallback(game, npc, text, error);
     }
@@ -16702,6 +16721,16 @@ function isPureOpenAiNpcReply(decision) {
 function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runtime, persona = null, social = null) {
   const promptPersona = persona || buildNpcPersona(game, npc, map);
   const promptSocial = social || compactNpcSocialForPrompt(game, npc);
+  const cacheSocialScores = {
+    affinity: Number(promptSocial?.scores?.affinity || 0),
+    trust: Number(promptSocial?.scores?.trust || 0),
+    suspicion: Number(promptSocial?.scores?.suspicion || 0),
+    helped: Number(promptSocial?.scores?.helped || 0),
+    threatened: Number(promptSocial?.scores?.threatened || 0),
+    challenged: Number(promptSocial?.scores?.challenged || 0),
+    declined: Number(promptSocial?.scores?.declined || 0),
+    failed: Number(promptSocial?.scores?.failed || 0)
+  };
   const state = {
     schema: AI_NPC_CACHE_SCHEMA,
     runtime: `${runtime.provider}:${runtime.model}`,
@@ -16761,7 +16790,7 @@ function buildAiNpcCacheKey(game, npc, text, map, debug, scriptReferences, runti
       .sort((a, b) => String(a[0]).localeCompare(String(b[0])))
       .slice(0, 10),
     social: {
-      scores: promptSocial.scores,
+      scores: cacheSocialScores,
       memories: (promptSocial.memories || []).map((memory) => [memory.kind, stableHashInt(memory.text), memory.weight])
     },
     proposal: compactPendingNpcProposalForPrompt(game, npc),
@@ -16880,6 +16909,11 @@ function readNpcSocialEntry(game, npc) {
   return social.npcs[npcSocialId(npc)] || null;
 }
 
+function npcSocialCooldownUntil(game, npc) {
+  const entry = readNpcSocialEntry(game, npc);
+  return clampInt(entry?.scores?.cooldownUntil, 0, Number.MAX_SAFE_INTEGER, 0);
+}
+
 function ensureNpcSocialEntry(game, npc) {
   game.npcSocial = normalizeNpcSocial(game.npcSocial);
   const id = npcSocialId(npc);
@@ -16893,6 +16927,22 @@ function ensureNpcSocialEntry(game, npc) {
     };
   }
   return game.npcSocial.npcs[id];
+}
+
+function setNpcSocialCooldownUntil(game, npc, untilMs) {
+  const entry = ensureNpcSocialEntry(game, npc);
+  entry.scores ||= {};
+  const next = clampInt(untilMs, 0, Number.MAX_SAFE_INTEGER, 0);
+  const current = clampInt(entry.scores.cooldownUntil, 0, Number.MAX_SAFE_INTEGER, 0);
+  entry.scores.cooldownUntil = Math.max(current, next);
+  entry.updatedAt = new Date().toISOString();
+  pruneNpcSocial(game);
+  return entry.scores.cooldownUntil;
+}
+
+function applyNpcAiRemoteCooldown(game, npc, durationMs = AI_NPC_REMOTE_COOLDOWN_MS) {
+  const duration = clampInt(durationMs, 0, 60 * 1000, AI_NPC_REMOTE_COOLDOWN_MS);
+  return setNpcSocialCooldownUntil(game, npc, Date.now() + duration);
 }
 
 function pruneNpcSocial(game) {

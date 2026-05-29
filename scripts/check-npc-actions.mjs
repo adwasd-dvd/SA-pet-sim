@@ -4386,6 +4386,37 @@ try {
   globalThis.fetch = originalFetch;
 }
 
+let aiCooldownGame = await api("/api/game/new", { name: "npc-ai-cooldown-test" });
+aiCooldownGame.location = { mapId: "1100", x: villageGirl.x - 1, y: villageGirl.y };
+aiCooldownGame = await api("/api/game/dialog", { game: aiCooldownGame, npcId: villageGirl.id, message: "AI对话" });
+let openAiCooldownCalls = 0;
+globalThis.fetch = async (request, init) => {
+  const url = typeof request === "string" ? request : request?.url || "";
+  if (String(url).includes("/v1/responses")) {
+    openAiCooldownCalls += 1;
+    return new Response(JSON.stringify({
+      output_text: JSON.stringify({
+        reply: "村子南边是商店，北边有长者和路口。",
+        intent: "chat",
+        action: { type: "none", text: "", seconds: 0, percent: 0, reason: "" },
+        confidence: 0.8
+      })
+    }), { status: 200, headers: { "content-type": "application/json" } });
+  }
+  return originalFetch(request, init);
+};
+try {
+  const openAiEnv = { ...env, OPENAI_API_KEY: "test-openai-key", OPENAI_MODEL: "gpt-cooldown-test" };
+  aiCooldownGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiCooldownGame, npcId: villageGirl.id, message: "先聊第一句" });
+  aiCooldownGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiCooldownGame, npcId: villageGirl.id, message: "再聊第二句" });
+  assertEqual(openAiCooldownCalls, 1, "different NPC AI prompts are rate-limited during cooldown instead of calling OpenAI repeatedly");
+  const cooldownReply = aiCooldownGame.dialog.messages.at(-1)?.text || "";
+  assert(cooldownReply.includes("缓口气"), "cooldown reply tells the player to wait briefly");
+  assert(aiCooldownGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "ai-npc-cooldown"), "cooldown block records a VM trace reason");
+} finally {
+  globalThis.fetch = originalFetch;
+}
+
 let aiProposalCacheGame = await api("/api/game/new", { name: "npc-ai-proposal-cache-boundary-test" });
 aiProposalCacheGame.location = { mapId: shopNpc.map.id, x: shopNpc.npc.x + 1, y: shopNpc.npc.y };
 aiProposalCacheGame = await api("/api/game/dialog", { game: aiProposalCacheGame, npcId: shopNpc.npc.id, message: "AI对话" });
@@ -4411,7 +4442,10 @@ try {
   assertNpcProposal(aiProposalCacheGame, "shopDiscount", "OpenAI shop discount");
   assert(!aiProposalCacheGame.aiNpcCache?.entries?.length, "OpenAI proposal reply is not cached as pure chat");
   aiProposalCacheGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiProposalCacheGame, npcId: shopNpc.npc.id, message: "今天聊聊柜台安排" });
-  assertEqual(openAiProposalCalls, 2, "repeat OpenAI proposal request is not served from pure-chat cache");
+  assertEqual(openAiProposalCalls, 1, "repeat OpenAI proposal request is rate-limited while proposal is still pending");
+  const proposalCooldownReply = aiProposalCacheGame.dialog.messages.at(-1)?.text || "";
+  assert(proposalCooldownReply.includes("同意") || proposalCooldownReply.includes("拒绝"), "proposal cooldown reply asks the player to confirm or decline first");
+  assert(aiProposalCacheGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "ai-npc-cooldown"), "proposal cooldown block records a VM trace reason");
 } finally {
   globalThis.fetch = originalFetch;
 }
@@ -4439,8 +4473,9 @@ try {
   const openAiEnv = { ...env, OPENAI_API_KEY: "test-openai-key", OPENAI_MODEL: "gpt-memory-cache-test" };
   aiMemoryCacheGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiMemoryCacheGame, npcId: villageGirl.id, message: "谢谢啦" });
   aiMemoryCacheGame = await apiWithEnv(openAiEnv, "/api/game/dialog", { game: aiMemoryCacheGame, npcId: villageGirl.id, message: "谢谢啦" });
-  assertEqual(openAiMemoryCalls, 2, "memory-writing NPC message is not served from pure-chat cache");
+  assertEqual(openAiMemoryCalls, 1, "memory-writing NPC message is rate-limited instead of repeatedly calling OpenAI");
   assert(!aiMemoryCacheGame.aiNpcCache?.entries?.length, "memory-writing NPC reply does not persist a pure-chat cache entry");
+  assert(aiMemoryCacheGame.dialog.debug.vmTrace.some((event) => event.detail?.reason === "ai-npc-cooldown"), "memory-writing cooldown block records a VM trace reason");
   assert(aiMemoryCacheGame.npcSocial?.npcs?.[villageGirl.id]?.memories?.some((memory) => memory.kind === "request"), "memory-writing NPC message stores social memory");
 } finally {
   globalThis.fetch = originalFetch;
