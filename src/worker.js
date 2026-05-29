@@ -7131,7 +7131,11 @@ function sourceBattleCriticalCheck(attacker, defender, options = {}) {
   const attackerLuck = attackerKind === "player"
     ? Math.max(0, firstFiniteNumber(0, attacker.WorkFixLuck, attacker.Luck, attacker.luck))
     : 0;
-  const attackerCriticalEquip = Math.max(0, Number(attacker.Critical || attacker.critical || 0));
+  // Source battle_event.c reads ITEM_CRITICAL from attacker weapon slot.
+  // Enemy/pet template Critical fields must not directly raise crit chance.
+  const attackerCriticalEquip = attackerKind === "player"
+    ? Math.max(0, Number(attacker.criticalEquip ?? attacker.WorkCriticalEquip ?? attacker.Critical ?? attacker.critical ?? 0))
+    : 0;
 
   let divpara = SOURCE_BATTLE_CRITICAL_PARA;
   let root = true;

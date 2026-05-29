@@ -1965,7 +1965,10 @@ async function goToNpc(npcId, options = {}) {
   const startToken = routeToken;
   const openWhenNear = Boolean(options.openWhenNear);
   const preferredTile = normalizeRoutePreference(options.preferredTile);
-  if (!await waitForAssistRouteStart("目标", startToken)) return;
+  if (!await waitForAssistRouteStart("目标", startToken)) {
+    addClientLog("自动前往没有开始：移动状态仍在处理中，请再点一次。");
+    return;
+  }
   if (startToken !== routeToken) return;
   if (isBattleOpen()) {
     addClientLog("战斗中无法和 NPC 对话。");
@@ -2018,7 +2021,10 @@ async function goToExit(exitId, options = {}) {
   }
   cancelActiveRoute({ clearKeys: true });
   const startToken = routeToken;
-  if (!await waitForAssistRouteStart(options.targetName || "出口", startToken)) return;
+  if (!await waitForAssistRouteStart(options.targetName || "出口", startToken)) {
+    addClientLog(`自动前往 ${options.targetName || "出口"} 没有开始：移动状态仍在处理中，请再点一次。`);
+    return;
+  }
   if (startToken !== routeToken) return;
   if (isBattleOpen()) {
     addClientLog("战斗中无法移动到出口。");
@@ -7793,6 +7799,24 @@ function nearbyText() {
 }
 
 async function api(path, body) {
+  const maxAttempts = apiRetryMaxAttempts(path);
+  let attempt = 0;
+  let lastError = null;
+  while (attempt < maxAttempts) {
+    attempt += 1;
+    try {
+      return await apiOnce(path, body);
+    } catch (error) {
+      lastError = error;
+      if (attempt >= maxAttempts || !apiShouldRetry(path, error)) throw error;
+      if (isAssistRouteApi(path)) addClientLog("自动前往请求超时，正在自动重试一次。");
+      await wait(120);
+    }
+  }
+  throw lastError || new Error("request failed");
+}
+
+async function apiOnce(path, body) {
   const timeoutMs = apiTimeoutMs(path);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -7818,6 +7842,23 @@ async function api(path, body) {
   }
   if (!rsp.ok) throw new Error(data.error || "request failed");
   return data;
+}
+
+function isAssistRouteApi(path = "") {
+  const endpoint = String(path || "");
+  return endpoint.startsWith("/api/game/route") || endpoint.startsWith("/api/game/walk");
+}
+
+function apiRetryMaxAttempts(path = "") {
+  return isAssistRouteApi(path) ? 2 : 1;
+}
+
+function apiShouldRetry(path = "", error = null) {
+  if (!isAssistRouteApi(path)) return false;
+  const message = String(error?.message || "");
+  if (message.startsWith("请求超时：")) return true;
+  if (/network|fetch|failed to fetch/i.test(message)) return true;
+  return false;
 }
 
 function apiTimeoutMs(path = "") {

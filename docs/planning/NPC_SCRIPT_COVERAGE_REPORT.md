@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-22T02:18:12.648Z
+Generated: 2026-05-27T20:56:29.300Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 

@@ -3065,7 +3065,14 @@ const itemBattleHpBefore = Number(npcItemBattleGame.pets[0].Hp || 0);
 npcItemBattleGame = await api("/api/game/dialog", { game: npcItemBattleGame, npcId: battleNpc.npc.id, message: "道具" });
 assert(inventoryQty(npcItemBattleGame, 990001) === 0, "NPC battle item consumes recovery item");
 assert(npcItemBattleGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("使用 小的肉")), "NPC battle item replies with item battle log");
-assert(npcItemBattleGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "item" && event.detail?.outcome?.itemUse?.itemName === "小的肉"), "NPC battle item records item outcome through VM");
+assert(
+  npcItemBattleGame.dialog.debug.vmTrace.some(
+    (event) => event.action === "battleAction"
+      && event.status === "ok"
+      && event.detail?.outcome?.itemUse?.itemName === "小的肉"
+  ),
+  "NPC battle item records item outcome through VM"
+);
 let selectedItemBattleGame = await api("/api/game/new", { name: "selected-item-battle-test" });
 selectedItemBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 selectedItemBattleGame = await api("/api/game/dialog", { game: selectedItemBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -3248,13 +3255,16 @@ assert(battlePetSwitchGame.battleOutcome.log.some((line) => line.includes("后�
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "换宠" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "NPC dialog battleAction can switch to the next available pet");
 assert(battlePetSwitchGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "pet-switch"), "NPC dialog pet switch records battleAction VM trace");
-battlePetSwitchGame.player.hp = 999;
-battlePetSwitchGame.player.maxHp = 999;
-battlePetSwitchGame.player.WorkMaxHp = 999;
+battlePetSwitchGame.player.hp = 5000;
+battlePetSwitchGame.player.maxHp = 5000;
+battlePetSwitchGame.player.WorkMaxHp = 5000;
 battlePetSwitchGame.player.WorkAttackPower = 250;
-battlePetSwitchGame.player.WorkDefencePower = 250;
+battlePetSwitchGame.player.WorkDefencePower = 500;
 battlePetSwitchGame.player.WorkQuick = 250;
 battlePetSwitchGame.encounter.WorkAttackPower = 0;
+battlePetSwitchGame.encounter.WorkFixStr = 0;
+battlePetSwitchGame.encounter.Attack = 0;
+battlePetSwitchGame.encounter.Str = 0;
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|-1" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, -1, "source S|-1 pet command withdraws active pet");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETIN", "source S|-1 maps to PETIN");
@@ -3847,6 +3857,47 @@ assertEqual(sourceCriticalChanceGame.battleOutcome.result, "turn", "source criti
 assert(
   !sourceCriticalChanceGame.battleOutcome.log.some((line) => line.includes("会心")),
   "enemy low critical chance no longer applies a forced 2% critical floor"
+);
+
+let sourceEnemyTemplateCriticalGame = await api("/api/game/new", { name: "source-enemy-template-critical-battle-test" });
+sourceEnemyTemplateCriticalGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceEnemyTemplateCriticalGame = await api("/api/game/encounter", { game: sourceEnemyTemplateCriticalGame });
+sourceEnemyTemplateCriticalGame.petFormation = { activeIndex: -1 };
+Object.assign(sourceEnemyTemplateCriticalGame.player, {
+  WorkFixDex: 10,
+  WorkQuick: 10,
+  WorkFixLuck: 0,
+  Luck: 0,
+  Hp: 5000,
+  WorkMaxHp: 5000
+});
+Object.assign(sourceEnemyTemplateCriticalGame.encounter, {
+  Hp: 600,
+  WorkMaxHp: 600,
+  WorkAttackPower: 40,
+  WorkFixStr: 40,
+  WorkDefencePower: 30,
+  WorkFixTough: 30,
+  WorkFixDex: 100,
+  WorkQuick: 100,
+  Critical: 100,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceEnemyTemplateCriticalGame.battle.enemyParty = [sourceEnemyTemplateCriticalGame.encounter];
+sourceEnemyTemplateCriticalGame.battle.activeEnemyIndex = 0;
+const originalRandomForEnemyTemplateCritical = Math.random;
+try {
+  Math.random = () => 0.5;
+  sourceEnemyTemplateCriticalGame = await api("/api/game/battle", { game: sourceEnemyTemplateCriticalGame, action: "防御" });
+} finally {
+  Math.random = originalRandomForEnemyTemplateCritical;
+}
+assertEqual(sourceEnemyTemplateCriticalGame.battleOutcome.result, "turn", "enemy template critical test keeps battle active");
+assert(
+  !sourceEnemyTemplateCriticalGame.battleOutcome.log.some((line) => line.includes("会心")),
+  "enemy template Critical field does not directly inflate source critical checks"
 );
 
 let sourceCriticalRatioGame = await api("/api/game/new", { name: "source-critical-ratio-battle-test" });

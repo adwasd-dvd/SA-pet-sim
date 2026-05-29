@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:18:12.648Z",
+  "generatedAt": "2026-05-27T20:56:29.300Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
