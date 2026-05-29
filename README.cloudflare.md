@@ -17,6 +17,52 @@ npm run dev
 
 打开 Wrangler 输出的本地地址即可测试。
 
+## 构建、检查和部署顺序
+
+平时只改 Worker、前端或文档时，先跑完整检查，再部署：
+
+```bash
+npm run check
+npm run deploy
+```
+
+改过 `external/sources/`、`gmsv-data`、`ref___data`、NPC、地图、道具、宠物或遇敌源数据时，先重新生成世界数据，再检查：
+
+```bash
+npm run build:world
+npm run check:resources
+npm run check
+```
+
+改过 classic-core 白名单、资源裁剪 profile 或纹理包计划时，先刷新 profile 产物，再检查：
+
+```bash
+npm run build:world:classic-core
+npm run profile:assets:classic-core
+npm run check:resources
+npm run check
+```
+
+本地 shell 找不到全局 `wrangler` 时，用项目依赖运行 Cloudflare CLI：
+
+```bash
+npx wrangler deploy
+```
+
+`npm run deploy` 和 `npm run dev` 默认使用 `node_modules/.bin/wrangler`。不要把外部源码、密钥或临时导出目录提交到 git。
+
+## 部署前烟测
+
+部署前至少覆盖下面的轻量流程，避免资源、路由、PWA cache 或 NPC VM 回归：
+
+- 打开 `npm run dev` 输出的本地地址，创建或同步角色，确认初始区域或可达路径上的 `floor 1000` 地图正常显示。
+- 检查地图真实贴图、地图外黑底、对象遮挡和 NPC 精灵渲染，不应出现缺图占位纹理或异常黑屏。
+- 用 WASD 或方向键移动，确认正常移动、撞墙转向、出口/warp、遇敌条件和日志反馈正常。
+- 双击 NPC 打开对话，确认原版风格窗口出现，`对话` 不泄露完整脚本，交易/治疗/存档/战斗类状态变化仍由 Worker deterministic NPC VM 校验。
+- 试一次自动前往或任务路线按钮，确认能走到目标，失败时给出明确阻塞原因。
+- 如果改过 `public/assets/app.js`、`public/sw.js`、PWA manifest、静态数据或 cache 名称，部署后强制刷新页面，并确认 service worker cache 没有继续使用旧 bundle。
+- 保存/同步后刷新页面，确认当前位置、背包、宠物、任务、存档点和战斗状态没有丢失。
+
 ## 部署
 
 ```bash

@@ -23,6 +23,8 @@ npm run check:resources
 npm run dev
 ```
 
+部署前请按 [README.cloudflare.md](README.cloudflare.md) 的构建顺序和烟测清单检查 `floor 1000` 地图、NPC 渲染、对话打开、移动/自动前往、保存同步和 service worker cache 版本。
+
 ## Transfer To Another Computer
 
 See [docs/MIGRATION.md](docs/MIGRATION.md).
