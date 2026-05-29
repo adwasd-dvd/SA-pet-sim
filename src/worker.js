@@ -1816,7 +1816,8 @@ function isStoneOnlyTradePointSource(npc) {
   const sources = [
     npc?.trade?.source,
     npc?.script,
-    npc?.source
+    npc?.source,
+    npc?.scriptHints?.source
   ].map(normalizedTradeSource);
   const normalized = sources.map((source) => String(source || "").toLowerCase());
   const looseMatch = normalized.some((source) => {

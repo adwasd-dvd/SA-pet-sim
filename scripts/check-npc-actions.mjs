@@ -2588,6 +2588,31 @@ try {
 }
 const pkStoneOnlyMarkerBefore = pkStoneOnlyShop.npc.trade.stoneOnlyPointCost;
 const pkStoneOnlyUnknownSourceBefore = pkStoneOnlyShop.npc.trade.source;
+const pkStoneOnlyUnknownScriptBefore = pkStoneOnlyShop.npc.script;
+const pkStoneOnlyUnknownNpcSourceBefore = pkStoneOnlyShop.npc.source;
+const pkStoneOnlyHintSourceBefore = pkStoneOnlyShop.npc.scriptHints?.source;
+pkStoneOnlyShop.npc.trade.source = "gmsv-data/npc/custom/unknown_shop_source";
+pkStoneOnlyShop.npc.script = "file:custom/unknown_shop_script";
+pkStoneOnlyShop.npc.source = "gmsv-data/npc/custom/unknown_shop_create";
+pkStoneOnlyShop.npc.scriptHints ||= {};
+pkStoneOnlyShop.npc.scriptHints.source = "gmsv-data/npc/scipt_plus/test2nd/c_can_mm";
+pkStoneOnlyShop.npc.trade.stoneOnlyPointCost = false;
+try {
+  let pkStoneOnlyHintSourceGame = await api("/api/game/new", { name: "shop-pk-stone-only-script-hint-test" });
+  pkStoneOnlyHintSourceGame.location = { mapId: pkStoneOnlyShop.map.id, x: pkStoneOnlyShop.npc.x + 1, y: pkStoneOnlyShop.npc.y };
+  pkStoneOnlyHintSourceGame.player.stone = Number(pkStoneOnlyItem.price || pkStoneOnlyItem.cost || 0) + 456;
+  pkStoneOnlyHintSourceGame.player.amPoint = 0;
+  pkStoneOnlyHintSourceGame = await api("/api/game/talk", { game: pkStoneOnlyHintSourceGame, npcId: pkStoneOnlyShop.npc.id });
+  assert(
+    pkStoneOnlyHintSourceGame.dialog.trade.items.every((item) => Number(item.costPoint || 0) === 0 && item.pointAffordable !== false),
+    "stone-only PK merchant stays stone-priced when runtime falls back to scriptHints.source"
+  );
+} finally {
+  pkStoneOnlyShop.npc.trade.source = pkStoneOnlyUnknownSourceBefore;
+  pkStoneOnlyShop.npc.script = pkStoneOnlyUnknownScriptBefore;
+  pkStoneOnlyShop.npc.source = pkStoneOnlyUnknownNpcSourceBefore;
+  if (pkStoneOnlyShop.npc.scriptHints) pkStoneOnlyShop.npc.scriptHints.source = pkStoneOnlyHintSourceBefore;
+}
 pkStoneOnlyShop.npc.trade.source = "gmsv-data/npc/custom/unknown_shop_source";
 pkStoneOnlyShop.npc.trade.stoneOnlyPointCost = true;
 try {
