@@ -3122,6 +3122,50 @@ assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.id, 10, "pe
 assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.hitCount, 2, "pet skill telemetry records option-derived hit count");
 assert(Number(petSkillBattleGame.encounter?.Hp || 0) < skillTargetHpBefore, "pet skill damages the active battle target");
 assert(petSkillBattleGame.battleOutcome.log.some((line) => line.includes("连续攻击")), "pet skill battle log names the source skill");
+let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
+blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+blockedPetSkillGame.pets[0].PetSkillIds = [10];
+blockedPetSkillGame.pets[0].PetSkills = [{
+  Id: 10,
+  Name: "连续攻击",
+  Des: "两次连续攻击",
+  FuncName: "PETSKILL_ContinuationAttack",
+  Option: "2",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+blockedPetSkillGame.pets[0].WorkFixStr = 999;
+blockedPetSkillGame.pets[0].WorkAttackPower = 999;
+blockedPetSkillGame.pets[0].WorkQuick = 999;
+blockedPetSkillGame.pets[0].WorkFixDex = 999;
+blockedPetSkillGame.pets[0].BattleStatuses = {
+  sleep: { key: "sleep", label: "睡眠", turns: 1 }
+};
+blockedPetSkillGame.encounter.WorkMaxHp = 999;
+blockedPetSkillGame.encounter.Hp = 999;
+blockedPetSkillGame.encounter.WorkFixTough = 1;
+blockedPetSkillGame.encounter.WorkDefencePower = 1;
+blockedPetSkillGame.encounter.WorkQuick = 0;
+blockedPetSkillGame.encounter.WorkFixDex = 0;
+blockedPetSkillGame.encounter.WorkAttackPower = 1;
+Object.assign(blockedPetSkillGame.battle?.enemyParty?.[0] || {}, {
+  WorkMaxHp: blockedPetSkillGame.encounter.WorkMaxHp,
+  Hp: blockedPetSkillGame.encounter.Hp,
+  WorkFixTough: blockedPetSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: blockedPetSkillGame.encounter.WorkDefencePower,
+  WorkQuick: blockedPetSkillGame.encounter.WorkQuick,
+  WorkFixDex: blockedPetSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: blockedPetSkillGame.encounter.WorkAttackPower
+});
+const blockedPetSkillEnemyHpBefore = Number(blockedPetSkillGame.encounter.Hp || 0);
+blockedPetSkillGame = await api("/api/game/battle", { game: blockedPetSkillGame, action: "skill:0" });
+assertEqual(blockedPetSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_RENZOKU", "blocked pet skill still records source command telemetry");
+assertEqual(Number(blockedPetSkillGame.encounter?.Hp || 0), blockedPetSkillEnemyHpBefore, "sleep blocks pet skill damage before the pet turn");
+assert(!blockedPetSkillGame.pets[0].BattleStatuses?.sleep, "sleep turn is consumed when it blocks pet skill action");
+assert(blockedPetSkillGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked pet skill writes source-style status log");
 let petStatusSkillGame = await api("/api/game/new", { name: "pet-status-skill-test" });
 petStatusSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 petStatusSkillGame = await api("/api/game/dialog", { game: petStatusSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -3213,8 +3257,22 @@ petMagicStatusGame.encounter.WorkQuick = 0;
 petMagicStatusGame.encounter.WorkFixDex = 0;
 petMagicStatusGame.encounter.Hp = Math.max(999, Number(petMagicStatusGame.encounter.Hp || 0));
 petMagicStatusGame.encounter.WorkMaxHp = Math.max(999, Number(petMagicStatusGame.encounter.WorkMaxHp || 0));
-petMagicStatusGame.encounter.WorkAttackPower = 40;
+petMagicStatusGame.encounter.WorkAttackPower = 0;
+petMagicStatusGame.encounter.WorkFixStr = 0;
+petMagicStatusGame.encounter.Attack = 0;
+petMagicStatusGame.encounter.Str = 0;
 petMagicStatusGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
+Object.assign(petMagicStatusGame.battle?.enemyParty?.[0] || {}, {
+  WorkQuick: petMagicStatusGame.encounter.WorkQuick,
+  WorkFixDex: petMagicStatusGame.encounter.WorkFixDex,
+  Hp: petMagicStatusGame.encounter.Hp,
+  WorkMaxHp: petMagicStatusGame.encounter.WorkMaxHp,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0,
+  WorkTacticsOption: petMagicStatusGame.encounter.WorkTacticsOption
+});
 petMagicStatusGame = await api("/api/game/battle", { game: petMagicStatusGame, action: "skill:0" });
 const magicStatusTelemetry = petMagicStatusGame.battleOutcome.playerAction?.petSkill?.magicStatus;
 const activeMagicPetIndex = Math.max(0, Number(petMagicStatusGame.petState?.activeIndex || 0));
@@ -3265,6 +3323,14 @@ battlePetSwitchGame.encounter.WorkAttackPower = 0;
 battlePetSwitchGame.encounter.WorkFixStr = 0;
 battlePetSwitchGame.encounter.Attack = 0;
 battlePetSwitchGame.encounter.Str = 0;
+Object.assign(battlePetSwitchGame.battle?.enemyParty?.[0] || {}, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0"
+});
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|-1" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, -1, "source S|-1 pet command withdraws active pet");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETIN", "source S|-1 maps to PETIN");
@@ -3282,6 +3348,18 @@ battlePetSwitchGame.pets[0].WorkMaxHp = Math.max(5000, Number(battlePetSwitchGam
 battlePetSwitchGame.pets[0].Hp = battlePetSwitchGame.pets[0].WorkMaxHp;
 battlePetSwitchGame.pets[0].WorkFixTough = Math.max(500, Number(battlePetSwitchGame.pets[0].WorkFixTough || 0));
 battlePetSwitchGame.pets[0].WorkDefencePower = Math.max(500, Number(battlePetSwitchGame.pets[0].WorkDefencePower || 0));
+battlePetSwitchGame.encounter.WorkAttackPower = 0;
+battlePetSwitchGame.encounter.WorkFixStr = 0;
+battlePetSwitchGame.encounter.Attack = 0;
+battlePetSwitchGame.encounter.Str = 0;
+Object.assign(battlePetSwitchGame.battle?.enemyParty?.[0] || {}, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0"
+});
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "pet:0" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "PETOUT can send a pet back out from player-alone state");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "player-alone pet out maps back to PETOUT");

@@ -5078,11 +5078,14 @@ function performPetSkillAction(game, move) {
   game.battle.mode = "resolving";
 
   const petTurn = () => {
+    const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+    if (preTurn.stopped || Number(activePet.Hp || 0) <= 0) return false;
     if (profile.kind === "magic-status") {
       resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog);
-      return;
+      return true;
     }
     resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
+    return true;
   };
   const enemyTurn = (guarded = false) => {
     const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded);
@@ -5091,11 +5094,21 @@ function performPetSkillAction(game, move) {
   };
 
   if (profile.kind === "guard") {
-    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，采取防御姿势。`);
-    enemyTurn(true);
+    const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+    if (Number(activePet.Hp || 0) <= 0) {
+      // Poison-style pre-turn status can defeat the pet before the command resolves.
+    } else if (preTurn.stopped) {
+      enemyTurn(false);
+    } else {
+      battleLog.push(`${activePet.Name} 使用 ${skill.Name}，采取防御姿势。`);
+      enemyTurn(true);
+    }
   } else if (profile.kind === "wait") {
-    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，等待时机。`);
-    enemyTurn(false);
+    const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+    if (!preTurn.stopped && Number(activePet.Hp || 0) > 0) {
+      battleLog.push(`${activePet.Name} 使用 ${skill.Name}，等待时机。`);
+    }
+    if (Number(activePet.Hp || 0) > 0) enemyTurn(false);
   } else if (petFirst) {
     petTurn();
     if (enemy.Hp > 0) enemyTurn(false);
