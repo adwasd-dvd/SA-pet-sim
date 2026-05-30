@@ -3337,6 +3337,42 @@ assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.command, "S|1", "bat
 assert(!battlePetSwitchGame.pets[0].BattleMagicStatuses?.superWall, "switching out clears old active pet battle-only magic status");
 assert(battlePetSwitchGame.encounter, "battle pet switch keeps battle active after the enemy response");
 assert(battlePetSwitchGame.battleOutcome.log.some((line) => line.includes("后备出战奥卡洛斯") && line.includes("出战")), "battle pet switch writes source-style battle log");
+let blockedPetSwitchGame = await api("/api/game/new", { name: "pet-switch-status-blocked-test" });
+blockedPetSwitchGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+blockedPetSwitchGame = await api("/api/game/dialog", { game: blockedPetSwitchGame, npcId: battleNpc.npc.id, message: "宠物" });
+blockedPetSwitchGame.pets[0].BattleMagicStatuses = {
+  superWall: { key: "superWall", label: "铁壁", turns: 2, percent: 30 }
+};
+blockedPetSwitchGame.pets.push({
+  ...blockedPetSwitchGame.pets[0],
+  Name: "睡眠阻止换宠后备",
+  PetId: Number(blockedPetSwitchGame.pets[0].PetId || 100) + 40,
+  Lv: 4,
+  Hp: 5000,
+  WorkMaxHp: 5000
+});
+blockedPetSwitchGame.player.BattleStatuses = {
+  sleep: { key: "sleep", label: "睡眠", turns: 1 }
+};
+blockedPetSwitchGame.encounter.WorkAttackPower = 0;
+blockedPetSwitchGame.encounter.WorkFixStr = 0;
+blockedPetSwitchGame.encounter.Attack = 0;
+blockedPetSwitchGame.encounter.Str = 0;
+Object.assign(blockedPetSwitchGame.battle?.enemyParty?.[0] || {}, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0"
+});
+blockedPetSwitchGame = await api("/api/game/battle", { game: blockedPetSwitchGame, action: "S|1" });
+assertEqual(blockedPetSwitchGame.battleOutcome.result, "pet-switch-blocked", "sleep blocks source S pet switch before PETOUT/PETIN mutation");
+assertEqual(blockedPetSwitchGame.petState.activeIndex, 0, "blocked source S command keeps the active pet unchanged");
+assertEqual(blockedPetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "blocked pet switch still records source S telemetry");
+assert(blockedPetSwitchGame.pets[0].BattleMagicStatuses?.superWall, "blocked pet switch does not clear old active pet battle-only magic status");
+assert(!blockedPetSwitchGame.player.BattleStatuses?.sleep, "player sleep turn is consumed when it blocks pet switch");
+assert(blockedPetSwitchGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked pet switch writes source-style status log");
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "换宠" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "NPC dialog battleAction can switch to the next available pet");
 assert(battlePetSwitchGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "pet-switch"), "NPC dialog pet switch records battleAction VM trace");

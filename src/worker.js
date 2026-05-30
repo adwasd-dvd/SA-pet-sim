@@ -4830,23 +4830,39 @@ function performPetSwitchBattleAction(game, move) {
   const currentIndex = getActivePetIndex(game);
   const targetIndex = chooseBattleSwitchPetIndex(game, move.petIndex, currentIndex);
   if (targetIndex === currentIndex) throw new Error("这只宠物已经在战斗中");
+  const nextPet = targetIndex >= 0 ? game.pets[targetIndex] : null;
+  if (targetIndex >= 0 && !nextPet) throw new Error("没有找到要出战的宠物");
+  if (targetIndex < 0 && !currentPet) throw new Error("当前没有出战宠物可收回");
+
+  const enemy = game.encounter;
+  const sourceCommand = sourcePetSwitchCommand(targetIndex);
+  const playerAction = sourcePlayerPetSwitchAction(sourceCommand, currentPet, nextPet, currentIndex, targetIndex);
+  const preTurnLog = [];
+  const preTurn = consumeBattleStatusBeforeTurn(game.player, preTurnLog);
+  game.battle.sourceCommand = sourceCommand;
+  game.battle.playerAction = playerAction;
+  game.battle.mode = "resolving";
+  if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
+    if (Number(enemy.Hp || 0) > 0) {
+      resolveEnemyCounterAfterPlayerCommand(game, enemy, currentActor, preTurnLog, "趁机反击");
+    }
+    return settleBattleRound(game, currentActor, enemy, {
+      battleLog: preTurnLog,
+      result: "pet-switch-blocked",
+      sourceCommand,
+      playerAction
+    });
+  }
 
   if (targetIndex < 0) {
-    if (!currentPet) throw new Error("当前没有出战宠物可收回");
     clearBattleRuntimeEffects(currentPet);
     ensurePetFormation(game).activeIndex = -1;
     const activeActor = game.player;
     ensureBattleState(game, activeActor, game.encounter);
-    const enemy = game.encounter;
-    const sourceCommand = sourcePetSwitchCommand(-1);
     const enemyAi = chooseEnemyBattleMove(game, enemy, activeActor);
-    const playerAction = sourcePlayerPetSwitchAction(sourceCommand, currentPet, null, currentIndex, -1);
     const battleLog = [`${currentPet.Name} 回到队伍后方，${battleActorName(game, activeActor)} 独自应战。`];
     let enemyEscaped = false;
-    game.battle.sourceCommand = sourceCommand;
-    game.battle.playerAction = playerAction;
     game.battle.enemyAi = enemyAi;
-    game.battle.mode = "resolving";
     if (enemy.Hp > 0) {
       enemyEscaped = resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, battleLog, false);
     }
@@ -4860,8 +4876,6 @@ function performPetSwitchBattleAction(game, move) {
     });
   }
 
-  const nextPet = game.pets[targetIndex];
-  if (!nextPet) throw new Error("没有找到要出战的宠物");
   if (Number(nextPet.Hp ?? nextPet.WorkMaxHp ?? 0) <= 0) {
     throw new Error(`${nextPet.Name || "这只宠物"} 已经倒下，不能在战斗中出战`);
   }
@@ -4870,16 +4884,10 @@ function performPetSwitchBattleAction(game, move) {
   ensurePetFormation(game).activeIndex = targetIndex;
   ensureBattleState(game, nextPet, game.encounter);
 
-  const enemy = game.encounter;
-  const sourceCommand = sourcePetSwitchCommand(targetIndex);
   const enemyAi = chooseEnemyBattleMove(game, enemy, nextPet);
-  const playerAction = sourcePlayerPetSwitchAction(sourceCommand, currentPet, nextPet, currentIndex, targetIndex);
   const battleLog = [currentPet ? `${currentPet.Name} 退下，${nextPet.Name} 出战。` : `${nextPet.Name} 出战。`];
   let enemyEscaped = false;
-  game.battle.sourceCommand = sourceCommand;
-  game.battle.playerAction = playerAction;
   game.battle.enemyAi = enemyAi;
-  game.battle.mode = "resolving";
   if (enemy.Hp > 0) {
     enemyEscaped = resolveEnemyBattleTurn(game, enemy, nextPet, enemyAi, playerAction, battleLog, false);
   }
