@@ -4683,6 +4683,8 @@ function performBattleAction(game, action) {
   game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
   const actorTurn = (actor) => {
+    const preTurn = consumeBattleStatusBeforeTurn(actor, battleLog);
+    if (preTurn.stopped || battleActorHp(game, actor) <= 0) return;
     const turnActorName = battleActorName(game, actor);
     let hit = combatNormalAttackDetail(actor, enemy, {
       attackerKind: battleActorKind(game, actor),
@@ -4713,11 +4715,21 @@ function performBattleAction(game, action) {
   };
 
   if (move.type === "guard") {
-    battleLog.push(`${actorName} 采取防御姿势。`);
-    enemyTurn(true);
+    const preTurn = consumeBattleStatusBeforeTurn(activeActor, battleLog);
+    if (battleActorHp(game, activeActor) <= 0) {
+      // Poison-style pre-turn status can defeat the actor before the command resolves.
+    } else if (preTurn.stopped) {
+      enemyTurn(false);
+    } else {
+      battleLog.push(`${actorName} 采取防御姿势。`);
+      enemyTurn(true);
+    }
   } else if (move.type === "wait") {
-    battleLog.push(`${actorName} 等待时机。`);
-    enemyTurn(false);
+    const preTurn = consumeBattleStatusBeforeTurn(activeActor, battleLog);
+    if (!preTurn.stopped && battleActorHp(game, activeActor) > 0) {
+      battleLog.push(`${actorName} 等待时机。`);
+    }
+    if (battleActorHp(game, activeActor) > 0) enemyTurn(false);
   } else {
     const turnOrder = [
       { type: "ally", actor: activeActor, quick: workQuick(activeActor) },
@@ -5354,6 +5366,7 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     battleLog.push(`${enemy.Name} 试图逃跑，但是失败了。`);
     return false;
   }
+  if (!sourceEnemyTargetCandidates(game).length) return false;
   const targetActor = enemyBattleTargetActor(game, enemyAi, activeActor);
   const targetGuarded = guarded && targetActor === activeActor;
   let hit = combatNormalAttackDetail(enemy, targetActor, {
@@ -5485,6 +5498,7 @@ function applyBattleMagicStatus(target, status, skill = {}) {
 
 function consumeBattleStatusBeforeTurn(target, battleLog = []) {
   const statuses = target?.BattleStatuses || {};
+  const targetName = target?.Name || target?.name || "角色";
   const blocked = [];
   for (const key of Object.keys(statuses)) {
     const status = statuses[key];
@@ -5498,7 +5512,7 @@ function consumeBattleStatusBeforeTurn(target, battleLog = []) {
       const ratio = key === "poison" ? 0.05 : 0.08;
       const damage = Math.max(1, Math.floor(maxHp * ratio));
       target.Hp = Math.max(0, Number(target.Hp || 0) - damage);
-      battleLog.push(`${target.Name} 受到${status.label || "异常"}影响，损失 ${damage} 耐久。`);
+      battleLog.push(`${targetName} 受到${status.label || "异常"}影响，损失 ${damage} 耐久。`);
     }
     if (BATTLE_STATUS_BLOCKS_TURN.has(key) && Number(target.Hp || 0) > 0) {
       blocked.push(status.label || key);
@@ -5508,7 +5522,7 @@ function consumeBattleStatusBeforeTurn(target, battleLog = []) {
     else delete statuses[key];
   }
   if (blocked.length && Number(target.Hp || 0) > 0) {
-    battleLog.push(`${target.Name} 因${blocked.join("/")}无法行动。`);
+    battleLog.push(`${targetName} 因${blocked.join("/")}无法行动。`);
   }
   syncBattlePrimaryStatus(target);
   return { stopped: Boolean(blocked.length), source: "gmsv battle_event.c status pre-turn handling" };

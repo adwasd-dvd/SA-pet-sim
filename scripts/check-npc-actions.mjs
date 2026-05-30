@@ -4023,6 +4023,40 @@ assert(
   "source duck check disables dodge when defender is under turn-blocking status"
 );
 
+let sourceAllyBlockedStatusGame = await api("/api/game/new", { name: "source-ally-blocked-status-battle-test" });
+sourceAllyBlockedStatusGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceAllyBlockedStatusGame = await api("/api/game/encounter", { game: sourceAllyBlockedStatusGame });
+sourceAllyBlockedStatusGame.petFormation = { activeIndex: -1 };
+Object.assign(sourceAllyBlockedStatusGame.player, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 999,
+  WorkFixStr: 999,
+  WorkQuick: 900,
+  WorkFixDex: 900,
+  BattleStatuses: {
+    sleep: { key: "sleep", label: "睡眠", turns: 2 }
+  }
+});
+Object.assign(sourceAllyBlockedStatusGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceAllyBlockedStatusGame.battle.enemyParty = [sourceAllyBlockedStatusGame.encounter];
+sourceAllyBlockedStatusGame.battle.activeEnemyIndex = 0;
+const allyBlockedEnemyHpBefore = Number(sourceAllyBlockedStatusGame.encounter.Hp || 0);
+sourceAllyBlockedStatusGame = await api("/api/game/battle", { game: sourceAllyBlockedStatusGame, action: "攻击" });
+assertEqual(Number(sourceAllyBlockedStatusGame.encounter.Hp || 0), allyBlockedEnemyHpBefore, "source turn-block status prevents player-side attack before damage");
+assert(sourceAllyBlockedStatusGame.battleOutcome.log.some((line) => line.includes("无法行动")), "source turn-block status logs blocked player-side action");
+assertEqual(sourceAllyBlockedStatusGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ATTACK", "blocked player-side attack keeps source attack command telemetry");
+
 let enemyGuardAiGame = await api("/api/game/new", { name: "enemy-ai-guard-test" });
 enemyGuardAiGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 enemyGuardAiGame = await api("/api/game/encounter", { game: enemyGuardAiGame });
