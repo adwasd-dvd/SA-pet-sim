@@ -3088,6 +3088,33 @@ selectedItemBattleGame = await api("/api/game/battle", { game: selectedItemBattl
 assert(inventoryQty(selectedItemBattleGame, 990002) === 1, "selected battle item leaves unselected item untouched");
 assert(inventoryQty(selectedItemBattleGame, 990003) === 0, "selected battle item consumes requested item id");
 assert(selectedItemBattleGame.battleOutcome?.itemUse?.itemName === "大的肉", "selected battle item outcome records requested item");
+let blockedItemBattleGame = await api("/api/game/new", { name: "battle-item-status-blocked-test" });
+blockedItemBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+blockedItemBattleGame = await api("/api/game/dialog", { game: blockedItemBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
+blockedItemBattleGame.inventory.push({ id: 990004, name: "大的肉", qty: 1, description: "回复耐久力 65", source: "test itemset6 recovery" });
+blockedItemBattleGame.pets[0].WorkMaxHp = Math.max(120, Number(blockedItemBattleGame.pets[0].WorkMaxHp || blockedItemBattleGame.pets[0].Hp || 1));
+blockedItemBattleGame.pets[0].Hp = Math.max(1, blockedItemBattleGame.pets[0].WorkMaxHp - 80);
+blockedItemBattleGame.player.BattleStatuses = {
+  sleep: { key: "sleep", label: "睡眠", turns: 1 }
+};
+Object.assign(blockedItemBattleGame.encounter, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0
+});
+Object.assign(blockedItemBattleGame.battle?.enemyParty?.[0] || {}, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0
+});
+const blockedItemPetHpBefore = Number(blockedItemBattleGame.pets[0].Hp || 0);
+blockedItemBattleGame = await api("/api/game/battle", { game: blockedItemBattleGame, action: "item:990004" });
+assertEqual(blockedItemBattleGame.battleOutcome.result, "item-blocked", "sleep blocks source I item command before use");
+assertEqual(inventoryQty(blockedItemBattleGame, 990004), 1, "blocked battle item command does not consume the item");
+assert(Number(blockedItemBattleGame.pets[0].Hp || 0) <= blockedItemPetHpBefore, "blocked battle item command does not heal before status resolves");
+assert(blockedItemBattleGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked battle item command writes status log");
 let petSkillBattleGame = await api("/api/game/new", { name: "pet-skill-battle-test" });
 petSkillBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 petSkillBattleGame = await api("/api/game/dialog", { game: petSkillBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -3387,6 +3414,32 @@ assert(!npcCaptureGame.encounter, "NPC battle capture clears encounter on succes
 assertEqual(npcCaptureGame.pets.length, petsBeforeCapture + 1, "NPC battle capture adds pet");
 assert(npcCaptureGame.dialog.messages.some((message) => message.speaker === "npc" && message.text.includes("捕获成功")), "NPC battle capture replies with success");
 assert(npcCaptureGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "captured"), "NPC battle capture records captured outcome");
+let blockedCaptureGame = await api("/api/game/new", { name: "battle-capture-status-blocked-test" });
+blockedCaptureGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+blockedCaptureGame = await api("/api/game/dialog", { game: blockedCaptureGame, npcId: battleNpc.npc.id, message: "宠物" });
+const blockedCapturePetsBefore = blockedCaptureGame.pets.length;
+blockedCaptureGame.encounter.CaptureRate = 100;
+blockedCaptureGame.player.BattleStatuses = {
+  sleep: { key: "sleep", label: "睡眠", turns: 1 }
+};
+Object.assign(blockedCaptureGame.encounter, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0
+});
+Object.assign(blockedCaptureGame.battle?.enemyParty?.[0] || {}, {
+  CaptureRate: blockedCaptureGame.encounter.CaptureRate,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0
+});
+blockedCaptureGame = await api("/api/game/battle", { game: blockedCaptureGame, action: "capture" });
+assertEqual(blockedCaptureGame.battleOutcome.result, "capture-blocked", "sleep blocks source T capture command before capture roll");
+assert(blockedCaptureGame.encounter, "blocked capture keeps the battle target active");
+assertEqual(blockedCaptureGame.pets.length, blockedCapturePetsBefore, "blocked capture does not add a pet");
+assert(blockedCaptureGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked capture command writes status log");
 let npcFullCaptureGame = await api("/api/game/new", { name: "npc-full-capture-test" });
 npcFullCaptureGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 npcFullCaptureGame = await api("/api/game/dialog", { game: npcFullCaptureGame, npcId: battleNpc.npc.id, message: "宠物" });

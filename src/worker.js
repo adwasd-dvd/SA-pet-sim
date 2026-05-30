@@ -5520,25 +5520,35 @@ function consumeBattleStatusBeforeTurn(target, battleLog = []) {
       delete statuses[key];
       continue;
     }
-    if (BATTLE_STATUS_POISON_KEYS.has(key) && Number(target.Hp || 0) > 0) {
-      const maxHp = Math.max(1, Number(target.WorkMaxHp || target.Hp || 1));
+    if (BATTLE_STATUS_POISON_KEYS.has(key) && battleStatusHp(target) > 0) {
+      const maxHp = Math.max(1, Number(target.WorkMaxHp || target.maxHp || battleStatusHp(target) || 1));
       const ratio = key === "poison" ? 0.05 : 0.08;
       const damage = Math.max(1, Math.floor(maxHp * ratio));
-      target.Hp = Math.max(0, Number(target.Hp || 0) - damage);
+      setBattleStatusHp(target, battleStatusHp(target) - damage);
       battleLog.push(`${targetName} 受到${status.label || "异常"}影响，损失 ${damage} 耐久。`);
     }
-    if (BATTLE_STATUS_BLOCKS_TURN.has(key) && Number(target.Hp || 0) > 0) {
+    if (BATTLE_STATUS_BLOCKS_TURN.has(key) && battleStatusHp(target) > 0) {
       blocked.push(status.label || key);
     }
     turns -= 1;
     if (turns > 0) status.turns = turns;
     else delete statuses[key];
   }
-  if (blocked.length && Number(target.Hp || 0) > 0) {
+  if (blocked.length && battleStatusHp(target) > 0) {
     battleLog.push(`${targetName} 因${blocked.join("/")}无法行动。`);
   }
   syncBattlePrimaryStatus(target);
   return { stopped: Boolean(blocked.length), source: "gmsv battle_event.c status pre-turn handling" };
+}
+
+function battleStatusHp(target = {}) {
+  return Math.max(0, Number(target.Hp ?? target.hp ?? 0));
+}
+
+function setBattleStatusHp(target = {}, hp = 0) {
+  const value = Math.max(0, Math.trunc(Number(hp) || 0));
+  if ("Hp" in target || !("hp" in target)) target.Hp = value;
+  if ("hp" in target) target.hp = value;
 }
 
 function consumeBattleMagicStatusesAfterRound(target) {
@@ -6208,24 +6218,22 @@ function performBattleItemAction(game, itemId = null) {
   const enemy = game.encounter;
   game.battle.sourceCommand = "I";
   game.battle.mode = "resolving";
-  const itemUse = applyUsableItem(game, item, { battle: true });
-  const battleLog = [itemUseLogLine(itemUse)];
-  if (enemy.Hp > 0) {
-    const statusResult = consumeBattleStatusBeforeTurn(enemy, battleLog);
-    syncActiveEnemyPartyEntry(game, enemy);
-    if (!statusResult.stopped && Number(enemy.Hp || 0) > 0) {
-      const hit = combatNormalAttackDetail(enemy, activeActor, {
-        attackerKind: "enemy",
-        defenderKind: battleActorKind(game, activeActor)
-      });
-      if (hit.dodgeCheck?.dodged) {
-        battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${enemy.Name} 的攻击。`);
-      } else {
-        setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-        battleLog.push(`${enemy.Name} 趁机反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
-      }
+  const battleLog = [];
+  const preTurn = consumeBattleStatusBeforeTurn(game.player, battleLog);
+  if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
+    if (Number(enemy.Hp || 0) > 0) {
+      resolveEnemyCounterAfterPlayerCommand(game, enemy, activeActor, battleLog, "趁机反击");
     }
+    return settleBattleRound(game, activeActor, enemy, {
+      battleLog,
+      result: "item-blocked",
+      sourceCommand: "I",
+      itemUse: null
+    });
   }
+  const itemUse = applyUsableItem(game, item, { battle: true });
+  battleLog.push(itemUseLogLine(itemUse));
+  if (enemy.Hp > 0) resolveEnemyCounterAfterPlayerCommand(game, enemy, activeActor, battleLog, "趁机反击");
 
   return settleBattleRound(game, activeActor, enemy, {
     battleLog,
@@ -6233,6 +6241,23 @@ function performBattleItemAction(game, itemId = null) {
     sourceCommand: "I",
     itemUse
   });
+}
+
+function resolveEnemyCounterAfterPlayerCommand(game, enemy, activeActor, battleLog, verb = "反击") {
+  const statusResult = consumeBattleStatusBeforeTurn(enemy, battleLog);
+  syncActiveEnemyPartyEntry(game, enemy);
+  if (statusResult.stopped || Number(enemy.Hp || 0) <= 0) return false;
+  const hit = combatNormalAttackDetail(enemy, activeActor, {
+    attackerKind: "enemy",
+    defenderKind: battleActorKind(game, activeActor)
+  });
+  if (hit.dodgeCheck?.dodged) {
+    battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${enemy.Name} 的攻击。`);
+  } else {
+    setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
+    battleLog.push(`${enemy.Name} ${verb} ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  }
+  return true;
 }
 
 function settleBattleRound(game, activeActor, enemy, options = {}) {
@@ -6907,6 +6932,18 @@ function performCaptureAction(game) {
   ensureBattleState(game, activeActor, target);
   game.battle.sourceCommand = "T|0";
   game.battle.mode = "resolving";
+  const preTurnLog = [];
+  const preTurn = consumeBattleStatusBeforeTurn(game.player, preTurnLog);
+  if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
+    if (Number(target.Hp || 0) > 0) {
+      resolveEnemyCounterAfterPlayerCommand(game, target, activeActor, preTurnLog, "反击");
+    }
+    return settleBattleRound(game, activeActor, target, {
+      battleLog: preTurnLog,
+      result: "capture-blocked",
+      sourceCommand: "T|0"
+    });
+  }
   const rate = Math.max(0, Math.min(100, Number(target.CaptureRate ?? 35)));
   if (rate > 0 && petState(game).used >= PET_CAPACITY) {
     const line = `宠物栏已满（${PET_CAPACITY}/${PET_CAPACITY}），无法捕获 ${enemyName}。`;
@@ -6957,16 +6994,7 @@ function performCaptureAction(game) {
     };
   }
   const battleLog = [`${enemyName} 挣脱了绳索。`];
-  const hit = combatNormalAttackDetail(target, activeActor, {
-    attackerKind: "enemy",
-    defenderKind: battleActorKind(game, activeActor)
-  });
-  if (hit.dodgeCheck?.dodged) {
-    battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${target.Name} 的攻击。`);
-  } else {
-    setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-    battleLog.push(`${target.Name} 反击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
-  }
+  resolveEnemyCounterAfterPlayerCommand(game, target, activeActor, battleLog, "反击");
   return settleBattleRound(game, activeActor, target, {
     battleLog,
     result: "capture-missed",
