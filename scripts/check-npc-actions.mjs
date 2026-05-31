@@ -4405,6 +4405,36 @@ assertEqual(playerEscapeFailGame.battleOutcome.playerEscape?.chance, 1, "player 
 assert(playerEscapeFailGame.encounter && playerEscapeFailGame.battle, "failed player escape keeps battle active");
 assert(playerEscapeFailGame.battleOutcome.log.some((line) => line.includes("逃跑") && line.includes("失败")), "failed player escape logs failed attempt");
 
+let blockedEscapeGame = await api("/api/game/new", { name: "player-escape-status-blocked-test" });
+blockedEscapeGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+blockedEscapeGame = await api("/api/game/encounter", { game: blockedEscapeGame });
+blockedEscapeGame.player.BattleStatuses = {
+  sleep: { key: "sleep", label: "睡眠", turns: 1 }
+};
+Object.assign(blockedEscapeGame.pets[0], { Hp: 999, WorkMaxHp: 999 });
+Object.assign(blockedEscapeGame.encounter, {
+  Lv: 1,
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+blockedEscapeGame.battle.enemyParty = [blockedEscapeGame.encounter];
+blockedEscapeGame = await api("/api/game/battle", { game: blockedEscapeGame, action: "逃跑" });
+assertEqual(blockedEscapeGame.battleOutcome.result, "escape-blocked", "sleep blocks source E escape before escape roll");
+assertEqual(blockedEscapeGame.battleOutcome.sourceCommand, "N", "blocked source E command dispatches to source wait command");
+assertEqual(blockedEscapeGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_WAIT", "blocked escape records wait dispatch telemetry");
+assertEqual(blockedEscapeGame.battleOutcome.playerAction?.attemptedSourceCommand, "BATTLE_COM_ESCAPE", "blocked escape keeps attempted escape telemetry");
+assertEqual(Number(blockedEscapeGame.battle?.playerEscapeAttempts || 0), 0, "blocked escape does not increment source escape attempts");
+assert(!blockedEscapeGame.player.BattleStatuses?.sleep, "player sleep turn is consumed when it blocks escape");
+assert(blockedEscapeGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked escape writes source-style status log");
+assert(blockedEscapeGame.encounter && blockedEscapeGame.battle, "blocked escape keeps battle active");
+
 let playerEscapeSuccessGame = await api("/api/game/new", { name: "player-escape-success-test" });
 playerEscapeSuccessGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerEscapeSuccessGame = await api("/api/game/encounter", { game: playerEscapeSuccessGame });

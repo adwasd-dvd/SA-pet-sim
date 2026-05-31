@@ -4771,6 +4771,38 @@ function performPlayerEscapeAction(game) {
   const enemy = game.encounter;
   const activeActor = activeBattleActor(game);
   ensureBattleState(game, activeActor, enemy);
+  const preTurnLog = [];
+  const preTurn = consumeBattleStatusBeforeTurn(game.player, preTurnLog);
+  if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
+    const enemyAi = chooseEnemyBattleMove(game, enemy, activeActor);
+    const playerAction = {
+      ...sourcePlayerBattleAction({ type: "wait", command: "N" }, game, activeActor, enemy),
+      attemptedSourceCommand: "BATTLE_COM_ESCAPE",
+      blockedByStatus: true
+    };
+    game.battle.sourceCommand = "N";
+    game.battle.playerAction = playerAction;
+    game.battle.enemyAi = enemyAi;
+    game.battle.mode = "resolving";
+    let enemyEscaped = false;
+    if (battleActorHp(game, activeActor) > 0 && Number(enemy.Hp || 0) > 0) {
+      enemyEscaped = resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, preTurnLog, false);
+    }
+    return settleBattleRound(game, activeActor, enemy, {
+      battleLog: preTurnLog,
+      result: "escape-blocked",
+      sourceCommand: "N",
+      playerAction,
+      enemyAi,
+      enemyEscaped,
+      playerEscape: {
+        sourceCommand: "BATTLE_COM_ESCAPE",
+        dispatchedSourceCommand: "BATTLE_COM_WAIT",
+        blockedByStatus: true,
+        source: "gmsv battle_command.c checkErrorStatus before E dispatches N"
+      }
+    });
+  }
   game.battle.sourceCommand = "E";
   game.battle.mode = "resolving";
   const playerEscape = resolvePlayerEscapeAttempt(game, enemy);
