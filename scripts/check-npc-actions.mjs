@@ -3411,17 +3411,25 @@ battlePetSwitchGame.pets[0].WorkMaxHp = Math.max(5000, Number(battlePetSwitchGam
 battlePetSwitchGame.pets[0].Hp = battlePetSwitchGame.pets[0].WorkMaxHp;
 battlePetSwitchGame.pets[0].WorkFixTough = Math.max(500, Number(battlePetSwitchGame.pets[0].WorkFixTough || 0));
 battlePetSwitchGame.pets[0].WorkDefencePower = Math.max(500, Number(battlePetSwitchGame.pets[0].WorkDefencePower || 0));
+battlePetSwitchGame.pets[0].BattleStatuses = {};
+battlePetSwitchGame.pets[0].BattleMagicStatuses = {};
 battlePetSwitchGame.encounter.WorkAttackPower = 0;
 battlePetSwitchGame.encounter.WorkFixStr = 0;
 battlePetSwitchGame.encounter.Attack = 0;
 battlePetSwitchGame.encounter.Str = 0;
+battlePetSwitchGame.encounter.BattleStatuses = {
+  sleep: { key: "sleep", label: "睡眠", turns: 1 }
+};
 Object.assign(battlePetSwitchGame.battle?.enemyParty?.[0] || {}, {
   WorkAttackPower: 0,
   WorkFixStr: 0,
   Attack: 0,
   Str: 0,
   WorkTactics: 1,
-  WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0"
+  WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0",
+  BattleStatuses: {
+    sleep: { key: "sleep", label: "睡眠", turns: 1 }
+  }
 });
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "pet:0" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "PETOUT can send a pet back out from player-alone state");
@@ -4190,6 +4198,39 @@ assert(
   "source duck check disables dodge when defender is under turn-blocking status"
 );
 
+let sourceDuckProfessionStatusGame = await api("/api/game/new", { name: "source-duck-profession-status-battle-test" });
+sourceDuckProfessionStatusGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+sourceDuckProfessionStatusGame = await api("/api/game/encounter", { game: sourceDuckProfessionStatusGame });
+Object.assign(sourceDuckProfessionStatusGame.player, {
+  WorkFixDex: 1,
+  WorkQuick: 900
+});
+Object.assign(sourceDuckProfessionStatusGame.encounter, {
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkFixDex: 999,
+  WorkQuick: 1,
+  BattleStatuses: {
+    dragnet: { key: "dragnet", label: "捕网", turns: 2 }
+  },
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+  SourceExp: 1,
+  Exp: 1
+});
+sourceDuckProfessionStatusGame.battle.enemyParty = [sourceDuckProfessionStatusGame.encounter];
+sourceDuckProfessionStatusGame.battle.activeEnemyIndex = 0;
+const originalRandomForDuckProfessionStatus = Math.random;
+try {
+  Math.random = () => 0;
+  sourceDuckProfessionStatusGame = await api("/api/game/battle", { game: sourceDuckProfessionStatusGame, action: "攻击" });
+} finally {
+  Math.random = originalRandomForDuckProfessionStatus;
+}
+assert(
+  !sourceDuckProfessionStatusGame.battleOutcome.log.some((line) => line.includes("闪开了")),
+  "source duck check disables dodge when defender is under dragnet status"
+);
+
 let sourceAllyBlockedStatusGame = await api("/api/game/new", { name: "source-ally-blocked-status-battle-test" });
 sourceAllyBlockedStatusGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 sourceAllyBlockedStatusGame = await api("/api/game/encounter", { game: sourceAllyBlockedStatusGame });
@@ -4223,6 +4264,45 @@ sourceAllyBlockedStatusGame = await api("/api/game/battle", { game: sourceAllyBl
 assertEqual(Number(sourceAllyBlockedStatusGame.encounter.Hp || 0), allyBlockedEnemyHpBefore, "source turn-block status prevents player-side attack before damage");
 assert(sourceAllyBlockedStatusGame.battleOutcome.log.some((line) => line.includes("无法行动")), "source turn-block status logs blocked player-side action");
 assertEqual(sourceAllyBlockedStatusGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ATTACK", "blocked player-side attack keeps source attack command telemetry");
+
+for (const status of [
+  { key: "dizzy", label: "晕眩" },
+  { key: "dragnet", label: "捕网" }
+]) {
+  let sourceProfessionBlockedStatusGame = await api("/api/game/new", { name: `source-profession-${status.key}-blocked-status-battle-test` });
+  sourceProfessionBlockedStatusGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+  sourceProfessionBlockedStatusGame = await api("/api/game/encounter", { game: sourceProfessionBlockedStatusGame });
+  sourceProfessionBlockedStatusGame.petFormation = { activeIndex: -1 };
+  Object.assign(sourceProfessionBlockedStatusGame.player, {
+    Hp: 999,
+    WorkMaxHp: 999,
+    WorkAttackPower: 999,
+    WorkFixStr: 999,
+    WorkQuick: 900,
+    WorkFixDex: 900,
+    BattleStatuses: {
+      [status.key]: { key: status.key, label: status.label, turns: 2 }
+    }
+  });
+  Object.assign(sourceProfessionBlockedStatusGame.encounter, {
+    Hp: 500,
+    WorkMaxHp: 500,
+    WorkAttackPower: 1,
+    WorkFixStr: 1,
+    WorkQuick: 1,
+    WorkFixDex: 1,
+    WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0",
+    SourceExp: 1,
+    Exp: 1
+  });
+  sourceProfessionBlockedStatusGame.battle.enemyParty = [sourceProfessionBlockedStatusGame.encounter];
+  sourceProfessionBlockedStatusGame.battle.activeEnemyIndex = 0;
+  const professionBlockedEnemyHpBefore = Number(sourceProfessionBlockedStatusGame.encounter.Hp || 0);
+  sourceProfessionBlockedStatusGame = await api("/api/game/battle", { game: sourceProfessionBlockedStatusGame, action: "攻击" });
+  assertEqual(Number(sourceProfessionBlockedStatusGame.encounter.Hp || 0), professionBlockedEnemyHpBefore, `${status.label} prevents player-side attack before damage`);
+  assert(sourceProfessionBlockedStatusGame.battleOutcome.log.some((line) => line.includes(status.label) && line.includes("无法行动")), `${status.label} logs blocked player-side action`);
+  assertEqual(sourceProfessionBlockedStatusGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ATTACK", `${status.label} blocked attack keeps source attack command telemetry`);
+}
 
 let enemyGuardAiGame = await api("/api/game/new", { name: "enemy-ai-guard-test" });
 enemyGuardAiGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };

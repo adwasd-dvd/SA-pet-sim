@@ -195,9 +195,13 @@ const BATTLE_STATUS_EFFECTS = {
   "乱": { id: 6, key: "confusion", label: "混乱", sourceCommand: "BATTLE_ST_CONFUSION" },
   "虚": { id: 7, key: "weaken", label: "虚弱", sourceCommand: "BATTLE_ST_WEAKEN" },
   "剧": { id: 8, key: "deepPoison", label: "剧毒", sourceCommand: "BATTLE_ST_DEEPPOISON" },
-  "煞": { id: 11, key: "sars", label: "煞毒", sourceCommand: "BATTLE_ST_SARS" }
+  "煞": { id: 11, key: "sars", label: "煞毒", sourceCommand: "BATTLE_ST_SARS" },
+  "晕": { id: 12, key: "dizzy", label: "晕眩", sourceCommand: "BATTLE_ST_DIZZY" },
+  "暈": { id: 12, key: "dizzy", label: "晕眩", sourceCommand: "BATTLE_ST_DIZZY" },
+  "网": { id: 14, key: "dragnet", label: "捕网", sourceCommand: "BATTLE_ST_DRAGNET" },
+  "網": { id: 14, key: "dragnet", label: "捕网", sourceCommand: "BATTLE_ST_DRAGNET" }
 };
-const BATTLE_STATUS_BLOCKS_TURN = new Set(["paralysis", "sleep", "stone"]);
+const BATTLE_STATUS_BLOCKS_TURN = new Set(["paralysis", "sleep", "stone", "dizzy", "dragnet"]);
 const BATTLE_STATUS_POISON_KEYS = new Set(["poison", "deepPoison", "sars"]);
 const BATTLE_MAGIC_STATUS_EFFECTS = {
   "铁壁": { id: 2, key: "superWall", label: "铁壁", sourceCommand: "CHAR_MAGICSUPERWALL", stat: "defence" },
