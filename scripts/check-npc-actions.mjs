@@ -3208,13 +3208,13 @@ petStatusSkillGame.pets[0].PetSkills = [{
   UseType: 2,
   Source: "gmsv-data/petskill2.txt"
 }];
-petStatusSkillGame.pets[0].Lv = 80;
+petStatusSkillGame.pets[0].Lv = 1;
 petStatusSkillGame.pets[0].PetId = 100;
-petStatusSkillGame.pets[0].WorkFixLuck = 80;
-petStatusSkillGame.pets[0].Luck = 80;
-petStatusSkillGame.pets[0].Str = 50000;
-petStatusSkillGame.pets[0].WorkFixStr = 500;
-petStatusSkillGame.pets[0].WorkAttackPower = 500;
+petStatusSkillGame.pets[0].WorkFixLuck = 20;
+petStatusSkillGame.pets[0].Luck = 20;
+petStatusSkillGame.pets[0].Str = 30;
+petStatusSkillGame.pets[0].WorkFixStr = 30;
+petStatusSkillGame.pets[0].WorkAttackPower = 30;
 petStatusSkillGame.pets[0].WorkQuick = 999;
 petStatusSkillGame.pets[0].WorkFixDex = 999;
 petStatusSkillGame.pets[0].Critical = 0;
@@ -3240,7 +3240,7 @@ Object.assign(petStatusSkillGame.encounter, statusSkillEnemyFixture);
 Object.assign(petStatusSkillGame.battle?.enemyParty?.[0] || {}, statusSkillEnemyFixture);
 const originalRandomForPetStatusSkill = Math.random;
 try {
-  // Keep this regression deterministic: skip dodge and force a low status roll.
+  // Keep this regression deterministic: skip dodge; the status roll comes from stableHashInt.
   Math.random = () => 0;
   petStatusSkillGame = await api("/api/game/battle", { game: petStatusSkillGame, action: "skill:0" });
 } finally {
@@ -3249,6 +3249,7 @@ try {
 const statusSkillTelemetry = petStatusSkillGame.battleOutcome.playerAction?.petSkill?.status;
 assertEqual(petStatusSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STATUSCHANGE", "status pet skill maps to source battle command");
 assertEqual(statusSkillTelemetry?.status?.key, "poison", "status pet skill parses petskill2 status token");
+assertEqual(statusSkillTelemetry?.chance, 40, "status pet skill uses source BATTLE_StatusAttackCheck base chance");
 assert(statusSkillTelemetry?.success, "status pet skill applies source status chance");
 assert(Number(petStatusSkillGame.encounter?.BattleStatuses?.poison?.turns || 0) > 0, "status pet skill persists enemy BattleStatuses");
 const poisonHpBefore = Number(petStatusSkillGame.encounter.Hp || 0);

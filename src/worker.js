@@ -5471,6 +5471,9 @@ function resolveBattleStatusAttack(game, attacker, defender, status, skill = {})
   if (status.key === "paralysis") {
     chance = 20 - resistance;
   } else {
+    const perOffset = firstFiniteNumber(30, status.perOffset, skill.statusPerOffset);
+    const range = Math.max(0, firstFiniteNumber(40, status.range, skill.statusRange));
+    const bai = firstFiniteNumber(2, status.bai, skill.statusBai);
     const vital = firstFiniteNumber(0, defender.Vital, defender.WorkMaxHp);
     const str = firstFiniteNumber(0, defender.Str, defender.WorkAttackPower, defender.WorkFixStr);
     const tough = firstFiniteNumber(0, defender.Tough, defender.WorkDefencePower, defender.WorkFixTough);
@@ -5478,9 +5481,9 @@ function resolveBattleStatusAttack(game, attacker, defender, status, skill = {})
     const total = Math.max(1, vital + str + tough + dex);
     const vitalRatio = total > 0 ? vital / total : 0.25;
     const vitalPenalty = (vitalRatio / 0.25) * 10;
-    const levelSwing = Math.max(-40, Math.min(40, (Number(attacker?.Lv || attacker?.level || 1) - Number(defender?.Lv || defender?.level || 1)) * 2));
+    const levelSwing = Math.max(-range, Math.min(range, (Number(attacker?.Lv || attacker?.level || 1) - Number(defender?.Lv || defender?.level || 1)) * bai));
     const luck = firstFiniteNumber(0, attacker?.WorkFixLuck, attacker?.Luck, attacker?.luck);
-    chance = levelSwing + luck - resistance - vitalPenalty;
+    chance = perOffset + levelSwing + luck - resistance - vitalPenalty;
   }
   chance = Math.max(0, Math.min(80, Math.trunc(chance)));
   const roll = (stableHashInt([
