@@ -5197,6 +5197,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       hitCount: Number(profile.hitCount || 0),
       multiplier: Number(profile.multiplier || 0),
       missChance: Number(profile.missChance || 0),
+      attackPercent: Number(profile.attackPercent || 0),
+      defencePercent: Number(profile.defencePercent || 0),
       status: compactBattleStatusEffect(profile.status),
       magicStatus: compactBattleMagicStatusEffect(profile.magicStatus),
       source: `${GMSV_DATA_SOURCE}/petskill2.txt`
@@ -5239,6 +5241,20 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 1,
       multiplier: clampInt(option.match(/倍\s*(\d+)/)?.[1], 1, 5, 2),
       missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 30)
+    };
+  }
+  if (func === "PETSKILL_PowerBalance") {
+    const option = String(skill.Option || "");
+    const attackPercent = sourcePercentValue(option, "攻");
+    const defencePercent = sourcePercentValue(option, "防");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_POWERBALANCE",
+      hitCount: 1,
+      multiplier: sourcePercentMultiplier(option, "攻"),
+      attackPercent,
+      defencePercent
     };
   }
   if (func === "PETSKILL_StatusChange") {

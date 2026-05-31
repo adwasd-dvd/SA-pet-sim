@@ -3149,6 +3149,38 @@ assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.id, 10, "pe
 assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.hitCount, 2, "pet skill telemetry records option-derived hit count");
 assert(Number(petSkillBattleGame.encounter?.Hp || 0) < skillTargetHpBefore, "pet skill damages the active battle target");
 assert(petSkillBattleGame.battleOutcome.log.some((line) => line.includes("连续攻击")), "pet skill battle log names the source skill");
+let powerBalanceSkillGame = await api("/api/game/new", { name: "pet-powerbalance-skill-test" });
+powerBalanceSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+powerBalanceSkillGame = await api("/api/game/dialog", { game: powerBalanceSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+powerBalanceSkillGame.pets[0].PetSkillIds = [50];
+powerBalanceSkillGame.pets[0].PetSkills = [{
+  Id: 50,
+  Name: "背水之战其之1",
+  Des: "防御力减30%，攻击力变成+30%",
+  FuncName: "PETSKILL_PowerBalance",
+  Option: "攻%+25 防%-35",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+powerBalanceSkillGame.pets[0].WorkFixStr = 80;
+powerBalanceSkillGame.pets[0].WorkAttackPower = 80;
+powerBalanceSkillGame.pets[0].WorkQuick = 999;
+powerBalanceSkillGame.pets[0].WorkFixDex = 999;
+powerBalanceSkillGame.encounter.WorkMaxHp = 999;
+powerBalanceSkillGame.encounter.Hp = 999;
+powerBalanceSkillGame.encounter.WorkFixTough = 1;
+powerBalanceSkillGame.encounter.WorkDefencePower = 1;
+powerBalanceSkillGame.encounter.WorkQuick = 0;
+powerBalanceSkillGame.encounter.WorkFixDex = 0;
+powerBalanceSkillGame.encounter.WorkAttackPower = 1;
+const powerBalanceHpBefore = Number(powerBalanceSkillGame.encounter.Hp || 0);
+powerBalanceSkillGame = await api("/api/game/battle", { game: powerBalanceSkillGame, action: "skill:0" });
+assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_POWERBALANCE", "PowerBalance pet skill maps to source battle command");
+assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1.25, "PowerBalance pet skill applies source attack percent multiplier");
+assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.petSkill?.defencePercent, -35, "PowerBalance pet skill preserves source defence percent telemetry");
+assert(Number(powerBalanceSkillGame.encounter?.Hp || 0) < powerBalanceHpBefore, "PowerBalance pet skill damages the active battle target");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
