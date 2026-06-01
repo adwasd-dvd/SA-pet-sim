@@ -5227,6 +5227,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercent: Number(profile.quickPercent || 0),
       status: compactBattleStatusEffect(profile.status),
       magicStatus: compactBattleMagicStatusEffect(profile.magicStatus),
+      damageDivisor: Number(profile.damageDivisor || 0),
+      duckModifier: Number(profile.duckModifier || 0),
       source: `${GMSV_DATA_SOURCE}/petskill2.txt`
     }
   };
@@ -5291,9 +5293,12 @@ function petSkillBattleProfile(skill = {}) {
       supported: true,
       kind: "attack",
       sourceCommand: "BATTLE_COM_S_WILDVIOLENTATTACK",
-      hitCount: 1,
+      hitCount: 0,
+      hitCountRange: [3, 10],
+      damageDivisor: "hitCount",
       multiplier: sourcePercentMultiplier(option, "攻"),
       missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 0),
+      duckModifier: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 0),
       attackPercent,
       defencePercent
     };
@@ -5411,10 +5416,11 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
 
 function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
   const skillState = playerAction.petSkill;
-  const missRoll = profile.missChance
+  const globalMissChance = profile.duckModifier ? 0 : Number(profile.missChance || 0);
+  const missRoll = globalMissChance
     ? ((stableHashInt([skill.Id, activePet.PetId || activePet.Name, enemy.EnemyId || enemy.Name, game.battle?.turn || 0, enemy.Hp].join("|")) % 100) + 1)
     : 0;
-  if (profile.missChance && missRoll <= profile.missChance) {
+  if (globalMissChance && missRoll <= globalMissChance) {
     skillState.missRoll = missRoll;
     skillState.missed = true;
     battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但是 ${enemy.Name} 闪开了。`);
@@ -5422,12 +5428,46 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   }
 
   const hitCount = Math.max(1, Number(profile.hitCount || 1));
+  const dynamicHitCount = profile.hitCountRange
+    ? sourceBattleRand(Number(profile.hitCountRange[0] || 1), Number(profile.hitCountRange[1] || 1))
+    : 0;
+  const resolvedHitCount = dynamicHitCount > 0 ? dynamicHitCount : hitCount;
+  const damageDivisor = profile.damageDivisor === "hitCount" ? resolvedHitCount : Math.max(1, Number(profile.damageDivisor || 1));
+  skillState.hitCount = resolvedHitCount;
+  skillState.damageDivisor = damageDivisor;
+  skillState.duckModifier = Number(profile.duckModifier || 0);
   const hits = [];
   let totalDamage = 0;
-  for (let i = 0; i < hitCount && enemy.Hp > 0; i += 1) {
+  for (let i = 0; i < resolvedHitCount && enemy.Hp > 0; i += 1) {
     let multiplier = Number(profile.multiplier || 1);
     if (profile.guardBreak2) multiplier = enemyAi.type === "guard" ? 1.3 : 0.7;
-    let hit = combatDamageDetail(activePet, enemy, multiplier);
+    let hit = profile.duckModifier
+      ? combatNormalAttackDetail(activePet, enemy, {
+          multiplier,
+          attackerKind: "pet",
+          defenderKind: "enemy",
+          duckChanceModifier: Number(profile.duckModifier || 0)
+        })
+      : combatDamageDetail(activePet, enemy, multiplier);
+    if (hit.dodgeCheck?.dodged) {
+      hits.push({
+        damage: 0,
+        dodged: true,
+        dodgeCheck: hit.dodgeCheck,
+        critical: false,
+        elementMultiplier: 1,
+        guardAdjust: null
+      });
+      continue;
+    }
+    if (damageDivisor > 1) {
+      hit = {
+        ...hit,
+        originalDamage: hit.damage,
+        damage: Math.max(0, Math.floor(Number(hit.damage || 0) / damageDivisor)),
+        damageDivisor
+      };
+    }
     if (enemyAi.type === "guard" && !profile.ignoreGuard) {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
@@ -5446,6 +5486,10 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     totalDamage += hit.damage;
     hits.push({
       damage: hit.damage,
+      originalDamage: Number(hit.originalDamage || hit.damage || 0),
+      damageDivisor: Number(hit.damageDivisor || 1),
+      dodged: false,
+      dodgeCheck: hit.dodgeCheck || null,
       critical: Boolean(hit.critical),
       elementMultiplier: Number(hit.elementMultiplier || 1),
       guardAdjust: compactGuardAdjust(hit.guardAdjust)
@@ -5453,8 +5497,11 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   }
   skillState.hits = hits;
   skillState.totalDamage = totalDamage;
-  const hitText = hits.length > 1 ? `连续 ${hits.length} 次命中，共` : "";
-  const detailText = hits.length === 1 ? battleDetailSuffix(hits[0]) : `（${hits.map((hit) => hit.damage).join("/")}）`;
+  const landedHits = hits.filter((hit) => !hit.dodged);
+  const hitText = hits.length > 1 ? `连续 ${landedHits.length}/${hits.length} 次命中，共` : "";
+  const detailText = hits.length === 1
+    ? (hits[0].dodged ? "（闪避）" : battleDetailSuffix(hits[0]))
+    : `（${hits.map((hit) => hit.dodged ? "闪避" : hit.damage).join("/")}）`;
   battleLog.push(`${activePet.Name} 使用 ${skill.Name} 攻击 ${enemy.Name}，${hitText}造成 ${totalDamage} 伤害${detailText}。`);
   if (profile.status && totalDamage > 0 && enemy.Hp > 0) {
     const statusRoll = resolveBattleStatusAttack(game, activePet, enemy, profile.status, skill);
@@ -6191,6 +6238,8 @@ function compactPetSkillTelemetry(skill) {
     missChance: Number(skill.missChance || 0),
     missRoll: Number(skill.missRoll || 0),
     missed: Boolean(skill.missed),
+    damageDivisor: Number(skill.damageDivisor || 0),
+    duckModifier: Number(skill.duckModifier || 0),
     status: skill.status ? {
       ...skill.status,
       status: compactBattleStatusEffect(skill.status.status),
@@ -6204,8 +6253,16 @@ function compactPetSkillTelemetry(skill) {
     totalDamage: Number(skill.totalDamage || 0),
     hits: (skill.hits || []).slice(0, 9).map((hit) => ({
       damage: Number(hit.damage || 0),
+      originalDamage: Number(hit.originalDamage || hit.damage || 0),
+      damageDivisor: Number(hit.damageDivisor || 1),
+      dodged: Boolean(hit.dodged),
       critical: Boolean(hit.critical),
       elementMultiplier: Number(hit.elementMultiplier || 1),
+      dodgeCheck: hit.dodgeCheck ? {
+        chance: Number(hit.dodgeCheck.chance || 0),
+        roll: Number(hit.dodgeCheck.roll || 0),
+        source: hit.dodgeCheck.source || ""
+      } : null,
       guardAdjust: compactGuardAdjust(hit.guardAdjust)
     })),
     source: skill.source || ""
@@ -7228,6 +7285,7 @@ function sourceBattleDuckCheck(attacker, defender, options = {}) {
 
   const work = Math.max(0, (big - small) / 0.02);
   let chancePct = Math.sqrt(work) * wari + defenderLuck;
+  chancePct += Number(options.duckChanceModifier || 0);
   chancePct = Math.max(0, Math.min(SOURCE_BATTLE_MAX_DUCK_RATE, chancePct));
   const chance = clampInt(Math.trunc(chancePct * 100), 1, SOURCE_BATTLE_MAX_DUCK_RATE * 100, 1);
   const roll = sourceBattleRand(1, 10000);
