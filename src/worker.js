@@ -5112,6 +5112,7 @@ function performPetSkillAction(game, move) {
   if (!profile.supported) throw new Error(`${skill.Name || "这个宠物技能"} 还没有接入战斗结算`);
 
   const battleLog = [];
+  const restorePetSkillStats = applySourcePetSkillTemporaryStats(activePet, profile);
   const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
   const playerAction = sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile);
   const petFirst = workQuick(activePet) >= workQuick(enemy);
@@ -5161,6 +5162,7 @@ function performPetSkillAction(game, move) {
     if (!endedEnemyTurn && activePet.Hp > 0) petTurn();
   }
 
+  restorePetSkillStats();
   return settleBattleRound(game, activePet, enemy, {
     battleLog,
     result: "turn",
@@ -5169,6 +5171,29 @@ function performPetSkillAction(game, move) {
     enemyAi,
     enemyEscaped
   });
+}
+
+function applySourcePetSkillTemporaryStats(activePet, profile = {}) {
+  if (!activePet) return () => {};
+  const original = {};
+  if (Number(profile.defencePercent || 0) !== 0) {
+    original.WorkDefencePower = activePet.WorkDefencePower;
+    const base = firstFiniteNumber(0, activePet.WorkFixTough, activePet.WorkDefencePower);
+    activePet.WorkDefencePower = Math.max(0, Math.floor(base * (1 + Number(profile.defencePercent || 0) / 100)));
+  }
+  if (Number(profile.quickPercent || 0) !== 0) {
+    original.WorkQuick = activePet.WorkQuick;
+    const base = firstFiniteNumber(0, activePet.WorkFixDex, activePet.WorkQuick);
+    activePet.WorkQuick = Math.max(0, Math.floor((base + 20) * (1 + Number(profile.quickPercent || 0) / 100)));
+  }
+  return () => {
+    if (Object.prototype.hasOwnProperty.call(original, "WorkDefencePower")) {
+      activePet.WorkDefencePower = original.WorkDefencePower;
+    }
+    if (Object.prototype.hasOwnProperty.call(original, "WorkQuick")) {
+      activePet.WorkQuick = original.WorkQuick;
+    }
+  };
 }
 
 function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile) {
@@ -5275,15 +5300,15 @@ function petSkillBattleProfile(skill = {}) {
   }
   if (func === "PETSKILL_SpeedyAttack") {
     const option = String(skill.Option || "");
-    const attackPercent = sourcePercentValue(option, "攻");
+    const defencePercent = sourcePercentValue(option, "防");
     const quickPercent = sourcePercentValue(option, "敏");
     return {
       supported: true,
       kind: "attack",
       sourceCommand: "BATTLE_COM_S_SPEEDYATTACK",
       hitCount: 1,
-      multiplier: sourcePercentMultiplier(option, "攻"),
-      attackPercent,
+      multiplier: 1,
+      defencePercent,
       quickPercent
     };
   }

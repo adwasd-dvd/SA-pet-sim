@@ -3167,6 +3167,8 @@ powerBalanceSkillGame.pets[0].PetSkills = [{
 }];
 powerBalanceSkillGame.pets[0].WorkFixStr = 80;
 powerBalanceSkillGame.pets[0].WorkAttackPower = 80;
+powerBalanceSkillGame.pets[0].WorkFixTough = 100;
+powerBalanceSkillGame.pets[0].WorkDefencePower = 100;
 powerBalanceSkillGame.pets[0].WorkQuick = 999;
 powerBalanceSkillGame.pets[0].WorkFixDex = 999;
 powerBalanceSkillGame.encounter.WorkMaxHp = 999;
@@ -3181,6 +3183,7 @@ powerBalanceSkillGame = await api("/api/game/battle", { game: powerBalanceSkillG
 assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_POWERBALANCE", "PowerBalance pet skill maps to source battle command");
 assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1.25, "PowerBalance pet skill applies source attack percent multiplier");
 assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.petSkill?.defencePercent, -35, "PowerBalance pet skill preserves source defence percent telemetry");
+assertEqual(powerBalanceSkillGame.pets[0].WorkDefencePower, 100, "PowerBalance pet skill restores temporary defence after the round");
 assert(Number(powerBalanceSkillGame.encounter?.Hp || 0) < powerBalanceHpBefore, "PowerBalance pet skill damages the active battle target");
 let wildViolentSkillGame = await api("/api/game/new", { name: "pet-wildviolent-skill-test" });
 wildViolentSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
@@ -3200,6 +3203,8 @@ wildViolentSkillGame.pets[0].PetSkills = [{
 wildViolentSkillGame.pets[0].PetId = 100;
 wildViolentSkillGame.pets[0].WorkFixStr = 80;
 wildViolentSkillGame.pets[0].WorkAttackPower = 80;
+wildViolentSkillGame.pets[0].WorkFixTough = 100;
+wildViolentSkillGame.pets[0].WorkDefencePower = 100;
 wildViolentSkillGame.pets[0].WorkQuick = 999;
 wildViolentSkillGame.pets[0].WorkFixDex = 999;
 wildViolentSkillGame.encounter.EnemyId = 0;
@@ -3218,6 +3223,7 @@ assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.sourceCommand, "BAT
 assert(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.multiplier > 1.79 && wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.multiplier < 1.81, "WildViolentAttack pet skill applies source attack percent multiplier");
 assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 30, "WildViolentAttack pet skill preserves source miss telemetry");
 assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.defencePercent, -35, "WildViolentAttack pet skill preserves source defence percent telemetry");
+assertEqual(wildViolentSkillGame.pets[0].WorkDefencePower, 100, "WildViolentAttack pet skill restores temporary defence after the round");
 assert(Number(wildViolentSkillGame.encounter?.Hp || 0) < wildViolentHpBefore, "WildViolentAttack pet skill damages the active battle target");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
@@ -3225,10 +3231,10 @@ speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: 
 speedySkillGame.pets[0].PetSkillIds = [542];
 speedySkillGame.pets[0].PetSkills = [{
   Id: 542,
-  Name: "高速攻击",
-  Des: "攻击力减30%，敏捷力加30%",
+  Name: "疾速攻击",
+  Des: "防御力减30%，敏捷变成加+30%",
   FuncName: "PETSKILL_SpeedyAttack",
-  Option: "攻%-30 敏%+30",
+  Option: "防%-30 敏%+30",
   Field: 1,
   Target: 6,
   UseType: 2,
@@ -3236,21 +3242,37 @@ speedySkillGame.pets[0].PetSkills = [{
 }];
 speedySkillGame.pets[0].WorkFixStr = 80;
 speedySkillGame.pets[0].WorkAttackPower = 80;
-speedySkillGame.pets[0].WorkQuick = 999;
-speedySkillGame.pets[0].WorkFixDex = 999;
+speedySkillGame.pets[0].WorkFixTough = 100;
+speedySkillGame.pets[0].WorkDefencePower = 100;
+speedySkillGame.pets[0].WorkQuick = 10;
+speedySkillGame.pets[0].WorkFixDex = 10;
+speedySkillGame.pets[0].Hp = 999;
+speedySkillGame.pets[0].WorkMaxHp = 999;
 speedySkillGame.encounter.WorkMaxHp = 999;
 speedySkillGame.encounter.Hp = 999;
 speedySkillGame.encounter.WorkFixTough = 1;
 speedySkillGame.encounter.WorkDefencePower = 1;
-speedySkillGame.encounter.WorkQuick = 0;
-speedySkillGame.encounter.WorkFixDex = 0;
+speedySkillGame.encounter.WorkQuick = 20;
+speedySkillGame.encounter.WorkFixDex = 20;
 speedySkillGame.encounter.WorkAttackPower = 1;
+Object.assign(speedySkillGame.battle?.enemyParty?.[0] || {}, {
+  WorkMaxHp: speedySkillGame.encounter.WorkMaxHp,
+  Hp: speedySkillGame.encounter.Hp,
+  WorkFixTough: speedySkillGame.encounter.WorkFixTough,
+  WorkDefencePower: speedySkillGame.encounter.WorkDefencePower,
+  WorkQuick: speedySkillGame.encounter.WorkQuick,
+  WorkFixDex: speedySkillGame.encounter.WorkFixDex,
+  WorkAttackPower: speedySkillGame.encounter.WorkAttackPower
+});
 const speedyHpBefore = Number(speedySkillGame.encounter.Hp || 0);
 speedySkillGame = await api("/api/game/battle", { game: speedySkillGame, action: "skill:0" });
 assertEqual(speedySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SPEEDYATTACK", "SpeedyAttack pet skill maps to source battle command");
-assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 0.7, "SpeedyAttack pet skill applies source attack percent multiplier");
-assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.attackPercent, -30, "SpeedyAttack pet skill preserves source attack percent telemetry");
+assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1, "SpeedyAttack pet skill keeps source attack damage unmodified");
+assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.defencePercent, -30, "SpeedyAttack pet skill preserves source defence percent telemetry");
 assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.quickPercent, 30, "SpeedyAttack pet skill preserves source quick percent telemetry");
+assert(speedySkillGame.battleOutcome.log[0]?.includes("疾速攻击"), "SpeedyAttack source quick boost lets the pet act before a slightly faster enemy");
+assertEqual(speedySkillGame.pets[0].WorkQuick, 10, "SpeedyAttack pet skill restores temporary quick after the round");
+assertEqual(speedySkillGame.pets[0].WorkDefencePower, 100, "SpeedyAttack pet skill restores temporary defence after the round");
 assert(Number(speedySkillGame.encounter?.Hp || 0) < speedyHpBefore, "SpeedyAttack pet skill damages the active battle target");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
