@@ -3092,8 +3092,9 @@ let blockedItemBattleGame = await api("/api/game/new", { name: "battle-item-stat
 blockedItemBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedItemBattleGame = await api("/api/game/dialog", { game: blockedItemBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
 blockedItemBattleGame.inventory.push({ id: 990004, name: "大的肉", qty: 1, description: "回复耐久力 65", source: "test itemset6 recovery" });
-blockedItemBattleGame.pets[0].WorkMaxHp = Math.max(120, Number(blockedItemBattleGame.pets[0].WorkMaxHp || blockedItemBattleGame.pets[0].Hp || 1));
-blockedItemBattleGame.pets[0].Hp = Math.max(1, blockedItemBattleGame.pets[0].WorkMaxHp - 80);
+blockedItemBattleGame.pets[0].WorkMaxHp = 999;
+blockedItemBattleGame.pets[0].MaxHp = 999;
+blockedItemBattleGame.pets[0].Hp = 999;
 blockedItemBattleGame.player.BattleStatuses = {
   sleep: { key: "sleep", label: "睡眠", turns: 1 }
 };
@@ -3181,6 +3182,76 @@ assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.sourceCommand, "BA
 assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1.25, "PowerBalance pet skill applies source attack percent multiplier");
 assertEqual(powerBalanceSkillGame.battleOutcome.playerAction?.petSkill?.defencePercent, -35, "PowerBalance pet skill preserves source defence percent telemetry");
 assert(Number(powerBalanceSkillGame.encounter?.Hp || 0) < powerBalanceHpBefore, "PowerBalance pet skill damages the active battle target");
+let wildViolentSkillGame = await api("/api/game/new", { name: "pet-wildviolent-skill-test" });
+wildViolentSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+wildViolentSkillGame = await api("/api/game/dialog", { game: wildViolentSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+wildViolentSkillGame.pets[0].PetSkillIds = [541];
+wildViolentSkillGame.pets[0].PetSkills = [{
+  Id: 541,
+  Name: "狂暴攻击",
+  Des: "防御力减30%，攻击力加100%，命中率下降30%",
+  FuncName: "PETSKILL_WildViolentAttack",
+  Option: "攻%+80 防%-35 回避30",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+wildViolentSkillGame.pets[0].PetId = 100;
+wildViolentSkillGame.pets[0].WorkFixStr = 80;
+wildViolentSkillGame.pets[0].WorkAttackPower = 80;
+wildViolentSkillGame.pets[0].WorkQuick = 999;
+wildViolentSkillGame.pets[0].WorkFixDex = 999;
+wildViolentSkillGame.encounter.EnemyId = 0;
+wildViolentSkillGame.encounter.PetId = 0;
+wildViolentSkillGame.encounter.Name = "狂暴测试敌人";
+wildViolentSkillGame.encounter.WorkMaxHp = 999;
+wildViolentSkillGame.encounter.Hp = 999;
+wildViolentSkillGame.encounter.WorkFixTough = 1;
+wildViolentSkillGame.encounter.WorkDefencePower = 1;
+wildViolentSkillGame.encounter.WorkQuick = 0;
+wildViolentSkillGame.encounter.WorkFixDex = 0;
+wildViolentSkillGame.encounter.WorkAttackPower = 1;
+const wildViolentHpBefore = Number(wildViolentSkillGame.encounter.Hp || 0);
+wildViolentSkillGame = await api("/api/game/battle", { game: wildViolentSkillGame, action: "skill:0" });
+assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_WILDVIOLENTATTACK", "WildViolentAttack pet skill maps to source battle command");
+assert(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.multiplier > 1.79 && wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.multiplier < 1.81, "WildViolentAttack pet skill applies source attack percent multiplier");
+assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 30, "WildViolentAttack pet skill preserves source miss telemetry");
+assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.defencePercent, -35, "WildViolentAttack pet skill preserves source defence percent telemetry");
+assert(Number(wildViolentSkillGame.encounter?.Hp || 0) < wildViolentHpBefore, "WildViolentAttack pet skill damages the active battle target");
+let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
+speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+speedySkillGame.pets[0].PetSkillIds = [542];
+speedySkillGame.pets[0].PetSkills = [{
+  Id: 542,
+  Name: "高速攻击",
+  Des: "攻击力减30%，敏捷力加30%",
+  FuncName: "PETSKILL_SpeedyAttack",
+  Option: "攻%-30 敏%+30",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+speedySkillGame.pets[0].WorkFixStr = 80;
+speedySkillGame.pets[0].WorkAttackPower = 80;
+speedySkillGame.pets[0].WorkQuick = 999;
+speedySkillGame.pets[0].WorkFixDex = 999;
+speedySkillGame.encounter.WorkMaxHp = 999;
+speedySkillGame.encounter.Hp = 999;
+speedySkillGame.encounter.WorkFixTough = 1;
+speedySkillGame.encounter.WorkDefencePower = 1;
+speedySkillGame.encounter.WorkQuick = 0;
+speedySkillGame.encounter.WorkFixDex = 0;
+speedySkillGame.encounter.WorkAttackPower = 1;
+const speedyHpBefore = Number(speedySkillGame.encounter.Hp || 0);
+speedySkillGame = await api("/api/game/battle", { game: speedySkillGame, action: "skill:0" });
+assertEqual(speedySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SPEEDYATTACK", "SpeedyAttack pet skill maps to source battle command");
+assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 0.7, "SpeedyAttack pet skill applies source attack percent multiplier");
+assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.attackPercent, -30, "SpeedyAttack pet skill preserves source attack percent telemetry");
+assertEqual(speedySkillGame.battleOutcome.playerAction?.petSkill?.quickPercent, 30, "SpeedyAttack pet skill preserves source quick percent telemetry");
+assert(Number(speedySkillGame.encounter?.Hp || 0) < speedyHpBefore, "SpeedyAttack pet skill damages the active battle target");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -3496,6 +3567,9 @@ blockedCaptureGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1,
 blockedCaptureGame = await api("/api/game/dialog", { game: blockedCaptureGame, npcId: battleNpc.npc.id, message: "宠物" });
 const blockedCapturePetsBefore = blockedCaptureGame.pets.length;
 blockedCaptureGame.encounter.CaptureRate = 100;
+blockedCaptureGame.pets[0].Hp = 999;
+blockedCaptureGame.pets[0].MaxHp = 999;
+blockedCaptureGame.pets[0].WorkMaxHp = 999;
 blockedCaptureGame.player.BattleStatuses = {
   sleep: { key: "sleep", label: "睡眠", turns: 1 }
 };

@@ -5199,6 +5199,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       missChance: Number(profile.missChance || 0),
       attackPercent: Number(profile.attackPercent || 0),
       defencePercent: Number(profile.defencePercent || 0),
+      quickPercent: Number(profile.quickPercent || 0),
       status: compactBattleStatusEffect(profile.status),
       magicStatus: compactBattleMagicStatusEffect(profile.magicStatus),
       source: `${GMSV_DATA_SOURCE}/petskill2.txt`
@@ -5255,6 +5256,35 @@ function petSkillBattleProfile(skill = {}) {
       multiplier: sourcePercentMultiplier(option, "攻"),
       attackPercent,
       defencePercent
+    };
+  }
+  if (func === "PETSKILL_WildViolentAttack") {
+    const option = String(skill.Option || "");
+    const attackPercent = sourcePercentValue(option, "攻");
+    const defencePercent = sourcePercentValue(option, "防");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_WILDVIOLENTATTACK",
+      hitCount: 1,
+      multiplier: sourcePercentMultiplier(option, "攻"),
+      missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 0),
+      attackPercent,
+      defencePercent
+    };
+  }
+  if (func === "PETSKILL_SpeedyAttack") {
+    const option = String(skill.Option || "");
+    const attackPercent = sourcePercentValue(option, "攻");
+    const quickPercent = sourcePercentValue(option, "敏");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_SPEEDYATTACK",
+      hitCount: 1,
+      multiplier: sourcePercentMultiplier(option, "攻"),
+      attackPercent,
+      quickPercent
     };
   }
   if (func === "PETSKILL_StatusChange") {
