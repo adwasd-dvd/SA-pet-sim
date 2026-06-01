@@ -5176,6 +5176,11 @@ function performPetSkillAction(game, move) {
 function applySourcePetSkillTemporaryStats(activePet, profile = {}) {
   if (!activePet) return () => {};
   const original = {};
+  if (Number(profile.attackPercent || 0) !== 0) {
+    original.WorkAttackPower = activePet.WorkAttackPower;
+    const base = firstFiniteNumber(0, activePet.WorkFixStr, activePet.WorkAttackPower);
+    activePet.WorkAttackPower = Math.max(0, Math.floor(base * (1 + Number(profile.attackPercent || 0) / 100)));
+  }
   if (Number(profile.defencePercent || 0) !== 0) {
     original.WorkDefencePower = activePet.WorkDefencePower;
     const base = firstFiniteNumber(0, activePet.WorkFixTough, activePet.WorkDefencePower);
@@ -5187,6 +5192,9 @@ function applySourcePetSkillTemporaryStats(activePet, profile = {}) {
     activePet.WorkQuick = Math.max(0, Math.floor((base + 20) * (1 + Number(profile.quickPercent || 0) / 100)));
   }
   return () => {
+    if (Object.prototype.hasOwnProperty.call(original, "WorkAttackPower")) {
+      activePet.WorkAttackPower = original.WorkAttackPower;
+    }
     if (Object.prototype.hasOwnProperty.call(original, "WorkDefencePower")) {
       activePet.WorkDefencePower = original.WorkDefencePower;
     }
@@ -5280,7 +5288,7 @@ function petSkillBattleProfile(skill = {}) {
       kind: "attack",
       sourceCommand: "BATTLE_COM_S_POWERBALANCE",
       hitCount: 1,
-      multiplier: sourcePercentMultiplier(option, "攻"),
+      multiplier: 1,
       attackPercent,
       defencePercent
     };
@@ -5296,7 +5304,7 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 0,
       hitCountRange: [3, 10],
       damageDivisor: "hitCount",
-      multiplier: sourcePercentMultiplier(option, "攻"),
+      multiplier: 1,
       missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 0),
       duckModifier: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 0),
       attackPercent,
