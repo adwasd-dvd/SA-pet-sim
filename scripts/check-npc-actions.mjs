@@ -4659,6 +4659,66 @@ assertEqual(playerEscapeFailGame.battleOutcome.playerEscape?.chance, 1, "player 
 assert(playerEscapeFailGame.encounter && playerEscapeFailGame.battle, "failed player escape keeps battle active");
 assert(playerEscapeFailGame.battleOutcome.log.some((line) => line.includes("逃跑") && line.includes("失败")), "failed player escape logs failed attempt");
 
+let playerEscapeFailTargetGame = await api("/api/game/new", { name: "player-escape-fail-target-player-test" });
+playerEscapeFailTargetGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerEscapeFailTargetGame = await api("/api/game/encounter", { game: playerEscapeFailTargetGame });
+Object.assign(playerEscapeFailTargetGame.player, {
+  level: 1,
+  Luck: 1,
+  WorkFixLuck: 1,
+  Hp: 99999,
+  hp: 99999,
+  maxHp: 99999,
+  Vital: 2000000,
+  WorkFixVital: 20000,
+  WorkMaxHp: 99999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(playerEscapeFailTargetGame.pets[0], {
+  Lv: 1,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(playerEscapeFailTargetGame.encounter, {
+  Lv: 140,
+  Hp: 500,
+  WorkMaxHp: 500,
+  Str: 1,
+  Attack: 1,
+  Critical: 0,
+  WorkAttackPower: 10,
+  WorkFixStr: 10,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+playerEscapeFailTargetGame.battle.enemyParty = [playerEscapeFailTargetGame.encounter];
+const originalRandomForEscapeFailTarget = Math.random;
+let escapeFailTargetRandomCalls = 0;
+try {
+  Math.random = () => {
+    escapeFailTargetRandomCalls += 1;
+    if (escapeFailTargetRandomCalls === 1) return 0.5;
+    if (escapeFailTargetRandomCalls === 2) return 0.99;
+    return 0.5;
+  };
+  playerEscapeFailTargetGame = await api("/api/game/battle", { game: playerEscapeFailTargetGame, action: "逃跑" });
+} finally {
+  Math.random = originalRandomForEscapeFailTarget;
+}
+assertEqual(playerEscapeFailTargetGame.battleOutcome.result, "defeat", "failed escape can resolve defeat when source enemy turn targets the player");
+assertEqual(playerEscapeFailTargetGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ESCAPE", "failed escape records source escape command telemetry");
+assertEqual(playerEscapeFailTargetGame.battleOutcome.enemyAi?.targetKind, "player", "failed escape enemy turn honors source target player rule");
+assert(playerEscapeFailTargetGame.battleOutcome.log.some((line) => line.includes(playerEscapeFailTargetGame.player.name) && line.includes("被击倒")), "failed escape source enemy turn defeats the selected player target");
+assertEqual(Number(playerEscapeFailTargetGame.pets[0].Hp || 0), 999, "failed escape enemy turn does not force damage onto the active pet");
+
 let playerEscapeFirstCountGame = await api("/api/game/new", { name: "player-escape-first-count-test" });
 playerEscapeFirstCountGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 playerEscapeFirstCountGame = await api("/api/game/encounter", { game: playerEscapeFirstCountGame });

@@ -4809,6 +4809,10 @@ function performPlayerEscapeAction(game) {
     });
   }
   game.battle.sourceCommand = "E";
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activeActor);
+  const playerAction = sourcePlayerBattleAction({ type: "escape", command: "E" }, game, activeActor, enemy);
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
   game.battle.mode = "resolving";
   const playerEscape = resolvePlayerEscapeAttempt(game, enemy);
   const enemyName = enemy.Name || "野外宠物";
@@ -4838,22 +4842,17 @@ function performPlayerEscapeAction(game) {
     };
   }
   const battleLog = [`你试图从 ${enemyName} 面前逃跑，但是失败了。`];
-  if (enemy.Hp > 0) {
-    const hit = combatNormalAttackDetail(enemy, activeActor, {
-      attackerKind: "enemy",
-      defenderKind: battleActorKind(game, activeActor)
-    });
-    if (hit.dodgeCheck?.dodged) {
-      battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${enemy.Name} 的攻击。`);
-    } else {
-      setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-      battleLog.push(`${enemy.Name} 趁机攻击 ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
-    }
+  let enemyEscaped = false;
+  if (enemy.Hp > 0 && battleActorHp(game, activeActor) > 0) {
+    enemyEscaped = resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, battleLog, false);
   }
   return settleBattleRound(game, activeActor, enemy, {
     battleLog,
     result: "escape-failed",
     sourceCommand: "E",
+    playerAction,
+    enemyAi,
+    enemyEscaped,
     playerEscape
   });
 }
@@ -5048,6 +5047,7 @@ function sourcePlayerBattleAction(move, game, activeActor, enemy) {
   };
   if (move.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD" };
   if (move.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT" };
+  if (move.type === "escape") return { ...base, sourceCommand: "BATTLE_COM_ESCAPE" };
   return {
     ...base,
     sourceCommand: "BATTLE_COM_ATTACK",
