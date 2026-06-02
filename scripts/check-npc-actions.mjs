@@ -3514,6 +3514,14 @@ blockedPetSwitchGame = await api("/api/game/dialog", { game: blockedPetSwitchGam
 blockedPetSwitchGame.pets[0].BattleMagicStatuses = {
   superWall: { key: "superWall", label: "铁壁", turns: 2, percent: 30 }
 };
+Object.assign(blockedPetSwitchGame.pets[0], {
+  Hp: 5000,
+  WorkMaxHp: 5000,
+  WorkDefencePower: 500,
+  WorkFixTough: 500,
+  WorkQuick: 100,
+  WorkFixDex: 100
+});
 blockedPetSwitchGame.pets.push({
   ...blockedPetSwitchGame.pets[0],
   Name: "睡眠阻止换宠后备",
@@ -4718,6 +4726,50 @@ assertEqual(playerEscapeFailTargetGame.battleOutcome.playerAction?.sourceCommand
 assertEqual(playerEscapeFailTargetGame.battleOutcome.enemyAi?.targetKind, "player", "failed escape enemy turn honors source target player rule");
 assert(playerEscapeFailTargetGame.battleOutcome.log.some((line) => line.includes(playerEscapeFailTargetGame.player.name) && line.includes("被击倒")), "failed escape source enemy turn defeats the selected player target");
 assertEqual(Number(playerEscapeFailTargetGame.pets[0].Hp || 0), 999, "failed escape enemy turn does not force damage onto the active pet");
+
+let playerCaptureMissTargetGame = await api("/api/game/new", { name: "player-capture-miss-target-player-test" });
+playerCaptureMissTargetGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerCaptureMissTargetGame = await api("/api/game/encounter", { game: playerCaptureMissTargetGame });
+Object.assign(playerCaptureMissTargetGame.player, {
+  Hp: 99999,
+  hp: 99999,
+  maxHp: 99999,
+  WorkMaxHp: 99999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(playerCaptureMissTargetGame.pets[0], {
+  Lv: 1,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(playerCaptureMissTargetGame.encounter, {
+  Lv: 1,
+  Hp: 500,
+  WorkMaxHp: 500,
+  CaptureRate: 0,
+  Str: 1,
+  Attack: 1,
+  Critical: 0,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+playerCaptureMissTargetGame.battle.enemyParty = [playerCaptureMissTargetGame.encounter];
+playerCaptureMissTargetGame = await api("/api/game/battle", { game: playerCaptureMissTargetGame, action: "捕获" });
+assertEqual(playerCaptureMissTargetGame.battleOutcome.result, "capture-missed", "failed capture keeps battle active after source enemy turn");
+assertEqual(playerCaptureMissTargetGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_CAPTURE", "failed capture records source capture command telemetry");
+assertEqual(playerCaptureMissTargetGame.battleOutcome.enemyAi?.targetKind, "player", "failed capture enemy turn honors source target player rule");
+assert(playerCaptureMissTargetGame.battleOutcome.log.some((line) => line.includes(playerCaptureMissTargetGame.player.name) && line.includes("造成")), "failed capture source enemy turn attacks the selected player target");
+assertEqual(Number(playerCaptureMissTargetGame.pets[0].Hp || 0), 999, "failed capture enemy turn does not force damage onto the active pet");
 
 let playerEscapeFirstCountGame = await api("/api/game/new", { name: "player-escape-first-count-test" });
 playerEscapeFirstCountGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };

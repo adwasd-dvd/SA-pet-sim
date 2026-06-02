@@ -5048,6 +5048,16 @@ function sourcePlayerBattleAction(move, game, activeActor, enemy) {
   if (move.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD" };
   if (move.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT" };
   if (move.type === "escape") return { ...base, sourceCommand: "BATTLE_COM_ESCAPE" };
+  if (move.type === "capture") {
+    return {
+      ...base,
+      sourceCommand: "BATTLE_COM_CAPTURE",
+      targetKind: "enemy",
+      targetSlot: targetIndex,
+      targetNo: Number(move.targetNo ?? BATTLE_SIDE_OFFSET + targetIndex),
+      targetName: enemy?.Name || "enemy"
+    };
+  }
   return {
     ...base,
     sourceCommand: "BATTLE_COM_ATTACK",
@@ -7139,16 +7149,28 @@ function performCaptureAction(game) {
   ensureBattleState(game, activeActor, target);
   game.battle.sourceCommand = "T|0";
   game.battle.mode = "resolving";
+  const enemyAi = chooseEnemyBattleMove(game, target, activeActor);
+  const playerAction = sourcePlayerBattleAction({
+    type: "capture",
+    command: "T|0",
+    targetIndex: Number(game.battle?.activeEnemyIndex || 0)
+  }, game, activeActor, target);
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
   const preTurnLog = [];
   const preTurn = consumeBattleStatusBeforeTurn(game.player, preTurnLog);
+  let enemyEscaped = false;
   if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
-    if (Number(target.Hp || 0) > 0) {
-      resolveEnemyCounterAfterPlayerCommand(game, target, activeActor, preTurnLog, "反击");
+    if (Number(target.Hp || 0) > 0 && battleActorHp(game, activeActor) > 0) {
+      enemyEscaped = resolveEnemyBattleTurn(game, target, activeActor, enemyAi, playerAction, preTurnLog, false);
     }
     return settleBattleRound(game, activeActor, target, {
       battleLog: preTurnLog,
       result: "capture-blocked",
-      sourceCommand: "T|0"
+      sourceCommand: "T|0",
+      playerAction,
+      enemyAi,
+      enemyEscaped
     });
   }
   const rate = Math.max(0, Math.min(100, Number(target.CaptureRate ?? 35)));
@@ -7201,11 +7223,16 @@ function performCaptureAction(game) {
     };
   }
   const battleLog = [`${enemyName} 挣脱了绳索。`];
-  resolveEnemyCounterAfterPlayerCommand(game, target, activeActor, battleLog, "反击");
+  if (Number(target.Hp || 0) > 0 && battleActorHp(game, activeActor) > 0) {
+    enemyEscaped = resolveEnemyBattleTurn(game, target, activeActor, enemyAi, playerAction, battleLog, false);
+  }
   return settleBattleRound(game, activeActor, target, {
     battleLog,
     result: "capture-missed",
-    sourceCommand: "T|0"
+    sourceCommand: "T|0",
+    playerAction,
+    enemyAi,
+    enemyEscaped
   });
 }
 
