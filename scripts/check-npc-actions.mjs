@@ -4659,6 +4659,29 @@ assertEqual(playerEscapeFailGame.battleOutcome.playerEscape?.chance, 1, "player 
 assert(playerEscapeFailGame.encounter && playerEscapeFailGame.battle, "failed player escape keeps battle active");
 assert(playerEscapeFailGame.battleOutcome.log.some((line) => line.includes("逃跑") && line.includes("失败")), "failed player escape logs failed attempt");
 
+let playerEscapeFirstCountGame = await api("/api/game/new", { name: "player-escape-first-count-test" });
+playerEscapeFirstCountGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
+playerEscapeFirstCountGame = await api("/api/game/encounter", { game: playerEscapeFirstCountGame });
+Object.assign(playerEscapeFirstCountGame.player, { level: 1, Luck: 1, WorkFixLuck: 1 });
+Object.assign(playerEscapeFirstCountGame.pets[0], { Lv: 1, Hp: 999, WorkMaxHp: 999 });
+Object.assign(playerEscapeFirstCountGame.encounter, {
+  Lv: 1,
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+playerEscapeFirstCountGame.battle.enemyParty = [playerEscapeFirstCountGame.encounter];
+playerEscapeFirstCountGame = await api("/api/game/battle", { game: playerEscapeFirstCountGame, action: "逃跑" });
+assertEqual(playerEscapeFirstCountGame.battleOutcome.playerEscape?.attempt, 1, "player first escape stores one source entry escape increment");
+assertEqual(playerEscapeFirstCountGame.battleOutcome.playerEscape?.sourceEscapeCount, 2, "player first escape check uses source entry escape plus one");
+assertEqual(playerEscapeFirstCountGame.battleOutcome.playerEscape?.chance, 60, "player first escape chance follows source post-increment escape count");
+
 let blockedEscapeGame = await api("/api/game/new", { name: "player-escape-status-blocked-test" });
 blockedEscapeGame.location = { mapId: "100", x: 637, y: 493, dir: 2 };
 blockedEscapeGame = await api("/api/game/encounter", { game: blockedEscapeGame });

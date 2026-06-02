@@ -6044,7 +6044,8 @@ function resolveEnemyEscapeAttempt(game, enemy, activeActor, enemyAi) {
   battle.enemyEscapeAttempts ||= {};
   const attempt = Math.max(1, Number(battle.enemyEscapeAttempts[activeIndex] || 0) + 1);
   battle.enemyEscapeAttempts[activeIndex] = attempt;
-  const chance = sourceEscapeChance(enemy, [game.player, getActivePet(game)].filter(Boolean), attempt);
+  const sourceEscapeCount = attempt + 1;
+  const chance = sourceEscapeChance(enemy, [game.player, getActivePet(game)].filter(Boolean), sourceEscapeCount);
   const roll = (stableHashInt([
     enemy.EnemyId || enemy.PetId || enemy.Name,
     enemy.Hp,
@@ -6055,6 +6056,7 @@ function resolveEnemyEscapeAttempt(game, enemy, activeActor, enemyAi) {
   ].join("|")) % 100) + 1;
   return {
     attempt,
+    sourceEscapeCount,
     chance,
     roll,
     succeeded: roll < chance
@@ -6066,7 +6068,8 @@ function resolvePlayerEscapeAttempt(game, enemy) {
   battle.playerEscapeAttempts = Math.max(0, Number(battle.playerEscapeAttempts || 0)) + 1;
   const attempt = battle.playerEscapeAttempts;
   const opponents = liveBattleEnemies(game, enemy);
-  const chance = sourceEscapeChance(game.player, opponents, attempt);
+  const sourceEscapeCount = attempt + 1;
+  const chance = sourceEscapeChance(game.player, opponents, sourceEscapeCount);
   const roll = (stableHashInt([
     game.player?.name || "",
     game.player?.level || 1,
@@ -6076,6 +6079,7 @@ function resolvePlayerEscapeAttempt(game, enemy) {
   ].join("|")) % 100) + 1;
   return {
     attempt,
+    sourceEscapeCount,
     chance,
     roll,
     succeeded: roll < chance,
