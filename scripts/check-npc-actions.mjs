@@ -3116,6 +3116,40 @@ assertEqual(blockedItemBattleGame.battleOutcome.result, "item-blocked", "sleep b
 assertEqual(inventoryQty(blockedItemBattleGame, 990004), 1, "blocked battle item command does not consume the item");
 assert(Number(blockedItemBattleGame.pets[0].Hp || 0) <= blockedItemPetHpBefore, "blocked battle item command does not heal before status resolves");
 assert(blockedItemBattleGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked battle item command writes status log");
+let sleepWakeBattleGame = await api("/api/game/new", { name: "source-sleep-damage-wakeup-test" });
+sleepWakeBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+sleepWakeBattleGame = await api("/api/game/dialog", { game: sleepWakeBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
+Object.assign(sleepWakeBattleGame.pets[0], {
+  WorkFixStr: 80,
+  WorkAttackPower: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+Object.assign(sleepWakeBattleGame.encounter, {
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  BattleStatuses: { sleep: { key: "sleep", label: "睡眠", turns: 3 } }
+});
+Object.assign(sleepWakeBattleGame.battle?.enemyParty?.[0] || {}, {
+  WorkMaxHp: sleepWakeBattleGame.encounter.WorkMaxHp,
+  Hp: sleepWakeBattleGame.encounter.Hp,
+  WorkFixTough: sleepWakeBattleGame.encounter.WorkFixTough,
+  WorkDefencePower: sleepWakeBattleGame.encounter.WorkDefencePower,
+  WorkQuick: sleepWakeBattleGame.encounter.WorkQuick,
+  WorkFixDex: sleepWakeBattleGame.encounter.WorkFixDex,
+  WorkAttackPower: sleepWakeBattleGame.encounter.WorkAttackPower,
+  WorkFixStr: sleepWakeBattleGame.encounter.WorkFixStr,
+  BattleStatuses: sleepWakeBattleGame.encounter.BattleStatuses
+});
+sleepWakeBattleGame = await api("/api/game/battle", { game: sleepWakeBattleGame, action: "attack" });
+assert(!sleepWakeBattleGame.encounter.BattleStatuses?.sleep, "source BATTLE_DamageWakeUp clears enemy sleep after damage");
+assert(sleepWakeBattleGame.battleOutcome.log.some((line) => line.includes("睡眠状态解除")), "damage wake-up writes a source-style sleep clear log");
 let petSkillBattleGame = await api("/api/game/new", { name: "pet-skill-battle-test" });
 petSkillBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 petSkillBattleGame = await api("/api/game/dialog", { game: petSkillBattleGame, npcId: battleNpc.npc.id, message: "宠物" });

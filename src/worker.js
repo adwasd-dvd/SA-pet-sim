@@ -4710,6 +4710,7 @@ function performBattleAction(game, action) {
       enemyAi.guardAdjust = hit.guardAdjust;
     }
     enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
+    clearBattleSleepOnDamage(enemy, hit.damage, battleLog);
     battleLog.push(`${turnActorName} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   };
   const enemyTurn = (guarded = false) => {
@@ -5491,6 +5492,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       enemyAi.guardAdjust = hit.guardAdjust;
     }
     enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
+    clearBattleSleepOnDamage(enemy, hit.damage, battleLog);
     totalDamage += hit.damage;
     hits.push({
       damage: hit.damage,
@@ -5573,6 +5575,7 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     playerAction.guardAdjust = hit.guardAdjust;
   }
   setBattleActorHp(game, targetActor, battleActorHp(game, targetActor) - hit.damage);
+  clearBattleSleepOnDamage(targetActor, hit.damage, battleLog);
   battleLog.push(`${enemy.Name} ${targetGuarded ? "攻击防御中的" : "攻击"} ${battleActorName(game, targetActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
   return false;
 }
@@ -5645,6 +5648,23 @@ function battleStatusResistance(char = {}, status = {}) {
 
 function hasActiveBattleStatus(char = {}) {
   return Object.values(char.BattleStatuses || {}).some((status) => Number(status?.turns || 0) > 0);
+}
+
+function clearBattleSleepOnDamage(target, damage = 0, battleLog = []) {
+  if (!target || Number(damage || 0) <= 0) return null;
+  const sleep = target.BattleStatuses?.sleep;
+  if (!sleep || Number(sleep.turns || 0) <= 0) return null;
+  delete target.BattleStatuses.sleep;
+  syncBattlePrimaryStatus(target);
+  const targetName = target.Name || target.name || "角色";
+  const result = {
+    key: "sleep",
+    label: sleep.label || "睡眠",
+    damage: Number(damage || 0),
+    source: "gmsv battle_event.c BATTLE_DamageWakeUp"
+  };
+  battleLog.push(`${targetName} 受到伤害，${result.label}状态解除。`);
+  return result;
 }
 
 function hasActiveBattleMagicStatus(char = {}) {
