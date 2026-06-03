@@ -3142,11 +3142,17 @@ Object.assign(blockedItemBattleGame.player, {
   Hp: 99999,
   hp: 99999,
   maxHp: 99999,
-  WorkMaxHp: 99999
+  WorkMaxHp: 99999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  Tough: 0
 });
 Object.assign(blockedItemBattleGame.encounter, {
   WorkAttackPower: 0,
   WorkFixStr: 0,
+  WorkFixDex: 0,
+  WorkQuick: 0,
+  Critical: 0,
   Attack: 0,
   Str: 0,
   WorkTactics: 1,
@@ -3155,6 +3161,9 @@ Object.assign(blockedItemBattleGame.encounter, {
 Object.assign(blockedItemBattleGame.battle?.enemyParty?.[0] || {}, {
   WorkAttackPower: 0,
   WorkFixStr: 0,
+  WorkFixDex: 0,
+  WorkQuick: 0,
+  Critical: 0,
   Attack: 0,
   Str: 0,
   WorkTactics: 1,
@@ -3441,8 +3450,8 @@ petStatusSkillGame.pets[0].WorkQuick = 999;
 petStatusSkillGame.pets[0].WorkFixDex = 999;
 petStatusSkillGame.pets[0].Critical = 0;
 const statusSkillEnemyFixture = {
-  EnemyId: 999999,
-  PetId: 999999,
+  EnemyId: 990257,
+  PetId: 990257,
   Name: "状态测试敌人",
   Lv: 1,
   WorkMaxHp: 999,
@@ -3472,6 +3481,7 @@ const statusSkillTelemetry = petStatusSkillGame.battleOutcome.playerAction?.petS
 assertEqual(petStatusSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STATUSCHANGE", "status pet skill maps to source battle command");
 assertEqual(statusSkillTelemetry?.status?.key, "poison", "status pet skill parses petskill2 status token");
 assertEqual(statusSkillTelemetry?.chance, 40, "status pet skill uses source BATTLE_StatusAttackCheck base chance");
+assertEqual(statusSkillTelemetry?.roll, 40, "status pet skill regression sits on the source inclusive chance boundary");
 assert(statusSkillTelemetry?.success, "status pet skill applies source status chance");
 assert(Number(petStatusSkillGame.encounter?.BattleStatuses?.poison?.turns || 0) > 0, "status pet skill persists enemy BattleStatuses");
 const poisonHpBefore = Number(petStatusSkillGame.encounter.Hp || 0);

@@ -5641,7 +5641,7 @@ function resolveBattleStatusAttack(game, attacker, defender, status, skill = {})
     status.turn
   ].join("|")) % 100) + 1;
   return {
-    success: roll < chance,
+    success: roll <= chance,
     chance,
     roll,
     resistance,
