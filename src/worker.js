@@ -5250,6 +5250,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       attackPercent: Number(profile.attackPercent || 0),
       defencePercent: Number(profile.defencePercent || 0),
       quickPercent: Number(profile.quickPercent || 0),
+      drainPercent: Number(profile.drainPercent || 0),
       status: compactBattleStatusEffect(profile.status),
       magicStatus: compactBattleMagicStatusEffect(profile.magicStatus),
       damageDivisor: Number(profile.damageDivisor || 0),
@@ -5351,6 +5352,18 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 1,
       multiplier: 1,
       attackPercent: sourcePercentValue(option, "攻")
+    };
+  }
+  if (func === "PETSKILL_DamageToHp") {
+    const parts = String(skill.Option || "").split("|").map((part) => clampInt(part, 0, 400, 0));
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_DAMAGETOHP",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -Math.abs(Number(parts[0] || 0)),
+      drainPercent: clampInt(parts[1], 0, 400, 0)
     };
   }
   if (func === "PETSKILL_StatusChange") {
@@ -5540,6 +5553,18 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     ? (hits[0].dodged ? "（闪避）" : battleDetailSuffix(hits[0]))
     : `（${hits.map((hit) => hit.dodged ? "闪避" : hit.damage).join("/")}）`;
   battleLog.push(`${activePet.Name} 使用 ${skill.Name} 攻击 ${enemy.Name}，${hitText}造成 ${totalDamage} 伤害${detailText}。`);
+  if (Number(profile.drainPercent || 0) > 0 && totalDamage > 0) {
+    const maxHp = Math.max(0, firstFiniteNumber(activePet.Hp || 0, activePet.WorkMaxHp, activePet.maxHp, activePet.MaxHp));
+    const beforeHp = Math.max(0, Number(activePet.Hp || 0));
+    const healAmount = Math.min(Math.max(0, maxHp - beforeHp), Math.floor(totalDamage * Number(profile.drainPercent || 0) / 100));
+    if (healAmount > 0) {
+      activePet.Hp = beforeHp + healAmount;
+      skillState.healAmount = healAmount;
+      battleLog.push(`${activePet.Name} 吸收伤害，恢复 ${healAmount} HP。`);
+    } else {
+      skillState.healAmount = 0;
+    }
+  }
   if (profile.status && totalDamage > 0 && enemy.Hp > 0) {
     const statusRoll = resolveBattleStatusAttack(game, activePet, enemy, profile.status, skill);
     skillState.status = statusRoll;

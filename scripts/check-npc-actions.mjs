@@ -3413,6 +3413,54 @@ assertEqual(earthRoundSkillGame.battleOutcome.playerAction?.petSkill?.multiplier
 assertEqual(earthRoundSkillGame.battleOutcome.playerAction?.petSkill?.attackPercent, 90, "EarthRound pet skill preserves source attack percent telemetry");
 assertEqual(earthRoundSkillGame.pets[0].WorkAttackPower, 70, "EarthRound pet skill restores temporary attack after the round");
 assert(Number(earthRoundSkillGame.encounter?.Hp || 0) < earthRoundHpBefore, "EarthRound pet skill damages the active battle target");
+let damageToHpSkillGame = await api("/api/game/new", { name: "pet-damagetohp-skill-test" });
+damageToHpSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+damageToHpSkillGame = await api("/api/game/dialog", { game: damageToHpSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+damageToHpSkillGame.pets[0].PetSkillIds = [503];
+damageToHpSkillGame.pets[0].PetSkills = [{
+  Id: 503,
+  Name: "嗜血技",
+  Des: "攻击力下降30%，并将伤害值的50%化为己用",
+  FuncName: "PETSKILL_DamageToHp",
+  Option: "30|50",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+damageToHpSkillGame.pets[0].Hp = 40;
+damageToHpSkillGame.pets[0].WorkMaxHp = 200;
+damageToHpSkillGame.pets[0].WorkFixStr = 100;
+damageToHpSkillGame.pets[0].WorkAttackPower = 100;
+damageToHpSkillGame.pets[0].WorkQuick = 999;
+damageToHpSkillGame.pets[0].WorkFixDex = 999;
+damageToHpSkillGame.encounter.WorkMaxHp = 999;
+damageToHpSkillGame.encounter.Hp = 999;
+damageToHpSkillGame.encounter.WorkFixTough = 1;
+damageToHpSkillGame.encounter.WorkDefencePower = 1;
+damageToHpSkillGame.encounter.WorkQuick = 0;
+damageToHpSkillGame.encounter.WorkFixDex = 0;
+damageToHpSkillGame.encounter.WorkAttackPower = 0;
+Object.assign(damageToHpSkillGame.battle?.enemyParty?.[0] || {}, {
+  WorkMaxHp: damageToHpSkillGame.encounter.WorkMaxHp,
+  Hp: damageToHpSkillGame.encounter.Hp,
+  WorkFixTough: damageToHpSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: damageToHpSkillGame.encounter.WorkDefencePower,
+  WorkQuick: damageToHpSkillGame.encounter.WorkQuick,
+  WorkFixDex: damageToHpSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: damageToHpSkillGame.encounter.WorkAttackPower
+});
+const damageToHpHpBefore = Number(damageToHpSkillGame.pets[0].Hp || 0);
+const damageToHpEnemyHpBefore = Number(damageToHpSkillGame.encounter.Hp || 0);
+damageToHpSkillGame = await api("/api/game/battle", { game: damageToHpSkillGame, action: "skill:0" });
+assertEqual(damageToHpSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_DAMAGETOHP", "DamageToHp pet skill maps to source battle command");
+assertEqual(damageToHpSkillGame.battleOutcome.playerAction?.petSkill?.attackPercent, -30, "DamageToHp pet skill applies source attack penalty as temporary WorkAttackPower");
+assertEqual(damageToHpSkillGame.battleOutcome.playerAction?.petSkill?.drainPercent, 50, "DamageToHp pet skill preserves source drain percent telemetry");
+assert(Number(damageToHpSkillGame.battleOutcome.playerAction?.petSkill?.healAmount || 0) > 0, "DamageToHp pet skill heals from landed damage");
+assert(Number(damageToHpSkillGame.pets[0].Hp || 0) > damageToHpHpBefore, "DamageToHp pet skill restores pet HP");
+assert(Number(damageToHpSkillGame.pets[0].Hp || 0) <= Number(damageToHpSkillGame.pets[0].WorkMaxHp || 0), "DamageToHp pet skill caps healing at WorkMaxHp");
+assertEqual(damageToHpSkillGame.pets[0].WorkAttackPower, 100, "DamageToHp pet skill restores temporary attack after the round");
+assert(Number(damageToHpSkillGame.encounter?.Hp || 0) < damageToHpEnemyHpBefore, "DamageToHp pet skill damages the active battle target");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
