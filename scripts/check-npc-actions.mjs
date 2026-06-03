@@ -3636,6 +3636,69 @@ assertEqual(retraceTelemetry?.hits?.[1]?.retrace, true, "Retrace records the sec
 assert(Number(retraceTelemetry?.hits?.[1]?.damage || 0) > 0, "Retrace second attack can land and damage after a first dodge");
 assert(Number(retraceSkillGame.encounter?.Hp || 0) < 999, "Retrace pet skill damages the active target after retry");
 assertEqual(retraceSkillGame.pets[0].WorkAttackPower, 90, "Retrace restores temporary second-hit attack boost after the round");
+let gyrateSkillGame = await api("/api/game/new", { name: "pet-gyrate-skill-test" });
+gyrateSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+gyrateSkillGame = await api("/api/game/dialog", { game: gyrateSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+gyrateSkillGame.pets[0].PetSkillIds = [619];
+gyrateSkillGame.pets[0].PetSkills = [{
+  Id: 619,
+  Name: "回旋攻击",
+  Des: "攻击力下降50% 可攻击敌方一排",
+  FuncName: "PETSKILL_Gyrate",
+  Option: "攻%-50",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(gyrateSkillGame.pets[0], {
+  WorkFixStr: 120,
+  WorkAttackPower: 120,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(gyrateSkillGame.encounter, {
+  EnemyId: 990619,
+  PetId: 990619,
+  Name: "回旋测试敌人一",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0
+});
+const gyrateEnemyTwo = {
+  ...gyrateSkillGame.encounter,
+  EnemyId: 990620,
+  PetId: 990620,
+  Name: "回旋测试敌人二",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+const gyrateEnemyThree = {
+  ...gyrateSkillGame.encounter,
+  EnemyId: 990621,
+  PetId: 990621,
+  Name: "回旋测试敌人三",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+gyrateSkillGame.battle.enemyParty = [gyrateSkillGame.encounter, gyrateEnemyTwo, gyrateEnemyThree];
+gyrateSkillGame.battle.activeEnemyIndex = 0;
+gyrateSkillGame = await api("/api/game/battle", { game: gyrateSkillGame, action: "skill:0" });
+const gyrateTelemetry = gyrateSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(gyrateSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_GYRATE", "Gyrate pet skill maps to source battle command");
+assertEqual(gyrateTelemetry?.attackPercent, -50, "Gyrate applies source attack percent as temporary WorkAttackPower");
+assertEqual(gyrateTelemetry?.targetScope, "enemy-row", "Gyrate preserves source row target scope telemetry");
+assertEqual(gyrateTelemetry?.hits?.length, 3, "Gyrate attacks each live enemy in the source row");
+assertEqual(new Set(gyrateTelemetry.hits.map((hit) => hit.targetSlot)).size, 3, "Gyrate records distinct row target slots");
+assert(gyrateSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Gyrate damages every live enemy in the row fixture");
+assertEqual(gyrateSkillGame.pets[0].WorkAttackPower, 120, "Gyrate restores temporary attack after the round");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

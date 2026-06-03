@@ -5253,6 +5253,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       drainPercent: Number(profile.drainPercent || 0),
       retraceChance: Number(profile.retraceChance || 0),
       retraceAttackPercent: Number(profile.retraceAttackPercent || 0),
+      targetScope: profile.targetScope || "",
       attributeBoost: compactSourceAttributeBoost(profile.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       status: compactBattleStatusEffect(profile.status),
@@ -5404,6 +5405,18 @@ function petSkillBattleProfile(skill = {}) {
       usesDuckCheck: true,
       retraceChance: 80,
       retraceAttackPercent: 20
+    };
+  }
+  if (func === "PETSKILL_Gyrate") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_GYRATE",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: sourcePercentValue(option, "攻"),
+      targetScope: "enemy-row"
     };
   }
   if (func === "PETSKILL_StatusChange") {
@@ -5565,6 +5578,24 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
 }
 
+function sourcePetSkillTargets(game, enemy, profile = {}) {
+  const source = "gmsv battle.c BATTLE_COM_S_GYRATE row target scan";
+  if (profile.targetScope !== "enemy-row") {
+    const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+    return [{ enemy, slot: activeIndex, source: "active-target" }];
+  }
+  const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+    ? game.battle.enemyParty
+    : [enemy].filter(Boolean);
+  const targets = party
+    .slice(0, 5)
+    .map((item, index) => ({ enemy: item, slot: index, source }))
+    .filter((target) => target.enemy && Number(target.enemy.Hp || 0) > 0 && !target.enemy.BattleEscaped);
+  return targets.length
+    ? targets
+    : [{ enemy, slot: Math.max(0, Number(game.battle?.activeEnemyIndex || 0)), source: "fallback-active-target" }];
+}
+
 function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
   const skillState = playerAction.petSkill;
   const usesDuckCheck = Boolean(profile.usesDuckCheck || profile.duckModifier);
@@ -5590,23 +5621,28 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   skillState.duckModifier = Number(profile.duckModifier || 0);
   skillState.retraceChance = Number(profile.retraceChance || 0);
   skillState.retraceAttackPercent = Number(profile.retraceAttackPercent || 0);
+  skillState.targetScope = profile.targetScope || "";
   const hits = [];
   let totalDamage = 0;
 
-  const resolveSingleHit = (i, options = {}) => {
+  const targets = sourcePetSkillTargets(game, enemy, profile);
+
+  const resolveSingleHit = (target, i, options = {}) => {
     let multiplier = Number(profile.multiplier || 1);
     if (profile.guardBreak2) multiplier = enemyAi.type === "guard" ? 1.3 : 0.7;
     let hit = usesDuckCheck
-      ? combatNormalAttackDetail(activePet, enemy, {
+      ? combatNormalAttackDetail(activePet, target.enemy, {
           multiplier,
           attackerKind: "pet",
           defenderKind: "enemy",
           duckChanceModifier: Number(profile.duckModifier || 0),
           attributeOverride: profile.attributeOverride
         })
-      : combatDamageDetail(activePet, enemy, multiplier, { attributeOverride: profile.attributeOverride });
+      : combatDamageDetail(activePet, target.enemy, multiplier, { attributeOverride: profile.attributeOverride });
     if (hit.dodgeCheck?.dodged) {
       return {
+        targetSlot: target.slot,
+        targetName: target.enemy?.Name || "enemy",
         damage: 0,
         dodged: true,
         dodgeCheck: hit.dodgeCheck,
@@ -5618,7 +5654,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       };
     }
     if (profile.attributeBoost) {
-      hit = applySourceAttributeBoost(hit, enemy, profile.attributeBoost);
+      hit = applySourceAttributeBoost(hit, target.enemy, profile.attributeBoost);
     }
     if (damageDivisor > 1) {
       hit = {
@@ -5628,24 +5664,26 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
         damageDivisor
       };
     }
-    if (enemyAi.type === "guard" && !profile.ignoreGuard) {
+    if (target.enemy === enemy && enemyAi.type === "guard" && !profile.ignoreGuard) {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
         "pet-skill",
         skill.Id,
         i,
-        enemy.EnemyId || enemy.PetId || enemy.Name,
+        target.enemy.EnemyId || target.enemy.PetId || target.enemy.Name,
         activePet.PetId || activePet.Name,
         game.battle?.turn || 0,
-        enemy.Hp,
+        target.enemy.Hp,
         activePet.Hp
       ]);
       enemyAi.guardAdjust = hit.guardAdjust;
     }
-    enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
-    clearBattleSleepOnDamage(enemy, hit.damage, battleLog);
+    target.enemy.Hp = Math.max(0, Number(target.enemy.Hp || 0) - hit.damage);
+    clearBattleSleepOnDamage(target.enemy, hit.damage, battleLog);
     totalDamage += hit.damage;
     return {
+      targetSlot: target.slot,
+      targetName: target.enemy?.Name || "enemy",
       damage: hit.damage,
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
@@ -5661,26 +5699,29 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     };
   };
 
-  for (let i = 0; i < resolvedHitCount && enemy.Hp > 0; i += 1) {
-    const hitSummary = resolveSingleHit(i);
-    hits.push(hitSummary);
-    if (
-      hitSummary.dodged
-      && i === 0
-      && Number(profile.retraceChance || 0) > 0
-      && Number(enemy.Hp || 0) > 0
-    ) {
-      const retraceRoll = sourceBattleRand(1, 100);
-      skillState.retraceRoll = retraceRoll;
-      skillState.retraceTriggered = retraceRoll < Number(profile.retraceChance || 0);
-      if (skillState.retraceTriggered) {
-        const originalAttackPower = activePet.WorkAttackPower;
-        const baseAttackPower = firstFiniteNumber(0, activePet.WorkFixStr, activePet.WorkAttackPower);
-        activePet.WorkAttackPower = Math.max(0, Math.floor(baseAttackPower * (1 + Number(profile.retraceAttackPercent || 0) / 100)));
-        try {
-          hits.push(resolveSingleHit(i, { retrace: true, retraceRoll }));
-        } finally {
-          activePet.WorkAttackPower = originalAttackPower;
+  for (const target of targets) {
+    for (let i = 0; i < resolvedHitCount && Number(target.enemy?.Hp || 0) > 0; i += 1) {
+      const hitSummary = resolveSingleHit(target, i);
+      hits.push(hitSummary);
+      if (
+        hitSummary.dodged
+        && i === 0
+        && target.enemy === enemy
+        && Number(profile.retraceChance || 0) > 0
+        && Number(target.enemy?.Hp || 0) > 0
+      ) {
+        const retraceRoll = sourceBattleRand(1, 100);
+        skillState.retraceRoll = retraceRoll;
+        skillState.retraceTriggered = retraceRoll < Number(profile.retraceChance || 0);
+        if (skillState.retraceTriggered) {
+          const originalAttackPower = activePet.WorkAttackPower;
+          const baseAttackPower = firstFiniteNumber(0, activePet.WorkFixStr, activePet.WorkAttackPower);
+          activePet.WorkAttackPower = Math.max(0, Math.floor(baseAttackPower * (1 + Number(profile.retraceAttackPercent || 0) / 100)));
+          try {
+            hits.push(resolveSingleHit(target, i, { retrace: true, retraceRoll }));
+          } finally {
+            activePet.WorkAttackPower = originalAttackPower;
+          }
         }
       }
     }
@@ -6472,6 +6513,7 @@ function compactPetSkillTelemetry(skill) {
     defencePercent: Number(skill.defencePercent || 0),
     quickPercent: Number(skill.quickPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
+    targetScope: skill.targetScope || "",
     attributeBoost: compactSourceAttributeBoost(skill.attributeBoost),
     attributeOverride: compactSourceAttributeOverride(skill.attributeOverride),
     status: skill.status ? {
@@ -6486,6 +6528,8 @@ function compactPetSkillTelemetry(skill) {
     } : null,
     totalDamage: Number(skill.totalDamage || 0),
     hits: (skill.hits || []).slice(0, 9).map((hit) => ({
+      targetSlot: Number(hit.targetSlot || 0),
+      targetName: hit.targetName || "",
       damage: Number(hit.damage || 0),
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
@@ -7048,6 +7092,12 @@ function advanceBattleEscapedEnemy(game, escapedEnemy, battleLog) {
 }
 
 function completedBattleEnemies(game, finalEnemy) {
+  const party = Array.isArray(game.battle?.enemyParty) ? game.battle.enemyParty : [];
+  if (party.length > 1 && !party.some((enemy) => enemy && Number(enemy.Hp || 0) > 0 && !enemy.BattleEscaped)) {
+    return party
+      .filter((enemy) => enemy && !enemy.BattleEscaped)
+      .map((enemy) => enemyBattleSummary(enemy));
+  }
   const defeated = Array.isArray(game.battle?.defeatedEnemies) ? [...game.battle.defeatedEnemies] : [];
   defeated.push(enemyBattleSummary(finalEnemy));
   return defeated;
