@@ -3461,6 +3461,122 @@ assert(Number(damageToHpSkillGame.pets[0].Hp || 0) > damageToHpHpBefore, "Damage
 assert(Number(damageToHpSkillGame.pets[0].Hp || 0) <= Number(damageToHpSkillGame.pets[0].WorkMaxHp || 0), "DamageToHp pet skill caps healing at WorkMaxHp");
 assertEqual(damageToHpSkillGame.pets[0].WorkAttackPower, 100, "DamageToHp pet skill restores temporary attack after the round");
 assert(Number(damageToHpSkillGame.encounter?.Hp || 0) < damageToHpEnemyHpBefore, "DamageToHp pet skill damages the active battle target");
+let modifyAttackSkillGame = await api("/api/game/new", { name: "pet-modifyattack-skill-test" });
+modifyAttackSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+modifyAttackSkillGame = await api("/api/game/dialog", { game: modifyAttackSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+modifyAttackSkillGame.pets[0].PetSkillIds = [544];
+modifyAttackSkillGame.pets[0].PetSkills = [{
+  Id: 544,
+  Name: "地属性强化攻击",
+  Des: "对地属性强化20%攻击",
+  FuncName: "PETSKILL_Modifyattack",
+  Option: "EA|20",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+modifyAttackSkillGame.pets[0].WorkFixStr = 90;
+modifyAttackSkillGame.pets[0].WorkAttackPower = 90;
+modifyAttackSkillGame.pets[0].WorkQuick = 999;
+modifyAttackSkillGame.pets[0].WorkFixDex = 999;
+modifyAttackSkillGame.encounter.Name = "地属性强化测试敌人";
+modifyAttackSkillGame.encounter.WorkMaxHp = 999;
+modifyAttackSkillGame.encounter.Hp = 999;
+modifyAttackSkillGame.encounter.WorkFixTough = 1;
+modifyAttackSkillGame.encounter.WorkDefencePower = 1;
+modifyAttackSkillGame.encounter.WorkQuick = 0;
+modifyAttackSkillGame.encounter.WorkFixDex = 0;
+modifyAttackSkillGame.encounter.WorkAttackPower = 1;
+modifyAttackSkillGame.encounter.EarthAT = 50;
+modifyAttackSkillGame.encounter.WaterAT = 0;
+modifyAttackSkillGame.encounter.FireAT = 0;
+modifyAttackSkillGame.encounter.WindAT = 0;
+Object.assign(modifyAttackSkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: modifyAttackSkillGame.encounter.Name,
+  WorkMaxHp: modifyAttackSkillGame.encounter.WorkMaxHp,
+  Hp: modifyAttackSkillGame.encounter.Hp,
+  WorkFixTough: modifyAttackSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: modifyAttackSkillGame.encounter.WorkDefencePower,
+  WorkQuick: modifyAttackSkillGame.encounter.WorkQuick,
+  WorkFixDex: modifyAttackSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: modifyAttackSkillGame.encounter.WorkAttackPower,
+  EarthAT: modifyAttackSkillGame.encounter.EarthAT,
+  WaterAT: modifyAttackSkillGame.encounter.WaterAT,
+  FireAT: modifyAttackSkillGame.encounter.FireAT,
+  WindAT: modifyAttackSkillGame.encounter.WindAT
+});
+const originalRandomForModifyAttack = Math.random;
+try {
+  Math.random = () => 0.5;
+  modifyAttackSkillGame = await api("/api/game/battle", { game: modifyAttackSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForModifyAttack;
+}
+const modifyAttackTelemetry = modifyAttackSkillGame.battleOutcome.playerAction?.petSkill;
+const modifyAttackHit = modifyAttackTelemetry?.hits?.find((hit) => !hit.dodged);
+assertEqual(modifyAttackSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_MODIFYATT", "Modifyattack pet skill maps to source battle command");
+assertEqual(modifyAttackTelemetry?.attributeBoost?.element, "earth", "Modifyattack pet skill parses source EA attribute token");
+assertEqual(modifyAttackTelemetry?.attributeBoost?.percent, 20, "Modifyattack pet skill preserves source attribute boost percent");
+assert(Number(modifyAttackHit?.attributeBoost?.addedDamage || 0) > 0, "Modifyattack pet skill adds source attribute bonus damage");
+assert(Number(modifyAttackSkillGame.encounter?.Hp || 0) < 999, "Modifyattack pet skill damages the active target");
+let mdfyAttackSkillGame = await api("/api/game/new", { name: "pet-mdfyattack-skill-test" });
+mdfyAttackSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+mdfyAttackSkillGame = await api("/api/game/dialog", { game: mdfyAttackSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+mdfyAttackSkillGame.pets[0].PetSkillIds = [550];
+mdfyAttackSkillGame.pets[0].PetSkills = [{
+  Id: 550,
+  Name: "火属性转换攻击",
+  Des: "转换自己为火属性",
+  FuncName: "PETSKILL_Mdfyattack",
+  Option: "FI|100",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+mdfyAttackSkillGame.pets[0].EarthAT = 0;
+mdfyAttackSkillGame.pets[0].WaterAT = 0;
+mdfyAttackSkillGame.pets[0].FireAT = 0;
+mdfyAttackSkillGame.pets[0].WindAT = 0;
+mdfyAttackSkillGame.pets[0].WorkFixStr = 90;
+mdfyAttackSkillGame.pets[0].WorkAttackPower = 90;
+mdfyAttackSkillGame.pets[0].WorkQuick = 999;
+mdfyAttackSkillGame.pets[0].WorkFixDex = 999;
+mdfyAttackSkillGame.encounter.Name = "风属性转换测试敌人";
+mdfyAttackSkillGame.encounter.WorkMaxHp = 999;
+mdfyAttackSkillGame.encounter.Hp = 999;
+mdfyAttackSkillGame.encounter.WorkFixTough = 1;
+mdfyAttackSkillGame.encounter.WorkDefencePower = 1;
+mdfyAttackSkillGame.encounter.WorkQuick = 0;
+mdfyAttackSkillGame.encounter.WorkFixDex = 0;
+mdfyAttackSkillGame.encounter.WorkAttackPower = 1;
+mdfyAttackSkillGame.encounter.EarthAT = 0;
+mdfyAttackSkillGame.encounter.WaterAT = 0;
+mdfyAttackSkillGame.encounter.FireAT = 0;
+mdfyAttackSkillGame.encounter.WindAT = 100;
+Object.assign(mdfyAttackSkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: mdfyAttackSkillGame.encounter.Name,
+  WorkMaxHp: mdfyAttackSkillGame.encounter.WorkMaxHp,
+  Hp: mdfyAttackSkillGame.encounter.Hp,
+  WorkFixTough: mdfyAttackSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: mdfyAttackSkillGame.encounter.WorkDefencePower,
+  WorkQuick: mdfyAttackSkillGame.encounter.WorkQuick,
+  WorkFixDex: mdfyAttackSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: mdfyAttackSkillGame.encounter.WorkAttackPower,
+  EarthAT: mdfyAttackSkillGame.encounter.EarthAT,
+  WaterAT: mdfyAttackSkillGame.encounter.WaterAT,
+  FireAT: mdfyAttackSkillGame.encounter.FireAT,
+  WindAT: mdfyAttackSkillGame.encounter.WindAT
+});
+mdfyAttackSkillGame = await api("/api/game/battle", { game: mdfyAttackSkillGame, action: "skill:0" });
+const mdfyAttackTelemetry = mdfyAttackSkillGame.battleOutcome.playerAction?.petSkill;
+const mdfyAttackHit = mdfyAttackTelemetry?.hits?.find((hit) => !hit.dodged);
+assertEqual(mdfyAttackSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_MDFYATTACK", "Mdfyattack pet skill maps to source battle command");
+assertEqual(mdfyAttackTelemetry?.attributeOverride?.element, "fire", "Mdfyattack pet skill parses source FI attribute token");
+assertEqual(mdfyAttackTelemetry?.attributeOverride?.percent, 100, "Mdfyattack pet skill preserves source attribute override percent");
+assert(Number(mdfyAttackHit?.elementMultiplier || 0) > 1.4, "Mdfyattack pet skill applies source temporary attack attribute to damage");
+assert(Number(mdfyAttackSkillGame.encounter?.Hp || 0) < 999, "Mdfyattack pet skill damages the active target");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

@@ -5251,6 +5251,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       defencePercent: Number(profile.defencePercent || 0),
       quickPercent: Number(profile.quickPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
+      attributeBoost: compactSourceAttributeBoost(profile.attributeBoost),
+      attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       status: compactBattleStatusEffect(profile.status),
       magicStatus: compactBattleMagicStatusEffect(profile.magicStatus),
       damageDivisor: Number(profile.damageDivisor || 0),
@@ -5366,6 +5368,30 @@ function petSkillBattleProfile(skill = {}) {
       drainPercent: clampInt(parts[1], 0, 400, 0)
     };
   }
+  if (func === "PETSKILL_Modifyattack") {
+    const boost = sourceAttributeBoostFromOption(skill.Option || "");
+    return {
+      supported: Boolean(boost),
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_MODIFYATT",
+      hitCount: 1,
+      multiplier: 1,
+      attributeBoost: boost,
+      reason: boost ? "" : `unsupported attribute boost ${skill.Option || ""}`
+    };
+  }
+  if (func === "PETSKILL_Mdfyattack") {
+    const attributeOverride = sourceAttributeOverrideFromOption(skill.Option || "");
+    return {
+      supported: Boolean(attributeOverride),
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_MDFYATTACK",
+      hitCount: 1,
+      multiplier: 1,
+      attributeOverride,
+      reason: attributeOverride ? "" : `unsupported attribute override ${skill.Option || ""}`
+    };
+  }
   if (func === "PETSKILL_StatusChange") {
     const option = String(skill.Option || "");
     return {
@@ -5391,6 +5417,68 @@ function petSkillBattleProfile(skill = {}) {
     };
   }
   return { supported: false, kind: "unsupported", sourceCommand: "", reason: `unsupported ${func || "unknown"}` };
+}
+
+function sourceAttributeBoostFromOption(option = "") {
+  const parts = String(option || "").split("|");
+  const element = sourceAttributeOptionElement(parts[0]);
+  if (!element) return null;
+  return {
+    element,
+    percent: clampInt(parts[1], 0, 9999, 0),
+    source: "gmsv battle_event.c BATTLE_S_Modifyattack"
+  };
+}
+
+function sourceAttributeOverrideFromOption(option = "") {
+  const parts = String(option || "").split("|");
+  const element = sourceAttributeOptionElement(parts[0]);
+  if (!element) return null;
+  const percent = clampInt(parts[1], 0, 9999, 100);
+  return {
+    earth: element === "earth" ? percent : 0,
+    water: element === "water" ? percent : 0,
+    fire: element === "fire" ? percent : 0,
+    wind: element === "wind" ? percent : 0,
+    none: 0,
+    element,
+    percent,
+    source: "gmsv battle_event.c BATTLE_AttrAdjust + PETSKILL_Mdfyattack"
+  };
+}
+
+function sourceAttributeOptionElement(token = "") {
+  switch (String(token || "").trim().toUpperCase()) {
+    case "EA": return "earth";
+    case "WA": return "water";
+    case "FI": return "fire";
+    case "WI": return "wind";
+    default: return "";
+  }
+}
+
+function compactSourceAttributeBoost(boost) {
+  if (!boost?.element) return null;
+  const compact = {
+    element: boost.element,
+    percent: Number(boost.percent || 0),
+    source: boost.source || "gmsv battle_event.c BATTLE_S_Modifyattack"
+  };
+  if (Object.prototype.hasOwnProperty.call(boost, "defenderElement")) compact.defenderElement = Number(boost.defenderElement || 0);
+  if (Object.prototype.hasOwnProperty.call(boost, "roll")) compact.roll = Number(boost.roll || 0);
+  if (Object.prototype.hasOwnProperty.call(boost, "sourceBonus")) compact.sourceBonus = Number(boost.sourceBonus || 0);
+  if (Object.prototype.hasOwnProperty.call(boost, "addedDamage")) compact.addedDamage = Number(boost.addedDamage || 0);
+  if (Object.prototype.hasOwnProperty.call(boost, "applied")) compact.applied = Boolean(boost.applied);
+  return compact;
+}
+
+function compactSourceAttributeOverride(attributeOverride) {
+  if (!attributeOverride?.element) return null;
+  return {
+    element: attributeOverride.element,
+    percent: Number(attributeOverride.percent || 0),
+    source: attributeOverride.source || "gmsv battle_event.c BATTLE_AttrAdjust"
+  };
 }
 
 function parsePetSkillMagicStatusChange(option = "") {
@@ -5495,9 +5583,10 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
           multiplier,
           attackerKind: "pet",
           defenderKind: "enemy",
-          duckChanceModifier: Number(profile.duckModifier || 0)
+          duckChanceModifier: Number(profile.duckModifier || 0),
+          attributeOverride: profile.attributeOverride
         })
-      : combatDamageDetail(activePet, enemy, multiplier);
+      : combatDamageDetail(activePet, enemy, multiplier, { attributeOverride: profile.attributeOverride });
     if (hit.dodgeCheck?.dodged) {
       hits.push({
         damage: 0,
@@ -5508,6 +5597,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
         guardAdjust: null
       });
       continue;
+    }
+    if (profile.attributeBoost) {
+      hit = applySourceAttributeBoost(hit, enemy, profile.attributeBoost);
     }
     if (damageDivisor > 1) {
       hit = {
@@ -5542,6 +5634,8 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       dodgeCheck: hit.dodgeCheck || null,
       critical: Boolean(hit.critical),
       elementMultiplier: Number(hit.elementMultiplier || 1),
+      attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
+      attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       guardAdjust: compactGuardAdjust(hit.guardAdjust)
     });
   }
@@ -7407,7 +7501,7 @@ function sourceBattleStatusBlocksTurn(actor = {}) {
 function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
   const attack = workAttackPower(attacker);
   const defense = sourceBattleDefensePower(defender);
-  const elementMultiplier = elementalDamageMultiplier(attacker, defender);
+  const elementMultiplier = elementalDamageMultiplier(attacker, defender, options);
   let raw = 0;
   let sourceRoll = 0;
   let sourceBranch = "overpower";
@@ -7445,6 +7539,40 @@ function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
     elementMultiplier,
     sourceRoll,
     sourceBranch
+  };
+}
+
+function applySourceAttributeBoost(hit = {}, defender = {}, boost = {}) {
+  if (!boost?.element || Number(hit.damage || 0) <= 0) return hit;
+  const defenderVector = elementVector(defender);
+  const defenderElement = Math.max(0, Number(defenderVector[boost.element] || 0));
+  if (defenderElement <= 0) {
+    return {
+      ...hit,
+      attributeBoost: {
+        ...compactSourceAttributeBoost(boost),
+        defenderElement,
+        roll: 0,
+        addedDamage: 0,
+        applied: false
+      }
+    };
+  }
+  const roll = sourceBattleRand(0, defenderElement + 4);
+  const boostPercent = Math.max(0, Number(boost.percent || 0)) / 100;
+  const sourceBonus = boostPercent + (roll / 100);
+  const addedDamage = Math.max(0, Math.floor(Number(hit.damage || 0) * sourceBonus));
+  return {
+    ...hit,
+    damage: Number(hit.damage || 0) + addedDamage,
+    attributeBoost: {
+      ...compactSourceAttributeBoost(boost),
+      defenderElement,
+      roll,
+      sourceBonus,
+      addedDamage,
+      applied: true
+    }
   };
 }
 
@@ -7591,11 +7719,11 @@ function battleDetailSuffix(detail) {
   return parts.length ? `（${parts.join("，")}）` : "";
 }
 
-function elementalDamageMultiplier(attacker, defender) {
-  const a = elementVector(attacker);
+function elementalDamageMultiplier(attacker, defender, options = {}) {
+  const a = options.attributeOverride?.element ? elementVector(options.attributeOverride) : elementVector(attacker);
   const d = elementVector(defender);
-  const aNone = Math.max(0, 100 - a.earth - a.water - a.fire - a.wind);
-  const dNone = Math.max(0, 100 - d.earth - d.water - d.fire - d.wind);
+  const aNone = Number.isFinite(Number(a.none)) ? Math.max(0, Number(a.none)) : Math.max(0, 100 - a.earth - a.water - a.fire - a.wind);
+  const dNone = Number.isFinite(Number(d.none)) ? Math.max(0, Number(d.none)) : Math.max(0, 100 - d.earth - d.water - d.fire - d.wind);
   const fire = a.fire * dNone * 1.5 + a.fire * d.fire + a.fire * d.water * 0.6 + a.fire * d.earth + a.fire * d.wind * 1.5;
   const water = a.water * dNone * 1.5 + a.water * d.fire * 1.5 + a.water * d.water + a.water * d.earth * 0.6 + a.water * d.wind;
   const earth = a.earth * dNone * 1.5 + a.earth * d.fire + a.earth * d.water * 1.5 + a.earth * d.earth + a.earth * d.wind * 0.6;
@@ -7609,7 +7737,8 @@ function elementVector(char = {}) {
     earth: clampInt(char.EarthAT ?? char.Earth ?? char.earth, 0, 100, 0),
     water: clampInt(char.WaterAT ?? char.Water ?? char.water, 0, 100, 0),
     fire: clampInt(char.FireAT ?? char.Fire ?? char.fire, 0, 100, 0),
-    wind: clampInt(char.WindAT ?? char.WindAt ?? char.Wind ?? char.wind, 0, 100, 0)
+    wind: clampInt(char.WindAT ?? char.WindAt ?? char.Wind ?? char.wind, 0, 100, 0),
+    none: Number.isFinite(Number(char.NoneAT ?? char.None ?? char.none)) ? clampInt(char.NoneAT ?? char.None ?? char.none, 0, 100, 0) : undefined
   };
 }
 
