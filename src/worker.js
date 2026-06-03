@@ -4878,15 +4878,20 @@ function performPetSwitchBattleAction(game, move) {
   game.battle.sourceCommand = sourceCommand;
   game.battle.playerAction = playerAction;
   game.battle.mode = "resolving";
+  const blockedEnemyAi = chooseEnemyBattleMove(game, enemy, currentActor);
+  let blockedEnemyEscaped = false;
   if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
-    if (Number(enemy.Hp || 0) > 0) {
-      resolveEnemyCounterAfterPlayerCommand(game, enemy, currentActor, preTurnLog, "趁机反击");
+    game.battle.enemyAi = blockedEnemyAi;
+    if (Number(enemy.Hp || 0) > 0 && battleActorHp(game, currentActor) > 0) {
+      blockedEnemyEscaped = resolveEnemyBattleTurn(game, enemy, currentActor, blockedEnemyAi, playerAction, preTurnLog, false);
     }
     return settleBattleRound(game, currentActor, enemy, {
       battleLog: preTurnLog,
       result: "pet-switch-blocked",
       sourceCommand,
-      playerAction
+      playerAction,
+      enemyAi: blockedEnemyAi,
+      enemyEscaped: blockedEnemyEscaped
     });
   }
 
@@ -5048,6 +5053,7 @@ function sourcePlayerBattleAction(move, game, activeActor, enemy) {
   if (move.type === "guard") return { ...base, sourceCommand: "BATTLE_COM_GUARD" };
   if (move.type === "wait") return { ...base, sourceCommand: "BATTLE_COM_WAIT" };
   if (move.type === "escape") return { ...base, sourceCommand: "BATTLE_COM_ESCAPE" };
+  if (move.type === "item") return { ...base, sourceCommand: "BATTLE_COM_ITEM" };
   if (move.type === "capture") {
     return {
       ...base,
@@ -6435,46 +6441,42 @@ function performBattleItemAction(game, itemId = null) {
   const enemy = game.encounter;
   game.battle.sourceCommand = "I";
   game.battle.mode = "resolving";
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activeActor);
+  const playerAction = sourcePlayerBattleAction({ type: "item", command: "I" }, game, activeActor, enemy);
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
   const battleLog = [];
   const preTurn = consumeBattleStatusBeforeTurn(game.player, battleLog);
+  let enemyEscaped = false;
   if (preTurn.stopped || battleStatusHp(game.player) <= 0) {
-    if (Number(enemy.Hp || 0) > 0) {
-      resolveEnemyCounterAfterPlayerCommand(game, enemy, activeActor, battleLog, "趁机反击");
+    if (Number(enemy.Hp || 0) > 0 && battleActorHp(game, activeActor) > 0) {
+      enemyEscaped = resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, battleLog, false);
     }
     return settleBattleRound(game, activeActor, enemy, {
       battleLog,
       result: "item-blocked",
       sourceCommand: "I",
+      playerAction,
+      enemyAi,
+      enemyEscaped,
       itemUse: null
     });
   }
   const itemUse = applyUsableItem(game, item, { battle: true });
   battleLog.push(itemUseLogLine(itemUse));
-  if (enemy.Hp > 0) resolveEnemyCounterAfterPlayerCommand(game, enemy, activeActor, battleLog, "趁机反击");
+  if (enemy.Hp > 0 && battleActorHp(game, activeActor) > 0) {
+    enemyEscaped = resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, battleLog, false);
+  }
 
   return settleBattleRound(game, activeActor, enemy, {
     battleLog,
     result: "item",
     sourceCommand: "I",
+    playerAction,
+    enemyAi,
+    enemyEscaped,
     itemUse
   });
-}
-
-function resolveEnemyCounterAfterPlayerCommand(game, enemy, activeActor, battleLog, verb = "反击") {
-  const statusResult = consumeBattleStatusBeforeTurn(enemy, battleLog);
-  syncActiveEnemyPartyEntry(game, enemy);
-  if (statusResult.stopped || Number(enemy.Hp || 0) <= 0) return false;
-  const hit = combatNormalAttackDetail(enemy, activeActor, {
-    attackerKind: "enemy",
-    defenderKind: battleActorKind(game, activeActor)
-  });
-  if (hit.dodgeCheck?.dodged) {
-    battleLog.push(`${battleActorName(game, activeActor)} 闪开了 ${enemy.Name} 的攻击。`);
-  } else {
-    setBattleActorHp(game, activeActor, battleActorHp(game, activeActor) - hit.damage);
-    battleLog.push(`${enemy.Name} ${verb} ${battleActorName(game, activeActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
-  }
-  return true;
 }
 
 function settleBattleRound(game, activeActor, enemy, options = {}) {

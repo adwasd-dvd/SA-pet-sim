@@ -3088,6 +3088,46 @@ selectedItemBattleGame = await api("/api/game/battle", { game: selectedItemBattl
 assert(inventoryQty(selectedItemBattleGame, 990002) === 1, "selected battle item leaves unselected item untouched");
 assert(inventoryQty(selectedItemBattleGame, 990003) === 0, "selected battle item consumes requested item id");
 assert(selectedItemBattleGame.battleOutcome?.itemUse?.itemName === "大的肉", "selected battle item outcome records requested item");
+let itemTargetPlayerGame = await api("/api/game/new", { name: "battle-item-target-player-test" });
+itemTargetPlayerGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+itemTargetPlayerGame = await api("/api/game/dialog", { game: itemTargetPlayerGame, npcId: battleNpc.npc.id, message: "宠物" });
+itemTargetPlayerGame.inventory.push({ id: 990014, name: "小的肉", qty: 1, description: "回复耐久力 30", source: "test itemset6 recovery" });
+Object.assign(itemTargetPlayerGame.player, {
+  Hp: 99999,
+  hp: 99999,
+  maxHp: 99999,
+  WorkMaxHp: 99999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(itemTargetPlayerGame.pets[0], {
+  Hp: 900,
+  WorkMaxHp: 999,
+  WorkDefencePower: 0,
+  WorkFixTough: 0,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(itemTargetPlayerGame.encounter, {
+  Lv: 1,
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(itemTargetPlayerGame.battle?.enemyParty?.[0] || {}, itemTargetPlayerGame.encounter);
+itemTargetPlayerGame = await api("/api/game/battle", { game: itemTargetPlayerGame, action: "item:990014" });
+assertEqual(itemTargetPlayerGame.battleOutcome.result, "item", "battle item keeps battle active after source enemy turn");
+assertEqual(itemTargetPlayerGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ITEM", "battle item records source item command telemetry");
+assertEqual(itemTargetPlayerGame.battleOutcome.enemyAi?.targetKind, "player", "battle item enemy turn honors source target player rule");
+assert(itemTargetPlayerGame.battleOutcome.log.some((line) => line.includes(itemTargetPlayerGame.player.name)), "battle item source enemy turn resolves against the selected player target");
+assertEqual(Number(itemTargetPlayerGame.pets[0].Hp || 0), 930, "battle item enemy turn does not force damage onto the active pet");
 let blockedItemBattleGame = await api("/api/game/new", { name: "battle-item-status-blocked-test" });
 blockedItemBattleGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedItemBattleGame = await api("/api/game/dialog", { game: blockedItemBattleGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -3098,21 +3138,33 @@ blockedItemBattleGame.pets[0].Hp = 999;
 blockedItemBattleGame.player.BattleStatuses = {
   sleep: { key: "sleep", label: "睡眠", turns: 1 }
 };
+Object.assign(blockedItemBattleGame.player, {
+  Hp: 99999,
+  hp: 99999,
+  maxHp: 99999,
+  WorkMaxHp: 99999
+});
 Object.assign(blockedItemBattleGame.encounter, {
   WorkAttackPower: 0,
   WorkFixStr: 0,
   Attack: 0,
-  Str: 0
+  Str: 0,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
 });
 Object.assign(blockedItemBattleGame.battle?.enemyParty?.[0] || {}, {
   WorkAttackPower: 0,
   WorkFixStr: 0,
   Attack: 0,
-  Str: 0
+  Str: 0,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
 });
 const blockedItemPetHpBefore = Number(blockedItemBattleGame.pets[0].Hp || 0);
 blockedItemBattleGame = await api("/api/game/battle", { game: blockedItemBattleGame, action: "item:990004" });
 assertEqual(blockedItemBattleGame.battleOutcome.result, "item-blocked", "sleep blocks source I item command before use");
+assertEqual(blockedItemBattleGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ITEM", "blocked battle item records source item command telemetry");
+assertEqual(blockedItemBattleGame.battleOutcome.enemyAi?.targetKind, "player", "blocked battle item enemy turn honors source target player rule");
 assertEqual(inventoryQty(blockedItemBattleGame, 990004), 1, "blocked battle item command does not consume the item");
 assert(Number(blockedItemBattleGame.pets[0].Hp || 0) <= blockedItemPetHpBefore, "blocked battle item command does not heal before status resolves");
 assert(blockedItemBattleGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked battle item command writes status log");
@@ -3533,25 +3585,64 @@ blockedPetSwitchGame.pets.push({
 blockedPetSwitchGame.player.BattleStatuses = {
   sleep: { key: "sleep", label: "睡眠", turns: 1 }
 };
+Object.assign(blockedPetSwitchGame.player, {
+  Hp: 99999,
+  hp: 99999,
+  maxHp: 99999,
+  WorkMaxHp: 99999
+});
 blockedPetSwitchGame.encounter.WorkAttackPower = 0;
 blockedPetSwitchGame.encounter.WorkFixStr = 0;
 blockedPetSwitchGame.encounter.Attack = 0;
 blockedPetSwitchGame.encounter.Str = 0;
+blockedPetSwitchGame.encounter.WorkTactics = 1;
+blockedPetSwitchGame.encounter.WorkTacticsOption = "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
 Object.assign(blockedPetSwitchGame.battle?.enemyParty?.[0] || {}, {
   WorkAttackPower: 0,
   WorkFixStr: 0,
   Attack: 0,
   Str: 0,
   WorkTactics: 1,
-  WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0"
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
 });
+const blockedPetSwitchActiveHpBefore = Number(blockedPetSwitchGame.pets[0].Hp || 0);
 blockedPetSwitchGame = await api("/api/game/battle", { game: blockedPetSwitchGame, action: "S|1" });
 assertEqual(blockedPetSwitchGame.battleOutcome.result, "pet-switch-blocked", "sleep blocks source S pet switch before PETOUT/PETIN mutation");
 assertEqual(blockedPetSwitchGame.petState.activeIndex, 0, "blocked source S command keeps the active pet unchanged");
 assertEqual(blockedPetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "blocked pet switch still records source S telemetry");
+assertEqual(blockedPetSwitchGame.battleOutcome.enemyAi?.targetKind, "player", "blocked pet switch enemy turn honors source target player rule");
+assertEqual(Number(blockedPetSwitchGame.pets[0].Hp || 0), blockedPetSwitchActiveHpBefore, "blocked pet switch enemy turn does not force damage onto the active pet");
 assert(blockedPetSwitchGame.pets[0].BattleMagicStatuses?.superWall, "blocked pet switch does not clear old active pet battle-only magic status");
 assert(!blockedPetSwitchGame.player.BattleStatuses?.sleep, "player sleep turn is consumed when it blocks pet switch");
 assert(blockedPetSwitchGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked pet switch writes source-style status log");
+Object.assign(battlePetSwitchGame.pets[0], {
+  Hp: 5000,
+  WorkMaxHp: 5000,
+  WorkDefencePower: 500,
+  WorkFixTough: 500
+});
+Object.assign(battlePetSwitchGame.pets[1], {
+  Hp: 5000,
+  WorkMaxHp: 5000,
+  WorkDefencePower: 500,
+  WorkFixTough: 500
+});
+battlePetSwitchGame.petFormation = {
+  ...(battlePetSwitchGame.petFormation || {}),
+  activeIndex: 1
+};
+Object.assign(battlePetSwitchGame.encounter, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0
+});
+Object.assign(battlePetSwitchGame.battle?.enemyParty?.[0] || {}, {
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Attack: 0,
+  Str: 0
+});
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "换宠" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "NPC dialog battleAction can switch to the next available pet");
 assert(battlePetSwitchGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "pet-switch"), "NPC dialog pet switch records battleAction VM trace");
