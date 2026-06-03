@@ -3380,6 +3380,39 @@ assert(speedySkillGame.battleOutcome.log[0]?.includes("疾速攻击"), "SpeedyAt
 assertEqual(speedySkillGame.pets[0].WorkQuick, 10, "SpeedyAttack pet skill restores temporary quick after the round");
 assertEqual(speedySkillGame.pets[0].WorkDefencePower, 100, "SpeedyAttack pet skill restores temporary defence after the round");
 assert(Number(speedySkillGame.encounter?.Hp || 0) < speedyHpBefore, "SpeedyAttack pet skill damages the active battle target");
+let earthRoundSkillGame = await api("/api/game/new", { name: "pet-earthround-skill-test" });
+earthRoundSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+earthRoundSkillGame = await api("/api/game/dialog", { game: earthRoundSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+earthRoundSkillGame.pets[0].PetSkillIds = [120];
+earthRoundSkillGame.pets[0].PetSkills = [{
+  Id: 120,
+  Name: "地球一周",
+  Des: "一回合从敌人背后以两倍攻击力攻击",
+  FuncName: "PETSKILL_EarthRound",
+  Option: "攻%+90",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+earthRoundSkillGame.pets[0].WorkFixStr = 70;
+earthRoundSkillGame.pets[0].WorkAttackPower = 70;
+earthRoundSkillGame.pets[0].WorkQuick = 999;
+earthRoundSkillGame.pets[0].WorkFixDex = 999;
+earthRoundSkillGame.encounter.WorkMaxHp = 999;
+earthRoundSkillGame.encounter.Hp = 999;
+earthRoundSkillGame.encounter.WorkFixTough = 1;
+earthRoundSkillGame.encounter.WorkDefencePower = 1;
+earthRoundSkillGame.encounter.WorkQuick = 0;
+earthRoundSkillGame.encounter.WorkFixDex = 0;
+earthRoundSkillGame.encounter.WorkAttackPower = 1;
+const earthRoundHpBefore = Number(earthRoundSkillGame.encounter.Hp || 0);
+earthRoundSkillGame = await api("/api/game/battle", { game: earthRoundSkillGame, action: "skill:0" });
+assertEqual(earthRoundSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_EARTHROUND1", "EarthRound pet skill maps to source battle command");
+assertEqual(earthRoundSkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1, "EarthRound pet skill leaves source attack percent in temporary WorkAttackPower");
+assertEqual(earthRoundSkillGame.battleOutcome.playerAction?.petSkill?.attackPercent, 90, "EarthRound pet skill preserves source attack percent telemetry");
+assertEqual(earthRoundSkillGame.pets[0].WorkAttackPower, 70, "EarthRound pet skill restores temporary attack after the round");
+assert(Number(earthRoundSkillGame.encounter?.Hp || 0) < earthRoundHpBefore, "EarthRound pet skill damages the active battle target");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -3662,11 +3695,15 @@ battlePetSwitchGame.player.WorkMaxHp = 5000;
 battlePetSwitchGame.player.WorkAttackPower = 250;
 battlePetSwitchGame.player.WorkDefencePower = 500;
 battlePetSwitchGame.player.WorkQuick = 250;
+battlePetSwitchGame.encounter.WorkMaxHp = Math.max(999, Number(battlePetSwitchGame.encounter.WorkMaxHp || 0));
+battlePetSwitchGame.encounter.Hp = battlePetSwitchGame.encounter.WorkMaxHp;
 battlePetSwitchGame.encounter.WorkAttackPower = 0;
 battlePetSwitchGame.encounter.WorkFixStr = 0;
 battlePetSwitchGame.encounter.Attack = 0;
 battlePetSwitchGame.encounter.Str = 0;
 Object.assign(battlePetSwitchGame.battle?.enemyParty?.[0] || {}, {
+  WorkMaxHp: battlePetSwitchGame.encounter.WorkMaxHp,
+  Hp: battlePetSwitchGame.encounter.Hp,
   WorkAttackPower: 0,
   WorkFixStr: 0,
   Attack: 0,

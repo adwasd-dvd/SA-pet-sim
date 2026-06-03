@@ -5342,6 +5342,17 @@ function petSkillBattleProfile(skill = {}) {
       quickPercent
     };
   }
+  if (func === "PETSKILL_EarthRound") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_EARTHROUND1",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: sourcePercentValue(option, "攻")
+    };
+  }
   if (func === "PETSKILL_StatusChange") {
     const option = String(skill.Option || "");
     return {
