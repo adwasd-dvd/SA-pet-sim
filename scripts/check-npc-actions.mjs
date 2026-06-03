@@ -3577,6 +3577,65 @@ assertEqual(mdfyAttackTelemetry?.attributeOverride?.element, "fire", "Mdfyattack
 assertEqual(mdfyAttackTelemetry?.attributeOverride?.percent, 100, "Mdfyattack pet skill preserves source attribute override percent");
 assert(Number(mdfyAttackHit?.elementMultiplier || 0) > 1.4, "Mdfyattack pet skill applies source temporary attack attribute to damage");
 assert(Number(mdfyAttackSkillGame.encounter?.Hp || 0) < 999, "Mdfyattack pet skill damages the active target");
+let retraceSkillGame = await api("/api/game/new", { name: "pet-retrace-skill-test" });
+retraceSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+retraceSkillGame = await api("/api/game/dialog", { game: retraceSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+retraceSkillGame.pets[0].PetSkillIds = [621];
+retraceSkillGame.pets[0].PetSkills = [{
+  Id: 621,
+  Name: "追迹攻击",
+  Des: "对手在第一次攻击闪避的话 将会80%的机率发动第二次攻击",
+  FuncName: "PETSKILL_Retrace",
+  Option: "攻%+20",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+retraceSkillGame.pets[0].WorkFixStr = 90;
+retraceSkillGame.pets[0].WorkAttackPower = 90;
+retraceSkillGame.pets[0].WorkQuick = 999;
+retraceSkillGame.pets[0].WorkFixDex = 1;
+retraceSkillGame.encounter.Name = "追迹闪避测试敌人";
+retraceSkillGame.encounter.WorkMaxHp = 999;
+retraceSkillGame.encounter.Hp = 999;
+retraceSkillGame.encounter.WorkFixTough = 1;
+retraceSkillGame.encounter.WorkDefencePower = 1;
+retraceSkillGame.encounter.WorkQuick = 0;
+retraceSkillGame.encounter.WorkFixDex = 999;
+retraceSkillGame.encounter.WorkAttackPower = 0;
+retraceSkillGame.encounter.Critical = 0;
+Object.assign(retraceSkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: retraceSkillGame.encounter.Name,
+  WorkMaxHp: retraceSkillGame.encounter.WorkMaxHp,
+  Hp: retraceSkillGame.encounter.Hp,
+  WorkFixTough: retraceSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: retraceSkillGame.encounter.WorkDefencePower,
+  WorkQuick: retraceSkillGame.encounter.WorkQuick,
+  WorkFixDex: retraceSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: retraceSkillGame.encounter.WorkAttackPower,
+  Critical: retraceSkillGame.encounter.Critical
+});
+const originalRandomForRetrace = Math.random;
+try {
+  const sequence = [0.01, 0.5, 0.99, 0.5, 0.99];
+  let index = 0;
+  Math.random = () => sequence[index++] ?? 0.99;
+  retraceSkillGame = await api("/api/game/battle", { game: retraceSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForRetrace;
+}
+const retraceTelemetry = retraceSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(retraceSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_RETRACE", "Retrace pet skill maps to source battle command");
+assertEqual(retraceTelemetry?.hitCount, 1, "Retrace source command starts as one attack");
+assertEqual(retraceTelemetry?.retraceChance, 80, "Retrace preserves source retry chance telemetry");
+assertEqual(retraceTelemetry?.retraceAttackPercent, 20, "Retrace preserves source second-hit attack boost telemetry");
+assertEqual(retraceTelemetry?.retraceTriggered, true, "Retrace triggers source retry after the first dodge");
+assertEqual(retraceTelemetry?.hits?.[0]?.dodged, true, "Retrace first hit can be dodged through source duck check");
+assertEqual(retraceTelemetry?.hits?.[1]?.retrace, true, "Retrace records the second source attack");
+assert(Number(retraceTelemetry?.hits?.[1]?.damage || 0) > 0, "Retrace second attack can land and damage after a first dodge");
+assert(Number(retraceSkillGame.encounter?.Hp || 0) < 999, "Retrace pet skill damages the active target after retry");
+assertEqual(retraceSkillGame.pets[0].WorkAttackPower, 90, "Retrace restores temporary second-hit attack boost after the round");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
