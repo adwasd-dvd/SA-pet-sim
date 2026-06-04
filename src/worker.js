@@ -184,7 +184,8 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_ContinuationAttack",
   "PETSKILL_Mighty",
   "PETSKILL_StatusChange",
-  "PETSKILL_MagicStatusChange"
+  "PETSKILL_MagicStatusChange",
+  "PETSKILL_DamageToHp2"
 ]);
 const BATTLE_STATUS_EFFECTS = {
   "毒": { id: 1, key: "poison", label: "中毒", sourceCommand: "BATTLE_ST_POISON" },
@@ -5413,6 +5414,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       attackPercent: Number(profile.attackPercent || 0),
       defencePercent: Number(profile.defencePercent || 0),
       quickPercent: Number(profile.quickPercent || 0),
+      criticalPercent: Number(profile.criticalPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
       chargeTurns: Number(profile.chargeTurns || 0),
       chargeAttackPercent: Number(profile.chargeAttackPercent || 0),
@@ -5545,6 +5547,22 @@ function petSkillBattleProfile(skill = {}) {
       multiplier: 1,
       attackPercent: -Math.abs(Number(parts[0] || 0)),
       drainPercent: clampInt(parts[1], 0, 400, 0)
+    };
+  }
+  if (func === "PETSKILL_DamageToHp2") {
+    const optionText = String(skill.Option || "");
+    const drainPercent = clampInt(optionText.match(/^\s*(\d+)/)?.[1], 0, 400, 0);
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_DAMAGETOHP2",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: 20,
+      quickPercent: 20,
+      criticalPercent: 30,
+      drainPercent,
+      source: "gmsv battle_event.c BATTLE_S_DamageToHp2"
     };
   }
   if (func === "PETSKILL_Modifyattack") {
@@ -5812,9 +5830,13 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
           attackerKind: "pet",
           defenderKind: "enemy",
           duckChanceModifier: Number(profile.duckModifier || 0),
+          criticalChancePercent: Number(profile.criticalPercent || 0),
           attributeOverride: profile.attributeOverride
         })
-      : combatDamageDetail(activePet, target.enemy, multiplier, { attributeOverride: profile.attributeOverride });
+      : combatDamageDetail(activePet, target.enemy, multiplier, {
+          criticalChancePercent: Number(profile.criticalPercent || 0),
+          attributeOverride: profile.attributeOverride
+        });
     if (hit.dodgeCheck?.dodged) {
       return {
         targetSlot: target.slot,
@@ -6689,6 +6711,7 @@ function compactPetSkillTelemetry(skill) {
     attackPercent: Number(skill.attackPercent || 0),
     defencePercent: Number(skill.defencePercent || 0),
     quickPercent: Number(skill.quickPercent || 0),
+    criticalPercent: Number(skill.criticalPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     chargeTurns: Number(skill.chargeTurns || 0),
     chargeAttackPercent: Number(skill.chargeAttackPercent || 0),
@@ -7925,6 +7948,9 @@ function sourceBattleCriticalCheck(attacker, defender, options = {}) {
   let per = (root ? Math.sqrt(work) : work) + attackerCriticalEquip * 0.5;
   per *= wari;
   per += attackerLuck;
+  if (Number(options.criticalChancePercent || 0) !== 0) {
+    per += per * Number(options.criticalChancePercent || 0) / 100;
+  }
   per *= 100;
   const chance = clampInt(Math.trunc(per), 1, 10000, 1);
   const roll = sourceBattleRand(1, 10000);

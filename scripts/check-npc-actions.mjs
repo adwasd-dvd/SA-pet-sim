@@ -3461,6 +3461,66 @@ assert(Number(damageToHpSkillGame.pets[0].Hp || 0) > damageToHpHpBefore, "Damage
 assert(Number(damageToHpSkillGame.pets[0].Hp || 0) <= Number(damageToHpSkillGame.pets[0].WorkMaxHp || 0), "DamageToHp pet skill caps healing at WorkMaxHp");
 assertEqual(damageToHpSkillGame.pets[0].WorkAttackPower, 100, "DamageToHp pet skill restores temporary attack after the round");
 assert(Number(damageToHpSkillGame.encounter?.Hp || 0) < damageToHpEnemyHpBefore, "DamageToHp pet skill damages the active battle target");
+let damageToHp2SkillGame = await api("/api/game/new", { name: "pet-damagetohp2-skill-test" });
+damageToHp2SkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+damageToHp2SkillGame = await api("/api/game/dialog", { game: damageToHp2SkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+damageToHp2SkillGame.pets[0].PetSkillIds = [623];
+damageToHp2SkillGame.pets[0].PetSkills = [{
+  Id: 623,
+  Name: "浴血狂袭",
+  Des: "Hp50%以下时才可使用 攻敏上升20% 会心一击上升30% 吸收伤害30%转Hp",
+  FuncName: "PETSKILL_DamageToHp2",
+  Option: "30",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+damageToHp2SkillGame.pets[0].Hp = 60;
+damageToHp2SkillGame.pets[0].WorkMaxHp = 200;
+damageToHp2SkillGame.pets[0].WorkFixStr = 100;
+damageToHp2SkillGame.pets[0].WorkAttackPower = 100;
+damageToHp2SkillGame.pets[0].WorkFixDex = 10;
+damageToHp2SkillGame.pets[0].WorkQuick = 10;
+damageToHp2SkillGame.encounter.Name = "浴血狂袭测试敌人";
+damageToHp2SkillGame.encounter.WorkMaxHp = 999;
+damageToHp2SkillGame.encounter.Hp = 999;
+damageToHp2SkillGame.encounter.WorkFixTough = 1;
+damageToHp2SkillGame.encounter.WorkDefencePower = 1;
+damageToHp2SkillGame.encounter.WorkQuick = 25;
+damageToHp2SkillGame.encounter.WorkFixDex = 0;
+damageToHp2SkillGame.encounter.WorkAttackPower = 0;
+Object.assign(damageToHp2SkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: damageToHp2SkillGame.encounter.Name,
+  WorkMaxHp: damageToHp2SkillGame.encounter.WorkMaxHp,
+  Hp: damageToHp2SkillGame.encounter.Hp,
+  WorkFixTough: damageToHp2SkillGame.encounter.WorkFixTough,
+  WorkDefencePower: damageToHp2SkillGame.encounter.WorkDefencePower,
+  WorkQuick: damageToHp2SkillGame.encounter.WorkQuick,
+  WorkFixDex: damageToHp2SkillGame.encounter.WorkFixDex,
+  WorkAttackPower: damageToHp2SkillGame.encounter.WorkAttackPower
+});
+const damageToHp2HpBefore = Number(damageToHp2SkillGame.pets[0].Hp || 0);
+const damageToHp2EnemyHpBefore = Number(damageToHp2SkillGame.encounter.Hp || 0);
+const originalRandomForDamageToHp2 = Math.random;
+try {
+  Math.random = () => 0.5;
+  damageToHp2SkillGame = await api("/api/game/battle", { game: damageToHp2SkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForDamageToHp2;
+}
+const damageToHp2Telemetry = damageToHp2SkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(damageToHp2SkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_DAMAGETOHP2", "DamageToHp2 pet skill maps to source battle command");
+assertEqual(damageToHp2Telemetry?.attackPercent, 20, "DamageToHp2 pet skill applies source attack boost telemetry");
+assertEqual(damageToHp2Telemetry?.quickPercent, 20, "DamageToHp2 pet skill applies source quick boost telemetry");
+assertEqual(damageToHp2Telemetry?.criticalPercent, 30, "DamageToHp2 pet skill applies source critical boost telemetry");
+assertEqual(damageToHp2Telemetry?.drainPercent, 30, "DamageToHp2 pet skill parses source drain percent from option");
+assert(damageToHp2SkillGame.battleOutcome.log[0]?.includes("浴血狂袭"), "DamageToHp2 source quick boost lets the pet act before a slightly faster enemy");
+assert(Number(damageToHp2Telemetry?.healAmount || 0) > 0, "DamageToHp2 pet skill heals from landed damage");
+assert(Number(damageToHp2SkillGame.pets[0].Hp || 0) > damageToHp2HpBefore, "DamageToHp2 pet skill restores pet HP");
+assert(Number(damageToHp2SkillGame.encounter?.Hp || 0) < damageToHp2EnemyHpBefore, "DamageToHp2 pet skill damages the active battle target");
+assertEqual(damageToHp2SkillGame.pets[0].WorkAttackPower, 100, "DamageToHp2 pet skill restores temporary attack after the round");
+assertEqual(damageToHp2SkillGame.pets[0].WorkQuick, 10, "DamageToHp2 pet skill restores temporary quick after the round");
 let modifyAttackSkillGame = await api("/api/game/new", { name: "pet-modifyattack-skill-test" });
 modifyAttackSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 modifyAttackSkillGame = await api("/api/game/dialog", { game: modifyAttackSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
