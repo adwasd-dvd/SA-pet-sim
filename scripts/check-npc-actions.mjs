@@ -3699,6 +3699,76 @@ assertEqual(gyrateTelemetry?.hits?.length, 3, "Gyrate attacks each live enemy in
 assertEqual(new Set(gyrateTelemetry.hits.map((hit) => hit.targetSlot)).size, 3, "Gyrate records distinct row target slots");
 assert(gyrateSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Gyrate damages every live enemy in the row fixture");
 assertEqual(gyrateSkillGame.pets[0].WorkAttackPower, 120, "Gyrate restores temporary attack after the round");
+let chargeSkillGame = await api("/api/game/new", { name: "pet-charge-skill-test" });
+chargeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+chargeSkillGame = await api("/api/game/dialog", { game: chargeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+chargeSkillGame.pets[0].PetSkillIds = [30];
+chargeSkillGame.pets[0].PetSkills = [{
+  Id: 30,
+  Name: "突击",
+  Des: "1回合储存力量，下次攻击时就会有两倍的攻击力",
+  FuncName: "PETSKILL_ChargeAttack",
+  Option: "1 攻%+90",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(chargeSkillGame.pets[0], {
+  WorkFixStr: 100,
+  WorkAttackPower: 100,
+  WorkQuick: 999,
+  WorkFixDex: 1,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(chargeSkillGame.encounter, {
+  Name: "突击测试敌人",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 0,
+  WorkFixDex: 999,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Critical: 0,
+  WorkTacticsOption: "at:1:1:1|es:0|gu:0|rn:1",
+  TacticsOption: "at:1:1:1|es:0|gu:0|rn:1"
+});
+Object.assign(chargeSkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: chargeSkillGame.encounter.Name,
+  WorkMaxHp: chargeSkillGame.encounter.WorkMaxHp,
+  Hp: chargeSkillGame.encounter.Hp,
+  WorkFixTough: chargeSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: chargeSkillGame.encounter.WorkDefencePower,
+  WorkQuick: chargeSkillGame.encounter.WorkQuick,
+  WorkFixDex: chargeSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: chargeSkillGame.encounter.WorkAttackPower,
+  WorkFixStr: chargeSkillGame.encounter.WorkFixStr,
+  Critical: chargeSkillGame.encounter.Critical,
+  WorkTacticsOption: chargeSkillGame.encounter.WorkTacticsOption,
+  TacticsOption: chargeSkillGame.encounter.TacticsOption
+});
+chargeSkillGame = await api("/api/game/battle", { game: chargeSkillGame, action: "skill:0" });
+const chargeStartTelemetry = chargeSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(chargeSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_CHARGE", "ChargeAttack pet skill starts with source charge command");
+assertEqual(chargeStartTelemetry?.chargeTurns, 1, "ChargeAttack parses source charge turn count");
+assertEqual(chargeStartTelemetry?.chargeAttackPercent, 90, "ChargeAttack parses source attack percent");
+assertEqual(chargeStartTelemetry?.charge?.charging, true, "ChargeAttack first round stores a charging state");
+assertEqual(chargeStartTelemetry?.charge?.turns, 0, "ChargeAttack decrements the source charge counter before the next attack");
+assertEqual(chargeStartTelemetry?.hits?.length || 0, 0, "ChargeAttack first round does not attack immediately");
+assertEqual(Number(chargeSkillGame.encounter?.Hp || 0), 999, "ChargeAttack first round leaves the target undamaged");
+chargeSkillGame = await api("/api/game/battle", { game: chargeSkillGame, action: "attack" });
+const chargeOkTelemetry = chargeSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(chargeSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_CHARGE_OK", "ChargeAttack stored command resolves as source charge-ok attack");
+assertEqual(chargeOkTelemetry?.charge?.completed, true, "ChargeAttack records completed source charge state");
+assertEqual(chargeOkTelemetry?.hits?.[0]?.dodged, false, "ChargeAttack charge-ok hit skips source duck check");
+assertEqual(chargeOkTelemetry?.hits?.[0]?.dodgeCheck?.reason, "source-charge-ok-no-duck", "ChargeAttack telemetry records source no-duck semantics");
+assert(Number(chargeOkTelemetry?.hits?.[0]?.damage || 0) > 0, "ChargeAttack charge-ok hit deals damage");
+assert(Number(chargeSkillGame.encounter?.Hp || 0) < 999, "ChargeAttack damages the target after charging");
+assertEqual(chargeSkillGame.pets[0].WorkAttackPower, 100, "ChargeAttack restores temporary attack after charge-ok settlement");
+assert(!chargeSkillGame.pets[0].BattleCharge, "ChargeAttack clears temporary battle charge state after charge-ok settlement");
 let blockedPetSkillGame = await api("/api/game/new", { name: "pet-skill-status-blocked-test" });
 blockedPetSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 blockedPetSkillGame = await api("/api/game/dialog", { game: blockedPetSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

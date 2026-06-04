@@ -4666,6 +4666,9 @@ function performBattleAction(game, action) {
   if (move.type === "pet-switch") {
     return performPetSwitchBattleAction(game, move);
   }
+  if (getActivePet(game)?.BattleCharge && ["attack", "guard", "wait", "pet-skill"].includes(move.type)) {
+    return performPetChargeContinuation(game);
+  }
   if (move.type === "pet-skill") {
     return performPetSkillAction(game, move);
   }
@@ -5127,6 +5130,9 @@ function performPetSkillAction(game, move) {
   if (!skill?.Id) throw new Error("这个技能槽没有可用的宠物技能");
   const profile = petSkillBattleProfile(skill);
   if (!profile.supported) throw new Error(`${skill.Name || "这个宠物技能"} 还没有接入战斗结算`);
+  if (profile.kind === "charge") {
+    return performPetChargeStart(game, move, skill, profile);
+  }
 
   const battleLog = [];
   const restorePetSkillStats = applySourcePetSkillTemporaryStats(activePet, profile);
@@ -5190,6 +5196,163 @@ function performPetSkillAction(game, move) {
   });
 }
 
+function performPetChargeStart(game, move, skill, profile) {
+  const activePet = getActivePet(game);
+  if (!activePet) throw new Error("你需要至少一只宠物才能使用技能");
+  const enemy = game.encounter;
+  ensureBattleState(game, activePet, enemy);
+  const charge = {
+    sourceCommand: "BATTLE_COM_S_CHARGE",
+    turns: Math.max(0, Number(profile.chargeTurns || 1)),
+    initialTurns: Math.max(0, Number(profile.chargeTurns || 1)),
+    attackPercent: Number(profile.chargeAttackPercent || 0),
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    option: skill.Option || "",
+    targetIndex: Math.max(0, Number(move.targetIndex ?? game.battle?.activeEnemyIndex ?? 0)),
+    source: "gmsv battle/pet_skill.c PETSKILL_ChargeAttack + battle_event.c BATTLE_Charge"
+  };
+  activePet.BattleCharge = charge;
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  const playerAction = sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile);
+  playerAction.petSkill.charge = { ...charge };
+  game.battle.sourceCommand = move.command;
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
+  game.battle.mode = "resolving";
+  return resolvePetChargeRound(game, activePet, enemy, enemyAi, playerAction, {
+    sourceCommand: move.command,
+    result: "charge"
+  });
+}
+
+function performPetChargeContinuation(game) {
+  const activePet = getActivePet(game);
+  if (!activePet?.BattleCharge) throw new Error("当前没有蓄力中的宠物技能");
+  const enemy = game.encounter;
+  ensureBattleState(game, activePet, enemy);
+  const charge = activePet.BattleCharge || {};
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  const playerAction = {
+    type: "pet-skill",
+    sourceCommand: Number(charge.turns || 0) <= 0 ? "BATTLE_COM_S_CHARGE_OK" : "BATTLE_COM_S_CHARGE",
+    command: "W|charge",
+    source: "gmsv battle_event.c BATTLE_Charge stored command continuation",
+    actorKind: "pet",
+    actorSlot: battlePetSlot(game, activePet),
+    actorName: activePet?.Name || activePet?.name || "pet",
+    targetKind: "enemy",
+    targetSlot: Math.max(0, Number(charge.targetIndex ?? game.battle?.activeEnemyIndex ?? 0)),
+    targetName: enemy?.Name || "enemy",
+    petSkill: {
+      id: Number(charge.skillId || 0),
+      slot: -1,
+      name: charge.skillName || "突击",
+      func: "PETSKILL_ChargeAttack",
+      option: charge.option || "",
+      sourceCommand: Number(charge.turns || 0) <= 0 ? "BATTLE_COM_S_CHARGE_OK" : "BATTLE_COM_S_CHARGE",
+      charge: { ...charge },
+      source: `${GMSV_DATA_SOURCE}/petskill2.txt`
+    }
+  };
+  game.battle.sourceCommand = playerAction.command;
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
+  game.battle.mode = "resolving";
+  return resolvePetChargeRound(game, activePet, enemy, enemyAi, playerAction, {
+    sourceCommand: playerAction.command,
+    result: "charge"
+  });
+}
+
+function resolvePetChargeRound(game, activePet, enemy, enemyAi, playerAction, options = {}) {
+  const battleLog = [];
+  let enemyEscaped = false;
+  const petFirst = workQuick(activePet) >= workQuick(enemy);
+  const petTurn = () => resolvePetChargeStep(game, activePet, enemy, enemyAi, playerAction, battleLog);
+  const enemyTurn = () => {
+    const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, false);
+    enemyEscaped ||= ended;
+    return ended;
+  };
+  if (petFirst) {
+    petTurn();
+    if (Number(enemy.Hp || 0) > 0 && Number(activePet.Hp || 0) > 0) enemyTurn();
+  } else {
+    const ended = enemyTurn();
+    if (!ended && Number(enemy.Hp || 0) > 0 && Number(activePet.Hp || 0) > 0) petTurn();
+  }
+  return settleBattleRound(game, activePet, enemy, {
+    battleLog,
+    result: options.result || "charge",
+    sourceCommand: options.sourceCommand || "W|charge",
+    playerAction,
+    enemyAi,
+    enemyEscaped
+  });
+}
+
+function resolvePetChargeStep(game, activePet, enemy, enemyAi, playerAction, battleLog) {
+  const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+  if (preTurn.stopped || Number(activePet.Hp || 0) <= 0) return false;
+  const charge = activePet.BattleCharge || {};
+  const currentTurns = Math.max(0, Number(charge.turns || 0));
+  if (currentTurns > 0) {
+    charge.turns = currentTurns - 1;
+    activePet.BattleCharge = charge;
+    playerAction.petSkill ||= {};
+    playerAction.petSkill.charge = { ...charge, charging: true };
+    playerAction.petSkill.sourceCommand = "BATTLE_COM_S_CHARGE";
+    battleLog.push(`${activePet.Name} 使用 ${charge.skillName || "突击"}，正在蓄力（剩余 ${charge.turns} 回合）。`);
+    return false;
+  }
+  const originalAttackPower = activePet.WorkAttackPower;
+  const baseAttackPower = firstFiniteNumber(0, activePet.WorkFixStr, activePet.WorkAttackPower);
+  activePet.WorkAttackPower = Math.max(0, Math.floor(baseAttackPower * (1 + Number(charge.attackPercent || 0) / 100)));
+  let hit;
+  try {
+    // Source BATTLE_DuckCheck immediately returns FALSE for BATTLE_COM_S_CHARGE_OK.
+    hit = combatDamageDetail(activePet, enemy, 1, { attributeOverride: null });
+    if (enemyAi.type === "guard") {
+      hit = applySourceGuardAdjust(hit, [
+        "enemy-guard",
+        "charge-ok",
+        enemy.EnemyId || enemy.PetId || enemy.Name,
+        activePet.PetId || activePet.Name,
+        game.battle?.turn || 0,
+        enemy.Hp,
+        activePet.Hp
+      ]);
+      enemyAi.guardAdjust = hit.guardAdjust;
+    }
+    enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
+    clearBattleSleepOnDamage(enemy, hit.damage, battleLog);
+  } finally {
+    activePet.WorkAttackPower = originalAttackPower;
+    delete activePet.BattleCharge;
+  }
+  playerAction.sourceCommand = "BATTLE_COM_S_CHARGE_OK";
+  playerAction.petSkill ||= {};
+  playerAction.petSkill.sourceCommand = "BATTLE_COM_S_CHARGE_OK";
+  playerAction.petSkill.charge = { ...charge, turns: 0, completed: true };
+  playerAction.petSkill.attackPercent = Number(charge.attackPercent || 0);
+  playerAction.petSkill.hits = [{
+    targetSlot: Math.max(0, Number(charge.targetIndex ?? game.battle?.activeEnemyIndex ?? 0)),
+    targetName: enemy?.Name || "enemy",
+    damage: Number(hit.damage || 0),
+    originalDamage: Number(hit.originalDamage || hit.damage || 0),
+    damageDivisor: 1,
+    dodged: false,
+    critical: Boolean(hit.critical),
+    elementMultiplier: Number(hit.elementMultiplier || 1),
+    guardAdjust: compactGuardAdjust(hit.guardAdjust),
+    dodgeCheck: { dodged: false, chance: 0, roll: 0, reason: "source-charge-ok-no-duck" }
+  }];
+  playerAction.petSkill.totalDamage = Number(hit.damage || 0);
+  battleLog.push(`${activePet.Name} 蓄力完成，使用 ${charge.skillName || "突击"} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  return true;
+}
+
 function applySourcePetSkillTemporaryStats(activePet, profile = {}) {
   if (!activePet) return () => {};
   const original = {};
@@ -5251,6 +5414,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       defencePercent: Number(profile.defencePercent || 0),
       quickPercent: Number(profile.quickPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
+      chargeTurns: Number(profile.chargeTurns || 0),
+      chargeAttackPercent: Number(profile.chargeAttackPercent || 0),
       retraceChance: Number(profile.retraceChance || 0),
       retraceAttackPercent: Number(profile.retraceAttackPercent || 0),
       targetScope: profile.targetScope || "",
@@ -5275,6 +5440,17 @@ function petSkillBattleProfile(skill = {}) {
   }
   if (func === "PETSKILL_NormalGuard") {
     return { supported: true, kind: "guard", sourceCommand: "BATTLE_COM_GUARD", targetKind: "self" };
+  }
+  if (func === "PETSKILL_ChargeAttack") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "charge",
+      sourceCommand: "BATTLE_COM_S_CHARGE",
+      targetKind: "enemy",
+      chargeTurns: clampInt(option.match(/^\s*(\d+)/)?.[1], 1, 10, 1),
+      chargeAttackPercent: sourcePercentValue(option, "攻")
+    };
   }
   if (func === "PETSKILL_GuardBreak") {
     return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_S_GBREAK", hitCount: 1, multiplier: 1, ignoreGuard: true, guardBreak: true };
@@ -6010,6 +6186,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleStatus;
   delete target.BattleMagicStatuses;
   delete target.BattleMagicStatus;
+  delete target.BattleCharge;
 }
 
 function compactBattleStatusEffect(status) {
@@ -6513,6 +6690,19 @@ function compactPetSkillTelemetry(skill) {
     defencePercent: Number(skill.defencePercent || 0),
     quickPercent: Number(skill.quickPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
+    chargeTurns: Number(skill.chargeTurns || 0),
+    chargeAttackPercent: Number(skill.chargeAttackPercent || 0),
+    charge: skill.charge ? {
+      sourceCommand: skill.charge.sourceCommand || "",
+      turns: Number(skill.charge.turns || 0),
+      initialTurns: Number(skill.charge.initialTurns || 0),
+      attackPercent: Number(skill.charge.attackPercent || 0),
+      skillId: Number(skill.charge.skillId || 0),
+      skillName: skill.charge.skillName || "",
+      charging: Boolean(skill.charge.charging),
+      completed: Boolean(skill.charge.completed),
+      source: skill.charge.source || ""
+    } : null,
     targetScope: skill.targetScope || "",
     attributeBoost: compactSourceAttributeBoost(skill.attributeBoost),
     attributeOverride: compactSourceAttributeOverride(skill.attributeOverride),
