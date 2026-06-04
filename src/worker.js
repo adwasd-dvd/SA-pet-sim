@@ -186,6 +186,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
   "PETSKILL_AttackCrazed",
+  "PETSKILL_AttackShoot",
   "PETSKILL_DamageToHp2"
 ]);
 const BATTLE_STATUS_EFFECTS = {
@@ -5417,6 +5418,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercent: Number(profile.quickPercent || 0),
       criticalPercent: Number(profile.criticalPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
+      sleepOnHitChance: Number(profile.sleepOnHitChance || 0),
+      counterSuppressed: Boolean(profile.counterSuppressed),
       chargeTurns: Number(profile.chargeTurns || 0),
       chargeAttackPercent: Number(profile.chargeAttackPercent || 0),
       retraceChance: Number(profile.retraceChance || 0),
@@ -5524,6 +5527,23 @@ function petSkillBattleProfile(skill = {}) {
       attackPercent: -20,
       defencePercent: -30,
       targetScope: "enemy-random"
+    };
+  }
+  if (func === "PETSKILL_AttackShoot") {
+    const [minText, maxText] = String(skill.Option || "").split("|");
+    const minHits = clampInt(minText, 1, 10, 3);
+    const maxHits = clampInt(maxText, minHits, 10, minHits);
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_ATTSHOOT",
+      hitCount: 0,
+      hitCountRange: [minHits, maxHits],
+      damageDivisor: "hitCount",
+      multiplier: 1,
+      targetScope: "enemy-random",
+      sleepOnHitChance: 20,
+      counterSuppressed: true
     };
   }
   if (func === "PETSKILL_SpeedyAttack") {
@@ -5917,6 +5937,23 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     target.enemy.Hp = Math.max(0, Number(target.enemy.Hp || 0) - hit.damage);
     clearBattleSleepOnDamage(target.enemy, hit.damage, battleLog);
     totalDamage += hit.damage;
+    let onHitStatus = null;
+    if (Number(profile.sleepOnHitChance || 0) > 0 && Number(hit.damage || 0) > 0 && Number(target.enemy?.Hp || 0) > 0) {
+      const chance = Number(profile.sleepOnHitChance || 0);
+      const roll = sourceBattleRand(1, 5);
+      onHitStatus = {
+        status: compactBattleStatusEffect(BATTLE_STATUS_EFFECTS["眠"]),
+        chance,
+        roll,
+        rollMax: 5,
+        success: roll > 4,
+        source: "gmsv battle_event.c BATTLE_COM_S_ATTSHOOT sleep RAND(1,5)>4"
+      };
+      if (onHitStatus.success) {
+        const applied = applyBattleStatus(target.enemy, { ...BATTLE_STATUS_EFFECTS["眠"], turn: 2 }, onHitStatus);
+        onHitStatus.applied = compactBattleStatusEffect(applied);
+      }
+    }
     return {
       targetSlot: target.slot,
       targetName: target.enemy?.Name || "enemy",
@@ -5929,6 +5966,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       elementMultiplier: Number(hit.elementMultiplier || 1),
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
+      onHitStatus,
       guardAdjust: compactGuardAdjust(hit.guardAdjust),
       retrace: Boolean(options.retrace),
       retraceRoll: Number(options.retraceRoll || 0)
@@ -6742,6 +6780,8 @@ function compactPetSkillTelemetry(skill) {
     missed: Boolean(skill.missed),
     damageDivisor: Number(skill.damageDivisor || 0),
     duckModifier: Number(skill.duckModifier || 0),
+    sleepOnHitChance: Number(skill.sleepOnHitChance || 0),
+    counterSuppressed: Boolean(skill.counterSuppressed),
     retraceChance: Number(skill.retraceChance || 0),
     retraceAttackPercent: Number(skill.retraceAttackPercent || 0),
     retraceRoll: Number(skill.retraceRoll || 0),
@@ -6791,6 +6831,11 @@ function compactPetSkillTelemetry(skill) {
       retraceRoll: Number(hit.retraceRoll || 0),
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(hit.attributeOverride),
+      onHitStatus: hit.onHitStatus ? {
+        ...hit.onHitStatus,
+        status: compactBattleStatusEffect(hit.onHitStatus.status),
+        applied: compactBattleStatusEffect(hit.onHitStatus.applied)
+      } : null,
       dodgeCheck: hit.dodgeCheck ? {
         chance: Number(hit.dodgeCheck.chance || 0),
         roll: Number(hit.dodgeCheck.roll || 0),

@@ -3388,6 +3388,68 @@ assert(attackCrazedTelemetry?.hits?.every((hit) => Number(hit.targetSlot || 0) =
 assert(Number(attackCrazedSkillGame.battle.enemyParty[1]?.Hp || 0) < attackCrazedRandomTargetHpBefore, "AttackCrazed damages the randomly selected enemy slot");
 assertEqual(attackCrazedSkillGame.pets[0].WorkAttackPower, 100, "AttackCrazed restores temporary attack after the round");
 assertEqual(attackCrazedSkillGame.pets[0].WorkDefencePower, 100, "AttackCrazed restores temporary defence after the round");
+let attackShootSkillGame = await api("/api/game/new", { name: "pet-attackshoot-skill-test" });
+attackShootSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+attackShootSkillGame = await api("/api/game/dialog", { game: attackShootSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+attackShootSkillGame.pets[0].PetSkillIds = [614];
+attackShootSkillGame.pets[0].PetSkills = [{
+  Id: 614,
+  Name: "栗子连激",
+  Des: "乱数连续投掷栗子3~5颗",
+  FuncName: "PETSKILL_AttackShoot",
+  Option: "3|5",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+attackShootSkillGame.pets[0].PetId = 61400;
+attackShootSkillGame.pets[0].WorkFixStr = 120;
+attackShootSkillGame.pets[0].WorkAttackPower = 120;
+attackShootSkillGame.pets[0].WorkFixTough = 100;
+attackShootSkillGame.pets[0].WorkDefencePower = 100;
+attackShootSkillGame.pets[0].WorkQuick = 999;
+attackShootSkillGame.pets[0].WorkFixDex = 999;
+attackShootSkillGame.encounter.EnemyId = 61401;
+attackShootSkillGame.encounter.Name = "栗子测试敌人";
+attackShootSkillGame.encounter.WorkMaxHp = 999;
+attackShootSkillGame.encounter.Hp = 999;
+attackShootSkillGame.encounter.WorkFixTough = 1;
+attackShootSkillGame.encounter.WorkDefencePower = 1;
+attackShootSkillGame.encounter.WorkQuick = 0;
+attackShootSkillGame.encounter.WorkFixDex = 0;
+attackShootSkillGame.encounter.WorkAttackPower = 1;
+Object.assign(attackShootSkillGame.battle?.enemyParty?.[0] || {}, {
+  ...attackShootSkillGame.encounter,
+  BattleStatuses: {}
+});
+const attackShootHpBefore = Number(attackShootSkillGame.encounter.Hp || 0);
+const originalRandomForAttackShoot = Math.random;
+try {
+  let attackShootRandomCall = 0;
+  Math.random = () => {
+    attackShootRandomCall += 1;
+    if (attackShootRandomCall === 1) return 0.99; // hit count rolls 5 from 3|5.
+    if (attackShootRandomCall <= 6) return 0; // one live target, keep selection deterministic.
+    if ((attackShootRandomCall - 9) % 3 === 0) return 0.99; // source sleep RAND(1,5)>4.
+    return 0.5;
+  };
+  attackShootSkillGame = await api("/api/game/battle", { game: attackShootSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForAttackShoot;
+}
+const attackShootTelemetry = attackShootSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(attackShootSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ATTSHOOT", "AttackShoot pet skill maps to source battle command");
+assertEqual(attackShootTelemetry?.hitCount, 5, "AttackShoot pet skill rolls within the source hit count range in the fixture");
+assertEqual(attackShootTelemetry?.damageDivisor, 5, "AttackShoot divides each hit damage by source attack count");
+assertEqual(attackShootTelemetry?.sleepOnHitChance, 20, "AttackShoot preserves source 20 percent sleep-on-hit chance");
+assertEqual(attackShootTelemetry?.counterSuppressed, true, "AttackShoot records source counter suppression semantics");
+assertEqual(attackShootTelemetry?.targetScope, "enemy-random", "AttackShoot uses source random enemy target scope");
+assertEqual(attackShootTelemetry?.hits?.length, 5, "AttackShoot records source chestnut hits");
+assert(attackShootTelemetry?.hits?.every((hit) => Number(hit.damageDivisor || 0) === 5), "AttackShoot records per-hit source damage divisor");
+assert(attackShootTelemetry?.hits?.some((hit) => hit.onHitStatus?.success), "AttackShoot can apply source sleep after landed damage");
+assert(Number(attackShootSkillGame.encounter?.Hp || 0) < attackShootHpBefore, "AttackShoot damages the active target");
+assert(Number(attackShootSkillGame.encounter?.BattleStatuses?.sleep?.turns || 0) > 0, "AttackShoot persists source sleep status on the enemy");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -4122,7 +4184,13 @@ Object.assign(blockedPetSwitchGame.battle?.enemyParty?.[0] || {}, {
   WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
 });
 const blockedPetSwitchActiveHpBefore = Number(blockedPetSwitchGame.pets[0].Hp || 0);
-blockedPetSwitchGame = await api("/api/game/battle", { game: blockedPetSwitchGame, action: "S|1" });
+const originalRandomForBlockedPetSwitchEnemyTurn = Math.random;
+try {
+  Math.random = () => 0.99;
+  blockedPetSwitchGame = await api("/api/game/battle", { game: blockedPetSwitchGame, action: "S|1" });
+} finally {
+  Math.random = originalRandomForBlockedPetSwitchEnemyTurn;
+}
 assertEqual(blockedPetSwitchGame.battleOutcome.result, "pet-switch-blocked", "sleep blocks source S pet switch before PETOUT/PETIN mutation");
 assertEqual(blockedPetSwitchGame.petState.activeIndex, 0, "blocked source S command keeps the active pet unchanged");
 assertEqual(blockedPetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "blocked pet switch still records source S telemetry");
@@ -5375,7 +5443,13 @@ Object.assign(playerCaptureMissTargetGame.encounter, {
   WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
 });
 playerCaptureMissTargetGame.battle.enemyParty = [playerCaptureMissTargetGame.encounter];
-playerCaptureMissTargetGame = await api("/api/game/battle", { game: playerCaptureMissTargetGame, action: "捕获" });
+const originalRandomForFailedCaptureEnemyTurn = Math.random;
+try {
+  Math.random = () => 0.99;
+  playerCaptureMissTargetGame = await api("/api/game/battle", { game: playerCaptureMissTargetGame, action: "捕获" });
+} finally {
+  Math.random = originalRandomForFailedCaptureEnemyTurn;
+}
 assertEqual(playerCaptureMissTargetGame.battleOutcome.result, "capture-missed", "failed capture keeps battle active after source enemy turn");
 assertEqual(playerCaptureMissTargetGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_CAPTURE", "failed capture records source capture command telemetry");
 assertEqual(playerCaptureMissTargetGame.battleOutcome.enemyAi?.targetKind, "player", "failed capture enemy turn honors source target player rule");
