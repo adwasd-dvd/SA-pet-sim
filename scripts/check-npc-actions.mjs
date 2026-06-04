@@ -3331,6 +3331,63 @@ assert(wildViolentSkillGame.battleOutcome.playerAction?.petSkill?.hits?.filter((
 assertEqual(wildViolentSkillGame.pets[0].WorkAttackPower, 80, "WildViolentAttack pet skill restores temporary attack after the round");
 assertEqual(wildViolentSkillGame.pets[0].WorkDefencePower, 100, "WildViolentAttack pet skill restores temporary defence after the round");
 assert(Number(wildViolentSkillGame.encounter?.Hp || 0) < wildViolentHpBefore, "WildViolentAttack pet skill damages the active battle target");
+let attackCrazedSkillGame = await api("/api/game/new", { name: "pet-attackcrazed-skill-test" });
+attackCrazedSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+attackCrazedSkillGame = await api("/api/game/dialog", { game: attackCrazedSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+attackCrazedSkillGame.pets[0].PetSkillIds = [613];
+attackCrazedSkillGame.pets[0].PetSkills = [{
+  Id: 613,
+  Name: "狂乱暴走",
+  Des: "乱数攻击对手3次 攻20% 防30% 下降",
+  FuncName: "PETSKILL_AttackCrazed",
+  Option: "3",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+attackCrazedSkillGame.pets[0].PetId = 61300;
+attackCrazedSkillGame.pets[0].WorkFixStr = 100;
+attackCrazedSkillGame.pets[0].WorkAttackPower = 100;
+attackCrazedSkillGame.pets[0].WorkFixTough = 100;
+attackCrazedSkillGame.pets[0].WorkDefencePower = 100;
+attackCrazedSkillGame.pets[0].WorkQuick = 999;
+attackCrazedSkillGame.pets[0].WorkFixDex = 999;
+attackCrazedSkillGame.encounter.EnemyId = 61301;
+attackCrazedSkillGame.encounter.Name = "狂乱主目标";
+attackCrazedSkillGame.encounter.WorkMaxHp = 999;
+attackCrazedSkillGame.encounter.Hp = 999;
+attackCrazedSkillGame.encounter.WorkFixTough = 1;
+attackCrazedSkillGame.encounter.WorkDefencePower = 1;
+attackCrazedSkillGame.encounter.WorkQuick = 0;
+attackCrazedSkillGame.encounter.WorkFixDex = 0;
+attackCrazedSkillGame.encounter.WorkAttackPower = 1;
+attackCrazedSkillGame.battle.enemyParty = [
+  { ...attackCrazedSkillGame.encounter },
+  { ...attackCrazedSkillGame.encounter, EnemyId: 61302, Name: "狂乱随机目标", Hp: 999, WorkMaxHp: 999 },
+  { ...attackCrazedSkillGame.encounter, EnemyId: 61303, Name: "狂乱备用目标", Hp: 999, WorkMaxHp: 999 }
+];
+attackCrazedSkillGame.battle.activeEnemyIndex = 0;
+const attackCrazedRandomTargetHpBefore = Number(attackCrazedSkillGame.battle.enemyParty[1].Hp || 0);
+const originalRandomForAttackCrazed = Math.random;
+try {
+  Math.random = () => 0.5;
+  attackCrazedSkillGame = await api("/api/game/battle", { game: attackCrazedSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForAttackCrazed;
+}
+const attackCrazedTelemetry = attackCrazedSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(attackCrazedSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ATTCRAZED", "AttackCrazed pet skill maps to source battle command");
+assertEqual(attackCrazedTelemetry?.hitCount, 3, "AttackCrazed pet skill uses source option attack count");
+assertEqual(attackCrazedTelemetry?.attackPercent, -20, "AttackCrazed applies source temporary attack penalty");
+assertEqual(attackCrazedTelemetry?.defencePercent, -30, "AttackCrazed applies source temporary defence penalty");
+assertEqual(attackCrazedTelemetry?.targetScope, "enemy-random", "AttackCrazed records source random enemy target scope");
+assertEqual(attackCrazedTelemetry?.hits?.length, 3, "AttackCrazed records three source random attacks");
+assert(attackCrazedTelemetry?.hits?.every((hit) => Number(hit.damageDivisor || 0) === 1), "AttackCrazed does not divide damage per hit in source behavior");
+assert(attackCrazedTelemetry?.hits?.every((hit) => Number(hit.targetSlot || 0) === 1), "AttackCrazed source random fixture targets the same live enemy slot");
+assert(Number(attackCrazedSkillGame.battle.enemyParty[1]?.Hp || 0) < attackCrazedRandomTargetHpBefore, "AttackCrazed damages the randomly selected enemy slot");
+assertEqual(attackCrazedSkillGame.pets[0].WorkAttackPower, 100, "AttackCrazed restores temporary attack after the round");
+assertEqual(attackCrazedSkillGame.pets[0].WorkDefencePower, 100, "AttackCrazed restores temporary defence after the round");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

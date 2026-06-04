@@ -185,6 +185,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Mighty",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
+  "PETSKILL_AttackCrazed",
   "PETSKILL_DamageToHp2"
 ]);
 const BATTLE_STATUS_EFFECTS = {
@@ -5512,6 +5513,19 @@ function petSkillBattleProfile(skill = {}) {
       defencePercent
     };
   }
+  if (func === "PETSKILL_AttackCrazed") {
+    const hitCount = clampInt(String(skill.Option || "").match(/^\s*(\d+)/)?.[1], 1, 10, 3);
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_ATTCRAZED",
+      hitCount,
+      multiplier: 1,
+      attackPercent: -20,
+      defencePercent: -30,
+      targetScope: "enemy-random"
+    };
+  }
   if (func === "PETSKILL_SpeedyAttack") {
     const option = String(skill.Option || "");
     const defencePercent = sourcePercentValue(option, "防");
@@ -5773,6 +5787,26 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
+  if (profile.targetScope === "enemy-random") {
+    const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+      ? game.battle.enemyParty
+      : [enemy].filter(Boolean);
+    const live = party
+      .map((item, index) => ({
+        enemy: item,
+        slot: index,
+        source: "gmsv battle.c BATTLE_TargetListSet random live enemy side"
+      }))
+      .filter((target) => target.enemy && Number(target.enemy.Hp || 0) > 0 && !target.enemy.BattleEscaped);
+    if (!live.length) {
+      return [{ enemy, slot: Math.max(0, Number(game.battle?.activeEnemyIndex || 0)), source: "fallback-active-target" }];
+    }
+    const hitCount = Math.max(1, Number(profile.resolvedHitCount || profile.hitCount || 1));
+    return Array.from({ length: hitCount }, () => {
+      const index = sourceBattleRand(0, live.length - 1);
+      return live[index] || live[0];
+    });
+  }
   const source = "gmsv battle.c BATTLE_COM_S_GYRATE row target scan";
   if (profile.targetScope !== "enemy-row") {
     const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
@@ -5819,7 +5853,11 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   const hits = [];
   let totalDamage = 0;
 
-  const targets = sourcePetSkillTargets(game, enemy, profile);
+  const targetProfile = profile.targetScope === "enemy-random"
+    ? { ...profile, resolvedHitCount }
+    : profile;
+  const targets = sourcePetSkillTargets(game, enemy, targetProfile);
+  const hitsPerTarget = profile.targetScope === "enemy-random" ? 1 : resolvedHitCount;
 
   const resolveSingleHit = (target, i, options = {}) => {
     let multiplier = Number(profile.multiplier || 1);
@@ -5898,7 +5936,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   };
 
   for (const target of targets) {
-    for (let i = 0; i < resolvedHitCount && Number(target.enemy?.Hp || 0) > 0; i += 1) {
+    for (let i = 0; i < hitsPerTarget && Number(target.enemy?.Hp || 0) > 0; i += 1) {
       const hitSummary = resolveSingleHit(target, i);
       hits.push(hitSummary);
       if (
