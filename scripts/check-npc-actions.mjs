@@ -3450,6 +3450,58 @@ assert(attackShootTelemetry?.hits?.every((hit) => Number(hit.damageDivisor || 0)
 assert(attackShootTelemetry?.hits?.some((hit) => hit.onHitStatus?.success), "AttackShoot can apply source sleep after landed damage");
 assert(Number(attackShootSkillGame.encounter?.Hp || 0) < attackShootHpBefore, "AttackShoot damages the active target");
 assert(Number(attackShootSkillGame.encounter?.BattleStatuses?.sleep?.turns || 0) > 0, "AttackShoot persists source sleep status on the enemy");
+let battleTearSkillGame = await api("/api/game/new", { name: "pet-battletear-skill-test" });
+battleTearSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+battleTearSkillGame = await api("/api/game/dialog", { game: battleTearSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+battleTearSkillGame.pets[0].PetSkillIds = [616];
+battleTearSkillGame.pets[0].PetSkills = [{
+  Id: 616,
+  Name: "撕裂伤口2",
+  Des: "撕裂旧伤口 增加50%伤害",
+  FuncName: "PETSKILL_BattleTearDamage",
+  Option: "50",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+battleTearSkillGame.pets[0].PetId = 61600;
+battleTearSkillGame.pets[0].WorkFixStr = 100;
+battleTearSkillGame.pets[0].WorkAttackPower = 100;
+battleTearSkillGame.pets[0].WorkFixTough = 100;
+battleTearSkillGame.pets[0].WorkDefencePower = 100;
+battleTearSkillGame.pets[0].WorkQuick = 10;
+battleTearSkillGame.pets[0].WorkFixDex = 10;
+battleTearSkillGame.encounter.EnemyId = 61601;
+battleTearSkillGame.encounter.Name = "旧伤测试敌人";
+battleTearSkillGame.encounter.WorkMaxHp = 500;
+battleTearSkillGame.encounter.Hp = 300;
+battleTearSkillGame.encounter.WorkFixTough = 1;
+battleTearSkillGame.encounter.WorkDefencePower = 1;
+battleTearSkillGame.encounter.WorkQuick = 10;
+battleTearSkillGame.encounter.WorkFixDex = 10;
+battleTearSkillGame.encounter.WorkAttackPower = 1;
+Object.assign(battleTearSkillGame.battle?.enemyParty?.[0] || {}, battleTearSkillGame.encounter);
+const battleTearHpBefore = Number(battleTearSkillGame.encounter.Hp || 0);
+const originalRandomForBattleTear = Math.random;
+try {
+  Math.random = () => 0.99;
+  battleTearSkillGame = await api("/api/game/battle", { game: battleTearSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForBattleTear;
+}
+const battleTearTelemetry = battleTearSkillGame.battleOutcome.playerAction?.petSkill;
+const battleTearHit = battleTearTelemetry?.hits?.[0];
+assertEqual(battleTearSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_PETSKILLTEAR", "BattleTearDamage pet skill maps to source battle command");
+assertEqual(battleTearTelemetry?.attackPercent, -10, "BattleTearDamage applies source temporary attack penalty");
+assertEqual(battleTearTelemetry?.defencePercent, -20, "BattleTearDamage applies source temporary defence penalty");
+assertEqual(battleTearTelemetry?.tearDamagePercent, 50, "BattleTearDamage preserves source old-wound damage percent");
+assertEqual(battleTearHit?.tearDamage?.missingHp, 200, "BattleTearDamage computes source missing HP before the hit");
+assertEqual(battleTearHit?.tearDamage?.addedDamage, 100, "BattleTearDamage adds missing HP percent to landed damage");
+assert(Number(battleTearHit?.damage || 0) > Number(battleTearHit?.tearDamage?.addedDamage || 0), "BattleTearDamage keeps base hit damage plus tear damage");
+assert(Number(battleTearSkillGame.encounter?.Hp || 0) < battleTearHpBefore - 99, "BattleTearDamage applies old-wound bonus to the active target");
+assertEqual(battleTearSkillGame.pets[0].WorkAttackPower, 100, "BattleTearDamage restores temporary attack after the round");
+assertEqual(battleTearSkillGame.pets[0].WorkDefencePower, 100, "BattleTearDamage restores temporary defence after the round");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

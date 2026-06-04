@@ -187,6 +187,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_MagicStatusChange",
   "PETSKILL_AttackCrazed",
   "PETSKILL_AttackShoot",
+  "PETSKILL_BattleTearDamage",
   "PETSKILL_DamageToHp2"
 ]);
 const BATTLE_STATUS_EFFECTS = {
@@ -5418,6 +5419,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercent: Number(profile.quickPercent || 0),
       criticalPercent: Number(profile.criticalPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
+      tearDamagePercent: Number(profile.tearDamagePercent || 0),
       sleepOnHitChance: Number(profile.sleepOnHitChance || 0),
       counterSuppressed: Boolean(profile.counterSuppressed),
       chargeTurns: Number(profile.chargeTurns || 0),
@@ -5544,6 +5546,20 @@ function petSkillBattleProfile(skill = {}) {
       targetScope: "enemy-random",
       sleepOnHitChance: 20,
       counterSuppressed: true
+    };
+  }
+  if (func === "PETSKILL_BattleTearDamage") {
+    const tearDamagePercent = clampInt(String(skill.Option || "").match(/^\s*(\d+)/)?.[1], 0, 400, 0);
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_PETSKILLTEAR",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -10,
+      defencePercent: -20,
+      tearDamagePercent,
+      source: "gmsv battle_event.c BATTLE_COM_S_PETSKILLTEAR"
     };
   }
   if (func === "PETSKILL_SpeedyAttack") {
@@ -5736,6 +5752,36 @@ function compactSourceAttributeOverride(attributeOverride) {
   };
 }
 
+function applySourceTearDamage(hit = {}, defender = {}, percent = 0) {
+  const workMaxHp = Math.max(0, firstFiniteNumber(0, defender?.WorkMaxHp, defender?.maxHp, defender?.MaxHp));
+  const currentHp = Math.max(0, Number(defender?.Hp || 0));
+  const missingHp = Math.max(0, workMaxHp - currentHp);
+  const tearPercent = Math.max(0, Number(percent || 0));
+  const addedDamage = missingHp > 0 ? Math.max(0, Math.floor(missingHp * tearPercent / 100)) : 0;
+  return {
+    ...hit,
+    damage: Number(hit.damage || 0) + addedDamage,
+    tearDamage: {
+      percent: tearPercent,
+      missingHp,
+      addedDamage,
+      applied: addedDamage > 0,
+      source: "gmsv battle_event.c BATTLE_COM_S_PETSKILLTEAR missing HP percent"
+    }
+  };
+}
+
+function compactSourceTearDamage(tearDamage) {
+  if (!tearDamage) return null;
+  return {
+    percent: Number(tearDamage.percent || 0),
+    missingHp: Number(tearDamage.missingHp || 0),
+    addedDamage: Number(tearDamage.addedDamage || 0),
+    applied: Boolean(tearDamage.applied),
+    source: tearDamage.source || "gmsv battle_event.c BATTLE_COM_S_PETSKILLTEAR"
+  };
+}
+
 function parsePetSkillMagicStatusChange(option = "") {
   const parts = String(option || "").split("|").map((item) => cleanReferenceText(item));
   const effect = BATTLE_MAGIC_STATUS_EFFECTS[parts[0]];
@@ -5912,6 +5958,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     if (profile.attributeBoost) {
       hit = applySourceAttributeBoost(hit, target.enemy, profile.attributeBoost);
     }
+    if (Number(profile.tearDamagePercent || 0) > 0 && Number(hit.damage || 0) > 0) {
+      hit = applySourceTearDamage(hit, target.enemy, profile.tearDamagePercent);
+    }
     if (damageDivisor > 1) {
       hit = {
         ...hit,
@@ -5966,6 +6015,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       elementMultiplier: Number(hit.elementMultiplier || 1),
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
+      tearDamage: compactSourceTearDamage(hit.tearDamage),
       onHitStatus,
       guardAdjust: compactGuardAdjust(hit.guardAdjust),
       retrace: Boolean(options.retrace),
@@ -6791,6 +6841,7 @@ function compactPetSkillTelemetry(skill) {
     quickPercent: Number(skill.quickPercent || 0),
     criticalPercent: Number(skill.criticalPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
+    tearDamagePercent: Number(skill.tearDamagePercent || 0),
     chargeTurns: Number(skill.chargeTurns || 0),
     chargeAttackPercent: Number(skill.chargeAttackPercent || 0),
     charge: skill.charge ? {
@@ -6831,6 +6882,7 @@ function compactPetSkillTelemetry(skill) {
       retraceRoll: Number(hit.retraceRoll || 0),
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(hit.attributeOverride),
+      tearDamage: compactSourceTearDamage(hit.tearDamage),
       onHitStatus: hit.onHitStatus ? {
         ...hit.onHitStatus,
         status: compactBattleStatusEffect(hit.onHitStatus.status),
