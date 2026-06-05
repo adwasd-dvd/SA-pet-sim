@@ -3605,6 +3605,55 @@ assertEqual(weakenTelemetry?.status?.rolls?.length, 2, "Weaken records a status 
 assert(weakenTelemetry?.status?.rolls?.every((roll) => roll.chance === 50 && roll.success), "Weaken uses source 成 success percent for every target fixture");
 assert(Number(weakenSkillGame.battle.enemyParty[0]?.BattleStatuses?.weaken?.turns || 0) > 0, "Weaken persists status on the active enemy target");
 assert(Number(weakenSkillGame.battle.enemyParty[1]?.BattleStatuses?.weaken?.turns || 0) > 0, "Weaken persists status on the second enemy target");
+let refreshSkillGame = await api("/api/game/new", { name: "pet-refresh-skill-test" });
+refreshSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+refreshSkillGame = await api("/api/game/dialog", { game: refreshSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+refreshSkillGame.pets[0].PetSkillIds = [592];
+refreshSkillGame.pets[0].PetSkills = [{
+  Id: 592,
+  Name: "净化",
+  Des: "解除所有异常状态",
+  FuncName: "PETSKILL_Refresh",
+  Option: "全",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+refreshSkillGame.pets[0].WorkQuick = 999;
+refreshSkillGame.pets[0].WorkFixDex = 999;
+refreshSkillGame.pets[0].Hp = 999;
+refreshSkillGame.pets[0].WorkMaxHp = 999;
+refreshSkillGame.player.BattleStatuses = {
+  poison: { key: "poison", label: "中毒", turns: 3 },
+  weaken: { key: "weaken", label: "虚弱", turns: 3 }
+};
+refreshSkillGame.pets[0].BattleStatuses = {
+  weaken: { key: "weaken", label: "虚弱", turns: 3 }
+};
+refreshSkillGame.encounter.BattleStatuses = {
+  poison: { key: "poison", label: "中毒", turns: 3 }
+};
+refreshSkillGame.encounter.WorkAttackPower = 1;
+refreshSkillGame.encounter.WorkQuick = 1;
+refreshSkillGame.encounter.WorkFixDex = 1;
+Object.assign(refreshSkillGame.battle?.enemyParty?.[0] || {}, {
+  BattleStatuses: refreshSkillGame.encounter.BattleStatuses,
+  WorkAttackPower: refreshSkillGame.encounter.WorkAttackPower,
+  WorkQuick: refreshSkillGame.encounter.WorkQuick,
+  WorkFixDex: refreshSkillGame.encounter.WorkFixDex
+});
+refreshSkillGame = await api("/api/game/battle", { game: refreshSkillGame, action: "skill:0" });
+const refreshTelemetry = refreshSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(refreshSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_REFRESH", "Refresh pet skill maps to source battle command");
+assertEqual(refreshTelemetry?.targetScope, "ally-side", "Refresh Target=2 uses ally-side targets");
+assertEqual(refreshTelemetry?.totalDamage, 0, "Refresh source pet skill does not deal direct attack damage");
+assert(refreshTelemetry?.refresh?.success, "Refresh reports successful source status recovery");
+assert(refreshTelemetry?.refresh?.results?.some((result) => result.targetKind === "player" && result.removed.includes("poison") && result.removed.includes("weaken")), "Refresh clears all matching player statuses");
+assert(refreshTelemetry?.refresh?.results?.some((result) => result.targetKind === "pet" && result.removed.includes("weaken")), "Refresh clears active pet status");
+assert(!refreshSkillGame.player.BattleStatuses?.poison && !refreshSkillGame.player.BattleStatuses?.weaken, "Refresh persists player status cleanup");
+assert(!refreshSkillGame.pets[0].BattleStatuses?.weaken, "Refresh persists pet status cleanup");
+assert(refreshSkillGame.encounter.BattleStatuses?.poison, "Refresh does not clear enemy status when targeting ally side");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

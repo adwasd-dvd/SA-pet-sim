@@ -185,6 +185,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Mighty",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
+  "PETSKILL_Refresh",
   "PETSKILL_Weaken",
   "PETSKILL_Hector",
   "PETSKILL_AttackCrazed",
@@ -5158,6 +5159,10 @@ function performPetSkillAction(game, move) {
       resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "refresh") {
+      resolvePetRefreshTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "status-only") {
       resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
@@ -5736,6 +5741,20 @@ function petSkillBattleProfile(skill = {}) {
       reason: magicStatus ? "" : `unsupported magic status ${skill.Option || ""}`
     };
   }
+  if (func === "PETSKILL_Refresh") {
+    const refresh = parsePetSkillRefresh(skill.Option || "");
+    return {
+      supported: Boolean(refresh),
+      kind: "refresh",
+      sourceCommand: "BATTLE_COM_S_REFRESH",
+      targetKind: "ally",
+      targetScope: Number(skill.Target || 0) === 2 ? "ally-side" : "self",
+      hitCount: 0,
+      multiplier: 0,
+      refresh,
+      reason: refresh ? "" : `unsupported refresh option ${skill.Option || ""}`
+    };
+  }
   return { supported: false, kind: "unsupported", sourceCommand: "", reason: `unsupported ${func || "unknown"}` };
 }
 
@@ -5861,6 +5880,43 @@ function parsePetSkillStatusChange(option = "") {
   };
 }
 
+function parsePetSkillRefresh(option = "") {
+  const text = cleanReferenceText(option || "");
+  if (!text) return null;
+  if (text.includes("全")) {
+    return {
+      all: true,
+      keys: [],
+      label: "全部异常",
+      source: "gmsv battle_event.c BATTLE_S_Refresh BATTLE_MultiStatusRecovery"
+    };
+  }
+  const statusGlyph = Object.keys(BATTLE_STATUS_EFFECTS).find((glyph) => text.includes(glyph));
+  if (statusGlyph) {
+    const effect = BATTLE_STATUS_EFFECTS[statusGlyph];
+    return {
+      all: false,
+      keys: [effect.key],
+      label: effect.label || statusGlyph,
+      status: compactBattleStatusEffect(effect),
+      source: "gmsv battle_event.c BATTLE_S_Refresh BATTLE_MultiStatusRecovery"
+    };
+  }
+  const sourceOnly = {
+    "默": { key: "noCast", label: "沉默", sourceCommand: "BATTLE_ST_NOCAST" },
+    "障": { key: "barrier", label: "魔障", sourceCommand: "BATTLE_ST_BARRIER" }
+  };
+  const sourceGlyph = Object.keys(sourceOnly).find((glyph) => text.includes(glyph));
+  if (!sourceGlyph) return null;
+  return {
+    all: false,
+    keys: [sourceOnly[sourceGlyph].key],
+    label: sourceOnly[sourceGlyph].label,
+    status: compactBattleStatusEffect(sourceOnly[sourceGlyph]),
+    source: "gmsv battle_event.c BATTLE_S_Refresh source status token"
+  };
+}
+
 function sourcePercentMultiplier(text = "", label = "攻") {
   const percent = sourcePercentValue(text, label);
   return Math.max(0.05, 1 + percent / 100);
@@ -5899,6 +5955,83 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
     source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
   };
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
+}
+
+function sourcePetRefreshTargets(game, activePet, profile = {}) {
+  if (profile.targetScope !== "ally-side") {
+    return [{ actor: activePet, slot: 5, kind: "pet", source: "active-pet-target" }];
+  }
+  const targets = [];
+  if (game.player) targets.push({ actor: game.player, slot: 0, kind: "player", source: "gmsv BATTLE_MultiList ally side" });
+  const pets = Array.isArray(game.pets) ? game.pets : [];
+  pets.forEach((pet, index) => {
+    if (pet && Number(pet.Hp ?? pet.hp ?? 0) > 0) {
+      targets.push({ actor: pet, slot: 5 + index, kind: "pet", source: "gmsv BATTLE_MultiList ally side" });
+    }
+  });
+  return targets.length ? targets : [{ actor: activePet, slot: 5, kind: "pet", source: "fallback-active-pet-target" }];
+}
+
+function recoverBattleStatuses(target, refresh = {}) {
+  const before = compactBattleStatuses(target);
+  const removed = [];
+  target.BattleStatuses ||= {};
+  const keys = refresh.all ? Object.keys(target.BattleStatuses) : refresh.keys || [];
+  for (const key of keys) {
+    if (target.BattleStatuses?.[key]) {
+      removed.push(key);
+      delete target.BattleStatuses[key];
+    }
+  }
+  syncBattlePrimaryStatus(target);
+  return {
+    before,
+    after: compactBattleStatuses(target),
+    removed,
+    success: removed.length > 0
+  };
+}
+
+function resolvePetRefreshTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const refresh = profile.refresh;
+  if (!refresh) {
+    skillState.refresh = { success: false, reason: "missing-refresh" };
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个状态恢复尚未接入。`);
+    return;
+  }
+  const targets = sourcePetRefreshTargets(game, activePet, profile);
+  const results = targets.map((target) => {
+    const result = recoverBattleStatuses(target.actor, refresh);
+    return {
+      targetSlot: target.slot,
+      targetKind: target.kind,
+      targetName: target.actor?.Name || target.actor?.name || "角色",
+      targetSource: target.source,
+      ...result
+    };
+  });
+  skillState.targetScope = profile.targetScope || "";
+  skillState.refresh = {
+    success: results.some((result) => result.success),
+    refresh: {
+      all: Boolean(refresh.all),
+      keys: Array.isArray(refresh.keys) ? refresh.keys : [],
+      label: refresh.label || "",
+      status: refresh.status || null,
+      source: refresh.source || "gmsv battle_event.c BATTLE_S_Refresh"
+    },
+    results,
+    source: refresh.source || "gmsv battle_event.c BATTLE_S_Refresh"
+  };
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  const recovered = results.filter((result) => result.success);
+  if (recovered.length) {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，为 ${recovered.map((result) => result.targetName).join("、")} 解除${refresh.label || "异常"}状态。`);
+  } else {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但没有可解除的${refresh.label || "异常"}状态。`);
+  }
 }
 
 function sourcePetStatusTargets(game, enemy, profile = {}) {
