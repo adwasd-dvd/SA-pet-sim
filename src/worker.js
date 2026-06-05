@@ -185,6 +185,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Mighty",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
+  "PETSKILL_Weaken",
   "PETSKILL_Hector",
   "PETSKILL_AttackCrazed",
   "PETSKILL_AttackShoot",
@@ -5157,6 +5158,10 @@ function performPetSkillAction(game, move) {
       resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "status-only") {
+      resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
     return true;
   };
@@ -5600,6 +5605,26 @@ function petSkillBattleProfile(skill = {}) {
       reason: status ? "" : `unsupported Hector status option: ${option}`
     };
   }
+  if (func === "PETSKILL_Weaken") {
+    const option = String(skill.Option || "");
+    const status = parsePetSkillStatusChange(option);
+    const successPercent = clampInt(option.match(/成\s*([+-]?\d+)/)?.[1], 0, 100, 50);
+    if (status) {
+      status.fixedChance = successPercent;
+      status.source = "gmsv battle_event.c BATTLE_S_Weaken BATTLE_MultiParamChangeTurn";
+    }
+    return {
+      supported: Boolean(status),
+      kind: "status-only",
+      sourceCommand: "BATTLE_COM_S_WEAKEN",
+      targetKind: "enemy",
+      targetScope: Number(skill.Target || 0) === 3 ? "enemy-all" : "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      status,
+      reason: status ? "" : `unsupported Weaken status option: ${option}`
+    };
+  }
   if (func === "PETSKILL_EarthRound") {
     const option = String(skill.Option || "");
     return {
@@ -5874,6 +5899,63 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
     source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
   };
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
+}
+
+function sourcePetStatusTargets(game, enemy, profile = {}) {
+  if (profile.targetScope !== "enemy-all") {
+    const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+    return [{ enemy, slot: activeIndex, source: "active-target" }];
+  }
+  const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+    ? game.battle.enemyParty
+    : [enemy].filter(Boolean);
+  const targets = party
+    .map((item, index) => ({ enemy: item, slot: index, source: "gmsv battle_magic.c BATTLE_MultiParamChangeTurn enemy-side scan" }))
+    .filter((target) => target.enemy && Number(target.enemy.Hp || 0) > 0 && !target.enemy.BattleEscaped);
+  return targets.length
+    ? targets
+    : [{ enemy, slot: Math.max(0, Number(game.battle?.activeEnemyIndex || 0)), source: "fallback-active-target" }];
+}
+
+function resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const status = profile.status;
+  if (!status) {
+    skillState.status = { success: false, reason: "missing-status" };
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个状态效果尚未接入。`);
+    return;
+  }
+  const targets = sourcePetStatusTargets(game, enemy, profile);
+  const rolls = [];
+  for (const target of targets) {
+    const statusRoll = resolveBattleStatusAttack(game, activePet, target.enemy, status, skill);
+    const entry = {
+      ...statusRoll,
+      targetSlot: Number(target.slot || 0),
+      targetName: target.enemy?.Name || "enemy",
+      targetSource: target.source || ""
+    };
+    if (statusRoll.success) {
+      const applied = applyBattleStatus(target.enemy, status, statusRoll);
+      entry.applied = compactBattleStatusEffect(applied);
+      battleLog.push(`${target.enemy.Name} 陷入${applied.label}状态，持续 ${applied.turns} 回合。`);
+    } else if (statusRoll.reason === "already-status") {
+      battleLog.push(`${target.enemy.Name} 已经处于异常状态，${skill.Name} 的状态效果没有叠加。`);
+    } else {
+      battleLog.push(`${skill.Name} 对 ${target.enemy.Name} 的状态效果没有成功。`);
+    }
+    rolls.push(entry);
+  }
+  skillState.targetScope = profile.targetScope || "";
+  skillState.status = rolls.length === 1 ? rolls[0] : {
+    success: rolls.some((roll) => roll.success),
+    status: compactBattleStatusEffect(status),
+    rolls,
+    source: status.source || "gmsv battle_event.c BATTLE_S_Weaken"
+  };
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}。`);
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {

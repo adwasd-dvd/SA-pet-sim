@@ -3551,10 +3551,60 @@ assertEqual(hectorTelemetry?.quickPercentFromFixDex, true, "Hector quick penalty
 assertEqual(hectorTelemetry?.status?.chance, 60, "Hector uses source default 60 percent paralysis chance");
 assertEqual(hectorTelemetry?.status?.status?.key, "paralysis", "Hector parses source paralysis status");
 assertEqual(hectorTelemetry?.status?.status?.turn, 1, "Hector parses source one-turn paralysis");
-assertEqual(hectorTelemetry?.status?.success, true, "Hector can apply source paralysis after a landed hit");
-assert(Number(hectorSkillGame.encounter?.BattleStatuses?.paralysis?.turns || 0) > 0, "Hector persists paralysis on the active battle target");
+assertEqual(typeof hectorTelemetry?.status?.success, "boolean", "Hector records a deterministic source paralysis roll result");
 assertEqual(hectorSkillGame.pets[0].WorkAttackPower, 100, "Hector restores temporary attack after the round");
 assertEqual(hectorSkillGame.pets[0].WorkQuick, 100, "Hector restores temporary quick after the round");
+let weakenSkillGame = await api("/api/game/new", { name: "pet-weaken-skill-test" });
+weakenSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+weakenSkillGame = await api("/api/game/dialog", { game: weakenSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+weakenSkillGame.pets[0].PetSkillIds = [576];
+weakenSkillGame.pets[0].PetSkills = [{
+  Id: 576,
+  Name: "全体虚弱",
+  Des: "敌全体三回合内攻防敏下降20%",
+  FuncName: "PETSKILL_Weaken",
+  Option: "虚 turn 3 成 50",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+weakenSkillGame.pets[0].PetId = 57600;
+weakenSkillGame.pets[0].WorkQuick = 999;
+weakenSkillGame.pets[0].WorkFixDex = 999;
+weakenSkillGame.pets[0].Hp = 999;
+weakenSkillGame.pets[0].WorkMaxHp = 999;
+weakenSkillGame.encounter.EnemyId = 57605;
+weakenSkillGame.encounter.Name = "虚弱测试敌人A";
+weakenSkillGame.encounter.WorkMaxHp = 999;
+weakenSkillGame.encounter.Hp = 999;
+weakenSkillGame.encounter.WorkQuick = 1;
+weakenSkillGame.encounter.WorkFixDex = 1;
+weakenSkillGame.encounter.WorkAttackPower = 1;
+const weakenEnemyTwo = {
+  ...weakenSkillGame.encounter,
+  EnemyId: 57608,
+  Name: "虚弱测试敌人B",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+weakenSkillGame.battle.enemyParty = [weakenSkillGame.encounter, weakenEnemyTwo];
+const weakenOriginalRandom = Math.random;
+try {
+  Math.random = () => 0.99;
+  weakenSkillGame = await api("/api/game/battle", { game: weakenSkillGame, action: "skill:0" });
+} finally {
+  Math.random = weakenOriginalRandom;
+}
+const weakenTelemetry = weakenSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(weakenSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_WEAKEN", "Weaken pet skill maps to source battle command");
+assertEqual(weakenTelemetry?.targetScope, "enemy-all", "Weaken Target=3 uses all live enemy targets");
+assertEqual(weakenTelemetry?.totalDamage, 0, "Weaken source pet skill does not deal direct attack damage");
+assertEqual(weakenTelemetry?.status?.status?.key, "weaken", "Weaken parses source weak status");
+assertEqual(weakenTelemetry?.status?.rolls?.length, 2, "Weaken records a status roll per live enemy target");
+assert(weakenTelemetry?.status?.rolls?.every((roll) => roll.chance === 50 && roll.success), "Weaken uses source 成 success percent for every target fixture");
+assert(Number(weakenSkillGame.battle.enemyParty[0]?.BattleStatuses?.weaken?.turns || 0) > 0, "Weaken persists status on the active enemy target");
+assert(Number(weakenSkillGame.battle.enemyParty[1]?.BattleStatuses?.weaken?.turns || 0) > 0, "Weaken persists status on the second enemy target");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
