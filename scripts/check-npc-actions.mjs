@@ -3959,6 +3959,50 @@ assert(Number(damageToHpSkillGame.pets[0].Hp || 0) > damageToHpHpBefore, "Damage
 assert(Number(damageToHpSkillGame.pets[0].Hp || 0) <= Number(damageToHpSkillGame.pets[0].WorkMaxHp || 0), "DamageToHp pet skill caps healing at WorkMaxHp");
 assertEqual(damageToHpSkillGame.pets[0].WorkAttackPower, 100, "DamageToHp pet skill restores temporary attack after the round");
 assert(Number(damageToHpSkillGame.encounter?.Hp || 0) < damageToHpEnemyHpBefore, "DamageToHp pet skill damages the active battle target");
+let mpDamageSkillGame = await api("/api/game/new", { name: "pet-mpdamage-skill-test" });
+mpDamageSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+mpDamageSkillGame = await api("/api/game/dialog", { game: mpDamageSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+mpDamageSkillGame.pets[0].PetSkillIds = [506];
+mpDamageSkillGame.pets[0].PetSkills = [{
+  Id: 506,
+  Name: "MP攻击",
+  Des: "攻击力下降50%，并损害对方50%的MP",
+  FuncName: "PETSKILL_MpDamage",
+  Option: "50|50",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+mpDamageSkillGame.pets[0].WorkFixStr = 100;
+mpDamageSkillGame.pets[0].WorkAttackPower = 100;
+mpDamageSkillGame.pets[0].WorkQuick = 999;
+mpDamageSkillGame.pets[0].WorkFixDex = 999;
+mpDamageSkillGame.encounter = {
+  Name: "MP测试人物目标",
+  Hp: 999,
+  WorkMaxHp: 999,
+  mp: 80,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 1
+};
+mpDamageSkillGame.battle.enemyParty = [mpDamageSkillGame.encounter];
+mpDamageSkillGame.battle.activeEnemyIndex = 0;
+const mpDamageHpBefore = Number(mpDamageSkillGame.encounter.Hp || 0);
+mpDamageSkillGame = await api("/api/game/battle", { game: mpDamageSkillGame, action: "skill:0" });
+const mpDamageTelemetry = mpDamageSkillGame.battleOutcome.playerAction?.petSkill;
+const mpDamageHit = mpDamageTelemetry?.hits?.[0];
+assertEqual(mpDamageSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_MPDAMAGE", "MpDamage pet skill maps to source battle command");
+assertEqual(mpDamageTelemetry?.attackPercent, -50, "MpDamage applies source temporary attack penalty");
+assertEqual(mpDamageTelemetry?.mpDamagePercent, 50, "MpDamage preserves source MP damage percent telemetry");
+assertEqual(mpDamageHit?.mpDamage?.before, 80, "MpDamage reads target MP before source side effect");
+assertEqual(mpDamageHit?.mpDamage?.amount, 40, "MpDamage removes source percent of target MP after a landed hit");
+assertEqual(mpDamageSkillGame.encounter.mp, 40, "MpDamage persists target MP reduction");
+assert(Number(mpDamageSkillGame.encounter?.Hp || 0) < mpDamageHpBefore, "MpDamage still deals normal reduced attack damage");
+assertEqual(mpDamageSkillGame.pets[0].WorkAttackPower, 100, "MpDamage restores temporary attack after the round");
 let damageToHp2SkillGame = await api("/api/game/new", { name: "pet-damagetohp2-skill-test" });
 damageToHp2SkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 damageToHp2SkillGame = await api("/api/game/dialog", { game: damageToHp2SkillGame, npcId: battleNpc.npc.id, message: "宠物" });

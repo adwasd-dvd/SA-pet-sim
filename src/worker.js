@@ -199,6 +199,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_SpeedyAttack",
   "PETSKILL_EarthRound",
   "PETSKILL_DamageToHp",
+  "PETSKILL_MpDamage",
   "PETSKILL_BattleTearDamage",
   "PETSKILL_DamageToHp2",
   "PETSKILL_Modifyattack",
@@ -5447,6 +5448,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercentFromFixDex: Boolean(profile.quickPercentFromFixDex),
       criticalPercent: Number(profile.criticalPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
+      mpDamagePercent: Number(profile.mpDamagePercent || 0),
       tearDamagePercent: Number(profile.tearDamagePercent || 0),
       sleepOnHitChance: Number(profile.sleepOnHitChance || 0),
       counterSuppressed: Boolean(profile.counterSuppressed),
@@ -5702,6 +5704,19 @@ function petSkillBattleProfile(skill = {}) {
       drainPercent: clampInt(parts[1], 0, 400, 0)
     };
   }
+  if (func === "PETSKILL_MpDamage") {
+    const parts = String(skill.Option || "").split("|").map((part) => clampInt(part, 0, 400, 0));
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_MPDAMAGE",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -Math.abs(Number(parts[0] || 0)),
+      mpDamagePercent: clampInt(parts[1], 0, 400, 0),
+      source: "gmsv battle_event.c BATTLE_S_MpDamage"
+    };
+  }
   if (func === "PETSKILL_DamageToHp2") {
     const optionText = String(skill.Option || "");
     const drainPercent = clampInt(optionText.match(/^\s*(\d+)/)?.[1], 0, 400, 0);
@@ -5866,6 +5881,37 @@ function compactSourceAttributeOverride(attributeOverride) {
     element: attributeOverride.element,
     percent: Number(attributeOverride.percent || 0),
     source: attributeOverride.source || "gmsv battle_event.c BATTLE_AttrAdjust"
+  };
+}
+
+function sourceBattleMp(target) {
+  if (!target || typeof target !== "object") return 0;
+  return Math.max(0, Number(target.mp ?? target.Mp ?? target.CHAR_MP ?? 0) || 0);
+}
+
+function setSourceBattleMp(target, value) {
+  if (!target || typeof target !== "object") return;
+  const next = Math.max(0, Math.floor(Number(value || 0)));
+  if (Object.prototype.hasOwnProperty.call(target, "mp")) {
+    target.mp = next;
+  } else if (Object.prototype.hasOwnProperty.call(target, "Mp")) {
+    target.Mp = next;
+  } else {
+    target.mp = next;
+  }
+}
+
+function applySourceMpDamage(target, percent) {
+  const before = sourceBattleMp(target);
+  const mpDamagePercent = clampInt(percent, 0, 400, 0);
+  const amount = before > 0 ? Math.floor(before * mpDamagePercent / 100) : 0;
+  setSourceBattleMp(target, before - amount);
+  return {
+    before,
+    after: sourceBattleMp(target),
+    amount,
+    percent: mpDamagePercent,
+    source: "gmsv battle_event.c BATTLE_S_MpDamage"
   };
 }
 
@@ -6273,6 +6319,10 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     }
     target.enemy.Hp = Math.max(0, Number(target.enemy.Hp || 0) - hit.damage);
     clearBattleSleepOnDamage(target.enemy, hit.damage, battleLog);
+    const mpDamage = Number(profile.mpDamagePercent || 0) > 0 && Number(hit.damage || 0) > 0
+      && !target.enemy?.EnemyId && !target.enemy?.PetId
+      ? applySourceMpDamage(target.enemy, profile.mpDamagePercent)
+      : null;
     totalDamage += hit.damage;
     let onHitStatus = null;
     if (Number(profile.sleepOnHitChance || 0) > 0 && Number(hit.damage || 0) > 0 && Number(target.enemy?.Hp || 0) > 0) {
@@ -6304,6 +6354,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       tearDamage: compactSourceTearDamage(hit.tearDamage),
+      mpDamage,
       onHitStatus,
       guardAdjust: compactGuardAdjust(hit.guardAdjust),
       retrace: Boolean(options.retrace),
