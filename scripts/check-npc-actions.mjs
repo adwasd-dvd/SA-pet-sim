@@ -19,6 +19,27 @@ const env = {
   }
 };
 
+const workerSource = readFileSync(path.join(appRoot, "src/worker.js"), "utf8");
+const supportedPetSkillSetSource = workerSource.match(/const BATTLE_PET_SKILL_FUNCS = new Set\(\[([\s\S]*?)\]\);/)?.[1] || "";
+const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/"([^"]+)"/g)].map((match) => match[1]));
+[
+  "PETSKILL_ChargeAttack",
+  "PETSKILL_PowerBalance",
+  "PETSKILL_WildViolentAttack",
+  "PETSKILL_SpeedyAttack",
+  "PETSKILL_EarthRound",
+  "PETSKILL_DamageToHp",
+  "PETSKILL_Modifyattack",
+  "PETSKILL_Mdfyattack",
+  "PETSKILL_Retrace",
+  "PETSKILL_Gyrate",
+  "PETSKILL_Deeppoison",
+  "PETSKILL_Barrier",
+  "PETSKILL_Nocast"
+].forEach((func) => {
+  assert(supportedPetSkillFuncs.has(func), `${func} battle profile must stay in BattleSupported whitelist`);
+});
+
 const apiWithEnv = async (customEnv, pathName, body) => {
   const response = await worker.fetch(new Request(`http://local.test${pathName}`, {
     method: "POST",
@@ -3245,6 +3266,35 @@ assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.id, 10, "pe
 assertEqual(petSkillBattleGame.battleOutcome.playerAction?.petSkill?.hitCount, 2, "pet skill telemetry records option-derived hit count");
 assert(Number(petSkillBattleGame.encounter?.Hp || 0) < skillTargetHpBefore, "pet skill damages the active battle target");
 assert(petSkillBattleGame.battleOutcome.log.some((line) => line.includes("连续攻击")), "pet skill battle log names the source skill");
+let guardBreak2SkillGame = await api("/api/game/new", { name: "pet-guardbreak2-skill-test" });
+guardBreak2SkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+guardBreak2SkillGame = await api("/api/game/dialog", { game: guardBreak2SkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+guardBreak2SkillGame.pets[0].PetSkillIds = [543];
+guardBreak2SkillGame.pets[0].PetSkills = [{
+  Id: 543,
+  Name: "破除防御之2",
+  Des: "敌防御时攻+30%，敌非防御时攻-30%",
+  FuncName: "PETSKILL_GuardBreak2",
+  Option: "",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+guardBreak2SkillGame.pets[0].WorkFixStr = 80;
+guardBreak2SkillGame.pets[0].WorkAttackPower = 80;
+guardBreak2SkillGame.pets[0].WorkQuick = 999;
+guardBreak2SkillGame.pets[0].WorkFixDex = 999;
+guardBreak2SkillGame.encounter.WorkMaxHp = 999;
+guardBreak2SkillGame.encounter.Hp = 999;
+guardBreak2SkillGame.encounter.WorkFixTough = 1;
+guardBreak2SkillGame.encounter.WorkDefencePower = 1;
+guardBreak2SkillGame.encounter.WorkQuick = 1;
+guardBreak2SkillGame.encounter.WorkFixDex = 1;
+guardBreak2SkillGame.encounter.WorkAttackPower = 1;
+guardBreak2SkillGame = await api("/api/game/battle", { game: guardBreak2SkillGame, action: "skill:0" });
+assertEqual(guardBreak2SkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_GBREAK2", "GuardBreak2 pet skill maps to source battle command");
+assert(guardBreak2SkillGame.battleOutcome.playerAction?.petSkill?.id === 543, "GuardBreak2 telemetry records source petskill2 id");
 let powerBalanceSkillGame = await api("/api/game/new", { name: "pet-powerbalance-skill-test" });
 powerBalanceSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 powerBalanceSkillGame = await api("/api/game/dialog", { game: powerBalanceSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

@@ -183,6 +183,8 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_GuardBreak2",
   "PETSKILL_ContinuationAttack",
   "PETSKILL_Mighty",
+  "PETSKILL_ChargeAttack",
+  "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
   "PETSKILL_Refresh",
@@ -191,10 +193,18 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_Hector",
+  "PETSKILL_WildViolentAttack",
   "PETSKILL_AttackCrazed",
   "PETSKILL_AttackShoot",
+  "PETSKILL_SpeedyAttack",
+  "PETSKILL_EarthRound",
+  "PETSKILL_DamageToHp",
   "PETSKILL_BattleTearDamage",
-  "PETSKILL_DamageToHp2"
+  "PETSKILL_DamageToHp2",
+  "PETSKILL_Modifyattack",
+  "PETSKILL_Mdfyattack",
+  "PETSKILL_Retrace",
+  "PETSKILL_Gyrate"
 ]);
 const BATTLE_STATUS_EFFECTS = {
   "毒": { id: 1, key: "poison", label: "中毒", sourceCommand: "BATTLE_ST_POISON" },
@@ -5482,7 +5492,7 @@ function petSkillBattleProfile(skill = {}) {
     return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_S_GBREAK", hitCount: 1, multiplier: 1, ignoreGuard: true, guardBreak: true };
   }
   if (func === "PETSKILL_GuardBreak2") {
-    return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_S_GBREAK", hitCount: 1, multiplier: 1, ignoreGuard: true, guardBreak2: true };
+    return { supported: true, kind: "attack", sourceCommand: "BATTLE_COM_S_GBREAK2", hitCount: 1, multiplier: 1, ignoreGuard: true, guardBreak2: true };
   }
   if (func === "PETSKILL_ContinuationAttack") {
     return {
