@@ -3502,6 +3502,59 @@ assert(Number(battleTearHit?.damage || 0) > Number(battleTearHit?.tearDamage?.ad
 assert(Number(battleTearSkillGame.encounter?.Hp || 0) < battleTearHpBefore - 99, "BattleTearDamage applies old-wound bonus to the active target");
 assertEqual(battleTearSkillGame.pets[0].WorkAttackPower, 100, "BattleTearDamage restores temporary attack after the round");
 assertEqual(battleTearSkillGame.pets[0].WorkDefencePower, 100, "BattleTearDamage restores temporary defence after the round");
+let hectorSkillGame = await api("/api/game/new", { name: "pet-hector-skill-test" });
+hectorSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+hectorSkillGame = await api("/api/game/dialog", { game: hectorSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+hectorSkillGame.pets[0].PetSkillIds = [620];
+hectorSkillGame.pets[0].PetSkills = [{
+  Id: 620,
+  Name: "威吓攻击",
+  Des: "攻击力下降30% 敏捷下降30% 有60%的机率使对手麻痹一回合",
+  FuncName: "PETSKILL_Hector",
+  Option: "麻 turn 1 攻%-30 敏%-30",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+hectorSkillGame.pets[0].PetId = 62000;
+hectorSkillGame.pets[0].WorkFixStr = 100;
+hectorSkillGame.pets[0].WorkAttackPower = 100;
+hectorSkillGame.pets[0].WorkFixTough = 100;
+hectorSkillGame.pets[0].WorkDefencePower = 100;
+hectorSkillGame.pets[0].WorkQuick = 100;
+hectorSkillGame.pets[0].WorkFixDex = 100;
+hectorSkillGame.pets[0].Hp = 999;
+hectorSkillGame.pets[0].WorkMaxHp = 999;
+hectorSkillGame.encounter.EnemyId = 62002;
+hectorSkillGame.encounter.Name = "威吓测试敌人";
+hectorSkillGame.encounter.WorkMaxHp = 999;
+hectorSkillGame.encounter.Hp = 999;
+hectorSkillGame.encounter.WorkFixTough = 1;
+hectorSkillGame.encounter.WorkDefencePower = 1;
+hectorSkillGame.encounter.WorkQuick = 1;
+hectorSkillGame.encounter.WorkFixDex = 1;
+hectorSkillGame.encounter.WorkAttackPower = 1;
+Object.assign(hectorSkillGame.battle?.enemyParty?.[0] || {}, hectorSkillGame.encounter);
+const hectorOriginalRandom = Math.random;
+try {
+  Math.random = () => 0.99;
+  hectorSkillGame = await api("/api/game/battle", { game: hectorSkillGame, action: "skill:0" });
+} finally {
+  Math.random = hectorOriginalRandom;
+}
+const hectorTelemetry = hectorSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(hectorSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_HECTOR", "Hector pet skill maps to source battle command");
+assertEqual(hectorTelemetry?.attackPercent, -30, "Hector applies source temporary attack percent");
+assertEqual(hectorTelemetry?.quickPercent, -30, "Hector applies source temporary quick percent");
+assertEqual(hectorTelemetry?.quickPercentFromFixDex, true, "Hector quick penalty uses source WorkFixDex base");
+assertEqual(hectorTelemetry?.status?.chance, 60, "Hector uses source default 60 percent paralysis chance");
+assertEqual(hectorTelemetry?.status?.status?.key, "paralysis", "Hector parses source paralysis status");
+assertEqual(hectorTelemetry?.status?.status?.turn, 1, "Hector parses source one-turn paralysis");
+assertEqual(hectorTelemetry?.status?.success, true, "Hector can apply source paralysis after a landed hit");
+assert(Number(hectorSkillGame.encounter?.BattleStatuses?.paralysis?.turns || 0) > 0, "Hector persists paralysis on the active battle target");
+assertEqual(hectorSkillGame.pets[0].WorkAttackPower, 100, "Hector restores temporary attack after the round");
+assertEqual(hectorSkillGame.pets[0].WorkQuick, 100, "Hector restores temporary quick after the round");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

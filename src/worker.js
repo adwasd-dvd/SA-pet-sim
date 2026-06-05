@@ -185,6 +185,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Mighty",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
+  "PETSKILL_Hector",
   "PETSKILL_AttackCrazed",
   "PETSKILL_AttackShoot",
   "PETSKILL_BattleTearDamage",
@@ -5373,7 +5374,8 @@ function applySourcePetSkillTemporaryStats(activePet, profile = {}) {
   if (Number(profile.quickPercent || 0) !== 0) {
     original.WorkQuick = activePet.WorkQuick;
     const base = firstFiniteNumber(0, activePet.WorkFixDex, activePet.WorkQuick);
-    activePet.WorkQuick = Math.max(0, Math.floor((base + 20) * (1 + Number(profile.quickPercent || 0) / 100)));
+    const sourceBase = profile.quickPercentFromFixDex ? base : base + 20;
+    activePet.WorkQuick = Math.max(0, Math.floor(sourceBase * (1 + Number(profile.quickPercent || 0) / 100)));
   }
   return () => {
     if (Object.prototype.hasOwnProperty.call(original, "WorkAttackPower")) {
@@ -5417,6 +5419,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       attackPercent: Number(profile.attackPercent || 0),
       defencePercent: Number(profile.defencePercent || 0),
       quickPercent: Number(profile.quickPercent || 0),
+      quickPercentFromFixDex: Boolean(profile.quickPercentFromFixDex),
       criticalPercent: Number(profile.criticalPercent || 0),
       drainPercent: Number(profile.drainPercent || 0),
       tearDamagePercent: Number(profile.tearDamagePercent || 0),
@@ -5574,6 +5577,27 @@ function petSkillBattleProfile(skill = {}) {
       multiplier: 1,
       defencePercent,
       quickPercent
+    };
+  }
+  if (func === "PETSKILL_Hector") {
+    const option = String(skill.Option || "");
+    const status = parsePetSkillStatusChange(option);
+    const statusChance = clampInt(option.match(/命%\s*([+-]?\d+)/)?.[1], 0, 100, 60);
+    if (status) {
+      status.fixedChance = statusChance;
+      status.source = "gmsv battle.c BATTLE_COM_S_HECTOR PROFESSION_BATTLE_StatusAttackCheck";
+    }
+    return {
+      supported: Boolean(status),
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_HECTOR",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: sourcePercentValue(option, "攻"),
+      quickPercent: sourcePercentValue(option, "敏"),
+      quickPercentFromFixDex: true,
+      status,
+      reason: status ? "" : `unsupported Hector status option: ${option}`
     };
   }
   if (func === "PETSKILL_EarthRound") {
@@ -6154,7 +6178,9 @@ function resolveBattleStatusAttack(game, attacker, defender, status, skill = {})
   }
   const resistance = battleStatusResistance(defender, status);
   let chance;
-  if (status.key === "paralysis") {
+  if (Number.isFinite(Number(status.fixedChance))) {
+    chance = Number(status.fixedChance) - resistance;
+  } else if (status.key === "paralysis") {
     chance = 20 - resistance;
   } else {
     const perOffset = firstFiniteNumber(30, status.perOffset, skill.statusPerOffset);
@@ -6187,7 +6213,7 @@ function resolveBattleStatusAttack(game, attacker, defender, status, skill = {})
     roll,
     resistance,
     status: compactStatus,
-    source: "gmsv battle_event.c BATTLE_StatusAttackCheck"
+    source: status.source || "gmsv battle_event.c BATTLE_StatusAttackCheck"
   };
 }
 
@@ -6350,7 +6376,8 @@ function compactBattleStatusEffect(status) {
     poisonTick: Boolean(status.poisonTick ?? BATTLE_STATUS_POISON_KEYS.has(status.key)),
     attackPercent: Number(status.attackPercent || 0),
     defencePercent: Number(status.defencePercent || 0),
-    quickPercent: Number(status.quickPercent || 0)
+    quickPercent: Number(status.quickPercent || 0),
+    fixedChance: Number(status.fixedChance || 0)
   };
 }
 
@@ -6839,6 +6866,7 @@ function compactPetSkillTelemetry(skill) {
     attackPercent: Number(skill.attackPercent || 0),
     defencePercent: Number(skill.defencePercent || 0),
     quickPercent: Number(skill.quickPercent || 0),
+    quickPercentFromFixDex: Boolean(skill.quickPercentFromFixDex),
     criticalPercent: Number(skill.criticalPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
