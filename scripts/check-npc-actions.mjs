@@ -3654,6 +3654,131 @@ assert(refreshTelemetry?.refresh?.results?.some((result) => result.targetKind ==
 assert(!refreshSkillGame.player.BattleStatuses?.poison && !refreshSkillGame.player.BattleStatuses?.weaken, "Refresh persists player status cleanup");
 assert(!refreshSkillGame.pets[0].BattleStatuses?.weaken, "Refresh persists pet status cleanup");
 assert(refreshSkillGame.encounter.BattleStatuses?.poison, "Refresh does not clear enemy status when targeting ally side");
+let advancedStatusSkillGame = await api("/api/game/new", { name: "pet-advanced-status-skill-test" });
+advancedStatusSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+advancedStatusSkillGame = await api("/api/game/dialog", { game: advancedStatusSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+advancedStatusSkillGame.pets[0].PetSkillIds = [578];
+advancedStatusSkillGame.pets[0].PetSkills = [{
+  Id: 578,
+  Name: "全体剧毒",
+  Des: "敌全体中毒5回合，第六回合前未解则阵亡",
+  FuncName: "PETSKILL_Deeppoison",
+  Option: "剧 turn 5 成 50",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+advancedStatusSkillGame.pets[0].PetId = 57800;
+advancedStatusSkillGame.pets[0].WorkQuick = 999;
+advancedStatusSkillGame.pets[0].WorkFixDex = 999;
+advancedStatusSkillGame.pets[0].Hp = 999;
+advancedStatusSkillGame.pets[0].WorkMaxHp = 999;
+advancedStatusSkillGame.encounter.EnemyId = 57805;
+advancedStatusSkillGame.encounter.Name = "剧毒测试敌人A";
+advancedStatusSkillGame.encounter.WorkMaxHp = 999;
+advancedStatusSkillGame.encounter.Hp = 999;
+advancedStatusSkillGame.encounter.WorkQuick = 1;
+advancedStatusSkillGame.encounter.WorkFixDex = 1;
+advancedStatusSkillGame.encounter.WorkAttackPower = 1;
+const advancedStatusEnemyTwo = {
+  ...advancedStatusSkillGame.encounter,
+  EnemyId: 57809,
+  Name: "剧毒测试敌人B",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+advancedStatusSkillGame.battle.enemyParty = [advancedStatusSkillGame.encounter, advancedStatusEnemyTwo];
+advancedStatusSkillGame = await api("/api/game/battle", { game: advancedStatusSkillGame, action: "skill:0" });
+const advancedStatusTelemetry = advancedStatusSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(advancedStatusSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_DEEPPOISON", "Deeppoison pet skill maps to source battle command");
+assertEqual(advancedStatusTelemetry?.targetScope, "enemy-all", "Deeppoison Target=3 uses all live enemy targets");
+assertEqual(advancedStatusTelemetry?.totalDamage, 0, "Deeppoison source pet skill does not deal direct attack damage");
+assertEqual(advancedStatusTelemetry?.status?.status?.key, "deepPoison", "Deeppoison parses source deep poison status");
+assertEqual(advancedStatusTelemetry?.status?.status?.turn, 5, "Deeppoison parses source turn count");
+assert(advancedStatusTelemetry?.status?.rolls?.every((roll) => roll.chance === 50 && roll.success), "Deeppoison uses source 成 success percent for every target fixture");
+assert(Number(advancedStatusSkillGame.battle.enemyParty[0]?.BattleStatuses?.deepPoison?.turns || 0) > 0, "Deeppoison persists status on the active enemy target");
+assert(Number(advancedStatusSkillGame.battle.enemyParty[1]?.BattleStatuses?.deepPoison?.turns || 0) > 0, "Deeppoison persists status on the second enemy target");
+let barrierSkillGame = await api("/api/game/new", { name: "pet-barrier-skill-test" });
+barrierSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+barrierSkillGame = await api("/api/game/dialog", { game: barrierSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+barrierSkillGame.pets[0].PetSkillIds = [594];
+barrierSkillGame.pets[0].PetSkills = [{
+  Id: 594,
+  Name: "究极魔障",
+  Des: "敌全体三回合无法行动",
+  FuncName: "PETSKILL_Barrier",
+  Option: "障 turn 3 成 50",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+barrierSkillGame.pets[0].PetId = 59400;
+barrierSkillGame.pets[0].WorkQuick = 999;
+barrierSkillGame.pets[0].WorkFixDex = 999;
+barrierSkillGame.pets[0].Hp = 999;
+barrierSkillGame.pets[0].WorkMaxHp = 999;
+barrierSkillGame.encounter.EnemyId = 59402;
+barrierSkillGame.encounter.Name = "魔障测试敌人A";
+barrierSkillGame.encounter.WorkMaxHp = 999;
+barrierSkillGame.encounter.Hp = 999;
+barrierSkillGame.encounter.WorkQuick = 1;
+barrierSkillGame.encounter.WorkFixDex = 1;
+barrierSkillGame.encounter.WorkAttackPower = 80;
+const barrierEnemyTwo = {
+  ...barrierSkillGame.encounter,
+  EnemyId: 59403,
+  Name: "魔障测试敌人B",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+barrierSkillGame.battle.enemyParty = [barrierSkillGame.encounter, barrierEnemyTwo];
+barrierSkillGame = await api("/api/game/battle", { game: barrierSkillGame, action: "skill:0" });
+const barrierTelemetry = barrierSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(barrierSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_BARRIER", "Barrier pet skill maps to source battle command");
+assertEqual(barrierTelemetry?.status?.status?.key, "barrier", "Barrier parses source barrier status");
+assert(barrierTelemetry?.status?.rolls?.every((roll) => roll.chance === 50 && roll.success), "Barrier uses source 成 success percent for every target fixture");
+assert(Number(barrierSkillGame.battle.enemyParty[0]?.BattleStatuses?.barrier?.turns || 0) > 0, "Barrier persists blocking status on active enemy");
+const petHpBeforeBarrierWait = Number(barrierSkillGame.pets[0].Hp || 0);
+barrierSkillGame = await api("/api/game/battle", { game: barrierSkillGame, action: "wait" });
+assertEqual(Number(barrierSkillGame.pets[0].Hp || 0), petHpBeforeBarrierWait, "Barrier blocks the next enemy turn before it can attack");
+assert(barrierSkillGame.battleOutcome?.log?.some((line) => line.includes("魔障") && line.includes("无法行动")), "Barrier records source-style blocked-turn log");
+let noCastSkillGame = await api("/api/game/new", { name: "pet-nocast-skill-test" });
+noCastSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+noCastSkillGame = await api("/api/game/dialog", { game: noCastSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+noCastSkillGame.pets[0].PetSkillIds = [580];
+noCastSkillGame.pets[0].PetSkills = [{
+  Id: 580,
+  Name: "沉默",
+  Des: "敌全体无法使用咒术三回合",
+  FuncName: "PETSKILL_Nocast",
+  Option: "默 turn 3 成 50",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+noCastSkillGame.pets[0].PetId = 58000;
+noCastSkillGame.pets[0].WorkQuick = 999;
+noCastSkillGame.pets[0].WorkFixDex = 999;
+noCastSkillGame.pets[0].Hp = 999;
+noCastSkillGame.pets[0].WorkMaxHp = 999;
+noCastSkillGame.encounter.EnemyId = 58002;
+noCastSkillGame.encounter.Name = "沉默测试敌人";
+noCastSkillGame.encounter.WorkMaxHp = 999;
+noCastSkillGame.encounter.Hp = 999;
+noCastSkillGame.encounter.WorkQuick = 1;
+noCastSkillGame.encounter.WorkFixDex = 1;
+noCastSkillGame.encounter.WorkAttackPower = 1;
+noCastSkillGame.battle.enemyParty = [noCastSkillGame.encounter];
+noCastSkillGame = await api("/api/game/battle", { game: noCastSkillGame, action: "skill:0" });
+const noCastTelemetry = noCastSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(noCastSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_NOCAST", "Nocast pet skill maps to source battle command");
+assertEqual(noCastTelemetry?.status?.key || noCastTelemetry?.status?.status?.key, "noCast", "Nocast parses source no-cast status");
+assertEqual(noCastTelemetry?.status?.chance, 50, "Nocast uses source 成 success percent");
+assert(noCastTelemetry?.status?.success, "Nocast deterministic fixture applies the status");
+assert(Number(noCastSkillGame.battle.enemyParty[0]?.BattleStatuses?.noCast?.turns || 0) > 0, "Nocast persists no-cast status without blocking ordinary enemy attacks");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
