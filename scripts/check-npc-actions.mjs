@@ -35,7 +35,8 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Gyrate",
   "PETSKILL_Deeppoison",
   "PETSKILL_Barrier",
-  "PETSKILL_Nocast"
+  "PETSKILL_Nocast",
+  "PETSKILL_SetMagicPet"
 ].forEach((func) => {
   assert(supportedPetSkillFuncs.has(func), `${func} battle profile must stay in BattleSupported whitelist`);
 });
@@ -4823,6 +4824,113 @@ assertEqual(setDuckTelemetry?.dodgeCheck?.reason, "set-duck", "SetDuck drives so
 assert(setDuckTelemetry?.dodgeCheck?.dodged, "SetDuck source dodge check prevents the enemy hit");
 assertEqual(Number(setDuckSkillGame.pets[0].Hp || 0), setDuckPetHpBefore, "SetDuck dodged enemy hit keeps pet HP unchanged");
 assertEqual(Number(setDuckSkillGame.pets[0].BattleSkillDuck?.turns || 0), 2, "SetDuck state decrements after the battle round");
+let setMagicPetGame = await api("/api/game/new", { name: "pet-setmagicpet-skill-test" });
+setMagicPetGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+setMagicPetGame = await api("/api/game/dialog", { game: setMagicPetGame, npcId: battleNpc.npc.id, message: "宠物" });
+setMagicPetGame.pets[0].PetSkillIds = [603];
+setMagicPetGame.pets[0].PetSkills = [{
+  Id: 603,
+  Name: "火焰威能",
+  Des: "我方全体攻击力三回合内提升10%",
+  FuncName: "PETSKILL_SetMagicPet",
+  Option: "3|10|STR",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(setMagicPetGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 100,
+  WorkFixStr: 100,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+Object.assign(setMagicPetGame.player, {
+  hp: 999,
+  maxHp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 80,
+  WorkFixStr: 80
+});
+Object.assign(setMagicPetGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(setMagicPetGame.battle?.enemyParty?.[0] || {}, {
+  Hp: setMagicPetGame.encounter.Hp,
+  WorkMaxHp: setMagicPetGame.encounter.WorkMaxHp,
+  WorkQuick: setMagicPetGame.encounter.WorkQuick,
+  WorkFixDex: setMagicPetGame.encounter.WorkFixDex,
+  WorkAttackPower: setMagicPetGame.encounter.WorkAttackPower,
+  WorkFixStr: setMagicPetGame.encounter.WorkFixStr,
+  WorkTactics: setMagicPetGame.encounter.WorkTactics,
+  WorkTacticsOption: setMagicPetGame.encounter.WorkTacticsOption
+});
+setMagicPetGame = await api("/api/game/battle", { game: setMagicPetGame, action: "skill:0" });
+const setMagicPetTelemetry = setMagicPetGame.battleOutcome.playerAction?.petSkill?.magicPet;
+assertEqual(setMagicPetGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SETMAGICPET", "SetMagicPet maps to source command");
+assertEqual(setMagicPetTelemetry?.profile?.stat, "attack", "SetMagicPet parses STR boost option");
+assertEqual(setMagicPetTelemetry?.profile?.turn, 3, "SetMagicPet parses source boost turns");
+assertEqual(setMagicPetTelemetry?.profile?.value, 10, "SetMagicPet parses source boost value");
+assertEqual(setMagicPetTelemetry?.targets?.length, 2, "SetMagicPet Target=2 applies to the ally side");
+assert(setMagicPetTelemetry?.targets?.every((target) => target.success), "SetMagicPet applies to all eligible ally targets");
+assertEqual(Number(setMagicPetGame.player.BattleSkillBoosts?.attack?.turns || 0), 2, "SetMagicPet player boost decrements after the round");
+assertEqual(Number(setMagicPetGame.pets[0].BattleSkillBoosts?.attack?.turns || 0), 2, "SetMagicPet pet boost decrements after the round");
+let setMagicPetHealGame = await api("/api/game/new", { name: "pet-setmagicpet-heal-test" });
+setMagicPetHealGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+setMagicPetHealGame = await api("/api/game/dialog", { game: setMagicPetHealGame, npcId: battleNpc.npc.id, message: "宠物" });
+setMagicPetHealGame.pets[0].PetSkillIds = [602];
+setMagicPetHealGame.pets[0].PetSkills = [{
+  Id: 602,
+  Name: "水灵滋润",
+  Des: "我方全体体力300回复",
+  FuncName: "PETSKILL_SetMagicPet",
+  Option: "3|300|HP",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(setMagicPetHealGame.player, { hp: 200, maxHp: 500, WorkMaxHp: 500 });
+Object.assign(setMagicPetHealGame.pets[0], {
+  Hp: 100,
+  WorkMaxHp: 450,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+Object.assign(setMagicPetHealGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(setMagicPetHealGame.battle?.enemyParty?.[0] || {}, {
+  Hp: setMagicPetHealGame.encounter.Hp,
+  WorkMaxHp: setMagicPetHealGame.encounter.WorkMaxHp,
+  WorkQuick: setMagicPetHealGame.encounter.WorkQuick,
+  WorkFixDex: setMagicPetHealGame.encounter.WorkFixDex,
+  WorkAttackPower: setMagicPetHealGame.encounter.WorkAttackPower,
+  WorkFixStr: setMagicPetHealGame.encounter.WorkFixStr,
+  WorkTactics: setMagicPetHealGame.encounter.WorkTactics,
+  WorkTacticsOption: setMagicPetHealGame.encounter.WorkTacticsOption
+});
+setMagicPetHealGame = await api("/api/game/battle", { game: setMagicPetHealGame, action: "skill:0" });
+const setMagicPetHealTelemetry = setMagicPetHealGame.battleOutcome.playerAction?.petSkill?.magicPet;
+assertEqual(setMagicPetHealTelemetry?.profile?.stat, "hp", "SetMagicPet parses HP recovery option");
+assert(setMagicPetHealTelemetry?.targets?.some((target) => target.kind === "player"), "SetMagicPet HP recovery enumerates the ally-side player target");
+assertEqual(setMagicPetHealTelemetry?.targets?.find((target) => target.kind === "pet")?.after, 400, "SetMagicPet HP recovery heals pet by source amount");
 let battlePetSwitchGame = await api("/api/game/new", { name: "battle-pet-switch-test" });
 battlePetSwitchGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "宠物" });
