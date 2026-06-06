@@ -194,6 +194,8 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Nocast",
   "PETSKILL_Hector",
   "PETSKILL_NoGuard",
+  "PETSKILL_BattleTimid",
+  "PETSKILL_2BattleTimid",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_AttackCrazed",
   "PETSKILL_AttackShoot",
@@ -5189,7 +5191,7 @@ function performPetSkillAction(game, move) {
       enemyEscaped ||= resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
-    resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
+    enemyEscaped ||= resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
     return true;
   };
   const enemyTurn = (guarded = false) => {
@@ -5462,6 +5464,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercent: Number(profile.quickPercent || 0),
       quickPercentFromFixDex: Boolean(profile.quickPercentFromFixDex),
       criticalPercent: Number(profile.criticalPercent || 0),
+      timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
       tearDamagePercent: Number(profile.tearDamagePercent || 0),
@@ -5608,6 +5611,37 @@ function petSkillBattleProfile(skill = {}) {
       targetScope: "enemy-random",
       sleepOnHitChance: 20,
       counterSuppressed: true
+    };
+  }
+  if (func === "PETSKILL_BattleTimid") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_TIMID",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -30,
+      defencePercent: -60,
+      quickPercent: -20,
+      timidChance: 15,
+      source: "gmsv battle_event.c BATTLE_COM_S_TIMID"
+    };
+  }
+  if (func === "PETSKILL_2BattleTimid") {
+    const option = String(skill.Option || "");
+    const attackPenalty = clampInt(option.match(/-\s*攻%\s*(\d+)/)?.[1], 0, 95, 50);
+    const quickBoost = clampInt(option.match(/\+\s*敏%\s*(\d+)/)?.[1], 0, 400, 30);
+    const timidChance = clampInt(option.match(/命%\s*(\d+)/)?.[1], 0, 100, 60);
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_2TIMID",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -attackPenalty,
+      quickPercent: quickBoost,
+      timidChance,
+      source: "gmsv battle_event.c BATTLE_COM_S_2TIMID"
     };
   }
   if (func === "PETSKILL_BattleTearDamage") {
@@ -6311,7 +6345,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     skillState.missRoll = missRoll;
     skillState.missed = true;
     battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但是 ${enemy.Name} 闪开了。`);
-    return;
+    return false;
   }
 
   const hitCount = Math.max(1, Number(profile.hitCount || 1));
@@ -6498,6 +6532,21 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       battleLog.push(`${skill.Name} 的状态效果没有成功。`);
     }
   }
+  if (Number(profile.timidChance || 0) > 0 && totalDamage > 1 && Number(enemy.Hp || 0) > 0) {
+    const timidRoll = sourceBattleRand(0, 99);
+    const timidSucceeded = timidRoll < Number(profile.timidChance || 0);
+    skillState.timid = {
+      chance: Number(profile.timidChance || 0),
+      roll: timidRoll,
+      success: timidSucceeded,
+      source: profile.source || "gmsv battle_event.c BATTLE_COM_S_TIMID"
+    };
+    if (timidSucceeded) {
+      battleLog.push(`${enemy.Name} 受到惊吓，逃离战斗。`);
+      return true;
+    }
+  }
+  return false;
 }
 
 function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction, battleLog, guarded = false) {

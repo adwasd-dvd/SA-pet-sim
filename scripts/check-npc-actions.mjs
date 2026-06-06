@@ -4090,6 +4090,64 @@ assert(noGuardTelemetry?.noGuardActive, "NoGuard marks the source no-action stan
 assert(noGuardTelemetry?.dodgeCheck?.dodged, "NoGuard applies source dodge modifier when the enemy targets the active pet");
 assertEqual(noGuardSkillGame.pets[0].Hp, noGuardPetHpBefore, "NoGuard dodge prevents enemy damage to the active pet");
 assertEqual(noGuardTelemetry?.totalDamage || 0, 0, "NoGuard itself does not deal direct damage");
+let timidSkillGame = await api("/api/game/new", { name: "pet-2timid-skill-test" });
+timidSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+timidSkillGame = await api("/api/game/dialog", { game: timidSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+timidSkillGame.pets[0].PetSkillIds = [636];
+timidSkillGame.pets[0].PetSkills = [{
+  Id: 636,
+  Name: "狂狮怒吼",
+  Des: "使用时攻下降50% 敏上升30% 使敌方宠物受到惊吓回到宠物栏",
+  FuncName: "PETSKILL_2BattleTimid",
+  Option: "-攻%50+敏%30命%60",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+timidSkillGame.pets[0].WorkFixStr = 120;
+timidSkillGame.pets[0].WorkAttackPower = 120;
+timidSkillGame.pets[0].WorkFixDex = 100;
+timidSkillGame.pets[0].WorkQuick = 100;
+timidSkillGame.pets[0].Hp = 200;
+timidSkillGame.pets[0].WorkMaxHp = 200;
+timidSkillGame.encounter.Name = "怯战测试敌人";
+timidSkillGame.encounter.WorkMaxHp = 999;
+timidSkillGame.encounter.Hp = 999;
+timidSkillGame.encounter.WorkFixTough = 1;
+timidSkillGame.encounter.WorkDefencePower = 1;
+timidSkillGame.encounter.WorkQuick = 1;
+timidSkillGame.encounter.WorkFixDex = 1;
+timidSkillGame.encounter.WorkAttackPower = 0;
+Object.assign(timidSkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: timidSkillGame.encounter.Name,
+  WorkMaxHp: timidSkillGame.encounter.WorkMaxHp,
+  Hp: timidSkillGame.encounter.Hp,
+  WorkFixTough: timidSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: timidSkillGame.encounter.WorkDefencePower,
+  WorkQuick: timidSkillGame.encounter.WorkQuick,
+  WorkFixDex: timidSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: timidSkillGame.encounter.WorkAttackPower
+});
+timidSkillGame.battle.enemyParty = [timidSkillGame.encounter];
+timidSkillGame.battle.activeEnemyIndex = 0;
+const originalRandomForTimid = Math.random;
+try {
+  Math.random = () => 0;
+  timidSkillGame = await api("/api/game/battle", { game: timidSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForTimid;
+}
+const timidTelemetry = timidSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(timidSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_2TIMID", "2BattleTimid pet skill maps to source battle command");
+assertEqual(timidTelemetry?.attackPercent, -50, "2BattleTimid parses source attack penalty");
+assertEqual(timidTelemetry?.quickPercent, 30, "2BattleTimid parses source quick boost");
+assertEqual(timidTelemetry?.timidChance, 60, "2BattleTimid parses source timid chance");
+assertEqual(timidTelemetry?.timid?.success, true, "2BattleTimid can scare the target away after landed damage");
+assertEqual(timidSkillGame.battleOutcome.result, "enemy-escaped", "2BattleTimid ends the battle as target escaped");
+assertEqual(timidSkillGame.battleOutcome.playerExp, 0, "2BattleTimid escape does not grant victory EXP");
+assertEqual(timidSkillGame.battleOutcome.stone, 0, "2BattleTimid escape does not grant stone rewards");
+assert(!timidSkillGame.encounter, "2BattleTimid clears encounter after source escape");
 let damageToHp2SkillGame = await api("/api/game/new", { name: "pet-damagetohp2-skill-test" });
 damageToHp2SkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 damageToHp2SkillGame = await api("/api/game/dialog", { game: damageToHp2SkillGame, npcId: battleNpc.npc.id, message: "宠物" });
