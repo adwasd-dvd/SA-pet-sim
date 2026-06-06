@@ -195,6 +195,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Hector",
   "PETSKILL_SetDuck",
   "PETSKILL_SetMagicPet",
+  "PETSKILL_Vary",
   "PETSKILL_NoGuard",
   "PETSKILL_BattleTimid",
   "PETSKILL_2BattleTimid",
@@ -5194,6 +5195,10 @@ function performPetSkillAction(game, move) {
       resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "vary") {
+      resolvePetVaryTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "status-only") {
       resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
@@ -5478,6 +5483,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       setDuckTurn: Number(profile.setDuckTurn || 0),
       setDuckPower: Number(profile.setDuckPower || 0),
       magicPet: compactSourceMagicPetProfile(profile.magicPet),
+      varyProfile: compactBattleVaryProfile(profile.vary),
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5736,6 +5742,19 @@ function petSkillBattleProfile(skill = {}) {
       magicPet,
       reason: magicPet ? "" : `unsupported SetMagicPet option ${skill.Option || ""}`,
       source: "gmsv battle_event.c PETSKILL_SetMagicPet_Battle"
+    };
+  }
+  if (func === "PETSKILL_Vary") {
+    const vary = parsePetSkillVary(skill.Option || "");
+    return {
+      supported: true,
+      kind: "vary",
+      sourceCommand: "BATTLE_COM_S_VARY",
+      targetKind: "self",
+      hitCount: 0,
+      multiplier: 0,
+      vary,
+      source: "gmsv battle/pet_skill.c PETSKILL_Vary + battle.c BATTLE_COM_S_VARY"
     };
   }
   if (func === "PETSKILL_Weaken") {
@@ -6175,6 +6194,31 @@ function parsePetSkillSetMagicPet(option = "") {
   };
 }
 
+function parsePetSkillVary(option = "") {
+  return {
+    turn: 5,
+    image: 101428,
+    attackPercent: sourcePercentValue(option, "攻"),
+    defencePercent: sourcePercentValue(option, "防"),
+    quickPercent: sourcePercentValue(option, "敏"),
+    magicDefencePercent: sourcePercentValue(option, "魔防"),
+    source: "gmsv battle/pet_skill.c PETSKILL_Vary"
+  };
+}
+
+function compactBattleVaryProfile(vary) {
+  if (!vary) return null;
+  return {
+    turn: Number(vary.turn || 0),
+    image: Number(vary.image || 0),
+    attackPercent: Number(vary.attackPercent || 0),
+    defencePercent: Number(vary.defencePercent || 0),
+    quickPercent: Number(vary.quickPercent || 0),
+    magicDefencePercent: Number(vary.magicDefencePercent || 0),
+    source: vary.source || "gmsv battle/pet_skill.c PETSKILL_Vary"
+  };
+}
+
 function compactSourceMagicPetProfile(profile) {
   if (!profile?.stat) return null;
   return {
@@ -6331,6 +6375,44 @@ function resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction
   } else {
     battleLog.push(`${activePet.Name} 使用 ${skill.Name}，提高${scopeText}${magicPet.label} ${magicPet.value}%（${magicPet.turn} 回合）。`);
   }
+}
+
+function resolvePetVaryTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const vary = profile.vary || parsePetSkillVary(skill.Option || "");
+  const before = {
+    attack: workAttackPower(activePet),
+    defence: workDefencePower(activePet),
+    quick: workQuick(activePet)
+  };
+  const turn = Math.max(1, Number(vary.turn || 5));
+  activePet.BattleVary = {
+    key: "vary",
+    label: "变身",
+    turns: turn,
+    baseTurn: turn,
+    image: Number(vary.image || 101428),
+    attackPercent: Number(vary.attackPercent || 0),
+    defencePercent: Number(vary.defencePercent || 0),
+    quickPercent: Number(vary.quickPercent || 0),
+    magicDefencePercent: Number(vary.magicDefencePercent || 0),
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    sourceCommand: "BATTLE_COM_S_VARY",
+    source: "gmsv battle/pet_skill.c PETSKILL_Vary"
+  };
+  const after = {
+    attack: workAttackPower(activePet),
+    defence: workDefencePower(activePet),
+    quick: workQuick(activePet)
+  };
+  playerAction.petSkill.vary = {
+    success: true,
+    before,
+    after,
+    state: compactBattleVary(activePet.BattleVary),
+    source: "gmsv battle/pet_skill.c PETSKILL_Vary + battle.c BATTLE_COM_S_VARY"
+  };
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，进入变身状态（${turn} 回合）。`);
 }
 
 function sourcePetMagicPetTargets(game, activePet, profile = {}) {
@@ -7062,6 +7144,7 @@ function consumeBattleMagicStatusesAfterRound(target) {
   syncBattlePrimaryMagicStatus(target);
   consumeBattleSkillDuckAfterRound(target);
   consumeBattleSkillBoostsAfterRound(target);
+  consumeBattleVaryAfterRound(target);
 }
 
 function consumeBattleSkillDuckAfterRound(target = {}) {
@@ -7092,6 +7175,18 @@ function consumeBattleSkillBoostsAfterRound(target = {}) {
   if (!Object.keys(boosts).length) delete target.BattleSkillBoosts;
 }
 
+function consumeBattleVaryAfterRound(target = {}) {
+  if (!target?.BattleVary) return;
+  let turns = Number(target.BattleVary.turns || 0);
+  if (turns <= 0) {
+    delete target.BattleVary;
+    return;
+  }
+  turns -= 1;
+  if (turns > 0) target.BattleVary.turns = turns;
+  else delete target.BattleVary;
+}
+
 function syncBattlePrimaryStatus(target = {}) {
   const active = Object.values(target.BattleStatuses || {}).find((status) => Number(status?.turns || 0) > 0);
   if (active) target.BattleStatus = compactBattleStatusEffect(active);
@@ -7111,6 +7206,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleMagicStatus;
   delete target.BattleSkillDuck;
   delete target.BattleSkillBoosts;
+  delete target.BattleVary;
   delete target.BattleCharge;
 }
 
@@ -7182,6 +7278,25 @@ function compactBattleSkillBoosts(char = {}) {
   return Object.fromEntries(Object.entries(char.BattleSkillBoosts || {})
     .filter(([, boost]) => Number(boost?.turns || 0) > 0)
     .map(([key, boost]) => [key, compactBattleSkillBoost(boost)]));
+}
+
+function compactBattleVary(vary) {
+  if (!vary || Number(vary.turns || 0) <= 0) return null;
+  return {
+    key: vary.key || "vary",
+    label: vary.label || "变身",
+    turns: Number(vary.turns || 0),
+    baseTurn: Number(vary.baseTurn || 0),
+    image: Number(vary.image || 0),
+    attackPercent: Number(vary.attackPercent || 0),
+    defencePercent: Number(vary.defencePercent || 0),
+    quickPercent: Number(vary.quickPercent || 0),
+    magicDefencePercent: Number(vary.magicDefencePercent || 0),
+    skillId: Number(vary.skillId || 0),
+    skillName: vary.skillName || "",
+    sourceCommand: vary.sourceCommand || "",
+    source: vary.source || ""
+  };
 }
 
 function chooseEnemyBattleMove(game, enemy, activeActor) {
@@ -7687,6 +7802,22 @@ function compactPetSkillTelemetry(skill) {
         applied: compactBattleSkillBoost(target.applied)
       })),
       source: skill.magicPet.source || ""
+    } : null,
+    varyProfile: compactBattleVaryProfile(skill.varyProfile),
+    vary: skill.vary ? {
+      success: Boolean(skill.vary.success),
+      before: {
+        attack: Number(skill.vary.before?.attack || 0),
+        defence: Number(skill.vary.before?.defence || 0),
+        quick: Number(skill.vary.before?.quick || 0)
+      },
+      after: {
+        attack: Number(skill.vary.after?.attack || 0),
+        defence: Number(skill.vary.after?.defence || 0),
+        quick: Number(skill.vary.after?.quick || 0)
+      },
+      state: compactBattleVary(skill.vary.state),
+      source: skill.vary.source || ""
     } : null,
     setDuck: skill.setDuck ? {
       success: Boolean(skill.setDuck.success),
@@ -9012,17 +9143,17 @@ function applySourceGuardAdjust(detail, seedParts = []) {
 
 function workAttackPower(char = {}) {
   const base = Math.max(1, firstFiniteNumber(1, char.WorkAttackPower, char.WorkFixStr, char.level, char.Lv));
-  return Math.max(1, Math.floor(base * battleSkillBoostMultiplier(char, "attack")));
+  return Math.max(1, Math.floor(base * battleSkillBoostMultiplier(char, "attack") * battleVaryMultiplier(char, "attack")));
 }
 
 function workDefencePower(char = {}) {
   const base = Math.max(0, firstFiniteNumber(0, char.WorkDefencePower, char.WorkFixTough));
-  return Math.max(0, Math.floor(base * battleMagicDefenceMultiplier(char) * battleSkillBoostMultiplier(char, "defence")));
+  return Math.max(0, Math.floor(base * battleMagicDefenceMultiplier(char) * battleSkillBoostMultiplier(char, "defence") * battleVaryMultiplier(char, "defence")));
 }
 
 function workQuick(char = {}) {
   const base = Math.max(0, firstFiniteNumber(0, char.WorkQuick, char.WorkFixDex, Number(char.Dex) / 100));
-  return Math.max(0, Math.floor(base * battleSkillBoostMultiplier(char, "quick")));
+  return Math.max(0, Math.floor(base * battleSkillBoostMultiplier(char, "quick") * battleVaryMultiplier(char, "quick")));
 }
 
 function battleMagicDefenceMultiplier(char = {}) {
@@ -9035,6 +9166,18 @@ function battleSkillBoostMultiplier(char = {}, stat = "") {
   const boost = char.BattleSkillBoosts?.[stat];
   if (!boost || Number(boost.turns || 0) <= 0) return 1;
   return 1 + Math.max(0, Number(boost.percent || 0)) / 100;
+}
+
+function battleVaryMultiplier(char = {}, stat = "") {
+  const vary = char.BattleVary;
+  if (!vary || Number(vary.turns || 0) <= 0) return 1;
+  const field = {
+    attack: "attackPercent",
+    defence: "defencePercent",
+    quick: "quickPercent"
+  }[stat];
+  if (!field) return 1;
+  return Math.max(0.05, 1 + Number(vary[field] || 0) / 100);
 }
 
 function firstFiniteNumber(fallback, ...values) {
@@ -19771,7 +19914,8 @@ function buildCharacterFields(game) {
         },
         statuses: compactBattleStatuses(pet),
         magicStatuses: compactBattleMagicStatuses(pet),
-        skillBoosts: compactBattleSkillBoosts(pet)
+        skillBoosts: compactBattleSkillBoosts(pet),
+        vary: compactBattleVary(pet.BattleVary)
       };
     }),
     battle: game.encounter ? {
@@ -19903,7 +20047,8 @@ function battleFormationUnit(entity, options = {}) {
     elements: elementVector(entity),
     statuses: compactBattleStatuses(entity),
     magicStatuses: compactBattleMagicStatuses(entity),
-    skillBoosts: compactBattleSkillBoosts(entity)
+    skillBoosts: compactBattleSkillBoosts(entity),
+    vary: compactBattleVary(entity.BattleVary)
   };
 }
 
@@ -20039,7 +20184,8 @@ function compactCharacterFields(game) {
       work: pet.work,
       statuses: pet.statuses,
       magicStatuses: pet.magicStatuses,
-      skillBoosts: pet.skillBoosts
+      skillBoosts: pet.skillBoosts,
+      vary: pet.vary
     })),
     battle: fields.battle
   };
@@ -21442,6 +21588,7 @@ function petSummary(pet) {
     statuses: compactBattleStatuses(pet),
     magicStatuses: compactBattleMagicStatuses(pet),
     skillBoosts: compactBattleSkillBoosts(pet),
+    vary: compactBattleVary(pet.BattleVary),
     skills: (pet.PetSkills || []).filter(Boolean).map((sk) => sk.Name)
   };
 }

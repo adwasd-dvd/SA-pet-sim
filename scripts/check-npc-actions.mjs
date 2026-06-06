@@ -36,7 +36,8 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Deeppoison",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
-  "PETSKILL_SetMagicPet"
+  "PETSKILL_SetMagicPet",
+  "PETSKILL_Vary"
 ].forEach((func) => {
   assert(supportedPetSkillFuncs.has(func), `${func} battle profile must stay in BattleSupported whitelist`);
 });
@@ -4931,6 +4932,64 @@ const setMagicPetHealTelemetry = setMagicPetHealGame.battleOutcome.playerAction?
 assertEqual(setMagicPetHealTelemetry?.profile?.stat, "hp", "SetMagicPet parses HP recovery option");
 assert(setMagicPetHealTelemetry?.targets?.some((target) => target.kind === "player"), "SetMagicPet HP recovery enumerates the ally-side player target");
 assertEqual(setMagicPetHealTelemetry?.targets?.find((target) => target.kind === "pet")?.after, 400, "SetMagicPet HP recovery heals pet by source amount");
+let varySkillGame = await api("/api/game/new", { name: "pet-vary-skill-test" });
+varySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+varySkillGame = await api("/api/game/dialog", { game: varySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+varySkillGame.pets[0].PetSkillIds = [600];
+varySkillGame.pets[0].PetSkills = [{
+  Id: 600,
+  Name: "暗月变身",
+  Des: "攻%+30 敏%+30 魔防%-50",
+  FuncName: "PETSKILL_Vary",
+  Option: "攻%+30 敏%+30 魔防%-50",
+  Field: 1,
+  Target: 5,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(varySkillGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 100,
+  WorkFixStr: 100,
+  WorkDefencePower: 40,
+  WorkFixTough: 40,
+  WorkQuick: 100,
+  WorkFixDex: 100
+});
+Object.assign(varySkillGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(varySkillGame.battle?.enemyParty?.[0] || {}, {
+  Hp: varySkillGame.encounter.Hp,
+  WorkMaxHp: varySkillGame.encounter.WorkMaxHp,
+  WorkQuick: varySkillGame.encounter.WorkQuick,
+  WorkFixDex: varySkillGame.encounter.WorkFixDex,
+  WorkAttackPower: varySkillGame.encounter.WorkAttackPower,
+  WorkFixStr: varySkillGame.encounter.WorkFixStr,
+  WorkTactics: varySkillGame.encounter.WorkTactics,
+  WorkTacticsOption: varySkillGame.encounter.WorkTacticsOption
+});
+const varyEnemyHpBefore = Number(varySkillGame.encounter.Hp || 0);
+varySkillGame = await api("/api/game/battle", { game: varySkillGame, action: "skill:0" });
+const varyTelemetry = varySkillGame.battleOutcome.playerAction?.petSkill?.vary;
+assertEqual(varySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_VARY", "Vary pet skill maps to source command");
+assertEqual(varySkillGame.battleOutcome.playerAction?.petSkill?.varyProfile?.attackPercent, 30, "Vary parses source attack percent");
+assertEqual(varySkillGame.battleOutcome.playerAction?.petSkill?.varyProfile?.quickPercent, 30, "Vary parses source quick percent");
+assertEqual(varySkillGame.battleOutcome.playerAction?.petSkill?.varyProfile?.magicDefencePercent, -50, "Vary preserves source magic defence option telemetry");
+assert(varyTelemetry?.success, "Vary applies source transform state");
+assertEqual(varyTelemetry?.after?.attack, 130, "Vary attack multiplier follows PETSKILL_Vary source WorkAttackPower update");
+assertEqual(varyTelemetry?.after?.quick, 130, "Vary quick multiplier follows PETSKILL_Vary source WorkQuick update");
+assertEqual(Number(varySkillGame.encounter?.Hp || 0), varyEnemyHpBefore, "Vary source command does not deal direct damage");
+assertEqual(Number(varySkillGame.pets[0].BattleVary?.turns || 0), 4, "Vary state decrements after the battle round");
+assertEqual(varySkillGame.characterFields?.pets?.[0]?.vary?.attackPercent, 30, "character fields expose active Vary state");
 let battlePetSwitchGame = await api("/api/game/new", { name: "battle-pet-switch-test" });
 battlePetSwitchGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "宠物" });
