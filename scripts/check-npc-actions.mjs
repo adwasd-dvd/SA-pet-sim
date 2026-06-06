@@ -4758,6 +4758,71 @@ assertEqual(magicStatusTelemetry?.status?.key, "superWall", "magic status pet sk
 assert(magicStatusTelemetry?.success, "magic status pet skill applies to active pet");
 assert(Number(activeMagicPet?.BattleMagicStatuses?.superWall?.turns || 0) > 0, "magic status pet skill persists active pet battle magic status");
 assert(petMagicStatusGame.battleOutcome.log.some((line) => line.includes("铁壁") && line.includes("防御")), "magic status battle log explains defense buff");
+let setDuckSkillGame = await api("/api/game/new", { name: "pet-setduck-skill-test" });
+setDuckSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+setDuckSkillGame = await api("/api/game/dialog", { game: setDuckSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+setDuckSkillGame.pets[0].PetSkillIds = [595];
+setDuckSkillGame.pets[0].PetSkills = [{
+  Id: 595,
+  Name: "闪避术",
+  Des: "三回合内闪避率上升60，有效时间三回合",
+  FuncName: "PETSKILL_SetDuck",
+  Option: "3|60",
+  Field: 1,
+  Target: 0,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(setDuckSkillGame.pets[0], {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  WorkDefencePower: 1,
+  WorkFixTough: 1
+});
+Object.assign(setDuckSkillGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 500,
+  WorkFixStr: 500,
+  Attack: 500,
+  Str: 500,
+  WorkTactics: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(setDuckSkillGame.battle?.enemyParty?.[0] || {}, {
+  Hp: setDuckSkillGame.encounter.Hp,
+  WorkMaxHp: setDuckSkillGame.encounter.WorkMaxHp,
+  WorkQuick: setDuckSkillGame.encounter.WorkQuick,
+  WorkFixDex: setDuckSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: setDuckSkillGame.encounter.WorkAttackPower,
+  WorkFixStr: setDuckSkillGame.encounter.WorkFixStr,
+  Attack: setDuckSkillGame.encounter.Attack,
+  Str: setDuckSkillGame.encounter.Str,
+  WorkTactics: setDuckSkillGame.encounter.WorkTactics,
+  WorkTacticsOption: setDuckSkillGame.encounter.WorkTacticsOption
+});
+const setDuckPetHpBefore = Number(setDuckSkillGame.pets[0].Hp || 0);
+const originalRandomForSetDuck = Math.random;
+try {
+  Math.random = () => 0.3;
+  setDuckSkillGame = await api("/api/game/battle", { game: setDuckSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForSetDuck;
+}
+const setDuckTelemetry = setDuckSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(setDuckSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SETDUCK", "SetDuck pet skill maps to source command");
+assertEqual(setDuckTelemetry?.setDuckTurn, 3, "SetDuck parses source turn option");
+assertEqual(setDuckTelemetry?.setDuckPower, 60, "SetDuck parses source power option");
+assert(setDuckTelemetry?.setDuck?.success, "SetDuck applies source duck state");
+assertEqual(setDuckSkillGame.battleOutcome.enemyAi?.targetKind, "pet", "SetDuck fixture enemy response targets pet");
+assertEqual(setDuckTelemetry?.dodgeCheck?.reason, "set-duck", "SetDuck drives source dodge branch");
+assert(setDuckTelemetry?.dodgeCheck?.dodged, "SetDuck source dodge check prevents the enemy hit");
+assertEqual(Number(setDuckSkillGame.pets[0].Hp || 0), setDuckPetHpBefore, "SetDuck dodged enemy hit keeps pet HP unchanged");
+assertEqual(Number(setDuckSkillGame.pets[0].BattleSkillDuck?.turns || 0), 2, "SetDuck state decrements after the battle round");
 let battlePetSwitchGame = await api("/api/game/new", { name: "battle-pet-switch-test" });
 battlePetSwitchGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame, npcId: battleNpc.npc.id, message: "宠物" });

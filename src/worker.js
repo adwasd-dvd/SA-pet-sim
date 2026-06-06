@@ -193,6 +193,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_Hector",
+  "PETSKILL_SetDuck",
   "PETSKILL_NoGuard",
   "PETSKILL_BattleTimid",
   "PETSKILL_2BattleTimid",
@@ -5184,6 +5185,10 @@ function performPetSkillAction(game, move) {
       resolvePetRefreshTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "set-duck") {
+      resolvePetSetDuckTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "status-only") {
       resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
@@ -5465,6 +5470,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercent: Number(profile.quickPercent || 0),
       quickPercentFromFixDex: Boolean(profile.quickPercentFromFixDex),
       criticalPercent: Number(profile.criticalPercent || 0),
+      setDuckTurn: Number(profile.setDuckTurn || 0),
+      setDuckPower: Number(profile.setDuckPower || 0),
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5692,6 +5699,22 @@ function petSkillBattleProfile(skill = {}) {
       quickPercentFromFixDex: true,
       status,
       reason: status ? "" : `unsupported Hector status option: ${option}`
+    };
+  }
+  if (func === "PETSKILL_SetDuck") {
+    const [turnText, powerText] = String(skill.Option || "").split("|");
+    const turn = clampInt(turnText, 1, 20, 3);
+    const power = clampInt(powerText, 0, 99, 0);
+    return {
+      supported: true,
+      kind: "set-duck",
+      sourceCommand: "BATTLE_COM_S_SETDUCK",
+      targetKind: "self",
+      hitCount: 0,
+      multiplier: 0,
+      setDuckTurn: turn,
+      setDuckPower: power,
+      source: "gmsv battle_event.c PETSKILL_SetDuckChange_Battle + BATTLE_CheckMySkillDuck"
     };
   }
   if (func === "PETSKILL_Weaken") {
@@ -6160,6 +6183,37 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
     source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
   };
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
+}
+
+function resolvePetSetDuckTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const turn = Math.max(1, Number(profile.setDuckTurn || 3));
+  const power = clampInt(profile.setDuckPower, 0, 99, 0);
+  const existing = activePet.BattleSkillDuck;
+  const activeExisting = Number(existing?.turns || 0) > 0;
+  if (!activeExisting) {
+    activePet.BattleSkillDuck = {
+      key: "setDuck",
+      label: "闪避术",
+      turns: turn,
+      baseTurn: turn,
+      power,
+      skillId: Number(skill.Id || 0),
+      skillName: skill.Name || "",
+      sourceCommand: "BATTLE_COM_S_SETDUCK",
+      source: "gmsv battle_event.c PETSKILL_SetDuckChange_Battle"
+    };
+  }
+  playerAction.petSkill.setDuck = {
+    success: !activeExisting,
+    reason: activeExisting ? "already-setduck" : "",
+    turn,
+    power,
+    applied: activePet.BattleSkillDuck ? { ...activePet.BattleSkillDuck } : null,
+    source: "gmsv battle_event.c PETSKILL_SetDuckChange_Battle"
+  };
+  battleLog.push(activeExisting
+    ? `${activePet.Name} 已经提高闪避，${skill.Name} 没有叠加。`
+    : `${activePet.Name} 使用 ${skill.Name}，提高闪避 ${power}（${turn} 回合）。`);
 }
 
 function sourcePetRefreshTargets(game, activePet, profile = {}) {
@@ -6639,6 +6693,13 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     playerAction.petSkill.noGuardCounterPending = Number(playerAction.petSkill.counterPercent || 0) > 0;
     playerAction.petSkill.noGuardCriticalPending = Number(playerAction.petSkill.criticalPercent || 0) > 0;
   }
+  if (
+    playerAction?.type === "pet-skill"
+    && targetActor === activeActor
+    && hit.dodgeCheck
+  ) {
+    playerAction.petSkill.dodgeCheck = hit.dodgeCheck;
+  }
   if (hit.dodgeCheck?.dodged) {
     battleLog.push(`${battleActorName(game, targetActor)} 闪开了 ${enemy.Name} 的攻击。`);
     return false;
@@ -6840,6 +6901,19 @@ function consumeBattleMagicStatusesAfterRound(target) {
     else delete statuses[key];
   }
   syncBattlePrimaryMagicStatus(target);
+  consumeBattleSkillDuckAfterRound(target);
+}
+
+function consumeBattleSkillDuckAfterRound(target = {}) {
+  if (!target?.BattleSkillDuck) return;
+  let turns = Number(target.BattleSkillDuck.turns || 0);
+  if (turns <= 0) {
+    delete target.BattleSkillDuck;
+    return;
+  }
+  turns -= 1;
+  if (turns > 0) target.BattleSkillDuck.turns = turns;
+  else delete target.BattleSkillDuck;
 }
 
 function syncBattlePrimaryStatus(target = {}) {
@@ -6859,6 +6933,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleStatus;
   delete target.BattleMagicStatuses;
   delete target.BattleMagicStatus;
+  delete target.BattleSkillDuck;
   delete target.BattleCharge;
 }
 
@@ -7356,6 +7431,8 @@ function compactPetSkillTelemetry(skill) {
     missed: Boolean(skill.missed),
     damageDivisor: Number(skill.damageDivisor || 0),
     duckModifier: Number(skill.duckModifier || 0),
+    setDuckTurn: Number(skill.setDuckTurn || 0),
+    setDuckPower: Number(skill.setDuckPower || 0),
     sleepOnHitChance: Number(skill.sleepOnHitChance || 0),
     counterSuppressed: Boolean(skill.counterSuppressed),
     retraceChance: Number(skill.retraceChance || 0),
@@ -7395,6 +7472,25 @@ function compactPetSkillTelemetry(skill) {
       status: compactBattleMagicStatusEffect(skill.magicStatus.status),
       applied: compactBattleMagicStatusEffect(skill.magicStatus.applied)
     } : null,
+    setDuck: skill.setDuck ? {
+      success: Boolean(skill.setDuck.success),
+      reason: skill.setDuck.reason || "",
+      turn: Number(skill.setDuck.turn || 0),
+      power: Number(skill.setDuck.power || 0),
+      applied: skill.setDuck.applied ? {
+        key: skill.setDuck.applied.key || "",
+        label: skill.setDuck.applied.label || "",
+        turns: Number(skill.setDuck.applied.turns || 0),
+        baseTurn: Number(skill.setDuck.applied.baseTurn || 0),
+        power: Number(skill.setDuck.applied.power || 0),
+        skillId: Number(skill.setDuck.applied.skillId || 0),
+        skillName: skill.setDuck.applied.skillName || "",
+        sourceCommand: skill.setDuck.applied.sourceCommand || "",
+        source: skill.setDuck.applied.source || ""
+      } : null,
+      source: skill.setDuck.source || ""
+    } : null,
+    dodgeCheck: skill.dodgeCheck ? compactSourceDodgeCheck(skill.dodgeCheck) : null,
     totalDamage: Number(skill.totalDamage || 0),
     hits: (skill.hits || []).slice(0, 9).map((hit) => ({
       targetSlot: Number(hit.targetSlot || 0),
@@ -7415,14 +7511,23 @@ function compactPetSkillTelemetry(skill) {
         status: compactBattleStatusEffect(hit.onHitStatus.status),
         applied: compactBattleStatusEffect(hit.onHitStatus.applied)
       } : null,
-      dodgeCheck: hit.dodgeCheck ? {
-        chance: Number(hit.dodgeCheck.chance || 0),
-        roll: Number(hit.dodgeCheck.roll || 0),
-        source: hit.dodgeCheck.source || ""
-      } : null,
+      dodgeCheck: compactSourceDodgeCheck(hit.dodgeCheck),
       guardAdjust: compactGuardAdjust(hit.guardAdjust)
     })),
     source: skill.source || ""
+  };
+}
+
+function compactSourceDodgeCheck(dodgeCheck) {
+  if (!dodgeCheck) return null;
+  return {
+    dodged: Boolean(dodgeCheck.dodged),
+    chance: Number(dodgeCheck.chance || 0),
+    chancePct: Number(dodgeCheck.chancePct ?? dodgeCheck.chance ?? 0),
+    roll: Number(dodgeCheck.roll || 0),
+    reason: dodgeCheck.reason || "",
+    setDuckPower: Number(dodgeCheck.setDuckPower || 0),
+    source: dodgeCheck.source || ""
   };
 }
 
@@ -8427,6 +8532,20 @@ function sourceBattleDuckCheck(attacker, defender, options = {}) {
   }
   if (sourceBattleStatusBlocksTurn(defender)) {
     return { dodged: false, chance: 0, roll: 0, source, reason: "cannot-move" };
+  }
+  if (Number(defender.BattleSkillDuck?.turns || 0) > 0) {
+    const power = clampInt(defender.BattleSkillDuck.power, 0, 99, 0);
+    const roll = sourceBattleRand(0, 99);
+    const dodged = roll <= power;
+    return {
+      dodged,
+      chance: power + 1,
+      chancePct: power + 1,
+      roll,
+      source: "gmsv battle_event.c BATTLE_CheckMySkillDuck rand()%100 > power",
+      reason: dodged ? "set-duck" : "set-duck-missed",
+      setDuckPower: power
+    };
   }
 
   const attackerKind = String(options.attackerKind || "enemy");
