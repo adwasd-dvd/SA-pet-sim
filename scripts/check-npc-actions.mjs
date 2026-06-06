@@ -4003,6 +4003,45 @@ assertEqual(mpDamageHit?.mpDamage?.amount, 40, "MpDamage removes source percent 
 assertEqual(mpDamageSkillGame.encounter.mp, 40, "MpDamage persists target MP reduction");
 assert(Number(mpDamageSkillGame.encounter?.Hp || 0) < mpDamageHpBefore, "MpDamage still deals normal reduced attack damage");
 assertEqual(mpDamageSkillGame.pets[0].WorkAttackPower, 100, "MpDamage restores temporary attack after the round");
+let roarSkillGame = await api("/api/game/new", { name: "pet-roar-skill-test" });
+roarSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+roarSkillGame = await api("/api/game/dialog", { game: roarSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+roarSkillGame.pets[0].PetSkillIds = [581];
+roarSkillGame.pets[0].PetSkills = [{
+  Id: 581,
+  Name: "大吼",
+  Des: "对年兽吼叫，可吓跑年兽，雷龙专用技",
+  FuncName: "PETSKILL_Roar",
+  Option: "901|902|903|904|1056|1057|1058|1059",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+roarSkillGame.pets[0].WorkQuick = 999;
+roarSkillGame.pets[0].WorkFixDex = 999;
+roarSkillGame.encounter = {
+  Name: "年兽测试目标",
+  PetId: 901,
+  Hp: 500,
+  WorkMaxHp: 500,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 1
+};
+roarSkillGame.battle.enemyParty = [roarSkillGame.encounter];
+roarSkillGame.battle.activeEnemyIndex = 0;
+roarSkillGame = await api("/api/game/battle", { game: roarSkillGame, action: "skill:0" });
+const roarTelemetry = roarSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(roarSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ROAR", "Roar pet skill maps to source battle command");
+assert(roarTelemetry?.roar?.success, "Roar succeeds only when target PetId is in source PETSKILL_OPTION whitelist");
+assertEqual(roarTelemetry?.roar?.targetId, 901, "Roar records source target PetId");
+assertEqual(roarSkillGame.battleOutcome.result, "enemy-escaped", "Roar ends a single-target battle as enemy escaped");
+assertEqual(roarSkillGame.battleOutcome.playerExp, 0, "Roar escape does not grant victory EXP");
+assertEqual(roarSkillGame.battleOutcome.stone, 0, "Roar escape does not grant stone rewards");
+assert(!roarSkillGame.encounter, "Roar clears battle encounter after the target escapes");
 let damageToHp2SkillGame = await api("/api/game/new", { name: "pet-damagetohp2-skill-test" });
 damageToHp2SkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 damageToHp2SkillGame = await api("/api/game/dialog", { game: damageToHp2SkillGame, npcId: battleNpc.npc.id, message: "宠物" });

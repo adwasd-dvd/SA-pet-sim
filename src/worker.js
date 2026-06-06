@@ -200,6 +200,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_EarthRound",
   "PETSKILL_DamageToHp",
   "PETSKILL_MpDamage",
+  "PETSKILL_Roar",
   "PETSKILL_BattleTearDamage",
   "PETSKILL_DamageToHp2",
   "PETSKILL_Modifyattack",
@@ -5183,6 +5184,10 @@ function performPetSkillAction(game, move) {
       resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "roar") {
+      enemyEscaped ||= resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
     return true;
   };
@@ -5210,7 +5215,7 @@ function performPetSkillAction(game, move) {
     if (Number(activePet.Hp || 0) > 0) enemyTurn(false);
   } else if (petFirst) {
     petTurn();
-    if (enemy.Hp > 0) enemyTurn(false);
+    if (enemy.Hp > 0 && !enemyEscaped) enemyTurn(false);
   } else {
     const endedEnemyTurn = enemyTurn(false);
     if (!endedEnemyTurn && activePet.Hp > 0) petTurn();
@@ -5457,6 +5462,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       retraceChance: Number(profile.retraceChance || 0),
       retraceAttackPercent: Number(profile.retraceAttackPercent || 0),
       targetScope: profile.targetScope || "",
+      roarPetIds: Array.isArray(profile.roarPetIds) ? profile.roarPetIds.slice(0, 32) : [],
       attributeBoost: compactSourceAttributeBoost(profile.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       status: compactBattleStatusEffect(profile.status),
@@ -5715,6 +5721,20 @@ function petSkillBattleProfile(skill = {}) {
       attackPercent: -Math.abs(Number(parts[0] || 0)),
       mpDamagePercent: clampInt(parts[1], 0, 400, 0),
       source: "gmsv battle_event.c BATTLE_S_MpDamage"
+    };
+  }
+  if (func === "PETSKILL_Roar") {
+    const roarPetIds = sourceDelimitedIntList(skill.Option);
+    return {
+      supported: roarPetIds.length > 0,
+      kind: "roar",
+      sourceCommand: "BATTLE_COM_S_ROAR",
+      targetKind: "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      roarPetIds,
+      source: "gmsv battle_event.c BATTLE_S_Roar",
+      reason: roarPetIds.length ? "" : `unsupported Roar option: ${skill.Option || ""}`
     };
   }
   if (func === "PETSKILL_DamageToHp2") {
@@ -6023,6 +6043,13 @@ function sourcePercentValue(text = "", label = "攻") {
   return match ? clampInt(match[1], -95, 400, 0) : 0;
 }
 
+function sourceDelimitedIntList(text = "") {
+  return String(text || "")
+    .split("|")
+    .map((part) => Math.trunc(Number(part.trim())))
+    .filter((value) => Number.isFinite(value) && value > 0);
+}
+
 function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog) {
   const skillState = playerAction.petSkill;
   const magicStatus = profile.magicStatus;
@@ -6184,6 +6211,29 @@ function resolvePetStatusSkillTurn(game, activePet, enemy, skill, profile, playe
   skillState.totalDamage = 0;
   skillState.hits = [];
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}。`);
+}
+
+function resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const allowedIds = new Set((profile.roarPetIds || []).map((id) => Number(id)));
+  const targetId = Math.trunc(firstFiniteNumber(0, enemy?.PetId, enemy?.EnemyId));
+  const success = targetId > 0 && allowedIds.has(targetId);
+  const result = {
+    success,
+    targetId,
+    allowedIds: [...allowedIds].slice(0, 32),
+    targetName: enemy?.Name || "enemy",
+    source: "gmsv battle_event.c BATTLE_S_Roar PETSKILL_OPTION id whitelist"
+  };
+  skillState.roar = result;
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  if (success) {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${enemy.Name} 被吓跑了。`);
+    return true;
+  }
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但 ${enemy.Name} 不在原脚本可吓跑目标内。`);
+  return false;
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
