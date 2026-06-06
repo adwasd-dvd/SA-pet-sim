@@ -4042,6 +4042,54 @@ assertEqual(roarSkillGame.battleOutcome.result, "enemy-escaped", "Roar ends a si
 assertEqual(roarSkillGame.battleOutcome.playerExp, 0, "Roar escape does not grant victory EXP");
 assertEqual(roarSkillGame.battleOutcome.stone, 0, "Roar escape does not grant stone rewards");
 assert(!roarSkillGame.encounter, "Roar clears battle encounter after the target escapes");
+let noGuardSkillGame = await api("/api/game/new", { name: "pet-noguard-skill-test" });
+noGuardSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+noGuardSkillGame = await api("/api/game/dialog", { game: noGuardSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+noGuardSkillGame.pets[0].PetSkillIds = [152];
+noGuardSkillGame.pets[0].PetSkills = [{
+  Id: 152,
+  Name: "不防守战法3",
+  Des: "自己不进行攻击，反击跟回避率就会变的非常高",
+  FuncName: "PETSKILL_NoGuard",
+  Option: "回避%+50 反击%+80 会心%+40",
+  Field: 1,
+  Target: 5,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+noGuardSkillGame.pets[0].Hp = 120;
+noGuardSkillGame.pets[0].WorkMaxHp = 120;
+noGuardSkillGame.pets[0].WorkQuick = 1;
+noGuardSkillGame.pets[0].WorkFixDex = 1;
+noGuardSkillGame.encounter.Name = "不防守测试敌人";
+noGuardSkillGame.encounter.WorkMaxHp = 999;
+noGuardSkillGame.encounter.Hp = 999;
+noGuardSkillGame.encounter.WorkFixTough = 1;
+noGuardSkillGame.encounter.WorkDefencePower = 1;
+noGuardSkillGame.encounter.WorkQuick = 999;
+noGuardSkillGame.encounter.WorkFixDex = 999;
+noGuardSkillGame.encounter.WorkAttackPower = 50;
+noGuardSkillGame.encounter.WorkTactics = 1;
+noGuardSkillGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
+noGuardSkillGame.battle.enemyParty = [noGuardSkillGame.encounter];
+noGuardSkillGame.battle.activeEnemyIndex = 0;
+const noGuardPetHpBefore = Number(noGuardSkillGame.pets[0].Hp || 0);
+const originalRandomForNoGuard = Math.random;
+try {
+  Math.random = () => 0;
+  noGuardSkillGame = await api("/api/game/battle", { game: noGuardSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForNoGuard;
+}
+const noGuardTelemetry = noGuardSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(noGuardSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_NOGUARD", "NoGuard pet skill maps to source battle command");
+assertEqual(noGuardTelemetry?.duckModifier, 50, "NoGuard parses source dodge modifier");
+assertEqual(noGuardTelemetry?.counterPercent, 80, "NoGuard preserves source counter percent telemetry");
+assertEqual(noGuardTelemetry?.criticalPercent, 40, "NoGuard preserves source critical percent telemetry");
+assert(noGuardTelemetry?.noGuardActive, "NoGuard marks the source no-action stance for the enemy response");
+assert(noGuardTelemetry?.dodgeCheck?.dodged, "NoGuard applies source dodge modifier when the enemy targets the active pet");
+assertEqual(noGuardSkillGame.pets[0].Hp, noGuardPetHpBefore, "NoGuard dodge prevents enemy damage to the active pet");
+assertEqual(noGuardTelemetry?.totalDamage || 0, 0, "NoGuard itself does not deal direct damage");
 let damageToHp2SkillGame = await api("/api/game/new", { name: "pet-damagetohp2-skill-test" });
 damageToHp2SkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 damageToHp2SkillGame = await api("/api/game/dialog", { game: damageToHp2SkillGame, npcId: battleNpc.npc.id, message: "宠物" });

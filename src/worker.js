@@ -193,6 +193,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_Hector",
+  "PETSKILL_NoGuard",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_AttackCrazed",
   "PETSKILL_AttackShoot",
@@ -5213,6 +5214,15 @@ function performPetSkillAction(game, move) {
       battleLog.push(`${activePet.Name} 使用 ${skill.Name}，等待时机。`);
     }
     if (Number(activePet.Hp || 0) > 0) enemyTurn(false);
+  } else if (profile.kind === "no-guard") {
+    const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+    if (!preTurn.stopped && Number(activePet.Hp || 0) > 0) {
+      playerAction.petSkill.noGuardActive = true;
+      battleLog.push(`${activePet.Name} 使用 ${skill.Name}，放弃攻击并提高回避。`);
+      enemyTurn(false);
+    } else if (Number(activePet.Hp || 0) > 0) {
+      enemyTurn(false);
+    }
   } else if (petFirst) {
     petTurn();
     if (enemy.Hp > 0 && !enemyEscaped) enemyTurn(false);
@@ -5459,6 +5469,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       counterSuppressed: Boolean(profile.counterSuppressed),
       chargeTurns: Number(profile.chargeTurns || 0),
       chargeAttackPercent: Number(profile.chargeAttackPercent || 0),
+      counterPercent: Number(profile.counterPercent || 0),
       retraceChance: Number(profile.retraceChance || 0),
       retraceAttackPercent: Number(profile.retraceAttackPercent || 0),
       targetScope: profile.targetScope || "",
@@ -5484,6 +5495,21 @@ function petSkillBattleProfile(skill = {}) {
   }
   if (func === "PETSKILL_NormalGuard") {
     return { supported: true, kind: "guard", sourceCommand: "BATTLE_COM_GUARD", targetKind: "self" };
+  }
+  if (func === "PETSKILL_NoGuard") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "no-guard",
+      sourceCommand: "BATTLE_COM_S_NOGUARD",
+      targetKind: "self",
+      hitCount: 0,
+      multiplier: 0,
+      duckModifier: sourcePercentValue(option, "回避"),
+      counterPercent: sourcePercentValue(option, "反击"),
+      criticalPercent: sourcePercentValue(option, "会心"),
+      source: "gmsv battle_event.c BATTLE_COM_S_NOGUARD"
+    };
   }
   if (func === "PETSKILL_ChargeAttack") {
     const option = String(skill.Option || "");
@@ -6500,11 +6526,23 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
   if (!sourceEnemyTargetCandidates(game).length) return false;
   const targetActor = enemyBattleTargetActor(game, enemyAi, activeActor);
   const targetGuarded = guarded && targetActor === activeActor;
+  const targetNoGuarded = Boolean(
+    targetActor === activeActor
+    && playerAction?.type === "pet-skill"
+    && playerAction?.petSkill?.func === "PETSKILL_NoGuard"
+    && playerAction?.petSkill?.noGuardActive
+  );
   let hit = combatNormalAttackDetail(enemy, targetActor, {
     attackerKind: "enemy",
     defenderKind: battleActorKind(game, targetActor),
-    defenderGuarding: targetGuarded
+    defenderGuarding: targetGuarded,
+    duckChanceModifier: targetNoGuarded ? Number(playerAction.petSkill.duckModifier || 0) : 0
   });
+  if (targetNoGuarded) {
+    playerAction.petSkill.dodgeCheck = hit.dodgeCheck || null;
+    playerAction.petSkill.noGuardCounterPending = Number(playerAction.petSkill.counterPercent || 0) > 0;
+    playerAction.petSkill.noGuardCriticalPending = Number(playerAction.petSkill.criticalPercent || 0) > 0;
+  }
   if (hit.dodgeCheck?.dodged) {
     battleLog.push(`${battleActorName(game, targetActor)} 闪开了 ${enemy.Name} 的攻击。`);
     return false;
