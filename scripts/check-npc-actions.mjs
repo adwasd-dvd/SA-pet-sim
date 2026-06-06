@@ -4383,6 +4383,86 @@ assertEqual(retraceTelemetry?.hits?.[1]?.retrace, true, "Retrace records the sec
 assert(Number(retraceTelemetry?.hits?.[1]?.damage || 0) > 0, "Retrace second attack can land and damage after a first dodge");
 assert(Number(retraceSkillGame.encounter?.Hp || 0) < 999, "Retrace pet skill damages the active target after retry");
 assertEqual(retraceSkillGame.pets[0].WorkAttackPower, 90, "Retrace restores temporary second-hit attack boost after the round");
+let regretSkillGame = await api("/api/game/new", { name: "pet-regret-skill-test" });
+regretSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+regretSkillGame = await api("/api/game/dialog", { game: regretSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+regretSkillGame.pets[0].PetSkillIds = [640];
+regretSkillGame.pets[0].PetSkills = [{
+  Id: 640,
+  Name: "憾甲一击",
+  Des: "使时无视敌方装备防御攻击前后方敌人，使用时攻上升30%防御下降50%",
+  FuncName: "PETSKILL_Regret",
+  Option: "命%20 攻%30 防%-50",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(regretSkillGame.pets[0], {
+  WorkFixStr: 100,
+  WorkAttackPower: 100,
+  WorkFixTough: 80,
+  WorkDefencePower: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+const regretFrontEnemy = {
+  ...regretSkillGame.encounter,
+  EnemyId: 990640,
+  PetId: 990640,
+  Name: "憾甲前排测试敌人",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0
+};
+const regretBackEnemy = {
+  ...regretFrontEnemy,
+  EnemyId: 990645,
+  PetId: 990645,
+  Name: "憾甲后排测试敌人",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+regretSkillGame.battle.enemyParty = [
+  regretFrontEnemy,
+  { ...regretFrontEnemy, Name: "憾甲空位一", Hp: 0 },
+  { ...regretFrontEnemy, Name: "憾甲空位二", Hp: 0 },
+  { ...regretFrontEnemy, Name: "憾甲空位三", Hp: 0 },
+  { ...regretFrontEnemy, Name: "憾甲空位四", Hp: 0 },
+  regretBackEnemy
+];
+regretSkillGame.battle.activeEnemyIndex = 5;
+regretSkillGame.encounter = regretBackEnemy;
+const originalRandomForRegret = Math.random;
+try {
+  Math.random = () => 0.5;
+  regretSkillGame = await api("/api/game/battle", { game: regretSkillGame, action: "skill:0:5" });
+} finally {
+  Math.random = originalRandomForRegret;
+}
+const regretTelemetry = regretSkillGame.battleOutcome.playerAction?.petSkill;
+const regretMainHit = regretTelemetry?.hits?.find((hit) => Number(hit.targetSlot) === 5);
+const regretSecondHit = regretTelemetry?.hits?.find((hit) => Number(hit.targetSlot) === 0);
+assertEqual(regretSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_REGRET", "Regret pet skill maps to source battle command");
+assertEqual(regretTelemetry?.attackPercent, 30, "Regret parses source attack boost");
+assertEqual(regretTelemetry?.defencePercent, -50, "Regret parses source defence penalty");
+assertEqual(regretTelemetry?.targetScope, "enemy-column", "Regret records source front/back target scope");
+assertEqual(regretMainHit?.sourceCommand, "BATTLE_COM_S_REGRET", "Regret main hit records source command");
+assertEqual(regretSecondHit?.sourceCommand, "BATTLE_COM_S_REGRET2", "Regret secondary hit records source command");
+assertEqual(regretSecondHit?.multiplier, 0.8, "Regret secondary hit applies source 0.8 damage multiplier");
+assert(Number(regretMainHit?.damage || 0) > 0, "Regret damages the selected back target");
+assert(Number(regretSecondHit?.damage || 0) > 0, "Regret damages the paired front target");
+assert(Number(regretSkillGame.battle?.enemyParty?.[5]?.Hp || 0) < 999, "Regret persists damage on selected back target");
+assert(Number(regretSkillGame.battle?.enemyParty?.[0]?.Hp || 0) < 999, "Regret persists damage on paired front target");
+assertEqual(regretSkillGame.pets[0].WorkAttackPower, 100, "Regret restores temporary attack boost after the round");
+assertEqual(regretSkillGame.pets[0].WorkDefencePower, 80, "Regret restores temporary defence penalty after the round");
 let gyrateSkillGame = await api("/api/game/new", { name: "pet-gyrate-skill-test" });
 gyrateSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 gyrateSkillGame = await api("/api/game/dialog", { game: gyrateSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -4768,16 +4848,16 @@ assert(blockedPetSwitchGame.pets[0].BattleMagicStatuses?.superWall, "blocked pet
 assert(!blockedPetSwitchGame.player.BattleStatuses?.sleep, "player sleep turn is consumed when it blocks pet switch");
 assert(blockedPetSwitchGame.battleOutcome.log.some((line) => line.includes("睡眠") && line.includes("无法行动")), "blocked pet switch writes source-style status log");
 Object.assign(battlePetSwitchGame.pets[0], {
-  Hp: 5000,
-  WorkMaxHp: 5000,
-  WorkDefencePower: 500,
-  WorkFixTough: 500
+  Hp: 99999,
+  WorkMaxHp: 99999,
+  WorkDefencePower: 9999,
+  WorkFixTough: 9999
 });
 Object.assign(battlePetSwitchGame.pets[1], {
-  Hp: 5000,
-  WorkMaxHp: 5000,
-  WorkDefencePower: 500,
-  WorkFixTough: 500
+  Hp: 99999,
+  WorkMaxHp: 99999,
+  WorkDefencePower: 9999,
+  WorkFixTough: 9999
 });
 battlePetSwitchGame.petFormation = {
   ...(battlePetSwitchGame.petFormation || {}),

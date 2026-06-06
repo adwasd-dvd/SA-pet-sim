@@ -209,7 +209,8 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
-  "PETSKILL_Gyrate"
+  "PETSKILL_Gyrate",
+  "PETSKILL_Regret"
 ]);
 const BATTLE_STATUS_EFFECTS = {
   "毒": { id: 1, key: "poison", label: "中毒", sourceCommand: "BATTLE_ST_POISON" },
@@ -5861,6 +5862,22 @@ function petSkillBattleProfile(skill = {}) {
       targetScope: "enemy-row"
     };
   }
+  if (func === "PETSKILL_Regret") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_REGRET",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: sourcePercentValue(option, "攻"),
+      defencePercent: sourcePercentValue(option, "防") || sourceTrailingPercentValue(option, "防"),
+      targetScope: "enemy-column",
+      secondarySourceCommand: "BATTLE_COM_S_REGRET2",
+      secondaryMultiplier: 0.8,
+      source: "gmsv battle.c BATTLE_COM_S_REGRET + battle_event.c BATTLE_COM_S_REGRET2"
+    };
+  }
   if (func === "PETSKILL_StatusChange") {
     const option = String(skill.Option || "");
     return {
@@ -6103,6 +6120,12 @@ function sourcePercentValue(text = "", label = "攻") {
   return match ? clampInt(match[1], -95, 400, 0) : 0;
 }
 
+function sourceTrailingPercentValue(text = "", label = "防") {
+  const escaped = String(label || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = String(text || "").match(new RegExp(`${escaped}\\s*([+-]?\\d+)%`));
+  return match ? clampInt(match[1], -95, 400, 0) : 0;
+}
+
 function sourceDelimitedIntList(text = "") {
   return String(text || "")
     .split("|")
@@ -6317,6 +6340,28 @@ function sourcePetSkillTargets(game, enemy, profile = {}) {
       return live[index] || live[0];
     });
   }
+  if (profile.targetScope === "enemy-column") {
+    const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+      ? game.battle.enemyParty
+      : [enemy].filter(Boolean);
+    const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+    const source = "gmsv battle.c BATTLE_COM_S_REGRET front/back target pair";
+    const activeEnemy = party[activeIndex] || enemy;
+    const targets = [{ enemy: activeEnemy, slot: activeIndex, source, sourceCommand: profile.sourceCommand || "" }];
+    const pairedIndex = activeIndex >= 5 && activeIndex < 10 ? activeIndex - 5 : -1;
+    const paired = pairedIndex >= 0 ? party[pairedIndex] : null;
+    if (paired && Number(paired.Hp || 0) > 0 && !paired.BattleEscaped) {
+      targets.push({
+        enemy: paired,
+        slot: pairedIndex,
+        source,
+        sourceCommand: profile.secondarySourceCommand || "",
+        multiplier: Number(profile.secondaryMultiplier || 1),
+        secondary: true
+      });
+    }
+    return targets;
+  }
   const source = "gmsv battle.c BATTLE_COM_S_GYRATE row target scan";
   if (profile.targetScope !== "enemy-row") {
     const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
@@ -6370,7 +6415,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   const hitsPerTarget = profile.targetScope === "enemy-random" ? 1 : resolvedHitCount;
 
   const resolveSingleHit = (target, i, options = {}) => {
-    let multiplier = Number(profile.multiplier || 1);
+    let multiplier = Number(target.multiplier || profile.multiplier || 1);
     if (profile.guardBreak2) multiplier = enemyAi.type === "guard" ? 1.3 : 0.7;
     let hit = usesDuckCheck
       ? combatNormalAttackDetail(activePet, target.enemy, {
@@ -6454,9 +6499,11 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     return {
       targetSlot: target.slot,
       targetName: target.enemy?.Name || "enemy",
+      sourceCommand: target.sourceCommand || profile.sourceCommand || "",
       damage: hit.damage,
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
+      multiplier,
       dodged: false,
       dodgeCheck: hit.dodgeCheck || null,
       critical: Boolean(hit.critical),
