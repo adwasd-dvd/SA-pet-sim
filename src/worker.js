@@ -191,6 +191,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Refresh",
   "PETSKILL_Weaken",
   "PETSKILL_Deeppoison",
+  "PETSKILL_Sars",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_Hector",
@@ -5803,6 +5804,10 @@ function petSkillBattleProfile(skill = {}) {
     PETSKILL_Deeppoison: {
       sourceCommand: "BATTLE_COM_S_DEEPPOISON",
       source: "gmsv battle_event.c BATTLE_S_Deeppoison BATTLE_MultiStatusChange"
+    },
+    PETSKILL_Sars: {
+      sourceCommand: "BATTLE_COM_S_SARS",
+      source: "gmsv battle/pet_skill.c PETSKILL_Sars + battle.c BATTLE_COM_S_SARS"
     },
     PETSKILL_Barrier: {
       sourceCommand: "BATTLE_COM_S_BARRIER",

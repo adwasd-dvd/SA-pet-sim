@@ -34,6 +34,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Retrace",
   "PETSKILL_Gyrate",
   "PETSKILL_Deeppoison",
+  "PETSKILL_Sars",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -3764,6 +3765,52 @@ assertEqual(advancedStatusTelemetry?.status?.status?.turn, 5, "Deeppoison parses
 assert(advancedStatusTelemetry?.status?.rolls?.every((roll) => roll.chance === 50 && roll.success), "Deeppoison uses source 成 success percent for every target fixture");
 assert(Number(advancedStatusSkillGame.battle.enemyParty[0]?.BattleStatuses?.deepPoison?.turns || 0) > 0, "Deeppoison persists status on the active enemy target");
 assert(Number(advancedStatusSkillGame.battle.enemyParty[1]?.BattleStatuses?.deepPoison?.turns || 0) > 0, "Deeppoison persists status on the second enemy target");
+let sarsSkillGame = await api("/api/game/new", { name: "pet-sars-skill-test" });
+sarsSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+sarsSkillGame = await api("/api/game/dialog", { game: sarsSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+sarsSkillGame.pets[0].PetSkillIds = [617];
+sarsSkillGame.pets[0].PetSkills = [{
+  Id: 617,
+  Name: "毒煞蔓延",
+  Des: "让对手中毒且有机会传染到周围的人",
+  FuncName: "PETSKILL_Sars",
+  Option: "煞 turn 3 成 100",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+sarsSkillGame.pets[0].PetId = 61700;
+sarsSkillGame.pets[0].WorkQuick = 999;
+sarsSkillGame.pets[0].WorkFixDex = 999;
+sarsSkillGame.pets[0].Hp = 999;
+sarsSkillGame.pets[0].WorkMaxHp = 999;
+sarsSkillGame.encounter.EnemyId = 61705;
+sarsSkillGame.encounter.Name = "煞毒测试敌人A";
+sarsSkillGame.encounter.WorkMaxHp = 999;
+sarsSkillGame.encounter.Hp = 999;
+sarsSkillGame.encounter.WorkQuick = 1;
+sarsSkillGame.encounter.WorkFixDex = 1;
+sarsSkillGame.encounter.WorkAttackPower = 1;
+const sarsEnemyTwo = {
+  ...sarsSkillGame.encounter,
+  EnemyId: 61709,
+  Name: "煞毒测试敌人B",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+sarsSkillGame.battle.enemyParty = [sarsSkillGame.encounter, sarsEnemyTwo];
+sarsSkillGame = await api("/api/game/battle", { game: sarsSkillGame, action: "skill:0" });
+const sarsTelemetry = sarsSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(sarsSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SARS", "Sars pet skill maps to source battle command");
+assertEqual(sarsTelemetry?.targetScope, "enemy-all", "Sars Target=3 uses all live enemy targets");
+assertEqual(sarsTelemetry?.totalDamage, 0, "Sars source pet skill does not deal direct attack damage");
+assertEqual(sarsTelemetry?.status?.status?.key, "sars", "Sars parses source sars poison status");
+assertEqual(sarsTelemetry?.status?.status?.turn, 3, "Sars parses source turn count");
+assertEqual(sarsTelemetry?.status?.status?.fixedChance, 100, "Sars parses source 成 success percent");
+assert(sarsTelemetry?.status?.rolls?.every((roll) => roll.chance === 80 && roll.success), "Sars status chance goes through source status cap for every target fixture");
+assert(Number(sarsSkillGame.battle.enemyParty[0]?.BattleStatuses?.sars?.turns || 0) > 0, "Sars persists status on the active enemy target");
+assert(Number(sarsSkillGame.battle.enemyParty[1]?.BattleStatuses?.sars?.turns || 0) > 0, "Sars persists status on the second enemy target");
 let barrierSkillGame = await api("/api/game/new", { name: "pet-barrier-skill-test" });
 barrierSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 barrierSkillGame = await api("/api/game/dialog", { game: barrierSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
