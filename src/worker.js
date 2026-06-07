@@ -211,6 +211,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_BattleTearDamage",
   "PETSKILL_DamageToHp2",
   "PETSKILL_ShowMercy",
+  "PETSKILL_Firekill",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5213,6 +5214,10 @@ function performPetSkillAction(game, move) {
       enemyEscaped ||= resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "firekill") {
+      resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
+      return true;
+    }
     enemyEscaped ||= resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
     return true;
   };
@@ -5892,6 +5897,20 @@ function petSkillBattleProfile(skill = {}) {
       criticalPercent: 30,
       drainPercent,
       source: "gmsv battle_event.c BATTLE_S_DamageToHp2"
+    };
+  }
+  if (func === "PETSKILL_Firekill") {
+    return {
+      supported: true,
+      kind: "firekill",
+      sourceCommand: "BATTLE_COM_S_FIREKILL",
+      targetKind: "enemy",
+      targetScope: "enemy-row",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -20,
+      fireMagicPower: 200,
+      source: "gmsv battle.c BATTLE_COM_S_FIREKILL + battle_magic.c BATTLE_MultiAttMagic_Fire"
     };
   }
   if (func === "PETSKILL_Modifyattack") {
@@ -6709,6 +6728,81 @@ function resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction
   }
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但 ${enemy.Name} 不在原脚本可吓跑目标内。`);
   return false;
+}
+
+function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  skillState.targetScope = profile.targetScope || "enemy-row";
+  skillState.fireMagicPower = Number(profile.fireMagicPower || 0);
+  const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  let hit = combatDamageDetail(activePet, enemy, Number(profile.multiplier || 1), {
+    criticalChancePercent: Number(profile.criticalPercent || 0),
+    attributeOverride: profile.attributeOverride
+  });
+  if (enemyAi.type === "guard" && !profile.ignoreGuard) {
+    hit = applySourceGuardAdjust(hit, [
+      "enemy-guard",
+      "pet-skill-firekill",
+      skill.Id,
+      enemy.EnemyId || enemy.PetId || enemy.Name,
+      activePet.PetId || activePet.Name,
+      game.battle?.turn || 0,
+      enemy.Hp,
+      activePet.Hp
+    ]);
+    enemyAi.guardAdjust = hit.guardAdjust;
+  }
+  enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - Number(hit.damage || 0));
+  clearBattleSleepOnDamage(enemy, hit.damage, battleLog);
+  const physicalHit = {
+    targetSlot: activeIndex,
+    targetName: enemy?.Name || "enemy",
+    sourceCommand: "BATTLE_COM_S_FIREKILL",
+    damage: Number(hit.damage || 0),
+    originalDamage: Number(hit.originalDamage || hit.damage || 0),
+    damageDivisor: 1,
+    multiplier: Number(profile.multiplier || 1),
+    dodged: false,
+    dodgeCheck: hit.dodgeCheck || null,
+    critical: Boolean(hit.critical),
+    elementMultiplier: Number(hit.elementMultiplier || 1),
+    attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
+    attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
+    tearDamage: compactSourceTearDamage(hit.tearDamage),
+    showMercyPreventedKill: null,
+    mpDamage: null,
+    onHitStatus: null,
+    guardAdjust: compactGuardAdjust(hit.guardAdjust),
+    retrace: false,
+    retraceRoll: 0,
+    phase: "physical"
+  };
+  const fireTargets = sourcePetSkillTargets(game, enemy, profile);
+  const fireHits = [];
+  const firePower = Math.max(0, Number(profile.fireMagicPower || 0));
+  for (const target of fireTargets) {
+    if (!target.enemy || Number(target.enemy.Hp || 0) <= 0 || target.enemy.BattleEscaped) continue;
+    const beforeHp = Math.max(0, Number(target.enemy.Hp || 0));
+    const damage = Math.min(beforeHp, firePower);
+    target.enemy.Hp = Math.max(0, beforeHp - damage);
+    clearBattleSleepOnDamage(target.enemy, damage, battleLog);
+    fireHits.push({
+      targetSlot: Number(target.slot || 0),
+      targetName: target.enemy?.Name || "enemy",
+      sourceCommand: "BATTLE_MULTIATTMAGIC_FIRE",
+      damage,
+      beforeHp,
+      afterHp: Math.max(0, Number(target.enemy.Hp || 0)),
+      power: firePower,
+      fieldAttr: 2,
+      phase: "fire-magic",
+      source: "gmsv battle_magic.c BATTLE_MultiAttMagic_Fire Power=200 enemy row"
+    });
+  }
+  skillState.hits = [physicalHit];
+  skillState.fireMagicHits = fireHits;
+  skillState.totalDamage = Number(physicalHit.damage || 0) + fireHits.reduce((sum, entry) => sum + Number(entry.damage || 0), 0);
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，先攻击 ${enemy.Name} 造成 ${physicalHit.damage} 伤害，再以火焰波及 ${fireHits.length} 个目标，共追加 ${fireHits.reduce((sum, entry) => sum + Number(entry.damage || 0), 0)} 伤害。`);
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
@@ -7862,6 +7956,19 @@ function compactPetSkillTelemetry(skill) {
     criticalPercent: Number(skill.criticalPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
+    fireMagicPower: Number(skill.fireMagicPower || 0),
+    fireMagicHits: Array.isArray(skill.fireMagicHits) ? skill.fireMagicHits.slice(0, 10).map((hit) => ({
+      targetSlot: Number(hit.targetSlot || 0),
+      targetName: hit.targetName || "",
+      sourceCommand: hit.sourceCommand || "",
+      damage: Number(hit.damage || 0),
+      beforeHp: Number(hit.beforeHp || 0),
+      afterHp: Number(hit.afterHp || 0),
+      power: Number(hit.power || 0),
+      fieldAttr: Number(hit.fieldAttr || 0),
+      phase: hit.phase || "",
+      source: hit.source || ""
+    })) : [],
     chargeTurns: Number(skill.chargeTurns || 0),
     chargeAttackPercent: Number(skill.chargeAttackPercent || 0),
     charge: skill.charge ? {

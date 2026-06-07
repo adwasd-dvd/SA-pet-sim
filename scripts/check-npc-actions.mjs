@@ -4541,6 +4541,65 @@ assertEqual(gyrateTelemetry?.hits?.length, 3, "Gyrate attacks each live enemy in
 assertEqual(new Set(gyrateTelemetry.hits.map((hit) => hit.targetSlot)).size, 3, "Gyrate records distinct row target slots");
 assert(gyrateSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Gyrate damages every live enemy in the row fixture");
 assertEqual(gyrateSkillGame.pets[0].WorkAttackPower, 120, "Gyrate restores temporary attack after the round");
+let firekillSkillGame = await api("/api/game/new", { name: "pet-firekill-skill-test" });
+firekillSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+firekillSkillGame = await api("/api/game/dialog", { game: firekillSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+firekillSkillGame.pets[0].PetSkillIds = [624];
+firekillSkillGame.pets[0].PetSkills = [{
+  Id: 624,
+  Name: "火线猎杀",
+  Des: "敌一排火焰攻击",
+  FuncName: "PETSKILL_Firekill",
+  Option: "",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(firekillSkillGame.pets[0], {
+  WorkFixStr: 200,
+  WorkAttackPower: 200,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(firekillSkillGame.encounter, {
+  Name: "火线测试敌人一",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 999,
+  WorkDefencePower: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Critical: 0,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:3;0;0;0;0;0;0"
+});
+const firekillEnemyTwo = {
+  ...firekillSkillGame.encounter,
+  EnemyId: 990624,
+  PetId: 990624,
+  Name: "火线测试敌人二",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+firekillSkillGame.battle.enemyParty = [firekillSkillGame.encounter, firekillEnemyTwo];
+firekillSkillGame.battle.activeEnemyIndex = 0;
+firekillSkillGame = await api("/api/game/battle", { game: firekillSkillGame, action: "skill:0" });
+const firekillTelemetry = firekillSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(firekillSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_FIREKILL", "Firekill pet skill maps to source battle command");
+assertEqual(firekillTelemetry?.attackPercent, -20, "Firekill applies source 80 percent WorkFixStr physical attack");
+assertEqual(firekillTelemetry?.targetScope, "enemy-row", "Firekill preserves source row target scope telemetry");
+assertEqual(firekillTelemetry?.fireMagicPower, 200, "Firekill records source BATTLE_MultiAttMagic_Fire power");
+assertEqual(firekillTelemetry?.hits?.length, 1, "Firekill records one source physical opening attack");
+assertEqual(firekillTelemetry?.hits?.[0]?.phase, "physical", "Firekill physical hit is separated from fire magic hits");
+assertEqual(firekillTelemetry?.fireMagicHits?.length, 2, "Firekill applies fire magic to each live enemy in the selected row");
+assert(firekillTelemetry.fireMagicHits.every((hit) => hit.damage === 200), "Firekill fire magic uses source Power=200 while magic resist is not modeled");
+assert(Number(firekillSkillGame.battle.enemyParty[0].Hp || 0) < 799, "Firekill active target takes physical plus fire damage");
+assertEqual(Number(firekillSkillGame.battle.enemyParty[1].Hp || 0), 799, "Firekill adjacent row target takes fire damage only");
+assertEqual(firekillSkillGame.pets[0].WorkAttackPower, 200, "Firekill restores temporary attack after the round");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
