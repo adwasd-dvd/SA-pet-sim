@@ -187,6 +187,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
+  "PETSKILL_Sacrifice",
   "PETSKILL_Refresh",
   "PETSKILL_Weaken",
   "PETSKILL_Deeppoison",
@@ -5184,6 +5185,10 @@ function performPetSkillAction(game, move) {
       resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "sacrifice") {
+      resolvePetSacrificeTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "refresh") {
       resolvePetRefreshTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5977,6 +5982,17 @@ function petSkillBattleProfile(skill = {}) {
       reason: magicStatus ? "" : `unsupported magic status ${skill.Option || ""}`
     };
   }
+  if (func === "PETSKILL_Sacrifice") {
+    return {
+      supported: true,
+      kind: "sacrifice",
+      sourceCommand: "BATTLE_COM_S_SACRIFICE",
+      targetKind: "ally",
+      hitCount: 0,
+      multiplier: 0,
+      source: "gmsv battle/pet_skill.c PETSKILL_Sacrifice + battle_event.c BATTLE_S_Sacrifice"
+    };
+  }
   if (func === "PETSKILL_Refresh") {
     const refresh = parsePetSkillRefresh(skill.Option || "");
     return {
@@ -6315,6 +6331,55 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
     source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
   };
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
+}
+
+function sourcePetSacrificeTarget(game, activePet) {
+  if (game.player && battleActorHp(game, game.player) > 0) {
+    return { actor: game.player, slot: 0, kind: "player", source: "gmsv battle.c BATTLE_TargetAdjust ally target" };
+  }
+  return { actor: activePet, slot: battlePetSlot(game, activePet), kind: "pet", source: "fallback-active-pet" };
+}
+
+function resolvePetSacrificeTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const beforeCasterHp = battleActorHp(game, activePet);
+  const casterMaxHp = battleActorMaxHp(game, activePet);
+  if (!(beforeCasterHp > casterMaxHp * 0.2)) {
+    skillState.sacrifice = {
+      success: false,
+      reason: "caster-hp-too-low",
+      beforeCasterHp,
+      casterMaxHp,
+      source: "gmsv battle/pet_skill.c PETSKILL_Sacrifice HP > WORKMAXHP*0.2"
+    };
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但 HP 不足，救援失败。`);
+    return;
+  }
+  const target = sourcePetSacrificeTarget(game, activePet);
+  const beforeTargetHp = battleActorHp(game, target.actor);
+  const targetMaxHp = battleActorMaxHp(game, target.actor);
+  const afterCasterHp = Math.max(0, Math.floor(beforeCasterHp * 0.5));
+  setBattleActorHp(game, activePet, afterCasterHp);
+  const healAmount = Math.min(Math.max(0, targetMaxHp - beforeTargetHp), afterCasterHp);
+  setBattleActorHp(game, target.actor, beforeTargetHp + healAmount);
+  skillState.sacrifice = {
+    success: true,
+    beforeCasterHp,
+    afterCasterHp: battleActorHp(game, activePet),
+    casterMaxHp,
+    target: {
+      kind: target.kind,
+      slot: Number(target.slot || 0),
+      name: battleActorName(game, target.actor),
+      beforeHp: beforeTargetHp,
+      afterHp: battleActorHp(game, target.actor),
+      maxHp: targetMaxHp,
+      healAmount,
+      source: target.source
+    },
+    source: profile.source || "gmsv battle_event.c BATTLE_S_Sacrifice"
+  };
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，牺牲一半 HP，为${battleActorName(game, target.actor)}回复 ${healAmount} HP。`);
 }
 
 function resolvePetSetDuckTurn(game, activePet, skill, profile, playerAction, battleLog) {
@@ -7838,6 +7903,24 @@ function compactPetSkillTelemetry(skill) {
         applied: compactBattleSkillBoost(target.applied)
       })),
       source: skill.magicPet.source || ""
+    } : null,
+    sacrifice: skill.sacrifice ? {
+      success: Boolean(skill.sacrifice.success),
+      reason: skill.sacrifice.reason || "",
+      beforeCasterHp: Number(skill.sacrifice.beforeCasterHp || 0),
+      afterCasterHp: Number(skill.sacrifice.afterCasterHp || 0),
+      casterMaxHp: Number(skill.sacrifice.casterMaxHp || 0),
+      target: skill.sacrifice.target ? {
+        kind: skill.sacrifice.target.kind || "",
+        slot: Number(skill.sacrifice.target.slot || 0),
+        name: skill.sacrifice.target.name || "",
+        beforeHp: Number(skill.sacrifice.target.beforeHp || 0),
+        afterHp: Number(skill.sacrifice.target.afterHp || 0),
+        maxHp: Number(skill.sacrifice.target.maxHp || 0),
+        healAmount: Number(skill.sacrifice.target.healAmount || 0),
+        source: skill.sacrifice.target.source || ""
+      } : null,
+      source: skill.sacrifice.source || ""
     } : null,
     varyProfile: compactBattleVaryProfile(skill.varyProfile),
     vary: skill.vary ? {

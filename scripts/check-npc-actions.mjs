@@ -4598,6 +4598,78 @@ assert(showMercyTelemetry?.hits?.[0]?.showMercyPreventedKill, "ShowMercy telemet
 assertEqual(showMercyTelemetry?.hits?.[0]?.showMercyPreventedKill?.beforeHp, 40, "ShowMercy no-kill telemetry records target HP before damage");
 assert(Number(showMercyTelemetry?.hits?.[0]?.showMercyPreventedKill?.originalDamage || 0) >= 40, "ShowMercy no-kill telemetry records lethal original damage");
 assertEqual(showMercyTelemetry?.hits?.[0]?.damage, 39, "ShowMercy applies source HP-1 adjusted damage");
+let sacrificeSkillGame = await api("/api/game/new", { name: "pet-sacrifice-skill-test" });
+sacrificeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+sacrificeSkillGame = await api("/api/game/dialog", { game: sacrificeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+sacrificeSkillGame.pets[0].PetSkillIds = [573];
+sacrificeSkillGame.pets[0].PetSkills = [{
+  Id: 573,
+  Name: "救援",
+  Des: "牺牲自己50%的HP，补至他人身上",
+  FuncName: "PETSKILL_Sacrifice",
+  Option: "",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(sacrificeSkillGame.player, { hp: 10, maxHp: 120, WorkMaxHp: 120 });
+Object.assign(sacrificeSkillGame.pets[0], {
+  WorkFixStr: 1,
+  WorkAttackPower: 1,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 100,
+  WorkMaxHp: 100
+});
+Object.assign(sacrificeSkillGame.encounter, {
+  Name: "救援测试敌人",
+  WorkMaxHp: 80,
+  Hp: 80,
+  WorkFixTough: 999,
+  WorkDefencePower: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Critical: 0,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:3;0;0;0;0;0;0"
+});
+Object.assign(sacrificeSkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: sacrificeSkillGame.encounter.Name,
+  WorkMaxHp: sacrificeSkillGame.encounter.WorkMaxHp,
+  Hp: sacrificeSkillGame.encounter.Hp,
+  WorkFixTough: sacrificeSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: sacrificeSkillGame.encounter.WorkDefencePower,
+  WorkQuick: sacrificeSkillGame.encounter.WorkQuick,
+  WorkFixDex: sacrificeSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: sacrificeSkillGame.encounter.WorkAttackPower,
+  WorkFixStr: sacrificeSkillGame.encounter.WorkFixStr,
+  Critical: sacrificeSkillGame.encounter.Critical,
+  WorkTacticsOption: sacrificeSkillGame.encounter.WorkTacticsOption
+});
+sacrificeSkillGame = await api("/api/game/battle", { game: sacrificeSkillGame, action: "skill:0" });
+const sacrificeTelemetry = sacrificeSkillGame.battleOutcome.playerAction?.petSkill?.sacrifice;
+assertEqual(sacrificeSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SACRIFICE", "Sacrifice pet skill maps to source battle command");
+assertEqual(Number(sacrificeSkillGame.pets[0].Hp || 0), 50, "Sacrifice halves caster HP using source truncation");
+assertEqual(Number(sacrificeSkillGame.player.hp || 0), 60, "Sacrifice heals player by the source post-halving caster HP");
+assertEqual(sacrificeTelemetry?.beforeCasterHp, 100, "Sacrifice telemetry records caster HP before source mutation");
+assertEqual(sacrificeTelemetry?.afterCasterHp, 50, "Sacrifice telemetry records caster HP after source mutation");
+assertEqual(sacrificeTelemetry?.target?.healAmount, 50, "Sacrifice telemetry records source heal amount");
+let lowSacrificeSkillGame = await api("/api/game/new", { name: "pet-sacrifice-low-hp-test" });
+lowSacrificeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+lowSacrificeSkillGame = await api("/api/game/dialog", { game: lowSacrificeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+lowSacrificeSkillGame.pets[0].PetSkillIds = [573];
+lowSacrificeSkillGame.pets[0].PetSkills = sacrificeSkillGame.pets[0].PetSkills;
+Object.assign(lowSacrificeSkillGame.player, { hp: 10, maxHp: 120, WorkMaxHp: 120 });
+Object.assign(lowSacrificeSkillGame.pets[0], { Hp: 20, WorkMaxHp: 100, WorkQuick: 999, WorkFixDex: 999 });
+Object.assign(lowSacrificeSkillGame.encounter, sacrificeSkillGame.encounter);
+Object.assign(lowSacrificeSkillGame.battle?.enemyParty?.[0] || {}, sacrificeSkillGame.battle?.enemyParty?.[0] || {});
+lowSacrificeSkillGame = await api("/api/game/battle", { game: lowSacrificeSkillGame, action: "skill:0" });
+const lowSacrificeTelemetry = lowSacrificeSkillGame.battleOutcome.playerAction?.petSkill?.sacrifice;
+assertEqual(Number(lowSacrificeSkillGame.pets[0].Hp || 0), 20, "Sacrifice low HP failure does not halve caster HP");
+assertEqual(Number(lowSacrificeSkillGame.player.hp || 0), 10, "Sacrifice low HP failure does not heal target");
+assertEqual(lowSacrificeTelemetry?.reason, "caster-hp-too-low", "Sacrifice low HP failure follows source HP threshold");
 let chargeSkillGame = await api("/api/game/new", { name: "pet-charge-skill-test" });
 chargeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 chargeSkillGame = await api("/api/game/dialog", { game: chargeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
