@@ -36,6 +36,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Deeppoison",
   "PETSKILL_Sars",
   "PETSKILL_Sonic",
+  "PETSKILL_Acupuncture",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -4218,6 +4219,57 @@ assert(noGuardTelemetry?.noGuardActive, "NoGuard marks the source no-action stan
 assert(noGuardTelemetry?.dodgeCheck?.dodged, "NoGuard applies source dodge modifier when the enemy targets the active pet");
 assertEqual(noGuardSkillGame.pets[0].Hp, noGuardPetHpBefore, "NoGuard dodge prevents enemy damage to the active pet");
 assertEqual(noGuardTelemetry?.totalDamage || 0, 0, "NoGuard itself does not deal direct damage");
+let acupunctureSkillGame = await api("/api/game/new", { name: "pet-acupuncture-skill-test" });
+acupunctureSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+acupunctureSkillGame = await api("/api/game/dialog", { game: acupunctureSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+acupunctureSkillGame.pets[0].PetSkillIds = [622];
+acupunctureSkillGame.pets[0].PetSkills = [{
+  Id: 622,
+  Name: "针刺外皮",
+  Des: "可令攻击者受到1/2的伤害",
+  FuncName: "PETSKILL_Acupuncture",
+  Option: "",
+  Field: 1,
+  Target: 0,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+acupunctureSkillGame.pets[0].Hp = 200;
+acupunctureSkillGame.pets[0].WorkMaxHp = 200;
+acupunctureSkillGame.pets[0].WorkFixDex = 1;
+acupunctureSkillGame.pets[0].WorkQuick = 1;
+acupunctureSkillGame.encounter.Name = "针刺测试敌人";
+acupunctureSkillGame.encounter.WorkMaxHp = 999;
+acupunctureSkillGame.encounter.Hp = 999;
+acupunctureSkillGame.encounter.WorkFixTough = 1;
+acupunctureSkillGame.encounter.WorkDefencePower = 1;
+acupunctureSkillGame.encounter.WorkQuick = 999;
+acupunctureSkillGame.encounter.WorkFixDex = 999;
+acupunctureSkillGame.encounter.WorkAttackPower = 80;
+acupunctureSkillGame.encounter.WorkTactics = 1;
+acupunctureSkillGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
+acupunctureSkillGame.battle.enemyParty = [acupunctureSkillGame.encounter];
+acupunctureSkillGame.battle.activeEnemyIndex = 0;
+const acupunctureEnemyHpBefore = Number(acupunctureSkillGame.encounter.Hp || 0);
+const acupuncturePetHpBefore = Number(acupunctureSkillGame.pets[0].Hp || 0);
+const originalRandomForAcupuncture = Math.random;
+try {
+  Math.random = () => 0.99;
+  acupunctureSkillGame = await api("/api/game/battle", { game: acupunctureSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForAcupuncture;
+}
+const acupunctureTelemetry = acupunctureSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(acupunctureSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ACUPUNCTURE", "Acupuncture pet skill maps to source battle command");
+assertEqual(acupunctureTelemetry?.acupunctureReflectPercent, 50, "Acupuncture records source half-damage reflect percent");
+assert(acupunctureTelemetry?.acupuncture?.success, "Acupuncture sets source reflect state before enemy attack");
+assert(acupunctureTelemetry?.acupunctureReflect?.success, "Acupuncture reflects damage after a landed enemy hit");
+assertEqual(acupunctureTelemetry.acupunctureReflect.sourceCommand, "BATTLE_MD_ACUPUNCTURE", "Acupuncture reflect records source reaction command");
+assert(acupunctureTelemetry.acupunctureReflect.sourceDamage > 0, "Acupuncture reflect is based on landed damage");
+assertEqual(acupunctureTelemetry.acupunctureReflect.damage, Math.trunc(acupunctureTelemetry.acupunctureReflect.sourceDamage / 2), "Acupuncture reflects half of landed damage");
+assertEqual(acupunctureSkillGame.encounter.Hp, acupunctureEnemyHpBefore - acupunctureTelemetry.acupunctureReflect.damage, "Acupuncture reflect persists enemy HP loss");
+assertEqual(acupunctureSkillGame.pets[0].Hp, Math.max(0, acupuncturePetHpBefore - acupunctureTelemetry.acupunctureReflect.sourceDamage), "Acupuncture still applies incoming enemy damage to the pet");
+assert(!acupunctureSkillGame.pets[0].BattleAcupuncture, "Acupuncture source state clears after reflect");
 let timidSkillGame = await api("/api/game/new", { name: "pet-2timid-skill-test" });
 timidSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 timidSkillGame = await api("/api/game/dialog", { game: timidSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -5411,7 +5463,8 @@ battlePetSwitchGame.petFormation = {
 };
 battlePetSwitchGame.petState = {
   ...(battlePetSwitchGame.petState || {}),
-  activeIndex: 1
+  activeIndex: 1,
+  activePetIndex: 1
 };
 Object.assign(battlePetSwitchGame.encounter, {
   WorkAttackPower: 0,

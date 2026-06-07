@@ -214,6 +214,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_ShowMercy",
   "PETSKILL_Firekill",
   "PETSKILL_Sonic",
+  "PETSKILL_Acupuncture",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5200,6 +5201,10 @@ function performPetSkillAction(game, move) {
       resolvePetSetDuckTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "acupuncture") {
+      resolvePetAcupunctureTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "set-magic-pet") {
       resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5254,6 +5259,12 @@ function performPetSkillAction(game, move) {
     } else if (Number(activePet.Hp || 0) > 0) {
       enemyTurn(false);
     }
+  } else if (profile.kind === "acupuncture") {
+    const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+    if (!preTurn.stopped && Number(activePet.Hp || 0) > 0) {
+      petTurn();
+    }
+    if (Number(activePet.Hp || 0) > 0) enemyTurn(false);
   } else if (petFirst) {
     petTurn();
     if (enemy.Hp > 0 && !enemyEscaped) enemyTurn(false);
@@ -5493,6 +5504,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       quickPercent: Number(profile.quickPercent || 0),
       quickPercentFromFixDex: Boolean(profile.quickPercentFromFixDex),
       criticalPercent: Number(profile.criticalPercent || 0),
+      acupunctureReflectPercent: Number(profile.acupunctureReflectPercent || 0),
       setDuckTurn: Number(profile.setDuckTurn || 0),
       setDuckPower: Number(profile.setDuckPower || 0),
       magicPet: compactSourceMagicPetProfile(profile.magicPet),
@@ -5606,6 +5618,18 @@ function petSkillBattleProfile(skill = {}) {
       sonicPiercePercent: 50,
       sonicPierceSourceCommand: "BATTLE_COM_S_SONIC2",
       source: "gmsv battle/pet_skill.c PETSKILL_Sonic + battle.c BATTLE_COM_S_SONIC"
+    };
+  }
+  if (func === "PETSKILL_Acupuncture") {
+    return {
+      supported: true,
+      kind: "acupuncture",
+      sourceCommand: "BATTLE_COM_S_ACUPUNCTURE",
+      targetKind: "self",
+      hitCount: 0,
+      multiplier: 0,
+      acupunctureReflectPercent: 50,
+      source: "gmsv battle/pet_skill.c PETSKILL_Acupuncture + battle_event.c BATTLE_MD_ACUPUNCTURE"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -6451,6 +6475,27 @@ function resolvePetSetDuckTurn(game, activePet, skill, profile, playerAction, ba
     : `${activePet.Name} 使用 ${skill.Name}，提高闪避 ${power}（${turn} 回合）。`);
 }
 
+function resolvePetAcupunctureTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const reflectPercent = clampInt(profile.acupunctureReflectPercent, 0, 100, 50);
+  activePet.BattleAcupuncture = {
+    key: "acupuncture",
+    label: "针刺外皮",
+    turns: 1,
+    reflectPercent,
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    sourceCommand: "BATTLE_COM_S_ACUPUNCTURE",
+    source: "gmsv battle_event.c BATTLE_MD_ACUPUNCTURE"
+  };
+  playerAction.petSkill.acupuncture = {
+    success: true,
+    reflectPercent,
+    applied: { ...activePet.BattleAcupuncture },
+    source: "gmsv battle/pet_skill.c PETSKILL_Acupuncture"
+  };
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，架起针刺外皮。`);
+}
+
 function resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog) {
   const magicPet = profile.magicPet;
   const skillState = playerAction.petSkill;
@@ -7229,7 +7274,50 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
   setBattleActorHp(game, targetActor, battleActorHp(game, targetActor) - hit.damage);
   clearBattleSleepOnDamage(targetActor, hit.damage, battleLog);
   battleLog.push(`${enemy.Name} ${targetGuarded ? "攻击防御中的" : "攻击"} ${battleActorName(game, targetActor)}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  if (targetActor === activeActor && Number(activeActor?.BattleAcupuncture?.reflectPercent || 0) > 0 && hit.damage > 0) {
+    const reflect = resolveSourceAcupunctureReflect(enemy, activeActor, hit.damage);
+    if (playerAction?.type === "pet-skill" && playerAction.petSkill) {
+      playerAction.petSkill.acupunctureReflect = reflect;
+    }
+    if (reflect.success) {
+      battleLog.push(`${battleActorName(game, targetActor)} 的针刺外皮反伤 ${enemy.Name} ${reflect.damage} 点。`);
+    }
+  }
   return false;
+}
+
+function resolveSourceAcupunctureReflect(attacker, defender, landedDamage) {
+  const state = defender?.BattleAcupuncture;
+  if (!state) return { success: false, reason: "no-acupuncture-state" };
+  const reflectPercent = clampInt(state.reflectPercent, 0, 100, 50);
+  delete defender.BattleAcupuncture;
+  const sourceDamage = Number(landedDamage || 0);
+  if (sourceDamage <= 0) {
+    return {
+      success: false,
+      reason: "no-positive-damage",
+      sourceDamage,
+      reflectPercent,
+      sourceCommand: "BATTLE_MD_ACUPUNCTURE",
+      source: "gmsv battle_event.c BATTLE_DamageSub acupuncture"
+    };
+  }
+  const damage = Math.max(0, Math.trunc((sourceDamage * reflectPercent) / 100));
+  const beforeHp = Number(attacker?.Hp || attacker?.hp || 0);
+  const afterHp = Math.max(0, beforeHp - damage);
+  if ("Hp" in attacker) attacker.Hp = afterHp;
+  if ("hp" in attacker) attacker.hp = afterHp;
+  return {
+    success: true,
+    sourceCommand: "BATTLE_MD_ACUPUNCTURE",
+    sourceDamage,
+    damage,
+    reflectPercent,
+    beforeHp,
+    afterHp,
+    cleared: true,
+    source: "gmsv battle_event.c BATTLE_DamageSub acupuncture reflect half damage"
+  };
 }
 
 function resolveBattleStatusAttack(game, attacker, defender, status, skill = {}) {
@@ -7478,6 +7566,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleSkillBoosts;
   delete target.BattleVary;
   delete target.BattleCharge;
+  delete target.BattleAcupuncture;
 }
 
 function compactBattleStatusEffect(status) {
@@ -8029,6 +8118,7 @@ function compactPetSkillTelemetry(skill) {
     quickPercent: Number(skill.quickPercent || 0),
     quickPercentFromFixDex: Boolean(skill.quickPercentFromFixDex),
     criticalPercent: Number(skill.criticalPercent || 0),
+    acupunctureReflectPercent: Number(skill.acupunctureReflectPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
     sonicPiercePercent: Number(skill.sonicPiercePercent || 0),
@@ -8153,6 +8243,33 @@ function compactPetSkillTelemetry(skill) {
         source: skill.setDuck.applied.source || ""
       } : null,
       source: skill.setDuck.source || ""
+    } : null,
+    acupuncture: skill.acupuncture ? {
+      success: Boolean(skill.acupuncture.success),
+      reflectPercent: Number(skill.acupuncture.reflectPercent || 0),
+      applied: skill.acupuncture.applied ? {
+        key: skill.acupuncture.applied.key || "",
+        label: skill.acupuncture.applied.label || "",
+        turns: Number(skill.acupuncture.applied.turns || 0),
+        reflectPercent: Number(skill.acupuncture.applied.reflectPercent || 0),
+        skillId: Number(skill.acupuncture.applied.skillId || 0),
+        skillName: skill.acupuncture.applied.skillName || "",
+        sourceCommand: skill.acupuncture.applied.sourceCommand || "",
+        source: skill.acupuncture.applied.source || ""
+      } : null,
+      source: skill.acupuncture.source || ""
+    } : null,
+    acupunctureReflect: skill.acupunctureReflect ? {
+      success: Boolean(skill.acupunctureReflect.success),
+      reason: skill.acupunctureReflect.reason || "",
+      sourceCommand: skill.acupunctureReflect.sourceCommand || "",
+      sourceDamage: Number(skill.acupunctureReflect.sourceDamage || 0),
+      damage: Number(skill.acupunctureReflect.damage || 0),
+      reflectPercent: Number(skill.acupunctureReflect.reflectPercent || 0),
+      beforeHp: Number(skill.acupunctureReflect.beforeHp || 0),
+      afterHp: Number(skill.acupunctureReflect.afterHp || 0),
+      cleared: Boolean(skill.acupunctureReflect.cleared),
+      source: skill.acupunctureReflect.source || ""
     } : null,
     dodgeCheck: skill.dodgeCheck ? compactSourceDodgeCheck(skill.dodgeCheck) : null,
     totalDamage: Number(skill.totalDamage || 0),
