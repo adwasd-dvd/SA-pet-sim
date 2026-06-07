@@ -35,6 +35,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Gyrate",
   "PETSKILL_Deeppoison",
   "PETSKILL_Sars",
+  "PETSKILL_Sonic",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -3891,6 +3892,71 @@ assertEqual(noCastTelemetry?.status?.key || noCastTelemetry?.status?.status?.key
 assertEqual(noCastTelemetry?.status?.chance, 50, "Nocast uses source 成 success percent");
 assert(noCastTelemetry?.status?.success, "Nocast deterministic fixture applies the status");
 assert(Number(noCastSkillGame.battle.enemyParty[0]?.BattleStatuses?.noCast?.turns || 0) > 0, "Nocast persists no-cast status without blocking ordinary enemy attacks");
+let sonicSkillGame = await api("/api/game/new", { name: "pet-sonic-skill-test" });
+sonicSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+sonicSkillGame = await api("/api/game/dialog", { game: sonicSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+sonicSkillGame.pets[0].PetSkillIds = [618];
+sonicSkillGame.pets[0].PetSkills = [{
+  Id: 618,
+  Name: "音波冲击",
+  Des: "攻击宠物时可贯穿伤害至人物身上",
+  FuncName: "PETSKILL_Sonic",
+  Option: "",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(sonicSkillGame.pets[0], {
+  PetId: 61800,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 140,
+  WorkFixStr: 140,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+const sonicOwnerEnemy = {
+  ...sonicSkillGame.encounter,
+  EnemyId: 61801,
+  Name: "音波主人目标",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 1
+};
+const sonicPetEnemy = {
+  ...sonicOwnerEnemy,
+  EnemyId: 61805,
+  Name: "音波宠物目标",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+sonicSkillGame.encounter = sonicPetEnemy;
+sonicSkillGame.battle.activeEnemyIndex = 5;
+sonicSkillGame.battle.enemyParty = [
+  sonicOwnerEnemy,
+  { ...sonicOwnerEnemy, EnemyId: 61802, Name: "空位1", Hp: 0 },
+  { ...sonicOwnerEnemy, EnemyId: 61803, Name: "空位2", Hp: 0 },
+  { ...sonicOwnerEnemy, EnemyId: 61804, Name: "空位3", Hp: 0 },
+  { ...sonicOwnerEnemy, EnemyId: 61806, Name: "空位4", Hp: 0 },
+  sonicPetEnemy
+];
+sonicSkillGame = await api("/api/game/battle", { game: sonicSkillGame, action: "skill:0:5" });
+const sonicTelemetry = sonicSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(sonicSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SONIC", "Sonic pet skill maps to source battle command");
+assert(sonicTelemetry?.hits?.[0]?.damage > 0, "Sonic deals direct damage to the pet-slot target");
+assertEqual(sonicTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_SONIC", "Sonic primary hit records source command");
+assertEqual(sonicTelemetry?.sonicPiercePercent, 50, "Sonic records source SONIC2 half-damage percent");
+assert(sonicTelemetry?.sonicPierce?.success, "Sonic resolves source owner pierce when target is a pet slot");
+assertEqual(sonicTelemetry?.sonicPierce?.sourceCommand, "BATTLE_COM_S_SONIC2", "Sonic pierce maps to source SONIC2 command");
+assertEqual(sonicTelemetry?.sonicPierce?.ownerSlot, 0, "Sonic pet slot 5 pierces to owner slot 0");
+assert(sonicTelemetry?.sonicPierce?.damage > 0, "Sonic pierce deals owner half damage");
+assert(Number(sonicSkillGame.battle.enemyParty[0]?.Hp || 0) < 999, "Sonic persists owner pierce HP loss");
+assert(Number(sonicSkillGame.battle.enemyParty[5]?.Hp || 0) < 999, "Sonic persists primary pet-target HP loss");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

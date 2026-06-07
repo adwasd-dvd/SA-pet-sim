@@ -213,6 +213,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_DamageToHp2",
   "PETSKILL_ShowMercy",
   "PETSKILL_Firekill",
+  "PETSKILL_Sonic",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5501,6 +5502,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
       tearDamagePercent: Number(profile.tearDamagePercent || 0),
       sleepOnHitChance: Number(profile.sleepOnHitChance || 0),
+      sonicPiercePercent: Number(profile.sonicPiercePercent || 0),
       counterSuppressed: Boolean(profile.counterSuppressed),
       chargeTurns: Number(profile.chargeTurns || 0),
       chargeAttackPercent: Number(profile.chargeAttackPercent || 0),
@@ -5592,6 +5594,18 @@ function petSkillBattleProfile(skill = {}) {
       multiplier: 1,
       noKill: true,
       source: "gmsv battle/pet_skill.c PETSKILL_ShowMercy + battle_event.c BATTLE_DamageSub"
+    };
+  }
+  if (func === "PETSKILL_Sonic") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_SONIC",
+      hitCount: 1,
+      multiplier: 1,
+      sonicPiercePercent: 50,
+      sonicPierceSourceCommand: "BATTLE_COM_S_SONIC2",
+      source: "gmsv battle/pet_skill.c PETSKILL_Sonic + battle.c BATTLE_COM_S_SONIC"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -6870,6 +6884,54 @@ function sourcePetSkillTargets(game, enemy, profile = {}) {
     : [{ enemy, slot: Math.max(0, Number(game.battle?.activeEnemyIndex || 0)), source: "fallback-active-target" }];
 }
 
+function resolveSourceSonicPierce(game, activePet, target, profile) {
+  const targetSlot = Math.trunc(Number(target?.slot ?? -1));
+  if (!(targetSlot >= 5 && targetSlot < 10)) {
+    return {
+      success: false,
+      reason: "target-not-pet-slot",
+      targetSlot,
+      sourceCommand: profile.sonicPierceSourceCommand || "BATTLE_COM_S_SONIC2",
+      source: "gmsv battle.c BATTLE_COM_S_SONIC defNo pet slot owner back-link"
+    };
+  }
+  const ownerSlot = targetSlot - 5;
+  const party = Array.isArray(game.battle?.enemyParty) ? game.battle.enemyParty : [];
+  const owner = party[ownerSlot];
+  if (!owner || Number(owner.Hp || 0) <= 0 || owner.BattleEscaped) {
+    return {
+      success: false,
+      reason: "no-owner-target",
+      targetSlot,
+      ownerSlot,
+      sourceCommand: profile.sonicPierceSourceCommand || "BATTLE_COM_S_SONIC2",
+      source: "gmsv battle.c BATTLE_COM_S_SONIC index2 BATTLE_No2Index guard"
+    };
+  }
+  const percent = Math.max(0, Number(profile.sonicPiercePercent || 50));
+  const beforeHp = Number(owner.Hp || 0);
+  const hit = combatDamageDetail(activePet, owner, percent / 100, {
+    criticalChancePercent: Number(profile.criticalPercent || 0),
+    attributeOverride: profile.attributeOverride
+  });
+  owner.Hp = Math.max(0, beforeHp - Number(hit.damage || 0));
+  return {
+    success: true,
+    reason: "",
+    targetSlot,
+    ownerSlot,
+    ownerName: owner.Name || "owner",
+    sourceCommand: profile.sonicPierceSourceCommand || "BATTLE_COM_S_SONIC2",
+    damage: Number(hit.damage || 0),
+    beforeHp,
+    afterHp: Number(owner.Hp || 0),
+    percent,
+    critical: Boolean(hit.critical),
+    elementMultiplier: Number(hit.elementMultiplier || 1),
+    source: "gmsv battle_event.c BATTLE_DamageSub SONIC2 damage * 0.5"
+  };
+}
+
 function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
   const skillState = playerAction.petSkill;
   const usesDuckCheck = Boolean(profile.usesDuckCheck || profile.duckModifier);
@@ -7018,6 +7080,14 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     for (let i = 0; i < hitsPerTarget && Number(target.enemy?.Hp || 0) > 0; i += 1) {
       const hitSummary = resolveSingleHit(target, i);
       hits.push(hitSummary);
+      if (Number(profile.sonicPiercePercent || 0) > 0 && !skillState.sonicPierce) {
+        const pierce = resolveSourceSonicPierce(game, activePet, target, profile);
+        skillState.sonicPierce = pierce;
+        if (pierce.success) {
+          totalDamage += Number(pierce.damage || 0);
+          clearBattleSleepOnDamage((game.battle?.enemyParty || [])[pierce.ownerSlot], pierce.damage, battleLog);
+        }
+      }
       if (
         hitSummary.dodged
         && i === 0
@@ -7961,6 +8031,22 @@ function compactPetSkillTelemetry(skill) {
     criticalPercent: Number(skill.criticalPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
+    sonicPiercePercent: Number(skill.sonicPiercePercent || 0),
+    sonicPierce: skill.sonicPierce ? {
+      success: Boolean(skill.sonicPierce.success),
+      reason: skill.sonicPierce.reason || "",
+      targetSlot: Number(skill.sonicPierce.targetSlot ?? -1),
+      ownerSlot: Number(skill.sonicPierce.ownerSlot ?? -1),
+      ownerName: skill.sonicPierce.ownerName || "",
+      sourceCommand: skill.sonicPierce.sourceCommand || "",
+      damage: Number(skill.sonicPierce.damage || 0),
+      beforeHp: Number(skill.sonicPierce.beforeHp || 0),
+      afterHp: Number(skill.sonicPierce.afterHp || 0),
+      percent: Number(skill.sonicPierce.percent || 0),
+      critical: Boolean(skill.sonicPierce.critical),
+      elementMultiplier: Number(skill.sonicPierce.elementMultiplier || 1),
+      source: skill.sonicPierce.source || ""
+    } : null,
     fireMagicPower: Number(skill.fireMagicPower || 0),
     fireMagicHits: Array.isArray(skill.fireMagicHits) ? skill.fireMagicHits.slice(0, 10).map((hit) => ({
       targetSlot: Number(hit.targetSlot || 0),
