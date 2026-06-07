@@ -209,6 +209,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Roar",
   "PETSKILL_BattleTearDamage",
   "PETSKILL_DamageToHp2",
+  "PETSKILL_ShowMercy",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5571,6 +5572,17 @@ function petSkillBattleProfile(skill = {}) {
       missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 30)
     };
   }
+  if (func === "PETSKILL_ShowMercy") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_SHOWMERCY",
+      hitCount: 1,
+      multiplier: 1,
+      noKill: true,
+      source: "gmsv battle/pet_skill.c PETSKILL_ShowMercy + battle_event.c BATTLE_DamageSub"
+    };
+  }
   if (func === "PETSKILL_PowerBalance") {
     const option = String(skill.Option || "");
     const attackPercent = sourcePercentValue(option, "攻");
@@ -6092,6 +6104,26 @@ function applySourceTearDamage(hit = {}, defender = {}, percent = 0) {
       source: "gmsv battle_event.c BATTLE_COM_S_PETSKILLTEAR missing HP percent"
     }
   };
+}
+
+function applySourceNoKillDamage(hit = {}, defender = {}) {
+  const beforeHp = Math.max(0, Number(defender?.Hp || 0));
+  const rawDamage = Math.max(0, Number(hit.damage || 0));
+  if (beforeHp > 0 && rawDamage >= beforeHp) {
+    const damage = Math.max(0, beforeHp - 1);
+    return {
+      ...hit,
+      originalDamage: Number(hit.originalDamage || rawDamage),
+      damage,
+      showMercyPreventedKill: {
+        beforeHp,
+        originalDamage: rawDamage,
+        damage,
+        source: "gmsv battle_event.c BATTLE_DamageSub _PETSKILL_SHOWMERCY"
+      }
+    };
+  }
+  return hit;
 }
 
 function compactSourceTearDamage(tearDamage) {
@@ -6753,6 +6785,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
         damageDivisor
       };
     }
+    if (profile.noKill && Number(hit.damage || 0) > 0) {
+      hit = applySourceNoKillDamage(hit, target.enemy);
+    }
     if (target.enemy === enemy && enemyAi.type === "guard" && !profile.ignoreGuard) {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
@@ -6806,6 +6841,7 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       tearDamage: compactSourceTearDamage(hit.tearDamage),
+      showMercyPreventedKill: hit.showMercyPreventedKill || null,
       mpDamage,
       onHitStatus,
       guardAdjust: compactGuardAdjust(hit.guardAdjust),

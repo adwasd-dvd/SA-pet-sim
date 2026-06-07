@@ -3367,6 +3367,19 @@ wildViolentSkillGame.encounter.WorkQuick = 0;
 wildViolentSkillGame.encounter.WorkFixDex = 0;
 wildViolentSkillGame.encounter.WorkAttackPower = 1;
 wildViolentSkillGame.encounter.BattleStatuses = { paralysis: { turns: 1, label: "麻痹" } };
+Object.assign(wildViolentSkillGame.battle?.enemyParty?.[0] || {}, {
+  EnemyId: wildViolentSkillGame.encounter.EnemyId,
+  PetId: wildViolentSkillGame.encounter.PetId,
+  Name: wildViolentSkillGame.encounter.Name,
+  WorkMaxHp: wildViolentSkillGame.encounter.WorkMaxHp,
+  Hp: wildViolentSkillGame.encounter.Hp,
+  WorkFixTough: wildViolentSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: wildViolentSkillGame.encounter.WorkDefencePower,
+  WorkQuick: wildViolentSkillGame.encounter.WorkQuick,
+  WorkFixDex: wildViolentSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: wildViolentSkillGame.encounter.WorkAttackPower,
+  BattleStatuses: wildViolentSkillGame.encounter.BattleStatuses
+});
 const wildViolentHpBefore = Number(wildViolentSkillGame.encounter.Hp || 0);
 wildViolentSkillGame = await api("/api/game/battle", { game: wildViolentSkillGame, action: "skill:0" });
 assertEqual(wildViolentSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_WILDVIOLENTATTACK", "WildViolentAttack pet skill maps to source battle command");
@@ -4528,6 +4541,63 @@ assertEqual(gyrateTelemetry?.hits?.length, 3, "Gyrate attacks each live enemy in
 assertEqual(new Set(gyrateTelemetry.hits.map((hit) => hit.targetSlot)).size, 3, "Gyrate records distinct row target slots");
 assert(gyrateSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Gyrate damages every live enemy in the row fixture");
 assertEqual(gyrateSkillGame.pets[0].WorkAttackPower, 120, "Gyrate restores temporary attack after the round");
+let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
+showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+showMercySkillGame.pets[0].PetSkillIds = [626];
+showMercySkillGame.pets[0].PetSkills = [{
+  Id: 626,
+  Name: "手下留情",
+  Des: "使对方Hp剩下一点 不会将对方致死",
+  FuncName: "PETSKILL_ShowMercy",
+  Option: "",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(showMercySkillGame.pets[0], {
+  WorkFixStr: 999,
+  WorkAttackPower: 999,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(showMercySkillGame.encounter, {
+  Name: "手下留情测试敌人",
+  WorkMaxHp: 40,
+  Hp: 40,
+  WorkFixTough: 1,
+  WorkDefencePower: 1,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Critical: 0,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(showMercySkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: showMercySkillGame.encounter.Name,
+  WorkMaxHp: showMercySkillGame.encounter.WorkMaxHp,
+  Hp: showMercySkillGame.encounter.Hp,
+  WorkFixTough: showMercySkillGame.encounter.WorkFixTough,
+  WorkDefencePower: showMercySkillGame.encounter.WorkDefencePower,
+  WorkQuick: showMercySkillGame.encounter.WorkQuick,
+  WorkFixDex: showMercySkillGame.encounter.WorkFixDex,
+  WorkAttackPower: showMercySkillGame.encounter.WorkAttackPower,
+  WorkFixStr: showMercySkillGame.encounter.WorkFixStr,
+  Critical: showMercySkillGame.encounter.Critical,
+  WorkTacticsOption: showMercySkillGame.encounter.WorkTacticsOption
+});
+showMercySkillGame = await api("/api/game/battle", { game: showMercySkillGame, action: "skill:0" });
+const showMercyTelemetry = showMercySkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(showMercySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_SHOWMERCY", "ShowMercy pet skill maps to source battle command");
+assertEqual(Number(showMercySkillGame.encounter?.Hp || 0), 1, "ShowMercy leaves the active target at 1 HP instead of killing it");
+assert(showMercyTelemetry?.hits?.[0]?.showMercyPreventedKill, "ShowMercy telemetry records source no-kill adjustment");
+assertEqual(showMercyTelemetry?.hits?.[0]?.showMercyPreventedKill?.beforeHp, 40, "ShowMercy no-kill telemetry records target HP before damage");
+assert(Number(showMercyTelemetry?.hits?.[0]?.showMercyPreventedKill?.originalDamage || 0) >= 40, "ShowMercy no-kill telemetry records lethal original damage");
+assertEqual(showMercyTelemetry?.hits?.[0]?.damage, 39, "ShowMercy applies source HP-1 adjusted damage");
 let chargeSkillGame = await api("/api/game/new", { name: "pet-charge-skill-test" });
 chargeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 chargeSkillGame = await api("/api/game/dialog", { game: chargeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -5093,6 +5163,10 @@ Object.assign(battlePetSwitchGame.pets[1], {
 });
 battlePetSwitchGame.petFormation = {
   ...(battlePetSwitchGame.petFormation || {}),
+  activeIndex: 1
+};
+battlePetSwitchGame.petState = {
+  ...(battlePetSwitchGame.petState || {}),
   activeIndex: 1
 };
 Object.assign(battlePetSwitchGame.encounter, {
