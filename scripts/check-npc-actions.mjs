@@ -4077,6 +4077,60 @@ assertEqual(fallGroundTelemetry?.fallGround?.ridingEffect, "single-player-no-rid
 assertEqual(fallGroundTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_FALLRIDE", "FallGround hit telemetry records source command");
 assert(fallGroundTelemetry?.hits?.[0]?.damage > 0, "FallGround deals source attack damage");
 assertEqual(fallGroundSkillGame.pets[0].WorkAttackPower, 140, "FallGround restores temporary attack after the round");
+let toothCrusheSkillGame = await api("/api/game/new", { name: "pet-toothcrushe-skill-test" });
+toothCrusheSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+toothCrusheSkillGame = await api("/api/game/dialog", { game: toothCrusheSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+toothCrusheSkillGame.pets[0].PetSkillIds = [574];
+toothCrusheSkillGame.pets[0].PetSkills = [{
+  Id: 574,
+  Name: "E啮齿术",
+  Des: "破坏对方装备武器",
+  FuncName: "PETSKILL_ToothCrushe",
+  Option: "",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(toothCrusheSkillGame.pets[0], {
+  PetId: 57400,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 150,
+  WorkFixStr: 150,
+  WorkDefencePower: 80,
+  WorkFixTough: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+Object.assign(toothCrusheSkillGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(toothCrusheSkillGame.battle?.enemyParty?.[0] || {}, {
+  Hp: toothCrusheSkillGame.encounter.Hp,
+  WorkMaxHp: toothCrusheSkillGame.encounter.WorkMaxHp,
+  WorkDefencePower: toothCrusheSkillGame.encounter.WorkDefencePower,
+  WorkFixTough: toothCrusheSkillGame.encounter.WorkFixTough,
+  WorkQuick: toothCrusheSkillGame.encounter.WorkQuick,
+  WorkFixDex: toothCrusheSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: toothCrusheSkillGame.encounter.WorkAttackPower,
+  WorkTacticsOption: toothCrusheSkillGame.encounter.WorkTacticsOption
+});
+toothCrusheSkillGame = await api("/api/game/battle", { game: toothCrusheSkillGame, action: "skill:0" });
+const toothCrusheTelemetry = toothCrusheSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(toothCrusheSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_TOOTHCRUSHE", "ToothCrushe pet skill maps to source battle command");
+assertEqual(toothCrusheTelemetry?.toothCrushe?.sourceCommand, "BATTLE_COM_S_TOOTHCRUSHE", "ToothCrushe records source equipment-crush telemetry");
+assertEqual(toothCrusheTelemetry?.toothCrushe?.equipmentEffect, "no-equipment-target", "ToothCrushe keeps equipment crush inert until equipment durability exists");
+assertEqual(toothCrusheTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_TOOTHCRUSHE", "ToothCrushe hit telemetry records source command");
+assert(toothCrusheTelemetry?.hits?.[0]?.damage > 0, "ToothCrushe deals source attack damage");
+assertEqual(toothCrusheSkillGame.pets[0].WorkAttackPower, 150, "ToothCrushe does not leave temporary attack mutation");
 let guardianSkillGame = await api("/api/game/new", { name: "pet-guardian-skill-test" });
 guardianSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 guardianSkillGame = await api("/api/game/dialog", { game: guardianSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

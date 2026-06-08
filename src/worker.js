@@ -218,6 +218,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Acupuncture",
   "PETSKILL_BattleModel",
   "PETSKILL_FallGround",
+  "PETSKILL_ToothCrushe",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5518,6 +5519,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       varyProfile: compactBattleVaryProfile(profile.vary),
       battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
+      toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5690,6 +5692,22 @@ function petSkillBattleProfile(skill = {}) {
         source: "gmsv battle/pet_skill.c PETSKILL_FallGround + battle_event.c BATTLE_S_FallGround"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_FallGround + battle_event.c BATTLE_S_FallGround"
+    };
+  }
+  if (func === "PETSKILL_ToothCrushe") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_TOOTHCRUSHE",
+      targetKind: "enemy",
+      hitCount: 1,
+      multiplier: 1,
+      toothCrushe: {
+        sourceCommand: "BATTLE_COM_S_TOOTHCRUSHE",
+        equipmentEffect: "no-equipment-target",
+        source: "gmsv battle/pet_skill.c PETSKILL_ToothCrushe + battle_event.c BATTLE_S_ToothCrushe"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_ToothCrushe + battle_event.c BATTLE_S_ToothCrushe"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -8430,6 +8448,11 @@ function compactPetSkillTelemetry(skill) {
       sourceCommand: skill.fallGround.sourceCommand || "",
       ridingEffect: skill.fallGround.ridingEffect || "",
       source: skill.fallGround.source || ""
+    } : null,
+    toothCrushe: skill.toothCrushe ? {
+      sourceCommand: skill.toothCrushe.sourceCommand || "",
+      equipmentEffect: skill.toothCrushe.equipmentEffect || "",
+      source: skill.toothCrushe.source || ""
     } : null,
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
