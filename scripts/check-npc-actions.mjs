@@ -4022,6 +4022,61 @@ assert(battleModelTelemetry.status.rolls.every((roll) => roll.chance === 80), "B
 assert(battleModelTelemetry.status.rolls.some((roll) => roll.success), "BattleModel can apply source status after landed damage");
 assert(battleModelSkillGame.battle.enemyParty.slice(0, 3).some((enemy) => Number(enemy?.BattleStatuses?.paralysis?.turns || 0) > 0), "BattleModel persists source paralysis on successful damaged targets");
 assertEqual(battleModelSkillGame.pets[0].WorkAttackPower, 200, "BattleModel restores temporary attack after the round");
+let fallGroundSkillGame = await api("/api/game/new", { name: "pet-fallground-skill-test" });
+fallGroundSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+fallGroundSkillGame = await api("/api/game/dialog", { game: fallGroundSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+fallGroundSkillGame.pets[0].PetSkillIds = [210];
+fallGroundSkillGame.pets[0].PetSkills = [{
+  Id: 210,
+  Name: "落马术",
+  Des: "落马",
+  FuncName: "PETSKILL_FallGround",
+  Option: "攻%-30",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(fallGroundSkillGame.pets[0], {
+  PetId: 21000,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 140,
+  WorkFixStr: 140,
+  WorkDefencePower: 80,
+  WorkFixTough: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+Object.assign(fallGroundSkillGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(fallGroundSkillGame.battle?.enemyParty?.[0] || {}, {
+  Hp: fallGroundSkillGame.encounter.Hp,
+  WorkMaxHp: fallGroundSkillGame.encounter.WorkMaxHp,
+  WorkDefencePower: fallGroundSkillGame.encounter.WorkDefencePower,
+  WorkFixTough: fallGroundSkillGame.encounter.WorkFixTough,
+  WorkQuick: fallGroundSkillGame.encounter.WorkQuick,
+  WorkFixDex: fallGroundSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: fallGroundSkillGame.encounter.WorkAttackPower,
+  WorkTacticsOption: fallGroundSkillGame.encounter.WorkTacticsOption
+});
+fallGroundSkillGame = await api("/api/game/battle", { game: fallGroundSkillGame, action: "skill:0" });
+const fallGroundTelemetry = fallGroundSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(fallGroundSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_FALLRIDE", "FallGround pet skill maps to source battle command");
+assertEqual(fallGroundTelemetry?.attackPercent, -30, "FallGround parses source attack percent");
+assertEqual(fallGroundTelemetry?.fallGround?.sourceCommand, "BATTLE_COM_S_FALLRIDE", "FallGround records source fall-ride telemetry");
+assertEqual(fallGroundTelemetry?.fallGround?.ridingEffect, "single-player-no-riding-target", "FallGround keeps riding effect inert until riding actors exist");
+assertEqual(fallGroundTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_FALLRIDE", "FallGround hit telemetry records source command");
+assert(fallGroundTelemetry?.hits?.[0]?.damage > 0, "FallGround deals source attack damage");
+assertEqual(fallGroundSkillGame.pets[0].WorkAttackPower, 140, "FallGround restores temporary attack after the round");
 let guardianSkillGame = await api("/api/game/new", { name: "pet-guardian-skill-test" });
 guardianSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 guardianSkillGame = await api("/api/game/dialog", { game: guardianSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

@@ -217,6 +217,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Sonic",
   "PETSKILL_Acupuncture",
   "PETSKILL_BattleModel",
+  "PETSKILL_FallGround",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5516,6 +5517,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       magicPet: compactSourceMagicPetProfile(profile.magicPet),
       varyProfile: compactBattleVaryProfile(profile.vary),
       battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
+      fallGround: profile.fallGround ? { ...profile.fallGround } : null,
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5670,6 +5672,24 @@ function petSkillBattleProfile(skill = {}) {
       status: battleModel?.status || null,
       reason: battleModel ? "" : `unsupported BattleModel option: ${skill.Option || ""}`,
       source: "gmsv battle/pet_skill.c PETSKILL_BattleModel + battle_event.c BATTLE_BattleModel"
+    };
+  }
+  if (func === "PETSKILL_FallGround") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_FALLRIDE",
+      targetKind: "enemy",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: sourcePercentValue(option, "攻"),
+      fallGround: {
+        sourceCommand: "BATTLE_COM_S_FALLRIDE",
+        ridingEffect: "single-player-no-riding-target",
+        source: "gmsv battle/pet_skill.c PETSKILL_FallGround + battle_event.c BATTLE_S_FallGround"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_FallGround + battle_event.c BATTLE_S_FallGround"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -8405,6 +8425,11 @@ function compactPetSkillTelemetry(skill) {
       sourceCommand: skill.guardian.sourceCommand || "",
       applied: compactBattleGuardianState(skill.guardian.applied),
       source: skill.guardian.source || ""
+    } : null,
+    fallGround: skill.fallGround ? {
+      sourceCommand: skill.fallGround.sourceCommand || "",
+      ridingEffect: skill.fallGround.ridingEffect || "",
+      source: skill.fallGround.source || ""
     } : null,
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
