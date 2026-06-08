@@ -23,6 +23,7 @@ const workerSource = readFileSync(path.join(appRoot, "src/worker.js"), "utf8");
 const supportedPetSkillSetSource = workerSource.match(/const BATTLE_PET_SKILL_FUNCS = new Set\(\[([\s\S]*?)\]\);/)?.[1] || "";
 const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/"([^"]+)"/g)].map((match) => match[1]));
 [
+  "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
   "PETSKILL_PowerBalance",
   "PETSKILL_WildViolentAttack",
@@ -4021,6 +4022,61 @@ assert(battleModelTelemetry.status.rolls.every((roll) => roll.chance === 80), "B
 assert(battleModelTelemetry.status.rolls.some((roll) => roll.success), "BattleModel can apply source status after landed damage");
 assert(battleModelSkillGame.battle.enemyParty.slice(0, 3).some((enemy) => Number(enemy?.BattleStatuses?.paralysis?.turns || 0) > 0), "BattleModel persists source paralysis on successful damaged targets");
 assertEqual(battleModelSkillGame.pets[0].WorkAttackPower, 200, "BattleModel restores temporary attack after the round");
+let guardianSkillGame = await api("/api/game/new", { name: "pet-guardian-skill-test" });
+guardianSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+guardianSkillGame = await api("/api/game/dialog", { game: guardianSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+const guardianPlayerHpBefore = Number(guardianSkillGame.player.hp || 0);
+guardianSkillGame.pets[0].PetSkillIds = [20];
+guardianSkillGame.pets[0].PetSkills = [{
+  Id: 20,
+  Name: "忠犬",
+  Des: "保护主人不受到敌人的直接攻击",
+  FuncName: "PETSKILL_Guardian",
+  Option: "攻%-20  COM:攻击",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(guardianSkillGame.pets[0], {
+  PetId: 20020,
+  Name: "忠犬测试宠",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 120,
+  WorkFixStr: 120,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  NoDuck: 1
+});
+guardianSkillGame.encounter = {
+  ...guardianSkillGame.encounter,
+  EnemyId: 20021,
+  Name: "忠犬攻击测试敌",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 150,
+  WorkFixStr: 150,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkTacticsOption: "at:1;2;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+};
+guardianSkillGame.battle.enemyParty = [guardianSkillGame.encounter];
+guardianSkillGame.battle.activeEnemyIndex = 0;
+guardianSkillGame = await api("/api/game/battle", { game: guardianSkillGame, action: "skill:0" });
+const guardianTelemetry = guardianSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(guardianSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_GUARDIAN_ATTACK", "Guardian pet skill maps to source guardian command");
+assert(guardianTelemetry?.guardian?.success, "Guardian records source guard state application");
+assertEqual(guardianTelemetry?.guardian?.applied?.ownerKind, "player", "Guardian protects the player owner slot");
+assert(guardianSkillGame.battleOutcome.enemyAi?.guardian?.success, "Guardian intercepts an enemy attack that targeted the player");
+assertEqual(guardianSkillGame.battleOutcome.enemyAi?.guardian?.guardianName, "忠犬测试宠", "Guardian telemetry records the intercepting pet");
+assertEqual(guardianSkillGame.player.hp, guardianPlayerHpBefore, "Guardian prevents direct player HP loss");
+assert(Number(guardianSkillGame.pets[0].Hp || 0) < 999, "Guardian pet takes the redirected enemy damage");
+assert(!guardianSkillGame.pets[0].BattleGuardian, "Guardian battle flag clears after the round");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

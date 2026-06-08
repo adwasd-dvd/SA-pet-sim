@@ -183,6 +183,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_GuardBreak2",
   "PETSKILL_ContinuationAttack",
   "PETSKILL_Mighty",
+  "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
@@ -5206,6 +5207,10 @@ function performPetSkillAction(game, move) {
       resolvePetAcupunctureTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "guardian") {
+      resolvePetGuardianTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "set-magic-pet") {
       resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5260,7 +5265,7 @@ function performPetSkillAction(game, move) {
     } else if (Number(activePet.Hp || 0) > 0) {
       enemyTurn(false);
     }
-  } else if (profile.kind === "acupuncture") {
+  } else if (profile.kind === "acupuncture" || profile.kind === "guardian") {
     const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
     if (!preTurn.stopped && Number(activePet.Hp || 0) > 0) {
       petTurn();
@@ -5597,6 +5602,20 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 1,
       multiplier: clampInt(option.match(/倍\s*(\d+)/)?.[1], 1, 5, 2),
       missChance: clampInt(option.match(/回避\s*(\d+)/)?.[1], 0, 95, 30)
+    };
+  }
+  if (func === "PETSKILL_Guardian") {
+    const option = String(skill.Option || "");
+    return {
+      supported: true,
+      kind: "guardian",
+      sourceCommand: "BATTLE_COM_S_GUARDIAN_ATTACK",
+      targetKind: "player",
+      hitCount: 0,
+      multiplier: 0,
+      attackPercent: sourcePercentValue(option, "攻"),
+      defencePercent: sourcePercentValue(option, "防"),
+      source: "gmsv battle/pet_skill.c PETSKILL_Guardian + battle_event.c BATTLE_Guardian"
     };
   }
   if (func === "PETSKILL_ShowMercy") {
@@ -6568,6 +6587,31 @@ function resolvePetAcupunctureTurn(game, activePet, skill, profile, playerAction
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，架起针刺外皮。`);
 }
 
+function resolvePetGuardianTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  activePet.BattleGuardian = {
+    key: "guardian",
+    label: skill.Name || "忠犬",
+    turns: 1,
+    baseTurn: 1,
+    ownerKind: "player",
+    ownerSlot: 0,
+    ownerName: game.player?.name || "player",
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    attackPercent: Number(profile.attackPercent || 0),
+    defencePercent: Number(profile.defencePercent || 0),
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_S_GUARDIAN_ATTACK",
+    source: "gmsv battle/pet_skill.c PETSKILL_Guardian CHAR_BATTLEFLG_GUARDIAN"
+  };
+  playerAction.petSkill.guardian = {
+    success: true,
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_S_GUARDIAN_ATTACK",
+    applied: compactBattleGuardianState(activePet.BattleGuardian),
+    source: "gmsv battle/pet_skill.c PETSKILL_Guardian"
+  };
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，准备替主人挡下直接攻击。`);
+}
+
 function resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog) {
   const magicPet = profile.magicPet;
   const skillState = playerAction.petSkill;
@@ -7379,7 +7423,13 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     return false;
   }
   if (!sourceEnemyTargetCandidates(game).length) return false;
-  const targetActor = enemyBattleTargetActor(game, enemyAi, activeActor);
+  let targetActor = enemyBattleTargetActor(game, enemyAi, activeActor);
+  const guardian = resolveSourceGuardianIntercept(game, enemy, targetActor, activeActor);
+  if (guardian.success) {
+    targetActor = guardian.guardianActor;
+    battleLog.push(`${battleActorName(game, targetActor)} 挺身保护 ${guardian.ownerName}，承受 ${enemy.Name} 的直接攻击。`);
+  }
+  enemyAi.guardian = compactSourceGuardianIntercept(guardian);
   const targetGuarded = guarded && targetActor === activeActor;
   const targetNoGuarded = Boolean(
     targetActor === activeActor
@@ -7433,6 +7483,54 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     }
   }
   return false;
+}
+
+function resolveSourceGuardianIntercept(game, enemy, targetActor, activeActor) {
+  const state = activeActor?.BattleGuardian;
+  const base = {
+    success: false,
+    reason: "",
+    sourceCommand: state?.sourceCommand || "BATTLE_COM_S_GUARDIAN_ATTACK",
+    source: "gmsv battle_event.c BATTLE_Guardian"
+  };
+  if (!state || Number(state.turns || 0) <= 0) return { ...base, reason: "no-guardian-state" };
+  if (!targetActor || !isPlayerBattleActor(game, targetActor)) return { ...base, reason: "target-not-owner" };
+  if (!activeActor || battleActorKind(game, activeActor) !== "pet") return { ...base, reason: "guardian-not-pet" };
+  if (activeActor === targetActor) return { ...base, reason: "guardian-is-defender" };
+  if (battleActorHp(game, activeActor) <= 0) return { ...base, reason: "guardian-dead" };
+  const statuses = activeActor.BattleStatuses || {};
+  const blockedBy = Object.keys(statuses).find((key) => BATTLE_STATUS_BLOCKS_TURN.has(key) && Number(statuses[key]?.turns || 0) > 0);
+  if (blockedBy) return { ...base, reason: `guardian-blocked-${blockedBy}`, blockedBy };
+  return {
+    ...base,
+    success: true,
+    reason: "",
+    guardianActor: activeActor,
+    guardianKind: battleActorKind(game, activeActor),
+    guardianSlot: battleActorSlot(game, activeActor),
+    guardianName: battleActorName(game, activeActor),
+    ownerKind: "player",
+    ownerSlot: 0,
+    ownerName: battleActorName(game, targetActor),
+    enemyName: enemy?.Name || "enemy"
+  };
+}
+
+function compactSourceGuardianIntercept(intercept) {
+  if (!intercept) return null;
+  return {
+    success: Boolean(intercept.success),
+    reason: intercept.reason || "",
+    sourceCommand: intercept.sourceCommand || "",
+    guardianKind: intercept.guardianKind || "",
+    guardianSlot: Number(intercept.guardianSlot ?? -1),
+    guardianName: intercept.guardianName || "",
+    ownerKind: intercept.ownerKind || "",
+    ownerSlot: Number(intercept.ownerSlot ?? -1),
+    ownerName: intercept.ownerName || "",
+    blockedBy: intercept.blockedBy || "",
+    source: intercept.source || ""
+  };
 }
 
 function resolveSourceAcupunctureReflect(attacker, defender, landedDamage) {
@@ -7652,6 +7750,7 @@ function consumeBattleMagicStatusesAfterRound(target) {
   consumeBattleSkillDuckAfterRound(target);
   consumeBattleSkillBoostsAfterRound(target);
   consumeBattleVaryAfterRound(target);
+  consumeBattleGuardianAfterRound(target);
 }
 
 function consumeBattleSkillDuckAfterRound(target = {}) {
@@ -7694,6 +7793,18 @@ function consumeBattleVaryAfterRound(target = {}) {
   else delete target.BattleVary;
 }
 
+function consumeBattleGuardianAfterRound(target = {}) {
+  if (!target?.BattleGuardian) return;
+  let turns = Number(target.BattleGuardian.turns || 0);
+  if (turns <= 0) {
+    delete target.BattleGuardian;
+    return;
+  }
+  turns -= 1;
+  if (turns > 0) target.BattleGuardian.turns = turns;
+  else delete target.BattleGuardian;
+}
+
 function syncBattlePrimaryStatus(target = {}) {
   const active = Object.values(target.BattleStatuses || {}).find((status) => Number(status?.turns || 0) > 0);
   if (active) target.BattleStatus = compactBattleStatusEffect(active);
@@ -7716,6 +7827,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleVary;
   delete target.BattleCharge;
   delete target.BattleAcupuncture;
+  delete target.BattleGuardian;
 }
 
 function compactBattleStatusEffect(status) {
@@ -7804,6 +7916,25 @@ function compactBattleVary(vary) {
     skillName: vary.skillName || "",
     sourceCommand: vary.sourceCommand || "",
     source: vary.source || ""
+  };
+}
+
+function compactBattleGuardianState(guardian) {
+  if (!guardian || Number(guardian.turns || 0) <= 0) return null;
+  return {
+    key: guardian.key || "guardian",
+    label: guardian.label || "忠犬",
+    turns: Number(guardian.turns || 0),
+    baseTurn: Number(guardian.baseTurn || 0),
+    ownerKind: guardian.ownerKind || "",
+    ownerSlot: Number(guardian.ownerSlot || 0),
+    ownerName: guardian.ownerName || "",
+    skillId: Number(guardian.skillId || 0),
+    skillName: guardian.skillName || "",
+    attackPercent: Number(guardian.attackPercent || 0),
+    defencePercent: Number(guardian.defencePercent || 0),
+    sourceCommand: guardian.sourceCommand || "",
+    source: guardian.source || ""
   };
 }
 
@@ -8156,6 +8287,7 @@ function recordBattleOutcome(game, outcome = null) {
       escapeRoll: Number(outcome.enemyAi.escapeRoll || 0),
       escapeSucceeded: Boolean(outcome.enemyAi.escapeSucceeded),
       guardAdjust: compactGuardAdjust(outcome.enemyAi.guardAdjust),
+      guardian: compactSourceGuardianIntercept(outcome.enemyAi.guardian),
       source: outcome.enemyAi.source || ""
     } : null,
     playerEscape: outcome.playerEscape ? {
@@ -8268,6 +8400,12 @@ function compactPetSkillTelemetry(skill) {
     quickPercentFromFixDex: Boolean(skill.quickPercentFromFixDex),
     criticalPercent: Number(skill.criticalPercent || 0),
     acupunctureReflectPercent: Number(skill.acupunctureReflectPercent || 0),
+    guardian: skill.guardian ? {
+      success: Boolean(skill.guardian.success),
+      sourceCommand: skill.guardian.sourceCommand || "",
+      applied: compactBattleGuardianState(skill.guardian.applied),
+      source: skill.guardian.source || ""
+    } : null,
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
     sonicPiercePercent: Number(skill.sonicPiercePercent || 0),
@@ -20503,7 +20641,8 @@ function buildCharacterFields(game) {
         statuses: compactBattleStatuses(pet),
         magicStatuses: compactBattleMagicStatuses(pet),
         skillBoosts: compactBattleSkillBoosts(pet),
-        vary: compactBattleVary(pet.BattleVary)
+        vary: compactBattleVary(pet.BattleVary),
+        guardian: compactBattleGuardianState(pet.BattleGuardian)
       };
     }),
     battle: game.encounter ? {
@@ -20636,7 +20775,8 @@ function battleFormationUnit(entity, options = {}) {
     statuses: compactBattleStatuses(entity),
     magicStatuses: compactBattleMagicStatuses(entity),
     skillBoosts: compactBattleSkillBoosts(entity),
-    vary: compactBattleVary(entity.BattleVary)
+    vary: compactBattleVary(entity.BattleVary),
+    guardian: compactBattleGuardianState(entity.BattleGuardian)
   };
 }
 
@@ -22177,6 +22317,7 @@ function petSummary(pet) {
     magicStatuses: compactBattleMagicStatuses(pet),
     skillBoosts: compactBattleSkillBoosts(pet),
     vary: compactBattleVary(pet.BattleVary),
+    guardian: compactBattleGuardianState(pet.BattleGuardian),
     skills: (pet.PetSkills || []).filter(Boolean).map((sk) => sk.Name)
   };
 }
