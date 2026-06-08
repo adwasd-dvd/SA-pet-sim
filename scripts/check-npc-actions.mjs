@@ -37,6 +37,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Sars",
   "PETSKILL_Sonic",
   "PETSKILL_Acupuncture",
+  "PETSKILL_BattleModel",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -3958,6 +3959,68 @@ assertEqual(sonicTelemetry?.sonicPierce?.ownerSlot, 0, "Sonic pet slot 5 pierces
 assert(sonicTelemetry?.sonicPierce?.damage > 0, "Sonic pierce deals owner half damage");
 assert(Number(sonicSkillGame.battle.enemyParty[0]?.Hp || 0) < 999, "Sonic persists owner pierce HP loss");
 assert(Number(sonicSkillGame.battle.enemyParty[5]?.Hp || 0) < 999, "Sonic persists primary pet-target HP loss");
+let battleModelSkillGame = await api("/api/game/new", { name: "pet-battlemodel-skill-test" });
+battleModelSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+battleModelSkillGame = await api("/api/game/dialog", { game: battleModelSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+battleModelSkillGame.pets[0].PetSkillIds = [638];
+battleModelSkillGame.pets[0].PetSkills = [{
+  Id: 638,
+  Name: "群蜂乱舞",
+  Des: "攻击力下降30% 全体麻痹一回合",
+  FuncName: "PETSKILL_BattleModel",
+  Option: "5|4|麻|1|100|攻%-30|101867 101868",
+  Field: 1,
+  Target: 3,
+  UseType: 3,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(battleModelSkillGame.pets[0], {
+  PetId: 63800,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 200,
+  WorkFixStr: 200,
+  WorkDefencePower: 80,
+  WorkFixTough: 80,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+const battleModelTargets = [0, 1, 2].map((index) => ({
+  ...battleModelSkillGame.encounter,
+  EnemyId: 63810 + index,
+  Name: `战斗模型目标${index + 1}`,
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 1,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+}));
+battleModelSkillGame.encounter = battleModelTargets[0];
+battleModelSkillGame.battle.enemyParty = battleModelTargets;
+battleModelSkillGame.battle.activeEnemyIndex = 0;
+battleModelSkillGame = await api("/api/game/battle", { game: battleModelSkillGame, action: "skill:0" });
+const battleModelTelemetry = battleModelSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(battleModelSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_BATTLE_MODEL", "BattleModel pet skill maps to source battle command");
+assertEqual(battleModelTelemetry?.battleModel?.type, 5, "BattleModel parses source attack type");
+assertEqual(battleModelTelemetry?.battleModel?.objectNum, 4, "BattleModel parses source attack object count");
+assertEqual(battleModelTelemetry?.battleModel?.status?.key, "paralysis", "BattleModel parses source status token");
+assertEqual(battleModelTelemetry?.battleModel?.statusChance, 100, "BattleModel parses source status chance");
+assertEqual(battleModelTelemetry?.attackPercent, -30, "BattleModel applies source attack percent as temporary WorkAttackPower");
+assertEqual(battleModelTelemetry?.targetScope, "enemy-battle-model", "BattleModel records source multi-target scope");
+assert(battleModelTelemetry?.hits?.length >= 3, "BattleModel attacks each live enemy target before repeating");
+assert(battleModelTelemetry.hits.slice(0, 3).every((hit) => hit.sourceCommand === "BATTLE_COM_S_BATTLE_MODEL"), "BattleModel hit telemetry records source command");
+assertEqual(battleModelTelemetry.hits?.[0]?.actionNumber, 101867, "BattleModel first hit uses first source action image");
+assertEqual(battleModelTelemetry.hits?.[1]?.actionNumber, 101868, "BattleModel second hit uses second source action image");
+assertEqual(battleModelTelemetry.hits?.[2]?.actionNumber, 101867, "BattleModel cycles source action images");
+assert(battleModelTelemetry.hits.slice(0, 3).every((hit) => Number(hit.damage || 0) > 0), "BattleModel damages each live target");
+assert(battleModelTelemetry?.status?.rolls?.length >= 3, "BattleModel rolls status for each damaged live target");
+assert(battleModelTelemetry.status.rolls.every((roll) => roll.chance === 80), "BattleModel status rolls preserve the source-style capped hit chance");
+assert(battleModelTelemetry.status.rolls.some((roll) => roll.success), "BattleModel can apply source status after landed damage");
+assert(battleModelSkillGame.battle.enemyParty.slice(0, 3).some((enemy) => Number(enemy?.BattleStatuses?.paralysis?.turns || 0) > 0), "BattleModel persists source paralysis on successful damaged targets");
+assertEqual(battleModelSkillGame.pets[0].WorkAttackPower, 200, "BattleModel restores temporary attack after the round");
 let speedySkillGame = await api("/api/game/new", { name: "pet-speedy-skill-test" });
 speedySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 speedySkillGame = await api("/api/game/dialog", { game: speedySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

@@ -215,6 +215,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Firekill",
   "PETSKILL_Sonic",
   "PETSKILL_Acupuncture",
+  "PETSKILL_BattleModel",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5509,6 +5510,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       setDuckPower: Number(profile.setDuckPower || 0),
       magicPet: compactSourceMagicPetProfile(profile.magicPet),
       varyProfile: compactBattleVaryProfile(profile.vary),
+      battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5630,6 +5632,25 @@ function petSkillBattleProfile(skill = {}) {
       multiplier: 0,
       acupunctureReflectPercent: 50,
       source: "gmsv battle/pet_skill.c PETSKILL_Acupuncture + battle_event.c BATTLE_MD_ACUPUNCTURE"
+    };
+  }
+  if (func === "PETSKILL_BattleModel") {
+    const battleModel = parsePetSkillBattleModel(skill.Option || "");
+    return {
+      supported: Boolean(battleModel),
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_BATTLE_MODEL",
+      targetKind: "enemy",
+      targetScope: "enemy-battle-model",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: Number(battleModel?.attackPercent || 0),
+      defencePercent: Number(battleModel?.defencePercent || 0),
+      quickPercent: Number(battleModel?.quickPercent || 0),
+      battleModel,
+      status: battleModel?.status || null,
+      reason: battleModel ? "" : `unsupported BattleModel option: ${skill.Option || ""}`,
+      source: "gmsv battle/pet_skill.c PETSKILL_BattleModel + battle_event.c BATTLE_BattleModel"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -6316,6 +6337,57 @@ function parsePetSkillVary(option = "") {
   };
 }
 
+function parsePetSkillBattleModel(option = "") {
+  const parts = String(option || "").split("|").map((item) => cleanReferenceText(item));
+  const type = clampInt(parts[0], 0, 255, 0);
+  const objectNum = clampInt(parts[1], 1, 10, 1);
+  const statusToken = parts[2] || "";
+  const statusEffect = BATTLE_STATUS_EFFECTS[statusToken] || null;
+  const statusTurn = clampInt(parts[3], 1, 99, 1);
+  const statusChance = clampInt(parts[4], 0, 100, 0);
+  const statOption = parts[5] || "";
+  const actionNumbers = String(parts[6] || "")
+    .split(/\s+/)
+    .map((item) => Math.trunc(Number(item)))
+    .filter((value) => Number.isFinite(value) && value > 0)
+    .slice(0, 4);
+  if (!objectNum || !actionNumbers.length) return null;
+  const status = statusEffect ? {
+    ...statusEffect,
+    turn: statusTurn,
+    fixedChance: statusChance,
+    source: "gmsv battle_event.c BATTLE_BattleModel_ATTACK BATTLE_StatusAttackCheck"
+  } : null;
+  return {
+    type,
+    objectNum,
+    status,
+    statusChance,
+    statusTurn: status ? statusTurn : 0,
+    actionNumbers,
+    attackPercent: sourcePercentValue(statOption, "攻"),
+    defencePercent: sourcePercentValue(statOption, "防"),
+    quickPercent: sourcePercentValue(statOption, "敏"),
+    source: "gmsv battle/pet_skill.c PETSKILL_BattleModel"
+  };
+}
+
+function compactPetSkillBattleModelProfile(profile) {
+  if (!profile) return null;
+  return {
+    type: Number(profile.type || 0),
+    objectNum: Number(profile.objectNum || 0),
+    statusChance: Number(profile.statusChance || 0),
+    statusTurn: Number(profile.statusTurn || 0),
+    actionNumbers: Array.isArray(profile.actionNumbers) ? profile.actionNumbers.slice(0, 4) : [],
+    attackPercent: Number(profile.attackPercent || 0),
+    defencePercent: Number(profile.defencePercent || 0),
+    quickPercent: Number(profile.quickPercent || 0),
+    status: compactBattleStatusEffect(profile.status),
+    source: profile.source || ""
+  };
+}
+
 function compactBattleVaryProfile(vary) {
   if (!vary) return null;
   return {
@@ -6870,6 +6942,60 @@ function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi,
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
+  if (profile.targetScope === "enemy-battle-model") {
+    const battleModel = profile.battleModel || {};
+    const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+      ? game.battle.enemyParty
+      : [enemy].filter(Boolean);
+    const live = party
+      .map((item, index) => ({
+        enemy: item,
+        slot: index,
+        source: "gmsv battle_event.c BATTLE_BattleModel BATTLE_MultiList enemy side",
+        sourceCommand: profile.sourceCommand || "BATTLE_COM_S_BATTLE_MODEL"
+      }))
+      .filter((target) => target.enemy && Number(target.enemy.Hp || 0) > 0 && !target.enemy.BattleEscaped);
+    if (!live.length) {
+      return [{ enemy, slot: Math.max(0, Number(game.battle?.activeEnemyIndex || 0)), source: "fallback-active-target" }];
+    }
+    const objectNum = Math.max(1, Math.min(10, Number(battleModel.objectNum || profile.hitCount || 1)));
+    const actionNumbers = Array.isArray(battleModel.actionNumbers) && battleModel.actionNumbers.length
+      ? battleModel.actionNumbers
+      : [0];
+    const targets = [];
+    if (objectNum >= live.length) {
+      live.forEach((target, index) => targets.push({
+        ...target,
+        battleModelIndex: index,
+        actionNumber: actionNumbers[index % actionNumbers.length]
+      }));
+      for (let index = live.length; index < objectNum; index += 1) {
+        const randomTarget = live[sourceBattleRand(0, live.length - 1)] || live[0];
+        targets.push({
+          ...randomTarget,
+          battleModelIndex: index,
+          actionNumber: actionNumbers[index % actionNumbers.length],
+          repeated: true
+        });
+      }
+      return targets;
+    }
+    live.slice(0, objectNum).forEach((target, index) => targets.push({
+      ...target,
+      battleModelIndex: index,
+      actionNumber: actionNumbers[index % actionNumbers.length]
+    }));
+    if (Number(battleModel.type || 0) & 0x00000001) {
+      for (let index = objectNum; index < live.length; index += 1) {
+        targets.push({
+          ...live[index],
+          battleModelIndex: index % objectNum,
+          actionNumber: actionNumbers[index % actionNumbers.length]
+        });
+      }
+    }
+    return targets.length ? targets : [live[0]];
+  }
   if (profile.targetScope === "enemy-random") {
     const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
       ? game.battle.enemyParty
@@ -7101,6 +7227,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       targetSlot: target.slot,
       targetName: target.enemy?.Name || "enemy",
       sourceCommand: target.sourceCommand || profile.sourceCommand || "",
+      battleModelIndex: Number(target.battleModelIndex ?? -1),
+      actionNumber: Number(target.actionNumber || 0),
+      repeated: Boolean(target.repeated),
       damage: hit.damage,
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
@@ -7177,17 +7306,37 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
     }
   }
   if (profile.status && totalDamage > 0 && enemy.Hp > 0) {
-    const statusRoll = resolveBattleStatusAttack(game, activePet, enemy, profile.status, skill);
-    skillState.status = statusRoll;
-    if (statusRoll.success) {
-      const applied = applyBattleStatus(enemy, profile.status, statusRoll);
-      skillState.status.applied = compactBattleStatusEffect(applied);
-      battleLog.push(`${enemy.Name} 陷入${applied.label}状态，持续 ${applied.turns} 回合。`);
-    } else if (statusRoll.reason === "already-status") {
-      battleLog.push(`${enemy.Name} 已经处于异常状态，${skill.Name} 的状态效果没有叠加。`);
-    } else {
-      battleLog.push(`${skill.Name} 的状态效果没有成功。`);
+    const statusTargets = profile.targetScope === "enemy-battle-model"
+      ? hits
+        .filter((hit) => !hit.dodged && Number(hit.damage || 0) > 0)
+        .map((hit) => targets.find((target) => Number(target.slot || 0) === Number(hit.targetSlot || 0)))
+        .filter((target, index, array) => target?.enemy && array.findIndex((item) => item?.enemy === target.enemy) === index && Number(target.enemy.Hp || 0) > 0)
+      : [{ enemy }];
+    const statusRolls = [];
+    for (const statusTarget of statusTargets) {
+      const statusRoll = resolveBattleStatusAttack(game, activePet, statusTarget.enemy, profile.status, skill);
+      const entry = {
+        ...statusRoll,
+        targetSlot: Number(statusTarget.slot || 0),
+        targetName: statusTarget.enemy?.Name || "enemy"
+      };
+      if (statusRoll.success) {
+        const applied = applyBattleStatus(statusTarget.enemy, profile.status, statusRoll);
+        entry.applied = compactBattleStatusEffect(applied);
+        battleLog.push(`${statusTarget.enemy.Name} 陷入${applied.label}状态，持续 ${applied.turns} 回合。`);
+      } else if (statusRoll.reason === "already-status") {
+        battleLog.push(`${statusTarget.enemy.Name} 已经处于异常状态，${skill.Name} 的状态效果没有叠加。`);
+      } else {
+        battleLog.push(`${skill.Name} 对 ${statusTarget.enemy.Name} 的状态效果没有成功。`);
+      }
+      statusRolls.push(entry);
     }
+    skillState.status = statusRolls.length === 1 ? statusRolls[0] : {
+      success: statusRolls.some((roll) => roll.success),
+      status: compactBattleStatusEffect(profile.status),
+      rolls: statusRolls,
+      source: profile.status.source || "gmsv battle_event.c BATTLE_StatusAttackCheck"
+    };
   }
   if (Number(profile.timidChance || 0) > 0 && totalDamage > 1 && Number(enemy.Hp || 0) > 0) {
     const timidRoll = sourceBattleRand(0, 99);
@@ -8171,6 +8320,7 @@ function compactPetSkillTelemetry(skill) {
       status: compactBattleStatusEffect(skill.status.status),
       applied: compactBattleStatusEffect(skill.status.applied)
     } : null,
+    battleModel: compactPetSkillBattleModelProfile(skill.battleModel),
     magicStatus: skill.magicStatus ? {
       ...skill.magicStatus,
       status: compactBattleMagicStatusEffect(skill.magicStatus.status),
@@ -8276,6 +8426,10 @@ function compactPetSkillTelemetry(skill) {
     hits: (skill.hits || []).slice(0, 9).map((hit) => ({
       targetSlot: Number(hit.targetSlot || 0),
       targetName: hit.targetName || "",
+      sourceCommand: hit.sourceCommand || "",
+      battleModelIndex: Number(hit.battleModelIndex ?? -1),
+      actionNumber: Number(hit.actionNumber || 0),
+      repeated: Boolean(hit.repeated),
       damage: Number(hit.damage || 0),
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
