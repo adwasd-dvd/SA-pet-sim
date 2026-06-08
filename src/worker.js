@@ -219,6 +219,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_BattleModel",
   "PETSKILL_FallGround",
   "PETSKILL_ToothCrushe",
+  "PETSKILL_BatFly",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5213,6 +5214,10 @@ function performPetSkillAction(game, move) {
       resolvePetGuardianTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "bat-fly") {
+      resolvePetBatFlyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "set-magic-pet") {
       resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5520,6 +5525,8 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
       toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
+      batFly: profile.batFly ? { ...profile.batFly } : null,
+      hpDrainPercent: Number(profile.hpDrainPercent || 0),
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5708,6 +5715,27 @@ function petSkillBattleProfile(skill = {}) {
         source: "gmsv battle/pet_skill.c PETSKILL_ToothCrushe + battle_event.c BATTLE_S_ToothCrushe"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_ToothCrushe + battle_event.c BATTLE_S_ToothCrushe"
+    };
+  }
+  if (func === "PETSKILL_BatFly") {
+    return {
+      supported: true,
+      kind: "bat-fly",
+      sourceCommand: "BATTLE_COM_S_BAT_FLY",
+      targetKind: "enemy",
+      targetScope: "enemy-all",
+      hitCount: 0,
+      multiplier: 0,
+      hpDrainPercent: 10,
+      rideHpDrainPercent: 5,
+      batFly: {
+        sourceCommand: "BATTLE_COM_S_BAT_FLY",
+        spriteNum: 101859,
+        prevMagicNum: 101861,
+        rideEffect: "single-player-no-ride-pet-target",
+        source: "gmsv battle_event.c BATTLE_BatFly"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_BatFly + battle_event.c BATTLE_BatFly"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -7021,6 +7049,75 @@ function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi,
   skillState.fireMagicHits = fireHits;
   skillState.totalDamage = Number(physicalHit.damage || 0) + fireHits.reduce((sum, entry) => sum + Number(entry.damage || 0), 0);
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，先攻击 ${enemy.Name} 造成 ${physicalHit.damage} 伤害，再以火焰波及 ${fireHits.length} 个目标，共追加 ${fireHits.reduce((sum, entry) => sum + Number(entry.damage || 0), 0)} 伤害。`);
+}
+
+function sourceAllLiveEnemyTargets(game, enemy, source = "gmsv battle_event.c BATTLE_MultiList enemy side") {
+  const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+    ? game.battle.enemyParty
+    : [enemy].filter(Boolean);
+  const targets = party
+    .map((item, index) => ({ enemy: item, slot: index, source }))
+    .filter((target) => target.enemy && Number(target.enemy.Hp || 0) > 0 && !target.enemy.BattleEscaped);
+  return targets.length
+    ? targets
+    : [{ enemy, slot: Math.max(0, Number(game.battle?.activeEnemyIndex || 0)), source: "fallback-active-target" }];
+}
+
+function sourcePercentHpDamage(currentHp, percent) {
+  const hp = Math.max(0, Math.trunc(Number(currentHp || 0)));
+  if (hp <= 0) return 0;
+  const divisor = Math.max(1, Math.floor(100 / Math.max(1, Number(percent || 1))));
+  const damage = Math.floor(hp / divisor);
+  return damage <= 0 ? 1 : damage;
+}
+
+function resolvePetBatFlyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const targets = sourceAllLiveEnemyTargets(game, enemy, "gmsv battle_event.c BATTLE_BatFly BATTLE_MultiList enemy side");
+  const percent = Math.max(0, Number(profile.hpDrainPercent || 10));
+  const hits = [];
+  let totalDamage = 0;
+  for (const target of targets) {
+    const beforeHp = Math.max(0, Number(target.enemy?.Hp || 0));
+    if (beforeHp <= 0) continue;
+    const damage = Math.min(beforeHp, sourcePercentHpDamage(beforeHp, percent));
+    target.enemy.Hp = Math.max(0, beforeHp - damage);
+    clearBattleSleepOnDamage(target.enemy, damage, battleLog);
+    totalDamage += damage;
+    hits.push({
+      targetSlot: Number(target.slot || 0),
+      targetName: target.enemy?.Name || "enemy",
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_S_BAT_FLY",
+      damage,
+      beforeHp,
+      afterHp: Math.max(0, Number(target.enemy.Hp || 0)),
+      hpDrainPercent: percent,
+      rideHpDrainPercent: Number(profile.rideHpDrainPercent || 0),
+      rideEffect: profile.batFly?.rideEffect || "single-player-no-ride-pet-target",
+      phase: "hp-drain",
+      source: target.source || "gmsv battle_event.c BATTLE_BatFly"
+    });
+  }
+  const maxHp = Math.max(0, firstFiniteNumber(activePet.Hp || 0, activePet.WorkMaxHp, activePet.maxHp, activePet.MaxHp));
+  const beforeCasterHp = Math.max(0, Number(activePet.Hp || 0));
+  const healAmount = Math.min(Math.max(0, maxHp - beforeCasterHp), totalDamage);
+  if (healAmount > 0) activePet.Hp = beforeCasterHp + healAmount;
+  skillState.targetScope = profile.targetScope || "enemy-all";
+  skillState.hpDrainPercent = percent;
+  skillState.batFly = {
+    ...(profile.batFly || {}),
+    success: hits.length > 0,
+    targetCount: hits.length,
+    totalDamage,
+    healAmount,
+    beforeCasterHp,
+    afterCasterHp: Math.max(0, Number(activePet.Hp || 0)),
+    source: "gmsv battle_event.c BATTLE_BatFly"
+  };
+  skillState.hits = hits;
+  skillState.totalDamage = totalDamage;
+  skillState.healAmount = healAmount;
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，吸取 ${hits.length} 个目标共 ${totalDamage} HP，恢复 ${healAmount} HP。`);
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
@@ -8454,6 +8551,20 @@ function compactPetSkillTelemetry(skill) {
       equipmentEffect: skill.toothCrushe.equipmentEffect || "",
       source: skill.toothCrushe.source || ""
     } : null,
+    batFly: skill.batFly ? {
+      success: Boolean(skill.batFly.success),
+      sourceCommand: skill.batFly.sourceCommand || "",
+      spriteNum: Number(skill.batFly.spriteNum || 0),
+      prevMagicNum: Number(skill.batFly.prevMagicNum || 0),
+      rideEffect: skill.batFly.rideEffect || "",
+      targetCount: Number(skill.batFly.targetCount || 0),
+      totalDamage: Number(skill.batFly.totalDamage || 0),
+      healAmount: Number(skill.batFly.healAmount || 0),
+      beforeCasterHp: Number(skill.batFly.beforeCasterHp || 0),
+      afterCasterHp: Number(skill.batFly.afterCasterHp || 0),
+      source: skill.batFly.source || ""
+    } : null,
+    hpDrainPercent: Number(skill.hpDrainPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
     sonicPiercePercent: Number(skill.sonicPiercePercent || 0),
@@ -8617,6 +8728,12 @@ function compactPetSkillTelemetry(skill) {
       actionNumber: Number(hit.actionNumber || 0),
       repeated: Boolean(hit.repeated),
       damage: Number(hit.damage || 0),
+      beforeHp: Number(hit.beforeHp || 0),
+      afterHp: Number(hit.afterHp || 0),
+      hpDrainPercent: Number(hit.hpDrainPercent || 0),
+      rideHpDrainPercent: Number(hit.rideHpDrainPercent || 0),
+      rideEffect: hit.rideEffect || "",
+      phase: hit.phase || "",
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
       dodged: Boolean(hit.dodged),
@@ -8633,7 +8750,8 @@ function compactPetSkillTelemetry(skill) {
         applied: compactBattleStatusEffect(hit.onHitStatus.applied)
       } : null,
       dodgeCheck: compactSourceDodgeCheck(hit.dodgeCheck),
-      guardAdjust: compactGuardAdjust(hit.guardAdjust)
+      guardAdjust: compactGuardAdjust(hit.guardAdjust),
+      source: hit.source || ""
     })),
     source: skill.source || ""
   };

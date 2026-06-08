@@ -39,6 +39,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Sonic",
   "PETSKILL_Acupuncture",
   "PETSKILL_BattleModel",
+  "PETSKILL_BatFly",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -4131,6 +4132,65 @@ assertEqual(toothCrusheTelemetry?.toothCrushe?.equipmentEffect, "no-equipment-ta
 assertEqual(toothCrusheTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_TOOTHCRUSHE", "ToothCrushe hit telemetry records source command");
 assert(toothCrusheTelemetry?.hits?.[0]?.damage > 0, "ToothCrushe deals source attack damage");
 assertEqual(toothCrusheSkillGame.pets[0].WorkAttackPower, 150, "ToothCrushe does not leave temporary attack mutation");
+let batFlySkillGame = await api("/api/game/new", { name: "pet-batfly-skill-test" });
+batFlySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+batFlySkillGame = await api("/api/game/dialog", { game: batFlySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+batFlySkillGame.pets[0].PetSkillIds = [633];
+batFlySkillGame.pets[0].PetSkills = [{
+  Id: 633,
+  Name: "群蝠四窜",
+  Des: "吸血",
+  FuncName: "PETSKILL_BatFly",
+  Option: "",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(batFlySkillGame.pets[0], {
+  PetId: 63300,
+  Hp: 120,
+  WorkMaxHp: 150,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkDefencePower: 999,
+  WorkFixTough: 999,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+const batFlyTargets = [100, 200, 300].map((hp, index) => ({
+  ...batFlySkillGame.encounter,
+  EnemyId: 63310 + index,
+  Name: `群蝠目标${index + 1}`,
+  Hp: hp,
+  WorkMaxHp: hp,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 0,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+}));
+batFlySkillGame.encounter = batFlyTargets[0];
+batFlySkillGame.battle.enemyParty = batFlyTargets;
+batFlySkillGame.battle.activeEnemyIndex = 0;
+batFlySkillGame = await api("/api/game/battle", { game: batFlySkillGame, action: "skill:0" });
+const batFlyTelemetry = batFlySkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(batFlySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_BAT_FLY", "BatFly pet skill maps to source battle command");
+assertEqual(batFlyTelemetry?.hpDrainPercent, 10, "BatFly records source non-riding HP drain percent");
+assertEqual(batFlyTelemetry?.targetScope, "enemy-all", "BatFly scans all live enemy targets");
+assertEqual(batFlyTelemetry?.batFly?.targetCount, 3, "BatFly drains each live enemy target");
+assertEqual(batFlyTelemetry?.batFly?.totalDamage, 60, "BatFly sums source current-HP percentage damage");
+assertEqual(batFlyTelemetry?.batFly?.healAmount, 30, "BatFly heals caster by drained HP capped at max HP");
+assertEqual(batFlyTelemetry?.batFly?.afterCasterHp, 150, "BatFly caster heal respects max HP cap");
+assertEqual(batFlyTelemetry?.batFly?.rideEffect, "single-player-no-ride-pet-target", "BatFly keeps ride-pet branch inert until riding targets exist");
+assertEqual(batFlyTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_BAT_FLY", "BatFly hit telemetry records source command");
+assertEqual(batFlyTelemetry?.hits?.[0]?.damage, 10, "BatFly drains 10% from first target current HP");
+assertEqual(batFlyTelemetry?.hits?.[1]?.damage, 20, "BatFly drains 10% from second target current HP");
+assertEqual(batFlyTelemetry?.hits?.[2]?.damage, 30, "BatFly drains 10% from third target current HP");
+assertEqual(batFlySkillGame.battle.enemyParty[0].Hp, 90, "BatFly persists first target HP loss");
+assertEqual(batFlySkillGame.battle.enemyParty[1].Hp, 180, "BatFly persists second target HP loss");
+assertEqual(batFlySkillGame.battle.enemyParty[2].Hp, 270, "BatFly persists third target HP loss");
 let guardianSkillGame = await api("/api/game/new", { name: "pet-guardian-skill-test" });
 guardianSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 guardianSkillGame = await api("/api/game/dialog", { game: guardianSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
