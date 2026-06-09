@@ -288,6 +288,14 @@ const SOURCE_STATUS_RECOVERY_MAGIC_TABLE = Object.freeze({
   101: { status: BATTLE_STATUS_EFFECTS["乱"], sourceOption: "乱" },
   121: { status: BATTLE_STATUS_EFFECTS["眠"], sourceOption: "眠" }
 });
+const SOURCE_RECOVERY_MAGIC_TABLE = Object.freeze({
+  20: { power: 50 },
+  21: { power: 100 },
+  22: { power: 200 },
+  23: { power: 300 },
+  24: { power: 500 },
+  25: { power: 600 }
+});
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -6442,8 +6450,9 @@ function petSkillBattleProfile(skill = {}) {
     const combined = parsePetSkillCombined(skill.Option || "");
     const attackMagicCandidates = combined?.attackMagicCandidates || [];
     const refreshCandidates = combined?.refreshCandidates || [];
+    const recoveryCandidates = combined?.recoveryCandidates || [];
     return {
-      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length)),
+      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length)),
       kind: "combined",
       sourceCommand: "BATTLE_COM_JYUJYUTU",
       targetKind: "enemy",
@@ -6451,7 +6460,7 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 0,
       multiplier: 0,
       combined,
-      reason: attackMagicCandidates.length || refreshCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
+      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
       source: "gmsv battle/pet_skill.c PETSKILL_Combined + battle.c BATTLE_COM_JYUJYUTU"
     };
   }
@@ -6537,15 +6546,38 @@ function parsePetSkillCombined(option = "") {
   const refreshCandidates = magicIds
     .map((magicId) => sourceCombinedStatusRecoveryProfileFromId(magicId))
     .filter(Boolean);
+  const recoveryCandidates = magicIds
+    .map((magicId) => sourceCombinedRecoveryProfileFromId(magicId))
+    .filter(Boolean);
   return {
     kind: "combined",
     count,
     magicIds,
     attackMagicCandidates,
     refreshCandidates,
-    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId)),
+    recoveryCandidates,
+    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId)),
     sourceCommand: "BATTLE_COM_JYUJYUTU",
     source: "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count -> BATTLE_COM_JYUJYUTU"
+  };
+}
+
+function sourceCombinedRecoveryProfileFromId(magicId) {
+  const id = Number(magicId || 0);
+  const entry = SOURCE_RECOVERY_MAGIC_TABLE[id];
+  if (!entry) return null;
+  return {
+    magicId: id,
+    func: "MAGIC_Recovery",
+    targetIndex: 8,
+    targetScope: "ally-side",
+    recovery: {
+      power: Number(entry.power || 0),
+      percent: false,
+      sourceOption: String(entry.power || 0),
+      source: `ref___data/magic.txt id ${id} MAGIC_Recovery + gmsv battle_magic.c MAGIC_Recovery_Battle/BATTLE_MultiRecovery`
+    },
+    source: `ref___data/magic.txt id ${id} MAGIC_Recovery`
   };
 }
 
@@ -6581,6 +6613,9 @@ function compactSourceCombinedProfile(profile) {
       : [],
     refreshMagicIds: Array.isArray(profile.refreshCandidates)
       ? profile.refreshCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
+      : [],
+    recoveryMagicIds: Array.isArray(profile.recoveryCandidates)
+      ? profile.recoveryCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
       : [],
     unsupportedMagicIds: Array.isArray(profile.unsupportedMagicIds) ? profile.unsupportedMagicIds.slice(0, 10).map(Number) : [],
     sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
@@ -7054,7 +7089,10 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
   const refreshCandidates = Array.isArray(profile.combined?.refreshCandidates)
     ? profile.combined.refreshCandidates.map((candidate) => ({ kind: "refresh", ...candidate }))
     : [];
-  const candidates = [...attackMagicCandidates, ...refreshCandidates];
+  const recoveryCandidates = Array.isArray(profile.combined?.recoveryCandidates)
+    ? profile.combined.recoveryCandidates.map((candidate) => ({ kind: "recovery", ...candidate }))
+    : [];
+  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates];
   if (!candidates.length) {
     skillState.combined = {
       success: false,
@@ -7095,6 +7133,33 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
     }
     return;
   }
+  if (selected.kind === "recovery") {
+    skillState.combined = {
+      success: true,
+      roll,
+      selectedMagicId: Number(selected.magicId || 0),
+      selectedIndex: roll,
+      selectedKind: "recovery",
+      profile: compactSourceCombinedProfile(profile.combined),
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      source: profile.source || "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count"
+    };
+    resolvePetRecoveryTurn(game, activePet, skill, {
+      ...profile,
+      kind: "recovery",
+      targetKind: "ally",
+      targetScope: selected.targetScope || "ally-side",
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      recovery: selected.recovery,
+      source: "gmsv battle.c BATTLE_COM_JYUJYUTU via MAGIC_Recovery selected by PETSKILL_Combined"
+    }, playerAction, battleLog);
+    if (skillState.recovery) {
+      skillState.recovery.combinedSelected = true;
+      skillState.recovery.magicId = Number(selected.magicId || 0);
+      skillState.recovery.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
+    }
+    return;
+  }
   const attackMagic = selected;
   const targetScope = attackMagic.targetIndex === 20
     ? "enemy-all"
@@ -7123,6 +7188,56 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
   if (skillState.attackMagic) {
     skillState.attackMagic.combinedSelected = true;
     skillState.attackMagic.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
+  }
+}
+
+function resolvePetRecoveryTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const recovery = profile.recovery;
+  if (!recovery) {
+    skillState.recovery = { success: false, reason: "missing-recovery" };
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个体力回复尚未接入。`);
+    return;
+  }
+  const targets = sourcePetRefreshTargets(game, activePet, profile);
+  const power = Math.max(0, Number(recovery.power || 0));
+  const results = targets.map((target) => {
+    const before = battleActorHp(game, target.actor);
+    const maxHp = battleActorMaxHp(game, target.actor);
+    const amount = Math.min(Math.max(0, maxHp - before), power);
+    setBattleActorHp(game, target.actor, before + amount);
+    return {
+      targetSlot: target.slot,
+      targetKind: target.kind,
+      targetName: target.actor?.Name || target.actor?.name || "角色",
+      targetSource: target.source,
+      before,
+      after: battleActorHp(game, target.actor),
+      maxHp,
+      amount,
+      success: amount > 0,
+      reason: amount > 0 ? "" : "already-full"
+    };
+  });
+  skillState.targetScope = profile.targetScope || "";
+  skillState.recovery = {
+    success: results.some((result) => result.success),
+    recovery: {
+      power,
+      percent: Boolean(recovery.percent),
+      sourceOption: recovery.sourceOption || "",
+      source: recovery.source || "gmsv battle_magic.c MAGIC_Recovery_Battle/BATTLE_MultiRecovery"
+    },
+    results,
+    source: recovery.source || "gmsv battle_magic.c MAGIC_Recovery_Battle/BATTLE_MultiRecovery"
+  };
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  const recovered = results.filter((result) => result.success);
+  if (recovered.length) {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，为 ${recovered.map((result) => result.targetName).join("、")} 回复体力。`);
+  } else {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但己方体力已经充足。`);
   }
 }
 
@@ -9437,6 +9552,32 @@ function compactPetSkillTelemetry(skill) {
         success: Boolean(result.success)
       })) : [],
       source: skill.refresh.source || ""
+    } : null,
+    recovery: skill.recovery ? {
+      success: Boolean(skill.recovery.success),
+      reason: skill.recovery.reason || "",
+      magicId: Number(skill.recovery.magicId || 0),
+      combinedSelected: Boolean(skill.recovery.combinedSelected),
+      sourceCommand: skill.recovery.sourceCommand || "",
+      recovery: skill.recovery.recovery ? {
+        power: Number(skill.recovery.recovery.power || 0),
+        percent: Boolean(skill.recovery.recovery.percent),
+        sourceOption: skill.recovery.recovery.sourceOption || "",
+        source: skill.recovery.recovery.source || ""
+      } : null,
+      results: Array.isArray(skill.recovery.results) ? skill.recovery.results.slice(0, 8).map((result) => ({
+        targetSlot: Number(result.targetSlot || 0),
+        targetKind: result.targetKind || "",
+        targetName: result.targetName || "",
+        targetSource: result.targetSource || "",
+        before: Number(result.before || 0),
+        after: Number(result.after || 0),
+        maxHp: Number(result.maxHp || 0),
+        amount: Number(result.amount || 0),
+        success: Boolean(result.success),
+        reason: result.reason || ""
+      })) : [],
+      source: skill.recovery.source || ""
     } : null,
     sacrifice: skill.sacrifice ? {
       success: Boolean(skill.sacrifice.success),

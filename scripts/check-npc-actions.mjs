@@ -5455,6 +5455,65 @@ for (const statusCase of combinedSingleRefreshCases) {
   assert(singleRefreshSkillGame.player.BattleStatuses?.[statusCase.otherKey], `Combined single status recovery ${statusCase.magicId} leaves unrelated player status`);
   assert(singleRefreshSkillGame.encounter.BattleStatuses?.[statusCase.key], `Combined single status recovery ${statusCase.magicId} does not clear enemy status`);
 }
+let combinedRecoverySkillGame = await api("/api/game/new", { name: "pet-combined-recovery-skill-test" });
+combinedRecoverySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedRecoverySkillGame = await api("/api/game/dialog", { game: combinedRecoverySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedRecoverySkillGame.player.WorkMaxHp = 120;
+combinedRecoverySkillGame.player.maxHp = 120;
+combinedRecoverySkillGame.player.hp = 80;
+combinedRecoverySkillGame.pets[0].PetSkillIds = [646];
+combinedRecoverySkillGame.pets[0].PetSkills = [{
+  Id: 646,
+  Name: "元气",
+  Des: "回覆我方全体体力",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|20",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedRecoverySkillGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 40,
+  WorkMaxHp: 70
+});
+Object.assign(combinedRecoverySkillGame.encounter, {
+  Name: "综合法回复测试敌人",
+  WorkMaxHp: 90,
+  Hp: 30,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(combinedRecoverySkillGame.battle?.enemyParty?.[0] || {}, {
+  Name: combinedRecoverySkillGame.encounter.Name,
+  WorkMaxHp: combinedRecoverySkillGame.encounter.WorkMaxHp,
+  Hp: combinedRecoverySkillGame.encounter.Hp,
+  WorkAttackPower: combinedRecoverySkillGame.encounter.WorkAttackPower,
+  WorkFixStr: combinedRecoverySkillGame.encounter.WorkFixStr,
+  WorkQuick: combinedRecoverySkillGame.encounter.WorkQuick,
+  WorkFixDex: combinedRecoverySkillGame.encounter.WorkFixDex,
+  WorkTacticsOption: combinedRecoverySkillGame.encounter.WorkTacticsOption
+});
+combinedRecoverySkillGame = await api("/api/game/battle", { game: combinedRecoverySkillGame, action: "skill:0" });
+const combinedRecoveryTelemetry = combinedRecoverySkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedRecoverySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_JYUJYUTU", "Combined HP recovery keeps source JYUJYUTU command");
+assertEqual(combinedRecoveryTelemetry?.combined?.profile?.magicIds?.[0], 20, "Combined HP recovery preserves source MAGIC_Recovery candidate id");
+assertEqual(combinedRecoveryTelemetry?.combined?.profile?.recoveryMagicIds?.[0], 20, "Combined HP recovery exposes recovery candidate id");
+assertEqual(combinedRecoveryTelemetry?.combined?.selectedMagicId, 20, "Combined HP recovery selects magic id 20");
+assertEqual(combinedRecoveryTelemetry?.combined?.selectedKind, "recovery", "Combined HP recovery records selected recovery kind");
+assertEqual(combinedRecoveryTelemetry?.recovery?.magicId, 20, "Combined selected recovery records source magic id 20");
+assertEqual(combinedRecoveryTelemetry?.recovery?.combinedSelected, true, "Combined selected recovery marks the HP recovery as selected through PETSKILL_Combined");
+assertEqual(combinedRecoveryTelemetry?.recovery?.recovery?.power, 50, "Combined selected recovery uses source MAGIC_Recovery power");
+assert(combinedRecoveryTelemetry?.recovery?.results?.some((result) => result.targetKind === "player" && result.before === 80 && result.after === result.maxHp && result.amount === result.maxHp - 80), "Combined selected recovery heals player ally up to runtime max HP");
+assert(combinedRecoveryTelemetry?.recovery?.results?.some((result) => result.targetKind === "pet" && result.before === 40 && result.after === 70 && result.amount === 30), "Combined selected recovery heals active pet ally up to max HP");
+assertEqual(combinedRecoverySkillGame.player.hp, combinedRecoverySkillGame.player.WorkMaxHp, "Combined selected recovery persists player HP recovery");
+assertEqual(combinedRecoverySkillGame.pets[0].Hp, 70, "Combined selected recovery persists pet HP recovery");
+assertEqual(Number(combinedRecoverySkillGame.battle.enemyParty?.[0]?.Hp || 0), 30, "Combined selected recovery does not heal enemy target");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
