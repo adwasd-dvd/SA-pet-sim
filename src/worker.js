@@ -216,6 +216,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
   "PETSKILL_AttackMagic",
+  "PETSKILL_Combined",
   "PETSKILL_Sacrifice",
   "PETSKILL_Refresh",
   "PETSKILL_Weaken",
@@ -5241,6 +5242,10 @@ function performPetSkillAction(game, move) {
       resolvePetAttackMagicTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "combined") {
+      resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "sacrifice") {
       resolvePetSacrificeTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5721,6 +5726,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       sourceQuickBonus: Number(profile.sourceQuickBonus || 0),
       magicPet: compactSourceMagicPetProfile(profile.magicPet),
       attackMagic: compactSourceAttackMagicProfile(profile.attackMagic),
+      combined: compactSourceCombinedProfile(profile.combined),
       varyProfile: compactBattleVaryProfile(profile.vary),
       battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
@@ -6424,6 +6430,22 @@ function petSkillBattleProfile(skill = {}) {
       source: "gmsv battle/pet_skill.c PETSKILL_AttackMagic + battle_magic.c MAGIC_AttMagic_Battle"
     };
   }
+  if (func === "PETSKILL_Combined") {
+    const combined = parsePetSkillCombined(skill.Option || "");
+    const attackMagicCandidates = combined?.attackMagicCandidates || [];
+    return {
+      supported: Boolean(combined && attackMagicCandidates.length),
+      kind: "combined",
+      sourceCommand: "BATTLE_COM_JYUJYUTU",
+      targetKind: "enemy",
+      targetScope: "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      combined,
+      reason: attackMagicCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
+      source: "gmsv battle/pet_skill.c PETSKILL_Combined + battle.c BATTLE_COM_JYUJYUTU"
+    };
+  }
   if (func === "PETSKILL_Sacrifice") {
     return {
       supported: true,
@@ -6463,8 +6485,7 @@ function sourceAttributeBoostFromOption(option = "") {
   };
 }
 
-function sourcePetSkillAttackMagic(option = "") {
-  const magicId = clampInt(String(option || "").match(/\bmagic\s+(\d+)/i)?.[1], 1, 9999, 313);
+function sourceAttackMagicProfileFromId(magicId) {
   const profile = SOURCE_ATTACK_MAGIC_TABLE[magicId];
   if (!profile) return null;
   return {
@@ -6478,6 +6499,11 @@ function sourcePetSkillAttackMagic(option = "") {
   };
 }
 
+function sourcePetSkillAttackMagic(option = "") {
+  const magicId = clampInt(String(option || "").match(/\bmagic\s+(\d+)/i)?.[1], 1, 9999, 313);
+  return sourceAttackMagicProfileFromId(magicId);
+}
+
 function compactSourceAttackMagicProfile(profile) {
   if (!profile?.magicId) return null;
   return {
@@ -6487,6 +6513,39 @@ function compactSourceAttackMagicProfile(profile) {
     power: Number(profile.power || 0),
     level: Number(profile.level || 0),
     targetIndex: Number(profile.targetIndex ?? -1),
+    source: profile.source || ""
+  };
+}
+
+function parsePetSkillCombined(option = "") {
+  const parts = String(option || "").split("|").map((part) => part.trim()).filter(Boolean);
+  if (!parts.length || parts[0] !== "综合法") return null;
+  const count = clampInt(parts[1], 1, 10, 0);
+  const magicIds = parts.slice(2, 2 + count).map((part) => clampInt(part, 1, 9999, 0)).filter(Boolean);
+  const attackMagicCandidates = magicIds
+    .map((magicId) => sourceAttackMagicProfileFromId(magicId))
+    .filter(Boolean);
+  return {
+    kind: "combined",
+    count,
+    magicIds,
+    attackMagicCandidates,
+    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId]),
+    sourceCommand: "BATTLE_COM_JYUJYUTU",
+    source: "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count -> BATTLE_COM_JYUJYUTU"
+  };
+}
+
+function compactSourceCombinedProfile(profile) {
+  if (!profile) return null;
+  return {
+    count: Number(profile.count || 0),
+    magicIds: Array.isArray(profile.magicIds) ? profile.magicIds.slice(0, 10).map(Number) : [],
+    attackMagicIds: Array.isArray(profile.attackMagicCandidates)
+      ? profile.attackMagicCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
+      : [],
+    unsupportedMagicIds: Array.isArray(profile.unsupportedMagicIds) ? profile.unsupportedMagicIds.slice(0, 10).map(Number) : [],
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
     source: profile.source || ""
   };
 }
@@ -6947,6 +7006,53 @@ function resolvePetAttackMagicTurn(game, activePet, enemy, skill, profile, playe
   skillState.hits = hits;
   skillState.totalDamage = totalDamage;
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，攻击魔法命中 ${hits.length} 个目标，共造成 ${totalDamage} 伤害。`);
+}
+
+function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const candidates = Array.isArray(profile.combined?.attackMagicCandidates)
+    ? profile.combined.attackMagicCandidates
+    : [];
+  if (!candidates.length) {
+    skillState.combined = {
+      success: false,
+      reason: "no-supported-attack-magic-candidate",
+      profile: compactSourceCombinedProfile(profile.combined)
+    };
+    skillState.hits = [];
+    skillState.totalDamage = 0;
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个综合法候选尚未接入。`);
+    return;
+  }
+  const roll = sourceBattleRand(0, candidates.length - 1);
+  const attackMagic = candidates[roll] || candidates[0];
+  const targetScope = attackMagic.targetIndex === 20
+    ? "enemy-all"
+    : attackMagic.targetIndex === 26
+      ? "enemy-row"
+      : "enemy";
+  skillState.combined = {
+    success: true,
+    roll,
+    selectedMagicId: Number(attackMagic.magicId || 0),
+    selectedIndex: roll,
+    profile: compactSourceCombinedProfile(profile.combined),
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+    source: profile.source || "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count"
+  };
+  resolvePetAttackMagicTurn(game, activePet, enemy, skill, {
+    ...profile,
+    kind: "attack-magic",
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+    targetScope,
+    sourceQuickBonus: 0,
+    attackMagic,
+    source: "gmsv battle.c BATTLE_COM_JYUJYUTU via PETSKILL_Combined selected attack magic"
+  }, playerAction, battleLog);
+  if (skillState.attackMagic) {
+    skillState.attackMagic.combinedSelected = true;
+    skillState.attackMagic.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
+  }
 }
 
 function sourcePetSacrificeTarget(game, activePet) {
@@ -9221,7 +9327,19 @@ function compactPetSkillTelemetry(skill) {
       ...compactSourceAttackMagicProfile(skill.attackMagic),
       sourceQuickBonus: Number(skill.attackMagic.sourceQuickBonus || 0),
       targetCount: Number(skill.attackMagic.targetCount || 0),
-      totalDamage: Number(skill.attackMagic.totalDamage || 0)
+      totalDamage: Number(skill.attackMagic.totalDamage || 0),
+      combinedSelected: Boolean(skill.attackMagic.combinedSelected),
+      sourceCommand: skill.attackMagic.sourceCommand || ""
+    } : null,
+    combined: skill.combined ? {
+      success: Boolean(skill.combined.success),
+      reason: skill.combined.reason || "",
+      roll: Number(skill.combined.roll ?? -1),
+      selectedIndex: Number(skill.combined.selectedIndex ?? -1),
+      selectedMagicId: Number(skill.combined.selectedMagicId || 0),
+      profile: compactSourceCombinedProfile(skill.combined.profile),
+      sourceCommand: skill.combined.sourceCommand || "",
+      source: skill.combined.source || ""
     } : null,
     sacrifice: skill.sacrifice ? {
       success: Boolean(skill.sacrifice.success),
@@ -10602,6 +10720,7 @@ function sourceBattleRand(min, max) {
   const upper = Number(max || 0);
   if (!Number.isFinite(lower) || !Number.isFinite(upper)) return 0;
   if (upper < lower) return Math.trunc(lower);
+  if (upper === lower) return Math.trunc(lower);
   return Math.trunc(lower + ((upper - (lower - 1)) * Math.random()));
 }
 

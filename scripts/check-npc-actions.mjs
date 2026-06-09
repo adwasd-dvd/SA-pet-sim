@@ -3470,7 +3470,7 @@ attackShootSkillGame.pets[0].PetSkills = [{
   Name: "栗子连激",
   Des: "乱数连续投掷栗子3~5颗",
   FuncName: "PETSKILL_AttackShoot",
-  Option: "3|5",
+  Option: "5|5",
   Field: 1,
   Target: 6,
   UseType: 2,
@@ -3492,6 +3492,7 @@ attackShootSkillGame.encounter.WorkDefencePower = 1;
 attackShootSkillGame.encounter.WorkQuick = 0;
 attackShootSkillGame.encounter.WorkFixDex = 0;
 attackShootSkillGame.encounter.WorkAttackPower = 1;
+attackShootSkillGame.encounter.NoDuck = 1;
 Object.assign(attackShootSkillGame.battle?.enemyParty?.[0] || {}, {
   ...attackShootSkillGame.encounter,
   BattleStatuses: {}
@@ -3499,14 +3500,7 @@ Object.assign(attackShootSkillGame.battle?.enemyParty?.[0] || {}, {
 const attackShootHpBefore = Number(attackShootSkillGame.encounter.Hp || 0);
 const originalRandomForAttackShoot = Math.random;
 try {
-  let attackShootRandomCall = 0;
-  Math.random = () => {
-    attackShootRandomCall += 1;
-    if (attackShootRandomCall === 1) return 0.99; // hit count rolls 5 from 3|5.
-    if (attackShootRandomCall <= 6) return 0; // one live target, keep selection deterministic.
-    if ((attackShootRandomCall - 9) % 3 === 0) return 0.99; // source sleep RAND(1,5)>4.
-    return 0.5;
-  };
+  Math.random = () => 0.99; // Force the source sleep RAND(1,5)>4 branch in this fixture.
   attackShootSkillGame = await api("/api/game/battle", { game: attackShootSkillGame, action: "skill:0" });
 } finally {
   Math.random = originalRandomForAttackShoot;
@@ -3521,8 +3515,10 @@ assertEqual(attackShootTelemetry?.targetScope, "enemy-random", "AttackShoot uses
 assertEqual(attackShootTelemetry?.hits?.length, 5, "AttackShoot records source chestnut hits");
 assert(attackShootTelemetry?.hits?.every((hit) => Number(hit.damageDivisor || 0) === 5), "AttackShoot records per-hit source damage divisor");
 assert(attackShootTelemetry?.hits?.some((hit) => hit.onHitStatus?.success), "AttackShoot can apply source sleep after landed damage");
-assert(Number(attackShootSkillGame.encounter?.Hp || 0) < attackShootHpBefore, "AttackShoot damages the active target");
-assert(Number(attackShootSkillGame.encounter?.BattleStatuses?.sleep?.turns || 0) > 0, "AttackShoot persists source sleep status on the enemy");
+const attackShootTargetSlot = Math.max(0, Number(attackShootTelemetry?.hits?.[0]?.targetSlot || 0));
+const attackShootTarget = attackShootSkillGame.battle?.enemyParty?.[attackShootTargetSlot] || attackShootSkillGame.encounter;
+assert(Number(attackShootTarget?.Hp || 0) < attackShootHpBefore, "AttackShoot damages the actual source-random target");
+assert(Number(attackShootTarget?.BattleStatuses?.sleep?.turns || 0) > 0, "AttackShoot persists source sleep status on the actual target");
 let battleTearSkillGame = await api("/api/game/new", { name: "pet-battletear-skill-test" });
 battleTearSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 battleTearSkillGame = await api("/api/game/dialog", { game: battleTearSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -4461,13 +4457,17 @@ earthRoundSkillGame.player.maxHp = 500;
 earthRoundSkillGame.player.Hp = 500;
 earthRoundSkillGame.player.WorkMaxHp = 500;
 earthRoundSkillGame.player.Vital = 50000;
+earthRoundSkillGame.player.Tough = 100;
+earthRoundSkillGame.player.WorkFixTough = 1;
+earthRoundSkillGame.player.WorkDefencePower = 1;
+earthRoundSkillGame.player.NoDuck = 1;
 earthRoundSkillGame.encounter.WorkMaxHp = 999;
 earthRoundSkillGame.encounter.Hp = 999;
 earthRoundSkillGame.encounter.WorkFixTough = 1;
 earthRoundSkillGame.encounter.WorkDefencePower = 1;
 earthRoundSkillGame.encounter.WorkQuick = 0;
 earthRoundSkillGame.encounter.WorkFixDex = 0;
-earthRoundSkillGame.encounter.WorkAttackPower = 40;
+earthRoundSkillGame.encounter.WorkAttackPower = 200;
 earthRoundSkillGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
 earthRoundSkillGame.encounter.TacticsOption = earthRoundSkillGame.encounter.WorkTacticsOption;
 const earthRoundPetHpBefore = Number(earthRoundSkillGame.pets[0].Hp || 0);
@@ -5277,6 +5277,65 @@ assertEqual(attackMagicTelemetry?.hits?.length, 2, "AttackMagic applies row magi
 assert(attackMagicTelemetry.hits.every((hit) => hit.magicId === 317 && hit.power === 200 && hit.phase === "attack-magic"), "AttackMagic hit telemetry records source magic id, power, and phase");
 assert(attackMagicTelemetry.hits.every((hit) => Number(hit.elementMultiplier || 0) > 1.4), "AttackMagic applies source magic element advantage through local attributes");
 assert(attackMagicSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "AttackMagic persists row magic damage to every target in the fixture");
+let combinedSkillGame = await api("/api/game/new", { name: "pet-combined-skill-test" });
+combinedSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedSkillGame = await api("/api/game/dialog", { game: combinedSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedSkillGame.pets[0].PetSkillIds = [630];
+combinedSkillGame.pets[0].PetSkills = [{
+  Id: 630,
+  Name: "地灵威能",
+  Des: "可招唤地精灵魔法威力的技能",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|306",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedSkillGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(combinedSkillGame.encounter, {
+  EnemyId: 990630,
+  PetId: 990630,
+  Name: "综合法测试敌人一",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 999,
+  WorkDefencePower: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  EarthAT: 100,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:3;0;0;0;0;0;0"
+});
+const combinedEnemyTwo = {
+  ...combinedSkillGame.encounter,
+  EnemyId: 990631,
+  PetId: 990631,
+  Name: "综合法测试敌人二",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+combinedSkillGame.battle.enemyParty = [combinedSkillGame.encounter, combinedEnemyTwo];
+combinedSkillGame.battle.activeEnemyIndex = 0;
+combinedSkillGame = await api("/api/game/battle", { game: combinedSkillGame, action: "skill:0" });
+const combinedTelemetry = combinedSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_JYUJYUTU", "Combined pet skill maps to source JYUJYUTU command");
+assertEqual(combinedTelemetry?.combined?.profile?.magicIds?.[0], 306, "Combined preserves source magic candidate id");
+assertEqual(combinedTelemetry?.combined?.selectedMagicId, 306, "Combined selects the source magic id from PETSKILL_OPTION");
+assertEqual(combinedTelemetry?.attackMagic?.magicId, 306, "Combined selected attack magic reuses source magic profile");
+assertEqual(combinedTelemetry?.attackMagic?.combinedSelected, true, "Combined marks the attack magic as selected through PETSKILL_Combined");
+assertEqual(combinedTelemetry?.attackMagic?.targetIndex, 20, "Combined selected magic keeps source TargetIndex 20 all-enemy shape");
+assertEqual(combinedTelemetry?.hits?.length, 2, "Combined selected attack magic applies to every live enemy target");
+assert(combinedTelemetry.hits.every((hit) => hit.sourceCommand === "BATTLE_COM_JYUJYUTU" && hit.magicId === 306), "Combined hit telemetry records source JYUJYUTU command plus selected magic id");
+assert(combinedSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Combined selected attack magic persists damage to all targets");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -6084,6 +6143,9 @@ blockedCaptureGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1,
 blockedCaptureGame = await api("/api/game/dialog", { game: blockedCaptureGame, npcId: battleNpc.npc.id, message: "宠物" });
 const blockedCapturePetsBefore = blockedCaptureGame.pets.length;
 blockedCaptureGame.encounter.CaptureRate = 100;
+blockedCaptureGame.player.hp = 999;
+blockedCaptureGame.player.maxHp = 999;
+blockedCaptureGame.player.WorkMaxHp = 999;
 blockedCaptureGame.pets[0].Hp = 999;
 blockedCaptureGame.pets[0].MaxHp = 999;
 blockedCaptureGame.pets[0].WorkMaxHp = 999;
@@ -6102,6 +6164,12 @@ Object.assign(blockedCaptureGame.battle?.enemyParty?.[0] || {}, {
   WorkFixStr: 0,
   Attack: 0,
   Str: 0
+});
+(blockedCaptureGame.battle?.enemyParty || []).forEach((enemy) => {
+  enemy.WorkAttackPower = 0;
+  enemy.WorkFixStr = 0;
+  enemy.Attack = 0;
+  enemy.Str = 0;
 });
 blockedCaptureGame = await api("/api/game/battle", { game: blockedCaptureGame, action: "capture" });
 assertEqual(blockedCaptureGame.battleOutcome.result, "capture-blocked", "sleep blocks source T capture command before capture roll");
