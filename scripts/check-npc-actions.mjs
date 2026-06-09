@@ -5215,6 +5215,68 @@ assert(firekillTelemetry.fireMagicHits.every((hit) => hit.damage === 200), "Fire
 assert(Number(firekillSkillGame.battle.enemyParty[0].Hp || 0) < 799, "Firekill active target takes physical plus fire damage");
 assertEqual(Number(firekillSkillGame.battle.enemyParty[1].Hp || 0), 799, "Firekill adjacent row target takes fire damage only");
 assertEqual(firekillSkillGame.pets[0].WorkAttackPower, 200, "Firekill restores temporary attack after the round");
+let attackMagicSkillGame = await api("/api/game/new", { name: "pet-attackmagic-skill-test" });
+attackMagicSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+attackMagicSkillGame = await api("/api/game/dialog", { game: attackMagicSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+attackMagicSkillGame.pets[0].PetSkillIds = [317];
+attackMagicSkillGame.pets[0].PetSkills = [{
+  Id: 317,
+  Name: "E熔岩爆发",
+  Des: "火魔法LV3-3",
+  FuncName: "PETSKILL_AttackMagic",
+  Option: "magic 317 item 19663",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(attackMagicSkillGame.pets[0], {
+  WorkQuick: 100,
+  WorkFixDex: 100,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(attackMagicSkillGame.encounter, {
+  EnemyId: 990317,
+  PetId: 990317,
+  Name: "攻击魔法测试敌人一",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 999,
+  WorkDefencePower: 999,
+  WorkQuick: 110,
+  WorkFixDex: 110,
+  WorkAttackPower: 0,
+  EarthAT: 0,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 100,
+  WorkTacticsOption: "at:0;3;1|gu:0|es:0|wa:3;0;0;0;0;0;0"
+});
+const attackMagicEnemyTwo = {
+  ...attackMagicSkillGame.encounter,
+  EnemyId: 990318,
+  PetId: 990318,
+  Name: "攻击魔法测试敌人二",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+attackMagicSkillGame.battle.enemyParty = [attackMagicSkillGame.encounter, attackMagicEnemyTwo];
+attackMagicSkillGame.battle.activeEnemyIndex = 0;
+attackMagicSkillGame = await api("/api/game/battle", { game: attackMagicSkillGame, action: "skill:0" });
+const attackMagicTelemetry = attackMagicSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(attackMagicSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ATTACK_MAGIC", "AttackMagic pet skill maps to source battle command");
+assertEqual(attackMagicTelemetry?.attackMagic?.magicId, 317, "AttackMagic parses source magic id from PETSKILL_OPTION");
+assertEqual(attackMagicTelemetry?.attackMagic?.power, 200, "AttackMagic uses source magic.txt power");
+assertEqual(attackMagicTelemetry?.attackMagic?.level, 3, "AttackMagic uses source magic.txt level");
+assertEqual(attackMagicTelemetry?.attackMagic?.targetIndex, 26, "AttackMagic preserves source TargetIndex row target");
+assertEqual(attackMagicTelemetry?.targetScope, "enemy-row", "AttackMagic maps TargetIndex 26 to row target scope");
+assertEqual(attackMagicTelemetry?.sourceQuickBonus, 20, "AttackMagic records source BATTLE_COM_S_ATTACK_MAGIC quick bonus");
+assert(attackMagicSkillGame.battleOutcome.log[0]?.includes("E熔岩爆发"), "AttackMagic source quick bonus lets the magic pet act before a slightly faster enemy");
+assertEqual(attackMagicTelemetry?.hits?.length, 2, "AttackMagic applies row magic to each live enemy in the selected row");
+assert(attackMagicTelemetry.hits.every((hit) => hit.magicId === 317 && hit.power === 200 && hit.phase === "attack-magic"), "AttackMagic hit telemetry records source magic id, power, and phase");
+assert(attackMagicTelemetry.hits.every((hit) => Number(hit.elementMultiplier || 0) > 1.4), "AttackMagic applies source magic element advantage through local attributes");
+assert(attackMagicSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "AttackMagic persists row magic damage to every target in the fixture");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

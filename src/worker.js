@@ -71,6 +71,33 @@ const BATTLE_SIDE_OFFSET = 10;
 const BATTLE_TURN_SECONDS = 30;
 const BATTLE_GETITEM_MAX = 3;
 const ENEMY_DROP_ROLL_BASE = 1000;
+const SOURCE_ATTACK_MAGIC_TABLE = Object.freeze({
+  301: { element: "earth", fieldAttr: 0, power: 100, level: 1, targetIndex: -1 },
+  302: { element: "earth", fieldAttr: 0, power: 150, level: 2, targetIndex: -1 },
+  303: { element: "earth", fieldAttr: 0, power: 165, level: 3, targetIndex: 26 },
+  304: { element: "earth", fieldAttr: 0, power: 185, level: 3, targetIndex: -1 },
+  305: { element: "earth", fieldAttr: 0, power: 200, level: 3, targetIndex: 20 },
+  306: { element: "earth", fieldAttr: 0, power: 250, level: 4, targetIndex: 20 },
+  307: { element: "water", fieldAttr: 1, power: 100, level: 1, targetIndex: -1 },
+  308: { element: "water", fieldAttr: 1, power: 150, level: 2, targetIndex: -1 },
+  309: { element: "water", fieldAttr: 1, power: 165, level: 3, targetIndex: -1 },
+  310: { element: "water", fieldAttr: 1, power: 185, level: 3, targetIndex: -1 },
+  311: { element: "water", fieldAttr: 1, power: 200, level: 3, targetIndex: 26 },
+  312: { element: "water", fieldAttr: 1, power: 250, level: 4, targetIndex: 20 },
+  313: { element: "fire", fieldAttr: 2, power: 100, level: 1, targetIndex: -1 },
+  314: { element: "fire", fieldAttr: 2, power: 150, level: 2, targetIndex: -1 },
+  315: { element: "fire", fieldAttr: 2, power: 165, level: 3, targetIndex: -1 },
+  316: { element: "fire", fieldAttr: 2, power: 185, level: 3, targetIndex: -1 },
+  317: { element: "fire", fieldAttr: 2, power: 200, level: 3, targetIndex: 26 },
+  318: { element: "fire", fieldAttr: 2, power: 200, level: 4, targetIndex: 20 },
+  319: { element: "wind", fieldAttr: 3, power: 100, level: 1, targetIndex: -1 },
+  320: { element: "wind", fieldAttr: 3, power: 150, level: 2, targetIndex: -1 },
+  321: { element: "wind", fieldAttr: 3, power: 165, level: 3, targetIndex: 26 },
+  322: { element: "wind", fieldAttr: 3, power: 165, level: 3, targetIndex: -1 },
+  323: { element: "wind", fieldAttr: 3, power: 200, level: 3, targetIndex: 26 },
+  324: { element: "wind", fieldAttr: 3, power: 250, level: 4, targetIndex: 20 },
+  325: { element: "none", fieldAttr: -1, power: 350, level: 5, targetIndex: 20 }
+});
 const PLAYER_LEVEL_SKILL_POINTS = 3;
 const PLAYER_POINT_STEP = 100;
 const PLAYER_INITIAL_CHARM = 60;
@@ -188,6 +215,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
+  "PETSKILL_AttackMagic",
   "PETSKILL_Sacrifice",
   "PETSKILL_Refresh",
   "PETSKILL_Weaken",
@@ -5195,7 +5223,7 @@ function performPetSkillAction(game, move) {
   const restorePetSkillStats = applySourcePetSkillTemporaryStats(activePet, profile);
   let enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
   const playerAction = sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile);
-  const petFirst = workQuick(activePet) >= workQuick(enemy);
+  const petFirst = workQuick(activePet) + Number(profile.sourceQuickBonus || 0) >= workQuick(enemy);
   let enemyEscaped = false;
   game.battle.sourceCommand = move.command;
   game.battle.playerAction = playerAction;
@@ -5207,6 +5235,10 @@ function performPetSkillAction(game, move) {
     if (preTurn.stopped || Number(activePet.Hp || 0) <= 0) return false;
     if (profile.kind === "magic-status") {
       resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
+    if (profile.kind === "attack-magic") {
+      resolvePetAttackMagicTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
     if (profile.kind === "sacrifice") {
@@ -5686,7 +5718,9 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       acupunctureReflectPercent: Number(profile.acupunctureReflectPercent || 0),
       setDuckTurn: Number(profile.setDuckTurn || 0),
       setDuckPower: Number(profile.setDuckPower || 0),
+      sourceQuickBonus: Number(profile.sourceQuickBonus || 0),
       magicPet: compactSourceMagicPetProfile(profile.magicPet),
+      attackMagic: compactSourceAttackMagicProfile(profile.attackMagic),
       varyProfile: compactBattleVaryProfile(profile.vary),
       battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
@@ -6369,6 +6403,27 @@ function petSkillBattleProfile(skill = {}) {
       reason: magicStatus ? "" : `unsupported magic status ${skill.Option || ""}`
     };
   }
+  if (func === "PETSKILL_AttackMagic") {
+    const attackMagic = sourcePetSkillAttackMagic(skill.Option || "");
+    const targetScope = attackMagic?.targetIndex === 20
+      ? "enemy-all"
+      : attackMagic?.targetIndex === 26
+        ? "enemy-row"
+        : "enemy";
+    return {
+      supported: Boolean(attackMagic),
+      kind: "attack-magic",
+      sourceCommand: "BATTLE_COM_S_ATTACK_MAGIC",
+      targetKind: "enemy",
+      targetScope,
+      hitCount: 0,
+      multiplier: 0,
+      sourceQuickBonus: 20,
+      attackMagic,
+      reason: attackMagic ? "" : `unsupported AttackMagic option ${skill.Option || ""}`,
+      source: "gmsv battle/pet_skill.c PETSKILL_AttackMagic + battle_magic.c MAGIC_AttMagic_Battle"
+    };
+  }
   if (func === "PETSKILL_Sacrifice") {
     return {
       supported: true,
@@ -6405,6 +6460,34 @@ function sourceAttributeBoostFromOption(option = "") {
     element,
     percent: clampInt(parts[1], 0, 9999, 0),
     source: "gmsv battle_event.c BATTLE_S_Modifyattack"
+  };
+}
+
+function sourcePetSkillAttackMagic(option = "") {
+  const magicId = clampInt(String(option || "").match(/\bmagic\s+(\d+)/i)?.[1], 1, 9999, 313);
+  const profile = SOURCE_ATTACK_MAGIC_TABLE[magicId];
+  if (!profile) return null;
+  return {
+    magicId,
+    element: profile.element,
+    fieldAttr: Number(profile.fieldAttr),
+    power: Number(profile.power),
+    level: Number(profile.level),
+    targetIndex: Number(profile.targetIndex),
+    source: "gmsv-data/magic.txt MAGIC_AttMagic option 属性|power|lv + battle.c TargetIndex"
+  };
+}
+
+function compactSourceAttackMagicProfile(profile) {
+  if (!profile?.magicId) return null;
+  return {
+    magicId: Number(profile.magicId || 0),
+    element: profile.element || "",
+    fieldAttr: Number(profile.fieldAttr ?? -1),
+    power: Number(profile.power || 0),
+    level: Number(profile.level || 0),
+    targetIndex: Number(profile.targetIndex ?? -1),
+    source: profile.source || ""
   };
 }
 
@@ -6769,6 +6852,101 @@ function resolvePetMagicStatusTurn(game, activePet, skill, profile, playerAction
     source: "gmsv battle_magic.c BATTLE_MultiMagicStatusChange"
   };
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${applied.label}提高防御 ${applied.percent}%（${applied.turns} 回合）。`);
+}
+
+function sourceAttackMagicAttributeOverride(attackMagic = {}) {
+  const element = attackMagic.element || "";
+  if (!element || element === "none") return { earth: 0, water: 0, fire: 0, wind: 0, none: 100, element: "none", percent: 100, source: "gmsv battle_magic.c MAGIC_AttMagic_Battle AttEle=-1" };
+  return {
+    earth: element === "earth" ? 100 : 0,
+    water: element === "water" ? 100 : 0,
+    fire: element === "fire" ? 100 : 0,
+    wind: element === "wind" ? 100 : 0,
+    none: 0,
+    element,
+    percent: 100,
+    source: "gmsv battle_magic.c MAGIC_AttMagic_Battle AttEle"
+  };
+}
+
+function sourcePetAttackMagicTargets(game, enemy, profile = {}) {
+  if (profile.targetScope === "enemy-all") {
+    return sourceAllLiveEnemyTargets(game, enemy, "gmsv battle.c TargetIndex 20 whole other side");
+  }
+  if (profile.targetScope === "enemy-row") {
+    return sourcePetSkillTargets(game, enemy, { targetScope: "enemy-row" })
+      .map((target) => ({ ...target, source: "gmsv battle.c TargetIndex 26 row/all-rows target" }));
+  }
+  const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  return [{ enemy, slot: activeIndex, source: "gmsv battle.c TargetIndex -1 selected target" }];
+}
+
+function sourceAttackMagicDamage(activePet, target, attackMagic = {}) {
+  const power = Math.max(0, Number(attackMagic.power || 0));
+  const attributeOverride = sourceAttackMagicAttributeOverride(attackMagic);
+  const elementMultiplier = elementalDamageMultiplier(attributeOverride, target, { attributeOverride });
+  const damage = Math.max(0, Math.floor(power * elementMultiplier));
+  return {
+    damage,
+    power,
+    elementMultiplier,
+    attributeOverride,
+    source: "gmsv battle_magic.c BATTLE_MultiAttMagic Power with source attribute adjustment"
+  };
+}
+
+function resolvePetAttackMagicTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const attackMagic = profile.attackMagic;
+  if (!attackMagic) {
+    skillState.attackMagic = { success: false, reason: "missing-attack-magic" };
+    skillState.totalDamage = 0;
+    skillState.hits = [];
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个攻击魔法尚未接入。`);
+    return;
+  }
+  const targets = sourcePetAttackMagicTargets(game, enemy, profile);
+  const hits = [];
+  let totalDamage = 0;
+  for (const target of targets) {
+    if (!target.enemy || Number(target.enemy.Hp || 0) <= 0 || target.enemy.BattleEscaped) continue;
+    const beforeHp = Math.max(0, Number(target.enemy.Hp || 0));
+    const detail = sourceAttackMagicDamage(activePet, target.enemy, attackMagic);
+    const damage = Math.min(beforeHp, Number(detail.damage || 0));
+    target.enemy.Hp = Math.max(0, beforeHp - damage);
+    clearBattleSleepOnDamage(target.enemy, damage, battleLog);
+    totalDamage += damage;
+    hits.push({
+      targetSlot: Number(target.slot || 0),
+      targetName: target.enemy?.Name || "enemy",
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_S_ATTACK_MAGIC",
+      damage,
+      beforeHp,
+      afterHp: Math.max(0, Number(target.enemy.Hp || 0)),
+      power: Number(attackMagic.power || 0),
+      fieldAttr: Number(attackMagic.fieldAttr ?? -1),
+      magicId: Number(attackMagic.magicId || 0),
+      magicLevel: Number(attackMagic.level || 0),
+      element: attackMagic.element || "",
+      elementMultiplier: Number(detail.elementMultiplier || 1),
+      attributeOverride: compactSourceAttributeOverride(detail.attributeOverride),
+      targetIndex: Number(attackMagic.targetIndex ?? -1),
+      phase: "attack-magic",
+      source: target.source || "gmsv battle_magic.c BATTLE_MultiAttMagic"
+    });
+  }
+  skillState.targetScope = profile.targetScope || "";
+  skillState.attackMagic = {
+    success: hits.length > 0,
+    ...compactSourceAttackMagicProfile(attackMagic),
+    sourceQuickBonus: Number(profile.sourceQuickBonus || 0),
+    targetCount: hits.length,
+    totalDamage,
+    source: profile.source || "gmsv battle_magic.c MAGIC_AttMagic_Battle"
+  };
+  skillState.hits = hits;
+  skillState.totalDamage = totalDamage;
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，攻击魔法命中 ${hits.length} 个目标，共造成 ${totalDamage} 伤害。`);
 }
 
 function sourcePetSacrificeTarget(game, activePet) {
@@ -8890,6 +9068,7 @@ function compactPetSkillTelemetry(skill) {
     defencePercent: Number(skill.defencePercent || 0),
     quickPercent: Number(skill.quickPercent || 0),
     quickPercentFromFixDex: Boolean(skill.quickPercentFromFixDex),
+    sourceQuickBonus: Number(skill.sourceQuickBonus || 0),
     criticalPercent: Number(skill.criticalPercent || 0),
     acupunctureReflectPercent: Number(skill.acupunctureReflectPercent || 0),
     guardian: skill.guardian ? {
@@ -9036,6 +9215,14 @@ function compactPetSkillTelemetry(skill) {
       })),
       source: skill.magicPet.source || ""
     } : null,
+    attackMagic: skill.attackMagic ? {
+      success: Boolean(skill.attackMagic.success),
+      reason: skill.attackMagic.reason || "",
+      ...compactSourceAttackMagicProfile(skill.attackMagic),
+      sourceQuickBonus: Number(skill.attackMagic.sourceQuickBonus || 0),
+      targetCount: Number(skill.attackMagic.targetCount || 0),
+      totalDamage: Number(skill.attackMagic.totalDamage || 0)
+    } : null,
     sacrifice: skill.sacrifice ? {
       success: Boolean(skill.sacrifice.success),
       reason: skill.sacrifice.reason || "",
@@ -9125,6 +9312,12 @@ function compactPetSkillTelemetry(skill) {
       actionNumber: Number(hit.actionNumber || 0),
       repeated: Boolean(hit.repeated),
       damage: Number(hit.damage || 0),
+      power: Number(hit.power || 0),
+      magicId: Number(hit.magicId || 0),
+      magicLevel: Number(hit.magicLevel || 0),
+      fieldAttr: Number(hit.fieldAttr ?? -1),
+      element: hit.element || "",
+      targetIndex: Number(hit.targetIndex ?? -1),
       beforeHp: Number(hit.beforeHp || 0),
       afterHp: Number(hit.afterHp || 0),
       hpDrainPercent: Number(hit.hpDrainPercent || 0),
