@@ -4712,6 +4712,9 @@ function performBattleAction(game, action) {
   if (move.type === "pet-switch") {
     return performPetSwitchBattleAction(game, move);
   }
+  if (getActivePet(game)?.BattleEarthRound && ["attack", "guard", "wait", "pet-skill"].includes(move.type)) {
+    return performPetEarthRoundContinuation(game);
+  }
   if (getActivePet(game)?.BattleCharge && ["attack", "guard", "wait", "pet-skill"].includes(move.type)) {
     return performPetChargeContinuation(game);
   }
@@ -5190,7 +5193,7 @@ function performPetSkillAction(game, move) {
 
   const battleLog = [];
   const restorePetSkillStats = applySourcePetSkillTemporaryStats(activePet, profile);
-  const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  let enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
   const playerAction = sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile);
   const petFirst = workQuick(activePet) >= workQuick(enemy);
   let enemyEscaped = false;
@@ -5258,6 +5261,10 @@ function performPetSkillAction(game, move) {
       resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "earth-round") {
+      resolvePetEarthRoundStart(game, activePet, skill, profile, playerAction, battleLog);
+      return true;
+    }
     enemyEscaped ||= resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
     return true;
   };
@@ -5298,6 +5305,13 @@ function performPetSkillAction(game, move) {
       petTurn();
     }
     if (Number(activePet.Hp || 0) > 0) enemyTurn(false);
+  } else if (profile.kind === "earth-round" && petFirst) {
+    petTurn();
+    if (enemy.Hp > 0 && !enemyEscaped) {
+      enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+      game.battle.enemyAi = enemyAi;
+      enemyTurn(false);
+    }
   } else if (petFirst) {
     petTurn();
     if (enemy.Hp > 0 && !enemyEscaped) enemyTurn(false);
@@ -5474,8 +5488,140 @@ function resolvePetChargeStep(game, activePet, enemy, enemyAi, playerAction, bat
   return true;
 }
 
+function resolvePetEarthRoundStart(game, activePet, skill, profile, playerAction, battleLog) {
+  const state = {
+    sourceCommand: "BATTLE_COM_S_EARTHROUND0",
+    startCommand: "BATTLE_COM_S_EARTHROUND1",
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    option: skill.Option || "",
+    attackPercent: Number(profile.attackPercent || 0),
+    damageMultiplier: 1 + Number(profile.attackPercent || 0) / 100,
+    targetIndex: Math.max(0, Number(playerAction.targetSlot ?? game.battle?.activeEnemyIndex ?? 0)),
+    source: "gmsv battle_event.c BATTLE_EarthRoundHide"
+  };
+  activePet.BattleEarthRound = state;
+  playerAction.petSkill ||= {};
+  playerAction.petSkill.earthRound = { ...state, hidden: true };
+  playerAction.petSkill.hits = [];
+  playerAction.petSkill.totalDamage = 0;
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name || "地球一周"}，绕到目标背后。`);
+}
+
+function performPetEarthRoundContinuation(game) {
+  const activePet = getActivePet(game);
+  if (!activePet?.BattleEarthRound) throw new Error("当前没有准备中的地球一周");
+  const enemy = game.encounter;
+  ensureBattleState(game, activePet, enemy);
+  const state = activePet.BattleEarthRound || {};
+  const enemyAi = chooseEnemyBattleMove(game, enemy, activePet);
+  const playerAction = {
+    type: "pet-skill",
+    sourceCommand: "BATTLE_COM_S_EARTHROUND0",
+    command: "W|earthround",
+    source: "gmsv battle_event.c BATTLE_COM_S_EARTHROUND0 continuation",
+    actorKind: "pet",
+    actorSlot: battlePetSlot(game, activePet),
+    actorName: activePet?.Name || activePet?.name || "pet",
+    targetKind: "enemy",
+    targetSlot: Math.max(0, Number(state.targetIndex ?? game.battle?.activeEnemyIndex ?? 0)),
+    targetName: enemy?.Name || "enemy",
+    petSkill: {
+      id: Number(state.skillId || 0),
+      slot: -1,
+      name: state.skillName || "地球一周",
+      func: "PETSKILL_EarthRound",
+      option: state.option || "",
+      sourceCommand: "BATTLE_COM_S_EARTHROUND0",
+      attackPercent: Number(state.attackPercent || 0),
+      multiplier: Number(state.damageMultiplier || 1),
+      earthRound: { ...state, hidden: false, attacking: true },
+      source: `${GMSV_DATA_SOURCE}/petskill2.txt`
+    }
+  };
+  game.battle.sourceCommand = playerAction.command;
+  game.battle.playerAction = playerAction;
+  game.battle.enemyAi = enemyAi;
+  game.battle.mode = "resolving";
+  return resolvePetEarthRoundRound(game, activePet, enemy, enemyAi, playerAction);
+}
+
+function resolvePetEarthRoundRound(game, activePet, enemy, enemyAi, playerAction) {
+  const battleLog = [];
+  let enemyEscaped = false;
+  const petFirst = workQuick(activePet) >= workQuick(enemy);
+  const petTurn = () => resolvePetEarthRoundStep(game, activePet, enemy, enemyAi, playerAction, battleLog);
+  const enemyTurn = () => {
+    const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, false);
+    enemyEscaped ||= ended;
+    return ended;
+  };
+  if (petFirst) {
+    petTurn();
+    if (Number(enemy.Hp || 0) > 0 && Number(activePet.Hp || 0) > 0) enemyTurn();
+  } else {
+    const ended = enemyTurn();
+    if (!ended && Number(enemy.Hp || 0) > 0 && Number(activePet.Hp || 0) > 0) petTurn();
+  }
+  return settleBattleRound(game, activePet, enemy, {
+    battleLog,
+    result: "earth-round",
+    sourceCommand: playerAction.command,
+    playerAction,
+    enemyAi,
+    enemyEscaped
+  });
+}
+
+function resolvePetEarthRoundStep(game, activePet, enemy, enemyAi, playerAction, battleLog) {
+  const preTurn = consumeBattleStatusBeforeTurn(activePet, battleLog);
+  if (preTurn.stopped || Number(activePet.Hp || 0) <= 0) return false;
+  const state = activePet.BattleEarthRound || {};
+  const multiplier = Number(state.damageMultiplier || 1);
+  let hit;
+  try {
+    hit = combatDamageDetail(activePet, enemy, multiplier, { attributeOverride: null });
+    if (enemyAi.type === "guard") {
+      hit = applySourceGuardAdjust(hit, [
+        "enemy-guard",
+        "earth-round",
+        enemy.EnemyId || enemy.PetId || enemy.Name,
+        activePet.PetId || activePet.Name,
+        game.battle?.turn || 0,
+        enemy.Hp,
+        activePet.Hp
+      ]);
+      enemyAi.guardAdjust = hit.guardAdjust;
+    }
+    if (!hit.dodgeCheck?.dodged) {
+      enemy.Hp = Math.max(0, Number(enemy.Hp || 0) - hit.damage);
+      clearBattleSleepOnDamage(enemy, hit.damage, battleLog);
+    }
+  } finally {
+    delete activePet.BattleEarthRound;
+  }
+  playerAction.sourceCommand = "BATTLE_COM_S_EARTHROUND0";
+  playerAction.petSkill ||= {};
+  playerAction.petSkill.sourceCommand = "BATTLE_COM_S_EARTHROUND0";
+  playerAction.petSkill.earthRound = { ...state, completed: true };
+  playerAction.petSkill.hits = [{
+    targetSlot: Math.max(0, Number(state.targetIndex ?? game.battle?.activeEnemyIndex ?? 0)),
+    targetName: enemy?.Name || "enemy",
+    damage: Number(hit.damage || 0),
+    elementMultiplier: Number(hit.elementMultiplier || 1),
+    guardAdjust: compactGuardAdjust(hit.guardAdjust),
+    dodgeCheck: hit.dodgeCheck || null
+  }];
+  playerAction.petSkill.totalDamage = Number(hit.dodgeCheck?.dodged ? 0 : hit.damage || 0);
+  battleLog.push(hit.dodgeCheck?.dodged
+    ? `${enemy.Name} 闪开了 ${activePet.Name} 的 ${state.skillName || "地球一周"}。`
+    : `${activePet.Name} 从背后使用 ${state.skillName || "地球一周"} 攻击 ${enemy.Name}，造成 ${hit.damage} 伤害${battleDetailSuffix(hit)}。`);
+  return true;
+}
+
 function applySourcePetSkillTemporaryStats(activePet, profile = {}) {
   if (!activePet) return () => {};
+  if (profile.skipTemporaryStats) return () => {};
   const original = {};
   if (Number(profile.attackPercent || 0) !== 0) {
     original.WorkAttackPower = activePet.WorkAttackPower;
@@ -5548,6 +5694,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
+      earthRound: profile.earthRound ? { ...profile.earthRound } : null,
       hpDrainPercent: Number(profile.hpDrainPercent || 0),
       hpDamagePercent: Number(profile.hpDamagePercent || 0),
       mpDrainPercent: Number(profile.mpDrainPercent || 0),
@@ -6052,11 +6199,17 @@ function petSkillBattleProfile(skill = {}) {
     const option = String(skill.Option || "");
     return {
       supported: true,
-      kind: "attack",
+      kind: "earth-round",
       sourceCommand: "BATTLE_COM_S_EARTHROUND1",
       hitCount: 1,
       multiplier: 1,
-      attackPercent: sourcePercentValue(option, "攻")
+      attackPercent: sourcePercentValue(option, "攻"),
+      skipTemporaryStats: true,
+      earthRound: {
+        startCommand: "BATTLE_COM_S_EARTHROUND1",
+        attackCommand: "BATTLE_COM_S_EARTHROUND0",
+        source: "gmsv battle_event.c BATTLE_EarthRoundHide + BATTLE_COM_S_EARTHROUND0"
+      }
     };
   }
   if (func === "PETSKILL_DamageToHp") {
@@ -8144,8 +8297,23 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleSkillBoosts;
   delete target.BattleVary;
   delete target.BattleCharge;
+  delete target.BattleEarthRound;
   delete target.BattleAcupuncture;
   delete target.BattleGuardian;
+}
+
+function compactBattleEarthRoundState(state) {
+  if (!state) return null;
+  return {
+    sourceCommand: state.sourceCommand || "",
+    startCommand: state.startCommand || "",
+    skillId: Number(state.skillId || 0),
+    skillName: state.skillName || "",
+    attackPercent: Number(state.attackPercent || 0),
+    damageMultiplier: Number(state.damageMultiplier || 0),
+    targetIndex: Number(state.targetIndex ?? -1),
+    source: state.source || ""
+  };
 }
 
 function compactBattleStatusEffect(status) {
@@ -8306,7 +8474,9 @@ function enemyBattleTargetActor(game, enemyAi, fallbackActor) {
     candidate.kind === enemyAi?.targetKind
     && Number(candidate.slot) === Number(enemyAi?.targetSlot)
   )) || candidates.find((candidate) => Number(candidate.battleNo) === Number(enemyAi?.targetNo));
-  return match?.actor || fallbackActor || game.player;
+  if (match?.actor) return match.actor;
+  if (sourceIsEarthRoundHidden(fallbackActor)) return game.player;
+  return fallbackActor || game.player;
 }
 
 function sourceEnemyTargetCandidates(game) {
@@ -8315,10 +8485,14 @@ function sourceEnemyTargetCandidates(game) {
     candidates.push(sourceEnemyTargetCandidate(game, game.player));
   }
   const activePet = getActivePet(game);
-  if (activePet && battleActorHp(game, activePet) > 0) {
+  if (activePet && battleActorHp(game, activePet) > 0 && !sourceIsEarthRoundHidden(activePet)) {
     candidates.push(sourceEnemyTargetCandidate(game, activePet));
   }
   return candidates;
+}
+
+function sourceIsEarthRoundHidden(actor) {
+  return Boolean(actor?.BattleEarthRound?.sourceCommand === "BATTLE_COM_S_EARTHROUND0");
 }
 
 function sourceEnemyTargetCandidate(game, actor) {
@@ -8772,6 +8946,18 @@ function compactPetSkillTelemetry(skill) {
       targetIsPet: Boolean(skill.antInter.targetIsPet),
       battleEscaped: Boolean(skill.antInter.battleEscaped),
       source: skill.antInter.source || ""
+    } : null,
+    earthRound: skill.earthRound ? {
+      startCommand: skill.earthRound.startCommand || "",
+      attackCommand: skill.earthRound.attackCommand || skill.earthRound.sourceCommand || "",
+      sourceCommand: skill.earthRound.sourceCommand || "",
+      hidden: Boolean(skill.earthRound.hidden),
+      attacking: Boolean(skill.earthRound.attacking),
+      completed: Boolean(skill.earthRound.completed),
+      attackPercent: Number(skill.earthRound.attackPercent || 0),
+      damageMultiplier: Number(skill.earthRound.damageMultiplier || 0),
+      targetIndex: Number(skill.earthRound.targetIndex ?? -1),
+      source: skill.earthRound.source || ""
     } : null,
     hpDrainPercent: Number(skill.hpDrainPercent || 0),
     hpDamagePercent: Number(skill.hpDamagePercent || 0),
@@ -21028,6 +21214,7 @@ function buildCharacterFields(game) {
         magicStatuses: compactBattleMagicStatuses(pet),
         skillBoosts: compactBattleSkillBoosts(pet),
         vary: compactBattleVary(pet.BattleVary),
+        earthRound: compactBattleEarthRoundState(pet.BattleEarthRound),
         guardian: compactBattleGuardianState(pet.BattleGuardian)
       };
     }),
@@ -21162,6 +21349,7 @@ function battleFormationUnit(entity, options = {}) {
     magicStatuses: compactBattleMagicStatuses(entity),
     skillBoosts: compactBattleSkillBoosts(entity),
     vary: compactBattleVary(entity.BattleVary),
+    earthRound: compactBattleEarthRoundState(entity.BattleEarthRound),
     guardian: compactBattleGuardianState(entity.BattleGuardian)
   };
 }
@@ -22703,6 +22891,7 @@ function petSummary(pet) {
     magicStatuses: compactBattleMagicStatuses(pet),
     skillBoosts: compactBattleSkillBoosts(pet),
     vary: compactBattleVary(pet.BattleVary),
+    earthRound: compactBattleEarthRoundState(pet.BattleEarthRound),
     guardian: compactBattleGuardianState(pet.BattleGuardian),
     skills: (pet.PetSkills || []).filter(Boolean).map((sk) => sk.Name)
   };
