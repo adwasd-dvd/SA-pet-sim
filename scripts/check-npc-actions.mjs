@@ -5336,6 +5336,63 @@ assertEqual(combinedTelemetry?.attackMagic?.targetIndex, 20, "Combined selected 
 assertEqual(combinedTelemetry?.hits?.length, 2, "Combined selected attack magic applies to every live enemy target");
 assert(combinedTelemetry.hits.every((hit) => hit.sourceCommand === "BATTLE_COM_JYUJYUTU" && hit.magicId === 306), "Combined hit telemetry records source JYUJYUTU command plus selected magic id");
 assert(combinedSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Combined selected attack magic persists damage to all targets");
+let combinedRefreshSkillGame = await api("/api/game/new", { name: "pet-combined-refresh-skill-test" });
+combinedRefreshSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedRefreshSkillGame = await api("/api/game/dialog", { game: combinedRefreshSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedRefreshSkillGame.pets[0].PetSkillIds = [637];
+combinedRefreshSkillGame.pets[0].PetSkills = [{
+  Id: 637,
+  Name: "净化之舞",
+  Des: "全部状态异常回复 (一方全体)",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|61",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedRefreshSkillGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999,
+  BattleStatuses: {
+    poison: { key: "poison", label: "中毒", turns: 3 },
+    weaken: { key: "weaken", label: "虚弱", turns: 3 }
+  }
+});
+combinedRefreshSkillGame.player.BattleStatuses = {
+  weaken: { key: "weaken", label: "虚弱", turns: 3 }
+};
+combinedRefreshSkillGame.encounter.BattleStatuses = {
+  poison: { key: "poison", label: "中毒", turns: 3 }
+};
+Object.assign(combinedRefreshSkillGame.encounter, {
+  WorkAttackPower: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1
+});
+Object.assign(combinedRefreshSkillGame.battle?.enemyParty?.[0] || {}, {
+  BattleStatuses: combinedRefreshSkillGame.encounter.BattleStatuses,
+  WorkAttackPower: combinedRefreshSkillGame.encounter.WorkAttackPower,
+  WorkQuick: combinedRefreshSkillGame.encounter.WorkQuick,
+  WorkFixDex: combinedRefreshSkillGame.encounter.WorkFixDex
+});
+combinedRefreshSkillGame = await api("/api/game/battle", { game: combinedRefreshSkillGame, action: "skill:0" });
+const combinedRefreshTelemetry = combinedRefreshSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedRefreshSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_JYUJYUTU", "Combined status recovery keeps source JYUJYUTU command");
+assertEqual(combinedRefreshTelemetry?.combined?.profile?.magicIds?.[0], 61, "Combined status recovery preserves source MAGIC_StatusRecovery candidate id");
+assertEqual(combinedRefreshTelemetry?.combined?.selectedMagicId, 61, "Combined status recovery selects magic id 61");
+assertEqual(combinedRefreshTelemetry?.combined?.selectedKind, "refresh", "Combined status recovery records the selected non-attack magic kind");
+assertEqual(combinedRefreshTelemetry?.refresh?.magicId, 61, "Combined selected refresh records source magic id 61");
+assertEqual(combinedRefreshTelemetry?.refresh?.combinedSelected, true, "Combined selected refresh marks the recovery as selected through PETSKILL_Combined");
+assertEqual(combinedRefreshTelemetry?.refresh?.sourceCommand, "BATTLE_COM_JYUJYUTU", "Combined selected refresh reports JYUJYUTU as the source command");
+assert(combinedRefreshTelemetry?.refresh?.success, "Combined selected refresh recovers at least one ally-side status");
+assert(combinedRefreshTelemetry?.refresh?.results?.some((result) => result.targetKind === "player" && result.removed.includes("weaken")), "Combined selected refresh clears player ally status");
+assert(combinedRefreshTelemetry?.refresh?.results?.some((result) => result.targetKind === "pet" && result.removed.includes("poison") && result.removed.includes("weaken")), "Combined selected refresh clears active pet statuses");
+assert(!combinedRefreshSkillGame.player.BattleStatuses?.weaken, "Combined selected refresh persists player status cleanup");
+assert(!combinedRefreshSkillGame.pets[0].BattleStatuses?.poison && !combinedRefreshSkillGame.pets[0].BattleStatuses?.weaken, "Combined selected refresh persists pet status cleanup");
+assert(combinedRefreshSkillGame.encounter.BattleStatuses?.poison, "Combined selected refresh does not clear enemy status");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
