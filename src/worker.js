@@ -221,6 +221,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_ToothCrushe",
   "PETSKILL_BatFly",
   "PETSKILL_DivideAttack",
+  "PETSKILL_AntInter",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -4699,7 +4700,9 @@ function performBattleAction(game, action) {
   if (move.type === "escape") {
     return move.release ? performReleaseBattleAction(game) : performPlayerEscapeAction(game);
   }
-  if (move.targetIndex != null) selectBattleTarget(game, move.targetIndex);
+  if (move.targetIndex != null) {
+    selectBattleTarget(game, move.targetIndex, { allowDownTarget: battleMoveAllowsDownTarget(game, move) });
+  }
   if (move.type === "capture") {
     return performCaptureAction(game);
   }
@@ -4805,6 +4808,14 @@ function performBattleAction(game, action) {
     enemyAi,
     enemyEscaped
   });
+}
+
+function battleMoveAllowsDownTarget(game, move) {
+  if (move?.type !== "pet-skill") return false;
+  const activePet = getActivePet(game);
+  const skillSlot = Math.max(0, Math.trunc(Number(move.skillSlot) || 0));
+  const skill = activePet?.PetSkills?.[skillSlot] || null;
+  return skill?.FuncName === "PETSKILL_AntInter";
 }
 
 function performReleaseBattleAction(game) {
@@ -5223,6 +5234,10 @@ function performPetSkillAction(game, move) {
       resolvePetDivideAttackTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "ant-inter") {
+      resolvePetAntInterTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "set-magic-pet") {
       resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5532,6 +5547,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
+      antInter: profile.antInter ? { ...profile.antInter } : null,
       hpDrainPercent: Number(profile.hpDrainPercent || 0),
       hpDamagePercent: Number(profile.hpDamagePercent || 0),
       mpDrainPercent: Number(profile.mpDrainPercent || 0),
@@ -5767,6 +5783,25 @@ function petSkillBattleProfile(skill = {}) {
         source: "gmsv battle_event.c BATTLE_DivideAttack"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_DivideAttack + battle_event.c BATTLE_DivideAttack"
+    };
+  }
+  if (func === "PETSKILL_AntInter") {
+    return {
+      supported: true,
+      kind: "ant-inter",
+      sourceCommand: "BATTLE_COM_S_ANTINTER",
+      targetKind: "enemy",
+      targetScope: "enemy-dead-pet",
+      hitCount: 0,
+      multiplier: 0,
+      antInter: {
+        sourceCommand: "BATTLE_COM_S_ANTINTER",
+        targetRequirement: "dead-pet-target",
+        exitEffect: "BATTLE_PetDefaultExit",
+        defaultPetEffect: "CHAR_DEFAULTPET=-1",
+        source: "gmsv battle/pet_skill.c PETSKILL_AntInter + battle_event.c BATTLE_COM_S_ANTINTER"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_AntInter + battle_event.c BATTLE_COM_S_ANTINTER"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -7202,6 +7237,70 @@ function resolvePetDivideAttackTurn(game, activePet, enemy, skill, profile, play
   skillState.hits = hits;
   skillState.totalDamage = totalDamage;
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，震击 ${hits.length} 个目标共 ${totalDamage} HP。`);
+}
+
+function sourceEnemyTargetBySlot(game, enemy, targetSlot) {
+  const slot = Math.max(0, Math.trunc(Number(targetSlot || 0)));
+  const party = Array.isArray(game.battle?.enemyParty) && game.battle.enemyParty.length
+    ? game.battle.enemyParty
+    : [enemy].filter(Boolean);
+  const target = party[slot] || (slot === Math.max(0, Number(game.battle?.activeEnemyIndex || 0)) ? enemy : null);
+  return { enemy: target || null, slot, source: "gmsv battle.c BATTLE_No2Index enemy-side target lookup" };
+}
+
+function sourceIsPetBattleTarget(target, slot) {
+  if (!target) return false;
+  const markers = [
+    target.SourceBattleKind,
+    target.BattleKind,
+    target.BattleActorKind,
+    target.Kind,
+    target.kind,
+    target.WhichType,
+    target.CharType,
+    target.CHAR_WHICHTYPE
+  ].map((item) => String(item || "").toLowerCase());
+  if (markers.some((item) => item === "pet" || item === "char_typepet")) return true;
+  return Math.trunc(Number(slot || 0)) >= BATTLE_PLAYER_MAX && Number.isFinite(Number(target.OwnerSlot ?? target.ownerSlot));
+}
+
+function resolvePetAntInterTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const target = sourceEnemyTargetBySlot(game, enemy, playerAction.targetSlot);
+  const targetActor = target.enemy;
+  const targetHp = Math.max(0, Number(targetActor?.Hp || 0));
+  const isPetTarget = sourceIsPetBattleTarget(targetActor, target.slot);
+  const success = Boolean(targetActor && isPetTarget && targetHp <= 0);
+  const reason = !targetActor
+    ? "target-missing"
+    : !isPetTarget
+      ? "target-not-pet"
+      : targetHp > 0
+        ? "target-not-dead"
+        : "";
+  if (success) {
+    targetActor.BattleEscaped = true;
+    targetActor.AntInterRemoved = true;
+    targetActor.SourceDefaultPet = -1;
+    targetActor.SourcePetDefaultExit = true;
+  }
+  skillState.targetScope = profile.targetScope || "enemy-dead-pet";
+  skillState.antInter = {
+    ...(profile.antInter || {}),
+    success,
+    reason,
+    targetSlot: Number(target.slot || 0),
+    targetName: targetActor?.Name || "",
+    targetHp,
+    targetIsPet: isPetTarget,
+    battleEscaped: Boolean(targetActor?.BattleEscaped),
+    source: "gmsv battle_event.c BATTLE_COM_S_ANTINTER"
+  };
+  skillState.hits = [];
+  skillState.totalDamage = 0;
+  battleLog.push(success
+    ? `${activePet.Name} 使用 ${skill.Name}，让 ${targetActor.Name || "目标"} 退出战斗。`
+    : `${activePet.Name} 使用 ${skill.Name}，但目标不符合蚁葬条件。`);
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
@@ -8660,6 +8759,20 @@ function compactPetSkillTelemetry(skill) {
       totalMpDamage: Number(skill.divideAttack.totalMpDamage || 0),
       source: skill.divideAttack.source || ""
     } : null,
+    antInter: skill.antInter ? {
+      success: Boolean(skill.antInter.success),
+      reason: skill.antInter.reason || "",
+      sourceCommand: skill.antInter.sourceCommand || "",
+      targetRequirement: skill.antInter.targetRequirement || "",
+      exitEffect: skill.antInter.exitEffect || "",
+      defaultPetEffect: skill.antInter.defaultPetEffect || "",
+      targetSlot: Number(skill.antInter.targetSlot ?? -1),
+      targetName: skill.antInter.targetName || "",
+      targetHp: Number(skill.antInter.targetHp || 0),
+      targetIsPet: Boolean(skill.antInter.targetIsPet),
+      battleEscaped: Boolean(skill.antInter.battleEscaped),
+      source: skill.antInter.source || ""
+    } : null,
     hpDrainPercent: Number(skill.hpDrainPercent || 0),
     hpDamagePercent: Number(skill.hpDamagePercent || 0),
     mpDrainPercent: Number(skill.mpDrainPercent || 0),
@@ -8969,7 +9082,7 @@ function clearPlayerBattleRuntimeEffects(game) {
   if (game?.player) clearBattleRuntimeEffects(game.player);
 }
 
-function selectBattleTarget(game, targetIndex) {
+function selectBattleTarget(game, targetIndex, options = {}) {
   const battle = game.battle;
   const party = Array.isArray(battle?.enemyParty) ? battle.enemyParty : [];
   if (!party.length) {
@@ -8978,7 +9091,10 @@ function selectBattleTarget(game, targetIndex) {
   }
   const target = party[targetIndex];
   if (!target) throw new Error("当前战斗没有这个目标");
-  if (Number(target.Hp || 0) <= 0) throw new Error("这个目标已经倒下");
+  if (Number(target.Hp || 0) <= 0) {
+    if (!options.allowDownTarget) throw new Error("这个目标已经倒下");
+    return;
+  }
   battle.activeEnemyIndex = targetIndex;
   game.encounter = target;
 }

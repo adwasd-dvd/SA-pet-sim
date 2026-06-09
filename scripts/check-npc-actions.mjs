@@ -41,6 +41,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_BattleModel",
   "PETSKILL_BatFly",
   "PETSKILL_DivideAttack",
+  "PETSKILL_AntInter",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -4253,6 +4254,83 @@ assertEqual(divideAttackTelemetry?.hits?.[0]?.mpEffect, "enemy-target-not-player
 assertEqual(divideAttackSkillGame.battle.enemyParty[0].Hp, 80, "DivideAttack persists first target HP loss");
 assertEqual(divideAttackSkillGame.battle.enemyParty[1].Hp, 160, "DivideAttack persists second target HP loss");
 assertEqual(divideAttackSkillGame.battle.enemyParty[2].Hp, 240, "DivideAttack persists third target HP loss");
+let antInterSkillGame = await api("/api/game/new", { name: "pet-antinter-skill-test" });
+antInterSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+antInterSkillGame = await api("/api/game/dialog", { game: antInterSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+antInterSkillGame.pets[0].PetSkillIds = [639];
+antInterSkillGame.pets[0].PetSkills = [{
+  Id: 639,
+  Name: "蚁葬",
+  Des: "使敌方死亡宠物回到宠物栏，无法再参与战斗",
+  FuncName: "PETSKILL_AntInter",
+  Option: "",
+  Field: 1,
+  Target: 10,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(antInterSkillGame.pets[0], {
+  PetId: 63900,
+  Hp: 300,
+  WorkMaxHp: 300,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkDefencePower: 999,
+  WorkFixTough: 999,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+const antInterActiveTarget = {
+  ...antInterSkillGame.encounter,
+  EnemyId: 63910,
+  Name: "蚁葬活目标",
+  Hp: 120,
+  WorkMaxHp: 120,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 0,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+};
+antInterSkillGame.encounter = antInterActiveTarget;
+antInterSkillGame.battle.enemyParty = [antInterActiveTarget];
+antInterSkillGame.battle.activeEnemyIndex = 0;
+antInterSkillGame = await api("/api/game/battle", { game: antInterSkillGame, action: "skill:0" });
+let antInterTelemetry = antInterSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(antInterSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ANTINTER", "AntInter pet skill maps to source battle command");
+assertEqual(antInterTelemetry?.antInter?.success, false, "AntInter refuses ordinary live enemy targets");
+assertEqual(antInterTelemetry?.antInter?.reason, "target-not-pet", "AntInter records non-pet failure reason");
+assertEqual(antInterSkillGame.battle.enemyParty[0].Hp, 120, "AntInter does not damage ordinary live enemy targets");
+const antInterDeadPet = {
+  ...antInterActiveTarget,
+  EnemyId: 63915,
+  Name: "蚁葬死亡宠物",
+  Hp: 0,
+  WorkMaxHp: 100,
+  SourceBattleKind: "pet",
+  OwnerSlot: 0,
+  BattleEscaped: false
+};
+antInterSkillGame.encounter = antInterSkillGame.battle.enemyParty[0];
+antInterSkillGame.battle.enemyParty = [
+  antInterSkillGame.battle.enemyParty[0],
+  { ...antInterActiveTarget, EnemyId: 63911, Name: "空位1", Hp: 0, BattleEscaped: true },
+  { ...antInterActiveTarget, EnemyId: 63912, Name: "空位2", Hp: 0, BattleEscaped: true },
+  { ...antInterActiveTarget, EnemyId: 63913, Name: "空位3", Hp: 0, BattleEscaped: true },
+  { ...antInterActiveTarget, EnemyId: 63914, Name: "空位4", Hp: 0, BattleEscaped: true },
+  antInterDeadPet
+];
+antInterSkillGame.battle.activeEnemyIndex = 0;
+antInterSkillGame = await api("/api/game/battle", { game: antInterSkillGame, action: "skill:0:5" });
+antInterTelemetry = antInterSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(antInterTelemetry?.antInter?.success, true, "AntInter succeeds on a dead source pet target");
+assertEqual(antInterTelemetry?.antInter?.targetSlot, 5, "AntInter records source pet target slot");
+assertEqual(antInterTelemetry?.antInter?.targetIsPet, true, "AntInter records pet target classification");
+assertEqual(antInterTelemetry?.antInter?.exitEffect, "BATTLE_PetDefaultExit", "AntInter records source pet-exit effect");
+assertEqual(antInterSkillGame.battle.enemyParty[5].BattleEscaped, true, "AntInter marks dead pet target as exited");
+assertEqual(antInterSkillGame.battle.enemyParty[5].SourceDefaultPet, -1, "AntInter records source default pet removal");
+assertEqual(antInterSkillGame.battle.enemyParty[5].AntInterRemoved, true, "AntInter records no-reentry marker");
 let guardianSkillGame = await api("/api/game/new", { name: "pet-guardian-skill-test" });
 guardianSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 guardianSkillGame = await api("/api/game/dialog", { game: guardianSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
