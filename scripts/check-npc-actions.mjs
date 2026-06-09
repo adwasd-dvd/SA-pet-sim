@@ -5393,6 +5393,68 @@ assert(combinedRefreshTelemetry?.refresh?.results?.some((result) => result.targe
 assert(!combinedRefreshSkillGame.player.BattleStatuses?.weaken, "Combined selected refresh persists player status cleanup");
 assert(!combinedRefreshSkillGame.pets[0].BattleStatuses?.poison && !combinedRefreshSkillGame.pets[0].BattleStatuses?.weaken, "Combined selected refresh persists pet status cleanup");
 assert(combinedRefreshSkillGame.encounter.BattleStatuses?.poison, "Combined selected refresh does not clear enemy status");
+const combinedSingleRefreshCases = [
+  { magicId: 71, option: "毒", key: "poison", label: "中毒", otherKey: "confusion", otherLabel: "混乱" },
+  { magicId: 81, option: "麻", key: "paralysis", label: "麻痹", otherKey: "poison", otherLabel: "中毒" },
+  { magicId: 91, option: "石", key: "stone", label: "石化", otherKey: "poison", otherLabel: "中毒" },
+  { magicId: 101, option: "乱", key: "confusion", label: "混乱", otherKey: "poison", otherLabel: "中毒" },
+  { magicId: 121, option: "眠", key: "sleep", label: "睡眠", otherKey: "poison", otherLabel: "中毒" }
+];
+for (const statusCase of combinedSingleRefreshCases) {
+  let singleRefreshSkillGame = await api("/api/game/new", { name: `pet-combined-single-refresh-${statusCase.magicId}` });
+  singleRefreshSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+  singleRefreshSkillGame = await api("/api/game/dialog", { game: singleRefreshSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+  singleRefreshSkillGame.pets[0].PetSkillIds = [648];
+  singleRefreshSkillGame.pets[0].PetSkills = [{
+    Id: 648,
+    Name: `配药-${statusCase.option}`,
+    Des: "单项状态异常回复 (一方全体)",
+    FuncName: "PETSKILL_Combined",
+    Option: `综合法|1|${statusCase.magicId}`,
+    Field: 1,
+    Target: 2,
+    UseType: 2,
+    Source: "gmsv-data/petskill2.txt"
+  }];
+  Object.assign(singleRefreshSkillGame.pets[0], {
+    WorkQuick: 999,
+    WorkFixDex: 999,
+    Hp: 999,
+    WorkMaxHp: 999,
+    BattleStatuses: {}
+  });
+  singleRefreshSkillGame.player.BattleStatuses = {
+    [statusCase.key]: { key: statusCase.key, label: statusCase.label, turns: 3 },
+    [statusCase.otherKey]: { key: statusCase.otherKey, label: statusCase.otherLabel, turns: 3 }
+  };
+  singleRefreshSkillGame.encounter.BattleStatuses = {
+    [statusCase.key]: { key: statusCase.key, label: statusCase.label, turns: 3 }
+  };
+  Object.assign(singleRefreshSkillGame.encounter, {
+    WorkAttackPower: 1,
+    WorkQuick: 1,
+    WorkFixDex: 1
+  });
+  Object.assign(singleRefreshSkillGame.battle?.enemyParty?.[0] || {}, {
+    BattleStatuses: singleRefreshSkillGame.encounter.BattleStatuses,
+    WorkAttackPower: singleRefreshSkillGame.encounter.WorkAttackPower,
+    WorkQuick: singleRefreshSkillGame.encounter.WorkQuick,
+    WorkFixDex: singleRefreshSkillGame.encounter.WorkFixDex
+  });
+  singleRefreshSkillGame = await api("/api/game/battle", { game: singleRefreshSkillGame, action: "skill:0" });
+  const singleRefreshTelemetry = singleRefreshSkillGame.battleOutcome.playerAction?.petSkill;
+  assertEqual(singleRefreshSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_JYUJYUTU", `Combined single status recovery ${statusCase.magicId} keeps source JYUJYUTU command`);
+  assertEqual(singleRefreshTelemetry?.combined?.profile?.magicIds?.[0], statusCase.magicId, `Combined single status recovery ${statusCase.magicId} preserves source MAGIC_StatusRecovery candidate id`);
+  assertEqual(singleRefreshTelemetry?.combined?.profile?.refreshMagicIds?.[0], statusCase.magicId, `Combined single status recovery ${statusCase.magicId} exposes refresh candidate id`);
+  assertEqual(singleRefreshTelemetry?.combined?.selectedMagicId, statusCase.magicId, `Combined single status recovery ${statusCase.magicId} selects the source magic id`);
+  assertEqual(singleRefreshTelemetry?.combined?.selectedKind, "refresh", `Combined single status recovery ${statusCase.magicId} records refresh kind`);
+  assertEqual(singleRefreshTelemetry?.refresh?.magicId, statusCase.magicId, `Combined single status recovery ${statusCase.magicId} records source magic id`);
+  assertEqual(singleRefreshTelemetry?.refresh?.refresh?.status?.key, statusCase.key, `Combined single status recovery ${statusCase.magicId} maps source status key`);
+  assert(singleRefreshTelemetry?.refresh?.results?.some((result) => result.targetKind === "player" && result.removed.includes(statusCase.key)), `Combined single status recovery ${statusCase.magicId} clears matching player status`);
+  assert(!singleRefreshSkillGame.player.BattleStatuses?.[statusCase.key], `Combined single status recovery ${statusCase.magicId} persists matching player status cleanup`);
+  assert(singleRefreshSkillGame.player.BattleStatuses?.[statusCase.otherKey], `Combined single status recovery ${statusCase.magicId} leaves unrelated player status`);
+  assert(singleRefreshSkillGame.encounter.BattleStatuses?.[statusCase.key], `Combined single status recovery ${statusCase.magicId} does not clear enemy status`);
+}
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

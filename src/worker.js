@@ -280,6 +280,14 @@ const BATTLE_MAGIC_STATUS_EFFECTS = {
   "铁壁": { id: 2, key: "superWall", label: "铁壁", sourceCommand: "CHAR_MAGICSUPERWALL", stat: "defence" },
   "鐵壁": { id: 2, key: "superWall", label: "铁壁", sourceCommand: "CHAR_MAGICSUPERWALL", stat: "defence" }
 };
+const SOURCE_STATUS_RECOVERY_MAGIC_TABLE = Object.freeze({
+  61: { all: true, label: "全部异常", sourceOption: "全" },
+  71: { status: BATTLE_STATUS_EFFECTS["毒"], sourceOption: "毒" },
+  81: { status: BATTLE_STATUS_EFFECTS["麻"], sourceOption: "麻" },
+  91: { status: BATTLE_STATUS_EFFECTS["石"], sourceOption: "石" },
+  101: { status: BATTLE_STATUS_EFFECTS["乱"], sourceOption: "乱" },
+  121: { status: BATTLE_STATUS_EFFECTS["眠"], sourceOption: "眠" }
+});
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -6543,19 +6551,23 @@ function parsePetSkillCombined(option = "") {
 
 function sourceCombinedStatusRecoveryProfileFromId(magicId) {
   const id = Number(magicId || 0);
-  if (id !== 61) return null;
+  const entry = SOURCE_STATUS_RECOVERY_MAGIC_TABLE[id];
+  if (!entry) return null;
+  const status = entry.status || null;
   return {
     magicId: id,
     func: "MAGIC_StatusRecovery",
     targetIndex: 8,
     targetScope: "ally-side",
     refresh: {
-      all: true,
-      keys: [],
-      label: "全部异常",
-      source: "ref___data/magic.txt id 61 MAGIC_StatusRecovery + gmsv battle.c BATTLE_COM_JYUJYUTU"
+      all: Boolean(entry.all),
+      keys: status?.key ? [status.key] : [],
+      label: entry.label || status?.label || entry.sourceOption || "异常",
+      status: compactBattleStatusEffect(status),
+      sourceOption: entry.sourceOption || "",
+      source: `ref___data/magic.txt id ${id} MAGIC_StatusRecovery + gmsv battle.c BATTLE_COM_JYUJYUTU`
     },
-    source: "ref___data/magic.txt id 61 MAGIC_StatusRecovery"
+    source: `ref___data/magic.txt id ${id} MAGIC_StatusRecovery`
   };
 }
 
