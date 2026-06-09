@@ -40,6 +40,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Acupuncture",
   "PETSKILL_BattleModel",
   "PETSKILL_BatFly",
+  "PETSKILL_DivideAttack",
   "PETSKILL_Barrier",
   "PETSKILL_Nocast",
   "PETSKILL_SetMagicPet",
@@ -4191,6 +4192,67 @@ assertEqual(batFlyTelemetry?.hits?.[2]?.damage, 30, "BatFly drains 10% from thir
 assertEqual(batFlySkillGame.battle.enemyParty[0].Hp, 90, "BatFly persists first target HP loss");
 assertEqual(batFlySkillGame.battle.enemyParty[1].Hp, 180, "BatFly persists second target HP loss");
 assertEqual(batFlySkillGame.battle.enemyParty[2].Hp, 270, "BatFly persists third target HP loss");
+let divideAttackSkillGame = await api("/api/game/new", { name: "pet-divideattack-skill-test" });
+divideAttackSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+divideAttackSkillGame = await api("/api/game/dialog", { game: divideAttackSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+divideAttackSkillGame.pets[0].PetSkillIds = [634];
+divideAttackSkillGame.pets[0].PetSkills = [{
+  Id: 634,
+  Name: "分身地裂",
+  Des: "全体攻击",
+  FuncName: "PETSKILL_DivideAttack",
+  Option: "",
+  Field: 1,
+  Target: 3,
+  UseType: 1,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(divideAttackSkillGame.pets[0], {
+  PetId: 63400,
+  Hp: 300,
+  WorkMaxHp: 300,
+  WorkAttackPower: 1,
+  WorkFixStr: 1,
+  WorkDefencePower: 999,
+  WorkFixTough: 999,
+  WorkQuick: 999,
+  WorkFixDex: 999
+});
+const divideAttackTargets = [100, 200, 300].map((hp, index) => ({
+  ...divideAttackSkillGame.encounter,
+  EnemyId: 63410 + index,
+  Name: `地裂目标${index + 1}`,
+  Hp: hp,
+  WorkMaxHp: hp,
+  WorkDefencePower: 1,
+  WorkFixTough: 1,
+  WorkQuick: 1,
+  WorkFixDex: 1,
+  WorkAttackPower: 0,
+  WorkTacticsOption: "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0"
+}));
+divideAttackSkillGame.encounter = divideAttackTargets[0];
+divideAttackSkillGame.battle.enemyParty = divideAttackTargets;
+divideAttackSkillGame.battle.activeEnemyIndex = 0;
+divideAttackSkillGame = await api("/api/game/battle", { game: divideAttackSkillGame, action: "skill:0" });
+const divideAttackTelemetry = divideAttackSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(divideAttackSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_DIVIDE_ATTACK", "DivideAttack pet skill maps to source battle command");
+assertEqual(divideAttackTelemetry?.targetScope, "enemy-all", "DivideAttack scans all live enemy targets");
+assertEqual(divideAttackTelemetry?.hpDamagePercent, 20, "DivideAttack records source non-riding HP damage percent");
+assertEqual(divideAttackTelemetry?.mpDrainPercent, 50, "DivideAttack records source player-target MP drain percent");
+assertEqual(divideAttackTelemetry?.divideAttack?.targetCount, 3, "DivideAttack hits each live enemy target");
+assertEqual(divideAttackTelemetry?.divideAttack?.totalDamage, 120, "DivideAttack sums source current-HP percentage damage");
+assertEqual(divideAttackTelemetry?.divideAttack?.totalMpDamage, 0, "DivideAttack keeps MP branch inert for non-player enemy targets");
+assertEqual(divideAttackTelemetry?.divideAttack?.rideEffect, "single-player-no-ride-pet-target", "DivideAttack keeps ride-pet branch inert until riding targets exist");
+assertEqual(divideAttackTelemetry?.divideAttack?.mpEffect, "enemy-target-not-player", "DivideAttack records source MP branch reason");
+assertEqual(divideAttackTelemetry?.hits?.[0]?.sourceCommand, "BATTLE_COM_S_DIVIDE_ATTACK", "DivideAttack hit telemetry records source command");
+assertEqual(divideAttackTelemetry?.hits?.[0]?.damage, 20, "DivideAttack damages first target for 20% current HP");
+assertEqual(divideAttackTelemetry?.hits?.[1]?.damage, 40, "DivideAttack damages second target for 20% current HP");
+assertEqual(divideAttackTelemetry?.hits?.[2]?.damage, 60, "DivideAttack damages third target for 20% current HP");
+assertEqual(divideAttackTelemetry?.hits?.[0]?.mpEffect, "enemy-target-not-player", "DivideAttack hit telemetry records inert MP branch");
+assertEqual(divideAttackSkillGame.battle.enemyParty[0].Hp, 80, "DivideAttack persists first target HP loss");
+assertEqual(divideAttackSkillGame.battle.enemyParty[1].Hp, 160, "DivideAttack persists second target HP loss");
+assertEqual(divideAttackSkillGame.battle.enemyParty[2].Hp, 240, "DivideAttack persists third target HP loss");
 let guardianSkillGame = await api("/api/game/new", { name: "pet-guardian-skill-test" });
 guardianSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 guardianSkillGame = await api("/api/game/dialog", { game: guardianSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

@@ -220,6 +220,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_FallGround",
   "PETSKILL_ToothCrushe",
   "PETSKILL_BatFly",
+  "PETSKILL_DivideAttack",
   "PETSKILL_Modifyattack",
   "PETSKILL_Mdfyattack",
   "PETSKILL_Retrace",
@@ -5218,6 +5219,10 @@ function performPetSkillAction(game, move) {
       resolvePetBatFlyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "divide-attack") {
+      resolvePetDivideAttackTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "set-magic-pet") {
       resolvePetSetMagicPetTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
@@ -5526,7 +5531,10 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
       toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
+      divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       hpDrainPercent: Number(profile.hpDrainPercent || 0),
+      hpDamagePercent: Number(profile.hpDamagePercent || 0),
+      mpDrainPercent: Number(profile.mpDrainPercent || 0),
       timidChance: Number(profile.timidChance || 0),
       drainPercent: Number(profile.drainPercent || 0),
       mpDamagePercent: Number(profile.mpDamagePercent || 0),
@@ -5736,6 +5744,29 @@ function petSkillBattleProfile(skill = {}) {
         source: "gmsv battle_event.c BATTLE_BatFly"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_BatFly + battle_event.c BATTLE_BatFly"
+    };
+  }
+  if (func === "PETSKILL_DivideAttack") {
+    return {
+      supported: true,
+      kind: "divide-attack",
+      sourceCommand: "BATTLE_COM_S_DIVIDE_ATTACK",
+      targetKind: "enemy",
+      targetScope: "enemy-all",
+      hitCount: 0,
+      multiplier: 0,
+      hpDamagePercent: 20,
+      rideHpDamagePercent: 10,
+      mpDrainPercent: 50,
+      divideAttack: {
+        sourceCommand: "BATTLE_COM_S_DIVIDE_ATTACK",
+        spriteNum: 101798,
+        prevMagicNum: 101808,
+        rideEffect: "single-player-no-ride-pet-target",
+        mpEffect: "enemy-target-not-player",
+        source: "gmsv battle_event.c BATTLE_DivideAttack"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_DivideAttack + battle_event.c BATTLE_DivideAttack"
     };
   }
   if (func === "PETSKILL_PowerBalance") {
@@ -7118,6 +7149,59 @@ function resolvePetBatFlyTurn(game, activePet, enemy, skill, profile, playerActi
   skillState.totalDamage = totalDamage;
   skillState.healAmount = healAmount;
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，吸取 ${hits.length} 个目标共 ${totalDamage} HP，恢复 ${healAmount} HP。`);
+}
+
+function resolvePetDivideAttackTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const targets = sourceAllLiveEnemyTargets(game, enemy, "gmsv battle_event.c BATTLE_DivideAttack BATTLE_MultiList enemy side");
+  const hpPercent = Math.max(0, Number(profile.hpDamagePercent || 20));
+  const mpPercent = Math.max(0, Number(profile.mpDrainPercent || 50));
+  const hits = [];
+  let totalDamage = 0;
+  let totalMpDamage = 0;
+  for (const target of targets) {
+    const beforeHp = Math.max(0, Number(target.enemy?.Hp || 0));
+    if (beforeHp <= 0) continue;
+    const damage = Math.min(beforeHp, sourcePercentHpDamage(beforeHp, hpPercent));
+    target.enemy.Hp = Math.max(0, beforeHp - damage);
+    clearBattleSleepOnDamage(target.enemy, damage, battleLog);
+    totalDamage += damage;
+    const beforeMp = Math.max(0, Number(target.enemy?.Mp ?? target.enemy?.MP ?? 0));
+    const mpDamage = 0;
+    totalMpDamage += mpDamage;
+    hits.push({
+      targetSlot: Number(target.slot || 0),
+      targetName: target.enemy?.Name || "enemy",
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_S_DIVIDE_ATTACK",
+      damage,
+      beforeHp,
+      afterHp: Math.max(0, Number(target.enemy.Hp || 0)),
+      hpDamagePercent: hpPercent,
+      rideHpDamagePercent: Number(profile.rideHpDamagePercent || 0),
+      rideEffect: profile.divideAttack?.rideEffect || "single-player-no-ride-pet-target",
+      beforeMp,
+      afterMp: beforeMp,
+      mpDamage,
+      mpDrainPercent: mpPercent,
+      mpEffect: profile.divideAttack?.mpEffect || "enemy-target-not-player",
+      phase: "current-hp-percent",
+      source: target.source || "gmsv battle_event.c BATTLE_DivideAttack"
+    });
+  }
+  skillState.targetScope = profile.targetScope || "enemy-all";
+  skillState.hpDamagePercent = hpPercent;
+  skillState.mpDrainPercent = mpPercent;
+  skillState.divideAttack = {
+    ...(profile.divideAttack || {}),
+    success: hits.length > 0,
+    targetCount: hits.length,
+    totalDamage,
+    totalMpDamage,
+    source: "gmsv battle_event.c BATTLE_DivideAttack"
+  };
+  skillState.hits = hits;
+  skillState.totalDamage = totalDamage;
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，震击 ${hits.length} 个目标共 ${totalDamage} HP。`);
 }
 
 function sourcePetSkillTargets(game, enemy, profile = {}) {
@@ -8564,7 +8648,21 @@ function compactPetSkillTelemetry(skill) {
       afterCasterHp: Number(skill.batFly.afterCasterHp || 0),
       source: skill.batFly.source || ""
     } : null,
+    divideAttack: skill.divideAttack ? {
+      success: Boolean(skill.divideAttack.success),
+      sourceCommand: skill.divideAttack.sourceCommand || "",
+      spriteNum: Number(skill.divideAttack.spriteNum || 0),
+      prevMagicNum: Number(skill.divideAttack.prevMagicNum || 0),
+      rideEffect: skill.divideAttack.rideEffect || "",
+      mpEffect: skill.divideAttack.mpEffect || "",
+      targetCount: Number(skill.divideAttack.targetCount || 0),
+      totalDamage: Number(skill.divideAttack.totalDamage || 0),
+      totalMpDamage: Number(skill.divideAttack.totalMpDamage || 0),
+      source: skill.divideAttack.source || ""
+    } : null,
     hpDrainPercent: Number(skill.hpDrainPercent || 0),
+    hpDamagePercent: Number(skill.hpDamagePercent || 0),
+    mpDrainPercent: Number(skill.mpDrainPercent || 0),
     drainPercent: Number(skill.drainPercent || 0),
     tearDamagePercent: Number(skill.tearDamagePercent || 0),
     sonicPiercePercent: Number(skill.sonicPiercePercent || 0),
@@ -8731,8 +8829,14 @@ function compactPetSkillTelemetry(skill) {
       beforeHp: Number(hit.beforeHp || 0),
       afterHp: Number(hit.afterHp || 0),
       hpDrainPercent: Number(hit.hpDrainPercent || 0),
+      hpDamagePercent: Number(hit.hpDamagePercent || 0),
       rideHpDrainPercent: Number(hit.rideHpDrainPercent || 0),
       rideEffect: hit.rideEffect || "",
+      beforeMp: Number(hit.beforeMp || 0),
+      afterMp: Number(hit.afterMp || 0),
+      mpDamage: Number(hit.mpDamage || 0),
+      mpDrainPercent: Number(hit.mpDrainPercent || 0),
+      mpEffect: hit.mpEffect || "",
       phase: hit.phase || "",
       originalDamage: Number(hit.originalDamage || hit.damage || 0),
       damageDivisor: Number(hit.damageDivisor || 1),
