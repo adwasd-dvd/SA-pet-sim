@@ -5336,6 +5336,108 @@ assertEqual(combinedTelemetry?.attackMagic?.targetIndex, 20, "Combined selected 
 assertEqual(combinedTelemetry?.hits?.length, 2, "Combined selected attack magic applies to every live enemy target");
 assert(combinedTelemetry.hits.every((hit) => hit.sourceCommand === "BATTLE_COM_JYUJYUTU" && hit.magicId === 306), "Combined hit telemetry records source JYUJYUTU command plus selected magic id");
 assert(combinedSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Combined selected attack magic persists damage to all targets");
+let combinedStatusChangeGame = await api("/api/game/new", { name: "pet-combined-status-change-test" });
+combinedStatusChangeGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedStatusChangeGame = await api("/api/game/dialog", { game: combinedStatusChangeGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedStatusChangeGame.pets[0].PetSkillIds = [629];
+combinedStatusChangeGame.pets[0].PetSkills = [{
+  Id: 629,
+  Name: "难得糊涂改",
+  Des: "随机让对方产生异常状态",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|159",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedStatusChangeGame.pets[0], {
+  PetId: 990000,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(combinedStatusChangeGame.encounter, {
+  EnemyId: 991003,
+  PetId: 991003,
+  Name: "综合状态测试敌人一",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0
+});
+const combinedStatusEnemyTwo = {
+  ...combinedStatusChangeGame.encounter,
+  EnemyId: 991005,
+  PetId: 991005,
+  Name: "综合状态测试敌人二",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+combinedStatusChangeGame.battle.enemyParty = [combinedStatusChangeGame.encounter, combinedStatusEnemyTwo];
+combinedStatusChangeGame.battle.activeEnemyIndex = 0;
+combinedStatusChangeGame = await api("/api/game/battle", { game: combinedStatusChangeGame, action: "skill:0" });
+const combinedStatusTelemetry = combinedStatusChangeGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedStatusChangeGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_JYUJYUTU", "Combined status change keeps source JYUJYUTU command");
+assertEqual(combinedStatusTelemetry?.combined?.profile?.statusChangeMagicIds?.[0], 159, "Combined status change exposes MAGIC_StatusChange candidate id");
+assertEqual(combinedStatusTelemetry?.combined?.selectedMagicId, 159, "Combined status change selects the source magic id");
+assertEqual(combinedStatusTelemetry?.combined?.selectedKind, "status-change", "Combined status change records selected kind");
+assertEqual(combinedStatusTelemetry?.status?.magicId, 159, "Combined selected status change records source magic id");
+assertEqual(combinedStatusTelemetry?.status?.status?.key, "stone", "Combined selected status change maps source stone status");
+assertEqual(combinedStatusTelemetry?.status?.rolls?.length, 2, "Combined status change applies source all-enemy target index");
+assert(combinedStatusTelemetry.status.rolls.every((roll) => roll.chance === 25 && roll.success), "Combined status change uses source success percent for every target fixture");
+assert(Number(combinedStatusChangeGame.battle.enemyParty[0]?.BattleStatuses?.stone?.turns || 0) > 0, "Combined status change persists stone on first enemy");
+assert(Number(combinedStatusChangeGame.battle.enemyParty[1]?.BattleStatuses?.stone?.turns || 0) > 0, "Combined status change persists stone on second enemy");
+let combinedStatusLv6Game = await api("/api/game/new", { name: "pet-combined-status-change-lv6-test" });
+combinedStatusLv6Game.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedStatusLv6Game = await api("/api/game/dialog", { game: combinedStatusLv6Game, npcId: battleNpc.npc.id, message: "宠物" });
+combinedStatusLv6Game.pets[0].PetSkillIds = [733];
+combinedStatusLv6Game.pets[0].PetSkills = [{
+  Id: 733,
+  Name: "狮王之吼",
+  Des: "随机施放石化、睡眠、混乱LV6全体精灵",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|413",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedStatusLv6Game.pets[0], {
+  PetId: 990000,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(combinedStatusLv6Game.encounter, {
+  EnemyId: 991001,
+  PetId: 991001,
+  Name: "综合状态六级敌人一",
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0
+});
+const combinedStatusLv6EnemyTwo = {
+  ...combinedStatusLv6Game.encounter,
+  EnemyId: 991002,
+  PetId: 991002,
+  Name: "综合状态六级敌人二",
+  Hp: 999,
+  WorkMaxHp: 999
+};
+combinedStatusLv6Game.battle.enemyParty = [combinedStatusLv6Game.encounter, combinedStatusLv6EnemyTwo];
+combinedStatusLv6Game.battle.activeEnemyIndex = 0;
+combinedStatusLv6Game = await api("/api/game/battle", { game: combinedStatusLv6Game, action: "skill:0" });
+const combinedStatusLv6Telemetry = combinedStatusLv6Game.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedStatusLv6Telemetry?.combined?.profile?.statusChangeMagicIds?.[0], 413, "Combined LV6 status change exposes source MAGIC_StatusChange id");
+assertEqual(combinedStatusLv6Telemetry?.status?.status?.turn, 6, "Combined LV6 status change keeps source turn count");
+assert(combinedStatusLv6Telemetry.status.rolls.every((roll) => roll.chance === 25 && roll.success), "Combined LV6 status change uses source success percent");
+assert(Number(combinedStatusLv6Game.battle.enemyParty[0]?.BattleStatuses?.stone?.turns || 0) >= 6, "Combined LV6 status change persists source turn count on first enemy");
 let combinedRefreshSkillGame = await api("/api/game/new", { name: "pet-combined-refresh-skill-test" });
 combinedRefreshSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 combinedRefreshSkillGame = await api("/api/game/dialog", { game: combinedRefreshSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

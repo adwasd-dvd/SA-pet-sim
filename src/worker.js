@@ -319,6 +319,16 @@ const SOURCE_RECOVERY_MAGIC_TABLE = Object.freeze({
   24: { power: 500 },
   25: { power: 600 }
 });
+const SOURCE_STATUS_CHANGE_MAGIC_TABLE = Object.freeze({
+  139: { status: BATTLE_STATUS_EFFECTS["毒"], turn: 5, success: 25, sourceOption: "毒 turn 5 率 25" },
+  159: { status: BATTLE_STATUS_EFFECTS["石"], turn: 5, success: 25, sourceOption: "石 turn 5 率 25" },
+  169: { status: BATTLE_STATUS_EFFECTS["乱"], turn: 5, success: 25, sourceOption: "乱 turn 5 率 25" },
+  179: { status: BATTLE_STATUS_EFFECTS["醉"], turn: 5, success: 25, sourceOption: "醉 turn 5 率 25" },
+  189: { status: BATTLE_STATUS_EFFECTS["眠"], turn: 5, success: 25, sourceOption: "眠 turn 5 率 25" },
+  413: { status: BATTLE_STATUS_EFFECTS["石"], turn: 6, success: 25, sourceOption: "石 turn 6 率 25" },
+  414: { status: BATTLE_STATUS_EFFECTS["乱"], turn: 6, success: 25, sourceOption: "乱 turn 6 率 25" },
+  416: { status: BATTLE_STATUS_EFFECTS["眠"], turn: 6, success: 25, sourceOption: "眠 turn 6 率 25" }
+});
 const SOURCE_ATT_REVERSE_MAGIC_TABLE = Object.freeze({
   240: { targetIndex: 1 },
   241: { targetIndex: 8 }
@@ -6489,11 +6499,12 @@ function petSkillBattleProfile(skill = {}) {
     const attackMagicCandidates = combined?.attackMagicCandidates || [];
     const refreshCandidates = combined?.refreshCandidates || [];
     const recoveryCandidates = combined?.recoveryCandidates || [];
+    const statusChangeCandidates = combined?.statusChangeCandidates || [];
     const attReverseCandidates = combined?.attReverseCandidates || [];
     const fieldAttCandidates = combined?.fieldAttCandidates || [];
     const targetScope = Number(skill.Target || 0) === 2 ? "ally-side" : Number(skill.Target || 0) === 3 ? "enemy-all" : "enemy";
     return {
-      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length || fieldAttCandidates.length)),
+      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || statusChangeCandidates.length || attReverseCandidates.length || fieldAttCandidates.length)),
       kind: "combined",
       sourceCommand: "BATTLE_COM_JYUJYUTU",
       targetKind: targetScope === "ally-side" ? "ally" : "enemy",
@@ -6501,7 +6512,7 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 0,
       multiplier: 0,
       combined,
-      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length || fieldAttCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
+      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || statusChangeCandidates.length || attReverseCandidates.length || fieldAttCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
       source: "gmsv battle/pet_skill.c PETSKILL_Combined + battle.c BATTLE_COM_JYUJYUTU"
     };
   }
@@ -6590,6 +6601,9 @@ function parsePetSkillCombined(option = "") {
   const recoveryCandidates = magicIds
     .map((magicId) => sourceCombinedRecoveryProfileFromId(magicId))
     .filter(Boolean);
+  const statusChangeCandidates = magicIds
+    .map((magicId) => sourceCombinedStatusChangeProfileFromId(magicId))
+    .filter(Boolean);
   const attReverseCandidates = magicIds
     .map((magicId) => sourceCombinedAttReverseProfileFromId(magicId))
     .filter(Boolean);
@@ -6603,11 +6617,35 @@ function parsePetSkillCombined(option = "") {
     attackMagicCandidates,
     refreshCandidates,
     recoveryCandidates,
+    statusChangeCandidates,
     attReverseCandidates,
     fieldAttCandidates,
-    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId) && !sourceCombinedAttReverseProfileFromId(magicId) && !sourceCombinedFieldAttProfileFromId(magicId)),
+    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId) && !sourceCombinedStatusChangeProfileFromId(magicId) && !sourceCombinedAttReverseProfileFromId(magicId) && !sourceCombinedFieldAttProfileFromId(magicId)),
     sourceCommand: "BATTLE_COM_JYUJYUTU",
     source: "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count -> BATTLE_COM_JYUJYUTU"
+  };
+}
+
+function sourceCombinedStatusChangeProfileFromId(magicId) {
+  const id = Number(magicId || 0);
+  const entry = SOURCE_STATUS_CHANGE_MAGIC_TABLE[id];
+  if (!entry?.status) return null;
+  const status = {
+    ...entry.status,
+    turn: Number(entry.turn || 3),
+    fixedChance: Number(entry.success || 0),
+    blocksTurn: BATTLE_STATUS_BLOCKS_TURN.has(entry.status.key),
+    poisonTick: BATTLE_STATUS_POISON_KEYS.has(entry.status.key),
+    source: `ref___data/magic.txt id ${id} MAGIC_StatusChange option ${entry.sourceOption || ""} + gmsv battle_magic.c MAGIC_StatusChange_Battle/BATTLE_MultiStatusChange`
+  };
+  return {
+    magicId: id,
+    func: "MAGIC_StatusChange",
+    targetIndex: 8,
+    targetScope: "enemy-all",
+    status,
+    sourceOption: entry.sourceOption || "",
+    source: `ref___data/magic.txt id ${id} MAGIC_StatusChange`
   };
 }
 
@@ -6706,6 +6744,9 @@ function compactSourceCombinedProfile(profile) {
       : [],
     recoveryMagicIds: Array.isArray(profile.recoveryCandidates)
       ? profile.recoveryCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
+      : [],
+    statusChangeMagicIds: Array.isArray(profile.statusChangeCandidates)
+      ? profile.statusChangeCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
       : [],
     attReverseMagicIds: Array.isArray(profile.attReverseCandidates)
       ? profile.attReverseCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
@@ -7193,13 +7234,16 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
   const recoveryCandidates = Array.isArray(profile.combined?.recoveryCandidates)
     ? profile.combined.recoveryCandidates.map((candidate) => ({ kind: "recovery", ...candidate }))
     : [];
+  const statusChangeCandidates = Array.isArray(profile.combined?.statusChangeCandidates)
+    ? profile.combined.statusChangeCandidates.map((candidate) => ({ kind: "status-change", ...candidate }))
+    : [];
   const attReverseCandidates = Array.isArray(profile.combined?.attReverseCandidates)
     ? profile.combined.attReverseCandidates.map((candidate) => ({ kind: "att-reverse", ...candidate }))
     : [];
   const fieldAttCandidates = Array.isArray(profile.combined?.fieldAttCandidates)
     ? profile.combined.fieldAttCandidates.map((candidate) => ({ kind: "field-att", ...candidate }))
     : [];
-  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates, ...attReverseCandidates, ...fieldAttCandidates];
+  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates, ...statusChangeCandidates, ...attReverseCandidates, ...fieldAttCandidates];
   if (!candidates.length) {
     skillState.combined = {
       success: false,
@@ -7264,6 +7308,33 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
       skillState.recovery.combinedSelected = true;
       skillState.recovery.magicId = Number(selected.magicId || 0);
       skillState.recovery.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
+    }
+    return;
+  }
+  if (selected.kind === "status-change") {
+    skillState.combined = {
+      success: true,
+      roll,
+      selectedMagicId: Number(selected.magicId || 0),
+      selectedIndex: roll,
+      selectedKind: "status-change",
+      profile: compactSourceCombinedProfile(profile.combined),
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      source: profile.source || "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count"
+    };
+    resolvePetStatusSkillTurn(game, activePet, enemy, skill, {
+      ...profile,
+      kind: "status",
+      targetKind: "enemy",
+      targetScope: selected.targetScope || profile.targetScope || "enemy-all",
+      status: selected.status,
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      source: "gmsv battle.c BATTLE_COM_JYUJYUTU via MAGIC_StatusChange selected by PETSKILL_Combined"
+    }, playerAction, battleLog);
+    if (skillState.status) {
+      skillState.status.combinedSelected = true;
+      skillState.status.magicId = Number(selected.magicId || 0);
+      skillState.status.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
     }
     return;
   }
