@@ -237,6 +237,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Mighty",
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
+  "PETSKILL_SelfExplodeAttack",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
@@ -5797,6 +5798,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       battleModel: compactPetSkillBattleModelProfile(profile.battleModel),
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
       toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
+      selfExplode: profile.selfExplode ? { ...profile.selfExplode } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5864,6 +5866,22 @@ function petSkillBattleProfile(skill = {}) {
       targetKind: "enemy",
       chargeTurns: clampInt(option.match(/^\s*(\d+)/)?.[1], 1, 10, 1),
       chargeAttackPercent: sourcePercentValue(option, "攻")
+    };
+  }
+  if (func === "PETSKILL_SelfExplodeAttack") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_ATTACK",
+      targetKind: "enemy",
+      hitCount: 1,
+      multiplier: 1,
+      selfExplode: {
+        battleTypeFallback: "non-pvp-normal-attack",
+        pvpSourceCommand: "BATTLE_COM_S_EXPLODE",
+        pvpEffect: "damage-target-half-hp-and-set-attacker-hp-1"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_Explode non-PvP BATTLE_COM_ATTACK fallback"
     };
   }
   if (func === "PETSKILL_GuardBreak") {

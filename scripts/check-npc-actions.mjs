@@ -25,6 +25,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
 [
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
+  "PETSKILL_SelfExplodeAttack",
   "PETSKILL_PowerBalance",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_SpeedyAttack",
@@ -3305,6 +3306,62 @@ guardBreak2SkillGame.encounter.WorkAttackPower = 1;
 guardBreak2SkillGame = await api("/api/game/battle", { game: guardBreak2SkillGame, action: "skill:0" });
 assertEqual(guardBreak2SkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_GBREAK2", "GuardBreak2 pet skill maps to source battle command");
 assert(guardBreak2SkillGame.battleOutcome.playerAction?.petSkill?.id === 543, "GuardBreak2 telemetry records source petskill2 id");
+let selfExplodeSkillGame = await api("/api/game/new", { name: "pet-self-explode-skill-test" });
+selfExplodeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+selfExplodeSkillGame = await api("/api/game/dialog", { game: selfExplodeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+selfExplodeSkillGame.pets[0].PetSkillIds = [582];
+selfExplodeSkillGame.pets[0].PetSkills = [{
+  Id: 582,
+  Name: "自爆攻击",
+  Des: "牺牲自己，提高50%命中率，造成三倍损伤",
+  FuncName: "PETSKILL_SelfExplodeAttack",
+  Option: "倍3 回避-50",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+selfExplodeSkillGame.pets[0].PetId = 58200;
+selfExplodeSkillGame.pets[0].WorkMaxHp = 300;
+selfExplodeSkillGame.pets[0].Hp = 300;
+selfExplodeSkillGame.pets[0].WorkFixStr = 100;
+selfExplodeSkillGame.pets[0].WorkAttackPower = 100;
+selfExplodeSkillGame.pets[0].WorkFixTough = 1000;
+selfExplodeSkillGame.pets[0].WorkDefencePower = 1000;
+selfExplodeSkillGame.pets[0].WorkQuick = 999;
+selfExplodeSkillGame.pets[0].WorkFixDex = 999;
+selfExplodeSkillGame.encounter.EnemyId = 0;
+selfExplodeSkillGame.encounter.PetId = 0;
+selfExplodeSkillGame.encounter.Name = "自爆测试敌人";
+selfExplodeSkillGame.encounter.WorkMaxHp = 999;
+selfExplodeSkillGame.encounter.Hp = 999;
+selfExplodeSkillGame.encounter.WorkFixTough = 1;
+selfExplodeSkillGame.encounter.WorkDefencePower = 1;
+selfExplodeSkillGame.encounter.WorkQuick = 0;
+selfExplodeSkillGame.encounter.WorkFixDex = 0;
+selfExplodeSkillGame.encounter.WorkAttackPower = 0;
+Object.assign(selfExplodeSkillGame.battle?.enemyParty?.[0] || {}, {
+  EnemyId: selfExplodeSkillGame.encounter.EnemyId,
+  PetId: selfExplodeSkillGame.encounter.PetId,
+  Name: selfExplodeSkillGame.encounter.Name,
+  WorkMaxHp: selfExplodeSkillGame.encounter.WorkMaxHp,
+  Hp: selfExplodeSkillGame.encounter.Hp,
+  WorkFixTough: selfExplodeSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: selfExplodeSkillGame.encounter.WorkDefencePower,
+  WorkQuick: selfExplodeSkillGame.encounter.WorkQuick,
+  WorkFixDex: selfExplodeSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: selfExplodeSkillGame.encounter.WorkAttackPower
+});
+const selfExplodePetHpBefore = Number(selfExplodeSkillGame.pets[0].Hp || 0);
+const selfExplodeEnemyHpBefore = Number(selfExplodeSkillGame.encounter.Hp || 0);
+selfExplodeSkillGame = await api("/api/game/battle", { game: selfExplodeSkillGame, action: "skill:0" });
+assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_ATTACK", "SelfExplodeAttack uses source non-PvP normal attack fallback");
+assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.selfExplode?.battleTypeFallback, "non-pvp-normal-attack", "SelfExplodeAttack records the source battle type fallback");
+assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.selfExplode?.pvpSourceCommand, "BATTLE_COM_S_EXPLODE", "SelfExplodeAttack telemetry keeps the protected PvP source command");
+assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1, "SelfExplodeAttack does not apply petskill2 display multiplier in non-PvP");
+assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 0, "SelfExplodeAttack does not apply PvP explode option changes in non-PvP");
+assertEqual(selfExplodeSkillGame.pets[0].Hp, selfExplodePetHpBefore, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
+assert(Number(selfExplodeSkillGame.encounter?.Hp || 0) < selfExplodeEnemyHpBefore, "SelfExplodeAttack non-PvP fallback damages the active battle target");
 let powerBalanceSkillGame = await api("/api/game/new", { name: "pet-powerbalance-skill-test" });
 powerBalanceSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 powerBalanceSkillGame = await api("/api/game/dialog", { game: powerBalanceSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -4470,6 +4527,17 @@ earthRoundSkillGame.encounter.WorkFixDex = 0;
 earthRoundSkillGame.encounter.WorkAttackPower = 200;
 earthRoundSkillGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|es:0|wa:0;0;0;0;0;0;0";
 earthRoundSkillGame.encounter.TacticsOption = earthRoundSkillGame.encounter.WorkTacticsOption;
+Object.assign(earthRoundSkillGame.battle?.enemyParty?.[0] || {}, {
+  WorkMaxHp: earthRoundSkillGame.encounter.WorkMaxHp,
+  Hp: earthRoundSkillGame.encounter.Hp,
+  WorkFixTough: earthRoundSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: earthRoundSkillGame.encounter.WorkDefencePower,
+  WorkQuick: earthRoundSkillGame.encounter.WorkQuick,
+  WorkFixDex: earthRoundSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: earthRoundSkillGame.encounter.WorkAttackPower,
+  WorkTacticsOption: earthRoundSkillGame.encounter.WorkTacticsOption,
+  TacticsOption: earthRoundSkillGame.encounter.TacticsOption
+});
 const earthRoundPetHpBefore = Number(earthRoundSkillGame.pets[0].Hp || 0);
 const earthRoundPlayerHpBefore = Number(earthRoundSkillGame.player.hp || 0);
 earthRoundSkillGame = await api("/api/game/battle", { game: earthRoundSkillGame, action: "skill:0" });
